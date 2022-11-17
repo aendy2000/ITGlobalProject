@@ -1,0 +1,547 @@
+﻿
+@{
+    ViewBag.Title = "chiTietTinTuyenDung";
+    Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid p-4">
+    <div class="row">
+        <!-- Page header -->
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
+                <div class="mb-3 mb-md-0">
+                    <h1 class="mb-1 h2 fw-bold">Chi Tiết Tin Tuyển Dụng </h1>
+
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="admin-dashboard.html">Bảng điều khiển</a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="#">Tin Tuyển Dụng</a></li>
+                            <li class="breadcrumb-item " aria-current="page">
+                                Viết Bài mới
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <div>
+                    <a href="/AdminArea/QuanLyTinTuyenDung/QuanLyTinTuyenDung" class="btn btn-outline-white">Trở về tất cả bài viết</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-9 col-lg-8 col-md-12 col-12">
+            <!-- Card -->
+            <div class="card border-0 mb-4">
+                <!-- Card header -->
+                <div class="card-header">
+                    <h3 style="display:inline-block" class="mb-0">Thông tin chi tiết </h3>
+                    <a style="float:right" href="@Url.Action("ChinhSuaBaiViet","QuanLyTinTuyenDung")" class="btn btn-icon btn-white border border-2 btn-dashed ms-2">
+
+                        <i class="fe fe-edit fs-5"></i>
+
+                    </a>
+                </div>
+
+                <!-- Card body -->
+                <div class="card-body">
+
+
+
+
+
+                    <div class="mt-4">
+                        <form>
+                            <!-- Form -->
+                            <div class="row">
+
+                                <div class="row">
+
+
+                                    <div class="mb-3 col-md-12">
+                                        <!-- Title -->
+                                        <h5 for="postTitle" class="form-label">
+                                            <span style="cursor:default" class="btn btn-light btn-icon rounded-circle" aria-expanded="false">
+                                                <i class="nav-icon fe fe-clipboard"></i>
+
+                                            </span>
+                                            Tiêu Đề Tin Tuyển Dụng
+                                        </h5>
+                                        <small>
+                                            Giữ tiêu đề bài viết của bạn dưới 120 ký tự. Viết tiêu đề mô tả nội dung chủ đề.
+                                        </small>
+                                        <input type="text" id="postTitle" class="form-control text-dark" value="Nhân Viên Phát Triển Phần Mềm" disabled placeholder="-- Nhập tiêu đề tin tuyển dụng --">
+
+                                    </div>
+                                    <div class="mb-3 col-md-11 col-12">
+                                        <h5 class="form-label">
+                                            <span style="cursor:default" class="btn btn-light btn-icon rounded-circle" aria-expanded="false">
+                                                <i class="nav-icon fe fe-user"></i>
+                                            </span>
+                                            Vị Trí Cần Tuyển
+
+                                        </h5>
+                                        <small>
+                                            Chọn vị trí mà bạn mong muốn tuyển dụng vào công ty.
+                                        </small>
+                                        <div class="dropdown bootstrap-select" style="width: 100%;">
+                                            <div class="dropdown bootstrap-select" style="width: 100%;">
+                                                <div class="dropdown bootstrap-select" style="width: 100%;">
+                                                    <select disabled class="selectpicker" data-width="100%" tabindex="null">
+                                                        <option value="" style="visibility:inherit">-- Chọn vị trí tuyển dụng --</option>
+                                                        <option value="">Front-End Web Developer</option>
+                                                        <option value="">Back-End Web Developer</option>
+                                                        <option value="" selected>Full-Stack Web Developer</option>
+                                                        <option value="">Front-End Mobile-Developer </option>
+                                                        <option value="">Back-End Mobile-Developer</option>
+                                                        <option value="">Tester</option>
+                                                        <option value="">Business Analysts</option>
+                                                        <option value="">Product Owner</option>
+                                                        <option value="">Project Manager</option>
+                                                        <option value="">Bảo Vệ</option>
+                                                        <option value="">Lao Công</option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <!-- logo -->
+                                        <h5 class="mb-3">
+                                            <span style="cursor:default" class="btn btn-light btn-icon rounded-circle" aria-expanded="false">
+                                                <i class="nav-icon fe fe-info"></i>
+
+                                            </span>
+                                            Thông Tin Chung
+                                        </h5>
+                                        <small>
+                                            Một số thông tin đã được điền sẵn dựa trên thông tin tuyển dụng mà bạn đã tạo trước đó.
+                                        </small>
+                                    </div>
+                                    <hr>
+                                    <!-- form group -->
+                                    <div class="mb-3 col-md-6 col-12">
+                                        <label class="form-label"> Số lượng <span class="text-danger">*</span></label>
+                                        <div class="input-group me-3">
+                                            <input type="text" id="postTitle" class="form-control text-dark" value="1" disabled placeholder="-- Nhập số lượng --">
+                                        </div>
+                                    </div>
+                                    <!-- form group -->
+                                    <div class="mb-3 col-md-6 col-12">
+                                        <label class="form-label">Loại Công Việc<span class="text-danger">*</span></label>
+                                        <div class="dropdown bootstrap-select" style="width: 100%;">
+                                            <div class="dropdown bootstrap-select" style="width: 100%;">
+                                                <div class="dropdown bootstrap-select" style="width: 100%;">
+                                                    <select disabled class="selectpicker" data-width="100%" tabindex="null">
+                                                        <option value="" style="visibility:inherit">-- Chọn loại công việc --</option>
+                                                        <option value="">Thực tập </option>
+                                                        <option value="" selected>Toàn thời gian</option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- form group -->
+                                    <div class="mb-3 col-md-6 col-12">
+                                        <label class="form-label">Giới Tính <span class="text-danger">*</span></label>
+                                        <div class="dropdown bootstrap-select" style="width: 100%;">
+                                            <div class="dropdown bootstrap-select" style="width: 100%;">
+                                                <div class="dropdown bootstrap-select" style="width: 100%;">
+                                                    <select disabled class="selectpicker" data-width="100%" tabindex="null">
+                                                        <option value="" style="visibility:inherit">-- Chọn giới tính --</option>
+                                                        <option value="">Nam</option>
+                                                        <option value="Eleanor Pena">Nữ</option>
+                                                        <option value="Courtney Henry">Khác</option>
+                                                        <option value="" selected>Không yêu cầu</option>
+
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- form group -->
+                                    <div class="mb-3 col-md-6 col-12">
+                                        <label class="form-label">Kinh Nghiệm<span class="text-danger">*</span></label>
+                                        <div class="dropdown bootstrap-select" style="width: 100%;">
+                                            <div class="dropdown bootstrap-select" style="width: 100%;">
+                                                <div class="dropdown bootstrap-select" style="width: 100%;">
+                                                    <select disabled class="selectpicker" data-width="100%" tabindex="null">
+                                                        <option value="" style="visibility:inherit">-- Chọn kinh nghiệm --</option>
+                                                        <option value=""> Chưa có kinh nghiệm  </option>
+                                                        <option value=""> Dưới 1 năm kinh nghiệm </option>
+                                                        <option value=""> 1 năm kinh nghiệm </option>
+                                                        <option value="" selected> 2 năm kinh nghiệm </option>
+                                                        <option value=""> 3 năm kinh nghiệm </option>
+                                                        <option value=""> 4 năm kinh nghiệm </option>
+                                                        <option value=""> 5 năm kinh nghiệm </option>
+                                                        <option value=""> trên 5 năm kinh nghiệm </option>
+
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- form group -->
+                                    <div class="mb-3 col-md-12 col-12">
+                                        <label class="form-label"> Mức lương <span class="text-danger">*</span> </label>
+
+                                        <div class="input-group me-3">
+                                            <input type="text" id="postTitle" class="form-control text-dark" value="Trên 20 triệu" disabled placeholder="-- Nhập số lương -- ">
+                                        </div>
+                                    </div>
+
+                                    <h5 class="mb-3">
+                                        <span style="cursor:default" class="btn btn-light btn-icon rounded-circle" aria-expanded="false">
+                                            <i class="nav-icon fe fe-book"></i>
+
+                                        </span>
+                                        Nội dung tuyển dụng chi tiết
+                                    </h5>
+                                    <!-- mo ta cong viec -->
+                                    <label class="form-label">Mô tả công việc<span class="text-danger">*</span></label>
+
+
+                                    <div class="mt-2 mb-4 ">
+
+                                        <textarea rows="4" class="form-control" placeholder="Nhập mô tả công việc" disabled required="">
+– Làm việc theo sự phân công của trưởng nhóm / quản lý dự án, phối hợp giữa các nhóm để phát triển sản.
+– Tham gia các công đoạn tìm hiểu yêu cầu, phân tích, thiết kế, nghiên cứu công nghệ khi được phân công.
+– Nghiên cứu công nghệ và phát triển sản phẩm.
+</textarea>
+                                    </div>
+                                    <!-- yeu cau ung vien-->
+                                    <label class="form-label">Yêu cầu ứng viên<span class="text-danger">*</span></label>
+
+
+                                    <div class="mt-2 mb-4">
+                                        <textarea rows="4" class="form-control" placeholder="Nhập mô tả công việc" disabled required="">
+- Lập trình các loại ngôn ngữ ( C#,Python, Nodejs, ReactJs......), CSDL MSSQL Server (2008, 2012).
+- Kinh nghiệm tối thiểu 1 năm trở lên.
+- Ưu tiên người có kinh nghiệm làm việc trên hãng phầm mềm thứ ba: Mycrosoft Visual Studio.
+- Có khả năng phân tích và thiết kế database.
+- Có các kỹ năng giao tiếp, sáng tạo và quan tâm đến trải nghiệm người dùng.
+</textarea>
+
+                                    </div>
+
+                                    <!-- Ky nang lien quan-->
+                                    <h7 class="form-label">Kỹ năng liên quan<span class="text-danger">*</span></h7>
+                                    <small>
+                                        Chọn một số kỹ năng mà bạn mong muốn vị trí đó đáp ứng.
+                                    </small>
+                                    <div class="mt-2 mb-4">
+                                        <div style="z-index:1;  width: 100%; height: 140px; overflow-x: hidden; overflow-y: auto;" class="card-body border-top">
+
+                                            <div class="form-check ">
+                                                <input class="form-check-input" type="checkbox" disabled value="" id="male">
+                                                <label class="form-check-label">
+                                                    HTML5&amp;CSS3
+                                                </label>
+                                            </div>
+                                            <!-- form check radio -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox " disabled value="" id="male">
+                                                <label class="form-check-label">
+                                                    ASP.NET
+                                                </label>
+                                            </div>
+                                            <!-- form check radio -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" disabled value="" checked id="male">
+                                                <label class="form-check-label" for="male">
+                                                    C#
+                                                </label>
+                                            </div>
+                                            <!-- form check radio -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" disabled value="" id="male">
+                                                <label class="form-check-label" for="male">
+                                                    C++
+                                                </label>
+                                            </div>
+                                            <!-- form check radio -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" disabled value="" id="male">
+                                                <label class="form-check-label" for="male">
+                                                    JAVA
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" disabled value="" id="male">
+                                                <label class="form-check-label" for="male">
+                                                    JAVASCRIPT
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" disabled value="" id="male">
+                                                <label class="form-check-label" for="male">
+                                                    JQUERY
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" disabled value="" checked id="male">
+                                                <label class="form-check-label" for="male">
+                                                    SQL
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" disabled value="" id="male">
+                                                <label class="form-check-label" for="male">
+                                                    NODE JS
+                                                </label>
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+
+                                    </div>
+
+                                    <!-- quyen loi cua ung vien-->
+                                    <label class="form-label">Quyền lợi của ứng viên  <span class="text-danger">*</span></label>
+
+
+                                    <div class="mt-2 mb-4">
+                                        <textarea rows="4" class="form-control" placeholder="Nhập mô tả công việc" disabled required="">
+- Lương: Lương cứng + thưởng dự án.
+- Làm việc trong môi trường năng động, chuyên nghiệp có nhiều cơ hội thăng tiến.
+- Cung cấp trang thiết bị đầy đủ để phục vụ công việc.
+- Được đóng BHXH, BHYT, BHTN.
+- Được hưởng các chính sách phúc lợi theo quy định của công ty.
+- Được đào tạo, nâng cao nghiệp vụ thường xuyên.
+</textarea>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-12 col-12">
+            <!-- Card -->
+            <div class="card mt-4 mt-lg-0 mb-4">
+                <!-- Card Header -->
+                <div class="card-header d-lg-flex">
+                    <h4 class="mb-0">Thông tin đăng tin</h4>
+                </div>
+                <!-- List Group -->
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <span class="text-body"> ID Tin tuyển dụng</span>
+                        <h5>818238812378</h5>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="text-body">Trạng thái</span>
+                        <h5>
+                            <span class="badge-dot bg-success d-inline-block me-1"></span> Đã công khai
+                        </h5>
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="text-body"> Hạn chót nhận CV </span>
+                        <h5>Jul 30, 2:21 PM</h5>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="text-body">Ngày công khai</span>
+                        <h5>Jul 30, 2:21 PM</h5>
+                    </li>
+
+
+                </ul>
+                <!-- Card -->
+            </div>
+
+
+
+
+
+            <!-- Card  -->
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="newCatgory" tabindex="-1" role="dialog" aria-labelledby="newCatgoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title mb-0" id="newCatgoryLabel">
+                    Create New Category
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3 mb-2">
+                        <label class="form-label" for="title">Title<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Write a Category" id="title" required>
+                        <small>Field must contain a unique value</small>
+                    </div>
+                    <div class="mb-3 mb-2">
+                        <label class="form-label">Slug</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="slug">https://example.com</span>
+                            </div>
+                            <input type="text" class="form-control" id="basic-url" aria-describedby="slug" placeholder="designcourses" required>
+                        </div>
+                        <small>Field must contain a unique value</small>
+                    </div>
+                    <div class="mb-3 mb-2">
+                        <label class="form-label">Parent</label>
+                        <select class="selectpicker" data-width="100%">
+                            <option value="">Select</option>
+                            <option value="Course">Course</option>
+                            <option value="Tutorial">Tutorial</option>
+                            <option value="Workshop">Workshop</option>
+                            <option value="Company">Company</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 mb-3">
+                        <label class="form-label">Description</label>
+                        <div id="editor">
+                            <br>
+                            <h4>One Ring to Rule Them All</h4>
+                            <br>
+                            <p>
+                                Three Rings for the
+                                <i> Elven-kingsunder</i> the sky,
+                                <br> Seven for the
+                                <u>Dwarf-lords</u> in halls of stone, Nine for Mortal Men,
+                                <br> doomed to die, One for the Dark Lord on his dark throne.
+                                <br> In the Land of Mordor where the Shadows lie.
+                                <br>
+                                <br>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Enabled</label>
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="customSwitch1" checked>
+                            <label class="form-check-label" for="customSwitch1"></label>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Add New Category</button>
+                        <button type="button" class="btn btn-outline-white" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 900px;">
+    <div class="offcanvas-body" data-simplebar="init">
+        <div class="simplebar-wrapper" style="margin: -24px;">
+            <div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask">
+                <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                    <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden;">
+                        <div class="simplebar-content" style="padding: 24px;">
+                            <div class="offcanvas-header px-2 pt-0">
+                                <div style="height:30px" class="row">
+                                    <h3 class="offcanvas-title" id="offcanvasExampleLabel">Thông tin Nhân viên</h3>
+                                    <br>
+                                    <p>Nhập vào đầy đủ các thông tin bắt buộc của nhân viên mới.</p>
+                                </div>
+                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <hr class="my-4">
+                            <!-- card body -->
+                            <div class="container">
+                                <!-- form -->
+                                <form class="row">
+                                    <!-- First name -->
+                                    <div class="mb-3 col-12 col-md-12">
+                                        <label class="form-label" for="fname">Họ và Tên <span class="text-danger">*</span></label>
+                                        <input type="text" id="fname" class="form-control" placeholder="Nguyễn Văn A" required="">
+                                    </div>
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label class="form-label" for="fname">Số CMND/CCCD <span class="text-danger">*</span></label>
+                                        <input type="text" id="fname" class="form-control" placeholder="07020000xxxx" required="">
+                                    </div>
+                                    <!-- Phone -->
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                                        <input type="tel" id="phone" class="form-control" placeholder="0999888xxx" required="">
+                                    </div>
+
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label class="form-label">Giới tính <span class="text-danger">*</span></label>
+                                        <div class="dropdown bootstrap-select" style="width: 100%;">
+                                            <select class="selectpicker" data-width="100%">
+                                                <option value="">Chọn giới tính</option>
+                                                <option value="1">Nam</option>
+                                                <option value="2">Nữ</option>
+                                                <option value="3">Khác</option>
+                                            </select><button type="button" tabindex="-1" class="btn dropdown-toggle bs-placeholder btn-light" data-bs-toggle="dropdown" role="combobox" aria-owns="bs-select-1" aria-haspopup="listbox" aria-expanded="false" title="Chọn giới tính"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">Chọn giới tính</div></div> </div></button><div class="dropdown-menu "><div class="inner show" role="listbox" id="bs-select-1" tabindex="-1"><ul class="dropdown-menu inner show" role="presentation"></ul></div></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 col-12 col-md-12">
+                                        <label class="form-label" for="address">Địa chỉ nhà</label>
+                                        <textarea rows="4" id="address" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla" required=""></textarea>
+                                    </div>
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label class="form-label">Vai trò <span class="text-danger">*</span></label>
+                                        <div class="dropdown bootstrap-select" style="width: 100%;">
+                                            <select class="selectpicker" data-width="100%">
+                                                <option value="">Chọn vai trò</option>
+                                                <option value="1">Web developer</option>
+                                                <option value="2">Full Stack Development</option>
+                                                <option value="3">Architect and Design</option>
+                                            </select><button type="button" tabindex="-1" class="btn dropdown-toggle bs-placeholder btn-light" data-bs-toggle="dropdown" role="combobox" aria-owns="bs-select-2" aria-haspopup="listbox" aria-expanded="false" title="Chọn vai trò"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">Chọn vai trò</div></div> </div></button><div class="dropdown-menu "><div class="inner show" role="listbox" id="bs-select-2" tabindex="-1"><ul class="dropdown-menu inner show" role="presentation"></ul></div></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label class="form-label" for="phone">Mức lương <span class="text-danger">*</span></label>
+                                        <input type="text" id="luong" class="form-control" placeholder="10.000.000..." required="">
+                                    </div>
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label class="form-label" for="phone">Email <span class="text-danger">*</span></label>
+                                        <input type="text" id="email" class="form-control" placeholder="example@itglobal.net" required="">
+                                    </div>
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label class="form-label" for="phone">Mật khẩu đăng nhập <span class="text-danger">*</span></label>
+                                        <input type="password" id="email" class="form-control" placeholder="******" required="">
+                                    </div>
+                                    <div class="col-md-8"></div>
+                                    <!-- button -->
+                                    <hr class="my-3">
+                                    <div style="margin-top:10px; text-align:center;" class="col-12">
+                                        <button style="width: 40%" class="btn btn-primary" type="button">Lưu</button>
+                                        <button style="width: 40%" type="button" class="btn btn-outline-primary ms-2" data-bs-dismiss="offcanvas" aria-label="Close">Hủy</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><div class="simplebar-placeholder" style="width: auto; height: 878px;"></div>
+        </div><div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="width: 0px; display: none;"></div></div><div class="simplebar-track simplebar-vertical" style="visibility: hidden;"><div class="simplebar-scrollbar" style="height: 0px; display: none; transform: translate3d(0px, 0px, 0px);"></div></div>
+    </div>
+</div>
+
+

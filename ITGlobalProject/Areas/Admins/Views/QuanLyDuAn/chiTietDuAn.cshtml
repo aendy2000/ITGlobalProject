@@ -1,0 +1,1573 @@
+﻿
+@{
+    ViewBag.Title = "Chi Tiết Dự Án";
+    Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid p-4">
+    <div class="row ">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Page header -->
+            <div class="border-bottom pb-4 d-lg-flex align-items-center justify-content-between">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Dự án Quản Lý Nhân sự IT - Global.Net</h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("danhSachDuAn", "QuanLyDuAn")">Quản Lý Dự Án</a>
+                            </li>
+                            <li class="breadcrumb-item" aria-current="page">
+                                <a href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = 1})">Xem Chi Tiết</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Dự án Quản Lý Nhân sự IT-Global
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- button -->
+                <div>
+                    <a href="#" class="btn btn-primary me-2" style="width:230px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"><i class="fe fe-edit"></i>&ensp;Cập Nhật Dự Án</a>
+                    <a class="btn btn-danger me-2" style="width:230px" id="alert_demo_3_3"><i class="fe fe-trash"></i>&ensp;Xóa Dự Án</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="chiTietDuAnPartialID">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <!-- nav  -->
+                <ul class="nav nav-lb-tab">
+                    <li class="nav-item ms-0 me-3">
+                        <a role="button" class="nav-link active" id="tongQuanID">Tổng quan</a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a role="button" class="nav-link " id="congViecID">Công việc</a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a role="button" class="nav-link" id="nganSachID">Công nợ</a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a role="button" class="nav-link" id="taiLieuID">Tài liệu</a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a role="button" class="nav-link" id="doiNguID">Đội ngũ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-12 col-xl-8 col-12">
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between
+                    align-items-center">
+                                    <div>
+                                        <h4 class="mb-0">Thông tin Dự Án</h4>
+                                    </div>
+                                    <!-- dropdown  -->
+                                    <div>
+                                        <span class="dropdown dropstart">
+                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
+                                               href="#"
+                                               role="button"
+                                               id="DropdownTen"
+                                               data-bs-toggle="dropdown"
+                                               aria-haspopup="true"
+                                               aria-expanded="false">
+                                                <i class="fe fe-more-vertical"></i>
+                                            </a>
+                                            <span class="dropdown-menu"
+                                                  aria-labelledby="DropdownTen">
+                                                <span class="dropdown-header">Settings</span>
+                                                <a class="dropdown-item" href="#">Action</a>
+                                                <a class="dropdown-item" href="#">
+                                                    Another
+                                                    action
+                                                </a>
+                                                <a class="dropdown-item" href="#">
+                                                    Something
+                                                    else
+                                                    here
+                                                </a>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="card-body">
+                                <p style="display:inline;">
+                                    Xây dựng một phần mềm quản lý nhân sự giúp doanh nghiệp nâng cao chất lượng quản lý vận hành công việc một cách dễ dàng mà không cần quản lý thủ công như trước đây. Chúng thể hiện rõ các yêu cầu quản lý nhân sự của doanh nghiệp, phúc lợi nhân viên, chấm công – tính lương, đãi ngộ và các chế độ khác.
+                                </p>
+                                <ul style="margin-top: 15px" class="list-group list-group-flush">
+                                    <li class="list-group-item px-0">
+                                        <div class="d-flex justify-content-between
+                            align-items-center">
+                                            <div class="d-flex align-items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     width="16" height="16" fill="currentColor"
+                                                     class="bi bi-calendar4 text-primary"
+                                                     viewBox="0 0 16 16">
+                                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5
+                                  0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0
+                                  1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1
+                                  2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0
+                                  0-1 1v1h14V3a1 1 0 0 0-1-1H2zm13 3H1v9a1
+                                  1 0 0 0 1 1h12a1 1 0 0 0 1-1V5z" />
+                                                </svg>
+                                                <div class="ms-2">
+                                                    <h5 class="mb-0 text-body">Ngày Bắt Đầu</h5>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div>
+                                                    <p class="text-dark mb-0
+                                    fw-semi-bold">03 Tháng 10, 2022</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item px-0">
+                                        <div class="d-flex justify-content-between
+                            align-items-center">
+                                            <div class="d-flex align-items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     width="16" height="16"
+                                                     fill="currentColor" class="bi
+                                bi-calendar4  text-primary"
+                                                     viewBox="0 0 16 16">
+                                                    <path d="M3.5 0a.5.5 0 0 1
+                                  .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0
+                                  1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0
+                                  1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1
+                                  .5-.5zM2 2a1 1 0 0 0-1 1v1h14V3a1 1 0
+                                  0 0-1-1H2zm13 3H1v9a1 1 0 0 0 1 1h12a1
+                                  1 0 0 0 1-1V5z" />
+                                                </svg>
+                                                <div class="ms-2">
+                                                    <h5 class="mb-0 text-body">Ngày Kết Thúc</h5>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div>
+                                                    <p class="text-dark mb-0
+                                    fw-semi-bold">13 Tháng 05, 2023</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item  px-0">
+                                        <div class="d-flex justify-content-between
+                        align-items-center">
+                                            <div class="d-flex align-items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     width="18" height="18"
+                                                     fill="currentColor" class="bi bi-clock
+                             text-primary" viewBox="0 0 16
+                            16">
+                                                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5
+                              0 0 0 .252.434l3.5 2a.5.5 0 0 0
+                              .496-.868L8 8.71V3.5z" />
+                                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0
+                                0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7
+                                0 0 1 14 0z" />
+                                                </svg>
+                                                <div class="ms-2">
+                                                    <h5 class="mb-0 text-body">
+                                                        Thời Gian Thực Hiện
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div>
+                                                    <p class="text-dark mb-0
+                                  fw-semi-bold">
+                                                        222
+                                                        Ngày
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item px-0 pb-0">
+                                        <div class="d-flex
+                          justify-content-between
+                          align-items-center">
+                                            <div class="d-flex
+                            align-items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     width="18" height="18"
+                                                     fill="currentColor" class="bi
+                              bi-currency-dollar text-primary
+                              " viewBox="0 0 16 16">
+                                                    <path d="M4 10.781c.148 1.667
+                                1.513 2.85 3.591
+                                3.003V15h1.043v-1.216c2.27-.179
+                                3.678-1.438 3.678-3.3
+                                0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11
+                                1.879.714 2.07
+                                1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27
+                                1.472-3.27 3.156 0 1.454.966
+                                2.483 2.661
+                                2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616
+                                0-.944.704-1.641
+                                1.8-1.828v3.495l-.2-.05zm1.591
+                                1.872c1.287.323 1.852.859
+                                1.852 1.769 0 1.097-.826
+                                1.828-2.2
+                                1.939V8.73l.348.086z" />
+                                                </svg>
+                                                <div class="ms-2">
+                                                    <h5 class="mb-0 text-body">Tổng Chi Phí</h5>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div>
+                                                    <p class="text-dark mb-0
+                                  fw-semi-bold">$ 95,000,000 đ</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mb-4">
+                        <!-- card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="mb-0">Thông Tin Khách Hàng </h4>
+
+                            </div>
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="position-relative">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg" alt="" class="rounded-circle avatar-xl" />
+                                    </div>
+                                    <div class="ms-4">
+                                        <h3 class="mb-0">Nguyễn Minh Tân</h3>
+                                        <p class="mb-0 fs-5">IT-GLOBAL TECHNOLOGY SOLUTIONS COMPANY LIMITED</p>
+                                        <p class="mb-1 fs-5">info@it-global.net</p>
+                                    </div>
+                                </div>
+                                <div style="text-align: center; margin-bottom: -20px" class="border-top row mt-3">
+                                    <div class="col">
+                                        <div class="pe-1 ps-2 py-3">
+                                            <h5 class="mb-0">0987 613 161</h5>
+                                            <span class="fs-6">Số điện thoại</span>
+                                        </div>
+                                    </div>
+                                    <div class="col border-start">
+                                        <div class="pe-1 ps-3 py-3">
+                                            <h5 class="mb-0">01</h5>
+                                            <span class="fs-6">Dự án đang có</span>
+                                        </div>
+                                    </div>
+                                    <div class="col border-start">
+                                        <div class="pe-1 ps-3 py-3">
+                                            <a style="width: 90%; margin-top:5px" type="button" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-4">
+                        <!-- card -->
+                        <div class="card">
+                            <!-- card body -->
+
+                            <div class="card-header">
+                                <h4 class="mb-0">
+                                    Tiến Độ Dự Án
+                                </h4>
+
+                            </div>
+                            <!-- table -->
+                            <div class="table-responsive overflow-y-hidden">
+                                <table class="table mb-0 text-nowrap">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col" class="border-top-0">Thành viên</th>
+                                            <th scope="col" class="border-top-0 ">Vai trò</th>
+                                            <th scope="col" class="border-top-0 ">Số việc </th>
+                                            <th scope="col" class="border-top-0 ">Hoàn thành</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="align-middle">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar avatar-sm">
+                                                        <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg" alt="" class="rounded-circle">
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h5 class="mb-0">Đặng Văn Tuấn </h5>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle ">
+                                                Web Development
+                                            </td>
+                                            <td class="align-middle ">
+                                                22
+                                            </td>
+                                            <td class="align-middle ">
+                                                <div class="d-flex align-items-center">
+
+                                                    <div class="progress flex-auto" style="height: 6px;">
+                                                        <div class="progress-bar bg-success " role="progressbar" style="width: 62%;" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="ms-2"> <span>62% </span> </div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td class="align-middle">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar avatar-sm">
+                                                        <img src="~/Content/Admin/assets/images/avatar/avatar-3.jpg" alt="" class="rounded-circle">
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h5 class="mb-0">Lê Thị Lợi</h5>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle ">
+                                                Tester
+                                            </td>
+                                            <td class="align-middle ">
+                                                14
+                                            </td>
+                                            <td class="align-middle ">
+                                                <div class="d-flex align-items-center">
+
+                                                    <div class="progress flex-auto" style="height: 6px;">
+                                                        <div class="progress-bar bg-success " role="progressbar" style="width: 45%;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="ms-2"> <span>45% </span> </div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td class="align-middle">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar avatar-sm">
+                                                        <img src="~/Content/Admin/assets/images/avatar/avatar-4.jpg" alt="" class="rounded-circle">
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h5 class="mb-0">Nguyễn Hiếu Nhân</h5>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle ">
+                                                Web Development
+                                            </td>
+                                            <td class="align-middle ">
+                                                10
+                                            </td>
+                                            <td class="align-middle ">
+                                                <div class="d-flex align-items-center">
+
+                                                    <div class="progress flex-auto" style="height: 6px;">
+                                                        <div class="progress-bar bg-success " role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="ms-2"> <span>80% </span> </div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td class="align-middle">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar avatar-sm">
+                                                        <img src="~/Content/Admin/assets/images/avatar/avatar-5.jpg" alt="" class="rounded-circle">
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h5 class="mb-0">Bùi Công Danh</h5>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle ">
+                                                Web Development
+                                            </td>
+                                            <td class="align-middle ">
+                                                19
+                                            </td>
+                                            <td class="align-middle ">
+                                                <div class="d-flex align-items-center">
+
+                                                    <div class="progress flex-auto" style="height: 6px;">
+                                                        <div class="progress-bar bg-success " role="progressbar" style="width: 10%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="ms-2"> <span>10% </span> </div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td class="align-middle">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar avatar-sm">
+                                                        <img src="~/Content/Admin/assets/images/avatar/avatar-6.jpg" alt="" class="rounded-circle">
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h5 class="mb-0">Nguyễn Thanh Thiện</h5>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle ">
+                                                Tester
+                                            </td>
+                                            <td class="align-middle ">
+                                                12
+                                            </td>
+                                            <td class="align-middle ">
+                                                <div class="d-flex align-items-center">
+
+                                                    <div class="progress flex-auto" style="height: 6px;">
+                                                        <div class="progress-bar bg-success " role="progressbar" style="width: 8%;" aria-valuenow="8" aria-valuemin="0" aria-valuemax="100">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="ms-2"> <span>8% </span> </div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td class="align-middle">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar avatar-sm">
+                                                        <img src="~/Content/Admin/assets/images/avatar/avatar-8.jpg" alt="" class="rounded-circle">
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h5 class="mb-0">Nguyễn Huy Hoàng</h5>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle ">
+                                                Business Analyst
+                                            </td>
+                                            <td class="align-middle ">
+                                                18
+                                            </td>
+                                            <td class="align-middle ">
+                                                <div class="d-flex align-items-center">
+
+                                                    <div class="progress flex-auto" style="height: 6px;">
+                                                        <div class="progress-bar bg-success " role="progressbar" style="width: 49%;" aria-valuenow="49" aria-valuemin="0" aria-valuemax="100">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="ms-2"> <span>49% </span> </div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-12 col-xl-4 col-12">
+                <!-- card  -->
+                <div class="card mb-4 bg-primary border-primary">
+                    <!-- card body  -->
+                    <div class="card-body">
+
+                        <h4 class="card-title text-white">Ngày Kết Thúc </h4>
+
+                        <!-- dropdown  -->
+                        <div class="d-flex justify-content-between align-items-center mt-8">
+                            <div>
+                                <h1 class="display-4 text-white mb-1">121 Ngày</h1>
+                                <p class="mb-0 text-white">Thứ Sáu, 13 Tháng 05</p>
+                            </div>
+                            <div>
+                                <i class="fe fe-flag fs-1 text-light-primary"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- card  -->
+                <div class="card mb-4 ">
+                    <!-- card body  -->
+                    <div class="card-body">
+                        <h4 class=" card-title ">Tiến Độ Tổng Thể </h4>
+                        <div id="progressChart"></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header card-header-height d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="mb-0">
+                                Hoạt Động Gần Đây
+                            </h4>
+                        </div>
+                        @*<div><a href="#">View All</a></div>*@
+                    </div>
+                    <!-- Card body -->
+                    <div style="height: 400px;" class="card-body" data-simplebar>
+                        <!-- List group -->
+                        <ul class="list-group list-group-flush list-timeline-activity">
+                            <li class="list-group-item px-0 pt-0 border-0 pb-6">
+                                <div class="row position-relative">
+                                    <div class="col-auto">
+                                        <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
+                                            <i class="fe fe-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col ms-n3">
+                                        <h4 class="mb-0 h5">Hoàn thành Tác Vụ</h4>
+                                        <p class="mb-0 text-body">Đặng Văn Tuấn hoàn thành tác vụ <a href="#"><u>1052</u></a>.</p>
+
+                                    </div>
+                                    <div class="col-auto">
+                                        <span class="text-muted fs-6">13:30 24/05</span>
+
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item px-0 pt-0 border-0 pb-6">
+                                <div class="row position-relative">
+                                    <div class="col-auto">
+                                        <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
+                                            <i class="fe fe-clock"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col ms-n3">
+                                        <h4 class="mb-0 h5">Thực hiện Tác vụ</h4>
+                                        <p class="mb-0 text-body">Lê Thị Lợi thực hiện tác vụ <a href="#"><u>1295</u></a>.</p>
+
+                                    </div>
+                                    <div class="col-auto">
+                                        <span class="text-muted fs-6">15:12 24/05</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item px-0 pt-0 border-0 pb-6">
+                                <div class="row position-relative">
+                                    <div class="col-auto">
+                                        <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
+                                            <i class="fe fe-clock"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col ms-n3">
+                                        <h4 class="mb-0 h5">Thực hiện Tác vụ</h4>
+                                        <p class="mb-0 text-body">Nguyễn Hiếu Nhân thực hiện tác vụ <a href="#"><u>1104</u></a>.</p>
+
+                                    </div>
+                                    <div class="col-auto">
+                                        <span class="text-muted fs-6">06:25 23/05</span>
+
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item px-0 pt-0 border-0 pb-6">
+                                <div class="row position-relative">
+                                    <div class="col-auto">
+                                        <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
+                                            <i class="fe fe-alert-triangle"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col ms-n3">
+                                        <h4 class="mb-0 h5">Hoàn thành Tác vụ</h4>
+                                        <p class="mb-0 text-body">Bùi Công Danh hoàn thành tác vụ <a href="#"><u>1164</u></a>.</p>
+
+                                    </div>
+                                    <div class="col-auto">
+                                        <span class="text-muted fs-6">08:45 23/05</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chỉnh sửa Dự án -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 1100px;"  data-simplebar>
+
+    <div class="offcanvas-body">
+        <div class="offcanvas-header px-2 pt-0">
+            <h3 class="offcanvas-title" id="offcanvasExampleLabel">Cập Nhật Dự Án</h3>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <form id="frm">
+            <!-- card body -->
+            <div class="container">
+                <!-- form -->
+                <!-- card -->
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <div style="color: white; background-color:rebeccapurple; height: 120px" class="card-header p-lg-6" data-bs-toggle="collapse" data-bs-target="#NavthongTinDuAn" aria-expanded="false" aria-controls="NavthongTinDuAn">
+                            <div style="margin-top: -15px" class="row">
+                                <!-- form group -->
+                                <div class="mb-3 col-6">
+                                    <p style="font-weight:bold; font-size: 20px">A. Thông Tin Dự Án</p>
+                                    <span>Thông tin chi tiết về dự án, tên dự án, ngày thực hiện, ...</span>
+                                </div>
+                                <div style="text-align: right; font-weight: bold; font-size: 50px " class="mb-3 col-6">
+                                    <i class="fe fe-book-open"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="NavthongTinDuAn" class="collapse show" data-bs-parent="#navMenuLevel" style="">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <div class="card-body p-lg-6">
+                                        <!-- form -->
+                                        <div class="row">
+                                            <!-- form group -->
+                                            <div class="mb-3 col-12">
+                                                <label style="font-weight:bold" class="form-label">Tên dự án <span class="text-danger">*</span></label>
+                                                <input value="Website quản lý dự án công ty IT – GLOBAL" type="text" class="form-control" placeholder="Nhập vào tên của dự án (VD: Website ABC)" required>
+                                            </div>
+                                            <!-- form group -->
+                                            <div class="mb-3 col-12">
+                                                <label style="font-weight:bold" class="form-label">Mô tả tổng quan</label>
+                                                <textarea class="form-control" placeholder="Nhập vào mô tả của dự án..." rows="10">Xây dựng một phần mềm quản lý nhân sự giúp doanh nghiệp nâng cao chất lượng quản lý vận hành công việc một cách dễ dàng mà không cần quản lý thủ công như trước đây. Chúng thể hiện rõ các yêu cầu quản lý nhân sự của doanh nghiệp, phúc lợi nhân viên, chấm công – tính lương, đãi ngộ và các chế độ khác</textarea>
+                                            </div>
+                                            <!-- form group -->
+                                            <div class="mb-3 col-md-6 col-12">
+                                                <label style="font-weight:bold" class="form-label">Ngày bắt đầu <span class="text-danger">*</span></label>
+                                                <div class="input-group me-3">
+                                                    <input value="2022-10-03" class="form-control flatpickr" type="text" placeholder="Ngày bắt đầu dự án"
+                                                           aria-describedby="basic-addon2">
+
+                                                    <span class="input-group-text text-muted" id="basic-addon2">
+                                                        <i class="fe fe-calendar"></i>
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                            <!-- form group -->
+                                            <div class="mb-3 col-md-6 col-12">
+                                                <label style="font-weight:bold" class="form-label">Ngày kết thúc <span class="text-danger">*</span></label>
+                                                <div class="input-group me-3">
+                                                    <input value="2023-05-13" class="form-control flatpickr" type="text" placeholder="Ngày kết thúc dự án"
+                                                           aria-describedby="basic-addon3">
+
+                                                    <span class="input-group-text text-muted" id="basic-addon3">
+                                                        <i class="fe fe-calendar"></i>
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                            <input id="dem" value="3" hidden />
+
+                                            <label style="font-weight:bold" for="ipcpgd1" class="form-label">Giai đoạn 1 </label>
+                                            <div id="ipcpgd1" class="mb-3 col-md-6 col-12">
+                                                <input value="30,000,000 đ" id="gd1" name="gd1" type="text" class="form-control" placeholder="Chi phí giai đoạn 1" required />
+                                            </div>
+                                            <div id="ipdgd1" class="mb-3 col-md-6 col-12">
+                                                <div class="input-group me-3">
+                                                    <input value="2022-12-03" class="form-control flatpickr" type="text"
+                                                           placeholder="Ngày kết thúc giai đoạn 1" aria-describedby="basic-addon-gd1" required>
+
+                                                    <span class="input-group-text text-muted" id="basic-addon-gd1">
+                                                        <i class="fe fe-calendar"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <label style="font-weight:bold" for="ipcpgd2" class="form-label">Giai đoạn 2 </label>
+                                            <div id="ipcpgd2" class="mb-3 col-md-6 col-12">
+                                                <input value="25,000,000 đ" id="gd2" name="gd2" type="text" class="form-control" placeholder="Chi phí giai đoạn 2" required />
+                                            </div>
+                                            <div id="ipdgd2" class="mb-3 col-md-6 col-12">
+                                                <div class="input-group me-3">
+                                                    <input value="2023-02-03" class="form-control flatpickr" type="text"
+                                                           placeholder="Ngày kết thúc giai đoạn 2" id="date" aria-describedby="basic-addon-gd2" required>
+
+                                                    <span class="input-group-text text-muted" id="basic-addon-gd2">
+                                                        <i class="fe fe-calendar"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <label style="font-weight:bold" for="ipcpgd3" class="form-label">Giai đoạn 3 </label>
+                                            <div id="ipcpgd3" class="mb-3 col-md-6 col-12">
+                                                <input value="40,000,000 đ" id="gd3" name="gd3" type="text" class="form-control" placeholder="Chi phí giai đoạn 3" required />
+                                            </div>
+                                            <div id="ipdgd3" class="mb-3 col-md-6 col-12">
+                                                <div class="input-group me-3">
+
+                                                    <input value="2023-05-03" class="form-control flatpickr" type="text"
+                                                           placeholder="Ngày kết thúc giai đoạn 3" id="date" aria-describedby="basic-addon-gd3" required>
+
+                                                    <span class="input-group-text text-muted" id="basic-addon-gd3">
+                                                        <i class="fe fe-calendar"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div id="appenddayne" class="col-12"></div>
+                                            <div style="text-align: center; padding-bottom: 15px;" class="mb-2 col-md-6 col-12">
+                                                <a style="width: 100%;" id="xoabot" class="btn text-danger border-danger btn-xs">
+                                                    <i class="fe fe-minus-circle"> </i> Xóa giai đoạn
+                                                </a>
+                                            </div>
+                                            <div style="text-align:center; padding-bottom: 15px" class="mb-2 col-md-6 col-12">
+                                                <a style="width: 100%" id="addthem" class="btn text-primary border-primary btn-xs">
+                                                    <i class="fe fe-plus-circle"> </i> Thêm giai đoạn
+                                                </a>
+                                            </div>
+
+                                            <div style="margin-bottom: 20px" class="col-12">
+                                                <label style="font-weight:bold" for="priority" class="form-label">Tổng chi phí </label>
+                                                <div readonly style="text-align: center; font-weight: bold; color: brown" id="sums" name="sums" type="text" class="form-control">95,000,000 đ</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- card body -->
+                <!--///////////////////////////////////////////////////////////////////////////////////////////-->
+
+                <div style="color: white; background-color:crimson; height: 120px" class="card-header p-lg-6" data-bs-toggle="collapse" data-bs-target="#NavthongTinKhachHang" aria-expanded="false" aria-controls="NavthongTinKhachHang">
+                    <div style="margin-top: -15px" class="row">
+                        <!-- form group -->
+                        <div class="mb-3 col-6">
+                            <p style="font-weight:bold; font-size: 20px">B. Thông Tin Khách Hàng</p>
+                            <span>Thông tin liên hệ khách hàng, địa chỉ liên lạc, ...</span>
+                        </div>
+                        <div style="text-align: right; font-weight: bold; font-size: 50px " class="mb-3 col-6">
+                            <i class="fe fe-user-check"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- card body -->
+                <div id="NavthongTinKhachHang" class="collapse" data-bs-parent="#navMenuLevel" style="">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <div class="card-body p-lg-6">
+                                <!-- form -->
+                                <div class="row">
+                                    <!-- form group -->
+                                    <div style="text-align: center; margin-top: -10px" class="mb-2 col-12">
+                                        <a style="width:100%" type="button" class="btn btn-outline-primary"> <i class="fe fe-user-plus"> </i> Lấy Thông Tin Khách Hàng Cũ</a>
+                                    </div>
+                                    <hr class="my-4" />
+                                    <div class="d-lg-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center mb-3 mb-lg-0">
+                                            <img src="~/Content/Admin/assets/images/avatar/avatar-18.jpg" id="img-uploaded" class="avatar-xxl rounded-circle" alt="" />
+                                            <div class="ms-3">
+                                                <h4 class="mb-0">Hình đại diện (nếu có)</h4>
+                                                <p class="mb-0">
+                                                    PNG hoặc JPG hình vuông không lớn hơn 800px.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <a style="width: 150px" href="#" class="btn btn-outline-success btn-sm">Tải lên</a>
+                                            <a style="width: 150px" href="#" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
+                                        </div>
+                                    </div>
+                                    <hr class="my-4" />
+                                    <div class="mb-3 col-12">
+                                        <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp</label>
+                                        <input value="IT- GLOBAL TECHNOLOGY SOLUTIONS COMPANY LIMITED" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng (nếu có)" required>
+                                    </div>
+                                    <!-- form group -->
+                                    <div class="mb-3 col-12  col-md-6">
+                                        <label style="font-weight:bold" class="form-label">Họ và Tên<span class="text-danger">*</span></label>
+                                        <input value="Nguyễn Minh Tân" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
+                                    </div>
+
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD <span class="text-danger">*</span></label>
+                                        <input value="070200001234" type="text" id="fname" class="form-control" placeholder="07020000xxxx..." required />
+                                    </div>
+                                    <!-- Phone -->
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                                        <input value="0987613161" type="tel" id="phone" class="form-control" placeholder="0999888777..." required />
+                                    </div>
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
+                                        <input value="info@it-global.net" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
+                                    </div>
+                                    <!-- Birthday -->
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh <span class="text-danger">*</span></label>
+                                        <input value="1987-05-23" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" id="birth"
+                                               name="birth" />
+                                    </div>
+                                    <!-- Birthday -->
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label style="font-weight:bold" class="form-label">Giới tính <span class="text-danger">*</span></label>
+                                        <select style="color:black" class="selectpicker" data-width="100%">
+                                            <option value="">Chọn giới tính</option>
+                                            <option selected value="1">Nam</option>
+                                            <option value="2">Nữ</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Address -->
+                                    <div class="mb-3 col-12 col-md-12">
+                                        <label style="font-weight:bold" class="form-label" for="address">ĐC Doanh nghiệp / Nhà riêng <span class="text-danger">*</span></label>
+                                        <textarea rows="5" id="address" class="form-control" placeholder="Số 0/0 đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla..." required>2/1/15 đường 40, F Hiệp Bình Chánh, Tp. Thủ Đức</textarea>
+                                    </div>
+
+                                    <div style="text-align: right; padding-top: 25px" class="mb-2 col-12 col-md-6">
+                                        <a role="button" style="width: 230px" class="btn btn-outline-danger" data-bs-dismiss="offcanvas" aria-label="Close">
+                                            Hủy Bỏ
+                                        </a>
+                                    </div>
+                                    <div style=" padding-top: 25px" class="mb-2 col-12 col-md-6">
+                                        <button style="width: 230px" class="btn btn-success" type="submit">
+                                            Lưu Thay Đổi
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Chỉnh sửa Công nợ -->
+<div class="modal fade modal-lg" id="chinhSuaChiPhi" tabindex="-1" role="dialog"
+     aria-labelledby="chinhSuaChiPhiLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chinhSuaChiPhi">Cập Nhật Chi Phí</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="cnfrm" class="row">
+                    <input id="cndem" value="3" hidden />
+
+                    <label style="font-weight:bold" for="cnipcpgd1" class="form-label">Giai đoạn 1 </label>
+                    <div id="cnipcpgd1" class="mb-3 col-md-6 col-12">
+                        <input id="cngd1" name="cngd1" type="text" class="form-control" placeholder="Chi phí giai đoạn 1" required />
+                    </div>
+                    <div id="cnipdgd1" class="mb-3 col-md-6 col-12">
+                        <div class="input-group me-3">
+                            <input class="form-control flatpickr" type="text"
+                                   placeholder="Ngày kết thúc giai đoạn 1" aria-describedby="basic-addon-gd1" required>
+
+                            <span class="input-group-text text-muted" id="basic-addon-gd1">
+                                <i class="fe fe-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <label style="font-weight:bold" for="cnipcpgd2" class="form-label">Giai đoạn 2 </label>
+                    <div id="cnipcpgd2" class="mb-3 col-md-6 col-12">
+                        <input id="cngd2" name="cngd2" type="text" class="form-control" placeholder="Chi phí giai đoạn 2" required />
+                    </div>
+                    <div id="cnipdgd2" class="mb-3 col-md-6 col-12">
+                        <div class="input-group me-3">
+                            <input class="form-control flatpickr" type="text"
+                                   placeholder="Ngày kết thúc giai đoạn 2" id="date" aria-describedby="basic-addon-gd2" required>
+
+                            <span class="input-group-text text-muted" id="basic-addon-gd2">
+                                <i class="fe fe-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <label style="font-weight:bold" for="cnipcpgd3" class="form-label">Giai đoạn 3 </label>
+                    <div id="cnipcpgd3" class="mb-3 col-md-6 col-12">
+                        <input id="cngd3" name="cngd3" type="text" class="form-control" placeholder="Chi phí giai đoạn 3" required />
+                    </div>
+                    <div id="cnipdgd3" class="mb-3 col-md-6 col-12">
+                        <div class="input-group me-3">
+
+                            <input class="form-control flatpickr" type="text"
+                                   placeholder="Ngày kết thúc giai đoạn 3" id="date" aria-describedby="basic-addon-gd3" required>
+
+                            <span class="input-group-text text-muted" id="basic-addon-gd3">
+                                <i class="fe fe-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div id="cnappenddayne" class="col-12"></div>
+                    <div style="text-align: center; padding-bottom: 15px;" class="mb-2 col-md-6 col-12">
+                        <a style="width: 100%;" id="cnxoabot" class="btn text-danger border-danger btn-xs">
+                            <i class="fe fe-minus-circle"> </i> Xóa giai đoạn
+                        </a>
+                    </div>
+                    <div style="text-align:center; padding-bottom: 15px" class="mb-2 col-md-6 col-12">
+                        <a style="width: 100%" id="cnaddthem" class="btn text-primary border-primary btn-xs">
+                            <i class="fe fe-plus-circle"> </i> Thêm giai đoạn
+                        </a>
+                    </div>
+
+                    <div style="margin-bottom: 20px" class="col-12">
+                        <label style="font-weight:bold" for="priority" class="form-label">Tổng chi phí </label>
+                        <div readonly style="text-align: center; font-weight: bold; color: brown" id="cnsums" name="cnsums" type="text" class="form-control">HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN</div>
+                    </div>
+                    <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
+                        <a role="button" style="width: 230px" class="btn btn-outline-danger" data-bs-dismiss="modal">
+                            Hủy
+                        </a>
+                    </div>
+                    <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
+                        <button style="width: 230px" class="btn btn-success" type="submit">
+                            Lưu
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Thêm task -->
+<div class="modal fade modal-xl" id="addtaskModal" tabindex="-1" role="dialog" aria-labelledby="addtaskModalLabel"
+     aria-hidden="true"  data-simplebar>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addtaskModalLabel"><i class="fe fe-clipboard"> </i> CHI TIẾT CÔNG VIỆC 142</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form style="margin-top: -10px" class="row">
+                    <div class="mb-2 col-8">
+                        <div class="mb-2 col-12">
+                            <label style="font-weight:bold" for="assign" class="col-form-label-sm">Người thực hiện  <span class="text-danger">*</span></label>
+                            <input class="form-control  form-control-sm" list="assign" placeholder="Chọn người thực hiện" />
+                            <datalist data-width="100%" id="assign">
+                                <option value="1 - Đặng Văn Tuấn - Web Development">
+                                <option value="2 - Lê Thị Lợi - Tester">
+                                <option value="3 - Nguyễn Hiếu Nhân - Web Development">
+                                <option value="4 - Bùi Công Danh - Web Development">
+                                <option value="5 - Nguyễn Thanh Thiện - Tester">
+                                <option value="6 - Nguyễn Huy Hoàng - Web Development">
+                            </datalist>
+                        </div>
+                        <div class="mb-2 col-12">
+                            <label style="font-weight:bold" for="taskTitle" class="col-form-label-sm">Tên công việc  <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm" id="" placeholder="Nhập vào tên của công việc" required>
+                        </div>
+                        <div class="mb-3 col-12">
+                            <label style="font-weight:bold" for="taskTitle" class="col-form-label-sm">Mô tả công việc</label>
+                            <textarea rows="4" class="form-control form-control-sm" id="" placeholder="Nhập vào mô tả chi tiết công việc"></textarea>
+                        </div>
+
+                        <div class="mb-2 col-12">
+                            <div class="nav btn-group" role="tablist">
+                                <a class="btn btn-outline-white btn-xs active" data-bs-toggle="tab"
+                                   data-bs-target="#addTasktabPanelBinhLuan" role="tab" aria-controls="addTasktabPanelBinhLuan"
+                                   aria-selected="true">
+                                    <span class="fe fe-message-square"> </span> <span>Bình luận</span>
+                                </a>
+                                <a class="btn btn-outline-white btn-xs" data-bs-toggle="tab"
+                                   data-bs-target="#addTasktabPanelLichSu" role="tab" aria-controls="addTasktabPanelLichSu"
+                                   aria-selected="false">
+                                    <span class="fe fe-clock"> </span> <span>Lịch sử</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tab-content">
+                            <div id="addTasktabPanelBinhLuan" role="tabpanel" aria-labelledby="addTasktabPanelBinhLuan" style="min-height: 277px ; max-height: 350px; position: relative; " class="mb-3 col-12 form-control form-control-sm tab-pane fade show active">
+                                <labe style="font-weight:bold" for="taskTitle" class="col-form-label-sm"><u>Bình luận:</u></labe>
+                                <!-- Điều kiện -->
+                                <p class="fs-6" style="padding-top: 70px; text-align: center; font-style:italic">Chưa có bình luận nào!</p>
+                                @*<div class="mb-3 col-12" style=" height:250px; margin-bottom:5px" data-simplebar>
+                                    <div class="col-12 border-bottom">
+                                        <img style="margin-top: 15px; margin-right:5px" src="~/Content/Admin/assets/images/avatar/avatar-5.jpg" alt="" class="avatar avatar-sm rounded-circle">
+                                        <b>Đặng Văn Tuấn </b><br />
+                                        <p style="margin:-15px 0px 0px 40.5px; font-size:11px">09:12 - 13 Th 2, 2022</p>
+                                        <p style="margin-top:-10px"></p>
+                                        <span style="display:inline;">Chúng ta không nên buồn. Và không có gì phải buồn. Thì chúng ta vẫn không buồn. Buồn thì cũng buồn một chút xíu thôi. Chứ không phải đến nỗi mà phải buồn quài buồn quài, đúng hông? Mưa nào mà hổng tạnh...</span>
+                                        <p style="margin-top:-5px"></p>
+                                    </div>
+                                    <div class="col-12 border-bottom">
+                                        <img style="margin-top: 15px; margin-right:5px" src="~/Content/Admin/assets/images/avatar/avatar-2.jpg" alt="" class="avatar avatar-sm rounded-circle">
+                                        <b>Lê Thị Lợi</b><br />
+                                        <p style="margin: -15px 0px 0px 40.5px; font-size: 11px">13:20 - 14 Th 5, 2022</p>
+                                        <p style="margin-top: -10px"></p>
+                                        <span style="display:inline;">Các em đang làm cái quái gì vậy?</span>
+                                        <p style="margin-top:-5px"></p>
+                                    </div>
+                                    <div class="col-12 border-bottom">
+                                        <img style="margin-top: 15px; margin-right:5px" src="~/Content/Admin/assets/images/avatar/avatar-7.jpg" alt="" class="avatar avatar-sm rounded-circle">
+                                        <b>Nguyễn Hiếu Nhân </b><br />
+                                        <p style="margin: -15px 0px 0px 40.5px; font-size: 11px">01:20 - 22 Th 4, 2022</p>
+                                        <p style="margin-top: -10px"></p>
+                                        <span style="display:inline;">Mình không phải chuyên gia trong việc phân tích, nhưng sau khi xem bài đăng này mình cũng không biết phân tích như thế nào, vì lúc đầu mình đã nói mình không phải là chuyên gia.</span>
+                                        <p style="margin-top:-5px"></p>
+                                    </div>
+                                </div>*@
+
+                                <p style="margin-bottom: 60px"></p>
+                                <div class="mb-3 col-12" style="white-space: nowrap;">
+                                    <div style="position: absolute; bottom: 3px; left: 15px " class="mb-3 col-1">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
+                                             alt="" class="avatar avatar-sm rounded-circle">
+                                    </div>
+                                    <div style="position: absolute; bottom: 0px; left: 60px;" class="mb-3 col-10">
+                                        <input class="form-control form-control-sm" type="text" placeholder="Nhập vào một bình luận hoặc ghi chú..." />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="addTasktabPanelLichSu" role="tabpanel" aria-labelledby="addTasktabPanelLichSu" style="min-height: 277px ; max-height: 348px; position: relative; " class="mb-3 col-12 form-control form-control-sm tab-pane fade">
+                                <labe style="font-weight:bold;" for="taskTitle" class="col-form-label-sm"><u>Lịch sử:</u></labe>
+
+                                <!-- Điều kiện -->
+                                <p class="fs-6" style="padding-top: 70px; text-align: center; font-style:italic">Chưa có bất kỳ hoạt động nào!</p>
+                                @*<div class="mb-3 col-12" style="height:300px ;margin-bottom:5px; margin-top: 10px" data-simplebar>
+                                    <ul style="width: 96%; margin-left: 10px" class="list-group list-group-flush list-timeline-activity">
+                                        <li class="list-group-item px-0 pt-0 border-0 pb-5">
+                                            <div class="row position-relative">
+                                                <div class="col-auto">
+                                                    <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
+                                                        4
+                                                    </div>
+                                                </div>
+                                                <div class="col ms-n3">
+                                                    <h4 class="mb-0 h5">Hoàn thành công việc</h4>
+                                                    <p class="mb-0 text-body"><a href="#"><u>Đặng Văn Tuấn</u></a> đã đặt trạng thái thành Hoàn thành.</p>
+
+                                                </div>
+                                                <div class="col-auto">
+                                                    <span class="text-muted fs-6">13:30 - 24 Thg 05, 2022</span>
+
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item px-0 pt-0 border-0 pb-5">
+                                            <div class="row position-relative">
+                                                <div class="col-auto">
+                                                    <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
+                                                        3
+                                                    </div>
+                                                </div>
+                                                <div class="col ms-n3">
+                                                    <h4 class="mb-0 h5">Thực hiện công việc</h4>
+                                                    <p class="mb-0 text-body"><a href="#"><u>Đặng Văn Tuấn</u></a> đã đặt trạng thái thành Đang thực hiện.</p>
+
+                                                </div>
+                                                <div class="col-auto">
+                                                    <span class="text-muted fs-6">15:12 - 24 Thg 05, 2022</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item px-0 pt-0 border-0 pb-5">
+                                            <div class="row position-relative">
+                                                <div class="col-auto">
+                                                    <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
+                                                        2
+                                                    </div>
+                                                </div>
+                                                <div class="col ms-n3">
+                                                    <h4 class="mb-0 h5">Cập nhật công việc</h4>
+                                                    <p class="mb-0 text-body"><a href="#"><u>Đặng Văn Tuấn</u></a> đã cập nhật Số giờ đã thực hiện 0 -> 5.</p>
+
+                                                </div>
+                                                <div class="col-auto">
+                                                    <span class="text-muted fs-6">06:25 - 23 Thg 05, 2022</span>
+
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item px-0 pt-0 border-0 pb-5">
+                                            <div class="row position-relative">
+                                                <div class="col-auto">
+                                                    <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
+                                                        1
+                                                    </div>
+                                                </div>
+                                                <div class="col ms-n3">
+                                                    <h4 class="mb-0 h5">Bình luận công việc</h4>
+                                                    <p class="mb-0 text-body"><a href="#"><u>Đặng Văn Tuấn</u></a> đã gửi một bình luận.</p>
+
+                                                </div>
+                                                <div class="col-auto">
+                                                    <span class="text-muted fs-6">08:45 - 23 Thg 05, 2022</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2 col-4">
+                        <div class="mb-2 col-12">
+                            <label style="font-weight:bold" for="date" class="col-form-label-sm">Trạng thái <span class="text-danger">*</span></label>
+                            <select style="color: black;" class="form-select form-select-sm mb-3 mb-lg-0" data-width="100%">
+                                <option value="Gd1">Chưa thực hiện</option>
+                                <option value="None">Đang thực hiện</option>
+                                <option value="Due Date">Phê duyệt</option>
+                                <option value="Assignee">Hoàn thành</option>
+                            </select>
+                        </div>
+                        <div class="mb-2 col-12">
+                            <label style="font-weight:bold" for="date" class="col-form-label-sm">Hạn chót <span class="text-danger">*</span></label>
+                            <input value="" class="form-control form-control-sm flatpickr" type="text" placeholder="Chọn ngày hoàn thành" id="date"
+                                   required>
+                        </div>
+                        <div class="mb-2 col-12">
+                            <label style="font-weight:bold" for="date" class="col-form-label-sm">Giờ ước lượng </label>
+                            <input value="" class="form-control form-control-sm" type="text" placeholder="Số giờ sẽ hoàn thành công việc">
+                        </div>
+                        <div class="mb-2 col-12">
+                            <label style="font-weight:bold" for="date" class="col-form-label-sm">Đã thực hiện </label>
+                            <input value="" class="form-control form-control-sm" type="text" placeholder="Số giờ đã thực hiện công việc">
+                        </div>
+                        <div class="mb-2 col-12">
+                            <label style="font-weight:bold" for="date" class="col-form-label-sm">Giai đoạn <span class="text-danger">*</span></label>
+                            <select style="color: black;" class="form-select form-select-sm mb-3 mb-lg-0" data-width="100%">
+                                <option value="Gd1">Giai đoạn 1</option>
+                                <option value="None">Giai đoạn 2</option>
+                                <option value="Due Date">Giai đoạn 3</option>
+                                <option value="Assignee">Giai đoạn 4</option>
+                                <option value="Likes">Giai đoạn 5</option>
+                            </select>
+                        </div>
+                        <div class="mb-2 col-12">
+                            <label style="font-weight:bold" for="date" class="col-form-label-sm">Tài liệu </label>
+                            <div class="input-group me-3">
+                                <input class="form-control form-control-sm" type="text" placeholder="Nhập tên tài liệu" aria-describedby="basic-addon-gd2">
+                                <select style="color: black; width: 100px; font-size: 12px; " class="input-group-text form-select-sm" data-width="100%">
+                                    <option value="1">.xlsx</option>
+                                    <option value="2">.docx</option>
+                                    <option value="3">.pptx</option>
+                                    <option value="4">.txt</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <input class="form-control form-control-sm text-primary" type="text" placeholder="Đường dẫn đến tài liệu (https://duongdantailieu...)">
+                        </div>
+                        <hr class="my-3" />
+                        <div class="mb-3 col-12">
+                            <button style="width: 100%" class="btn btn-success btn-sm" type="submit">
+                                <i class="fe fe-save"> </i> Lưu và Đóng
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    //Form công nợ
+    $(document).ready(function () {
+        $('#cnxoabot').on('click', function (e) {
+            let sott = Number($('#cndem').val());
+            if (sott === 1) {
+                alert("Còn có 1 cái thôi đừng xóa nữa");
+            }
+            else {
+                $('label[for=cnipcpgd' + sott + ']').remove();
+                $('#cnipcpgd' + sott).remove();
+                $('#cnipdgd' + sott).remove();
+
+                var elem = document.getElementById('cndem');
+                elem.value = sott - 1;
+
+                let totals = 0;
+                for (var i = 1; i <= sott - 1; i++) {
+                    totals += Number($('#cngd' + i).val());
+                }
+
+                if (totals === 0) {
+                    $('#cnsums').text("HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN");
+                } else {
+                    $('#cnsums').text(totals);
+                }
+            }
+        });
+        $('#cnaddthem').on('click', function (e) {
+            let sott = Number($('#cndem').val()) + 1;
+            if (sott > 5) {
+                alert("5 cái thôi nhiều quá rồi");
+            } else {
+                $('#cnappenddayne').replaceWith('<label style="font-weight:bold" for="cnipcpgd' + sott + '" class="form-label">Giai đoạn ' + sott + ' </label>'
+                    + '<div id="cnipcpgd' + sott + '" class="mb-3 col-md-6 col-12"><input id="cngd' + sott + '" name="cngd' + sott + '" type="text" class="form-control" placeholder="Chi phí giai đoạn ' + sott + '" required /></div>'
+                    + '<div id="cnipdgd' + sott + '" class="mb-3 col-md-6 col-12"><div class="input-group me-3"><input class="form-control flatpickr" type="text" placeholder="Ngày kết thúc giai đoạn ' + sott + '" id="date" aria-describedby="basic-addon-gd' + sott + '" required>'
+                    + '<span class="input-group-text text-muted" id="basic-addon-gd' + sott + '"><i class="fe fe-calendar"></i></span>'
+                    + '</div></div><div id="cnappenddayne"></div>');
+                var elem = document.getElementById('cndem');
+                elem.value = sott;
+                $(".flatpickr").length && flatpickr(".flatpickr", {
+                    disableMobile: !0
+                });
+            }
+        });
+        $('#cnfrm').on('input', function (e) {
+            let sott = Number($('#cndem').val());
+            let totals = 0;
+            for (var i = 1; i <= sott; i++) {
+                totals += Number($('#cngd' + i).val());
+            }
+            //let totals = (Number($('#gd1').val()) +
+            //    Number($('#gd2').val()) +
+            //    Number($('#gd3').val()));
+            if (totals === 0) {
+                $('#cnsums').text("HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN");
+            } else {
+                $('#cnsums').text(totals);
+            }
+        });
+    });
+
+    //Form dự án
+    $(document).ready(function () {
+        $('#xoabot').on('click', function (e) {
+            let sott = Number($('#dem').val());
+            if (sott === 1) {
+                alert("Còn có 1 cái thôi đừng xóa nữa");
+            }
+            else {
+                $('label[for=ipcpgd' + sott + ']').remove();
+                $('#ipcpgd' + sott).remove();
+                $('#ipdgd' + sott).remove();
+
+                var elem = document.getElementById('dem');
+                elem.value = sott - 1;
+
+                let totals = 0;
+                for (var i = 1; i <= sott - 1; i++) {
+                    totals += Number($('#gd' + i).val());
+                }
+
+                if (totals === 0) {
+                    $('#sums').text("HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN");
+                } else {
+                    $('#sums').text(totals);
+                }
+            }
+        });
+        $('#addthem').on('click', function (e) {
+            let sott = Number($('#dem').val()) + 1;
+            if (sott > 5) {
+                alert("5 cái thôi nhiều quá rồi");
+            } else {
+                $('#appenddayne').replaceWith('<label style="font-weight:bold" for="ipcpgd' + sott + '" class="form-label">Giai đoạn ' + sott + ' </label>'
+                    + '<div id="ipcpgd' + sott + '" class="mb-3 col-md-6 col-12"><input id="gd' + sott + '" name="gd' + sott + '" type="text" class="form-control" placeholder="Chi phí giai đoạn ' + sott + '" required /></div>'
+                    + '<div id="ipdgd' + sott + '" class="mb-3 col-md-6 col-12"><div class="input-group me-3"><input class="form-control flatpickr" type="text" placeholder="Ngày kết thúc giai đoạn ' + sott + '" id="date" aria-describedby="basic-addon-gd' + sott + '" required>'
+                    + '<span class="input-group-text text-muted" id="basic-addon-gd' + sott + '"><i class="fe fe-calendar"></i></span>'
+                    + '</div></div><div id="appenddayne"></div>');
+                var elem = document.getElementById('dem');
+                elem.value = sott;
+                $(".flatpickr").length && flatpickr(".flatpickr", {
+                    disableMobile: !0
+                });
+            }
+        });
+        $('#frm').on('input', function (e) {
+            let sott = Number($('#dem').val());
+            let totals = 0;
+            for (var i = 1; i <= sott; i++) {
+                totals += Number($('#gd' + i).val());
+            }
+            //let totals = (Number($('#gd1').val()) +
+            //    Number($('#gd2').val()) +
+            //    Number($('#gd3').val()));
+            if (totals === 0) {
+                $('#sums').text("HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN");
+            } else {
+                $('#sums').text(totals);
+            }
+        });
+    });
+
+    $(document).on('click', '#tongQuanID', function (e) {
+        $.ajax({
+            url: '@Url.Action("tongQuanPartial", "QuanLyDuAn", new {id = 1})',
+            type: 'GET',
+            dataType: 'html'
+        }).done(function (ketqua) {
+            $('#chiTietDuAnPartialID').replaceWith(ketqua);
+            $.when(
+                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                $.Deferred(function (deferred) {
+                    $(deferred.resolve);
+                })
+            ).done(function () {
+
+            });
+            if ($("#progressChart").length) {
+                e = {
+                    series: [42],
+                    chart: {
+                        height: 350,
+                        type: "radialBar",
+                        toolbar: {
+                            show: !1
+                        }
+                    },
+                    colors: [window.theme.primary, window.theme.warning],
+                    plotOptions: {
+                        radialBar: {
+                            startAngle: -135,
+                            endAngle: 225,
+                            hollow: {
+                                margin: 0,
+                                size: "70%",
+                                background: window.theme.white,
+                                image: void 0,
+                                imageOffsetX: 0,
+                                imageOffsetY: 0,
+                                position: "front",
+                                dropShadow: {
+                                    enabled: !0,
+                                    top: 3,
+                                    left: 0,
+                                    blur: 4,
+                                    opacity: .24
+                                }
+                            },
+                            track: {
+                                background: window.theme.white,
+                                strokeWidth: "67%",
+                                margin: 0,
+                                dropShadow: {
+                                    enabled: !0,
+                                    top: -3,
+                                    left: 0,
+                                    blur: 4,
+                                    opacity: .35
+                                }
+                            },
+                            dataLabels: {
+                                showOn: "always",
+                                name: {
+                                    show: !1
+                                },
+                                value: {
+                                    formatter: function (e) {
+                                        return parseInt(e) + "%"
+                                    },
+                                    color: window.theme.dark,
+                                    fontSize: "48px",
+                                    fontWeight: "700",
+                                    show: !0
+                                }
+                            }
+                        }
+                    },
+                    fill: {
+                        type: "gradient",
+                        gradient: {
+                            shade: "dark",
+                            type: "horizontal",
+                            shadeIntensity: .5,
+                            gradientToColors: [window.theme.warning],
+                            inverseColors: !1,
+                            opacityFrom: 1,
+                            opacityTo: 1,
+                            stops: [0, 100]
+                        }
+                    },
+                    stroke: {
+                        lineCap: "round"
+                    }
+                };
+                new ApexCharts(document.querySelector("#progressChart"), e).render()
+            }
+        });
+    });
+
+    $(document).on('click', '#congViecID', function (e) {
+        $.ajax({
+            url: '@Url.Action("congViecPartial", "QuanLyDuAn", new {id = 1})',
+            type: 'GET',
+            dataType: 'html'
+        }).done(function (ketqua) {
+            $('#chiTietDuAnPartialID').replaceWith(ketqua);
+            $.when(
+                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                $.Deferred(function (deferred) {
+                    $(deferred.resolve);
+                })
+            ).done(function () {
+                //place your code here, the scripts are all loaded
+            });
+
+        });
+    });
+
+    $(document).on('click', '#nganSachID', function (e) {
+        $.ajax({
+            url: '@Url.Action("nganSachPartial", "QuanLyDuAn", new {id = 1})',
+            type: 'GET',
+            dataType: 'html'
+        }).done(function (ketqua) {
+            $('#chiTietDuAnPartialID').replaceWith(ketqua);
+            $.when(
+                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                $.Deferred(function (deferred) {
+                    $(deferred.resolve);
+                })
+            ).done(function () {
+                //place your code here, the scripts are all loaded
+            });
+            if ($("#traffic").length) {
+                e = {
+                    dataLabels: {
+                        enabled: !1
+                    },
+                    series: [2000000, 3000000, 4000000, 5000000],
+                    labels: ["Giai đoạn 1", "Giai đoạn 2", "Giai đoạn 3", "Giai đoạn 4"],
+                    colors: [window.theme.success, window.theme.primary, window.theme.danger, window.theme.warning],
+                    chart: {
+                        width: 392,
+                        type: "donut"
+                    },
+                    plotOptions: {
+                        pie: {
+                            expandOnClick: !1,
+                            donut: {
+                                size: "50%"
+                            }
+                        }
+                    },
+                    legend: {
+                        position: "bottom",
+                        fontFamily: "inter",
+                        fontWeight: 500,
+                        fontSize: "14px",
+                        markers: {
+                            width: 8,
+                            height: 8,
+                            strokeWidth: 0,
+                            strokeColor: "#ffffff",
+                            fillColors: void 0,
+                            radius: 12,
+                            customHTML: void 0,
+                            onClick: void 0,
+                            offsetX: 0,
+                            offsetY: 0
+                        },
+                        itemMargin: {
+                            horizontal: 8,
+                            vertical: 0
+                        }
+                    },
+                    tooltip: {
+                        theme: "light",
+                        marker: {
+                            show: !0
+                        },
+                        x: {
+                            show: !1
+                        }
+                    },
+                    states: {
+                        hover: {
+                            filter: {
+                                type: "none"
+                            }
+                        }
+                    }
+                };
+                new ApexCharts(document.querySelector("#traffic"), e).render()
+            }
+
+        });
+    });
+
+    $(document).on('click', '#taiLieuID', function (e) {
+        $.ajax({
+            url: '@Url.Action("taiLieuPartial", "QuanLyDuAn", new {id = 1})',
+            type: 'GET',
+            dataType: 'html'
+        }).done(function (ketqua) {
+            $('#chiTietDuAnPartialID').replaceWith(ketqua);
+            $.when(
+                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                $.Deferred(function (deferred) {
+                    $(deferred.resolve);
+                })
+            ).done(function () {
+                //place your code here, the scripts are all loaded
+            });
+        });
+    });
+
+    $(document).on('click', '#doiNguID', function (e) {
+        $.ajax({
+            url: '@Url.Action("doiNguPartial", "QuanLyDuAn", new {id = 1})',
+            type: 'GET',
+            dataType: 'html'
+        }).done(function (ketqua) {
+            $('#chiTietDuAnPartialID').replaceWith(ketqua);
+            $.when(
+                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                $.Deferred(function (deferred) {
+                    $(deferred.resolve);
+                })
+            ).done(function () {
+                //place your code here, the scripts are all loaded
+            });
+        });
+    });
+
+</script>

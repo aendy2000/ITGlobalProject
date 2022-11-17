@@ -1,0 +1,228 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Xác Thực Tài Khoản IT-GLOBAL</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="Công ty TNHH Giải pháp Công Nghệ IT-Global">
+    <meta name="author" content="IT-Global">
+    <meta name="keywords" content="website, mobile app, technology, design">
+
+    <link rel="icon" href="~/Content/User/public/main/img/icon.svg">
+    <link href="~/Content/User/public/main/img/icon.svg" rel="shortcut icon">
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js" rel="stylesheet">
+
+    <link href="~/Content/Admin/assets/fonts/feather/feather.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/Content/Admin/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Admin/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Admin/css/main.css">
+
+    <link rel="stylesheet" href="~/Content/Admin/assets/css/atlantis.min.css">
+    <link href="~/Content/Admin/assets/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+</head>
+
+<body>
+    <input hidden type="text" id="emailNe" name="emailNe" value="@Session["XacThucEmail"].ToString()" />
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <span class="login100-form-title">
+                    <img style="margin-bottom: -170px; margin-left: -400px" src="~/Content/Admin/images/icons/icon.svg" width="200px" height="auto" alt="">
+                </span>
+                <div id="frmMaXacThuc" style="margin-top: -130px; margin-left: 350px;" class="login100-form validate-form" form="get" action="pages/dashboard/admin-dashboard.html">
+                    <div class="text-center">
+                        <h2 style="font-weight: bold;">Xác Thực Tài Khoản</h2>
+                    </div>
+                    <div class="text-left p-t-12">
+                        <p class="txt1">Một mã xác thực gồm 6 chữ số đã được gửi đến email: <b>@Session["XacThucEmail"].ToString()</b>.</p>
+                        <p class="txt1">Mã xác thực sẽ hết hạn sau:  <b><span id="minutess" name="minutess">10</span> phút <span id="seconds" name="seconds">00</span></b></p>
+                    </div>
+                    <br>
+                    <div class="wrap-input100 validate-input" data-validate="Valid password reset is required: 000 000">
+                        <input class="input100" type="text" name="maXacThuc" id="maXacThuc" placeholder="Nhập mã xác thực">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-key" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <p style="color: red; font-size: 13px; margin-top: -10px" hidden id="UsernameValidateResul"></p>
+                    <div class="container-login50-form-btn">
+                        <button id="xacNhan" class="login100-form-btn">
+                            Xác nhận
+                        </button>
+                    </div>
+                    <div class="text-center p-t-12">
+                        <span class="txt1">
+                            Chưa nhận được mã?
+                        </span>
+                        <a class="txt2" href="" id="guiLaiMa">
+                            Gửi lại mã
+                        </a>
+                    </div>
+                    <div style="margin-top: -30px" class="text-center p-t-136">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="~/Content/Admin/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="~/Content/Admin/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/Content/Admin/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/Admin/vendor/select2/select2.min.js"></script>
+    <script src="~/Content/Admin/vendor/tilt/tilt.jquery.min.js"></script>
+    <script>
+        $('.js-tilt').tilt({
+            scale: 1.1
+        })
+    </script>
+    <script src="~/Content/Admin/js/main.js"></script>
+
+    <script src="~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var m = 10;
+            var s = 0;
+            var timeout = null;
+            start();
+            function start() {
+                if (s === -1) {
+                    m -= 1;
+                    s = 59;
+                }
+
+                if (m === -1) {
+                    clearTimeout(timeout);
+                    return false;
+                }
+
+                $('#minutess').text(m.toString());
+                $('#seconds').text(s.toString());
+
+                timeout = setTimeout(function () {
+                    s--;
+                    start();
+                }, 1000);
+            }
+        });
+
+        $(document).ready(function () {
+            $('#guiLaiMa').on('click', function (e) {
+                e.preventDefault();
+                var emails = $('#emailNe').val();
+                let urls = '@Url.Action("QuenMatKhau", "QuanLyTaiKhoan", new { email = "ValueUsername"})';
+                urls = urls.replace("ValueUsername", "" + emails);
+                $.ajax({
+                    url: urls,
+                    type: 'POST',
+                    dataType: 'html',
+                    data: { email: emails }
+                }).done(function (ketqua) {
+                    window.location.href = "@Url.Action("XacThucQuenMatKhau", "QuanLyTaiKhoan")";
+                });
+            });
+
+            $('#xacNhan').on('click', function (e) {
+                e.preventDefault();
+                let ma = $('#maXacThuc').val();
+                var format = /[`!#$%^&*()+\-=\[\]{};':"\\|,<>\/?~]/;
+                var formatTextVN = /[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ]/;
+                let checkMa = false;
+                if (ma.length < 1) {
+                    checkMa = false;
+                    $('#UsernameValidateResul').text("Không có được bỏ trống ơ kìa?").show();
+                }
+                else if (ma.length < 6) {
+                    checkMa = false;
+                    $('#UsernameValidateResul').text("Mã gồm có 6 số, nhớ nhập đủ 6 số").show();
+                }
+                else if (ma.length === 6) {
+                    checkMa = true;
+                    $('#UsernameValidateResul').text("").hide();
+                }
+                else if (ma.length > 6) {
+                    checkMa = false;
+                    $('#UsernameValidateResul').text("Mã có 6 số mà nhập cái gì nhiều quá d?").show();
+                }
+                if (ma.indexOf(' ') != -1) {
+                    checkMa = false;
+                    $('#UsernameValidateResul').text("Bỏ khoảng trắng trước khi t đá dô cái đầu!").show();
+                }
+                if (format.test(ma) == true) {
+                    checkMa = false;
+                    $('#UsernameValidateResul').text("Bỏ ký tự đặc biệt hoặc bỏ mạng!").show();
+                }
+                if (formatTextVN.test(ma) == true) {
+                    checkMa = false;
+                    $('#UsernameValidateResul').text("Mã là số, không có chữ cơ mà?").show();
+                }
+
+                if (checkMa == true) {
+                    e.preventDefault();
+                    let valuema = $('#maXacThuc').val();
+                    let emails = $('#emailNe').val();
+                    let urls = '@Url.Action("XacThucQuenMatKhau", "QuanLyTaiKhoan", new { ma = "ValueMa", email = "ValueEmail"})';
+                    urls = urls.replace("ValueMa", "" + valuema);
+                    urls = urls.replace("ValueEmail", "" + emails);
+                    $.ajax({
+                        url: urls,
+                        type: 'POST',
+                        dataType: 'html',
+                        data: { ma: valuema, email: emails }
+                    }).done(function (ketqua) {
+                        if (ketqua === "SAIMA") {
+                            $('#UsernameValidateResul').text("Mã đăng nhập sai bét, coi lại đi").show();
+                        }
+                        else if (ketqua === "SUCCESS") {
+                              window.location.href = "@Url.Action("DatLaiMatKhau", "QuanLyTaiKhoan", new { email = Session["XacThucEmail"].ToString(), note = "completed" })";
+                        }
+                        else if (ketqua === "DANGNHAP") {
+                              window.location.href = "@Url.Action("DangNhap", "QuanLyTaiKhoan")";
+                        }
+                    });
+                }
+
+            });
+
+            validates();
+            function validates() {
+                $('#frmMaXacThuc').on('input', function (e) {
+                    let ma = $('#maXacThuc').val();
+                    var format = /[`!#$%^&*()+\-=\[\]{}._@@;':"\\|,<>\/?~]/;
+                    var formatTextVN = /[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ]/;
+                    if (ma.length < 1) {
+                        $('#UsernameValidateResul').text("Không có được bỏ trống ơ kìa?").show();
+                    }
+                    else if (ma.length < 6) {
+                        $('#UsernameValidateResul').text("Mã gồm có 6 số, nhớ nhập đủ 6 số").show();
+                    }
+                    else if (ma.length === 6) {
+                        $('#UsernameValidateResul').text("").hide();
+                    }
+                    else if (ma.length > 6) {
+                        $('#UsernameValidateResul').text("Mã có 6 số mà nhập cái gì nhiều quá d?").show();
+                    }
+                    if (ma.indexOf(' ') != -1) {
+                        $('#UsernameValidateResul').text("Bỏ khoảng trắng trước khi t đá dô cái đầu!").show();
+                    }
+                    if (format.test(ma) == true) {
+                        $('#UsernameValidateResul').text("Bỏ ký tự đặc biệt hoặc bỏ mạng!").show();
+                    }
+                    if (formatTextVN.test(ma) == true) {
+                        $('#UsernameValidateResul').text("Mã là số, không có chữ cơ mà?").show();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

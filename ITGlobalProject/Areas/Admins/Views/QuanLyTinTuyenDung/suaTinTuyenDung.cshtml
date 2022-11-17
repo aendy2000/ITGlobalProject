@@ -1,0 +1,201 @@
+﻿
+@{
+    ViewBag.Title = "Chỉnh Sửa Tin Tuyển Dụng";
+    Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid p-4">
+    <div class="row">
+        <!-- Page header -->
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
+                <div class="mb-3 mb-md-0">
+                    <h1 class="mb-1 h2 fw-bold">Cập Nhật Tin Tuyển Dụng </h1>
+
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")">Tin Tuyển Dụng</a>
+                            </li>
+                            <li class="breadcrumb-item " aria-current="page">
+                                Cập Nhật Tin Tuyển Dụng
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <div>
+                    <a href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")" class="btn btn-primary me-2" style="width:230px" type="button">
+                        <i class="fe fe-list"></i>&ensp;Xem Danh Sách Bài Viết
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-lg-8 col-md-12 col-12">
+            <!-- Card -->
+            <div class="card border-0 mb-4">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="mt-2">
+                        <form>
+                            <div class="row">
+                                <div class="mb-3 col-md-12">
+                                    <label style="font-weight:bold" class="form-label">Tiêu Đề Tin Tuyển Dụng <span class="text-danger">*</span></label>
+                                    <input value="All Level-Backend Developer" type="text" class="form-control" placeholder="Nhập vào tiêu đề tin tuyển dụng" required>
+                                </div>
+                                <div class="mb-3 col-md-6 col-12">
+                                    <label style="font-weight:bold" class="form-label">Vai Trò Tuyển Dụng <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <select data-width="80%" class="selectpicker" id="inputGroupSelect04" aria-label="Example select with button addon">
+                                            <option value="">Chọn vị trí tuyển dụng</option>
+                                            <option value="2">Front-End Web Developer</option>
+                                            <option selected value="3">Back-End Web Developer</option>
+                                            <option value="4">Front-End Mobile-Developer </option>
+                                            <option value="5">Back-End Mobile-Developer</option>
+                                            <option value="6">Tester</option>
+                                            <option value="7">Business Analysts</option>
+                                            <option value="8">Product Owner</option>
+                                            <option value="9">Project Manager</option>
+                                        </select>
+                                        <a role="button" style="width: 20%" class="btn btn-outline-secondary" > <i class="fe fe-plus"> </i> Thêm</a>
+                                    </div>
+                                </div>
+                                <!-- form group -->
+                                <div class="mb-3 col-md-6 col-12">
+                                    <label style="font-weight:bold" class="form-label">Số Lượng Tuyển <span class="text-danger">*</span></label>
+                                    <div class="input-group me-3">
+                                        <input value="2" type="text" id="postTitle" class="form-control text-dark" placeholder="Nhập số lượng cần tuyển">
+                                    </div>
+                                </div>
+                                <!-- form group -->
+                                <div class="mb-3 col-md-6 col-12 ">
+                                    <label style="font-weight:bold" class="form-label">Hình Thức Làm Việc<span class="text-danger">*</span></label>
+
+                                    <div class="form-control">
+                                        <div class="input-group">
+                                            <div class="form-check col-md-4 col-12" aria-label="Username">
+                                                <input type="checkbox" class="form-check-input" id="thucTapSinh">
+                                                <label class="form-check-label" for="thucTapSinh">
+                                                    Thực Tập Sinh
+                                                </label>
+                                            </div>
+                                            <div class="form-check col-md-4 col-12" aria-label="Username2">
+                                                <input type="checkbox" class="form-check-input" id="toanThoiGian" checked>
+                                                <label class="form-check-label" for="toanThoiGian">
+                                                    Toàn Thời Gian
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- form group -->
+                                <div class="mb-3 col-md-6 col-12">
+                                    <label style="font-weight:bold" class="form-label">Giới Tính <span class="text-danger">*</span></label>
+                                    <div class="dropdown bootstrap-select" style="width: 100%;">
+                                        <div class="dropdown bootstrap-select" style="width: 100%;">
+                                            <select class="selectpicker" data-width="100%" tabindex="null">
+                                                <option value="" style="visibility:inherit">Chọn giới tính yêu cầu</option>
+                                                <option selected value="3">Không yêu cầu</option>
+                                                <option value="1">Nam</option>
+                                                <option value="2">Nữ</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- form group -->
+                                <div class="mb-3 col-md-6 col-12">
+                                    <label style="font-weight:bold" class="form-label">Kinh Nghiệm <span class="text-danger">*</span></label>
+                                    <div class="dropdown bootstrap-select" style="width: 100%;">
+                                        <div class="dropdown bootstrap-select" style="width: 100%;">
+                                            <select class="selectpicker" data-width="100%" tabindex="null">
+                                                <option value="" style="visibility:inherit">Chọn kinh nghiệm yêu cầu</option>
+                                                <option value="3">Từ 1 năm kinh nghiệm </option>
+                                                <option selected value="4">Từ 2 năm kinh nghiệm </option>
+                                                <option value="5">Từ 3 năm kinh nghiệm </option>
+                                                <option value="6">Từ 4 năm kinh nghiệm </option>
+                                                <option value="7">Từ 5 năm kinh nghiệm </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- form group -->
+                                <div class="mb-3 col-md-6 col-12">
+                                    <label style="font-weight:bold" class="form-label">Mức lương <span class="text-danger">*</span> </label>
+                                    <div class="input-group me-3">
+                                        <input style="font-weight:bold;" value="15000000" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" id="decimal" class="form-control text-start text-danger"
+                                               type="text"  placeholder="Nhập mức lương">
+                                    </div>
+                                </div>
+                                <div class="mb-3 col-md-12 col-12 ">
+                                    <label style="font-weight:bold" class="form-label">Yêu Cầu Kỹ Năng <span class="text-danger">*</span></label>
+                                    <input name='tags' value='HTML5 & CSS3, ASP.NET Framework MVC5' autofocus>
+                                </div>
+                                <!-- mo ta cong viec -->
+                                <div class="mb-3 col-md-12 col-12">
+                                    <label style="font-weight:bold" class="form-label">Mô tả công việc <span class="text-danger">*</span></label>
+                                    <textarea rows="10" class="form-control" placeholder="✓ Tham gia thiết kế và phát triển các sản phẩm phần mềm của Công ty hoặc cho khách hàng tại VN (sử dụng ngôn ngữ PHP)
+✓ Tham gia vào các dự án xây dựng ứng dụng bằng PHP & MySQL, Javascript hoặc các dự án Website của công ty.
+✓ Thực hiện coding các module đã được thiết kế sẵn.
+✓ Tùy chỉnh và nâng cấp hệ thống đáp ứng yêu cầu của khách hàng.
+✓ Báo cáo cho quản lý khi có yêu cầu..." required="">✓ Tham gia thiết kế và phát triển các sản phẩm phần mềm của Công ty hoặc cho khách hàng tại VN (sử dụng ngôn ngữ PHP)
+✓ Tham gia vào các dự án xây dựng ứng dụng bằng PHP & MySQL, Javascript hoặc các dự án Website của công ty.
+✓ Thực hiện coding các module đã được thiết kế sẵn.
+✓ Tùy chỉnh và nâng cấp hệ thống đáp ứng yêu cầu của khách hàng.
+✓ Báo cáo cho quản lý khi có yêu cầu</textarea>
+                                </div>
+                                <!-- yeu cau ung vien-->
+                                <div class="mb-3 col-md-12 col-12">
+                                    <label style="font-weight:bold" class="form-label">Yêu Cầu Ứng Viên <span class="text-danger">*</span></label>
+                                    <textarea rows="10" class="form-control" placeholder="- Có kinh nghiệm sử dụng một trong các Framework PHP: CakePHP, Laravel...
+- Thao tác tốt với HTML, CSS, JavaScript (Jquery, Ajax), Bootstrap, JSON
+- Có kinh nghiệm làm việc với MVC Framework, MySQL hoặc NoSQL (MongoDB), Github
+- Ưu tiên những ứng viên tốt nghiệp đại học, cao đẳng chuyên ngành IT..." required="">- Có kinh nghiệm từ 6 tháng - 1 năm sử dụng một trong các Framework PHP: CakePHP, Laravel...
+- Thao tác tốt với HTML, CSS, JavaScript (Jquery, Ajax), Bootstrap, JSON
+- Có kinh nghiệm làm việc với MVC Framework, MySQL hoặc NoSQL (MongoDB), Github
+- Ưu tiên những ứng viên tốt nghiệp đại học, cao đẳng chuyên ngành IT có từ 1 đến 2 năm kinh nghiệm.
+- Viết code rõ ràng, dễ hiểu, dễ maintain, tuân thủ chặt chẽ convention
+- Tương tác với nhiều resources, nhiều dạng database
+- Viết SQL tối ưu, không bị SQL Injection</textarea>
+                                </div>
+
+                                <!-- quyen loi cua ung vien-->
+                                <div class="mb-3 col-md-12 col-12">
+                                    <label style="font-weight:bold" class="form-label">Quyền lợi của ứng viên <span class="text-danger">*</span></label>
+                                    <textarea rows="10" class="form-control" placeholder="- Lương cứng + Thưởng + Phụ cấp: Thu nhập từ 15 - 20 triệu (Deal theo năng lực và kinh nghiệm của ứng viên)
+- Thưởng lương tháng 13, thưởng theo dự án, ...)
+- Đầy đủ các chế độ bảo hiểm theo luật lao động hiện hành
+- Chính sách phúc lợi theo quy định của Công ty đa dạng: Các hoạt động tri ân, chăm lo đời sống tinh thần CBNV..." required="">- Lương cứng + Thưởng + Phụ cấp: Thu nhập từ 15 - 20 triệu (Deal theo năng lực và kinh nghiệm của ứng viên)
+- Thưởng lương tháng 13, thưởng theo dự án, ...)
+- Đầy đủ các chế độ bảo hiểm theo luật lao động hiện hành
+- Chính sách phúc lợi theo quy định của Công ty đa dạng: Các hoạt động tri ân, chăm lo đời sống tinh thần CBNV.
+- Môi trường làm việc thân thiện, cởi mở, năng động và trẻ trung
+- Cơ sở vật chất và công cụ làm việc hiện đại, tiện nghi
+- Nhiều cơ hội phát triển và thăng tiến</textarea>
+                                </div>
+
+                                <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
+                                    <button style="width: 230px" class="btn btn-outline-primary" type="submit">
+                                        Lưu Bản Nháp
+                                    </button>
+                                </div>
+                                <div style="padding-top: 20px" class="mb-3 col-12 col-md-6">
+                                    <button style="width: 230px" class="btn btn-primary" type="submit">
+                                        Đăng Tin Ngay
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

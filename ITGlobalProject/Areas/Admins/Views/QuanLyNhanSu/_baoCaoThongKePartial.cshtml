@@ -1,0 +1,392 @@
+﻿@{
+    Layout = null;
+}
+<div id="contentPartial" class="container-fluid p-4">
+    <div class="row">
+        <!-- Page Header -->
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="border-bottom pb-4 mb-4 d-flex justify-content-between align-items-center">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-1 h2 fw-bold">
+                        Thông Tin Chi Tiết
+                    </h1>
+                    <!-- Breadcrumb  -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">Quản Lý Nhân Sự</a></li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">Nhân Viên</a></li>
+
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Báo Cáo Thống Kê
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- User info -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+            <!-- Bg -->
+            <div class="pt-16 rounded-top-md" style="
+								background: url(@Url.Content("~/Content/Admin/assets/images/background/profile-bg.jpg")) no-repeat;
+								background-size: cover;
+							"></div>
+            <div class="d-flex align-items-end justify-content-between bg-white px-4 pt-2 pb-4 rounde
+
+
+
+
+             rounded-bottom-md shadow-sm">
+                <div class="d-flex align-items-center">
+                    <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
+                        <img src="~/Content/Admin/assets/images/avatar/avatar-3.jpg" class="avatar-xl rounded-circle border border-4 border-white"
+                             alt="" />
+                    </div>
+                    <div class="lh-1">
+                        <h2 class="mb-0">
+                            Lê Thị Lợi
+                            <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
+                        </h2>
+                        <p class="mb-0 d-block">loi.lt@@itglobal.net</p>
+                    </div>
+
+                </div>
+                <div><span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: 2022-10-14</span></div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Content -->
+    <div class="row mt-0 mt-md-4">
+        <div class="col-lg-3 col-md-4 col-12">
+            <!-- Side navbar -->
+            <nav class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
+                <!-- Menu -->
+                <a class="d-xl-none d-lg-none d-md-none text-inherit fw-bold" href="#">Menu</a>
+                <!-- Button -->
+                <button class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#sidenav" aria-controls="sidenav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="fe fe-menu"></span>
+                </button>
+                <!-- Collapse navbar -->
+                <div class="collapse navbar-collapse" id="sidenav">
+                    <div class="navbar-nav flex-column">
+                        <span class="navbar-header">Thông Tin Tài Khoản</span>
+                        <!-- List -->
+                        @*<ul class="list-unstyled ms-n2 mb-4">*@
+                        <ul class="list-unstyled ms-n2 mb-0">
+                            <li class="nav-item ">
+                                <a role="button" id="ttchiTiet" class="nav-link">
+                                    <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="csthongtin" class="nav-link">
+                                    <i class="fe fe-edit nav-icon"></i>Chỉnh sửa thông tin
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a role="button" class="nav-link" id="DAThamGia">
+                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" class="nav-link" id="LSHoatDong">
+                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="bangLuongs" class="nav-link">
+                                    <i class="fe fe-file-text nav-icon"></i>Bảng lương
+                                </a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a role="button" class="nav-link" id="LBCongViec">
+                                    <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a role="button" class="nav-link" id="BCThongKe">
+                                    <i class="fe fe-pie-chart nav-icon"></i>Báo cáo thống kê
+                                </a>
+                            </li>
+                            <hr />
+                            <li style="text-align:center; margin-top:20px">
+                                <a id="alert_demo_1" style="width:100%" class="btn btn-outline-danger btn-sm">
+                                    KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col-lg-9 col-md-8 col-12">
+            <div class="row">
+                <div class="col-md-6 col-xl-3 col-12">
+                    <!-- card  -->
+                    <div class="card mb-4">
+                        <!-- card body  -->
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between
+                    align-items-center">
+                                <div>
+                                    <h4 class="mb-0">Tổng công việc</h4>
+                                </div>
+                                <!-- dropdown  -->
+                                <div>
+                                    <span class="dropdown dropstart">
+                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
+                                           href="#"
+                                           role="button"
+                                           id="DropdownSeven"
+                                           data-bs-toggle="dropdown"
+                                           aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <i class="fe fe-more-vertical"></i>
+                                        </a>
+                                        <span class="dropdown-menu"
+                                              aria-labelledby="DropdownSeven">
+                                            <span class="dropdown-header">Settings</span>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">
+                                                Another
+                                                action
+                                            </a>
+                                            <a class="dropdown-item" href="#">
+                                                Something
+                                                else
+                                                here
+                                            </a>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- text center  -->
+                            <div class="text-center my-4">
+                                <h1 class="display-3 text-primary mb-0
+                      fw-bold">
+                                    50
+                                </h1>
+                                <p class="mb-0">
+                                    Tổng số công việc
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3 col-12">
+                    <!-- card  -->
+                    <div class="card mb-4">
+                        <!-- card body  -->
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between
+                    align-items-center">
+                                <div>
+                                    <h4 class="mb-0">Đang thực hiện</h4>
+                                </div>
+                                <div>
+                                    <!-- dropdown  -->
+                                    <span class="dropdown dropstart">
+                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
+                                           href="#"
+                                           role="button"
+                                           id="DropdownEight"
+                                           data-bs-toggle="dropdown"
+                                           aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <i class="fe fe-more-vertical"></i>
+                                        </a>
+                                        <span class="dropdown-menu"
+                                              aria-labelledby="DropdownEight">
+                                            <span class="dropdown-header">Settings</span>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">
+                                                Another
+                                                action
+                                            </a>
+                                            <a class="dropdown-item" href="#">
+                                                Something
+                                                else
+                                                here
+                                            </a>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- text center  -->
+                            <div class="text-center my-4">
+                                <h1 class="display-3 text-info mb-0
+                      fw-bold">
+                                    12
+                                </h1>
+                                <p class="mb-0 ">
+                                    <span class="text-dark fw-semi-bold">6</span> Trong thời hạn
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3 col-12">
+                    <!-- card  -->
+                    <div class="card mb-4">
+                        <!-- card body  -->
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between
+                    align-items-center">
+                                <div>
+                                    <h4 class="mb-0">Đã hoàn thành</h4>
+                                </div>
+                                <!-- dropdown  -->
+                                <div>
+                                    <span class="dropdown dropstart">
+                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
+                                           href="#"
+                                           role="button"
+                                           id="DropdownNine"
+                                           data-bs-toggle="dropdown"
+                                           aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <i class="fe fe-more-vertical"></i>
+                                        </a>
+                                        <span class="dropdown-menu"
+                                              aria-labelledby="DropdownNine">
+                                            <span class="dropdown-header">Settings</span>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">
+                                                Another
+                                                action
+                                            </a>
+                                            <a class="dropdown-item" href="#">
+                                                Something
+                                                else
+                                                here
+                                            </a>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- text center  -->
+                            <div class="text-center my-4">
+                                <h1 class="display-3 text-success mb-0
+                      fw-bold">
+                                    30
+                                </h1>
+                                <p class="mb-0">
+                                    <span class="text-dark fw-semi-bold">8</span> Trong hôm nay
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3 col-12">
+                    <!-- card  -->
+                    <div class="card mb-4">
+                        <!-- card body  -->
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between
+                    align-items-center">
+                                <div>
+                                    <h4 class="mb-0">Quá hạn </h4>
+                                </div>
+                                <!-- dropdown  -->
+                                <div>
+                                    <span class="dropdown dropstart">
+                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
+                                           href="#"
+                                           role="button"
+                                           id="DropdownTen"
+                                           data-bs-toggle="dropdown"
+                                           aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <i class="fe fe-more-vertical"></i>
+                                        </a>
+                                        <span class="dropdown-menu"
+                                              aria-labelledby="DropdownTen">
+                                            <span class="dropdown-header">Settings</span>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">
+                                                Another
+                                                action
+                                            </a>
+                                            <a class="dropdown-item" href="#">
+                                                Something
+                                                else
+                                                here
+                                            </a>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- text center  -->
+                            <div class="text-center my-4">
+                                <h1 class="display-3 text-danger mb-0
+                      fw-bold">
+                                    8
+                                </h1>
+                                <p class="mb-0 ">
+                                    <span class="text-dark fw-semi-bold">4</span> Ngày hôm qua
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-md-12 col-12 mb-4">
+                    <!-- card  -->
+                    <div class="card">
+                        <!-- card body  -->
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-0">Thống kê Công việc</h4>
+
+                                </div>
+                                <!-- dropdown  -->
+                                <div>
+                                    <span class="dropdown dropstart">
+                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
+                                           href="#"
+                                           role="button"
+                                           id="DropdownEleven"
+                                           data-bs-toggle="dropdown"
+                                           aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <i class="fe fe-more-vertical"></i>
+                                        </a>
+                                        <span class="dropdown-menu"
+                                              aria-labelledby="DropdownEleven">
+                                            <span class="dropdown-header">Settings</span>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">
+                                                Another
+                                                action
+                                            </a>
+                                            <a class="dropdown-item" href="#">
+                                                Something
+                                                else
+                                                here
+                                            </a>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <p class="mt-4 mb-0">Mới vs. Hoàn thành</p>
+                            <!-- chart  -->
+                            <div id="taskSummary"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

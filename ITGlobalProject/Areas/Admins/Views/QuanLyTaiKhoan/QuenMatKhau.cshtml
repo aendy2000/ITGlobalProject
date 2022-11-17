@@ -1,0 +1,182 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Quên Mật Khẩu IT-GLOBAL</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="Công ty TNHH Giải pháp Công Nghệ IT-Global">
+    <meta name="author" content="IT-Global">
+    <meta name="keywords" content="website, mobile app, technology, design">
+
+    <link rel="icon" href="~/Content/User/public/main/img/icon.svg">
+    <link href="~/Content/User/public/main/img/icon.svg" rel="shortcut icon">
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js" rel="stylesheet">
+
+    <link href="~/Content/Admin/assets/fonts/feather/feather.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/Content/Admin/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Admin/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Admin/css/main.css">
+
+    <link rel="stylesheet" href="~/Content/Admin/assets/css/atlantis.min.css">
+    <link href="~/Content/Admin/assets/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <span class="login100-form-title">
+                    <img style="margin-bottom: -120px; margin-left: -400px; width: 200px; height:auto;" src="~/Content/Admin/images/icons/icon.svg" alt="">
+                </span>
+                <div id="frmQuanMatKhau" style="margin-top: -130px; margin-left: 350px;" class="login100-form validate-form" form="get" action="pages/dashboard/admin-dashboard.html">
+                    <div class="text-center">
+                        <h2 style="font-weight: bold;">Quên mật khẩu</h2>
+                    </div>
+                    <div style="margin-bottom: 5px" class="text-center">
+                        <span class="txt1">Điền vào Email của bạn để tiến hành đặt lại mật khẩu</span>
+                    </div>
+                    <br />
+                    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                        <input class="input100" type="text" id="email" name="email" placeholder="Tài khoản Email">
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <p style="color: red; font-size: 13px; margin-top: -10px" hidden id="UsernameValidateResul"></p>
+                    <div style="margin-bottom: 8px" class="container-login50-form-btn">
+                        <button id="subMitNe" class="login100-form-btn">
+                            Gửi mã xác minh
+                        </button>
+                    </div>
+
+                    <div class="text-center p-t-12">
+                        <span class="txt1">
+                            Trở về trang
+                        </span>
+                        <a class="txt2" href="@Url.Action("DangNhap", "QuanLyTaiKhoan")">
+                            Đăng Nhập?
+                        </a>
+                    </div>
+
+                    <div style="margin-top: -30px" class="text-center p-t-136">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Content/Admin/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="~/Content/Admin/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/Content/Admin/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/Admin/vendor/select2/select2.min.js"></script>
+    <script src="~/Content/Admin/vendor/tilt/tilt.jquery.min.js"></script>
+    <script>
+        $('.js-tilt').tilt({
+            scale: 1.1
+        })
+    </script>
+    <script src="~/Content/Admin/js/main.js"></script>
+
+    <script src="~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            validates();
+            function validates() {
+                $('#frmQuanMatKhau').on('input', function (e) {
+                    let usn = $('#email').val();
+                    var format = /[`!#$%^&*()+\-=\[\]{};':"\\|,<>\/?~]/;
+                    var formatTextVN = /[àÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬđĐèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆìÌỉỈĩĨíÍịỊòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰỳỲỷỶỹỸýÝỵỴ]/;
+                    if (usn.length == 0) {
+                        $('#UsernameValidateResul').text("Không có được bỏ trống Tài Khoản, ơ kìa?").show();
+                    }
+                    else if (usn.length < 4) {
+                        $('#UsernameValidateResul').text("Tối thiểu 4 ký tự. Nhập lại coi nào?").show();
+                    } else if (usn.length >= 4) {
+                        $('#UsernameValidateResul').text("").hide();
+                    }
+                    else if (usn.length > 50) {
+                        $('#UsernameValidateResul').text("Tối đa 50 ký tự thôi trời ơi là trời á!!").show();
+                    }
+                    if (usn.indexOf(' ') != -1) {
+                        $('#UsernameValidateResul').text("Bỏ khoảng trắng trước khi t đá dô cái đầu!").show();
+                    }
+                    if (format.test(usn) == true) {
+                        $('#UsernameValidateResul').text("Bỏ ký tự đặc biệt hoặc bỏ mạng!. Chỉ được nhập dấu: [@@ . _ -] mà thôi!").show();
+                    }
+                    if (formatTextVN.test(usn) == true) {
+                        $('#UsernameValidateResul').text("Tên tài khoản mà có dấu là sao?. Xóa điiiiiii").show();
+                    }
+                });
+            }
+
+
+            $('#subMitNe').on("click", function (e) {
+                let usn = $('#email').val();
+                var format = /[`!#$%^&*()+\-=\[\]{};':"\\|,<>\/?~]/;
+                var formatTextVN = / àÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬđĐèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆìÌỉỈĩĨíÍịỊòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰỳỲỷỶỹỸýÝỵỴ/;
+                let checkusn = false;
+                if (usn.length == 0) {
+                    checkusn = false;
+                    $('#UsernameValidateResul').text("Không có được bỏ trống Tài Khoản, ơ kìa?").show();
+                }
+                else if (usn.length < 4) {
+                    checkusn = false
+                    $('#UsernameValidateResul').text("Tối thiểu 4 ký tự. Nhập lại coi nào?").show();
+                } else if (usn.length >= 4) {
+                    checkusn = true;
+                    $('#UsernameValidateResul').text("").hide();
+                }
+                else if (usn.length > 50) {
+                    checkusn = false;
+                    $('#UsernameValidateResul').text("Tối đa 50 ký tự thôi trời ơi là trời á!!").show();
+                }
+                if (usn.indexOf(' ') != -1) {
+                    checkusn = false;
+                    $('#UsernameValidateResul').text("Bỏ khoảng trắng trước khi t đá dô cái đầu!").show();
+                }
+                if (format.test(usn) == true) {
+                    checkusn = false;
+                    $('#UsernameValidateResul').text("Bỏ ký tự đặc biệt hoặc bỏ mạng!. Chỉ được nhập dấu: [@@ . _ -] mà thôi!").show();
+                }
+                if (formatTextVN.test(usn) == true) {
+                    $('#UsernameValidateResul').text("Tên tài khoản mà có dấu là sao?. Xóa điiiiiii").show();
+                }
+
+                if (checkusn == true) {
+                    e.preventDefault();
+                    let urls = '@Url.Action("QuenMatKhau", "QuanLyTaiKhoan", new { email = "ValueUsername"})';
+                    urls = urls.replace("ValueUsername", "" + usn);
+                    $.ajax({
+                        url: urls,
+                        type: 'POST',
+                        dataType: 'html',
+                        data: { email: usn }
+                    }).done(function (ketqua) {
+                        if (ketqua === "TKSAI") {
+                            $('#UsernameValidateResul').text("Có tài khoản cũng nhập sai nữa?").show();
+                        }
+                        else if (ketqua === "SUCCESS") {
+                              window.location.href = "@Url.Action("XacThucQuenMatKhau", "QuanLyTaiKhoan")";
+                        }
+                        else {
+                            $('#UsernameValidateResul').text("Lỗi: " + ketqua).show();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,458 @@
+﻿@{
+    ViewBag.Title = "Danh Sách Đối Tác";
+    Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+}
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<div class="container-fluid p-4">
+    <div class="row">
+        <!-- Page Header -->
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="border-bottom pb-4 mb-4 d-flex justify-content-between align-items-center">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-1 h2 fw-bold">
+                        Danh Sách Đối Tác
+                        <span class="fs-5 text-muted">(14)</span>
+                    </h1>
+                    <!-- Breadcrumb  -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("danhSachDoiTac", "ThongTinDoiTac")">Thông Tin Đối Tác</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Danh Sách Đối Tác
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="pagess2" class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Tab -->
+            <div class="tab-content">
+                <!-- Tab pane -->
+                <div class="row">
+                    <div class="mb-3 col-12 col-md-9">
+                        <input type="search" class="form-control" placeholder="Tìm kiếm với email đối tác" />
+                    </div>
+                    <div class="mb-3 col-12 col-md-3">
+                        <select class="selectpicker" data-width="100%">
+                            <option value="">Tất cả</option>
+                            <option value="1">Còn công nợ</option>
+                            <option value="1">Dự án đang thực hiện</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <a href="@Url.Action("thongTinChiTiet", "ThongTinDoiTac")">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
+                                             class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                    </a>
+                                    <a href="@Url.Action("thongTinChiTiet", "ThongTinDoiTac")">
+                                        <h4 class="mb-0" title="Xem trang cá nhân">Nguyễn Minh Tân</h4>
+                                    </a>
+                                    <p class="mb-0">info@it-global.net</p>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-2 mt-4">
+                                    <span>Dự án đang phát triển</span>
+                                    <b>
+                                        <span class="text-warning">0 <i class="mdi mdi-bookmark"></i></span>
+                                    </b>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-2">
+                                    <span>Công nợ còn</span>
+                                    <b>
+                                        <span class="text-danger">
+                                            13,000,000 đ <i class="mdi mdi-"></i>
+                                        </span>
+                                    </b>
+                                </div>
+                                <div class="d-flex justify-content-between pt-2">
+                                    <span>Dự án đang có</span>
+                                    <b>
+                                        <span class="text-success">
+                                            13 <i class="mdi mdi-bookmark"></i>
+                                        </span>
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <a href="@Url.Action("thongTinChiTiet", "ThongTinDoiTac")">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-2.jpg"
+                                             class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                    </a>
+                                    <a href="@Url.Action("thongTinChiTiet", "ThongTinDoiTac")">
+                                        <h4 class="mb-0" title="Xem trang cá nhân">Lê Thanh Thảo</h4>
+                                    </a>
+                                    <p class="mb-0">thao@it-global.net</p>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-2 mt-4">
+                                    <span>Dự án đang phát triển</span>
+                                    <b>
+                                        <span class="text-warning">2 <i class="mdi mdi-bookmark"></i></span>
+                                    </b>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-2">
+                                    <span>Công nợ còn</span>
+                                    <b>
+                                        <span class="text-danger">
+                                            95,000,000 đ <i class="mdi mdi-"></i>
+                                        </span>
+                                    </b>
+                                </div>
+                                <div class="d-flex justify-content-between pt-2">
+                                    <span>Dự án đang có</span>
+                                    <b>
+                                        <span class="text-success">
+                                            4 <i class="mdi mdi-bookmark"></i>
+                                        </span>
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <a href="@Url.Action("thongTinChiTiet", "ThongTinDoiTac")">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-3.jpg"
+                                             class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                    </a>
+                                    <a href="@Url.Action("thongTinChiTiet", "ThongTinDoiTac")">
+                                        <h4 class="mb-0" title="Xem trang cá nhân">Trần Thị Kim Thùy</h4>
+                                    </a>
+                                    <p class="mb-0">thuy@it-global.net</p>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-2 mt-4">
+                                    <span>Dự án đang phát triển</span>
+                                    <b>
+                                        <span class="text-warning">0 <i class="mdi mdi-bookmark"></i></span>
+                                    </b>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-2">
+                                    <span>Công nợ còn</span>
+                                    <b>
+                                        <span class="text-danger">
+                                            3,000,000 đ <i class="mdi mdi-"></i>
+                                        </span>
+                                    </b>
+                                </div>
+                                <div class="d-flex justify-content-between pt-2">
+                                    <span>Dự án đang có</span>
+                                    <b>
+                                        <span class="text-success">
+                                            2 <i class="mdi mdi-bookmark"></i>
+                                        </span>
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <a href="@Url.Action("thongTinChiTiet", "ThongTinDoiTac")">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-4.jpg"
+                                             class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                    </a>
+                                    <a href="@Url.Action("thongTinChiTiet", "ThongTinDoiTac")">
+                                        <h4 class="mb-0" title="Xem trang cá nhân">Nguyễn Minh Tiến</h4>
+                                    </a>
+                                    <p class="mb-0">tien@it-global.net</p>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-2 mt-4">
+                                    <span>Dự án đang phát triển</span>
+                                    <b>
+                                        <span class="text-warning">0 <i class="mdi mdi-bookmark"></i></span>
+                                    </b>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-2">
+                                    <span>Công nợ còn</span>
+                                    <b>
+                                        <span class="text-danger">
+                                            0 đ 
+                                        </span>
+                                    </b>
+                                </div>
+                                <div class="d-flex justify-content-between pt-2">
+                                    <span>Dự án đang có</span>
+                                    <b>
+                                        <span class="text-success">
+                                            1 <i class="mdi mdi-bookmark"></i>
+                                        </span>
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <a href="@Url.Action("thongTinChiTiet", "ThongTinDoiTac")">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-5.jpg"
+                                             class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                    </a>
+                                    <a href="@Url.Action("thongTinChiTiet", "ThongTinDoiTac")">
+                                        <h4 class="mb-0" title="Xem trang cá nhân">Lê Văn Hòa</h4>
+                                    </a>
+                                    <p class="mb-0">hoavan@it-global.net</p>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-2 mt-4">
+                                    <span>Dự án đang phát triển</span>
+                                    <b>
+                                        <span class="text-warning">1 <i class="mdi mdi-bookmark"></i></span>
+                                    </b>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-2">
+                                    <span>Công nợ còn</span>
+                                    <b>
+                                        <span class="text-danger">
+                                            45,000,000 đ <i class="mdi mdi-"></i>
+                                        </span>
+                                    </b>
+                                </div>
+                                <div class="d-flex justify-content-between pt-2">
+                                    <span>Dự án đang có</span>
+                                    <b>
+                                        <span class="text-success">
+                                            4 <i class="mdi mdi-bookmark"></i>
+                                        </span>
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <a href="@Url.Action("thongTinChiTiet", "ThongTinDoiTac")">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-6.jpg"
+                                             class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                    </a>
+                                    <a href="@Url.Action("thongTinChiTiet", "ThongTinDoiTac")">
+                                        <h4 class="mb-0" title="Xem trang cá nhân">Trần Thị Thanh Huyền</h4>
+                                    </a>
+                                    <p class="mb-0">Huyenthanh@it-global.net</p>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-2 mt-4">
+                                    <span>Dự án đang phát triển</span>
+                                    <b>
+                                        <span class="text-warning">2 <i class="mdi mdi-bookmark"></i></span>
+                                    </b>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-2">
+                                    <span>Công nợ còn</span>
+                                    <b>
+                                        <span class="text-danger">
+                                            105,000,000 đ <i class="mdi mdi-"></i>
+                                        </span>
+                                    </b>
+                                </div>
+                                <div class="d-flex justify-content-between pt-2">
+                                    <span>Dự án đang có</span>
+                                    <b>
+                                        <span class="text-success">
+                                            6 <i class="mdi mdi-bookmark"></i>
+                                        </span>
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="pt-4">
+                            <!-- Pagination -->
+                            <nav>
+                                <ul class="pagination justify-content-center mb-0">
+                                    <li class="page-item disabled">
+                                        <a class="page-link mx-1 rounded" href="#" tabindex="-1" aria-disabled="true">
+                                            <i class="mdi mdi-chevron-left"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a class="page-link mx-1 rounded" href="#">1</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link mx-1 rounded" href="#">2</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link mx-1 rounded" href="#">3</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link mx-1 rounded" href="#"><i class="mdi mdi-chevron-right"></i></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 900px;">
+    <div class="offcanvas-body" data-simplebar>
+        <div class="offcanvas-header px-2 pt-0">
+            <div style="height:30px" class="row">
+                <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-user-plus"> </i> Thêm Nhân Viên</h4>
+                <br />
+                <p>Nhập vào đầy đủ các thông tin bắt buộc của nhân viên mới.</p>
+            </div>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <hr class="my-4" />
+        <!-- card body -->
+        <div class="container">
+            <!-- form -->
+            <form class="row">
+                <!-- First name -->
+                <div class="mb-3 col-12 col-md-12">
+                    <label style="font-weight:bold;" class="form-label" for="fname">Họ và Tên <span class="text-danger">*</span></label>
+                    <input type="text" id="fname" class="form-control" placeholder="Nguyễn Văn A" required />
+                </div>
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold;" class="form-label" for="fname">Số CMND/CCCD <span class="text-danger">*</span></label>
+                    <input type="text" id="fname" class="form-control" placeholder="07020000xxxx" required />
+                </div>
+                <!-- Phone -->
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold;" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                    <input type="tel" id="phone" class="form-control" placeholder="0999888xxx" required />
+                </div>
+                <!-- Birthday -->
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold;" l class="form-label" for="birth"> Ngày sinh <span class="text-danger">*</span></label>
+                    <input class="form-control flatpickr" type="text" placeholder="2000-01-01" id="birth"
+                           name="birth" />
+                </div>
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold;" class="form-label">Giới tính <span class="text-danger">*</span></label>
+                    <select class="selectpicker" data-width="100%">
+                        <option value="">Chọn giới tính</option>
+                        <option value="1">Nam</option>
+                        <option value="2">Nữ</option>
+                    </select>
+                </div>
+                <div class="mb-3 col-12 col-md-12">
+                    <label style="font-weight:bold;" class="form-label" for="address">Địa chỉ nhà</label>
+                    <textarea rows="4" id="address" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla" required></textarea>
+                </div>
+                <hr class="my-4" />
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold;" class="form-label">Vai trò <span class="text-danger">*</span></label>
+                    <select class="selectpicker" data-width="100%">
+                        <option value="">Chọn vai trò</option>
+                        <option value="1">Web developer</option>
+                        <option value="2">Full Stack Development</option>
+                        <option value="3">Architect and Design</option>
+                    </select>
+                </div>
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold;" class="form-label" for="phone">Người phụ thuộc <span class="text-danger">*</span></label>
+                    <select class="selectpicker" data-width="100%" tabindex="null">
+                        <option value="">Không có</option>
+                        <option value="1">1 Người</option>
+                        <option value="2">2 Người</option>
+                        <option value="2">3 Người</option>
+                        <option value="2">4 Người</option>
+                        <option value="2">5 Người</option>
+                        <option value="2">6 Người</option>
+                        <option value="2">7 Người</option>
+                        <option value="2">8 Người</option>
+                        <option value="2">9 Người</option>
+                        <option value="2">10 Người</option>
+                    </select>
+                </div>
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold;" class="form-label" for="phone">Mức lương <span class="text-danger">*</span></label>
+                    <input style="font-weight:bold; color:brown" type="text" id="luong" class="form-control" placeholder="10.000.000..." required />
+                </div>
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold;" for="dsNganHang" class="form-label">Ngân hàng</label>
+                    <input list="dsNganHang" class="form-control" placeholder="Tên ngân hàng" />
+                    <datalist id="dsNganHang">
+                        <option value="TPBank"></option>
+                        <option value="SacomBank"></option>
+                        <option value="VietinBank"></option>
+                    </datalist>
+                </div>
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold;" class="form-label" for="phone">Số tài khoản</label>
+                    <input type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
+                </div>
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold;" class="form-label" for="phone">Chủ tài khoản</label>
+                    <input type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
+                </div>
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold;" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
+                    <input type="text" id="email" class="form-control" placeholder="example@itglobal.net" required />
+                </div>
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold;" class="form-label" for="phone">Mật khẩu đăng nhập <span class="text-danger">*</span></label>
+                    <input type="password" id="email" class="form-control" placeholder="**********" required />
+                </div>
+                <div class="col-md-8"></div>
+                <!-- button -->
+                <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
+                    <button style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="offcanvas" aria-label="Close">
+                        Hủy
+                    </button>
+                </div>
+                <div style="padding-top: 20px" class="mb-3 col-12 col-md-6">
+                    <button style="width: 230px" class="btn btn-success" type="submit">
+                        Thêm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        // Khai báo một biến, để dễ thao tác
+        const endpoint = 'https://www.gov.uk/bank-holiday.json';
+        // đơn giản vậy thôi.
+        fetch(endpoint).then((response) => console.log(response)).then((data) => console.log(data));
+
+        function handleData(data) {
+            let bankHolidays = data; //For ease
+            let england = bankHolidays["england-and-wales"].events;
+            // Bây giờ chúng ta ánh xạ từng object bên trong'england'
+            // có thể là kiểu mảng array hoặc đối tượng object
+            // Gán cho biến html để thêm từng object vào.
+            const html = england.map((items) => {
+                return `<option>${items.title}</option>`;
+            }).join('');
+
+            const selec = document.getElementById('layTenNganHang');
+            selec.innerHTML = html;
+        }
+    });
+
+</script>
+

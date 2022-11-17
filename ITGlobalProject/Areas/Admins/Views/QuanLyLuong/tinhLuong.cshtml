@@ -1,0 +1,378 @@
+﻿
+@{
+    ViewBag.Title = "tinhLuong";
+    Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid p-4">
+    <div class="row">
+        <!-- Page Header -->
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="border-bottom pb-4 d-lg-flex align-items-center justify-content-between">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Lương Tháng 10, 2022</h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("bangLuong", "quanLyLuong")">Quản Lý Lương</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("tinhLuong", "quanLyLuong")">Tính Lương</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Tính Lương Tháng 10, 2022
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <div style="margin-right:-5px">
+                    <a href="@Url.Action("bangLuong", "quanLyLuong")" class="btn btn-primary me-2" style="width:230px;"><i class="fe fe-grid"> </i> Xem Bảng Lương</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Card -->
+            <div class="card mb-4">
+                <div class="card-header border-bottom-0">
+                    <h4 class="mb-1">DANH SÁCH NHÂN VIÊN CÓ THỂ TÍNH LƯƠNG.</h4>
+                    <p class="mb-0">
+                        Đây là danh sách những Nhân viên hiện đang còn làm việc tại Công Ty.
+                        Tích chọn vào ô select trước tên Nhân để chọn những Nhân viên sẽ được tính lương hoặc chọn select đầu tiên trên hàng tiêu đề để chọn tất cả.
+                    </p>
+                </div>
+                <div class="table-responsive border-0 overflow-y-hidden pt-2">
+                    <table class="table mb-0 text-nowrap" style="width:100%">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="border-0 font-size-inherit">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="checkAll" />
+                                        <label class="form-check-label" for="checkAll"></label>
+                                    </div>
+                                </th>
+                                <th class="border-0">Tên</th>
+                                <th class="border-0">Vai trò</th>
+                                <th class="border-0">Thưởng (Nếu có)</th>
+                                <th class="border-0">Nội dung thưởng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck1" />
+                                        <label class="form-check-label" for="categoryCheck1"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg" alt="" class="rounded-circle avatar-xs me-2" />
+                                        <h5 class="mb-0">Đặng Văn Tuấn</h5>
+                                    </a>
+                                </td>
+                                <td class="align-middle">Web Development</td>
+                                <td style="font-weight: bold" class="align-middle text-warning">
+                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng" inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
+                                </td>
+                                <td class="align-middle">
+                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck2" />
+                                        <label class="form-check-label" for="categoryCheck2"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-2.jpg" alt="" class="rounded-circle avatar-xs me-2" />
+                                        <h5 class="mb-0">Lê Thị Lợi</h5>
+                                    </a>
+                                </td>
+                                <td class="align-middle">Tester</td>
+                                <td style="font-weight: bold" class="align-middle text-warning">
+                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
+                                </td>
+                                <td class="align-middle">
+                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck3" />
+                                        <label class="form-check-label" for="categoryCheck3"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-3.jpg" alt="" class="rounded-circle avatar-xs me-2" />
+                                        <h5 class="mb-0">Nguyễn Hiếu Nhân</h5>
+                                    </a>
+                                </td>
+                                <td class="align-middle">Mobile Development</td>
+                                <td style="font-weight: bold" class="align-middle text-warning">
+                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
+                                </td>
+                                <td class="align-middle">
+                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck4" />
+                                        <label class="form-check-label" for="categoryCheck4"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-4.jpg" alt="" class="rounded-circle avatar-xs me-2" />
+                                        <h5 class="mb-0">Bùi Công Danh</h5>
+                                    </a>
+                                </td>
+                                <td class="align-middle">Tester</td>
+                                <td style="font-weight: bold" class="align-middle text-warning">
+                                    <input style="font-weight: bold; width: 150px " value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng" inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
+                                </td>
+                                <td class="align-middle">
+                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck5" />
+                                        <label class="form-check-label" for="categoryCheck5"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-5.jpg" alt="" class="rounded-circle avatar-xs me-2" />
+                                        <h5 class="mb-0">Nguyễn Thanh Thiện</h5>
+                                    </a>
+                                </td>
+                                <td class="align-middle">Business Analyst</td>
+                                <td style="font-weight: bold" class="align-middle text-warning">
+                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
+                                </td>
+                                <td class="align-middle">
+                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck5" />
+                                        <label class="form-check-label" for="categoryCheck5"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-7.jpg" alt="" class="rounded-circle avatar-xs me-2" />
+                                        <h5 class="mb-0">Nguyễn Huy Hoàng</h5>
+                                    </a>
+                                </td>
+                                <td class="align-middle">Front-end Developer</td>
+                                <td style="font-weight: bold" class="align-middle text-warning">
+                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
+                                </td>
+                                <td class="align-middle">
+                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck5" />
+                                        <label class="form-check-label" for="categoryCheck5"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-6.jpg" alt="" class="rounded-circle avatar-xs me-2" />
+                                        <h5 class="mb-0">Lê Thiện Minh</h5>
+                                    </a>
+                                </td>
+                                <td class="align-middle">Full Stack Developer</td>
+                                <td style="font-weight: bold" class="align-middle text-warning">
+                                    <input style="font-weight:bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
+                                </td>
+                                <td class="align-middle">
+                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck1" />
+                                        <label class="form-check-label" for="categoryCheck1"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg" alt="" class="rounded-circle avatar-xs me-2" />
+                                        <h5 class="mb-0">Đặng Văn Tuấn</h5>
+                                    </a>
+                                </td>
+                                <td class="align-middle">Web Development</td>
+                                <td style="font-weight: bold" class="align-middle text-warning">
+                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
+                                </td>
+                                <td class="align-middle">
+                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck2" />
+                                        <label class="form-check-label" for="categoryCheck2"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-2.jpg" alt="" class="rounded-circle avatar-xs me-2" />
+                                        <h5 class="mb-0">Lê Thị Lợi</h5>
+                                    </a>
+                                </td>
+                                <td class="align-middle">Tester</td>
+                                <td style="font-weight: bold" class="align-middle text-warning">
+                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
+                                </td>
+                                <td class="align-middle">
+                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck3" />
+                                        <label class="form-check-label" for="categoryCheck3"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-3.jpg" alt="" class="rounded-circle avatar-xs me-2" />
+                                        <h5 class="mb-0">Nguyễn Hiếu Nhân</h5>
+                                    </a>
+                                </td>
+                                <td class="align-middle">Mobile Development</td>
+                                <td style="font-weight: bold" class="align-middle text-warning">
+                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
+                                </td>
+                                <td class="align-middle">
+                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck4" />
+                                        <label class="form-check-label" for="categoryCheck4"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-4.jpg" alt="" class="rounded-circle avatar-xs me-2" />
+                                        <h5 class="mb-0">Bùi Công Danh</h5>
+                                    </a>
+                                </td>
+                                <td class="align-middle">Tester</td>
+                                <td style="font-weight: bold" class="align-middle text-warning">
+                                    <input style="font-weight: bold; width: 150px " value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
+                                </td>
+                                <td class="align-middle">
+                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck5" />
+                                        <label class="form-check-label" for="categoryCheck5"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-5.jpg" alt="" class="rounded-circle avatar-xs me-2" />
+                                        <h5 class="mb-0">Nguyễn Thanh Thiện</h5>
+                                    </a>
+                                </td>
+                                <td class="align-middle">Business Analyst</td>
+                                <td style="font-weight: bold" class="align-middle text-warning">
+                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
+                                </td>
+                                <td class="align-middle">
+                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck5" />
+                                        <label class="form-check-label" for="categoryCheck5"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-7.jpg" alt="" class="rounded-circle avatar-xs me-2" />
+                                        <h5 class="mb-0">Nguyễn Huy Hoàng</h5>
+                                    </a>
+                                </td>
+                                <td class="align-middle">Front-end Developer</td>
+                                <td style="font-weight: bold" class="align-middle text-warning">
+                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
+                                </td>
+                                <td class="align-middle">
+                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck5" />
+                                        <label class="form-check-label" for="categoryCheck5"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <img src="~/Content/Admin/assets/images/avatar/avatar-6.jpg" alt="" class="rounded-circle avatar-xs me-2" />
+                                        <h5 class="mb-0">Lê Thiện Minh</h5>
+                                    </a>
+                                </td>
+                                <td class="align-middle">Full Stack Developer</td>
+                                <td style="font-weight: bold" class="align-middle text-warning">
+                                    <input style="font-weight:bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
+                                </td>
+                                <td class="align-middle">
+                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="text-align: center; padding-top: 30px; padding-bottom: 20px" class="mb-3 col-12 col-md-12">
+                        <button style="width: 230px" class="btn btn-outline-danger" type="reset">
+                            Hủy Bỏ
+                        </button>
+                        &emsp;
+                        <button style="width: 230px" class="btn btn-success" type="submit">
+                            Tính Lương
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,377 @@
+﻿
+@{
+    ViewBag.Title = "Tạo Dự Án Mới";
+    Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid p-4">
+    <form id="frm">
+        <div class="row ">
+            <div class="col-lg-12 col-md-12 col-12">
+                <!-- Page header -->
+                <div class="border-bottom pb-4 d-lg-flex align-items-center justify-content-between">
+                    <div class="mb-2 mb-lg-0">
+                        <h1 class="mb-0 h2 fw-bold">Thêm Dự Án Mới </h1>
+                        <!-- Breadcrumb -->
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a href="@Url.Action("danhSachDuAn", "QuanLyDuAn")">Quản Lý Dự Án</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    Thêm Dự Án Mới
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <!-- button -->
+                    <div>
+                        <a href="@Url.Action("danhSachDuAn", "QuanLyDuAn")" class="btn btn-primary me-2" style="width:230px" type="button">
+                            <i class="fe fe-list"></i>&ensp;Xem Danh Sách Dự Án
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="py-5">
+            <div class="row">
+                <div class="offset-xl-1 col-xl-10 col-md-12 col-12">
+                    <!-- card -->
+                    <div class="card">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <div style="color: white; background-color:rebeccapurple; height: 120px" class="card-header p-lg-6" data-bs-toggle="collapse" data-bs-target="#NavthongTinDuAn" aria-expanded="false" aria-controls="NavthongTinDuAn">
+                                    <div style="margin-top: -15px" class="row">
+                                        <!-- form group -->
+                                        <div class="mb-3 col-6">
+                                            <p style="font-weight:bold; font-size: 20px">A. Thông Tin Dự Án</p>
+                                            <span>Thông tin chi tiết về dự án, tên dự án, ngày thực hiện, ...</span>
+                                        </div>
+                                        <div style="text-align: right; font-weight: bold; font-size: 50px " class="mb-3 col-6">
+                                            <i class="fe fe-book-open"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="NavthongTinDuAn" class="collapse show" data-bs-parent="#navMenuLevel" style="">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <div class="card-body p-lg-6">
+                                                <!-- form -->
+                                                <div class="row">
+                                                    <!-- form group -->
+                                                    <div class="mb-3 col-12">
+                                                        <label style="font-weight:bold" class="form-label">Tên dự án <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" placeholder="Nhập vào tên của dự án (VD: Website ABC)" required>
+                                                    </div>
+                                                    <!-- form group -->
+                                                    <div class="mb-3 col-12">
+                                                        <label style="font-weight:bold" class="form-label">Mô tả tổng quan</label>
+                                                        <textarea class="form-control" placeholder="Nhập vào mô tả của dự án..." rows="10"></textarea>
+                                                    </div>
+                                                    <!-- form group -->
+                                                    <div class="mb-3 col-md-6 col-12">
+                                                        <label style="font-weight:bold" class="form-label">Ngày bắt đầu <span class="text-danger">*</span></label>
+                                                        <div class="input-group me-3">
+                                                            <input class="form-control flatpickr" type="text" placeholder="Ngày bắt đầu dự án"
+                                                                   aria-describedby="basic-addon2">
+
+                                                            <span class="input-group-text text-muted" id="basic-addon2">
+                                                                <i class="fe fe-calendar"></i>
+                                                            </span>
+
+                                                        </div>
+                                                    </div>
+                                                    <!-- form group -->
+                                                    <div class="mb-3 col-md-6 col-12">
+                                                        <label style="font-weight:bold" class="form-label">Ngày kết thúc <span class="text-danger">*</span></label>
+                                                        <div class="input-group me-3">
+                                                            <input class="form-control flatpickr" type="text" placeholder="Ngày kết thúc dự án"
+                                                                   aria-describedby="basic-addon3">
+
+                                                            <span class="input-group-text text-muted" id="basic-addon3">
+                                                                <i class="fe fe-calendar"></i>
+                                                            </span>
+
+                                                        </div>
+                                                    </div>
+                                                    <input id="dem" value="3" hidden />
+
+                                                    <label style="font-weight:bold" for="ipcpgd1" class="form-label">Giai đoạn 1 </label>
+                                                    <div id="ipcpgd1" class="mb-3 col-md-6 col-12">
+                                                        <input id="gd1" name="gd1" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Chi phí giai đoạn 1" required />
+                                                    </div>
+                                                    <div id="ipdgd1" class="mb-3 col-md-6 col-12">
+                                                        <div class="input-group me-3">
+                                                            <input class="form-control flatpickr" type="text"
+                                                                   placeholder="Ngày kết thúc giai đoạn 1" aria-describedby="basic-addon-gd1" required>
+
+                                                            <span class="input-group-text text-muted" id="basic-addon-gd1">
+                                                                <i class="fe fe-calendar"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <label style="font-weight:bold" for="ipcpgd2" class="form-label">Giai đoạn 2 </label>
+                                                    <div id="ipcpgd2" class="mb-3 col-md-6 col-12">
+                                                        <input id="gd2" name="gd2" type="text" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" placeholder="Chi phí giai đoạn 2" required />
+                                                    </div>
+                                                    <div id="ipdgd2" class="mb-3 col-md-6 col-12">
+                                                        <div class="input-group me-3">
+                                                            <input class="form-control flatpickr" type="text"
+                                                                   placeholder="Ngày kết thúc giai đoạn 2" id="date" aria-describedby="basic-addon-gd2" required>
+
+                                                            <span class="input-group-text text-muted" id="basic-addon-gd2">
+                                                                <i class="fe fe-calendar"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <label style="font-weight:bold" for="ipcpgd3" class="form-label">Giai đoạn 3 </label>
+                                                    <div id="ipcpgd3" class="mb-3 col-md-6 col-12">
+                                                        <input id="gd3" name="gd3" type="text" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" placeholder="Chi phí giai đoạn 3" required />
+                                                    </div>
+                                                    <div id="ipdgd3" class="mb-3 col-md-6 col-12">
+                                                        <div class="input-group me-3">
+
+                                                            <input class="form-control flatpickr" type="text"
+                                                                   placeholder="Ngày kết thúc giai đoạn 3" id="date" aria-describedby="basic-addon-gd3" required>
+
+                                                            <span class="input-group-text text-muted" id="basic-addon-gd3">
+                                                                <i class="fe fe-calendar"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div id="appenddayne" class="col-12"></div>
+                                                    <div style="text-align: center; padding-bottom: 15px;" class="mb-2 col-md-6 col-12">
+                                                        <a style="width: 100%;" id="xoabot" class="btn text-danger border-danger btn-xs">
+                                                            <i class="fe fe-minus-circle"> </i> Xóa giai đoạn
+                                                        </a>
+                                                    </div>
+                                                    <div style="text-align:center; padding-bottom: 15px" class="mb-2 col-md-6 col-12">
+                                                        <a style="width: 100%" id="addthem" class="btn text-primary border-primary btn-xs">
+                                                            <i class="fe fe-plus-circle"> </i> Thêm giai đoạn
+                                                        </a>
+                                                    </div>
+
+                                                    <div style="margin-bottom: 20px" class="col-12">
+                                                        <label style="font-weight:bold" for="priority" class="form-label">Tổng chi phí </label>
+                                                        <div readonly style="text-align: center; font-weight: bold; color: brown" id="sums" name="sums" type="text" class="form-control">HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <!-- card body -->
+                        <!--///////////////////////////////////////////////////////////////////////////////////////////-->
+
+                        <div style="color: white; background-color:crimson; height: 120px" class="card-header p-lg-6" data-bs-toggle="collapse" data-bs-target="#NavthongTinKhachHang" aria-expanded="false" aria-controls="NavthongTinKhachHang">
+                            <div style="margin-top: -15px" class="row">
+                                <!-- form group -->
+                                <div class="mb-3 col-6">
+                                    <p style="font-weight:bold; font-size: 20px">B. Thông Tin Khách Hàng</p>
+                                    <span>Thông tin liên hệ khách hàng, địa chỉ liên lạc, ...</span>
+                                </div>
+                                <div style="text-align: right; font-weight: bold; font-size: 50px " class="mb-3 col-6">
+                                    <i class="fe fe-user-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card body -->
+                        <div id="NavthongTinKhachHang" class="collapse" data-bs-parent="#navMenuLevel" style="">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <div class="card-body p-lg-6">
+                                        <!-- form -->
+                                        <div class="row">
+                                            <!-- form group -->
+                                            <div style="text-align: center; margin-top: -10px" class="mb-2 col-12">
+                                                <a style="width:100%" type="button" class="btn btn-outline-primary"> <i class="fe fe-user-plus"> </i> Lấy Thông Tin Khách Hàng Cũ</a>
+                                            </div>
+                                            <hr class="my-4" />
+                                            <div class="d-lg-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center mb-3 mb-lg-0">
+                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-18.jpg" id="img-uploaded" class="avatar-xxl rounded-circle" alt="" />
+                                                    <div class="ms-3">
+                                                        <h4 class="mb-0">Hình đại diện (nếu có)</h4>
+                                                        <p class="mb-0">
+                                                            PNG hoặc JPG hình vuông không lớn hơn 800px.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <a style="width: 150px" href="#" class="btn btn-outline-success btn-sm">Tải lên</a>
+                                                    <a style="width: 150px" href="#" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
+                                                </div>
+                                            </div>
+                                            <hr class="my-4" />
+                                            <div class="mb-3 col-12">
+                                                <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp</label>
+                                                <input type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng (nếu có)" required>
+                                            </div>
+                                            <!-- form group -->
+                                            <div class="mb-3 col-12  col-md-6">
+                                                <label style="font-weight:bold" class="form-label">Họ và Tên<span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
+                                            </div>
+
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD <span class="text-danger">*</span></label>
+                                                <input value="" type="text" id="fname" class="form-control" placeholder="07020000xxxx..." required />
+                                            </div>
+                                            <!-- Phone -->
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                                                <input value="" type="tel" id="phone" class="form-control" placeholder="0999888777..." required />
+                                            </div>
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
+                                                <input value="" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
+                                            </div>
+                                            <!-- Birthday -->
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh <span class="text-danger">*</span></label>
+                                                <input value="" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" id="birth"
+                                                       name="birth" />
+                                            </div>
+                                            <!-- Birthday -->
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <label style="font-weight:bold" class="form-label">Giới tính <span class="text-danger">*</span></label>
+                                                <select style="color:black" class="selectpicker" data-width="100%">
+                                                    <option value="">Chọn giới tính</option>
+                                                    <option value="1">Nam</option>
+                                                    <option value="2">Nữ</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Address -->
+                                            <div class="mb-3 col-12 col-md-12">
+                                                <label style="font-weight:bold" class="form-label" for="address">ĐC Doanh nghiệp / Nhà riêng <span class="text-danger">*</span></label>
+                                                <textarea rows="5" id="address" class="form-control" placeholder="Số 0/0 đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla..." required></textarea>
+                                            </div>
+
+                                            <div style="text-align: right; padding-top: 25px" class="mb-2 col-12 col-md-6">
+                                                <button style="width: 230px" class="btn btn-outline-danger" type="reset">
+                                                    Hủy bỏ (Reset)
+                                                </button>
+                                            </div>
+                                            <div style=" padding-top: 25px" class="mb-2 col-12 col-md-6">
+                                                <button style="width: 230px" class="btn btn-success" type="submit">
+                                                    Thêm dự án
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#xoabot').on('click', function (e) {
+            let sott = Number($('#dem').val());
+            if (sott === 1) {
+                alert("Còn có 1 cái thôi đừng xóa nữa");
+            }
+            else {
+                $('label[for=ipcpgd' + sott + ']').remove();
+                $('#ipcpgd' + sott).remove();
+                $('#ipdgd' + sott).remove();
+
+                var elem = document.getElementById('dem');
+                elem.value = sott - 1;
+
+                let totals = 0;
+                for (var i = 1; i <= sott - 1; i++) {
+                    totals += Number($('#gd' + i).val());
+                }
+
+                if (totals === 0) {
+                    $('#sums').text("HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN");
+                } else {
+                    $('#sums').text(totals);
+                }
+            }
+        });
+        $('#addthem').on('click', function (e) {
+            let sott = Number($('#dem').val()) + 1;
+            if (sott > 5) {
+                alert("5 cái thôi nhiều quá rồi");
+            } else {
+                let nd = "'alias': 'decimal', 'groupSeparator': ','";
+                $('#appenddayne').replaceWith('<label style="font-weight:bold" for="ipcpgd' + sott + '" class="form-label">Giai đoạn ' + sott + ' </label>'
+                    + '<div id="ipcpgd' + sott + '" class="mb-3 col-md-6 col-12"><input id="gd' + sott + '" name="gd' + sott + '" type="text" style="font-weight:bold;" data-inputmask="' + nd + '" inputmode="numeric" class="form-control text-start text-danger" placeholder="Chi phí giai đoạn ' + sott + '" required /></div>'
+                    + '<div id="ipdgd' + sott + '" class="mb-3 col-md-6 col-12"><div class="input-group me-3"><input class="form-control flatpickr" type="text" placeholder="Ngày kết thúc giai đoạn ' + sott + '" id="date" aria-describedby="basic-addon-gd' + sott + '" required>'
+                    + '<span class="input-group-text text-muted" id="basic-addon-gd3"><i class="fe fe-calendar"></i></span>'
+                    + '</div></div><div id="appenddayne"></div>');
+                var elem = document.getElementById('dem');
+                elem.value = sott;
+                if ($("input").length && Inputmask().mask(document.querySelectorAll("input")), $("#editor").length) new Quill("#editor", {
+                    modules: {
+                        toolbar: [
+                            [{
+                                header: [1, 2, !1]
+                            }],
+                            [{
+                                font: []
+                            }],
+                            ["bold", "italic", "underline", "strike"],
+                            [{
+                                size: ["small", !1, "large", "huge"]
+                            }],
+                            [{
+                                list: "ordered"
+                            }, {
+                                list: "bullet"
+                            }],
+                            [{
+                                color: []
+                            }, {
+                                background: []
+                            }, {
+                                align: []
+                            }],
+                            ["link", "image", "code-block", "video"]
+                        ]
+                    },
+                    theme: "snow"
+                });
+                $(".flatpickr").length && flatpickr(".flatpickr", {
+                    disableMobile: !0
+                });
+
+
+            }
+        });
+        $('#frm').on('input', function (e) {
+            let sott = Number($('#dem').val());
+            let totals = 0;
+            for (var i = 1; i <= sott; i++) {
+                totals += Number($('#gd' + i).val());
+            }
+            //let totals = (Number($('#gd1').val()) +
+            //    Number($('#gd2').val()) +
+            //    Number($('#gd3').val()));
+            if (totals === 0) {
+                $('#sums').text("HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN");
+            } else {
+                $('#sums').text(totals);
+            }
+        });
+    });
+</script>

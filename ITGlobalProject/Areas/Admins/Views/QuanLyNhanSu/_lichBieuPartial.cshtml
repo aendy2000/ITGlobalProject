@@ -1,0 +1,779 @@
+﻿
+<div id="contentPartial" class="container-fluid p-4">
+
+    <div class="row">
+        <!-- Page Header -->
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="border-bottom pb-4 mb-4 d-flex justify-content-between align-items-center">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-1 h2 fw-bold">
+                        Thông Tin Chi Tiết
+                    </h1>
+                    <!-- Breadcrumb  -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">Quản Lý Nhân Sự</a></li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">Nhân Viên</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Tiến độ công việc
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- User info -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+            <!-- Bg -->
+            <div class="pt-16 rounded-top-md" style="
+								background: url(@Url.Content("~/Content/Admin/assets/images/background/profile-bg.jpg")) no-repeat;
+								background-size: cover;
+							"></div>
+            <div class="d-flex align-items-end justify-content-between bg-white px-4 pt-2 pb-4 rounde
+
+
+
+
+             rounded-bottom-md shadow-sm">
+                <div class="d-flex align-items-center">
+                    <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
+                        <img src="~/Content/Admin/assets/images/avatar/avatar-3.jpg" class="avatar-xl rounded-circle border border-4 border-white"
+                             alt="" />
+                    </div>
+                    <div class="lh-1">
+                        <h2 class="mb-0">
+                            Lê Thị Lợi
+                            <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
+                        </h2>
+                        <p class="mb-0 d-block">loi.lt@@itglobal.net</p>
+                    </div>
+
+                </div>
+                <div><span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: 2022-10-14</span></div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Content -->
+    <div class="row mt-0 mt-md-4">
+        <div class="col-lg-3 col-md-4 col-12">
+            <!-- Side navbar -->
+            <nav class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
+                <!-- Menu -->
+                <a class="d-xl-none d-lg-none d-md-none text-inherit fw-bold" href="#">Menu</a>
+                <!-- Button -->
+                <button class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#sidenav" aria-controls="sidenav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="fe fe-menu"></span>
+                </button>
+                <!-- Collapse navbar -->
+                <div class="collapse navbar-collapse" id="sidenav">
+                    <div class="navbar-nav flex-column">
+                        <span class="navbar-header">Thông Tin Tài Khoản</span>
+                        <!-- List -->
+                        @*<ul class="list-unstyled ms-n2 mb-4">*@
+                        <ul class="list-unstyled ms-n2 mb-0">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="ttchiTiet" class="nav-link">
+                                    <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="csthongtin" class="nav-link">
+                                    <i class="fe fe-edit nav-icon"></i>Chỉnh sửa thông tin
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a role="button" class="nav-link" id="DAThamGia">
+                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" class="nav-link" id="LSHoatDong">
+                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a role="button" id="bangLuongs" class="nav-link">
+                                    <i class="fe fe-file-text nav-icon"></i>Bảng lương
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a role="button" class="nav-link" id="LBCongViec">
+                                    <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
+                                </a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a role="button" class="nav-link" id="BCThongKe">
+                                    <i class="fe fe-pie-chart nav-icon"></i>Báo cáo thống kê
+                                </a>
+                            </li>
+                            <hr />
+                            <li style="text-align:center; margin-top:20px">
+                                <a id="alert_demo_1" style="width:100%" class="btn btn-outline-danger btn-sm">
+                                    KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
+                                </a>
+                            </li>
+
+                            @*Nav item*@
+                            <!--<li class="nav-item">
+                                <a class="nav-link" href="~/Content/Admin/index.html"><i class="fe fe-power nav-icon"></i>Đăng xuất</a>
+                            </li>-->
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="col-lg-9 col-md-8 col-12">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <!-- Card -->
+                    <div class="card rounded-3">
+                        <!-- Card Header -->
+                        <div class="card-header border-bottom-0 p-0">
+                            <ul class="nav nav-lb-tab" id="tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="all-tab" data-bs-toggle="pill" href="#all" role="tab"
+                                       aria-controls="active" aria-selected="false">Tổng</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="chualam-tab" data-bs-toggle="pill" href="#chualam" role="tab"
+                                       aria-controls="draft" aria-selected="false">Chưa Làm</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="danglam-tab" data-bs-toggle="pill" href="#danglam" role="tab"
+                                       aria-controls="archived" aria-selected="false">Đang Làm</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="danop-tab" data-bs-toggle="pill" href="#danop" role="tab"
+                                       aria-controls="archived" aria-selected="false">Đã Nộp</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="hoanthanh-tab" data-bs-toggle="pill" href="#hoanthanh" role="tab"
+                                       aria-controls="archived" aria-selected="false">Hoàn Thành</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="dahuy-tab" data-bs-toggle="pill" href="#dahuy" role="tab"
+                                       aria-controls="archived" aria-selected="false">Đã Hủy</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="p-4 row">
+                            <!-- Form -->
+                            <form class="d-flex align-items-center col-12 col-md-8 col-lg-6">
+                                <span class="position-absolute ps-3 search-icon">
+                                    <i class="fe fe-search"></i>
+                                </span>
+                                <input type="search" class="form-control ps-6" placeholder="Tìm tên Công việc" />
+                            </form>
+                        </div>
+                        <div>
+                            <div class="tab-content" id="tabContent">
+                                <!-- Tab -->
+                                <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+                                    <div class="table-responsive border-0">
+                                        <!-- Table -->
+                                        <table class="table mb-0 text-nowrap">
+                                            <!-- Table Head -->
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th class="border-0">ID</th>
+                                                    <th class="border-0">Tên công việc</th>
+                                                    <th class="border-0">Trạng Thái</th>
+                                                    <th class="border-0">Hạn chót</th>
+                                                    <th class="border-0">Dự án</th>
+                                                    <th class="border-0"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Table body -->
+                                                <tr>
+                                                    <td>
+                                                        1
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                Lập kế hoạch thực hiện dự án IT-Global
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="align-middle border-top-0 text-success">
+                                                        <span class="badge bg-success badge-dot me-1"></span>Hoàn Thành
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        14/10/2022
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                DA19
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-muted align-middle border-top-0 text-end">
+                                                        <span class="dropdown dropstart">
+                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
+                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
+                                                               aria-expanded="false">
+                                                                <i class="fe fe-more-vertical"></i>
+                                                            </a>
+                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
+                                                                <span class="dropdown-header">Settings</span>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
+                                                                </a>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
+                                                                </a>
+
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
+                                                                </a>
+                                                            </span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        2
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                Lập kế hoạch thực hiện dự án IT-Global
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="align-middle border-top-0 text-gray-500">
+                                                        <span class="badge bg-gray-500 badge-dot me-1"></span>Chưa Làm
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        14/10/2022
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                DA19
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-muted align-middle border-top-0 text-end">
+                                                        <span class="dropdown dropstart">
+                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
+                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
+                                                               aria-expanded="false">
+                                                                <i class="fe fe-more-vertical"></i>
+                                                            </a>
+                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
+                                                                <span class="dropdown-header">Settings</span>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
+                                                                </a>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
+                                                                </a>
+
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
+                                                                </a>
+                                                            </span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        3
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                Lập kế hoạch thực hiện dự án IT-Global
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="align-middle border-top-0 text-success">
+                                                        <span class="badge bg-success badge-dot me-1"></span>Hoàn Thành
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        14/10/2022
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                DA19
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-muted align-middle border-top-0 text-end">
+                                                        <span class="dropdown dropstart">
+                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
+                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
+                                                               aria-expanded="false">
+                                                                <i class="fe fe-more-vertical"></i>
+                                                            </a>
+                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
+                                                                <span class="dropdown-header">Settings</span>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
+                                                                </a>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
+                                                                </a>
+
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
+                                                                </a>
+                                                            </span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        4
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                Lập kế hoạch thực hiện dự án IT-Global
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="align-middle border-top-0 text-warning">
+                                                        <span class="badge bg-warning badge-dot me-1"></span>Đã Nộp
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        14/10/2022
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                DA19
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-muted align-middle border-top-0 text-end">
+                                                        <span class="dropdown dropstart">
+                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
+                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
+                                                               aria-expanded="false">
+                                                                <i class="fe fe-more-vertical"></i>
+                                                            </a>
+                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
+                                                                <span class="dropdown-header">Settings</span>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
+                                                                </a>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
+                                                                </a>
+
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
+                                                                </a>
+                                                            </span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        5
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                Lập kế hoạch thực hiện dự án IT-Global
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="align-middle border-top-0 text-success">
+                                                        <span class="badge bg-success badge-dot me-1"></span>Hoàn Thành
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        14/10/2022
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                DA19
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-muted align-middle border-top-0 text-end">
+                                                        <span class="dropdown dropstart">
+                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
+                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
+                                                               aria-expanded="false">
+                                                                <i class="fe fe-more-vertical"></i>
+                                                            </a>
+                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
+                                                                <span class="dropdown-header">Settings</span>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
+                                                                </a>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
+                                                                </a>
+
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
+                                                                </a>
+                                                            </span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        6
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                Phân tích yêu cầu dự án IT-Global
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="align-middle border-top-0 text-primary">
+                                                        <span class="badge bg-primary badge-dot me-1"></span>Đang Làm
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        14/10/2022
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                DA19
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-muted align-middle border-top-0 text-end">
+                                                        <span class="dropdown dropstart">
+                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
+                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
+                                                               aria-expanded="false">
+                                                                <i class="fe fe-more-vertical"></i>
+                                                            </a>
+                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
+                                                                <span class="dropdown-header">Settings</span>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
+                                                                </a>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
+                                                                </a>
+
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
+                                                                </a>
+                                                            </span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        7
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                Lập kế hoạch thực hiện dự án IT-Global
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="align-middle border-top-0 text-success">
+                                                        <span class="badge bg-success badge-dot me-1"></span>Hoàn Thành
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        14/10/2022
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                DA19
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-muted align-middle border-top-0 text-end">
+                                                        <span class="dropdown dropstart">
+                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
+                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
+                                                               aria-expanded="false">
+                                                                <i class="fe fe-more-vertical"></i>
+                                                            </a>
+                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
+                                                                <span class="dropdown-header">Settings</span>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
+                                                                </a>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
+                                                                </a>
+
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
+                                                                </a>
+                                                            </span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        8
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                Lập kế hoạch thực hiện dự án IT-Global
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="align-middle border-top-0 text-success">
+                                                        <span class="badge bg-success badge-dot me-1"></span>Hoàn Thành
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        14/10/2022
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                DA19
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-muted align-middle border-top-0 text-end">
+                                                        <span class="dropdown dropstart">
+                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
+                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
+                                                               aria-expanded="false">
+                                                                <i class="fe fe-more-vertical"></i>
+                                                            </a>
+                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
+                                                                <span class="dropdown-header">Settings</span>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
+                                                                </a>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
+                                                                </a>
+
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
+                                                                </a>
+                                                            </span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        9
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                Build dự án IT-Global
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="align-middle border-top-0 text-danger">
+                                                        <span class="badge bg-danger badge-dot me-1"></span>Đã Hủy
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        14/10/2022
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <a href="#" class="text-inherit">
+                                                            <h5 class="mb-0 text-primary-hover">
+                                                                DA19
+                                                            </h5>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-muted align-middle border-top-0 text-end">
+                                                        <span class="dropdown dropstart">
+                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
+                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
+                                                               aria-expanded="false">
+                                                                <i class="fe fe-more-vertical"></i>
+                                                            </a>
+                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
+                                                                <span class="dropdown-header">Settings</span>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
+                                                                </a>
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
+                                                                </a>
+
+                                                                <a class="dropdown-item" href="#">
+                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
+                                                                </a>
+                                                            </span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="chualam" role="tabpanel" aria-labelledby="chualam-tab">
+                                    <div class="table-responsive border-0">
+                                        <!-- Table -->
+                                        <table class="table mb-0 text-nowrap">
+                                            <!-- Table Head -->
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th class="border-0">Products</th>
+                                                    <th class="border-0">Status</th>
+                                                    <th class="border-0">Inventory</th>
+                                                    <th class="border-0">Category</th>
+                                                    <th class="border-0">Price</th>
+
+                                                    <th class="border-0"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane fade" id="danglam" role="tabpanel" aria-labelledby="danglam-tab">
+                                    <div class="table-responsive border-0">
+                                        <!-- Table -->
+                                        <table class="table mb-0 text-nowrap">
+                                            <!-- Table Head -->
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th class="border-0">Products</th>
+                                                    <th class="border-0">Status</th>
+                                                    <th class="border-0">Inventory</th>
+                                                    <th class="border-0">Category</th>
+                                                    <th class="border-0">Price</th>
+
+                                                    <th class="border-0"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                                <div class="tab-pane fade" id="danop" role="tabpanel" aria-labelledby="danop-tab">
+                                    <div class="table-responsive border-0">
+                                        <!-- Table -->
+                                        <table class="table mb-0 text-nowrap">
+                                            <!-- Table Head -->
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th class="border-0">Products</th>
+                                                    <th class="border-0">Status</th>
+                                                    <th class="border-0">Inventory</th>
+                                                    <th class="border-0">Category</th>
+                                                    <th class="border-0">Price</th>
+
+                                                    <th class="border-0"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                                <div class="tab-pane fade" id="hoanthanh" role="tabpanel" aria-labelledby="hoanthanh-tab">
+                                    <div class="table-responsive border-0">
+                                        <!-- Table -->
+                                        <table class="table mb-0 text-nowrap">
+                                            <!-- Table Head -->
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th class="border-0">Products</th>
+                                                    <th class="border-0">Status</th>
+                                                    <th class="border-0">Inventory</th>
+                                                    <th class="border-0">Category</th>
+                                                    <th class="border-0">Price</th>
+
+                                                    <th class="border-0"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="dahuy" role="tabpanel" aria-labelledby="dahuy-tab">
+                                    <div class="table-responsive border-0">
+                                        <!-- Table -->
+                                        <table class="table mb-0 text-nowrap">
+                                            <!-- Table Head -->
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th class="border-0">Products</th>
+                                                    <th class="border-0">Status</th>
+                                                    <th class="border-0">Inventory</th>
+                                                    <th class="border-0">Category</th>
+                                                    <th class="border-0">Price</th>
+
+                                                    <th class="border-0"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- Card Footer -->
+                        <div class="card-footer border-top-0 d-md-flex justify-content-between align-items-center">
+                            <div>
+                                <span>Showing products 1 to 9 of 12</span>
+                            </div>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination  mb-0">
+                                    <li class="page-item disabled">
+                                        <a class="page-link mx-1 rounded" href="#"><i class="mdi mdi-chevron-left"></i></a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a class="page-link mx-1 rounded" href="#">1</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link mx-1 rounded" href="#">2</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link mx-1 rounded" href="#">3</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link mx-1 rounded" href="#"><i class="mdi mdi-chevron-right"></i></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Lịch Họp -->
+            @*<div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+                        <div class="card">
+                            <div id="calendar" class="fc fc-media-screen fc-direction-ltr fc-theme-standard" style="height: 700px;"><div class="fc-header-toolbar fc-toolbar fc-toolbar-ltr"><div class="fc-toolbar-chunk"><div class="fc-button-group"><button type="button" title="Previous month" aria-pressed="false" class="fc-prev-button fc-button fc-button-primary"><span class="fc-icon fc-icon-chevron-left"></span></button><button type="button" title="Next month" aria-pressed="false" class="fc-next-button fc-button fc-button-primary"><span class="fc-icon fc-icon-chevron-right"></span></button></div><button type="button" title="This month" disabled="" aria-pressed="false" class="fc-today-button fc-button fc-button-primary">today</button></div><div class="fc-toolbar-chunk"><h2 class="fc-toolbar-title" id="fc-dom-1">October 2022</h2></div><div class="fc-toolbar-chunk"><div class="fc-button-group"><button type="button" title="month view" aria-pressed="false" class="fc-dayGridMonth-button fc-button fc-button-primary">month</button><button type="button" title="week view" aria-pressed="false" class="fc-timeGridWeek-button fc-button fc-button-primary">week</button><button type="button" title="day view" aria-pressed="false" class="fc-timeGridDay-button fc-button fc-button-primary">day</button><button type="button" title="list view" aria-pressed="true" class="fc-listMonth-button fc-button fc-button-primary fc-button-active">list</button></div></div></div><div aria-labelledby="fc-dom-1" class="fc-view-harness fc-view-harness-active"><div class="fc-list  fc-list-sticky fc-listMonth-view fc-view"><div class="fc-scroller fc-scroller-liquid" style="overflow: hidden auto;"><table class="fc-list-table "><thead><tr><th scope="col" id="fc-dom-102">Time</th><th scope="col" aria-hidden="true"></th><th scope="col" id="fc-dom-103">Event</th></tr></thead><tbody><tr class="fc-list-day fc-day fc-day-sat fc-day-past" data-date="2022-10-01"><th scope="colgroup" colspan="3" id="fc-dom-104-2022-10-01" aria-labelledby="fc-dom-105"><div class="fc-list-day-cushion fc-cell-shaded"><a id="fc-dom-105" class="fc-list-day-text" title="Go to October 1, 2022" data-navlink="" tabindex="0">October 1, 2022</a><a aria-hidden="true" class="fc-list-day-side-text" title="Go to October 1, 2022" data-navlink="">Saturday</a></div></th></tr><tr class="fc-list-event  fc-event fc-event-start fc-event-end fc-event-past"><td headers="fc-dom-102 fc-dom-104-2022-10-01" class="fc-list-event-time">all-day</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-01" class="fc-list-event-title"><a>All Day Event</a></td></tr><tr class="fc-list-day fc-day fc-day-sun fc-day-past" data-date="2022-10-02"><th scope="colgroup" colspan="3" id="fc-dom-104-2022-10-02" aria-labelledby="fc-dom-106"><div class="fc-list-day-cushion fc-cell-shaded"><a id="fc-dom-106" class="fc-list-day-text" title="Go to October 2, 2022" data-navlink="" tabindex="0">October 2, 2022</a><a aria-hidden="true" class="fc-list-day-side-text" title="Go to October 2, 2022" data-navlink="">Sunday</a></div></th></tr><tr class="fc-list-event  fc-event fc-event-start fc-event-past"><td headers="fc-dom-102 fc-dom-104-2022-10-02" class="fc-list-event-time">all-day</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-02" class="fc-list-event-title"><a>Mexo 2021 - Product Release</a></td></tr><tr class="fc-list-day fc-day fc-day-mon fc-day-past" data-date="2022-10-03"><th scope="colgroup" colspan="3" id="fc-dom-104-2022-10-03" aria-labelledby="fc-dom-107"><div class="fc-list-day-cushion fc-cell-shaded"><a id="fc-dom-107" class="fc-list-day-text" title="Go to October 3, 2022" data-navlink="" tabindex="0">October 3, 2022</a><a aria-hidden="true" class="fc-list-day-side-text" title="Go to October 3, 2022" data-navlink="">Monday</a></div></th></tr><tr class="fc-list-event  fc-event fc-event-end fc-event-past"><td headers="fc-dom-102 fc-dom-104-2022-10-03" class="fc-list-event-time">all-day</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-03" class="fc-list-event-title"><a>Mexo 2021 - Product Release</a></td></tr><tr class="fc-list-day fc-day fc-day-wed fc-day-past" data-date="2022-10-05"><th scope="colgroup" colspan="3" id="fc-dom-104-2022-10-05" aria-labelledby="fc-dom-108"><div class="fc-list-day-cushion fc-cell-shaded"><a id="fc-dom-108" class="fc-list-day-text" title="Go to October 5, 2022" data-navlink="" tabindex="0">October 5, 2022</a><a aria-hidden="true" class="fc-list-day-side-text" title="Go to October 5, 2022" data-navlink="">Wednesday</a></div></th></tr><tr class="fc-list-event  fc-event fc-event-start fc-event-end fc-event-past"><td headers="fc-dom-102 fc-dom-104-2022-10-05" class="fc-list-event-time">all-day</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-05" class="fc-list-event-title"><a>Company Meeting</a></td></tr><tr class="fc-list-day fc-day fc-day-sun fc-day-past" data-date="2022-10-09"><th scope="colgroup" colspan="3" id="fc-dom-104-2022-10-09" aria-labelledby="fc-dom-109"><div class="fc-list-day-cushion fc-cell-shaded"><a id="fc-dom-109" class="fc-list-day-text" title="Go to October 9, 2022" data-navlink="" tabindex="0">October 9, 2022</a><a aria-hidden="true" class="fc-list-day-side-text" title="Go to October 9, 2022" data-navlink="">Sunday</a></div></th></tr><tr class="fc-list-event  fc-event fc-event-start fc-event-end fc-event-past"><td class="fc-list-event-time">4:00pm</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-09" class="fc-list-event-title"><a>Repeating Event</a></td></tr><tr class="fc-list-day fc-day fc-day-wed fc-day-past" data-date="2022-10-12"><th scope="colgroup" colspan="3" id="fc-dom-104-2022-10-12" aria-labelledby="fc-dom-110"><div class="fc-list-day-cushion fc-cell-shaded"><a id="fc-dom-110" class="fc-list-day-text" title="Go to October 12, 2022" data-navlink="" tabindex="0">October 12, 2022</a><a aria-hidden="true" class="fc-list-day-side-text" title="Go to October 12, 2022" data-navlink="">Wednesday</a></div></th></tr><tr class="fc-list-event  fc-event fc-event-start fc-event-end fc-event-past"><td headers="fc-dom-102 fc-dom-104-2022-10-12" class="fc-list-event-time">all-day</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-12" class="fc-list-event-title"><a>Dinner</a></td></tr><tr class="fc-list-day fc-day fc-day-fri fc-day-past" data-date="2022-10-14"><th scope="colgroup" colspan="3" id="fc-dom-104-2022-10-14" aria-labelledby="fc-dom-111"><div class="fc-list-day-cushion fc-cell-shaded"><a id="fc-dom-111" class="fc-list-day-text" title="Go to October 14, 2022" data-navlink="" tabindex="0">October 14, 2022</a><a aria-hidden="true" class="fc-list-day-side-text" title="Go to October 14, 2022" data-navlink="">Friday</a></div></th></tr><tr class="fc-list-event  fc-event fc-event-start fc-event-end fc-event-past"><td class="fc-list-event-time">1:30pm</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-14" class="fc-list-event-title"><a>Reporting</a></td></tr><tr class="fc-list-day fc-day fc-day-sat fc-day-past" data-date="2022-10-15"><th scope="colgroup" colspan="3" id="fc-dom-104-2022-10-15" aria-labelledby="fc-dom-112"><div class="fc-list-day-cushion fc-cell-shaded"><a id="fc-dom-112" class="fc-list-day-text" title="Go to October 15, 2022" data-navlink="" tabindex="0">October 15, 2022</a><a aria-hidden="true" class="fc-list-day-side-text" title="Go to October 15, 2022" data-navlink="">Saturday</a></div></th></tr><tr class="fc-list-event  fc-event fc-event-start"><td headers="fc-dom-102 fc-dom-104-2022-10-15" class="fc-list-event-time">all-day</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-15" class="fc-list-event-title"><a>Conference</a></td></tr><tr class="fc-list-day fc-day fc-day-sun fc-day-today " data-date="2022-10-16"><th scope="colgroup" colspan="3" id="fc-dom-104-2022-10-16" aria-labelledby="fc-dom-113"><div class="fc-list-day-cushion fc-cell-shaded"><a id="fc-dom-113" class="fc-list-day-text" title="Go to October 16, 2022" data-navlink="" tabindex="0">October 16, 2022</a><a aria-hidden="true" class="fc-list-day-side-text" title="Go to October 16, 2022" data-navlink="">Sunday</a></div></th></tr><tr class="fc-list-event  fc-event fc-event-end"><td headers="fc-dom-102 fc-dom-104-2022-10-16" class="fc-list-event-time">all-day</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-16" class="fc-list-event-title"><a>Conference</a></td></tr><tr class="fc-list-event  fc-event fc-event-start fc-event-end fc-event-today fc-event-future"><td class="fc-list-event-time">10:30am - 12:30pm</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-16" class="fc-list-event-title"><a>Meeting</a></td></tr><tr class="fc-list-event  fc-event fc-event-start fc-event-end fc-event-today fc-event-future"><td class="fc-list-event-time">12:00pm</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-16" class="fc-list-event-title"><a>Lunch</a></td></tr><tr class="fc-list-event  fc-event fc-event-start fc-event-end fc-event-today fc-event-future"><td class="fc-list-event-time">2:30pm</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-16" class="fc-list-event-title"><a>Meeting</a></td></tr><tr class="fc-list-event  fc-event fc-event-start fc-event-end fc-event-today fc-event-future"><td class="fc-list-event-time">4:00pm</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-16" class="fc-list-event-title"><a>Repeating Event</a></td></tr><tr class="fc-list-event  fc-event fc-event-start fc-event-end fc-event-today fc-event-future"><td class="fc-list-event-time">5:30pm</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-16" class="fc-list-event-title"><a>Happy Hour</a></td></tr><tr class="fc-list-day fc-day fc-day-mon fc-day-future" data-date="2022-10-17"><th scope="colgroup" colspan="3" id="fc-dom-104-2022-10-17" aria-labelledby="fc-dom-114"><div class="fc-list-day-cushion fc-cell-shaded"><a id="fc-dom-114" class="fc-list-day-text" title="Go to October 17, 2022" data-navlink="" tabindex="0">October 17, 2022</a><a aria-hidden="true" class="fc-list-day-side-text" title="Go to October 17, 2022" data-navlink="">Monday</a></div></th></tr><tr class="fc-list-event  fc-event fc-event-start fc-event-end fc-event-future"><td class="fc-list-event-time">5:00am</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-17" class="fc-list-event-title"><a>Dinner</a></td></tr><tr class="fc-list-event  fc-event fc-event-start fc-event-end fc-event-future"><td class="fc-list-event-time">7:00am</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-17" class="fc-list-event-title"><a>Birthday Party</a></td></tr><tr class="fc-list-day fc-day fc-day-fri fc-day-future" data-date="2022-10-28"><th scope="colgroup" colspan="3" id="fc-dom-104-2022-10-28" aria-labelledby="fc-dom-115"><div class="fc-list-day-cushion fc-cell-shaded"><a id="fc-dom-115" class="fc-list-day-text" title="Go to October 28, 2022" data-navlink="" tabindex="0">October 28, 2022</a><a aria-hidden="true" class="fc-list-day-side-text" title="Go to October 28, 2022" data-navlink="">Friday</a></div></th></tr><tr class="fc-list-event fc-event-forced-url fc-event fc-event-start fc-event-end fc-event-future"><td headers="fc-dom-102 fc-dom-104-2022-10-28" class="fc-list-event-time">all-day</td><td aria-hidden="true" class="fc-list-event-graphic"><span class="fc-list-event-dot"></span></td><td headers="fc-dom-103 fc-dom-104-2022-10-28" class="fc-list-event-title"><a href="http://google.com/">Click for Google</a></td></tr></tbody></table></div></div></div></div>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+
+</div>

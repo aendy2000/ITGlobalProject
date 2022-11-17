@@ -1,0 +1,449 @@
+﻿
+@{
+    ViewBag.Title = "Thông Tin Tư Vấn";
+    Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid p-4">
+    <div class="row ">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Page header -->
+            <div class="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Thông Tin Tư Vấn</h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("thongTinLienHeTuVan", "LienHeTuVan")">Thông Tin Tư Vấn</a>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Card -->
+            <div class="card rounded-3">
+                <!-- Card header -->
+                <div class="card-header border-bottom-0 p-0 bg-white">
+                    <div>
+                        <!-- Nav -->
+                        <ul class="nav nav-lb-tab" id="tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pending-tab" data-bs-toggle="pill" href="#pending" role="tab" aria-controls="pending" aria-selected="false">
+                                    Chờ Duyệt
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="approved-tab" data-bs-toggle="pill" href="#approved" role="tab" aria-controls="approved" aria-selected="false">Đã Liên Hệ</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="p-4 row">
+                    <!-- Form -->
+                    <form class="d-flex align-items-center col-12 col-md-12 col-lg-12">
+                        <span class="position-absolute ps-3 search-icon">
+                            <i class="fe fe-search"></i>
+                        </span>
+                        <input type="search" class="form-control ps-6" placeholder="Tìm kiếm với số điện thoại hoặc email">
+                    </form>
+                </div>
+                <div>
+                    <!-- Table -->
+                    <div class="tab-content" id="tabContent">
+                        <!--Tab pane -->
+                        <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="courses-tab">
+                            <div class="table-responsive border-0 overflow-y-hidden">
+                                <table class="table mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                khách hàng
+                                            </th>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                Ngày gửi
+                                            </th>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                Nội dung
+                                            </th>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                Điện thoại
+                                            </th>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <div>
+                                                        <h4 class="mb-0">Hiếu Nhân</h4>
+                                                        <span class="text-inherit">hieunhan@gmail.com</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                13:50 - 25 Thg 10, 2022
+                                            </td>
+                                            <td style="max-width: 400px; word-break: break-word" class="align-middle border-top-0">
+                                                Cái gì mà đi thì nằm, đứng cũng nằm, nhưng nằm lại đứng?
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <h5 class="mb-0"><i class="fe fe-phone-call"> </i> 0123426215</h5>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <a href="#" class="btn btn-outline-white btn-sm">Xóa bỏ</a>
+                                                <a href="#" class="btn btn-success btn-sm">Đã liên hệ</a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <div>
+                                                        <h4 class="mb-0">Đặng Văn Tuấn</h4>
+                                                        <span class="text-inherit">tuanne@gmail.com</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                20:50 - 15 Thg 09, 2022
+                                            </td>
+                                            <td style="max-width: 400px; word-break: break-word" class="align-middle border-top-0">
+                                                Bạn có thể kể ra ba ngày liên tiếp mà không có tên là thứ hai, thứ ba, thứ tư, thứ năm, thứ sáu, thứ bảy, chủ nhật?
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <h5 class="mb-0"><i class="fe fe-phone-call"> </i> 0123426215</h5>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <a href="#" class="btn btn-outline-white btn-sm">Xóa bỏ</a>
+                                                <a href="#" class="btn btn-success btn-sm">Đã liên hệ</a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <div>
+                                                        <h4 class="mb-0">Nguyễn Thành Danh</h4>
+                                                        <span class="text-inherit">danhnhannhan@gmail.com</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                15:10 - 03 Thg 12, 2022
+                                            </td>
+                                            <td style="max-width: 400px; word-break: break-word" class="align-middle border-top-0">
+                                                Có 1 con trâu. Đầu nó thì hướng về hướng mặt trời mọc, nó quay trái 2 vòng sau đó quay ngược lại sau đó lại quay phải hay vòng hỏi cái đuôi của nó chỉ hướng nào?
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <h5 class="mb-0"><i class="fe fe-phone-call"> </i> 0937562327</h5>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <a href="#" class="btn btn-outline-white btn-sm">Xóa bỏ</a>
+                                                <a href="#" class="btn btn-success btn-sm">Đã liên hệ</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <div>
+                                                        <h4 class="mb-0">Hiếu Nhân</h4>
+                                                        <span class="text-inherit">hieunhan@gmail.com</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                13:50 - 25 Thg 10, 2022
+                                            </td>
+                                            <td style="max-width: 400px; word-break: break-word" class="align-middle border-top-0">
+                                                Cái gì mà đi thì nằm, đứng cũng nằm, nhưng nằm lại đứng?
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <h5 class="mb-0"><i class="fe fe-phone-call"> </i> 0123426215</h5>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <a href="#" class="btn btn-outline-white btn-sm">Xóa bỏ</a>
+                                                <a href="#" class="btn btn-success btn-sm">Đã liên hệ</a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <div>
+                                                        <h4 class="mb-0">Đặng Văn Tuấn</h4>
+                                                        <span class="text-inherit">tuanne@gmail.com</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                20:50 - 15 Thg 09, 2022
+                                            </td>
+                                            <td style="max-width: 400px; word-break: break-word" class="align-middle border-top-0">
+                                                Bạn có thể kể ra ba ngày liên tiếp mà không có tên là thứ hai, thứ ba, thứ tư, thứ năm, thứ sáu, thứ bảy, chủ nhật?
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <h5 class="mb-0"><i class="fe fe-phone-call"> </i> 0123426215</h5>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <a href="#" class="btn btn-outline-white btn-sm">Xóa bỏ</a>
+                                                <a href="#" class="btn btn-success btn-sm">Đã liên hệ</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <div>
+                                                        <h4 class="mb-0">Nguyễn Thành Danh</h4>
+                                                        <span class="text-inherit">danhnhannhan@gmail.com</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                15:10 - 03 Thg 12, 2022
+                                            </td>
+                                            <td style="max-width: 400px; word-break: break-word" class="align-middle border-top-0">
+                                                Có 1 con trâu. Đầu nó thì hướng về hướng mặt trời mọc, nó quay trái 2 vòng sau đó quay ngược lại sau đó lại quay phải hay vòng hỏi cái đuôi của nó chỉ hướng nào?
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <h5 class="mb-0"><i class="fe fe-phone-call"> </i> 0937562327</h5>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <a href="#" class="btn btn-outline-white btn-sm">Xóa bỏ</a>
+                                                <a href="#" class="btn btn-success btn-sm">Đã liên hệ</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--Tab pane -->
+                        <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved-tab">
+                            <div class="table-responsive border-0 overflow-y-hidden">
+                                <table class="table mb-0 text-nowrap">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                Tên khách hàng
+                                            </th>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                Nội dung
+                                            </th>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                Email
+                                            </th>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                Số điện thoại
+                                            </th>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                Trạng thái
+                                            </th>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                Hành động
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-lg-flex align-items-center">
+                                                    <h5 class="mb-0">Bùi Công Danh</h5>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <a href="#" class="text-inherit">
+                                                    <div class="d-flex align-items-center">
+                                                        <div>
+                                                            <h4 class="mb-1 text-primary-hover">
+                                                                Tại sao tui không xem được các dự án thành công...
+                                                            </h4>
+                                                            <span class="text-inherit">Được gửi vào 6 Tháng 11, 2022</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <h5 class="mb-0">congdanh@gmail.com</h5>
+
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <h5 class="mb-0">01234293833</h5>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle">
+                                                <span class="badge-dot bg-success me-1 d-inline-block align-middle"></span>Đã được tiếp nhận
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="#" class="btn btn-secondary btn-sm">Thay đổi trạng thái</a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-lg-flex align-items-center">
+                                                    <h5 class="mb-0">Thanh Thiện</h5>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <a href="#" class="text-inherit">
+                                                    <div class="d-flex align-items-center">
+                                                        <div>
+                                                            <h4 class="mb-1 text-primary-hover">
+                                                                Tại sao không gửi được biểu mẫu tư vấn...
+                                                            </h4>
+                                                            <span class="text-inherit">Được gửi vào 6 Tháng 11, 2022</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <h5 class="mb-0">thanhthien@gmail.com</h5>
+
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <h5 class="mb-0">02884663227</h5>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle">
+                                                <span class="badge-dot bg-success me-1 d-inline-block align-middle"></span>Đã được tiếp nhận
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="#" class="btn btn-secondary btn-sm">Thay đổi trạng thái</a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-lg-flex align-items-center">
+                                                    <h5 class="mb-0">Quốc Bảo</h5>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <a href="#" class="text-inherit">
+                                                    <div class="d-flex align-items-center">
+                                                        <div>
+                                                            <h4 class="mb-1 text-primary-hover">
+                                                                Làm sao để xem giải đáp các câu hỏi được hỏi nhiều nhất
+                                                            </h4>
+                                                            <span class="text-inherit">Được gửi vào 6 Tháng 11, 2022</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <h5 class="mb-0">quocbao@gmail.com</h5>
+
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <h5 class="mb-0">0913597402</h5>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle">
+                                                <span class="badge-dot bg-success me-1 d-inline-block align-middle"></span>Đã được tiếp nhận
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="#" class="btn btn-secondary btn-sm">Thay đổi trạng thái</a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-lg-flex align-items-center">
+                                                    <h5 class="mb-0">Tiểu Thiên</h5>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <a href="#" class="text-inherit">
+                                                    <div class="d-flex align-items-center">
+                                                        <div>
+                                                            <h4 class="mb-1 text-primary-hover">
+                                                                Tại sao tui không xem được các tin tuyển dụng...
+                                                            </h4>
+                                                            <span class="text-inherit">Được gửi vào 6 Tháng 11, 2022</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <h5 class="mb-0">tieuthien@gmail.com</h5>
+
+                                                </div>
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <div class="d-flex align-items-center">
+                                                    <h5 class="mb-0">0945332272</h5>
+                                                </div>
+                                            </td>
+                                            <td class="align-middle">
+                                                <span class="badge-dot bg-success me-1 d-inline-block align-middle"></span>Đã được tiếp nhận
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="#" class="btn btn-secondary btn-sm">Thay đổi trạng thái</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card Footer -->
+                <div class="card-footer border-top-0">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center mb-0">
+                            <li class="page-item disabled">
+                                <a class="page-link mx-1 rounded" href="#" tabindex="-1" aria-disabled="true"><i class="mdi mdi-chevron-left"></i></a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link mx-1 rounded" href="#">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link mx-1 rounded" href="#">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link mx-1 rounded" href="#">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link mx-1 rounded" href="#"><i class="mdi mdi-chevron-right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
