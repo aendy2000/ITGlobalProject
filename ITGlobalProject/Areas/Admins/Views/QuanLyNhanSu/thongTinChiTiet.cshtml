@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ITGlobalProject.Models.Employees
+
+@{
     ViewBag.Title = "Thông Tin Nhân Viên";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
 }
@@ -46,15 +48,23 @@
                      rounded-bottom-md shadow-sm">
                 <div class="d-flex align-items-center">
                     <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
-                        <img src="~/Content/Admin/assets/images/avatar/avatar-3.jpg" class="avatar-xl rounded-circle border border-4 border-white"
-                             alt="" />
+                        @if (string.IsNullOrEmpty(Model.Avatar))
+                        {
+                            <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xl rounded-circle border border-4 border-white"
+                                 alt="" />
+                        }
+                        else
+                        {
+                            <img src="@Model.Avatar" class="avatar-xl rounded-circle border border-4 border-white"
+                                 alt="" />
+                        }
                     </div>
                     <div class="lh-1">
                         <h2 class="mb-0">
-                            Lê Thị Lợi
+                            @Model.Name
                             <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
                         </h2>
-                        <p class="mb-0 d-block">loi.lt@@itglobal.net</p>
+                        <p class="mb-0 d-block">@Model.Email</p>
                     </div>
 
                 </div>
@@ -198,70 +208,70 @@
                             <!-- First name -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="fname">Họ và Tên</label>
-                                <input readonly value="Lê Thị Lợi" type="text" id="fname" class="form-control" placeholder="Nguyễn Văn A..." required />
+                                <input readonly value="@Model.Name" type="text" id="fname" class="form-control" placeholder="Nguyễn Văn A..." required />
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="fname">Số CMND/CCCD</label>
-                                <input readonly value="070200001111" type="text" id="fname" class="form-control" placeholder="07020000xxxx..." required />
+                                <input readonly value="@Model.IdentityCard" type="text" id="fname" class="form-control" placeholder="07020000xxxx..." required />
                             </div>
                             <!-- Phone -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại</label>
-                                <input readonly value="0284752831" type="tel" id="phone" class="form-control" placeholder="0999888777..." required />
+                                <input readonly value="@Model.Phone" type="tel" id="phone" class="form-control" placeholder="0999888777..." required />
                             </div>
                             <!-- Birthday -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh</label>
-                                <input style="background-color: #F5F4F8" disabled value="2001-05-19" class="form-control flatpickr" type="text" placeholder="2000-01-01..." id="birth"
+                                <input style="background-color: #F5F4F8" disabled value="@Model.Birthday.ToString("yyyy-MM-dd")" class="form-control flatpickr" type="text" placeholder="2000-01-01..." id="birth"
                                        name="birth" />
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Email</label>
-                                <input readonly value="loi.lt@itglobal.net" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
+                                <input readonly value="@Model.Email" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
                             </div>
                             <!-- Birthday -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label">Giới tính</label>
-                                <input readonly value="Nữ" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
+                                <input readonly value="@Model.Sex" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
                             </div>
                             <!-- Address -->
                             <div class="mb-3 col-12 col-md-12">
                                 <label style="font-weight:bold" class="form-label" for="address">Địa chỉ</label>
-                                <textarea readonly rows="4" id="address" class="form-control" placeholder="Số 0/0 đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla..." required>Tầng 5, Tòa nhà SongDo, 62A Phạm Ngọc Thạch, Phường Võ Thị Sáu, Quận 3, Thành phố Hồ Chí Minh</textarea>
+                                <textarea readonly rows="4" id="address" class="form-control" placeholder="Số 0/0 đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla..." required>@Model.Address</textarea>
                             </div>
                             <hr class="my-4" />
 
                             <!-- State -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label">Vai trò</label>
-                                <input readonly value="Full Stack Development" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
+                                <input readonly value="@Model.Position.Name" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Người phụ thuộc <span class="text-danger">*</span></label>
                                 <input readonly value="Không có" type="text" class="form-control" placeholder="Cha mẹ già, con nhỏ, ... không có khả năng lao động" required />
                             </div>                            <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Mức lương</label>
-                                <input readonly value="30.000.000 đ" style="color:red" type="text" id="luong" class="form-control" placeholder="10.000.000..." required />
+                                <input readonly value="@Model.Wage.ToString("0,0") đ" style="color:red" type="text" id="luong" class="form-control" placeholder="10.000.000..." required />
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold;" class="form-label">Ngân hàng</label>
-                                <input readonly value="VietinBank" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
+                                <input readonly value="@Model.BankName" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold;" class="form-label" for="phone">Số tài khoản</label>
-                                <input readonly value="107564729832" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
+                                <input readonly value="@Model.BankAccountNumber" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold;" class="form-label" for="phone">Chủ tài khoản</label>
-                                <input readonly value="Lê Thị Lợi" type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
+                                <input readonly value="@Model.BankAccountHolderName" type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
                             </div>
                             <!--<hr class="my-3" />
-    <div class="col-12">-->
+                            <div class="col-12">-->
                             <!-- Button -->
                             <!--<button class="btn btn-primary" type="submit">
-            Lưu Chỉnh Sửa
-        </button>
-    </div>-->
+                                    Lưu Chỉnh Sửa
+                                </button>
+                            </div>-->
                         </form>
                     </div>
                 </div>
@@ -274,7 +284,7 @@
 
     $(document).on('click', '#csthongtin', function (e) {
         $.ajax({
-            url: '@Url.Action("chinhSuaThongTinPartial", "QuanLyNhanSu", new {ID = 1})',
+            url: '@Url.Action("chinhSuaThongTinPartial", "QuanLyNhanSu", new {ID = Model.ID})',
             type: 'GET',
             dataType: 'html'
         }).done(function (ketqua) {

@@ -190,7 +190,12 @@
                                 }
                             },
                         });
-                    };
+                     };
+                        return {
+                            init: function () {
+                                initDemos();
+                            },
+                        };
                     }();
 
                     jQuery(document).ready(function () {

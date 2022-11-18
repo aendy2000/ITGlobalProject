@@ -1,6 +1,8 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
-@model IPagedList<List<string>>
+@using ITGlobalProject.Models;
+
+@model IPagedList<ITGlobalProject.Models.Employees>
 
 <div class="col-lg-12 col-md-12 col-12">
     <!-- Tab -->
@@ -9,41 +11,50 @@
         {
             <!-- Tab pane -->
             <div class="tab-pane fade show active" id="tabPaneGrid" role="tabpanel" aria-labelledby="tabPaneGrid">
-                <div  style="margin-bottom: 10px" class="row">
+                <div style="margin-bottom: 10px" class="row">
                     <div class="mb-3 col-12 col-md-3">
-                        <a style="width:100%" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Thêm Nhân viên&ensp;<i class="fe fe-user-plus"></i></a>
+                        <a style="width:100%" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fe fe-user-plus"> </i> Thêm Nhân viên</a>
                     </div>
                     <div class="mb-3 col-12 col-md-9">
                         <input type="search" class="form-control" placeholder="Tìm kiếm Nhân viên" />
                     </div>
                 </div>
                 <div class="row">
-                    @for (int i = 0; i < Model.Count; i++)
+                    @foreach (var item in Model)
                     {
                         <div class="col-xl-3 col-lg-6 col-md-6 col-12">
                             <div class="card mb-4">
                                 <div class="card-body">
                                     <div class="text-center">
-                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                            <img src="~/Content/Admin/assets/images/avatar/@Model[i][5]"
-                                                 class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
+                                            @if (string.IsNullOrEmpty(item.Avatar))
+                                            {
+                                                <img src="~/Content/Admin/assets/images/avatar/default-avatar.png"
+                                                     class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                            }
+                                            else
+                                            {
+                                                <img src="@item.Avatar"
+                                                     class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                            }
+
                                         </a>
-                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                            <h4 class="mb-0" title="Xem trang cá nhân">@Model[i][0]</h4>
+                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
+                                            <h4 class="mb-0" title="Xem trang cá nhân">@item.Name</h4>
                                         </a>
-                                        <p class="mb-0">@Model[i][1]</p>
+                                        <p class="mb-0">@item.Position.Name</p>
                                     </div>
                                     <div class="d-flex justify-content-between border-bottom py-2 mt-4">
                                         <span>Tổng công việc</span>
                                         <b>
-                                            <span class="text-success">@Model[i][2] <i class="mdi mdi-check-all"></i></span>
+                                            <span class="text-success">Coming Soon <i class="mdi mdi-check-all"></i></span>
                                         </b>
                                     </div>
                                     <div class="d-flex justify-content-between border-bottom py-2">
                                         <span>Công việc đang làm</span>
                                         <b>
                                             <span class="text-danger">
-                                                @Model[i][3] <i class="mdi mdi-progress-clock"></i>
+                                                Coming Soon <i class="mdi mdi-progress-clock"></i>
                                             </span>
                                         </b>
                                     </div>
@@ -51,7 +62,7 @@
                                         <span>Dự án tham gia</span>
                                         <b>
                                             <span class="text-warning">
-                                                @Model[i][4] <i class="mdi mdi-bookmark"></i>
+                                                Coming Soon <i class="mdi mdi-bookmark"></i>
                                             </span>
                                         </b>
                                     </div>
@@ -180,30 +191,48 @@
                                     <tr>
                                         <td class="align-middle border-top-0">
                                             <div class="d-flex align-items-center">
-                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-12.jpg" alt=""
-                                                         class="rounded-circle avatar-md me-2" />
+                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new {id = item.ID })">
+                                                    @if (string.IsNullOrEmpty(item.Avatar))
+                                                    {
+                                                        <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt=""
+                                                             class="rounded-circle avatar-md me-2" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="@item.Avatar" alt=""
+                                                             class="rounded-circle avatar-md me-2" />
+                                                    }
+
                                                 </a>
-                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                                    <h5 class="mb-0">Đặng Văn Tuấn</h5>
+                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new {id = item.ID })">
+                                                    <h5 class="mb-0">@item.Name</h5>
                                                 </a>
                                             </div>
                                         </td>
                                         <td class="align-middle border-top-0">
-                                            Full Stack Developer
+                                            @item.Position.Name
                                         </td>
                                         <td class="align-middle border-top-0">
-                                            0367909248
+                                            @item.Phone
                                         </td>
                                         <td class="align-middle border-top-0">
-                                            30/10/2000
+                                            @item.Birthday.ToString("dd/MM/yyyy")
                                         </td>
                                         <td class="align-middle border-top-0">
-                                            Nam
+                                            @item.Sex
                                         </td>
-                                        <td class="align-middle text-success border-top-0">
-                                            Hoạt động <i class="mdi mdi-check-circle"></i>
-                                        </td>
+                                        @if (item.Lock == false)
+                                        {
+                                            <td class="align-middle text-success border-top-0">
+                                                Hoạt động <i class="mdi mdi-check-circle"></i>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle text-danger border-top-0">
+                                                Đã ngưng làm <i class="mdi mdi-x-circle"></i>
+                                            </td>
+                                        }
                                         <td class="align-middle border-top-0">
                                             <a href="#" class="text-muted" data-bs-toggle="tooltip"
                                                data-placement="top" title="Gửi mail">
@@ -211,7 +240,7 @@
                                             </a>
                                         </td>
                                         <td class="align-middle border-top-0">
-                                            <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")" class="text-muted" data-bs-toggle="tooltip"
+                                            <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" class="text-muted" data-bs-toggle="tooltip"
                                                data-placement="top" title="Chi tiết">
                                                 <i class="fe fe-info"></i>
                                             </a>
@@ -301,7 +330,7 @@
         else
         {
             <div class="tab-pane fade" id="tabPaneGrid" role="tabpanel" aria-labelledby="tabPaneGrid">
-                <div  style="margin-bottom: 10px" class="row">
+                <div style="margin-bottom: 10px" class="row">
                     <div class="mb-3 col-12 col-md-3">
                         <a style="width:100%" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Thêm Nhân viên&ensp;<i class="fe fe-user-plus"></i></a>
                     </div>
@@ -318,26 +347,34 @@
                                 <!-- Card body -->
                                 <div class="card-body">
                                     <div class="text-center">
-                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                            <img src="~/Content/Admin/assets/images/avatar/avatar-11.jpg"
-                                                 class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new {id = item.ID })">
+                                            @if (string.IsNullOrEmpty(item.Avatar))
+                                            {
+                                                <img src="~/Content/Admin/assets/images/avatar/default-avatar.png"
+                                                     class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                            }
+                                            else
+                                            {
+                                                <img src="~/Content/Admin/assets/images/avatar/default-avatar.png"
+                                                     class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                            }
                                         </a>
-                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                            <h4 class="mb-0" title="Xem trang cá nhân">Tuấn đâyyyy</h4>
+                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new {id = item.ID })">
+                                            <h4 class="mb-0" title="Xem trang cá nhân">@item.Name</h4>
                                         </a>
-                                        <p class="mb-0">Web Developer, Designer</p>
+                                        <p class="mb-0">@item.Position.Name</p>
                                     </div>
                                     <div class="d-flex justify-content-between border-bottom py-2 mt-4">
                                         <span>Tổng công việc</span>
                                         <b>
-                                            <span class="text-success">42 <i class="mdi mdi-check-all"></i></span>
+                                            <span class="text-success">Coming Soon <i class="mdi mdi-check-all"></i></span>
                                         </b>
                                     </div>
                                     <div class="d-flex justify-content-between border-bottom py-2">
                                         <span>Công việc đang làm</span>
                                         <b>
                                             <span class="text-danger">
-                                                8 <i class="mdi mdi-progress-clock"></i>
+                                                Coming Soon <i class="mdi mdi-progress-clock"></i>
                                             </span>
                                         </b>
                                     </div>
@@ -345,7 +382,7 @@
                                         <span>Dự án tham gia</span>
                                         <b>
                                             <span class="text-warning">
-                                                12 <i class="mdi mdi-bookmark"></i>
+                                                Coming Soon <i class="mdi mdi-bookmark"></i>
                                             </span>
                                         </b>
                                     </div>
@@ -475,30 +512,48 @@
                                     <tr>
                                         <td class="align-middle border-top-0">
                                             <div class="d-flex align-items-center">
-                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-12.jpg" alt=""
-                                                         class="rounded-circle avatar-md me-2" />
+                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new {id = item.ID })">
+                                                    @if (string.IsNullOrEmpty(item.Avatar))
+                                                    {
+                                                        <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt=""
+                                                             class="rounded-circle avatar-md me-2" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="@item.Avatar" alt=""
+                                                             class="rounded-circle avatar-md me-2" />
+                                                    }
+
                                                 </a>
-                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                                    <h5 class="mb-0">Đặng Văn Tuấn</h5>
+                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new {id = item.ID })">
+                                                    <h5 class="mb-0">@item.Name</h5>
                                                 </a>
                                             </div>
                                         </td>
                                         <td class="align-middle border-top-0">
-                                            Full Stack Developer
+                                            @item.Position.Name
                                         </td>
                                         <td class="align-middle border-top-0">
-                                            0367909248
+                                            @item.Phone
                                         </td>
                                         <td class="align-middle border-top-0">
-                                            30/10/2000
+                                            @item.Birthday.ToString("dd/MM/yyyy")
                                         </td>
                                         <td class="align-middle border-top-0">
-                                            Nam
+                                            @item.Sex
                                         </td>
-                                        <td class="align-middle text-success border-top-0">
-                                            Hoạt động <i class="mdi mdi-check-circle"></i>
-                                        </td>
+                                        @if (item.Lock == false)
+                                        {
+                                            <td class="align-middle text-success border-top-0">
+                                                Hoạt động <i class="mdi mdi-check-circle"></i>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle text-danger border-top-0">
+                                                Đã ngưng làm <i class="mdi mdi-x-circle"></i>
+                                            </td>
+                                        }
                                         <td class="align-middle border-top-0">
                                             <a href="#" class="text-muted" data-bs-toggle="tooltip"
                                                data-placement="top" title="Gửi mail">
@@ -506,7 +561,7 @@
                                             </a>
                                         </td>
                                         <td class="align-middle border-top-0">
-                                            <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")" class="text-muted" data-bs-toggle="tooltip"
+                                            <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" class="text-muted" data-bs-toggle="tooltip"
                                                data-placement="top" title="Chi tiết">
                                                 <i class="fe fe-info"></i>
                                             </a>
@@ -595,7 +650,5 @@
         }
     </div>
 </div>
-
-
 
 <script src="~/Content/Admin/js/SweetsAlerts.js"></script>

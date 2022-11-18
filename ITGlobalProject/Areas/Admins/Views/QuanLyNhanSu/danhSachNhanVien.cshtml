@@ -1,11 +1,12 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
-@model IPagedList<List<string>>
+@using ITGlobalProject.Models;
+@model IPagedList<ITGlobalProject.Models.Employees>
 @{
     ViewBag.Title = "Quản Lý Nhân Viên";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+    var lstPosition = Session["lst-role"] as List<Position>;
 }
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 
 <div class="container-fluid p-4">
     <div class="row">
@@ -15,7 +16,8 @@
                 <div class="mb-2 mb-lg-0">
                     <h1 class="mb-1 h2 fw-bold">
                         Quản Lý Nhân Viên
-                        <span class="fs-5 text-muted">(@Model.TotalItemCount)</span>
+                        <span id="showSLNV" class="fs-5 text-muted">(@Model.TotalItemCount)</span>
+                        <input hidden id="soLuongNV" value="@Model.TotalItemCount" />
                     </h1>
                     <!-- Breadcrumb  -->
                     <nav aria-label="breadcrumb">
@@ -80,32 +82,41 @@
                             </div>
                         </div>
                         <div class="row">
-                            @for (int i = 0; i < Model.Count; i++)
+                            @foreach (var item in Model)
                             {
                                 <div class="col-xl-3 col-lg-6 col-md-6 col-12">
                                     <div class="card mb-4">
                                         <div class="card-body">
                                             <div class="text-center">
-                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                                    <img src="~/Content/Admin/assets/images/avatar/@Model[i][5]"
-                                                         class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
+                                                    @if (string.IsNullOrEmpty(item.Avatar))
+                                                    {
+                                                        <img src="~/Content/Admin/assets/images/avatar/default-avatar.png"
+                                                             class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="@item.Avatar"
+                                                             class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                                    }
+
                                                 </a>
-                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                                    <h4 class="mb-0" title="Xem trang cá nhân">@Model[i][0]</h4>
+                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
+                                                    <h4 class="mb-0" title="Xem trang cá nhân">@item.Name</h4>
                                                 </a>
-                                                <p class="mb-0">@Model[i][1]</p>
+                                                <p class="mb-0">@item.Position.Name</p>
                                             </div>
                                             <div class="d-flex justify-content-between border-bottom py-2 mt-4">
                                                 <span>Tổng công việc</span>
                                                 <b>
-                                                    <span class="text-success">@Model[i][2] <i class="mdi mdi-check-all"></i></span>
+                                                    <span class="text-success">Coming Soon <i class="mdi mdi-check-all"></i></span>
                                                 </b>
                                             </div>
                                             <div class="d-flex justify-content-between border-bottom py-2">
                                                 <span>Công việc đang làm</span>
                                                 <b>
                                                     <span class="text-danger">
-                                                        @Model[i][3] <i class="mdi mdi-progress-clock"></i>
+                                                        Coming Soon <i class="mdi mdi-progress-clock"></i>
                                                     </span>
                                                 </b>
                                             </div>
@@ -113,7 +124,7 @@
                                                 <span>Dự án tham gia</span>
                                                 <b>
                                                     <span class="text-warning">
-                                                        @Model[i][4] <i class="mdi mdi-bookmark"></i>
+                                                        Coming Soon <i class="mdi mdi-bookmark"></i>
                                                     </span>
                                                 </b>
                                             </div>
@@ -242,30 +253,48 @@
                                             <tr>
                                                 <td class="align-middle border-top-0">
                                                     <div class="d-flex align-items-center">
-                                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                                            <img src="~/Content/Admin/assets/images/avatar/avatar-12.jpg" alt=""
-                                                                 class="rounded-circle avatar-md me-2" />
+                                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new {id = item.ID })">
+                                                            @if (string.IsNullOrEmpty(item.Avatar))
+                                                            {
+                                                                <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt=""
+                                                                     class="rounded-circle avatar-md me-2" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="@item.Avatar" alt=""
+                                                                     class="rounded-circle avatar-md me-2" />
+                                                            }
+
                                                         </a>
-                                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                                            <h5 class="mb-0">Đặng Văn Tuấn</h5>
+                                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new {id = item.ID })">
+                                                            <h5 class="mb-0">@item.Name</h5>
                                                         </a>
                                                     </div>
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    Full Stack Developer
+                                                    @item.Position.Name
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    0367909248
+                                                    @item.Phone
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    30/10/2000
+                                                    @item.Birthday.ToString("dd/MM/yyyy")
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    Nam
+                                                    @item.Sex
                                                 </td>
-                                                <td class="align-middle text-success border-top-0">
-                                                    Hoạt động <i class="mdi mdi-check-circle"></i>
-                                                </td>
+                                                @if (item.Lock == false)
+                                                {
+                                                    <td class="align-middle text-success border-top-0">
+                                                        Hoạt động <i class="mdi mdi-check-circle"></i>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="align-middle text-danger border-top-0">
+                                                        Đã ngưng làm <i class="mdi mdi-x-circle"></i>
+                                                    </td>
+                                                }
                                                 <td class="align-middle border-top-0">
                                                     <a href="#" class="text-muted" data-bs-toggle="tooltip"
                                                        data-placement="top" title="Gửi mail">
@@ -273,7 +302,7 @@
                                                     </a>
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")" class="text-muted" data-bs-toggle="tooltip"
+                                                    <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" class="text-muted" data-bs-toggle="tooltip"
                                                        data-placement="top" title="Chi tiết">
                                                         <i class="fe fe-info"></i>
                                                     </a>
@@ -363,7 +392,7 @@
                 else
                 {
                     <div class="tab-pane fade" id="tabPaneGrid" role="tabpanel" aria-labelledby="tabPaneGrid">
-                        <div  style="margin-bottom: 10px" class="row">
+                        <div style="margin-bottom: 10px" class="row">
                             <div class="mb-3 col-12 col-md-3">
                                 <a style="width:100%" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Thêm Nhân viên&ensp;<i class="fe fe-user-plus"></i></a>
                             </div>
@@ -380,26 +409,34 @@
                                         <!-- Card body -->
                                         <div class="card-body">
                                             <div class="text-center">
-                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-11.jpg"
-                                                         class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new {id = item.ID })">
+                                                    @if (string.IsNullOrEmpty(item.Avatar))
+                                                    {
+                                                        <img src="~/Content/Admin/assets/images/avatar/default-avatar.png"
+                                                             class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="~/Content/Admin/assets/images/avatar/default-avatar.png"
+                                                             class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
+                                                    }
                                                 </a>
-                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                                    <h4 class="mb-0" title="Xem trang cá nhân">Tuấn đâyyyy</h4>
+                                                <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new {id = item.ID })">
+                                                    <h4 class="mb-0" title="Xem trang cá nhân">@item.Name</h4>
                                                 </a>
-                                                <p class="mb-0">Web Developer, Designer</p>
+                                                <p class="mb-0">@item.Position.Name</p>
                                             </div>
                                             <div class="d-flex justify-content-between border-bottom py-2 mt-4">
                                                 <span>Tổng công việc</span>
                                                 <b>
-                                                    <span class="text-success">42 <i class="mdi mdi-check-all"></i></span>
+                                                    <span class="text-success">Coming Soon <i class="mdi mdi-check-all"></i></span>
                                                 </b>
                                             </div>
                                             <div class="d-flex justify-content-between border-bottom py-2">
                                                 <span>Công việc đang làm</span>
                                                 <b>
                                                     <span class="text-danger">
-                                                        8 <i class="mdi mdi-progress-clock"></i>
+                                                        Coming Soon <i class="mdi mdi-progress-clock"></i>
                                                     </span>
                                                 </b>
                                             </div>
@@ -407,7 +444,7 @@
                                                 <span>Dự án tham gia</span>
                                                 <b>
                                                     <span class="text-warning">
-                                                        12 <i class="mdi mdi-bookmark"></i>
+                                                        Coming Soon <i class="mdi mdi-bookmark"></i>
                                                     </span>
                                                 </b>
                                             </div>
@@ -537,30 +574,48 @@
                                             <tr>
                                                 <td class="align-middle border-top-0">
                                                     <div class="d-flex align-items-center">
-                                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                                            <img src="~/Content/Admin/assets/images/avatar/avatar-12.jpg" alt=""
-                                                                 class="rounded-circle avatar-md me-2" />
+                                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new {id = item.ID })">
+                                                            @if (string.IsNullOrEmpty(item.Avatar))
+                                                            {
+                                                                <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt=""
+                                                                     class="rounded-circle avatar-md me-2" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="@item.Avatar" alt=""
+                                                                     class="rounded-circle avatar-md me-2" />
+                                                            }
+
                                                         </a>
-                                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")">
-                                                            <h5 class="mb-0">Đặng Văn Tuấn</h5>
+                                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new {id = item.ID })">
+                                                            <h5 class="mb-0">@item.Name</h5>
                                                         </a>
                                                     </div>
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    Full Stack Developer
+                                                    @item.Position.Name
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    0367909248
+                                                    @item.Phone
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    30/10/2000
+                                                    @item.Birthday.ToString("dd/MM/yyyy")
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    Nam
+                                                    @item.Sex
                                                 </td>
-                                                <td class="align-middle text-success border-top-0">
-                                                    Hoạt động <i class="mdi mdi-check-circle"></i>
-                                                </td>
+                                                @if (item.Lock == false)
+                                                {
+                                                    <td class="align-middle text-success border-top-0">
+                                                        Hoạt động <i class="mdi mdi-check-circle"></i>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="align-middle text-danger border-top-0">
+                                                        Đã ngưng làm <i class="mdi mdi-x-circle"></i>
+                                                    </td>
+                                                }
                                                 <td class="align-middle border-top-0">
                                                     <a href="#" class="text-muted" data-bs-toggle="tooltip"
                                                        data-placement="top" title="Gửi mail">
@@ -568,7 +623,7 @@
                                                     </a>
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu")" class="text-muted" data-bs-toggle="tooltip"
+                                                    <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" class="text-muted" data-bs-toggle="tooltip"
                                                        data-placement="top" title="Chi tiết">
                                                         <i class="fe fe-info"></i>
                                                     </a>
@@ -660,7 +715,9 @@
     </div>
 </div>
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 900px;"  data-simplebar>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 900px;" data-simplebar>
+    <div id="actionSubmit" hidden data-request-url="@Url.Action("themNhanVien", "QuanLyNhanSu")"></div>
+
     <div class="offcanvas-body" data-simplebar>
         <div class="offcanvas-header px-2 pt-0">
             <div style="height:30px" class="row">
@@ -668,7 +725,7 @@
                 <br />
                 <p>Nhập vào đầy đủ các thông tin bắt buộc của nhân viên mới.</p>
             </div>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button id="tatcanvas" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <hr class="my-4" />
         <!-- card body -->
@@ -678,69 +735,75 @@
                 <!-- First name -->
                 <div class="mb-3 col-12 col-md-12">
                     <label style="font-weight:bold;" class="form-label" for="fname">Họ và Tên <span class="text-danger">*</span></label>
-                    <input type="text" id="fname" class="form-control" placeholder="Nguyễn Văn A" required />
+                    <input type="text" id="hoten" name="hoten" class="form-control" placeholder="Nguyễn Văn A" />
+                    <p style="font-size: 13px; color:red;" id="hotenvalidation"></p>
                 </div>
                 <div class="mb-3 col-12 col-md-6">
                     <label style="font-weight:bold;" class="form-label" for="fname">Số CMND/CCCD <span class="text-danger">*</span></label>
-                    <input type="text" id="fname" class="form-control" placeholder="07020000xxxx" required />
+                    <input type="text" id="cmnd" name="cmnd" class="form-control" placeholder="07020000xxxx" />
+                    <p style="font-size: 13px; color:red;" id="cmndvalidation"></p>
                 </div>
                 <!-- Phone -->
                 <div class="mb-3 col-12 col-md-6">
                     <label style="font-weight:bold;" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
-                    <input type="tel" id="phone" class="form-control" placeholder="0999888xxx" required />
+                    <input type="tel" id="sodienthoai" name="sodienthoai" class="form-control" placeholder="0999888xxx" />
+                    <p style="font-size: 13px; color:red;" id="sodienthoaivalidation"></p>
                 </div>
                 <!-- Birthday -->
                 <div class="mb-3 col-12 col-md-6">
                     <label style="font-weight:bold;" l class="form-label" for="birth"> Ngày sinh <span class="text-danger">*</span></label>
-                        <input class="form-control flatpickr" type="text" placeholder="2000-01-01" id="birth"
-                               name="birth" />
+                    <input class="form-control flatpickr" type="text" placeholder="2000-01-01" id="ngaysinh" name="ngaysinh" />
+                    <p style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
                 </div>
                 <div class="mb-3 col-12 col-md-6">
                     <label style="font-weight:bold;" class="form-label">Giới tính <span class="text-danger">*</span></label>
-                    <select class="selectpicker" data-width="100%">
+                    <select name="gioitinh" id="gioitinh" class="selectpicker" data-width="100%">
                         <option value="">Chọn giới tính</option>
-                        <option value="1">Nam</option>
-                        <option value="2">Nữ</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
                     </select>
+                    <p style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
                 </div>
                 <div class="mb-3 col-12 col-md-12">
                     <label style="font-weight:bold;" class="form-label" for="address">Địa chỉ nhà</label>
-                    <textarea rows="4" id="address" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla" required></textarea>
+                    <textarea rows="4" id="diachinha" name="diachinha" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla"></textarea>
                 </div>
                 <hr class="my-4" />
                 <div class="mb-3 col-12 col-md-6">
                     <label style="font-weight:bold;" class="form-label">Vai trò <span class="text-danger">*</span></label>
-                    <select class="selectpicker" data-width="100%">
+                    <select id="vaitro" name="vaitro" class="selectpicker" data-width="100%">
                         <option value="">Chọn vai trò</option>
-                        <option value="1">Web developer</option>
-                        <option value="2">Full Stack Development</option>
-                        <option value="3">Architect and Design</option>
+                        @foreach (var item in lstPosition)
+                        {
+                            <option value="@item.ID">@item.Name</option>
+                        }
                     </select>
+                    <p style="font-size: 13px; color:red;" id="vaitrovalidation"></p>
                 </div>
                 <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;" class="form-label" for="phone">Người phụ thuộc <span class="text-danger">*</span></label>
-                    <select class="selectpicker" data-width="100%" tabindex="null">
-                        <option value="">Không có</option>
+                    <label style="font-weight:bold;" class="form-label" for="phone">Người phụ thuộc</label>
+                    <select name="nguoiphuthuoc" id="nguoiphuthuoc" class="selectpicker" data-width="100%" tabindex="null">
+                        <option value="0">Không có</option>
                         <option value="1">1 Người</option>
                         <option value="2">2 Người</option>
-                        <option value="2">3 Người</option>
-                        <option value="2">4 Người</option>
-                        <option value="2">5 Người</option>
-                        <option value="2">6 Người</option>
-                        <option value="2">7 Người</option>
-                        <option value="2">8 Người</option>
-                        <option value="2">9 Người</option>
-                        <option value="2">10 Người</option>
+                        <option value="3">3 Người</option>
+                        <option value="4">4 Người</option>
+                        <option value="5">5 Người</option>
+                        <option value="6">6 Người</option>
+                        <option value="7">7 Người</option>
+                        <option value="8">8 Người</option>
+                        <option value="9">9 Người</option>
+                        <option value="10">10 Người</option>
                     </select>
                 </div>
                 <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;" class="form-label" for="phone">Mức lương <span class="text-danger">*</span></label>
-                    <input style="font-weight:bold; color:brown" type="text" id="luong" class="form-control" placeholder="10.000.000..." required />
+                    <label style="font-weight:bold;" class="form-label" for="phone">Mức lương</label>
+                    <input style="font-weight:bold; color:brown" type="text" id="mucluong" name="mucluong" class="form-control" placeholder="10.000.000..." />
                 </div>
                 <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;"  for="dsNganHang" class="form-label">Ngân hàng</label>
-                    <input list="dsNganHang" class="form-control" placeholder="Tên ngân hàng" />
-                    <datalist id="dsNganHang">
+                    <label style="font-weight:bold;" for="dsNganHang" class="form-label">Ngân hàng</label>
+                    <input list="dsNganHang" id="tenNganHang" class="form-control" placeholder="Tên ngân hàng" />
+                    <datalist name="dsNganHang" id="dsNganHang">
                         <option value="TPBank"></option>
                         <option value="SacomBank"></option>
                         <option value="VietinBank"></option>
@@ -748,56 +811,47 @@
                 </div>
                 <div class="mb-3 col-12 col-md-6">
                     <label style="font-weight:bold;" class="form-label" for="phone">Số tài khoản</label>
-                    <input type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
+                    <input id="sotaikhoan" name="sotaikhoan" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
                 </div>
                 <div class="mb-3 col-12 col-md-6">
                     <label style="font-weight:bold;" class="form-label" for="phone">Chủ tài khoản</label>
-                    <input type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
+                    <input id="chutaikhoan" name="chutaikhoan" type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
                 </div>
                 <div class="mb-3 col-12 col-md-6">
                     <label style="font-weight:bold;" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
-                    <input type="text" id="email" class="form-control" placeholder="example@itglobal.net" required />
+                    <input type="text" id="diachiemail" name="diachiemail" class="form-control" placeholder="example@itglobal.net" />
+                    <p style="font-size: 13px; color:red;" id="diachiemailvalidation"></p>
                 </div>
                 <div class="mb-3 col-12 col-md-6">
                     <label style="font-weight:bold;" class="form-label" for="phone">Mật khẩu đăng nhập <span class="text-danger">*</span></label>
-                    <input type="password" id="email" class="form-control" placeholder="**********" required />
+                    <input type="password" id="matkhaudangnhap" name="matkhaudangnhap" class="form-control" placeholder="Nhập mật khẩu đăng nhập của tài khoản" />
+                    <p style="font-size: 13px; color:red;" id="matkhaudangnhapvalidation"></p>
                 </div>
                 <div class="col-md-8"></div>
                 <!-- button -->
                 <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
+                    <button hidden id="resetDuLieu"  type="reset"></button>
                     <button style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="offcanvas" aria-label="Close">
                         Hủy
                     </button>
                 </div>
                 <div style="padding-top: 20px" class="mb-3 col-12 col-md-6">
-                    <button style="width: 230px" class="btn btn-success" type="submit">
+                    <a role="button" id="btnThemMoi" style="width: 230px" class="btn btn-success">
                         Thêm
-                    </button>
+                    </a>
                 </div>
             </form>
         </div>
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        // Khai báo một biến, để dễ thao tác
-        const endpoint = 'https://www.gov.uk/bank-holiday.json';
-        // đơn giản vậy thôi.
-        fetch(endpoint).then((response) => console.log(response)).then((data) => console.log(data));
-
-        function handleData(data) {
-            let bankHolidays = data; //For ease
-            let england = bankHolidays["england-and-wales"].events;
-            // Bây giờ chúng ta ánh xạ từng object bên trong'england'
-            // có thể là kiểu mảng array hoặc đối tượng object
-            // Gán cho biến html để thêm từng object vào.
-            const html = england.map((items) => {
-                return `<option>${items.title}</option>`;
-            }).join('');
-
-            const selec = document.getElementById('layTenNganHang');
-            selec.innerHTML = html;
-        }
-    });
-
+    $('#hotenvalidation').hide();
+    $('#cmndvalidation').hide();
+    $('#sodienthoaivalidation').hide();
+    $('#ngaysinhvalidation').hide();
+    $('#gioitinhvalidation').hide();
+    $('#vaitrovalidation').hide();
+    $('#diachiemailvalidation').hide();
+    $('#matkhaudangnhapvalidation').hide();
 </script>
+<script src="~/ValidationAlert/QuanLyNhanSu/ThemNhanVienValidation.js"></script>

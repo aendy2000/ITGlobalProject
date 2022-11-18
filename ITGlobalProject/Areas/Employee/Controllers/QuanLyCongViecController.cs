@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ITGlobalProject.Areas.Employees.Controllers
+namespace ITGlobalProject.Areas.Employee.Controllers
 {
     public class QuanLyCongViecController : Controller
     {

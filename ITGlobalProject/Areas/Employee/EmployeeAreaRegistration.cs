@@ -1,22 +1,22 @@
 ﻿using System.Web.Mvc;
 
-namespace ITGlobalProject.Areas.Employees
+namespace ITGlobalProject.Areas.Employee
 {
-    public class EmployeesAreaRegistration : AreaRegistration 
+    public class EmployeeAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
         {
             get 
             {
-                return "Employees";
+                return "Employee";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
-                "Employees_default",
-                "Employees/{controller}/{action}/{id}",
+                "Employee_default",
+                "Employee/{controller}/{action}/{id}",
                 new {controller = "QuanLyCongViec", action = "danhSachDuAn", id = UrlParameter.Optional }
             );
         }

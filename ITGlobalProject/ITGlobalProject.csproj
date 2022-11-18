@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -46,10 +47,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
@@ -144,9 +145,9 @@
     <Compile Include="Areas\Admins\Controllers\QuanLyTinTuyenDungController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyVaiTroController.cs" />
     <Compile Include="Areas\Admins\Controllers\ThongTinDoiTacController.cs" />
-    <Compile Include="Areas\Employees\Controllers\QuanLyCongViecController.cs" />
-    <Compile Include="Areas\Employees\Controllers\QuanLyLuongController.cs" />
-    <Compile Include="Areas\Employees\EmployeesAreaRegistration.cs" />
+    <Compile Include="Areas\Employee\Controllers\QuanLyCongViecController.cs" />
+    <Compile Include="Areas\Employee\Controllers\QuanLyLuongController.cs" />
+    <Compile Include="Areas\Employee\EmployeeAreaRegistration.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DuAnThanhCongController.cs" />
     <Compile Include="Controllers\GioiThieuController.cs" />
@@ -157,7 +158,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Middleware\LoginVerification.cs" />
+    <Compile Include="Middleware\AdminLoginVerification.cs" />
+    <Compile Include="Middleware\EmployeeLoginVerification.cs" />
     <Compile Include="Models\Comment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -254,6 +256,7 @@
     <Content Include="Content\Admin\assets\images\avatar\avatar-7.jpg" />
     <Content Include="Content\Admin\assets\images\avatar\avatar-8.jpg" />
     <Content Include="Content\Admin\assets\images\avatar\avatar-9.jpg" />
+    <Content Include="Content\Admin\assets\images\avatar\default-avatar.png" />
     <Content Include="Content\Admin\assets\images\background\giftbox.png" />
     <Content Include="Content\Admin\assets\images\background\profile-bg-admin.jpg" />
     <Content Include="Content\Admin\assets\images\background\profile-bg.jpg" />
@@ -579,12 +582,12 @@
     <Content Include="Areas\Admins\Views\ThongTinDoiTac\_duAnThamGiaPartial.cshtml" />
     <Content Include="Areas\Admins\Views\ThongTinDoiTac\_thongTinChiTietPartial.cshtml" />
     <Content Include="Areas\Admins\Views\web.config" />
-    <Content Include="Areas\Employees\Views\QuanLyCongViec\danhSachCongViec.cshtml" />
-    <Content Include="Areas\Employees\Views\QuanLyCongViec\danhSachDuAn.cshtml" />
-    <Content Include="Areas\Employees\Views\QuanLyCongViec\tongCongViec.cshtml" />
-    <Content Include="Areas\Employees\Views\QuanLyLuong\bangLuong.cshtml" />
-    <Content Include="Areas\Employees\Views\Shared\_EmployeeLayout.cshtml" />
-    <Content Include="Areas\Employees\Views\web.config" />
+    <Content Include="Areas\Employee\Views\QuanLyCongViec\danhSachCongViec.cshtml" />
+    <Content Include="Areas\Employee\Views\QuanLyCongViec\danhSachDuAn.cshtml" />
+    <Content Include="Areas\Employee\Views\QuanLyCongViec\tongCongViec.cshtml" />
+    <Content Include="Areas\Employee\Views\QuanLyLuong\bangLuong.cshtml" />
+    <Content Include="Areas\Employee\Views\Shared\_EmployeeLayout.cshtml" />
+    <Content Include="Areas\Employee\Views\web.config" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -592,6 +595,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -605,6 +609,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="ValidationAlert\QuanLyNhanSu\ThemNhanVienValidation.js" />
     <Content Include="ValidationAlert\QuanLyTaiKhoan\DangNhapValidation.js" />
     <Content Include="ValidationAlert\QuanLyTaiKhoan\DatLaiMatKhauValidation.js" />
     <Content Include="ValidationAlert\QuanLyTaiKhoan\QuenMatKhauValidation.js" />
@@ -632,7 +637,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Employees\Data\" />
     <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
@@ -680,7 +684,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
