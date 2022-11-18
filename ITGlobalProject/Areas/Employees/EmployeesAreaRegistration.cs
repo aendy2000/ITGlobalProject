@@ -17,7 +17,7 @@ namespace ITGlobalProject.Areas.Employees
             context.MapRoute(
                 "Employees_default",
                 "Employees/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new {controller = "QuanLyCongViec", action = "danhSachDuAn", id = UrlParameter.Optional }
             );
         }
     }

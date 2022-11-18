@@ -31,6 +31,10 @@
 </head>
 
 <body>
+    <div id="actionLuuMatKhau" hidden data-request-url="@Url.Action("DatLaiMatKhau", "QuanLyTaiKhoan")"></div>
+    <div id="actionDangNhap" hidden data-request-url="@Url.Action("DangNhap", "QuanLyTaiKhoan")"></div>
+
+
     <input hidden type="text" id="emailNe" name="emailNe" value="@Session["XacThucEmail"].ToString()" />
     <div class="limiter">
         <div class="container-login100">
@@ -40,7 +44,7 @@
                 </span>
                 <div id="frmResetPass" style="margin-top: -100px; margin-left: 350px;" class="login100-form validate-form" form="get" action="pages/dashboard/admin-dashboard.html">
                     <div class="text-center">
-                        <h2 style="font-weight: bold;">Đặt lại mật khẩu mới</h2>
+                        <h2 style="font-weight: bold;">Đặt Lại Mật kKẩu</h2>
                     </div>
                     <div style="margin-bottom: 5px" class="text-center">
                         <span class="txt1">Đặt lại mật khẩu mới của bạn với chiều dài tối thiểu 4 ký tự và tối đa 50 ký tự.</span>
@@ -94,130 +98,7 @@
 
 
     <!--============================ Validation =============================-->
-    <script>
-        $(document).ready(function () {
-            validates();
-            function validates() {
-                $('#frmResetPass').on('input', function (e) {
-                    let pw = $('#password').val();
-                    let repw = $('#repassword').val();
-
-                    if (pw.length == 0) {
-                        $('#PasswordValidateResul').text("Không có được bỏ trống đâu à nghe!").show();
-                    }
-                    else if (pw.length < 4) {
-                        $('#PasswordValidateResul').text("Tối thiểu 4 ký tự. Nhập lại coi nào?").show();
-                    } else if (pw.length >= 4) {
-                        $('#PasswordValidateResul').text("").hide();
-                    }
-                    else if (pw.length > 50) {
-                        $('#PasswordValidateResul').text("Tối đa 50 ký tự thôi trời ơi là trời á").show();
-                    }
-                    /////////////////////////////////////////////////////////////////////////////////////////
-                    if (repw.length == 0) {
-                        $('#RePasswordValidateResul').text("Không có được bỏ trống mật khẩu đâu à nghe!").show();
-                    }
-                    else if (repw.length < 4) {
-                        $('#RePasswordValidateResul').text("Tối thiểu 4 ký tự. Nhập lại coi nào?").show();
-                    } else if (repw.length >= 4 && repw === pw) {
-                        $('#RePasswordValidateResul').text("").hide();
-                    }
-                    else if (repw !== pw && repw.length >= 4) {
-                        $('#RePasswordValidateResul').text("Mật khẩu phải giống nhau chớớớớ").show();
-                    }
-                    else if (repw.length > 50) {
-                        $('#RePasswordValidateResul').text("Tối đa 50 ký tự thôi trời ơi là trời á").show();
-                    }
-                });
-            }
-
-
-            $('#subMitNe').on("click", function (e) {
-                let pw = $('#password').val();
-                let repw = $('#repassword').val();
-                var checkpw = false;
-                var checkrepw = false;
-                if (pw.length == 0) {
-                    checkpw = false;
-                    $('#PasswordValidateResul').text("Không có được bỏ trống đâu à nghe!").show();
-                }
-                else if (pw.length < 4) {
-                    checkpw = false;
-                    $('#PasswordValidateResul').text("Tối thiểu 4 ký tự. Nhập lại coi nào?").show();
-                } else if (pw.length >= 4) {
-                    checkpw = true;
-                    $('#PasswordValidateResul').text("").hide();
-                }
-                else if (pw.length > 50) {
-                    checkpw = false;
-                    $('#PasswordValidateResul').text("Tối đa 50 ký tự thôi trời ơi là trời á").show();
-                }
-                /////////////////////////////////////////////////////////////////////////////////////////
-                if (repw.length == 0) {
-                    checkrepw = false;
-                    $('#RePasswordValidateResul').text("Không có được bỏ trống đâu à nghe!").show();
-                }
-                else if (repw.length < 4) {
-                    checkrepw = false;
-                    $('#RePasswordValidateResul').text("Tối thiểu 4 ký tự. Nhập lại coi nào?").show();
-                } else if (repw.length >= 4 && repw === pw) {
-                    checkrepw = true;
-                    $('#RePasswordValidateResul').text("").hide();
-                }
-                else if (repw !== pw && repw.length >= 4) {
-                    checkrepw = false;
-                    $('#RePasswordValidateResul').text("Mật khẩu phải giống nhau chớớớớ").show();
-                }
-                else if (repw.length > 50) {
-                    checkrepw = false;
-                    $('#RePasswordValidateResul').text("Tối đa 50 ký tự thôi trời ơi là trời á").show();
-                }
-
-                if (checkpw == true && checkrepw == true) {
-                    e.preventDefault();
-                    let emails = $('#emailNe').val();
-                    let urls = '@Url.Action("DatLaiMatKhaus", "QuanLyTaiKhoan", new { password = "ValuePassword", email = "ValueEmails" })';
-                    urls = urls.replace("ValuePassword", "" + pw);
-                    urls = urls.replace("ValueEmails", "" + emails);
-                    $.ajax({
-                        url: urls,
-                        type: 'POST',
-                        dataType: 'html',
-                        data: { password: pw, email: emails }
-                    }).done(function (ketqua) {
-                        if (ketqua === "DANGNHAP") {
-                            window.location.href = "@Url.Action("DangNhap","QuanLyTaiKhoan")";
-                        }
-                        else if (ketqua === "SUCCESS") {
-                            var SweetAlert2Demo = function () {
-                                var initDemos = function () {
-                                    swal("Thành Công!", "Đã đặt lại mật khẩu mới, chọn OK để quay về trang đăng nhập!", {
-                                        icon: "success",
-                                        buttons: {
-                                            confirm: {
-                                                className: 'btn btn-success'
-                                            }
-                                        },
-                                    }).then(function () {
-                                        window.location.href = "@Url.Action("DangNhap","QuanLyTaiKhoan")";
-                                    });
-                                };
-                                return {
-                                    init: function () {
-                                        initDemos();
-                                    },
-                                };
-                            }();
-
-                            jQuery(document).ready(function () {
-                                SweetAlert2Demo.init();
-                            });
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="~/ValidationAlert/QuanLyTaiKhoan/DatLaiMatKhauValidation.js"></script>
 </body>
 
 </html>

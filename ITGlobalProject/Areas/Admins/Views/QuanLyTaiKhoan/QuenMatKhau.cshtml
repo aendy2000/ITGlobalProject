@@ -1,4 +1,5 @@
 ﻿@{
+    ViewBag.Title = "Quên Mật Khẩu";
     Layout = null;
 }
 
@@ -31,6 +32,8 @@
 </head>
 
 <body>
+    <div id="actionlinks" hidden data-request-url="@Url.Action("QuenMatKhau", "QuanLyTaiKhoan")"></div>
+    <div id="actionSuccess" hidden data-request-url="@Url.Action("XacThucQuenMatKhau", "QuanLyTaiKhoan")"></div>
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100">
@@ -39,7 +42,7 @@
                 </span>
                 <div id="frmQuanMatKhau" style="margin-top: -130px; margin-left: 350px;" class="login100-form validate-form" form="get" action="pages/dashboard/admin-dashboard.html">
                     <div class="text-center">
-                        <h2 style="font-weight: bold;">Quên mật khẩu</h2>
+                        <h2 style="font-weight: bold;">Quên Mật Khẩu</h2>
                     </div>
                     <div style="margin-bottom: 5px" class="text-center">
                         <span class="txt1">Điền vào Email của bạn để tiến hành đặt lại mật khẩu</span>
@@ -88,94 +91,8 @@
     <script src="~/Content/Admin/js/main.js"></script>
 
     <script src="~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            validates();
-            function validates() {
-                $('#frmQuanMatKhau').on('input', function (e) {
-                    let usn = $('#email').val();
-                    var format = /[`!#$%^&*()+\-=\[\]{};':"\\|,<>\/?~]/;
-                    var formatTextVN = /[àÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬđĐèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆìÌỉỈĩĨíÍịỊòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰỳỲỷỶỹỸýÝỵỴ]/;
-                    if (usn.length == 0) {
-                        $('#UsernameValidateResul').text("Không có được bỏ trống Tài Khoản, ơ kìa?").show();
-                    }
-                    else if (usn.length < 4) {
-                        $('#UsernameValidateResul').text("Tối thiểu 4 ký tự. Nhập lại coi nào?").show();
-                    } else if (usn.length >= 4) {
-                        $('#UsernameValidateResul').text("").hide();
-                    }
-                    else if (usn.length > 50) {
-                        $('#UsernameValidateResul').text("Tối đa 50 ký tự thôi trời ơi là trời á!!").show();
-                    }
-                    if (usn.indexOf(' ') != -1) {
-                        $('#UsernameValidateResul').text("Bỏ khoảng trắng trước khi t đá dô cái đầu!").show();
-                    }
-                    if (format.test(usn) == true) {
-                        $('#UsernameValidateResul').text("Bỏ ký tự đặc biệt hoặc bỏ mạng!. Chỉ được nhập dấu: [@@ . _ -] mà thôi!").show();
-                    }
-                    if (formatTextVN.test(usn) == true) {
-                        $('#UsernameValidateResul').text("Tên tài khoản mà có dấu là sao?. Xóa điiiiiii").show();
-                    }
-                });
-            }
 
-
-            $('#subMitNe').on("click", function (e) {
-                let usn = $('#email').val();
-                var format = /[`!#$%^&*()+\-=\[\]{};':"\\|,<>\/?~]/;
-                var formatTextVN = / àÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬđĐèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆìÌỉỈĩĨíÍịỊòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰỳỲỷỶỹỸýÝỵỴ/;
-                let checkusn = false;
-                if (usn.length == 0) {
-                    checkusn = false;
-                    $('#UsernameValidateResul').text("Không có được bỏ trống Tài Khoản, ơ kìa?").show();
-                }
-                else if (usn.length < 4) {
-                    checkusn = false
-                    $('#UsernameValidateResul').text("Tối thiểu 4 ký tự. Nhập lại coi nào?").show();
-                } else if (usn.length >= 4) {
-                    checkusn = true;
-                    $('#UsernameValidateResul').text("").hide();
-                }
-                else if (usn.length > 50) {
-                    checkusn = false;
-                    $('#UsernameValidateResul').text("Tối đa 50 ký tự thôi trời ơi là trời á!!").show();
-                }
-                if (usn.indexOf(' ') != -1) {
-                    checkusn = false;
-                    $('#UsernameValidateResul').text("Bỏ khoảng trắng trước khi t đá dô cái đầu!").show();
-                }
-                if (format.test(usn) == true) {
-                    checkusn = false;
-                    $('#UsernameValidateResul').text("Bỏ ký tự đặc biệt hoặc bỏ mạng!. Chỉ được nhập dấu: [@@ . _ -] mà thôi!").show();
-                }
-                if (formatTextVN.test(usn) == true) {
-                    $('#UsernameValidateResul').text("Tên tài khoản mà có dấu là sao?. Xóa điiiiiii").show();
-                }
-
-                if (checkusn == true) {
-                    e.preventDefault();
-                    let urls = '@Url.Action("QuenMatKhau", "QuanLyTaiKhoan", new { email = "ValueUsername"})';
-                    urls = urls.replace("ValueUsername", "" + usn);
-                    $.ajax({
-                        url: urls,
-                        type: 'POST',
-                        dataType: 'html',
-                        data: { email: usn }
-                    }).done(function (ketqua) {
-                        if (ketqua === "TKSAI") {
-                            $('#UsernameValidateResul').text("Có tài khoản cũng nhập sai nữa?").show();
-                        }
-                        else if (ketqua === "SUCCESS") {
-                              window.location.href = "@Url.Action("XacThucQuenMatKhau", "QuanLyTaiKhoan")";
-                        }
-                        else {
-                            $('#UsernameValidateResul').text("Lỗi: " + ketqua).show();
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="~/ValidationAlert/QuanLyTaiKhoan/QuenMatKhauValidation.js"></script>
 
 </body>
 
