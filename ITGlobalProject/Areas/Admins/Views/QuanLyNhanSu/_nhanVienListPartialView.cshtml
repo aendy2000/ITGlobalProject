@@ -4,6 +4,7 @@
 
 @model IPagedList<ITGlobalProject.Models.Employees>
 
+
 <div class="col-lg-12 col-md-12 col-12">
     <!-- Tab -->
     <div class="tab-content">
@@ -11,14 +12,6 @@
         {
             <!-- Tab pane -->
             <div class="tab-pane fade show active" id="tabPaneGrid" role="tabpanel" aria-labelledby="tabPaneGrid">
-                <div style="margin-bottom: 10px" class="row">
-                    <div class="mb-3 col-12 col-md-3">
-                        <a style="width:100%" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fe fe-user-plus"> </i> Thêm Nhân viên</a>
-                    </div>
-                    <div class="mb-3 col-12 col-md-9">
-                        <input type="search" class="form-control" placeholder="Tìm kiếm Nhân viên" />
-                    </div>
-                </div>
                 <div class="row">
                     @foreach (var item in Model)
                     {
@@ -153,14 +146,6 @@
                 <div id="panel" class="card">
                     <!-- card header -->
                     <div class="card-header">
-                        <div class="row">
-                            <div class="mb-3 col-12 col-md-3">
-                                <a style="width:100%" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Thêm Nhân viên&ensp;<i class="fe fe-user-plus"></i></a>
-                            </div>
-                            <div class="mb-3 col-12 col-md-9">
-                                <input type="search" class="form-control" placeholder="Tìm kiếm Nhân viên" />
-                            </div>
-                        </div>
                     </div>
                     <!-- table -->
                     <div class="table-responsive">
@@ -330,14 +315,6 @@
         else
         {
             <div class="tab-pane fade" id="tabPaneGrid" role="tabpanel" aria-labelledby="tabPaneGrid">
-                <div style="margin-bottom: 10px" class="row">
-                    <div class="mb-3 col-12 col-md-3">
-                        <a style="width:100%" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Thêm Nhân viên&ensp;<i class="fe fe-user-plus"></i></a>
-                    </div>
-                    <div class="mb-3 col-12 col-md-9">
-                        <input type="search" class="form-control" placeholder="Tìm kiếm Nhân viên" />
-                    </div>
-                </div>
                 <div class="row">
                     @foreach (var item in Model)
                     {
@@ -474,14 +451,6 @@
                 <div class="card">
                     <!-- card header -->
                     <div class="card-header">
-                        <div class="row">
-                            <div class="mb-3 col-12 col-md-3">
-                                <a style="width:100%" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Thêm Nhân viên&ensp;<i class="fe fe-user-plus"></i></a>
-                            </div>
-                            <div class="mb-3 col-12 col-md-9">
-                                <input type="search" class="form-control" placeholder="Tìm kiếm Nhân viên" />
-                            </div>
-                        </div>
                     </div>
                     <!-- table -->
                     <div class="table-responsive">
@@ -650,5 +619,7 @@
         }
     </div>
 </div>
+
+
 
 <script src="~/Content/Admin/js/SweetsAlerts.js"></script>

@@ -595,6 +595,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_timKiemNhanVien.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -610,6 +611,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="ValidationAlert\QuanLyNhanSu\ThemNhanVienValidation.js" />
+    <Content Include="ValidationAlert\QuanLyNhanSu\TimKiemNhanVien.js" />
     <Content Include="ValidationAlert\QuanLyTaiKhoan\DangNhapValidation.js" />
     <Content Include="ValidationAlert\QuanLyTaiKhoan\DatLaiMatKhauValidation.js" />
     <Content Include="ValidationAlert\QuanLyTaiKhoan\QuenMatKhauValidation.js" />

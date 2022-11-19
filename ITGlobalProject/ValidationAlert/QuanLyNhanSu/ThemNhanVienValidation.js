@@ -27,9 +27,6 @@
         if (hoten.length < 1) {
             $('#hotenvalidation').text("Không có bỏ trống mà trời?").show();
             var searchInput = $('#hoten');
-
-            // Multiply by 2 to ensure the cursor always ends up at the end;
-            // Opera sometimes sees a carriage return as 2 characters.
             var strLength = searchInput.val().length * 2;
 
             searchInput.focus();
@@ -43,9 +40,6 @@
         if (cmnd.length < 1) {
             $('#cmndvalidation').text("Không có bỏ trống mà trời?").show();
             var searchInput = $('#cmnd');
-
-            // Multiply by 2 to ensure the cursor always ends up at the end;
-            // Opera sometimes sees a carriage return as 2 characters.
             var strLength = searchInput.val().length * 2;
 
             searchInput.focus();
@@ -59,9 +53,6 @@
         if (sodienthoai.length < 1) {
             $('#sodienthoaivalidation').text("Không có bỏ trống mà trời?").show();
             var searchInput = $('#sodienthoai');
-
-            // Multiply by 2 to ensure the cursor always ends up at the end;
-            // Opera sometimes sees a carriage return as 2 characters.
             var strLength = searchInput.val().length * 2;
 
             searchInput.focus();
@@ -75,9 +66,6 @@
         if (ngaysinh.length < 1) {
             $('#ngaysinhvalidation').text("Không có bỏ trống mà trời?").show();
             var searchInput = $('#ngaysinh');
-
-            // Multiply by 2 to ensure the cursor always ends up at the end;
-            // Opera sometimes sees a carriage return as 2 characters.
             var strLength = searchInput.val().length * 2;
 
             searchInput.focus();
@@ -91,9 +79,6 @@
         if (gioitinh.length < 1) {
             $('#gioitinhvalidation').text("Không có bỏ trống mà trời?").show();
             var searchInput = $('#gioitinh');
-
-            // Multiply by 2 to ensure the cursor always ends up at the end;
-            // Opera sometimes sees a carriage return as 2 characters.
             var strLength = searchInput.val().length * 2;
 
             searchInput.focus();
@@ -107,9 +92,6 @@
         if (vaitro < 1) {
             $('#vaitrovalidation').text("Không có bỏ trống mà trời?").show();
             var searchInput = $('#vaitro');
-
-            // Multiply by 2 to ensure the cursor always ends up at the end;
-            // Opera sometimes sees a carriage return as 2 characters.
             var strLength = searchInput.val().length * 2;
 
             searchInput.focus();
@@ -123,9 +105,6 @@
         if (diachiemail.length < 1) {
             $('#diachiemailvalidation').text("Không có bỏ trống mà trời?").show();
             var searchInput = $('#diachiemail');
-
-            // Multiply by 2 to ensure the cursor always ends up at the end;
-            // Opera sometimes sees a carriage return as 2 characters.
             var strLength = searchInput.val().length * 2;
 
             searchInput.focus();
@@ -139,9 +118,6 @@
         if (matkhaudangnhap.length < 1) {
             $('#matkhaudangnhapvalidation').text("Không có bỏ trống mà trời?").show();
             var searchInput = $('#matkhaudangnhap');
-
-            // Multiply by 2 to ensure the cursor always ends up at the end;
-            // Opera sometimes sees a carriage return as 2 characters.
             var strLength = searchInput.val().length * 2;
 
             searchInput.focus();

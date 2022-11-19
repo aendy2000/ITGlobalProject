@@ -42,7 +42,7 @@ $(document).ready(function () {
     $('#xacNhan').on('click', function (e) {
         e.preventDefault();
         let ma = $('#maXacThuc').val();
-        var format = /[`!#$%^&*()+\-=\[\]{};':"\\|,<>\/?~]/;
+        var format = /[`!#$%^&*()+\-=\[\]{}._@@;':"\\|,<>\/?~]/;
         var formatTextVN = /[aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ]/;
         let checkMa = false;
         if (ma.length < 1) {

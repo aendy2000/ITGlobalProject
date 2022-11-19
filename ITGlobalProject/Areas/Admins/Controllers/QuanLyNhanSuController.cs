@@ -38,6 +38,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 pageSize = 8;
 
             var employee = model.Employees.Where(e => e.ID_Position != 1).OrderByDescending(o => o.ID).ToList();
+            Session["lstEmployees"] = employee;
 
             ViewBag.typeListNhanSu = type;
             return View(employee.ToPagedList((int)page, (int)pageSize));
@@ -51,7 +52,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (pageSize == null)
                 pageSize = 8;
 
-            var employee = model.Employees.Where(e => e.ID_Position != 1).OrderByDescending(o => o.ID).ToList();
+            var employee = Session["lstEmployees"] as List<Employees>;
+            //var employee = model.Employees.Where(e => e.ID_Position != 1).OrderByDescending(o => o.ID).ToList();
 
             ViewBag.typeListNhanSu = type;
             return PartialView("_nhanVienListPartialView", employee.ToPagedList((int)page, (int)pageSize));
@@ -88,6 +90,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 int pageSize = 8;
 
                 var employees = model.Employees.Where(e => e.ID_Position != 1).OrderByDescending(o => o.ID).ToList();
+                Session["lstEmployees"] = employees;
 
                 ViewBag.typeListNhanSu = type;
                 return PartialView("_nhanVienListPartialView", employees.ToPagedList((int)page, (int)pageSize));
@@ -98,7 +101,30 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
 
         }
+        [HttpPost]
+        public ActionResult timKiemNhanVien(string noidungs, string typestr)
+        {
+            if(Session["lstEmployees"] == null)
+                return Content("DANGNHAP");
 
+            int type = Int32.Parse(typestr);
+            int page = 1;
+            int pageSize = 8;
+            if (string.IsNullOrEmpty(noidungs))
+            {
+                var employee = Session["lstEmployees"] as List<Employees>;
+                var employees = employee.Where(e => e.ID_Position != 1).OrderByDescending(o => o.ID).ToList();
+                ViewBag.typeListNhanSu = type;
+                return PartialView("_nhanVienListPartialView", employees.ToPagedList((int)page, (int)pageSize));
+            }
+            else
+            {
+                var employee = Session["lstEmployees"] as List<Employees>;
+                var employees = employee.Where(e => e.Name.ToLower().Contains(noidungs.ToLower().Trim()) && e.ID_Position != 1).OrderByDescending(o => o.ID).ToList();
+                ViewBag.typeListNhanSu = type;
+                return PartialView("_nhanVienListPartialView", employees.ToPagedList((int)page, (int)pageSize));
+            }
+        }
         public ActionResult thongTinChiTiet(int id)
         {
             ViewBag.ShowActive = "danhSachNhanVien";

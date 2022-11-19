@@ -4,7 +4,7 @@
         $('#frmLogin').on('input', function (e) {
             let usn = $('#username').val();
             let pw = $('#password').val();
-            var format = /[`!#$%^&*()+\-=\[\]{};':"\\|,<>\/?~]/;
+            var format = /[`!#$%^&*()+\=\[\]{};':"\\|,<>\/?~]/;
             var formatTextVN = /[àÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬđĐèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆìÌỉỈĩĨíÍịỊòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰỳỲỷỶỹỸýÝỵỴ]/;
             if (usn.length == 0) {
                 $('#UsernameValidateResul').text("Không có được bỏ trống Tài Khoản, ơ kìa?").show();
@@ -75,7 +75,7 @@
     $('#subMitNe').on("click", function (e) {
         let usn = $('#username').val();
         let pw = $('#password').val();
-        var format = /[`!#$%^&*()+\-=\[\]{};':"\\|,<>\/?~]/;
+        var format = /[`!#$%^&*()+\=\[\]{};':"\\|,<>\/?~]/;
         var formatTextVN = / àÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬđĐèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆìÌỉỈĩĨíÍịỊòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰỳỲỷỶỹỸýÝỵỴ/;
         let checkusn = false;
         let checkpw = false;
