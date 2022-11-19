@@ -119,11 +119,22 @@
                                 </a>
                             </li>
                             <hr />
-                            <li style="text-align:center; margin-top:20px">
-                                <a id="alert_demo_1" style="width:100%" class="btn btn-outline-danger btn-sm">
-                                    KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
-                                </a>
-                            </li>
+                            @if (Model.Lock == false)
+                            {
+                                <li style="text-align:center; margin-top:20px">
+                                    <a id="khoataikhoan" style="width:100%" class="btn btn-outline-danger btn-sm">
+                                        KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li style="text-align:center; margin-top:20px">
+                                    <a id="khoataikhoan" style="width:100%" class="btn btn-outline-success btn-sm">
+                                        MỞ KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -390,3 +401,4 @@
         </div>
     </div>
 </div>
+<script src="~/ValidationAlert/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>

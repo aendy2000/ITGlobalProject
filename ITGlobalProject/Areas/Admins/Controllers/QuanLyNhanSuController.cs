@@ -272,6 +272,31 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
             return Content("DANHSACH");
         }
+        [HttpPost]
+        public ActionResult khoaTaiKhoan(int id)
+        {
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user != null)
+            {
+                if (user.Lock == false)
+                {
+                    user.Lock = true;
+                    model.Entry(user).State = EntityState.Modified;
+                    model.SaveChanges();
+                    model = new CP25Team06Entities();
+                    return Content("DAKHOA");
+                }
+                else
+                {
+                    user.Lock = false;
+                    model.Entry(user).State = EntityState.Modified;
+                    model.SaveChanges();
+                    model = new CP25Team06Entities();
+                    return Content("DAMO");
+                }
+            }
+            return Content("DANHSACH");
+        }
         public ActionResult duAnThamGiaPartial(int? ID)
         {
             return PartialView("_duAnThamGiaPartial");

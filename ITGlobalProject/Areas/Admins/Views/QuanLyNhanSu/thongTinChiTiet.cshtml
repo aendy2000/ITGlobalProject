@@ -14,8 +14,10 @@
         imagesUrl = Model.Avatar;
     }
 }
+<input hidden value="@Model.ID" id="idus" />
 <input hidden value="@Url.Content("~/Content/Admin/assets/images/avatar/default-avatar.png")" id="urlIgmStr" />
 <div id="actionSubmit" hidden data-request-url="@Url.Action("chinhSuaThongTinPartial", "QuanLyNhanSu")"></div>
+<div id="actionKhoaTaiKhoan" hidden data-request-url="@Url.Action("khoaTaiKhoan", "QuanLyNhanSu")"></div>
 <div id="actionDanhsach" hidden data-request-url="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")"></div>
 <div id="contentPartial" class="container-fluid p-4">
     <div class="row">
@@ -58,8 +60,8 @@
                      rounded-bottom-md shadow-sm">
                 <div class="d-flex align-items-center">
                     <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
-                            <img src="@Url.Content(imagesUrl)" class="avatar-xl rounded-circle border border-4 border-white"
-                                 alt="" />
+                        <img src="@Url.Content(imagesUrl)" class="avatar-xl rounded-circle border border-4 border-white"
+                             alt="" />
                     </div>
                     <div class="lh-1">
                         <h2 class="mb-0">
@@ -132,11 +134,22 @@
                                 </a>
                             </li>
                             <hr />
-                            <li style="text-align:center; margin-top:20px">
-                                <a id="alert_demo_1" style="width:100%" class="btn btn-outline-danger btn-sm">
-                                    KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
-                                </a>
-                            </li>
+                            @if (Model.Lock == false)
+                            {
+                                <li style="text-align:center; margin-top:20px">
+                                    <a id="khoataikhoan" style="width:100%" class="btn btn-outline-danger btn-sm">
+                                        KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li style="text-align:center; margin-top:20px">
+                                    <a id="khoataikhoan" style="width:100%" class="btn btn-outline-success btn-sm">
+                                        MỞ KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
+                                    </a>
+                                </li>
+                            }
                         </ul>
 
                     </div>
@@ -223,7 +236,7 @@
         </div>
     </div>
 </div>
-
+<script src="~/ValidationAlert/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
 <script>
     $(document).on('click', '#csthongtin', function (e) {
         $.ajax({
@@ -473,4 +486,5 @@
             }
         });
     });
+
 </script>

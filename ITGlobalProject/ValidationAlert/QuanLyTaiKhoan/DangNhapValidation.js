@@ -181,16 +181,16 @@
                 }
                 else if (ketqua === "KHOA") {
                     var SweetAlert2Demo = function () {
-                    var initDemos = function () {
-                        swal("Thông Báo!", "Tài khoản của bạn đã bị khóa!", {
-                            icon: "error",
-                            buttons: {
-                                confirm: {
-                                    className: 'btn btn-danger'
-                                }
-                            },
-                        });
-                     };
+                        var initDemos = function () {
+                            swal("Thông Báo!", "Tài khoản của bạn đã bị khóa!", {
+                                icon: "error",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-danger'
+                                    }
+                                },
+                            });
+                        };
                         return {
                             init: function () {
                                 initDemos();
