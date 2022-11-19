@@ -18,7 +18,7 @@
                 if (ketqua !== "DANGNHAP") {
                     $('#pagess2').replaceWith('<div id="pagess2" class="row">' + ketqua + '</div>');
                 } else {
-                    window.location.href($('#actionDangNhap').data('request-url'))
+                    window.location.href($('#actionDangNhap').data('request-url'));
                 }
             });
         });

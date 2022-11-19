@@ -58,7 +58,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult DangXuat()
         {
             Session.Clear();
-            return View("DangNhap");
+            return RedirectToAction("DangNhap", "QuanLyNhanSu");
         }
         public ActionResult QuenMatKhau()
         {
@@ -154,7 +154,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         {
             if (Session["XacThucEmail"] == null)
             {
-                return View("DangNhap");
+                return RedirectToAction("DangNhap", "QuanLyTaiKhoan");
             }
             else
             {

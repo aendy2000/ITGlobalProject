@@ -3,8 +3,20 @@
 @{
     ViewBag.Title = "Thông Tin Nhân Viên";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
-}
+    string imagesUrl = "";
 
+    if (string.IsNullOrEmpty(Model.Avatar))
+    {
+        imagesUrl = "~/Content/Admin/assets/images/avatar/default-avatar.png";
+    }
+    else
+    {
+        imagesUrl = Model.Avatar;
+    }
+}
+<input hidden value="@Url.Content("~/Content/Admin/assets/images/avatar/default-avatar.png")" id="urlIgmStr" />
+<div id="actionSubmit" hidden data-request-url="@Url.Action("chinhSuaThongTinPartial", "QuanLyNhanSu")"></div>
+<div id="actionDanhsach" hidden data-request-url="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")"></div>
 <div id="contentPartial" class="container-fluid p-4">
     <div class="row">
         <!-- Page Header -->
@@ -43,21 +55,11 @@
 								background-size: cover;
 							"></div>
             <div class="d-flex align-items-end justify-content-between bg-white px-4 pt-2 pb-4 rounde
-
-
                      rounded-bottom-md shadow-sm">
                 <div class="d-flex align-items-center">
                     <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
-                        @if (string.IsNullOrEmpty(Model.Avatar))
-                        {
-                            <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xl rounded-circle border border-4 border-white"
+                            <img src="@Url.Content(imagesUrl)" class="avatar-xl rounded-circle border border-4 border-white"
                                  alt="" />
-                        }
-                        else
-                        {
-                            <img src="@Model.Avatar" class="avatar-xl rounded-circle border border-4 border-white"
-                                 alt="" />
-                        }
                     </div>
                     <div class="lh-1">
                         <h2 class="mb-0">
@@ -135,43 +137,8 @@
                                     KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
                                 </a>
                             </li>
-
-                            @*Nav item*@
-                            <!--<li class="nav-item">
-                                <a class="nav-link" href="~/Content/Admin/index.html"><i class="fe fe-power nav-icon"></i>Đăng xuất</a>
-                            </li>-->
                         </ul>
 
-
-
-                        <!--<span class="navbar-header">Cài đặt tài khoản</span>
-                        <!-- List
-                        <!--<ul class="list-unstyled ms-n2 mb-0">-->
-                        <!-- Nav item -->
-                        <!--@*<li class="nav-item ">
-                                <a class="nav-link" href="profile-edit.html"><i class="fe fe-settings nav-icon"></i>Chỉnh sửa thông tin</a>
-                            </li>*@
-                        <li class="nav-item">
-                            <a class="nav-link " href="linked-accounts.html"><i class="fe fe-edit nav-icon"></i>Thay đổi mật khẩu</a>
-                        </li>-->
-                        <!-- Nav item -->
-                        <!--<li class="nav-item">
-                            <a class="nav-link" href="security.html"><i class="fe fe-lock nav-icon"></i>Bảo mật</a>
-                        </li>-->
-                        <!-- Nav item -->
-                        <!--<li class="nav-item">
-                            <a class="nav-link" href="social-profile.html">
-                                <i class="fe fe-refresh-cw nav-icon"></i>Hồ sơ mạng xã hội
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="notifications.html"><i class="fe fe-bell nav-icon"></i>Thông báo</a>
-                        </li>-->
-                        <!-- Nav item -->
-                        <!--<li class="nav-item">
-                                <a class="nav-link" href="~/Content/Admin/index.html"><i class="fe fe-power nav-icon"></i>Đăng xuất</a>
-                            </li>
-                        </ul>-->
                     </div>
                 </div>
             </nav>
@@ -185,24 +152,8 @@
                         Các thông tin về nhân viên được hiển thị dưới dạng xem.
                     </p>
                 </div>
-                <!-- Card body -->
                 <div class="card-body">
-                    @*<div class="d-lg-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center mb-4 mb-lg-0">
-                                <img src="~/Content/Admin/assets/images/avatar/avatar-3.jpg" id="img-uploaded" class="avatar-xl rounded-circle" alt="" />
-                                <div class="ms-3">
-                                    <h4 class="mb-0">Hình đại diện</h4>
-                                    <p class="mb-0">
-                                        PNG hoặc JPG hình vuông không lớn hơn 800px.
-                                    </p>
-                                </div>
-                            </div>
-                            <div>
-                                <a href="#" class="btn btn-outline-white btn-sm">Tải lên</a>
-                                <a href="#" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
-                            </div>
-                        </div>
-                        <hr class="my-4" />*@
+
                     <div>
                         <form class="row">
                             <!-- First name -->
@@ -265,13 +216,6 @@
                                 <label style="font-weight:bold;" class="form-label" for="phone">Chủ tài khoản</label>
                                 <input readonly value="@Model.BankAccountHolderName" type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
                             </div>
-                            <!--<hr class="my-3" />
-                            <div class="col-12">-->
-                            <!-- Button -->
-                            <!--<button class="btn btn-primary" type="submit">
-                                    Lưu Chỉnh Sửa
-                                </button>
-                            </div>-->
                         </form>
                     </div>
                 </div>
@@ -281,224 +225,252 @@
 </div>
 
 <script>
-
     $(document).on('click', '#csthongtin', function (e) {
         $.ajax({
-            url: '@Url.Action("chinhSuaThongTinPartial", "QuanLyNhanSu", new {ID = Model.ID})',
+            url: '@Url.Action("chinhSuaThongTinPartial", "QuanLyNhanSu", new {id = Model.ID })',
             type: 'GET',
             dataType: 'html'
         }).done(function (ketqua) {
-            $('#contentPartial').replaceWith(ketqua);
-            $.when(
-                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                $.Deferred(function (deferred) {
-                    $(deferred.resolve);
-                })
-            ).done(function () {
-                //place your code here, the scripts are all loaded
-            });
-
+            if (ketqua !== "DANHSACH") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            }
+            else {
+                window.location.href = $('#actionDanhsach').data('request-url');
+            }
         });
     });
 
     $(document).on('click', '#ttchiTiet', function (e) {
         $.ajax({
-            url: '@Url.Action("thongTinChiTietPartial", "QuanLyNhanSu", new {ID = 1})',
+            url: '@Url.Action("thongTinChiTietPartial", "QuanLyNhanSu", new {id = Model.ID })',
             type: 'GET',
             dataType: 'html'
         }).done(function (ketqua) {
-            $('#contentPartial').replaceWith(ketqua);
-            $.when(
-                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                $.Deferred(function (deferred) {
-                    $(deferred.resolve);
-                })
-            ).done(function () {
-                //place your code here, the scripts are all loaded
-            });
-
+             if (ketqua !== "DANHSACH") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            }
+            else {
+                window.location.href = $('#actionDanhsach').data('request-url');
+            }
         });
     });
 
    $(document).on('click', '#DAThamGia', function (e) {
         $.ajax({
-            url: '@Url.Action("duAnThamGiaPartial", "QuanLyNhanSu", new {ID = 1})',
+            url: '@Url.Action("duAnThamGiaPartial", "QuanLyNhanSu", new {id = Model.ID })',
             type: 'GET',
             dataType: 'html'
         }).done(function (ketqua) {
-            $('#contentPartial').replaceWith(ketqua);
-            $.when(
-                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                $.Deferred(function (deferred) {
-                    $(deferred.resolve);
-                })
-            ).done(function () {
-                //place your code here, the scripts are all loaded
-            });
+            if (ketqua !== "DANHSACH") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            }
+            else {
+                window.location.href = $('#actionDanhsach').data('request-url');
+            }
 
         });
     });
 
     $(document).on('click', '#LSHoatDong', function (e) {
         $.ajax({
-            url: '@Url.Action("lichSuHoatDongPartial", "QuanLyNhanSu", new {ID = 1})',
+            url: '@Url.Action("lichSuHoatDongPartial", "QuanLyNhanSu", new {id = Model.ID })',
             type: 'GET',
             dataType: 'html'
         }).done(function (ketqua) {
-            $('#contentPartial').replaceWith(ketqua);
-            $.when(
-                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                $.Deferred(function (deferred) {
-                    $(deferred.resolve);
-                })
-            ).done(function () {
-                //place your code here, the scripts are all loaded
-            });
+            if (ketqua !== "DANHSACH") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            }
+            else {
+                window.location.href = $('#actionDanhsach').data('request-url');
+            }
 
         });
     });
 
     $(document).on('click', '#bangLuongs', function (e) {
         $.ajax({
-            url: '@Url.Action("bangLuongPartial", "QuanLyNhanSu", new {ID = 1})',
+            url: '@Url.Action("bangLuongPartial", "QuanLyNhanSu", new {id = Model.ID })',
             type: 'GET',
             dataType: 'html'
         }).done(function (ketqua) {
-            $('#contentPartial').replaceWith(ketqua);
-            $.when(
-                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                $.Deferred(function (deferred) {
-                    $(deferred.resolve);
-                })
-            ).done(function () {
-                //place your code here, the scripts are all loaded
-            });
-
+             if (ketqua !== "DANHSACH") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            }
+            else {
+                window.location.href = $('#actionDanhsach').data('request-url');
+            }
         });
     });
 
     $(document).on('click', '#LBCongViec', function (e) {
         $.ajax({
-            url: '@Url.Action("lichBieuPartial", "QuanLyNhanSu", new {ID = 1})',
+            url: '@Url.Action("lichBieuPartial", "QuanLyNhanSu", new {id = Model.ID })',
             type: 'GET',
             dataType: 'html'
         }).done(function (ketqua) {
-            $('#contentPartial').replaceWith(ketqua);
-            $.when(
-                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                $.Deferred(function (deferred) {
-                    $(deferred.resolve);
-                })
-            ).done(function () {
-                //place your code here, the scripts are all loaded
-            });
-
+             if (ketqua !== "DANHSACH") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            }
+            else {
+                window.location.href = $('#actionDanhsach').data('request-url');
+            }
         });
     });
 
     $(document).on('click', '#BCThongKe', function (e) {
         $.ajax({
-            url: '@Url.Action("baoCaoThongKePartial", "QuanLyNhanSu", new {ID = 1})',
+            url: '@Url.Action("baoCaoThongKePartial", "QuanLyNhanSu", new {id = Model.ID })',
             type: 'GET',
             dataType: 'html'
         }).done(function (ketqua) {
-            $('#contentPartial').replaceWith(ketqua);
-            $.when(
-                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                $.Deferred(function (deferred) {
-                    $(deferred.resolve);
-                })
-            ).done(function () {
-                //place your code here, the scripts are all loaded
-            });
-            if ($("#taskSummary").length) {
-                e = {
-                    series: [{
-                        name: "Closed",
-                        type: "column",
-                        data: [11, 18, 20, 32, 19, 25, 30]
-                    }, {
-                        name: "New",
-                        type: "line",
-                        data: [30, 32, 28, 50, 38, 35, 49]
-                    }],
-                    chart: {
-                        height: 350,
-                        type: "line",
-                        toolbar: {
-                            show: !1
-                        }
-                    },
-                    plotOptions: {
-                        bar: {
-                            horizontal: !1,
-                            columnWidth: "40%",
-                            borderRadius: 5
-                        }
-                    },
-                    markers: {
-                        colors: [window.theme.dark],
-                        fillColor: window.theme.gray200
-                    },
-                    colors: [window.theme.lightPrimary, window.theme.primary],
-                    legend: {
-                        show: !1
-                    },
-                    stroke: {
-                        width: [0, 4],
-                        colors: [window.theme.lightPrimary]
-                    },
-                    dataLabels: {
-                        enabled: !0,
-                        enabledOnSeries: [1]
-                    },
-                    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-                    xaxis: {
-                        labels: {
-                            style: {
-                                fontSize: "13px",
-                                fontWeight: 400,
-                                colors: window.theme.gray500,
-                                fontFamily: "inter"
-                            }
-                        }
-                    },
-                    yaxis: {
-                        labels: {
-                            style: {
-                                fontSize: "13px",
-                                fontWeight: 400,
-                                colors: window.theme.gray500,
-                                fontFamily: "inter"
-                            }
-                        }
-                    }
-                };
-                new ApexCharts(document.querySelector("#taskSummary"), e).render()
+             if (ketqua !== "DANHSACH") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+                 if ($("#taskSummary").length) {
+                     e = {
+                         series: [{
+                             name: "Closed",
+                             type: "column",
+                             data: [11, 18, 20, 32, 19, 25, 30]
+                         }, {
+                             name: "New",
+                             type: "line",
+                             data: [30, 32, 28, 50, 38, 35, 49]
+                         }],
+                         chart: {
+                             height: 350,
+                             type: "line",
+                             toolbar: {
+                                 show: !1
+                             }
+                         },
+                         plotOptions: {
+                             bar: {
+                                 horizontal: !1,
+                                 columnWidth: "40%",
+                                 borderRadius: 5
+                             }
+                         },
+                         markers: {
+                             colors: [window.theme.dark],
+                             fillColor: window.theme.gray200
+                         },
+                         colors: [window.theme.lightPrimary, window.theme.primary],
+                         legend: {
+                             show: !1
+                         },
+                         stroke: {
+                             width: [0, 4],
+                             colors: [window.theme.lightPrimary]
+                         },
+                         dataLabels: {
+                             enabled: !0,
+                             enabledOnSeries: [1]
+                         },
+                         labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                         xaxis: {
+                             labels: {
+                                 style: {
+                                     fontSize: "13px",
+                                     fontWeight: 400,
+                                     colors: window.theme.gray500,
+                                     fontFamily: "inter"
+                                 }
+                             }
+                         },
+                         yaxis: {
+                             labels: {
+                                 style: {
+                                     fontSize: "13px",
+                                     fontWeight: 400,
+                                     colors: window.theme.gray500,
+                                     fontFamily: "inter"
+                                 }
+                             }
+                         }
+                     };
+                     new ApexCharts(document.querySelector("#taskSummary"), e).render()
+                 }
             }
-
-
+            else {
+                window.location.href = $('#actionDanhsach').data('request-url');
+            }
         });
     });
 </script>
