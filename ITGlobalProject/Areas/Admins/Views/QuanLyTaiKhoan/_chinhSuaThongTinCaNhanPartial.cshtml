@@ -1,4 +1,17 @@
-﻿<div id="contentPartial" class="container-fluid p-4">
+﻿@model ITGlobalProject.Models.Employees
+@{
+    string imagesUrl = "";
+    if (string.IsNullOrEmpty(Model.Avatar))
+    {
+        imagesUrl = "~/Content/Admin/assets/images/avatar/default-avatar.png";
+    }
+    else
+    {
+        imagesUrl = Model.Avatar;
+    }
+}
+
+<div id="contentPartial" class="container-fluid p-4">
     <div class="row">
         <!-- Page Header -->
         <div class="col-lg-12 col-md-12 col-12">
@@ -13,7 +26,7 @@
                             <li class="breadcrumb-item">
                                 <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan")">Thông Tin Cá Nhân</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new {id = Model.ID})">Thông Tin Cá Nhân</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -29,15 +42,15 @@
              rounded-bottom-md shadow-sm">
                 <div class="d-flex align-items-center">
                     <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
-                        <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg" class="avatar-xl rounded-circle border border-4 border-white"
+                        <img src="@Url.Content(imagesUrl)" class="avatar-xl rounded-circle border border-4 border-white"
                              alt="" />
                     </div>
                     <div class="lh-1">
                         <h2 class="mb-0">
-                            Đặng Văn Tuấn
-                            <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Quản Trị"></i>
+                            @Model.Name
+                            <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="@Model.Position.Name"></i>
                         </h2>
-                        <p class="mb-0 d-block">tuan.dv@@itglobal.net</p>
+                        <p class="mb-0 d-block">@Model.Email</p>
                     </div>
 
                 </div>
@@ -80,50 +93,11 @@
                             </li>
                             <hr />
                             <li style="text-align:center; margin-top:20px">
-                                <a id="alert_demo_3_3" style="width:100%" class="btn btn-outline-danger btn-sm">
-                                    <i class="fe fe-log-out "> </i> ĐĂNG XUẤT
+                                <a id="dangXuats" style="width:100%" class="btn btn-outline-danger btn-sm">
+                                    ĐĂNG XUẤT  &nbsp;<i class="fe fe-log-out "> </i>
                                 </a>
                             </li>
-
-                            @*Nav item*@
-                            <!--<li class="nav-item">
-                                <a class="nav-link" href="~/Content/Admin/index.html"><i class="fe fe-power nav-icon"></i>Đăng xuất</a>
-                            </li>-->
                         </ul>
-
-                        <!--<span class="navbar-header">Cài đặt tài khoản</span>
-                        <!-- List
-                        <!--<ul class="list-unstyled ms-n2 mb-0">
-                                    </ul>
-
-                                    <!--<span class="navbar-header">Cài đặt tài khoản</span>
-                                    <!-- List
-                                    <!--<ul class="list-unstyled ms-n2 mb-0">-->
-                        <!-- Nav item -->
-                        <!--@*<li class="nav-item ">
-                                <a class="nav-link" href="profile-edit.html"><i class="fe fe-settings nav-icon"></i>Chỉnh sửa thông tin</a>
-                            </li>*@
-                        <li class="nav-item">
-                            <a class="nav-link " href="linked-accounts.html"><i class="fe fe-edit nav-icon"></i>Thay đổi mật khẩu</a>
-                        </li>-->
-                        <!-- Nav item -->
-                        <!--<li class="nav-item">
-                            <a class="nav-link" href="security.html"><i class="fe fe-lock nav-icon"></i>Bảo mật</a>
-                        </li>-->
-                        <!-- Nav item -->
-                        <!--<li class="nav-item">
-                            <a class="nav-link" href="social-profile.html">
-                                <i class="fe fe-refresh-cw nav-icon"></i>Hồ sơ mạng xã hội
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="notifications.html"><i class="fe fe-bell nav-icon"></i>Thông báo</a>
-                        </li>-->
-                        <!-- Nav item -->
-                        <!--<li class="nav-item">
-                                <a class="nav-link" href="~/Content/Admin/index.html"><i class="fe fe-power nav-icon"></i>Đăng xuất</a>
-                            </li>
-                        </ul>-->
                     </div>
                 </div>
             </nav>
@@ -134,14 +108,15 @@
                 <div class="card-header">
                     <h3 class="mb-0">Cập Nhật Thông Tin</h3>
                     <p class="mb-0">
-                        Cập nhật các thông tin cá nhân cần thay đổi của Nhân viên. Chọn lưu để lưu thay đổi, Hủy để đặt lại các trường thông tin như ban đầu.
+                        Cập nhật các thông tin cá nhân cần thay đổi. Chọn lưu để lưu thay đổi, Hủy để đặt lại các trường thông tin như ban đầu.
                     </p>
                 </div>
                 <!-- Card body -->
                 <div class="card-body">
-                    <div class="d-lg-flex align-items-center justify-content-between">
+                    <div id="reloadImage" class="d-lg-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center mb-4 mb-lg-0">
-                            <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg" id="img-uploaded" class="avatar-xl rounded-circle" alt="" />
+                            <img src="@Url.Content(imagesUrl)" class="avatar-xl rounded-circle border border-4 border-white"
+                                 alt="" id="previewImage" />
                             <div class="ms-3">
                                 <h4 class="mb-0">Hình đại diện</h4>
                                 <p class="mb-0">
@@ -150,8 +125,9 @@
                             </div>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Tải lên</a>
-                            <a href="#" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
+                            <input hidden id="selectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewImage'))" />
+                            <a role="button" id="clickFiles" class="btn btn-outline-primary btn-sm">Tải lên</a>
+                            <a role="button" id="reloadButton" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
                         </div>
                     </div>
                     <hr class="my-4" />
@@ -160,45 +136,64 @@
                             <!-- First name -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="fname">Họ và Tên <span class="text-danger">*</span></label>
-                                <input value="Lê Thị Lợi" type="text" id="fname" class="form-control" placeholder="Nguyễn Văn A..." required />
+                                <input value="@Model.ID" name="id" id="id" hidden />
+                                <input value="@Model.Avatar" name="avatar" id="avatar" hidden />
+                                <input value="@Model.Name" type="text" id="hoten" name="hoten" class="form-control" placeholder="Nguyễn Văn A" />
+                                <p style="font-size: 13px; color:red;" id="hotenvalidation"></p>
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="fname">Số CMND/CCCD <span class="text-danger">*</span></label>
-                                <input value="070200001111" type="text" id="fname" class="form-control" placeholder="07020000xxxx..." required />
+                                <input value="@Model.IdentityCard" type="text" id="cmnd" name="cmnd" class="form-control" placeholder="07020000xxxx" />
+                                <p style="font-size: 13px; color:red;" id="cmndvalidation"></p>
                             </div>
                             <!-- Phone -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
-                                <input value="0284752831" type="tel" id="phone" class="form-control" placeholder="0999888777..." required />
+                                <input value="@Model.Phone" type="tel" id="sodienthoai" name="sodienthoai" class="form-control" placeholder="0999888xxx" />
+                                <p style="font-size: 13px; color:red;" id="sodienthoaivalidation"></p>
                             </div>
                             <!-- Birthday -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh <span class="text-danger">*</span></label>
-                                <input value="2001-05-19" class="form-control flatpickr" type="text" placeholder="2000-01-01..." id="birth"
-                                       name="birth" />
+                                <input value="@Model.Birthday.ToString("yyyy-MM-dd")" class="form-control flatpickr" type="text" placeholder="2000-01-01" id="ngaysinh" name="ngaysinh" />
+                                <p style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
-                                <input value="loi.lt@itglobal.net" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
+                                <input value="@Model.Email" type="text" id="diachiemail" name="diachiemail" class="form-control" placeholder="example@itglobal.net" />
+                                <p style="font-size: 13px; color:red;" id="diachiemailvalidation"></p>
                             </div>
                             <!-- Birthday -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label">Giới tính <span class="text-danger">*</span></label>
-                                <select style="color:dimgray" class="form-select" data-width="100%">
-                                    <option selected value="">Chọn giới tính</option>
-                                    <option value="nam">Nam</option>
-                                    <option value="nu">Nữ</option>
+                                <select style="color: black" name="gioitinh" id="gioitinh" class="form-select" data-width="100%">
+                                    @if (Model.Sex.Equals("Nam"))
+                                    {
+                                        <option selected value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Nam">Nam</option>
+                                        <option selected value="Nữ">Nữ</option>
+                                    }
                                 </select>
+                                <p style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
+                            </div>
+                            <!-- Address -->
+                            <div class="mb-3 col-12 col-md-12">
+                                <label style="font-weight:bold" class="form-label" for="address">Địa chỉ </label>
+                                <textarea rows="4" id="diachinha" name="diachinha" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla">@Model.Address</textarea>
                             </div>
                             <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
                                 <button style="width: 230px" class="btn btn-outline-danger" type="reset">
                                     Hủy thay đổi
                                 </button>
                             </div>
-                            <div style=" padding-top: 20px" class="mb-3 col-12 col-md-6">
-                                <button style="width: 230px" class="btn btn-success" type="submit">
+                            <div style="padding-top: 20px" class="mb-3 col-12 col-md-6">
+                                <a role="button" id="luuChinhSua" style="width: 230px" class="btn btn-success">
                                     Lưu thay đổi
-                                </button>
+                                </a>
                             </div>
                         </form>
                     </div>
@@ -207,3 +202,4 @@
         </div>
     </div>
 </div>
+<script src="~/Content/Admin/assets/js/reviewImage.js"></script>

@@ -1,8 +1,18 @@
-﻿
+﻿@model ITGlobalProject.Models.Employees
+
 @{
     ViewBag.Title = "Thông Tin Cá Nhân";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
 }
+<!--Sửa tt-->
+<input hidden value="@Model.ID" id="idus" />
+<input hidden value="@Url.Content("~/Content/Admin/assets/images/avatar/default-avatar.png")" id="urlIgmStr" />
+<div id="actionDangXuat" hidden data-request-url="@Url.Action("DangNhap", "QuanLyTaiKhoan")"></div>
+<div id="actionSubmit" hidden data-request-url="@Url.Action("ChinhSuaThongTinCaNhanPartial", "QuanLyTaiKhoan")"></div>
+<div id="actionDanhsach" hidden data-request-url="@Url.Action("Overview", "Dashboard")"></div>
+
+<!--Đổi mk-->
+<div id="actionSubmitPass" hidden data-request-url="@Url.Action("doiMatKhauPartial", "QuanLyTaiKhoan")"></div>
 
 <div id="contentPartial" class="container-fluid p-4">
     <div class="row">
@@ -19,7 +29,7 @@
                             <li class="breadcrumb-item">
                                 <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan")">Thông Tin Cá Nhân</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new { id = Session["user-id"] })">Thông Tin Cá Nhân</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -35,15 +45,23 @@
              rounded-bottom-md shadow-sm">
                 <div class="d-flex align-items-center">
                     <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
-                        <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg" class="avatar-xl rounded-circle border border-4 border-white"
-                             alt="" />
+                        @if (string.IsNullOrEmpty(Model.Avatar))
+                        {
+                            <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xl rounded-circle border border-4 border-white"
+                                 alt="" />
+                        }
+                        else
+                        {
+                            <img src="@Model.Avatar" class="avatar-xl rounded-circle border border-4 border-white"
+                                 alt="" />
+                        }
                     </div>
                     <div class="lh-1">
                         <h2 class="mb-0">
-                            Đặng Văn Tuấn
-                            <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Quản Trị"></i>
+                            @Model.Name
+                            <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="@Model.Position.Name"></i>
                         </h2>
-                        <p class="mb-0 d-block">tuan.dv@@itglobal.net</p>
+                        <p class="mb-0 d-block">@Model.Email</p>
                     </div>
 
                 </div>
@@ -86,47 +104,11 @@
                             </li>
                             <hr />
                             <li style="text-align:center; margin-top:20px">
-                                <a id="alert_demo_3_3" style="width:100%" class="btn btn-outline-danger btn-sm">
-                                    <i class="fe fe-log-out "> </i> ĐĂNG XUẤT
+                                <a id="dangXuats" style="width:100%" class="btn btn-outline-danger btn-sm">
+                                    ĐĂNG XUẤT  &nbsp;<i class="fe fe-log-out "> </i>
                                 </a>
                             </li>
                         </ul>
-
-
-
-                        <!--<span class="navbar-header">Cài đặt tài khoản</span>
-                        <!-- List
-                        <!--<ul class="list-unstyled ms-n2 mb-0">
-                                    </ul>
-
-                                    <!--<span class="navbar-header">Cài đặt tài khoản</span>
-                                    <!-- List
-                                    <!--<ul class="list-unstyled ms-n2 mb-0">-->
-                        <!-- Nav item -->
-                        <!--@*<li class="nav-item ">
-                                <a class="nav-link" href="profile-edit.html"><i class="fe fe-settings nav-icon"></i>Chỉnh sửa thông tin</a>
-                            </li>*@
-                        <li class="nav-item">
-                            <a class="nav-link " href="linked-accounts.html"><i class="fe fe-edit nav-icon"></i>Thay đổi mật khẩu</a>
-                        </li>-->
-                        <!-- Nav item -->
-                        <!--<li class="nav-item">
-                            <a class="nav-link" href="security.html"><i class="fe fe-lock nav-icon"></i>Bảo mật</a>
-                        </li>-->
-                        <!-- Nav item -->
-                        <!--<li class="nav-item">
-                            <a class="nav-link" href="social-profile.html">
-                                <i class="fe fe-refresh-cw nav-icon"></i>Hồ sơ mạng xã hội
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="notifications.html"><i class="fe fe-bell nav-icon"></i>Thông báo</a>
-                        </li>-->
-                        <!-- Nav item -->
-                        <!--<li class="nav-item">
-                                <a class="nav-link" href="~/Content/Admin/index.html"><i class="fe fe-power nav-icon"></i>Đăng xuất</a>
-                            </li>
-                        </ul>-->
                     </div>
                 </div>
             </nav>
@@ -137,57 +119,45 @@
                 <div class="card-header">
                     <h3 class="mb-0">Thông Tin Cá Nhân  </h3>
                     <p class="mb-0">
-                        Các thông tin về nhân viên được hiển thị dưới dạng xem.
+                        Các thông tin cá nhân được hiển thị dưới dạng xem.
                     </p>
                 </div>
                 <!-- Card body -->
                 <div class="card-body">
-                    @*<div class="d-lg-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center mb-4 mb-lg-0">
-                                <img src="~/Content/Admin/assets/images/avatar/avatar-3.jpg" id="img-uploaded" class="avatar-xl rounded-circle" alt="" />
-                                <div class="ms-3">
-                                    <h4 class="mb-0">Hình đại diện</h4>
-                                    <p class="mb-0">
-                                        PNG hoặc JPG hình vuông không lớn hơn 800px.
-                                    </p>
-                                </div>
-                            </div>
-                            <div>
-                                <a href="#" class="btn btn-outline-white btn-sm">Tải lên</a>
-                                <a href="#" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
-                            </div>
-                        </div>
-                        <hr class="my-4" />*@
                     <div>
                         <form class="row">
                             <!-- First name -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="fname">Họ và Tên</label>
-                                <input readonly value="Lê Thị Lợi" type="text" id="fname" class="form-control" placeholder="Nguyễn Văn A..." required />
+                                <input readonly value="@Model.Name" type="text" id="fname" class="form-control" placeholder="Nguyễn Văn A..." required />
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="fname">Số CMND/CCCD</label>
-                                <input readonly value="070200001111" type="text" id="fname" class="form-control" placeholder="07020000xxxx..." required />
+                                <input readonly value="@Model.IdentityCard" type="text" id="fname" class="form-control" placeholder="07020000xxxx..." required />
                             </div>
                             <!-- Phone -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại</label>
-                                <input readonly value="0284752831" type="tel" id="phone" class="form-control" placeholder="0999888777..." required />
+                                <input readonly value="@Model.Phone" type="tel" id="phone" class="form-control" placeholder="0999888777..." required />
                             </div>
                             <!-- Birthday -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh</label>
-                                <input style="background-color: #F5F4F8" disabled value="2001-05-19" class="form-control flatpickr" type="text" placeholder="2000-01-01..." id="birth"
+                                <input style="background-color: #F5F4F8" disabled value="@Model.Birthday.ToString("yyyy-MM-dd")" class="form-control flatpickr" type="text" placeholder="2000-01-01..." id="birth"
                                        name="birth" />
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Email</label>
-                                <input readonly value="loi.lt@itglobal.net" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
+                                <input readonly value="@Model.Email" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
                             </div>
                             <!-- Birthday -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label">Giới tính</label>
-                                <input readonly value="Nữ" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
+                                <input readonly value="@Model.Sex" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
+                            </div>
+                            <div class="mb-3 col-12 col-md-12">
+                                <label style="font-weight:bold" class="form-label" for="address">Địa chỉ </label>
+                                <textarea readonly rows="4" id="diachinha" name="diachinha" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla">@Model.Address</textarea>
                             </div>
                         </form>
                     </div>
@@ -196,65 +166,81 @@
         </div>
     </div>
 </div>
-
+<script src="~/ValidationAlert/QuanLyTaiKhoan/ChinhSuaThongTinCaNhanValidation.js"></script>
 <script>
+
     $(document).on('click', '#csthongtin', function (e) {
         $.ajax({
-            url: '@Url.Action("ChinhSuaThongTinCaNhanPartial", "QuanLyTaiKhoan")',
+            url: '@Url.Action("ChinhSuaThongTinCaNhanPartial", "QuanLyTaiKhoan", new {id = Model.ID})',
             type: 'GET',
             dataType: 'html'
         }).done(function (ketqua) {
-            $('#contentPartial').replaceWith(ketqua);
-            $.when(
-                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                $.Deferred(function (deferred) {
-                    $(deferred.resolve);
-                })
-            ).done(function () {
-                //place your code here, the scripts are all loaded
-            });
+            if (ketqua !== "TRANGCHU") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.getScript("@Url.Content("~/ValidationAlert/QuanLyTaiKhoan/ChinhSuaThongTinCaNhanValidation.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            } else {
+                window.location.href = '@Url.Action("Overview", "Dashboard")';
+            }
 
         });
     });
     $(document).on('click', '#ttchiTiet', function (e) {
         $.ajax({
-            url: '@Url.Action("ThongTinCaNhanPartial", "QuanLyTaiKhoan")',
+            url: '@Url.Action("ThongTinCaNhanPartial", "QuanLyTaiKhoan", new { id = Model.ID} )',
             type: 'GET',
             dataType: 'html'
         }).done(function (ketqua) {
-            $('#contentPartial').replaceWith(ketqua);
-            $.when(
-                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                $.Deferred(function (deferred) {
-                    $(deferred.resolve);
-                })
-            ).done(function () {
-                //place your code here, the scripts are all loaded
-            });
+            if (ketqua !== "TRANGCHU") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.getScript("@Url.Content("~/ValidationAlert/QuanLyTaiKhoan/ChinhSuaThongTinCaNhanValidation.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            } else {
+                window.location.href = '@Url.Action("Overview", "Dashboard")';
+            }
 
         });
     });
     $(document).on('click', '#tdmatkhau', function (e) {
         $.ajax({
-            url: '@Url.Action("doiMatKhauPartial", "QuanLyTaiKhoan")',
+            url: '@Url.Action("doiMatKhauPartial", "QuanLyTaiKhoan", new {id = Model.ID})',
             type: 'GET',
             dataType: 'html'
         }).done(function (ketqua) {
-            $('#contentPartial').replaceWith(ketqua);
-            $.when(
-                $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                $.Deferred(function (deferred) {
-                    $(deferred.resolve);
-                })
-            ).done(function () {
-                //place your code here, the scripts are all loaded
-            });
+            if (ketqua !== "TRANGCHU") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.getScript("@Url.Content("~/ValidationAlert/QuanLyTaiKhoan/ChinhSuaThongTinCaNhanValidation.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            } else {
+                window.location.href = '@Url.Action("Overview", "Dashboard")';
+            }
         });
     });
 </script>

@@ -499,7 +499,8 @@
     <Content Include="Content\Admin\vendor\select2\select2.min.css" />
     <Content Include="Content\Admin\vendor\select2\select2.min.js" />
     <Content Include="Content\Admin\vendor\tilt\tilt.jquery.min.js" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap-btn.css" />
+    <Content Include="Content\images\default-avatar.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\User\public\css\app.css" />
     <Content Include="Content\User\public\images\hero-bottom.svg" />
@@ -750,8 +751,10 @@
     <Content Include="ValidationAlert\QuanLyNhanSu\KhoaTaiKhoanValidation.js" />
     <Content Include="ValidationAlert\QuanLyNhanSu\ThemNhanVienValidation.js" />
     <Content Include="ValidationAlert\QuanLyNhanSu\TimKiemNhanVien.js" />
+    <Content Include="ValidationAlert\QuanLyTaiKhoan\ChinhSuaThongTinCaNhanValidation.js" />
     <Content Include="ValidationAlert\QuanLyTaiKhoan\DangNhapValidation.js" />
     <Content Include="ValidationAlert\QuanLyTaiKhoan\DatLaiMatKhauValidation.js" />
+    <Content Include="ValidationAlert\QuanLyTaiKhoan\DoiMatKhauValidation.js" />
     <Content Include="ValidationAlert\QuanLyTaiKhoan\QuenMatKhauValidation.js" />
     <Content Include="ValidationAlert\QuanLyTaiKhoan\XacThucQuenMatKhauValidation.js" />
     <Content Include="Web.config" />
@@ -777,7 +780,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\images\" />
     <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
