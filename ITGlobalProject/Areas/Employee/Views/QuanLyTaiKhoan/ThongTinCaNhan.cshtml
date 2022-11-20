@@ -1,5 +1,24 @@
 ﻿@model ITGlobalProject.Models.Employees
 
+@{
+    ViewBag.Title = "Thông Tin Cá Nhân";
+    Layout = "~/Areas/Employee/Views/Shared/_EmployeeLayout.cshtml";
+}
+<!--Sửa tt-->
+<input hidden value="@Model.ID" id="idus" />
+<input hidden value="@Url.Content("~/Content/Admin/assets/images/avatar/default-avatar.png")" id="urlIgmStr" />
+<div id="actionDangXuat" hidden data-request-url="@Url.Action("DangXuat", "QuanLyTaiKhoan")"></div>
+<div id="actionSubmit" hidden data-request-url="@Url.Action("ChinhSuaThongTinCaNhanPartial", "QuanLyTaiKhoan")"></div>
+<div id="actionDanhsach" hidden data-request-url="@Url.Action("Overview", "Dashboard")"></div>
+
+<input hidden value="@Url.Content("~/Content/Admin/assets/js/theme.min.js")" id="getScripts1" />
+<input hidden value="@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")" id="getScripts2" />
+<input hidden value="@Url.Content("~/ValidationAlert/Employee/QuanLyTaiKhoan/ChinhSuaThongTinCaNhanValidation.js")" id="getScripts3" />
+
+
+<!--Đổi mk-->
+<div id="actionSubmitPass" hidden data-request-url="@Url.Action("doiMatKhauPartial", "QuanLyTaiKhoan")"></div>
+
 <div id="contentPartial" class="container-fluid p-4">
     <div class="row">
         <!-- Page Header -->
@@ -7,7 +26,7 @@
             <div class="border-bottom pb-4 mb-4 d-flex justify-content-between align-items-center">
                 <div class="mb-2 mb-lg-0">
                     <h1 class="mb-1 h2 fw-bold">
-                        Thông Tin Chi Tiết
+                        Thông Tin Cá Nhân
                     </h1>
                     <!-- Breadcrumb  -->
                     <nav aria-label="breadcrumb">
@@ -15,32 +34,20 @@
                             <li class="breadcrumb-item">
                                 <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
                             </li>
-                            <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">Quản Lý Nhân Sự</a></li>
-                            <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">Nhân Viên</a></li>
-
-                            <li class="breadcrumb-item active" aria-current="page">
-                                Thông Tin Chi Tiết
-                            </li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new { id = Session["user-id"] })">Thông Tin Cá Nhân</a></li>
                         </ol>
                     </nav>
                 </div>
-
             </div>
         </div>
     </div>
-
     <!-- User info -->
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-12">
             <!-- Bg -->
-            <div class="pt-16 rounded-top-md" style="
-								background: url(@Url.Content("~/Content/Admin/assets/images/background/profile-bg.jpg")) no-repeat;
-								background-size: cover;
-							"></div>
+            <div class="pt-16 rounded-top-md" style=" background: url(@Url.Content("~/Content/Admin/assets/images/background/profile-bg-admin.jpg")) no-repeat; background-size: cover; "></div>
             <div class="d-flex align-items-end justify-content-between bg-white px-4 pt-2 pb-4 rounde
-
-
-                     rounded-bottom-md shadow-sm">
+             rounded-bottom-md shadow-sm">
                 <div class="d-flex align-items-center">
                     <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
                         @if (string.IsNullOrEmpty(Model.Avatar))
@@ -57,29 +64,34 @@
                     <div class="lh-1">
                         <h2 class="mb-0">
                             @Model.Name
-                            <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
+                            <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="@Model.Position.Name"></i>
                         </h2>
                         <p class="mb-0 d-block">@Model.Email</p>
                     </div>
 
                 </div>
-                <div><span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: 2022-10-14</span></div>
-
             </div>
         </div>
     </div>
+    <!-- Content -->
     <div class="row mt-0 mt-md-4">
         <div class="col-lg-3 col-md-4 col-12">
+            <!-- Side navbar -->
             <nav class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
+                <!-- Menu -->
                 <a class="d-xl-none d-lg-none d-md-none text-inherit fw-bold" href="#">Menu</a>
+                <!-- Button -->
                 <button class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light" type="button"
                         data-bs-toggle="collapse" data-bs-target="#sidenav" aria-controls="sidenav" aria-expanded="false"
                         aria-label="Toggle navigation">
                     <span class="fe fe-menu"></span>
                 </button>
+                <!-- Collapse navbar -->
                 <div class="collapse navbar-collapse" id="sidenav">
                     <div class="navbar-nav flex-column">
                         <span class="navbar-header">Thông Tin Tài Khoản</span>
+                        <!-- List -->
+                        @*<ul class="list-unstyled ms-n2 mb-4">*@
                         <ul class="list-unstyled ms-n2 mb-0">
                             <!-- Nav item -->
                             <li class="nav-item active">
@@ -93,50 +105,15 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a role="button" class="nav-link" id="DAThamGia">
-                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a role="button" class="nav-link" id="LSHoatDong">
-                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a role="button" id="bangLuongs" class="nav-link">
-                                    <i class="fe fe-file-text nav-icon"></i>Bảng lương
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a role="button" class="nav-link" id="LBCongViec">
-                                    <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
-                                </a>
-                            </li>
-                            <li class="nav-item  ">
-                                <a role="button" class="nav-link" id="BCThongKe">
-                                    <i class="fe fe-pie-chart nav-icon"></i>Báo cáo thống kê
-                                </a>
+                                <a role="button" id="tdmatkhau" class="nav-link"><i class="fe fe-settings nav-icon"></i>Thay đổi mật khẩu</a>
                             </li>
                             <hr />
-                            @if (Model.Lock == false)
-                            {
-                                <li style="text-align:center; margin-top:20px">
-                                    <a id="khoataikhoan" style="width:100%" class="btn btn-outline-danger btn-sm">
-                                        KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
-                                    </a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li style="text-align:center; margin-top:20px">
-                                    <a id="khoataikhoan" style="width:100%" class="btn btn-outline-success btn-sm">
-                                        MỞ KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
-                                    </a>
-                                </li>
-                            }
-
+                            <li style="text-align:center; margin-top:20px">
+                                <a id="dangXuats" style="width:100%" class="btn btn-outline-danger btn-sm">
+                                    ĐĂNG XUẤT  &nbsp;<i class="fe fe-log-out "> </i>
+                                </a>
+                            </li>
                         </ul>
-
                     </div>
                 </div>
             </nav>
@@ -147,15 +124,13 @@
                 <div class="card-header">
                     <h3 class="mb-0">Thông Tin Cá Nhân  </h3>
                     <p class="mb-0">
-                        Các thông tin về nhân viên được hiển thị dưới dạng xem.
+                        Các thông tin cá nhân được hiển thị dưới dạng xem.
                     </p>
                 </div>
                 <!-- Card body -->
                 <div class="card-body">
-
                     <div>
-                        <form class="row">
-                            <!-- First name -->
+                        <div class="row">
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="fname">Họ và Tên</label>
                                 <input readonly value="@Model.Name" type="text" id="fname" class="form-control" placeholder="Nguyễn Văn A..." required />
@@ -215,12 +190,89 @@
                                 <label style="font-weight:bold;" class="form-label" for="phone">Chủ tài khoản</label>
                                 <input readonly value="@Model.BankAccountHolderName" type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="~/ValidationAlert/Employee/QuanLyTaiKhoan/ChinhSuaThongTinCaNhanValidation.js"></script>
+<script>
 
-<script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
+    $(document).on('click', '#csthongtin', function (e) {
+        $.ajax({
+            url: '@Url.Action("ChinhSuaThongTinCaNhanPartial", "QuanLyTaiKhoan", new {id = Model.ID})',
+            type: 'GET',
+            dataType: 'html'
+        }).done(function (ketqua) {
+            if (ketqua !== "TRANGCHU") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.getScript("@Url.Content("~/ValidationAlert/Employee/QuanLyTaiKhoan/ChinhSuaThongTinCaNhanValidation.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            } else {
+                window.location.href = '@Url.Action("Overview", "Dashboard")';
+            }
+
+        });
+    });
+    $(document).on('click', '#ttchiTiet', function (e) {
+        $.ajax({
+            url: '@Url.Action("ThongTinCaNhanPartial", "QuanLyTaiKhoan", new { id = Model.ID} )',
+            type: 'GET',
+            dataType: 'html'
+        }).done(function (ketqua) {
+            if (ketqua !== "TRANGCHU") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.getScript("@Url.Content("~/ValidationAlert/Employee/QuanLyTaiKhoan/ChinhSuaThongTinCaNhanValidation.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            } else {
+                window.location.href = '@Url.Action("Overview", "Dashboard")';
+            }
+
+        });
+    });
+    $(document).on('click', '#tdmatkhau', function (e) {
+        $.ajax({
+            url: '@Url.Action("doiMatKhauPartial", "QuanLyTaiKhoan", new {id = Model.ID})',
+            type: 'GET',
+            dataType: 'html'
+        }).done(function (ketqua) {
+            if (ketqua !== "TRANGCHU") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/js/SweetsAlerts.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.getScript("@Url.Content("~/ValidationAlert/Employee/QuanLyTaiKhoan/ChinhSuaThongTinCaNhanValidation.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            } else {
+                window.location.href = '@Url.Action("Overview", "Dashboard")';
+            }
+        });
+    });
+</script>
+

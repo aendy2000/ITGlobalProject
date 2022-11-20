@@ -15,7 +15,7 @@
     }
 }
 <input hidden value="@Model.ID" id="idus" />
-<input hidden value="@Url.Content("~/ValidationAlert/QuanLyNhanSu/KhoaTaiKhoanValidation.js")" id="reloadScriptLock" />
+<input hidden value="@Url.Content("~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js")" id="reloadScriptLock" />
 <input hidden value="@Url.Content("~/Content/Admin/assets/images/avatar/default-avatar.png")" id="urlIgmStr" />
 <div id="actionSubmit" hidden data-request-url="@Url.Action("chinhSuaThongTinPartial", "QuanLyNhanSu")"></div>
 <div id="actionKhoaTaiKhoan" hidden data-request-url="@Url.Action("khoaTaiKhoan", "QuanLyNhanSu")"></div>
@@ -237,7 +237,7 @@
         </div>
     </div>
 </div>
-<script src="~/ValidationAlert/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
 <script>
     $(document).on('click', '#csthongtin', function (e) {
         $.ajax({

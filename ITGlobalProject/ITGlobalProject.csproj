@@ -282,6 +282,7 @@
     <Compile Include="Areas\Admins\Controllers\ThongTinDoiTacController.cs" />
     <Compile Include="Areas\Employee\Controllers\QuanLyCongViecController.cs" />
     <Compile Include="Areas\Employee\Controllers\QuanLyLuongController.cs" />
+    <Compile Include="Areas\Employee\Controllers\QuanLyTaiKhoanController.cs" />
     <Compile Include="Areas\Employee\EmployeeAreaRegistration.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DuAnThanhCongController.cs" />
@@ -736,6 +737,11 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Employee\Views\QuanLyTaiKhoan\_chinhSuaThongTinCaNhanPartial.cshtml" />
+    <Content Include="Areas\Employee\Views\QuanLyTaiKhoan\_doiMatKhauPartial.cshtml" />
+    <Content Include="Areas\Employee\Views\QuanLyTaiKhoan\_thongTinCaNhanPartial.cshtml" />
+    <Content Include="Areas\Employee\Views\QuanLyTaiKhoan\ThongTinCaNhan.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyVaiTro\_danhSachVaiTroPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -750,16 +756,21 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="ValidationAlert\QuanLyNhanSu\ChinhSuaNhanVienValidation.js" />
-    <Content Include="ValidationAlert\QuanLyNhanSu\KhoaTaiKhoanValidation.js" />
-    <Content Include="ValidationAlert\QuanLyNhanSu\ThemNhanVienValidation.js" />
-    <Content Include="ValidationAlert\QuanLyNhanSu\TimKiemNhanVien.js" />
-    <Content Include="ValidationAlert\QuanLyTaiKhoan\ChinhSuaThongTinCaNhanValidation.js" />
-    <Content Include="ValidationAlert\QuanLyTaiKhoan\DangNhapValidation.js" />
-    <Content Include="ValidationAlert\QuanLyTaiKhoan\DatLaiMatKhauValidation.js" />
-    <Content Include="ValidationAlert\QuanLyTaiKhoan\DoiMatKhauValidation.js" />
-    <Content Include="ValidationAlert\QuanLyTaiKhoan\QuenMatKhauValidation.js" />
-    <Content Include="ValidationAlert\QuanLyTaiKhoan\XacThucQuenMatKhauValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChinhSuaNhanVienValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\KhoaTaiKhoanValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ThemNhanVienValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\TimKiemNhanVien.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyTaiKhoan\ChinhSuaThongTinCaNhanValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyTaiKhoan\DangNhapValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyTaiKhoan\DatLaiMatKhauValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyTaiKhoan\DoiMatKhauValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyTaiKhoan\QuenMatKhauValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyTaiKhoan\XacThucQuenMatKhauValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyVaiTro\SuaVaiTroValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyVaiTro\XoaVaiTroValidation.js" />
+    <Content Include="ValidationAlert\Employee\QuanLyTaiKhoan\ChinhSuaThongTinCaNhanValidation.js" />
+    <Content Include="ValidationAlert\Employee\QuanLyTaiKhoan\DoiMatKhauValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyVaiTro\ThemVaiTroValidation.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

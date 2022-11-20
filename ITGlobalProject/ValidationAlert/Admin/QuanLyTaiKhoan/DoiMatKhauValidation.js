@@ -99,7 +99,7 @@
                     $.when(
                         $.getScript('/Content/Admin/assets/js/theme.min.js'),
                         $.getScript('/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js'),
-                        $.getScript('/ValidationAlert/QuanLyTaiKhoan/DoiMatKhauValidation.js'),
+                        $.getScript('/ValidationAlert/Admin/QuanLyTaiKhoan/DoiMatKhauValidation.js'),
                         $.Deferred(function (deferred) {
                             $(deferred.resolve);
                         })

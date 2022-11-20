@@ -190,9 +190,9 @@
                         SweetAlert2Demo.init();
                     });
                     $.when(
-                        $.getScript($('getScripts1').val()),
-                        $.getScript($('getScripts2').val()),
-                        $.getScript($('getScripts3').val()),
+                        $.getScript($('#getScripts1').val()),
+                        $.getScript($('#getScripts2').val()),
+                        $.getScript($('#getScripts3').val()),
                         $.Deferred(function (deferred) {
                             $(deferred.resolve);
                         })

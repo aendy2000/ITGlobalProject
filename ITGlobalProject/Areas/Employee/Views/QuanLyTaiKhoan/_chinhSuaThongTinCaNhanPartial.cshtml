@@ -1,4 +1,15 @@
 ﻿@model ITGlobalProject.Models.Employees
+@{
+    string imagesUrl = "";
+    if (string.IsNullOrEmpty(Model.Avatar))
+    {
+        imagesUrl = "~/Content/Admin/assets/images/avatar/default-avatar.png";
+    }
+    else
+    {
+        imagesUrl = Model.Avatar;
+    }
+}
 
 <div id="contentPartial" class="container-fluid p-4">
     <div class="row">
@@ -15,7 +26,7 @@
                             <li class="breadcrumb-item">
                                 <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan")">Thông Tin Cá Nhân</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new {id = Model.ID})">Thông Tin Cá Nhân</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -31,16 +42,8 @@
              rounded-bottom-md shadow-sm">
                 <div class="d-flex align-items-center">
                     <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
-                        @if (string.IsNullOrEmpty(Model.Avatar))
-                        {
-                            <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xl rounded-circle border border-4 border-white"
-                                 alt="" />
-                        }
-                        else
-                        {
-                            <img src="@Model.Avatar" class="avatar-xl rounded-circle border border-4 border-white"
-                                 alt="" />
-                        }
+                        <img src="@Url.Content(imagesUrl)" class="avatar-xl rounded-circle border border-4 border-white"
+                             alt="" />
                     </div>
                     <div class="lh-1">
                         <h2 class="mb-0">
@@ -80,15 +83,13 @@
                                     <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
                                 </a>
                             </li>
-                            <li class="nav-item ">
+                            <li class="nav-item active ">
                                 <a role="button" id="csthongtin" class="nav-link">
                                     <i class="fe fe-edit nav-icon"></i>Chỉnh sửa thông tin
                                 </a>
                             </li>
-                            <li class="nav-item active">
-                                <a role="button" id="tdmatkhau" class="nav-link">
-                                    <i class="fe fe-settings nav-icon"></i>Thay đổi mật khẩu
-                                </a>
+                            <li class="nav-item">
+                                <a role="button" id="tdmatkhau" class="nav-link"><i class="fe fe-settings nav-icon"></i>Thay đổi mật khẩu</a>
                             </li>
                             <hr />
                             <li style="text-align:center; margin-top:20px">
@@ -105,33 +106,62 @@
             <!-- Card -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="mb-0">Thay Đổi Mật Khẩu  </h3>
+                    <h3 class="mb-0">Cập Nhật Thông Tin</h3>
                     <p class="mb-0">
-                        Đặt lại mật khẩu đăng nhập của tài khoản.
+                        Cập nhật các thông tin cá nhân cần thay đổi. Chọn lưu để lưu thay đổi, Hủy để đặt lại các trường thông tin như ban đầu.
                     </p>
                 </div>
                 <!-- Card body -->
                 <div class="card-body">
+                    <div id="reloadImage" class="d-lg-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center mb-4 mb-lg-0">
+                            <img src="@Url.Content(imagesUrl)" class="avatar-xl rounded-circle border border-4 border-white"
+                                 alt="" id="previewImage" />
+                            <div class="ms-3">
+                                <h4 class="mb-0">Hình đại diện</h4>
+                                <p class="mb-0">
+                                    PNG hoặc JPG hình vuông không lớn hơn 800px.
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <input hidden id="selectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewImage'))" />
+                            <a role="button" id="clickFiles" class="btn btn-outline-primary btn-sm">Tải lên</a>
+                            <a role="button" id="reloadButton" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
+                        </div>
+                    </div>
+                    <hr class="my-4" />
                     <div>
                         <form class="row">
-                            <!-- First name -->
-                            <div class="mb-3 col-12 col-md-12">
-                                <label style="font-weight:bold" class="form-label" for="fname">Mật khẩu cũ <span class="text-danger">*</span></label>
-                                <input type="password" id="password" name="password" class="form-control" placeholder="Nhập vào mật khẩu hiện tại" />
-                                <p style="font-size: 13px; color:red;" id="passwordValidation"></p>
-
-                            </div>
-                            <div class="mb-3 col-12 col-md-12">
-                                <label style="font-weight:bold" class="form-label" for="fname">Mật khẩu mới <span class="text-danger">*</span></label>
-                                <input type="password" id="newpassword" name="newpassword" class="form-control" placeholder="Nhập vào mật khẩu mới" />
-                                <p style="font-size: 13px; color:red;" id="newpasswordValidation"></p>
-
-                            </div>
                             <!-- Phone -->
+                            <div class="mb-3 col-12 col-md-6">
+                                <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                                <input value="@Model.Phone" type="tel" id="sodienthoai" name="sodienthoai" class="form-control" placeholder="0999888xxx" />
+                                <input value="@Model.ID" name="id" id="id" hidden />
+                                <input value="@Model.Avatar" name="avatar" id="avatar" hidden />
+                                <p style="font-size: 13px; color:red;" id="sodienthoaivalidation"></p>
+                            </div>
+                            <div class="mb-3 col-12 col-md-6">
+                                <label style="font-weight:bold;" for="dsNganHang" class="form-label">Ngân hàng</label>
+                                <input value="@Model.BankName" list="dsNganHang" id="tenNganHang" name="tenNganHang" class="form-control" placeholder="Tên ngân hàng" />
+                                <datalist name="dsNganHang" id="dsNganHang">
+                                    <option data-value="TPBank" value="TPBank"></option>
+                                    <option data-value="SacomBank" value="SacomBank"></option>
+                                    <option data-value="VietinBank"value="VietinBank"></option>
+                                </datalist>
+                            </div>
+                            <div class="mb-3 col-12 col-md-6">
+                                <label style="font-weight:bold;" class="form-label" for="phone">Số tài khoản</label>
+                                <input value="@Model.BankAccountNumber" id="sotaikhoan" name="sotaikhoan" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
+                            </div>
+                            <div class="mb-3 col-12 col-md-6">
+                                <label style="font-weight:bold;" class="form-label" for="phone">Chủ tài khoản</label>
+                                <input value="@Model.BankAccountHolderName" id="chutaikhoan" name="chutaikhoan" type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
+                            </div>
+                            <!-- Address -->
                             <div class="mb-3 col-12 col-md-12">
-                                <label style="font-weight:bold" class="form-label" for="phone">Nhập lại mật khẩu mới <span class="text-danger">*</span></label>
-                                <input type="password" id="repassword" name="repassword" class="form-control" placeholder="Nhập lại mật khẩu mới" />
-                                <p style="font-size: 13px; color:red;" id="repasswordValidation"></p>
+                                <label style="font-weight:bold" class="form-label" for="address">Địa chỉ </label>
+                                <textarea rows="4" id="diachinha" name="diachinha" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla">@Model.Address</textarea>
                             </div>
                             <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
                                 <button style="width: 230px" class="btn btn-outline-danger" type="reset">
@@ -139,7 +169,7 @@
                                 </button>
                             </div>
                             <div style="padding-top: 20px" class="mb-3 col-12 col-md-6">
-                                <a role="button" id="btnSubmit" style="width: 230px" class="btn btn-success">
+                                <a role="button" id="luuChinhSua" style="width: 230px" class="btn btn-success">
                                     Lưu thay đổi
                                 </a>
                             </div>
@@ -150,4 +180,4 @@
         </div>
     </div>
 </div>
-<script src="~/ValidationAlert/Admin/QuanLyTaiKhoan/DoiMatKhauValidation.js"></script>
+<script src="~/Content/Admin/assets/js/reviewImage.js"></script>

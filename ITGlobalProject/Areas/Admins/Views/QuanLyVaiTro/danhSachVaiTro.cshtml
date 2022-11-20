@@ -1,8 +1,15 @@
-﻿
+﻿@model IEnumerable<ITGlobalProject.Models.Position>
 @{
     ViewBag.Title = "danhSachVaiTro";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
 }
+<div id="actionChinhSua" hidden data-request-url="@Url.Action("chinhSuaVaiTro", "QuanLyVaiTro")"></div>
+<div id="actionThem" hidden data-request-url="@Url.Action("themVaiTro", "QuanLyVaiTro")"></div>
+<div id="actionXoa" hidden data-request-url="@Url.Action("xoaVaiTro", "QuanLyVaiTro")"></div>
+
+<div id="actionDanhSach" hidden data-request-url="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")"></div>
+<input hidden value="@Url.Content("~")" id="requestScript" />
+
 <div class="container-fluid p-4">
     <div class="row ">
         <div class="col-lg-12 col-md-12 col-12">
@@ -37,7 +44,7 @@
         </div>
     </div>
     <!-- row -->
-    <div class="row">
+    <div id="danhSachPartial" class="row">
         <!-- col -->
         <div class="col-md-12 col-12 mb-5">
             <!-- card -->
@@ -56,374 +63,170 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="align-middle">
-                                    1
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div>
-                                            <h4 class="mb-0"><a href="#" class="text-inherit">Business Analyst	</a></h4>
+                            @foreach (var item in Model)
+                            {
+                                <input hidden value="@item.ID" id="ids@(item.ID)" />
+                                <input hidden value="@item.Name" id="names@(item.ID)" />
+                                <input hidden value="@item.Description" id="des@(item.ID)" />
+
+                                var employee = item.Employees.ToList();
+                                <tr>
+                                    <td class="align-middle">
+                                        @item.ID
+                                    <td class="align-middle ">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <h4 class="mb-0"><a href="#" class="text-inherit">@item.Name	</a></h4>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td style="max-width: 350px">
-                                    Business Analyst (viết tắt BA) còn có tên gọi khác là chuyên viên phân tích nghiệp vụ. Nhiệm vụ chính của Business Analyst là phân tích nhu cầu của khách hàng và phối hợp với nội bộ công ty để đưa ra phương án giải quyết phù hợp.
-                                </td>
-                                <td class="align-middle ">
-                                    <span style="width: 130px" class="btn btn-primary btn-xs text-white"> 3 bài đăng </span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-7.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="five">
-                                            <span id="five" class="d-none">
-                                                <span class="mb-0 h6">Paul Haney</span>
+                                    </td>
+                                    <td style="max-width: 350px">
+                                        @item.Description
+                                    </td>
+                                    <td class="align-middle ">
+                                        <span style="width: 130px" class="btn btn-primary btn-xs text-white"> Comming Soon </span>
+                                    </td>
+                                    <td class="align-middle ">
+                                        <div class="avatar-group">
+                                            @if (employee.Count < 1)
+                                            {
+                                                <span>Chưa áp dụng</span>
+                                            }
+                                            else if (employee.Count < 4)
+                                            {
+                                                foreach (var emp in employee)
+                                                {
+                                                    if (!string.IsNullOrEmpty(emp.Avatar))
+                                                    {
+                                                        <span class="avatar avatar-md">
 
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-8.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="six">
-                                            <span id="six" class="d-none">
-                                                <span class="mb-0 h6">Gali Linear</span>
+                                                            <img alt="avatar" src="@emp.Avatar"
+                                                                 class="rounded-circle imgtooltip" data-template="@emp.ID">
+                                                            <span id="@emp.ID" class="d-none">
+                                                                <span class="mb-0 h6">@emp.Name</span>
+                                                            </span>
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@emp.ID">
+                                                            <span class="avatar-initials rounded-circle ">
+                                                                @emp.Name.Substring(0, 1)
+                                                            </span>
 
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="textSix">
-                                            <span class="avatar-initials rounded-circle ">
+                                                            <span id="@emp.ID" class="d-none">
+                                                                <span class="mb-0 h6">@emp.Name</span>
 
-                                                GK
-                                            </span>
+                                                            </span>
+                                                        </span>
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                foreach (var emp in employee)
+                                                {
+                                                    if (!string.IsNullOrEmpty(emp.Avatar))
+                                                    {
+                                                        <span class="avatar avatar-md">
 
-                                            <span id="textSix" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
+                                                            <img alt="avatar" src="@emp.Avatar"
+                                                                 class="rounded-circle imgtooltip" data-template="@emp.ID">
+                                                            <span id="@emp.ID" class="d-none">
+                                                                <span class="mb-0 h6">@emp.Name</span>
+                                                            </span>
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@emp.ID">
+                                                            <span class="avatar-initials rounded-circle ">
+                                                                @emp.Name.Substring(0, 1)
+                                                            </span>
 
-                                            </span>
-                                        </span>
+                                                            <span id="@emp.ID" class="d-none">
+                                                                <span class="mb-0 h6">@emp.Name</span>
 
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">4+</span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Hành động</span>
-                                            <a role="button" class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa vai trò
-                                            </a>
+                                                            </span>
+                                                        </span>
+                                                    }
+                                                }
+                                                <span class="avatar avatar-md ">
+                                                    <span class="avatar-initials rounded-circle bg-light text-dark">@(employee.Count - 3)+</span>
+                                                </span>
+                                            }
 
-                                            <div class="dropdown-divider"></div>
-                                            <a role="button" id="alert_demo_3_3" class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Xóa vai trò
-                                            </a>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="align-middle">
-                                    2
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div>
-                                            <h4 class="mb-0"><a href="#" class="text-inherit">Back-End Developer</a></h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td style="max-width: 350px">
-                                    Lập trình viên Backend hay Backend Developer chính là người đảm nhiệm các hoạt động phía sau hậu trường của một trang web. Công việc của Backend Developer là chịu trách nhiệm xây dựng mã và ngôn ngữ chạy phía sau hậu trường trên trang chủ web.
-                                </td>
-                                <td class="align-middle ">
-                                    <span style="width: 130px" class="btn btn-primary btn-xs text-white"> 5 bài đăng </span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="five">
-                                            <span id="five" class="d-none">
-                                                <span class="mb-0 h6">Paul Haney</span>
-
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-3.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="six">
-                                            <span id="six" class="d-none">
-                                                <span class="mb-0 h6">Gali Linear</span>
-
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-danger imgtooltip" data-template="textSix">
-                                            <span class="avatar-initials rounded-circle ">
-
-                                                HN
-                                            </span>
-
-                                            <span id="textSix" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-
-                                            </span>
-                                        </span>
-
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">4+</span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Hành động</span>
-                                            <a class="dropdown-item" href="@Url.Action("chinhSuaQuyen","QuanLyQuyen")">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa vai trò
+                                    </td>
+                                    <td class="text-muted align-middle text-end">
+                                        <div class="dropdown dropstart">
+                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
+                                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fe fe-more-vertical"></i>
                                             </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Xóa vai trò
-                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="Dropdown1">
+                                                <span class="dropdown-header">Hành động</span>
+                                                <a role="button" name="@item.ID" id="chinhsua@(item.ID)" class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
+                                                    <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa vai trò
+                                                </a>
+                                                @if (employee.Count < 1)
+                                                {
+                                                    <div class="dropdown-divider"></div>
+                                                    <a role="button" name="@item.ID" id="xoa@(item.ID)" class="dropdown-item" href="#">
+                                                        <i class="fe fe-trash dropdown-item-icon"></i>Xóa vai trò
+                                                    </a>
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="align-middle">
-                                    3
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div>
-                                            <h4 class="mb-0"><a href="#" class="text-inherit">Front-End Developer</a></h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td style="max-width: 350px">
-                                    Front End Developer là người tập trung phát triển phía Client Side, nói một cách đơn giản dễ hiểu là tập trung vào mảng phát triển xây dựng giao diện một website tĩnh, tạo nền tảng trải nghiệm cho người dùng.
-                                </td>
-                                <td class="align-middle ">
-                                    <span style="width: 130px" class="btn btn-primary btn-xs text-white"> 5 bài đăng </span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-2.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="five">
-                                            <span id="five" class="d-none">
-                                                <span class="mb-0 h6">Paul Haney</span>
-
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-4.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="six">
-                                            <span id="six" class="d-none">
-                                                <span class="mb-0 h6">Gali Linear</span>
-
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-warning imgtooltip" data-template="textSix">
-                                            <span class="avatar-initials rounded-circle ">
-
-                                                BC
-                                            </span>
-
-                                            <span id="textSix" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-
-                                            </span>
-                                        </span>
-
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">12+</span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Hành động</span>
-                                            <a class="dropdown-item" href="@Url.Action("chinhSuaQuyen","QuanLyQuyen")">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa vai trò
-                                            </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Xóa vai trò
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="align-middle">
-                                    4
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div>
-                                            <h4 class="mb-0"><a href="#" class="text-inherit">Nhân viên chăm sóc KH</a></h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td style="max-width: 350px">
-                                    Nhân viên chăm sóc khách hàng (tên tiếng Anh là Customer Care Staff) là người trực tiếp liên hệ với khách hàng nhằm giải đáp các thắc mắc, khiếu nại của khách hàng có liên quan đến sản phẩm/dịch vụ của doanh nghiệp. Mục đích cuối cùng là đạt tối ưu sự hài lòng, thỏa mãn của khách hàng.
-                                </td>
-                                <td class="align-middle ">
-                                    <span style="width: 130px" class="btn btn-primary btn-xs text-white"> 2 bài đăng </span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-6.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="five">
-                                            <span id="five" class="d-none">
-                                                <span class="mb-0 h6">Paul Haney</span>
-
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-9.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="six">
-                                            <span id="six" class="d-none">
-                                                <span class="mb-0 h6">Gali Linear</span>
-
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-warning imgtooltip" data-template="textSix">
-                                            <span class="avatar-initials rounded-circle ">
-
-                                                NP
-                                            </span>
-
-                                            <span id="textSix" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-
-                                            </span>
-                                        </span>
-
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">7+</span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Hành động</span>
-                                            <a class="dropdown-item" href="@Url.Action("chinhSuaQuyen","QuanLyQuyen")">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa vai trò
-                                            </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Xóa vai trò
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="align-middle">
-                                    5
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div>
-                                            <h4 class="mb-0"><a href="#" class="text-inherit">Tester </a></h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td style="max-width: 350px">
-                                    Tester là những người kiểm tra chất lượng phần mềm, phát hiện ra các lỗi, sai sót hay bất cứ vấn đề nào có thể ảnh hưởng đến chất lượng phần mềm.
-                                </td>
-                                <td class="align-middle ">
-                                    <span style="width: 130px" class="btn btn-primary btn-xs text-white"> 12 bài đăng </span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-10.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="five">
-                                            <span id="five" class="d-none">
-                                                <span class="mb-0 h6">Paul Haney</span>
-
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-16.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="six">
-                                            <span id="six" class="d-none">
-                                                <span class="mb-0 h6">Gali Linear</span>
-
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="textSix">
-                                            <span class="avatar-initials rounded-circle ">
-
-                                                HM
-                                            </span>
-
-                                            <span id="textSix" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-
-                                            </span>
-                                        </span>
-
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">15+</span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Hành động</span>
-                                            <a class="dropdown-item" href="@Url.Action("chinhSuaQuyen","QuanLyQuyen")">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa vai trò
-                                            </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item"  href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Xóa vai trò
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+        <!-- Chỉnh sửa vai trò -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 800px;">
 
+            <div class="offcanvas-body" data-simplebar>
+                <div style="margin-bottom: -20px" class="offcanvas-header px-2 pt-0">
+                    <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Vai Trò</h4>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <hr class="my-4" />
+                <!-- card body -->
+                <div class="container ">
+                    <!-- form -->
+                    <div class="row">
+                        <!-- form group -->
+                        <div class="mb-3 col-md-12">
+                            <label style="font-weight: bold;" class="form-label">Tên vai trò <span class="text-danger">*</span></label>
+                            <input id="name" name="name" type="text" class="form-control" placeholder="Nhập tên vai trò" required>
+                            <input id="id" name="id" hidden>
+                        </div>
+                        <!-- form group -->
+                        <div class="mb-3 col-md-12">
+                            <label style="font-weight: bold;" class="form-label">Mô tả </label>
+                            <textarea class="form-control" id="descript" name="descript" placeholder="Mô tả vai trò..." rows="5"></textarea>
+                        </div>
+                        <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
+                            <button id="dongChinhSua" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="offcanvas" aria-label="Close">
+                                Hủy
+                            </button>
+                        </div>
+                        <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
+                            <button id="luuChinhSua" style="width: 230px" class="btn btn-success">
+                                Lưu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 <!-- Thêm vai trò -->
 <div class="modal fade modal-lg" id="themVaiTroModal" tabindex="-1" role="dialog"
      aria-labelledby="themVaiTroModalLabel" aria-hidden="true">
@@ -435,70 +238,37 @@
                         aria-label="Close">
                 </button>
             </div>
-            <div class="modal-body">
+            <form class="modal-body">
                 <!-- form -->
                 <div class="row">
                     <!-- form group -->
                     <div class="mb-3 col-md-12">
                         <label style="font-weight: bold;" class="form-label">Tên vai trò <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" placeholder="Nhập tên vai trò" required>
+                        <input id="tenvaitro" type="text" class="form-control" placeholder="Nhập tên vai trò">
                     </div>
                     <!-- form group -->
                     <div class="mb-3 col-md-12">
                         <label style="font-weight: bold;" class="form-label">Mô tả </label>
-                        <textarea class="form-control" placeholder="Nhập mô tả vai trò" rows="5"></textarea>
+                        <textarea id="motavaitro" class="form-control" placeholder="Nhập mô tả vai trò" rows="5"></textarea>
                     </div>
                     <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
-                        <button style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="modal" aria-label="Close">
+                        <button id="dongthemvaitro" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="modal" aria-label="Close">
                             Hủy
                         </button>
                     </div>
                     <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
-                        <button style="width: 230px" class="btn btn-success" type="submit">
+                        <a role="button" id="themvaitro" style="width: 230px" class="btn btn-success">
                             Lưu
-                        </button>
+                        </a>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
 
 
-<!-- Chỉnh sửa vai trò -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 800px;">
 
-    <div class="offcanvas-body" data-simplebar>
-        <div style="margin-bottom: -20px" class="offcanvas-header px-2 pt-0">
-            <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Vai Trò</h4>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <hr class="my-4"/>
-        <!-- card body -->
-        <div class="container ">
-            <!-- form -->
-            <div class="row">
-                <!-- form group -->
-                <div class="mb-3 col-md-12">
-                    <label style="font-weight: bold;" class="form-label">Tên vai trò <span class="text-danger">*</span></label>
-                    <input value="Business Analyst" type="text" class="form-control" placeholder="Nhập tên vai trò" required>
-                </div>
-                <!-- form group -->
-                <div class="mb-3 col-md-12">
-                    <label style="font-weight: bold;" class="form-label">Mô tả </label>
-                    <textarea class="form-control" placeholder="Mô tả vai trò..." rows="5">Business Analyst (viết tắt BA) còn có tên gọi khác là chuyên viên phân tích nghiệp vụ. Nhiệm vụ chính của Business Analyst là phân tích nhu cầu của khách hàng và phối hợp với nội bộ công ty để đưa ra phương án giải quyết phù hợp.</textarea>
-                </div>
-                <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
-                    <button style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="offcanvas" aria-label="Close">
-                        Hủy
-                    </button>
-                </div>
-                <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
-                    <button style="width: 230px" class="btn btn-success" type="submit">
-                        Lưu
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<script id="reloadScriptSua" src="~/ValidationAlert/Admin/QuanLyVaiTro/SuaVaiTroValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyVaiTro/ThemVaiTroValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyVaiTro/XoaVaiTroValidation.js"></script>
