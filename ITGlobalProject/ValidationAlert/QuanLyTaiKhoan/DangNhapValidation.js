@@ -209,11 +209,13 @@
                 else {
                     if (ketqua === "admin") {
                         window.location.href = $('#actionAdminSuccess').data('request-url');
+                        $('#AjaxLoader').hide();
+
                     }
                     else if (ketqua === "employee") {
                         window.location.href = $('#actionEmployeeSuccess').data('request-url');
+                        $('#AjaxLoader').hide();
                     }
-                    $('#AjaxLoader').hide();
                 }
             });
         }

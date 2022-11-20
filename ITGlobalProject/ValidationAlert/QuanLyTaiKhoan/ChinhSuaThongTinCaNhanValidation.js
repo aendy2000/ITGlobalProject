@@ -190,9 +190,9 @@
                         SweetAlert2Demo.init();
                     });
                     $.when(
-                        $.getScript('/Content/Admin/assets/js/theme.min.js'),
-                        $.getScript('/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js'),
-                        $.getScript('/ValidationAlert/QuanLyTaiKhoan/ChinhSuaThongTinCaNhanValidation.js'),
+                        $.getScript($('getScripts1').val()),
+                        $.getScript($('getScripts2').val()),
+                        $.getScript($('getScripts3').val()),
                         $.Deferred(function (deferred) {
                             $(deferred.resolve);
                         })
