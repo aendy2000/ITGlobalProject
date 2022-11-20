@@ -103,6 +103,7 @@
         }
 
         if (checkusn === true) {
+            $('#AjaxLoader').show(); 
             e.preventDefault();
             let urls = $('#actionlinks').data('request-url');
             $.ajax({
@@ -112,12 +113,15 @@
                 data: { email: usn }
             }).done(function (ketqua) {
                 if (ketqua === "TKSAI") {
+                    $('#AjaxLoader').hide(); 
                     $('#UsernameValidateResul').text("Có tài khoản email cũng nhập sai nữa?").show();
                 }
                 else if (ketqua === "SUCCESS") {
+                    $('#AjaxLoader').hide(); 
                     window.location.href = $('#actionSuccess').data('request-url');
                 }
                 else {
+                    $('#AjaxLoader').hide(); 
                     $('#UsernameValidateResul').text("Lỗi: " + ketqua).show();
                 }
             });

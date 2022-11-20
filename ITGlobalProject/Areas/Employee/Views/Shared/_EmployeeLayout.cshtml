@@ -30,12 +30,15 @@
     <link href="~/Content/Admin/assets/libs/nouislider/dist/nouislider.min.css" rel="stylesheet">
     <link href="~/Content/Admin/assets/libs/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
     <!-- Theme CSS -->
+    <link href="~/Content/Loader/Loader.css" rel="stylesheet" />
 
-    <link class="reloadMe" rel="stylesheet" href="~/Content/Admin/assets/css/theme.min.css">
+    <link rel="stylesheet" href="~/Content/Admin/assets/css/theme.min.css">
     <title>@ViewBag.Title</title>
 </head>
 
 <body>
+    <div class="loader" id="AjaxLoader" style="display:none;"></div>
+
     <!-- Wrapper -->
     <div id="db-wrapper">
         <nav class="navbar-vertical navbar navbar-dark bg-dark">

@@ -135,6 +135,7 @@
         if (checkshoten === true && checkscmnd === true && checkssodienthoai === true && checksngaysinh === true &&
             checksgioitinh === true && checksvaitro === true && checksdiachiemail === true) {
             e.preventDefault();
+            $('#AjaxLoader').show(); 
 
             var formData = new FormData();
             formData.append('AvatarImg', $("#selectFiles")[0].files[0]);
@@ -163,6 +164,7 @@
                 processData: false,
                 data: formData
             }).done(function (ketqua) {
+                $('#AjaxLoader').hide();  
                 if (ketqua === "Đã có xảy ra lỗi, vui lòng thử lại") {
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {

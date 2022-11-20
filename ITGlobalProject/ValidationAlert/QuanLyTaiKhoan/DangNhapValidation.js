@@ -164,6 +164,7 @@
         }
 
         if (checkusn == true && checkpw == true) {
+            $('#AjaxLoader').show();
             e.preventDefault();
             let urls = $('#actionlinks').data('request-url');
             $.ajax({
@@ -173,13 +174,16 @@
                 data: { username: usn, password: pw }
             }).done(function (ketqua) {
                 if (ketqua === "TKSAI") {
+                    $('#AjaxLoader').hide();
                     $('#UsernameValidateResul').text("Có tài khoản cũng nhập sai nữa?").show();
                     $('#PasswordValidateResul').text("Tài khoản sai rồi coi lại mật khẩu luôn đi").show();
                 }
                 else if (ketqua === "MKSAI") {
+                    $('#AjaxLoader').hide();
                     $('#PasswordValidateResul').text("Có cái mật khẩu thôi mà cũng nhập sai nữa. Nhập lại coi!").show();
                 }
                 else if (ketqua === "KHOA") {
+                    $('#AjaxLoader').hide();
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thông Báo!", "Tài khoản của bạn đã bị khóa!", {
@@ -203,10 +207,13 @@
                     });
                 }
                 else {
-                    if (ketqua === "admin")
+                    if (ketqua === "admin") {
                         window.location.href = $('#actionAdminSuccess').data('request-url');
-                    else if (ketqua === "employee")
+                    }
+                    else if (ketqua === "employee") {
                         window.location.href = $('#actionEmployeeSuccess').data('request-url');
+                    }
+                    $('#AjaxLoader').hide();
                 }
             });
         }

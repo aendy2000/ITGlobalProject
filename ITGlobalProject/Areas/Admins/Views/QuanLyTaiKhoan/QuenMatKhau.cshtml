@@ -21,17 +21,17 @@
 
     <link href="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js" rel="stylesheet">
 
-    <link href="~/Content/Admin/assets/fonts/feather/feather.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/Content/Admin/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="~/Content/Admin/css/util.css">
     <link rel="stylesheet" type="text/css" href="~/Content/Admin/css/main.css">
-
     <link rel="stylesheet" href="~/Content/Admin/assets/css/atlantis.min.css">
     <link href="~/Content/Admin/assets/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-
+    <link href="~/Content/bootstrap-btn.css" rel="stylesheet" />
+    <link href="~/Content/Loader/Loader.css" rel="stylesheet" />
 </head>
 
 <body>
+    <div class="loader" id="AjaxLoader" style="display:none;"></div>
     <div id="actionlinks" hidden data-request-url="@Url.Action("QuenMatKhau", "QuanLyTaiKhoan")"></div>
     <div id="actionSuccess" hidden data-request-url="@Url.Action("XacThucQuenMatKhau", "QuanLyTaiKhoan")"></div>
     <div class="limiter">

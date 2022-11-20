@@ -26,6 +26,7 @@
 
 $(document).ready(function () {
     $('#guiLaiMa').on('click', function (e) {
+        $('#AjaxLoader').show(); 
         e.preventDefault();
         var emails = $('#emailNe').val();
         let urls = $('#actionDatLaiMatKhau').data('request-url');
@@ -36,6 +37,7 @@ $(document).ready(function () {
             data: { email: emails }
         }).done(function (ketqua) {
             window.location.href = $('#actionDatLaiMatKhauSuccess').data('request-url');
+            $('#AjaxLoader').hide();
         });
     });
 
@@ -101,6 +103,7 @@ $(document).ready(function () {
         }
 
         if (checkMa === true) {
+            $('#AjaxLoader').show();  
             e.preventDefault();
             let valuema = $('#maXacThuc').val();
             let emails = $('#emailNe').val();
@@ -112,9 +115,11 @@ $(document).ready(function () {
                 data: { ma: valuema, email: emails }
             }).done(function (ketqua) {
                 if (ketqua === "SAIMA") {
+                    $('#AjaxLoader').hide();
                     $('#UsernameValidateResul').text("Mã đăng nhập sai bét, coi lại đi").show();
                 }
                 else if (ketqua === "HETHANMA") {
+                    $('#AjaxLoader').hide(); 
                     swal("Thông Báo!", "Mã của bạn đã quá hạn, chúng tôi sẽ gửi cho bạn một mã mới!", {
                         icon: "error",
                         buttons: {
@@ -123,6 +128,7 @@ $(document).ready(function () {
                             }
                         },
                     }).then(function () {
+                        $('#AjaxLoader').show();  
                         e.preventDefault();
                         var emails = $('#emailNe').val();
                         let urls = $('#actionDatLaiMatKhau').data('request-url');
@@ -133,15 +139,18 @@ $(document).ready(function () {
                             data: { email: emails }
                         }).done(function (ketqua) {
                             window.location.href = $('#actionDatLaiMatKhauSuccess').data('request-url');
+                            $('#AjaxLoader').hide();  
                         });
                     });
 
                 }
                 else if (ketqua === "SUCCESS") {
                     window.location.href = $('#actionSuccess').data('request-url');
+                    $('#AjaxLoader').hide();  
                 }
                 else if (ketqua === "DANGNHAP") {
                     window.location.href = $('#actionFailed').data('request - url');
+                    $('#AjaxLoader').hide();  
                 }
             });
         }

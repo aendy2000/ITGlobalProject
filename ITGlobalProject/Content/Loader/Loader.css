@@ -1,0 +1,19 @@
+﻿/*!  
+        // 3. Loader  
+        // --------------------------------------------------*/
+.loader {
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 10000000;
+    background: black;
+    background-image: url('loadingpage.gif');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 10%;
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    opacity: 0.3;
+}
+

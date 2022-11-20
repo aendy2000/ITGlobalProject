@@ -501,6 +501,9 @@
     <Content Include="Content\Admin\vendor\tilt\tilt.jquery.min.js" />
     <Content Include="Content\bootstrap-btn.css" />
     <Content Include="Content\images\default-avatar.png" />
+    <Content Include="Content\Loader\Loader.css" />
+    <Content Include="Content\Loader\Loader.js" />
+    <Content Include="Content\Loader\loadingpage.gif" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\User\public\css\app.css" />
     <Content Include="Content\User\public\images\hero-bottom.svg" />

@@ -38,10 +38,12 @@
     <!-- Theme CSS -->
     <link class="reloadMe" rel="stylesheet" href="~/Content/Admin/assets/css/theme.min.css">
 
+    <link href="~/Content/Loader/Loader.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 </head>
 
 <body>
+    <div class="loader" id="AjaxLoader" style="display:none;"></div>
     <!-- Wrapper -->
     <div id="db-wrapper">
         <nav class="navbar-vertical navbar navbar-dark bg-dark">
@@ -656,8 +658,6 @@
     <script src="~/Content/Admin/assets/libs/wnumb/wNumb.min.js"></script>
     <script src="~/Content/Admin/assets/libs/glightbox/dist/js/glightbox.min.js"></script>
 
-
-
     <!-- CDN File for moment -->
     <script src='https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min.js'></script>
 
@@ -665,7 +665,6 @@
     <script src="~/Content/Admin/assets/js/theme.min.js"></script>
 
     <script src="~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-
 
     @if (ViewBag.Title == "Chi Tiết Dự Án")
     {

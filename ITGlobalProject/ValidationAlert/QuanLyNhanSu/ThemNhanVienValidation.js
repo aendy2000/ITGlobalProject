@@ -130,6 +130,8 @@
         if (checkshoten === true && checkscmnd === true && checkssodienthoai === true && checksngaysinh === true &&
             checksgioitinh === true && checksvaitro === true && checksdiachiemail === true && checksmatkhaudangnhap === true) {
             e.preventDefault();
+            $('#AjaxLoader').show();  
+
             let urls = $('#actionSubmit').data('request-url');
             $.ajax({
                 url: urls,
@@ -140,6 +142,7 @@
                     nguoiphuthuocs: nguoiphuthuoc, mucluongs: mucluong, dsNganHangs: dsNganHang, sotaikhoans: sotaikhoan, chutaikhoans: chutaikhoan, diachiemails: diachiemail, matkhaudangnhaps: matkhaudangnhap
                 }
             }).done(function (ketqua) {
+                $('#AjaxLoader').hide(); 
                 if (ketqua === "Đã có xảy ra lỗi, vui lòng thử lại") {
                     alert("Đã có xảy ra lỗi, vui lòng thử lại");
                 }

@@ -28,9 +28,12 @@
     <link rel="stylesheet" href="~/Content/Admin/assets/css/atlantis.min.css">
     <link href="~/Content/Admin/assets/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-btn.css" rel="stylesheet" />
+    <link href="~/Content/Loader/Loader.css" rel="stylesheet" />
 </head>
 
 <body>
+    <div class="loader" id="AjaxLoader" style="display:none;"></div>
+
     <div id="actionlinks" hidden data-request-url="@Url.Action("DangNhap", "QuanLyTaiKhoan")"></div>
     <div id="actionAdminSuccess" hidden data-request-url="@Url.Action("Analystics", "Dashboard")"></div>
     <div id="actionEmployeeSuccess" hidden data-request-url="@Url.Action("danhSachDuAn", "QuanLyCongViec", new { Area = "Employee"})"></div>
@@ -102,7 +105,6 @@
 
     <!--============================ Validation =============================-->
     <script src="~/ValidationAlert/QuanLyTaiKhoan/DangNhapValidation.js"></script>
-
 </body>
 
 </html>
