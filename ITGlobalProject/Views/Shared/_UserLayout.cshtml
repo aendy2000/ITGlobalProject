@@ -12,7 +12,7 @@
     <meta name="description" content="Công ty TNHH Giải pháp Công Nghệ IT-Global">
     <meta name="author" content="IT-Global">
     <meta name="keywords" content="website, mobile app, technology, design">
-
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <link rel="canonical" href="trangchu.html">
     <link rel="icon" href="~/Content/User/public/main/img/icon.svg">
     <link href="~/Content/User/public/main/img/icon.svg" rel="shortcut icon">
@@ -20,12 +20,16 @@
     <link rel="stylesheet" href="~/Content/User/public/main/css/iconfonts.css">
     <link rel="stylesheet" href="~/Content/User/public/main/css/plugins.css">
     <link rel="stylesheet" href="~/Content/User/public/main/css/style.css">
-    <link rel="stylesheet" href="~/Content/User/public/main/css/responsive.css">
     <link rel="stylesheet" href="~/Content/User/public/main/css/color.css">
     <link rel="stylesheet" href="~/Content/User/public/main/css/frontend.min.css">
     <link rel="stylesheet" href="~/Content/User/public/main/css/image-text-alignment-block.css">
+    <link rel="stylesheet" href="~/Content/Admin/assets/css/atlantis.min.css">
+
+    <link href="~/Content/Loader/Loader.css" rel="stylesheet" />
+
 </head>
 <body _c_t_common="1" _c_t_j1="1">
+    <div class="loader" id="AjaxLoader" style="display:none;"></div>
     <div id="dtr-wrapper" class="clearfix">
         <div class="dtr-responsive-header fixed-top" style="">
             <div class="container">
@@ -227,12 +231,16 @@
         </div>
     </div>
     <!-- JS FILES -->
-    <script src="~/Content/User/public/main/js/email-decode.min.js"></script>
-    <script src="~/Content/User/public/main/js/jquery.min.js"></script>
+
     <script src="~/Content/User/public/main/js/bootstrap.min.js"></script>
     <script src="~/Content/User/public/main/js/plugins.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Content/User/public/main/js/custom.js"></script>
     <script src="~/Content/User/public/js/app.js"></script>
+    <script src="~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+
+    <script src="~/ValidationAlert/User/LienHeValidation.js"></script>
 </body>
 
 </html>

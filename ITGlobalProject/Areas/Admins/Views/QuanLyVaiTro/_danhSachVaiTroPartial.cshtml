@@ -1,145 +1,147 @@
 ﻿@model IEnumerable<ITGlobalProject.Models.Position>
-
+@{
+    int i = 0;
+}
 <div id="danhSachPartial" class="row">
     <!-- col -->
     <div class="col-md-12 col-12 mb-5">
         <!-- card -->
         <div class="card">
             <!-- table -->
-            <div class="card-body pt-4">
-                <table id="dataTableBasic" class="table" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th scope="col" class=" border-top-0">ID</th>
-                            <th scope="col" class=" border-top-0">Tên vai trò</th>
-                            <th scope="col" class=" border-top-0">Mô tả </th>
-                            <th scope="col" class=" border-top-0">Tuyển dụng</th>
-                            <th scope="col" class=" border-top-0">Được áp dụng </th>
-                            <th scope="col" class=" border-top-0"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <input hidden value="@item.ID" id="ids@(item.ID)" />
-                            <input hidden value="@item.Name" id="names@(item.ID)" />
-                            <input hidden value="@item.Description" id="des@(item.ID)" />
+            <table id="dataTableBasic" class="table" style="width:100%">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class=" border-top-0">#</th>
+                        <th scope="col" class=" border-top-0">Tên vai trò</th>
+                        <th scope="col" class=" border-top-0">Mô tả </th>
+                        <th scope="col" class=" border-top-0">Tuyển dụng</th>
+                        <th scope="col" class=" border-top-0">Được áp dụng </th>
+                        <th scope="col" class=" border-top-0"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        i++;
 
-                            var employee = item.Employees.ToList();
-                            <tr>
-                                <td class="align-middle">
-                                    @item.ID
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div>
-                                            <h4 class="mb-0"><a href="#" class="text-inherit">@item.Name	</a></h4>
-                                        </div>
+                        <input hidden value="@item.ID" id="ids@(item.ID)" />
+                        <input hidden value="@item.Name" id="names@(item.ID)" />
+                        <input hidden value="@item.Description" id="des@(item.ID)" />
+
+                        var employee = item.Employees.ToList();
+                        <tr>
+                            <td class="align-middle">
+                                @i
+                            <td class="align-middle ">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <h4 class="mb-0"><a class="text-inherit">@item.Name</a></h4>
                                     </div>
-                                </td>
-                                <td style="max-width: 350px">
-                                    @item.Description
-                                </td>
-                                <td class="align-middle ">
-                                    <span style="width: 130px" class="btn btn-primary btn-xs text-white"> Comming Soon </span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
+                                </div>
+                            </td>
+                            <td style="max-width: 350px">
+                                @item.Description
+                            </td>
+                            <td class="align-middle ">
+                                <span style="width: 130px" class="btn btn-primary btn-xs text-white"> Comming Soon </span>
+                            </td>
+                            <td class="align-middle ">
+                                <div class="avatar-group">
+                                    @if (employee.Count < 1)
+                                    {
+                                        <span>Chưa áp dụng</span>
+                                    }
+                                    else if (employee.Count < 4)
+                                    {
+                                        foreach (var emp in employee)
+                                        {
+                                            if (!string.IsNullOrEmpty(emp.Avatar))
+                                            {
+                                                <span class="avatar avatar-md">
+
+                                                    <img alt="avatar" src="@emp.Avatar"
+                                                         class="rounded-circle imgtooltip" data-template="@emp.ID">
+                                                    <span id="@emp.ID" class="d-none">
+                                                        <span class="mb-0 h6">@emp.Name</span>
+                                                    </span>
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@emp.ID">
+                                                    <span class="avatar-initials rounded-circle ">
+                                                        @emp.Name.Substring(0, 1)
+                                                    </span>
+
+                                                    <span id="@emp.ID" class="d-none">
+                                                        <span class="mb-0 h6">@emp.Name</span>
+
+                                                    </span>
+                                                </span>
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (var emp in employee)
+                                        {
+                                            if (!string.IsNullOrEmpty(emp.Avatar))
+                                            {
+                                                <span class="avatar avatar-md">
+
+                                                    <img alt="avatar" src="@emp.Avatar"
+                                                         class="rounded-circle imgtooltip" data-template="@emp.ID">
+                                                    <span id="@emp.ID" class="d-none">
+                                                        <span class="mb-0 h6">@emp.Name</span>
+                                                    </span>
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@emp.ID">
+                                                    <span class="avatar-initials rounded-circle ">
+                                                        @emp.Name.Substring(0, 1)
+                                                    </span>
+
+                                                    <span id="@emp.ID" class="d-none">
+                                                        <span class="mb-0 h6">@emp.Name</span>
+
+                                                    </span>
+                                                </span>
+                                            }
+                                        }
+                                        <span class="avatar avatar-md ">
+                                            <span class="avatar-initials rounded-circle bg-light text-dark">@(employee.Count - 3)+</span>
+                                        </span>
+                                    }
+
+                                </div>
+                            </td>
+                            <td class="text-muted align-middle text-end">
+                                <div class="dropdown dropstart">
+                                    <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
+                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fe fe-more-vertical"></i>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="Dropdown1">
+                                        <span class="dropdown-header">Hành động</span>
+                                        <a role="button" name="@item.ID" id="chinhsua@(item.ID)" class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
+                                            <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa vai trò
+                                        </a>
                                         @if (employee.Count < 1)
                                         {
-                                            <span>Chưa áp dụng</span>
-                                        }
-                                        else if (employee.Count < 4)
-                                        {
-                                            foreach (var emp in employee)
-                                            {
-                                                if (!string.IsNullOrEmpty(emp.Avatar))
-                                                {
-                                                    <span class="avatar avatar-md">
-
-                                                        <img alt="avatar" src="@emp.Avatar"
-                                                             class="rounded-circle imgtooltip" data-template="@emp.ID">
-                                                        <span id="@emp.ID" class="d-none">
-                                                            <span class="mb-0 h6">@emp.Name</span>
-                                                        </span>
-                                                    </span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@emp.ID">
-                                                        <span class="avatar-initials rounded-circle ">
-                                                            @emp.Name.Substring(0, 1)
-                                                        </span>
-
-                                                        <span id="@emp.ID" class="d-none">
-                                                            <span class="mb-0 h6">@emp.Name</span>
-
-                                                        </span>
-                                                    </span>
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            foreach (var emp in employee)
-                                            {
-                                                if (!string.IsNullOrEmpty(emp.Avatar))
-                                                {
-                                                    <span class="avatar avatar-md">
-
-                                                        <img alt="avatar" src="@emp.Avatar"
-                                                             class="rounded-circle imgtooltip" data-template="@emp.ID">
-                                                        <span id="@emp.ID" class="d-none">
-                                                            <span class="mb-0 h6">@emp.Name</span>
-                                                        </span>
-                                                    </span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@emp.ID">
-                                                        <span class="avatar-initials rounded-circle ">
-                                                            @emp.Name.Substring(0, 1)
-                                                        </span>
-
-                                                        <span id="@emp.ID" class="d-none">
-                                                            <span class="mb-0 h6">@emp.Name</span>
-
-                                                        </span>
-                                                    </span>
-                                                }
-                                            }
-                                            <span class="avatar avatar-md ">
-                                                <span class="avatar-initials rounded-circle bg-light text-dark">@(employee.Count - 3)+</span>
-                                            </span>
-                                        }
-
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Hành động</span>
-                                            <a role="button" name="@item.ID" id="chinhsua@(item.ID)" class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa vai trò
+                                            <div class="dropdown-divider"></div>
+                                            <a role="button" name="@item.ID" id="xoa@(item.ID)" class="dropdown-item" href="#">
+                                                <i class="fe fe-trash dropdown-item-icon"></i>Xóa vai trò
                                             </a>
-                                            @if (employee.Count < 1)
-                                            {
-                                                <div class="dropdown-divider"></div>
-                                                <a role="button" name="@item.ID" id="xoa@(item.ID)" class="dropdown-item" href="#">
-                                                    <i class="fe fe-trash dropdown-item-icon"></i>Xóa vai trò
-                                                </a>
-                                            }
-                                        </div>
+                                        }
                                     </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 

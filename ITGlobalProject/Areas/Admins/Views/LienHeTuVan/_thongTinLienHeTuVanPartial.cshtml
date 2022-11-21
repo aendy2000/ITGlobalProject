@@ -1,0 +1,164 @@
+﻿@model IEnumerable<ITGlobalProject.Models.Consultation>
+@{
+    int i = 0;
+    int j = 0;
+}
+<div id="nextPages" class="row">
+    <div class="col-lg-12 col-md-12 col-12">
+        <!-- Card -->
+        <div class="card rounded-3">
+            <!-- Card header -->
+            <div class="card-header border-bottom-0 p-0 bg-white">
+                <div>
+                    <!-- Nav -->
+                    <ul class="nav nav-lb-tab" id="tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="pending-tab" data-bs-toggle="pill" href="#pending" role="tab" aria-controls="pending" aria-selected="false">
+                                Chờ Duyệt
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="approved-tab" data-bs-toggle="pill" href="#approved" role="tab" aria-controls="approved" aria-selected="false">Đã Liên Hệ</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <!-- Table -->
+                <div class="tab-content" id="tabContent">
+                    <!--Tab pane -->
+                    <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="courses-tab">
+                        <div class="card">
+                            <!-- table -->
+                            <table id="dataTableBasic" class="table mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th hidden scope="col" class="border-0 text-uppercase">
+                                            #
+                                        </th>
+                                        <th scope="col" class="border-0 text-uppercase">
+                                            khách hàng
+                                        </th>
+                                        <th scope="col" class="border-0 text-uppercase">
+                                            Ngày gửi
+                                        </th>
+                                        <th scope="col" class="border-0 text-uppercase">
+                                            Nội dung
+                                        </th>
+                                        <th scope="col" class="border-0 text-uppercase">
+                                            Điện thoại
+                                        </th>
+                                        <th scope="col" class="border-0 text-uppercase">
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        if (item.State == false)
+                                        {
+                                            i++;
+                                            <tr>
+                                                <td class="align-middle border-top-0">
+                                                    @i
+                                                </td>
+                                                <td class="align-middle border-top-0">
+                                                    <div class="d-flex align-items-center">
+                                                        <div>
+                                                            <h4 class="mb-0">@item.Name</h4>
+                                                            <span class="text-inherit">@item.Email</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle border-top-0">
+                                                    @item.Date.ToString("HH:mm, dd-MM-yyyy")
+                                                </td>
+                                                <td style="max-width: 400px; word-break: break-word" class="align-middle border-top-0">
+                                                    @item.Contents
+                                                </td>
+                                                <td class="align-middle border-top-0">
+                                                    <div class="d-flex align-items-center">
+                                                        <h5 class="mb-0"><i class="fe fe-phone-call"> </i> @item.Phone</h5>
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle border-top-0">
+                                                    <a id="xoabo@(item.ID)" name="@item.ID" class="btn btn-outline-white btn-sm">Xóa bỏ</a>
+                                                    <a id="xacnhan@(item.ID)" name="@item.ID" href="#" class="btn btn-success btn-sm">Đã liên hệ</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--Tab pane -->
+                    <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved-tab">
+                        <div class="card">
+                            <!-- table -->
+                            <div class="card-body pt-4">
+                                <table id="dataTableBasic" class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                #
+                                            </th>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                khách hàng
+                                            </th>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                Ngày gửi
+                                            </th>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                Nội dung
+                                            </th>
+                                            <th scope="col" class="border-0 text-uppercase">
+                                                Điện thoại
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            if (item.State == true)
+                                            {
+                                                j++;
+                                                <tr>
+                                                    <td class="align-middle border-top-0">
+                                                        @j
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <div class="d-flex align-items-center">
+                                                            <div>
+                                                                <h4 class="mb-0">@item.Name</h4>
+                                                                <span class="text-inherit">@item.Email</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        @item.Date.ToString("HH:mm, dd-MM-yyyy")
+                                                    </td>
+                                                    <td style="max-width: 400px; word-break: break-word" class="align-middle border-top-0">
+                                                        @item.Contents
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <div class="d-flex align-items-center">
+                                                            <h5 class="mb-0"><i class="fe fe-phone-call"> </i> @item.Phone</h5>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/ValidationAlert/Admin/LienHeTuVan/XoaOrDuyetValidation.js"></script>

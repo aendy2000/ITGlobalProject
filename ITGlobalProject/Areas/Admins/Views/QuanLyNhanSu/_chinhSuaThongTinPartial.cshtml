@@ -292,7 +292,7 @@
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Mức lương <span class="text-danger">*</span></label>
-                                <input value="@Model.Wage.ToString("0,0")" style="font-weight:bold; color:brown" type="text" id="mucluong" name="mucluong" class="form-control" placeholder="10.000.000..." />
+                                <input data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" value="@Model.Wage.ToString("0")" style="font-weight:bold; color:brown" type="text" id="mucluong" name="mucluong" class="form-control text-start" placeholder="Nhập mức lương đã thỏa thuận" />
                             </div>
 
                             <div class="mb-3 col-12 col-md-6">

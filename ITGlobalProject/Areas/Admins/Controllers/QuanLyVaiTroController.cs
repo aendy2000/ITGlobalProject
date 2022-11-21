@@ -17,7 +17,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         // GET: Admins/QuanLyVaiTro
         public ActionResult danhSachVaiTro()
         {
-            var position = model.Position.Where(p => p.ID != 1).ToList();
+            var position = model.Position.Where(p => p.ID != 1).OrderByDescending(p => p.ID).ToList();
             ViewBag.ShowActive = "danhSachVaiTro";
             return View(position);
         }
@@ -34,7 +34,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             model.SaveChanges();
             model = new CP25Team06Entities();
 
-            var positions = model.Position.Where(p => p.ID != 1).ToList();
+            var positions = model.Position.Where(p => p.ID != 1).OrderByDescending(p => p.ID).ToList();
             return PartialView("_danhSachVaiTroPartial", positions);
         }
 
@@ -51,7 +51,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             model.SaveChanges();
             model = new CP25Team06Entities();
 
-            var positions = model.Position.Where(p => p.ID != 1).ToList();
+            var positions = model.Position.Where(p => p.ID != 1).OrderByDescending(p => p.ID).ToList();
             return PartialView("_danhSachVaiTroPartial", positions);
         }
         [HttpPost]
@@ -66,7 +66,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             model.SaveChanges();
             model = new CP25Team06Entities();
 
-            var positions = model.Position.Where(p => p.ID != 1).ToList();
+            var positions = model.Position.Where(p => p.ID != 1).OrderByDescending(p => p.ID).ToList();
             return PartialView("_danhSachVaiTroPartial", positions);
         }
     }

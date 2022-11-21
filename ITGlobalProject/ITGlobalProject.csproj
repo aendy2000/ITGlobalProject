@@ -742,6 +742,7 @@
     <Content Include="Areas\Employee\Views\QuanLyTaiKhoan\_thongTinCaNhanPartial.cshtml" />
     <Content Include="Areas\Employee\Views\QuanLyTaiKhoan\ThongTinCaNhan.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyVaiTro\_danhSachVaiTroPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\LienHeTuVan\_thongTinLienHeTuVanPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -756,6 +757,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="ValidationAlert\Admin\LienHeTuVan\XoaOrDuyetValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChinhSuaNhanVienValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\KhoaTaiKhoanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ThemNhanVienValidation.js" />
@@ -771,6 +773,7 @@
     <Content Include="ValidationAlert\Employee\QuanLyTaiKhoan\ChinhSuaThongTinCaNhanValidation.js" />
     <Content Include="ValidationAlert\Employee\QuanLyTaiKhoan\DoiMatKhauValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyVaiTro\ThemVaiTroValidation.js" />
+    <Content Include="ValidationAlert\User\LienHeValidation.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -618,6 +618,7 @@
             @RenderBody()
             @RenderSection("scripts", required: false)
         </div>
+        <input hidden value="@Url.Content("~")" id="requestPath" />
     </div>
     <!-- Script -->
     <script src="~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>

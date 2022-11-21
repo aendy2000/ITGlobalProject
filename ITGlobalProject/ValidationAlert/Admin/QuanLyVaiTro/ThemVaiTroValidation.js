@@ -5,6 +5,8 @@
         var name = $('#tenvaitro').val();
         var mota = $('#motavaitro').val();
 
+
+
         var formData = new FormData();
         formData.append('name', name);
         formData.append('description', mota);
