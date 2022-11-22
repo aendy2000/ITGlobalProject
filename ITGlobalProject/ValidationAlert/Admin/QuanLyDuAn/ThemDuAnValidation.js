@@ -57,8 +57,6 @@
         $('#luKhachHangCu').hide();
         $('#NavthongTinKhachHangCu').hide();
 
-        $('#idKhachHang').val("");
-
     });
     //Chọn ảnh
     $('#clickFiles').on('click', function (e) {
