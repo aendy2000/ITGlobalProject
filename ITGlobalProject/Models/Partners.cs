@@ -29,6 +29,7 @@ namespace ITGlobalProject.Models
         public System.DateTime Birthday { get; set; }
         public string Sex { get; set; }
         public string Address { get; set; }
+        public string Avatar { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Projects> Projects { get; set; }

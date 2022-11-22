@@ -22,7 +22,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         // GET: Admins/LienHeTuVan
         public ActionResult thongTinLienHeTuVan()
         {
-            var lstCons = model.Consultation.ToList().OrderByDescending(c => c.ID);
+            var lstCons = model.Consultation.ToList();
             ViewBag.ShowActive = "thongTinLienHeTuVan";
             return View(lstCons);
         }
@@ -38,7 +38,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             model.SaveChanges();
             model = new CP25Team06Entities();
 
-            var lstLH = model.Consultation.ToList().OrderByDescending(c => c.ID);
+            var lstLH = model.Consultation.ToList();
             return PartialView("_thongTinLienHeTuVanPartial", lstLH);
         }
         [HttpPost]
@@ -54,7 +54,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             model.SaveChanges();
             model = new CP25Team06Entities();
 
-            var lstLH = model.Consultation.ToList().OrderByDescending(c => c.ID);
+            var lstLH = model.Consultation.ToList();
             return PartialView("_thongTinLienHeTuVanPartial", lstLH);
         }
     }

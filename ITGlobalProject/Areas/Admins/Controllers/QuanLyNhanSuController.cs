@@ -20,7 +20,6 @@ using ITGlobalProject.Middleware;
 
 namespace ITGlobalProject.Areas.Admins.Controllers
 {
-    [AdminLoginVerification]
     public class QuanLyNhanSuController : Controller
     {
         CP25Team06Entities model = new CP25Team06Entities();

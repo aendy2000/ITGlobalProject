@@ -1,11 +1,11 @@
-﻿
+﻿@model IEnumerable<ITGlobalProject.Models.Partners>
 @{
     ViewBag.Title = "Tạo Dự Án Mới";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+    int i = 0;
 }
-
 <div class="container-fluid p-4">
-    <form id="frm">
+    <div id="frm">
         <div class="row ">
             <div class="col-lg-12 col-md-12 col-12">
                 <!-- Page header -->
@@ -65,18 +65,18 @@
                                                     <!-- form group -->
                                                     <div class="mb-3 col-12">
                                                         <label style="font-weight:bold" class="form-label">Tên dự án <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" placeholder="Nhập vào tên của dự án (VD: Website ABC)" required>
+                                                        <input id="name" name="name" type="text" class="form-control" placeholder="Nhập vào tên của dự án (VD: Website ABC)">
                                                     </div>
                                                     <!-- form group -->
                                                     <div class="mb-3 col-12">
                                                         <label style="font-weight:bold" class="form-label">Mô tả tổng quan</label>
-                                                        <textarea class="form-control" placeholder="Nhập vào mô tả của dự án..." rows="10"></textarea>
+                                                        <textarea id="mota" name="mota" class="form-control" placeholder="Nhập vào mô tả của dự án..." rows="10"></textarea>
                                                     </div>
                                                     <!-- form group -->
                                                     <div class="mb-3 col-md-6 col-12">
                                                         <label style="font-weight:bold" class="form-label">Ngày bắt đầu <span class="text-danger">*</span></label>
                                                         <div class="input-group me-3">
-                                                            <input class="form-control flatpickr" type="text" placeholder="Ngày bắt đầu dự án"
+                                                            <input id="batdau" name="batdau" class="form-control flatpickr" type="text" placeholder="Ngày bắt đầu dự án"
                                                                    aria-describedby="basic-addon2">
 
                                                             <span class="input-group-text text-muted" id="basic-addon2">
@@ -89,7 +89,7 @@
                                                     <div class="mb-3 col-md-6 col-12">
                                                         <label style="font-weight:bold" class="form-label">Ngày kết thúc <span class="text-danger">*</span></label>
                                                         <div class="input-group me-3">
-                                                            <input class="form-control flatpickr" type="text" placeholder="Ngày kết thúc dự án"
+                                                            <input id="ketthuc" name="ketthuc" class="form-control flatpickr" type="text" placeholder="Ngày kết thúc dự án"
                                                                    aria-describedby="basic-addon3">
 
                                                             <span class="input-group-text text-muted" id="basic-addon3">
@@ -106,7 +106,7 @@
                                                     </div>
                                                     <div id="ipdgd1" class="mb-3 col-md-6 col-12">
                                                         <div class="input-group me-3">
-                                                            <input class="form-control flatpickr" type="text"
+                                                            <input id="ngaygd1" name="ngaygd1" class="form-control flatpickr" type="text"
                                                                    placeholder="Ngày kết thúc giai đoạn 1" aria-describedby="basic-addon-gd1" required>
 
                                                             <span class="input-group-text text-muted" id="basic-addon-gd1">
@@ -120,8 +120,8 @@
                                                     </div>
                                                     <div id="ipdgd2" class="mb-3 col-md-6 col-12">
                                                         <div class="input-group me-3">
-                                                            <input class="form-control flatpickr" type="text"
-                                                                   placeholder="Ngày kết thúc giai đoạn 2" id="date" aria-describedby="basic-addon-gd2" required>
+                                                            <input id="ngaygd2" name="ngaygd2" class="form-control flatpickr" type="text"
+                                                                   placeholder="Ngày kết thúc giai đoạn 2" aria-describedby="basic-addon-gd2" required>
 
                                                             <span class="input-group-text text-muted" id="basic-addon-gd2">
                                                                 <i class="fe fe-calendar"></i>
@@ -136,8 +136,8 @@
                                                     <div id="ipdgd3" class="mb-3 col-md-6 col-12">
                                                         <div class="input-group me-3">
 
-                                                            <input class="form-control flatpickr" type="text"
-                                                                   placeholder="Ngày kết thúc giai đoạn 3" id="date" aria-describedby="basic-addon-gd3" required>
+                                                            <input id="ngaygd3" name="ngaygd3" class="form-control flatpickr" type="text"
+                                                                   placeholder="Ngày kết thúc giai đoạn 3" aria-describedby="basic-addon-gd3" required>
 
                                                             <span class="input-group-text text-muted" id="basic-addon-gd3">
                                                                 <i class="fe fe-calendar"></i>
@@ -158,7 +158,7 @@
 
                                                     <div style="margin-bottom: 20px" class="col-12">
                                                         <label style="font-weight:bold" for="priority" class="form-label">Tổng chi phí </label>
-                                                        <div readonly style="text-align: center; font-weight: bold; color: brown" id="sums" name="sums" type="text" class="form-control">HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN</div>
+                                                        <input value="" placeholder="HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" readonly style="text-align: center; font-weight: bold;" id="sums" name="sums" type="text" class="form-control text-center text-danger">
                                                     </div>
                                                 </div>
                                             </div>
@@ -172,7 +172,7 @@
                         <!-- card body -->
                         <!--///////////////////////////////////////////////////////////////////////////////////////////-->
 
-                        <div style="color: white; background-color:crimson; height: 120px" class="card-header p-lg-6" data-bs-toggle="collapse" data-bs-target="#NavthongTinKhachHang" aria-expanded="false" aria-controls="NavthongTinKhachHang">
+                        <div id="luKhachHang" style="color: white; background-color:crimson; height: 120px" class="card-header p-lg-6" data-bs-toggle="collapse" data-bs-target="#NavthongTinKhachHang" aria-expanded="false" aria-controls="NavthongTinKhachHang">
                             <div style="margin-top: -15px" class="row">
                                 <!-- form group -->
                                 <div class="mb-3 col-6">
@@ -184,7 +184,8 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- card body -->
+
+                        <!--Khách hàng Mới-->
                         <div id="NavthongTinKhachHang" class="collapse" data-bs-parent="#navMenuLevel" style="">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
@@ -193,12 +194,12 @@
                                         <div class="row">
                                             <!-- form group -->
                                             <div style="text-align: center; margin-top: -10px" class="mb-2 col-12">
-                                                <a style="width:100%" type="button" class="btn btn-outline-primary"> <i class="fe fe-user-plus"> </i> Lấy Thông Tin Khách Hàng Cũ</a>
+                                                <a data-bs-toggle="modal" data-bs-target="#lstKhachHangCu" style="width:100%" role="button" class="btn btn-outline-primary"> <i class="fe fe-user-plus"> </i> Lấy Thông Tin Khách Hàng Cũ</a>
                                             </div>
                                             <hr class="my-4" />
                                             <div class="d-lg-flex align-items-center justify-content-between">
                                                 <div class="d-flex align-items-center mb-3 mb-lg-0">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-18.jpg" id="img-uploaded" class="avatar-xxl rounded-circle" alt="" />
+                                                    <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xxl rounded-circle" alt="" id="previewImage" />
                                                     <div class="ms-3">
                                                         <h4 class="mb-0">Hình đại diện (nếu có)</h4>
                                                         <p class="mb-0">
@@ -207,65 +208,158 @@
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <a style="width: 150px" href="#" class="btn btn-outline-success btn-sm">Tải lên</a>
-                                                    <a style="width: 150px" href="#" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
+                                                    <input hidden id="selectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewImage'))" />
+                                                    <a id="clickFiles" style="width: 150px" role="button" class="btn btn-outline-primary btn-sm">Tải lên</a>
+                                                    <a id="reloadButton" style="width: 150px" role="button" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
                                                 </div>
                                             </div>
                                             <hr class="my-4" />
                                             <div class="mb-3 col-12">
                                                 <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp</label>
-                                                <input type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng (nếu có)" required>
+                                                <input id="namedn" name="namedn" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng (nếu có)" required>
                                             </div>
                                             <!-- form group -->
                                             <div class="mb-3 col-12  col-md-6">
                                                 <label style="font-weight:bold" class="form-label">Họ và Tên<span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
+                                                <input id="hoten" name="hoten" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
                                             </div>
 
                                             <div class="mb-3 col-12 col-md-6">
                                                 <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD <span class="text-danger">*</span></label>
-                                                <input value="" type="text" id="fname" class="form-control" placeholder="07020000xxxx..." required />
+                                                <input id="cmnd" name="cmnd" value="" type="text" class="form-control" placeholder="07020000xxxx..." required />
                                             </div>
                                             <!-- Phone -->
                                             <div class="mb-3 col-12 col-md-6">
                                                 <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
-                                                <input value="" type="tel" id="phone" class="form-control" placeholder="0999888777..." required />
+                                                <input id="phone" name="phone" value="" type="tel" class="form-control" placeholder="0999888777..." required />
                                             </div>
                                             <div class="mb-3 col-12 col-md-6">
                                                 <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
-                                                <input value="" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
+                                                <input value="" type="text" id="email" name="email" class="form-control" placeholder="example@itglobal.net..." required />
                                             </div>
                                             <!-- Birthday -->
                                             <div class="mb-3 col-12 col-md-6">
                                                 <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh <span class="text-danger">*</span></label>
-                                                <input value="" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" id="birth"
-                                                       name="birth" />
+                                                <input id="ngaysinh" name="ngaysinh" value="" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
                                             </div>
                                             <!-- Birthday -->
                                             <div class="mb-3 col-12 col-md-6">
                                                 <label style="font-weight:bold" class="form-label">Giới tính <span class="text-danger">*</span></label>
-                                                <select style="color:black" class="selectpicker" data-width="100%">
+                                                <select id="gioitinh" name="gioitinh" style="color:black" class="selectpicker" data-width="100%">
                                                     <option value="">Chọn giới tính</option>
-                                                    <option value="1">Nam</option>
-                                                    <option value="2">Nữ</option>
+                                                    <option value="Nam">Nam</option>
+                                                    <option value="Nữ">Nữ</option>
                                                 </select>
                                             </div>
 
                                             <!-- Address -->
                                             <div class="mb-3 col-12 col-md-12">
                                                 <label style="font-weight:bold" class="form-label" for="address">ĐC Doanh nghiệp / Nhà riêng <span class="text-danger">*</span></label>
-                                                <textarea rows="5" id="address" class="form-control" placeholder="Số 0/0 đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla..." required></textarea>
+                                                <textarea id="diahchinha" name="diachinha" rows="5" class="form-control" placeholder="Số 0/0 đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla..."></textarea>
                                             </div>
 
                                             <div style="text-align: right; padding-top: 25px" class="mb-2 col-12 col-md-6">
-                                                <button style="width: 230px" class="btn btn-outline-danger" type="reset">
+                                                <button id="resetdata" style="width: 230px" class="btn btn-outline-danger" type="reset" onclick="document.documentElement.scrollTop = 0;">
                                                     Hủy bỏ (Reset)
                                                 </button>
                                             </div>
                                             <div style=" padding-top: 25px" class="mb-2 col-12 col-md-6">
-                                                <button style="width: 230px" class="btn btn-success" type="submit">
+                                                <a role="button" id="luuThongTin" style="width: 230px" class="btn btn-success">
                                                     Thêm dự án
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div id="luKhachHangCu" style="color: white; background-color:crimson; height: 120px" class="card-header p-lg-6" data-bs-toggle="collapse" data-bs-target="#NavthongTinKhachHangCu" aria-expanded="false" aria-controls="NavthongTinKhachHangCu">
+                            <div style="margin-top: -15px" class="row">
+                                <!-- form group -->
+                                <div class="mb-3 col-6">
+                                    <p style="font-weight:bold; font-size: 20px">B. Thông Tin Khách Hàng</p>
+                                    <span>Thông tin liên hệ khách hàng, địa chỉ liên lạc, ...</span>
+                                </div>
+                                <div style="text-align: right; font-weight: bold; font-size: 50px " class="mb-3 col-6">
+                                    <i class="fe fe-user-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Khách hàng cũ-->
+                        <div id="NavthongTinKhachHangCu" class="collapse" data-bs-parent="#navMenuLevel" style="">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <div class="card-body p-lg-6">
+                                        <!-- form -->
+                                        <div class="row">
+                                            <!-- form group -->
+                                            <div style="text-align: center; margin-top: -10px" class="mb-2 col-12">
+                                                <a data-bs-toggle="modal" data-bs-target="#lstKhachHangCu" style="width:100%" role="button" class="btn btn-outline-primary"> <i class="fe fe-user-plus"> </i> Lấy Thông Tin Khách Hàng Cũ</a>
+                                            </div>
+                                            <hr class="my-4" />
+                                            <div class="d-lg-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center mb-3 mb-lg-0">
+                                                    <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xxl rounded-circle" alt="" id="previewImageCu" />
+                                                    <div class="ms-3">
+                                                        <h4 class="mb-0">Hình đại diện (nếu có)</h4>
+                                                        <p class="mb-0">
+                                                            PNG hoặc JPG hình vuông không lớn hơn 800px.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr class="my-4" />
+                                            <div class="mb-3 col-12">
+                                                <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp</label>
+                                                <input readonly id="namedncu" name="namedncu" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng (nếu có)" required>
+                                                <input hidden id="idKhachHang" />
+                                            </div>
+                                            <!-- form group -->
+                                            <div class="mb-3 col-12  col-md-6">
+                                                <label style="font-weight:bold" class="form-label">Họ và Tên<span class="text-danger">*</span></label>
+                                                <input readonly id="hotencu" name="hotencu" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
+                                            </div>
+
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD <span class="text-danger">*</span></label>
+                                                <input readonly id="cmndcu" name="cmndcu" value="" type="text" class="form-control" placeholder="07020000xxxx..." required />
+                                            </div>
+                                            <!-- Phone -->
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                                                <input readonly id="phonecu" name="phonecu" value="" type="tel" class="form-control" placeholder="0999888777..." required />
+                                            </div>
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
+                                                <input readonly value="" type="text" id="emailcu" name="emailcu" class="form-control" placeholder="example@itglobal.net..." required />
+                                            </div>
+                                            <!-- Birthday -->
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh <span class="text-danger">*</span></label>
+                                                <input readonly id="ngaysinhcu" name="ngaysinhcu" value="" class="form-control" type="text" placeholder="Chọn ngày sinh" />
+                                            </div>
+                                            <!-- Birthday -->
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <label style="font-weight:bold" class="form-label">Giới tính <span class="text-danger">*</span></label>
+                                                <input readonly id="gioitinhcu" name="gioitinhcu" value="" class="form-control" type="text" placeholder="Chọn giới tính" />
+                                            </div>
+
+                                            <!-- Address -->
+                                            <div class="mb-3 col-12 col-md-12">
+                                                <label style="font-weight:bold" class="form-label" for="address">ĐC Doanh nghiệp / Nhà riêng <span class="text-danger">*</span></label>
+                                                <textarea readonly id="diahchinhacu" name="diachinhacu" rows="5" class="form-control" placeholder="Số 0/0 đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla..."></textarea>
+                                            </div>
+
+                                            <div style="text-align: right; padding-top: 25px" class="mb-2 col-12 col-md-6">
+                                                <button id="nhapKhachHangMoi" style="width: 230px" class="btn btn-outline-danger">
+                                                    Nhập khách hàng mới
                                                 </button>
+                                            </div>
+                                            <div style=" padding-top: 25px" class="mb-2 col-12 col-md-6">
+                                                <a role="button" id="luuThongTinKHCu" style="width: 230px" class="btn btn-success">
+                                                    Thêm dự án
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -273,105 +367,91 @@
                             </ul>
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </div>
-    </form>
+    </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $('#xoabot').on('click', function (e) {
-            let sott = Number($('#dem').val());
-            if (sott === 1) {
-                alert("Còn có 1 cái thôi đừng xóa nữa");
-            }
-            else {
-                $('label[for=ipcpgd' + sott + ']').remove();
-                $('#ipcpgd' + sott).remove();
-                $('#ipdgd' + sott).remove();
+<div class="modal fade modal-xl" id="lstKhachHangCu" tabindex="-1" role="dialog"
+     aria-labelledby="themVaiTroModalLabel" aria-hidden="true" data-simplebar>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="themVaiTroModal"><i class="fe fe-user-check"> </i> Thêm Vai Trò</h4>
+                <button id="tatDanhSachKHCu" type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+            <div class="card">
+                <!-- form -->
+                <!-- table -->
+                <table id="dataTableBasic" class="table" style="width:100%">
+                    <thead class="table-light">
+                        <tr>
+                            <th hidden scope="col" class=" border-top-0"></th>
+                            <th scope="col" class=" border-top-0">Tên</th>
+                            <th scope="col" class=" border-top-0">Email</th>
+                            <th scope="col" class=" border-top-0">CMND/CCCD</th>
+                            <th scope="col" class=" border-top-0">Số điện thoại</th>
+                            <th scope="col" class=" border-top-0"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            i++;
+                            <input hidden value="@item.ID" id="ids@(item.ID)" />
+                            <input hidden value="@item.Company" id="companys@(item.ID)" />
+                            <input hidden value="@item.Name" id="names@(item.ID)" />
+                            <input hidden value="@item.IdentityCard" id="cmnds@(item.ID)" />
+                            <input hidden value="@item.Phone" id="sdts@(item.ID)" />
+                            <input hidden value="@item.Email" id="emails@(item.ID)" />
+                            <input hidden value="@item.Birthday.ToString("yyyy-MM-dd")" id="sns@(item.ID)" />
+                            <input hidden value="@item.Sex" id="gioitinhs@(item.ID)" />
+                            <input hidden value="@item.Address" id="dcs@(item.ID)" />
+                            <input hidden value="@item.Avatar" id="avts@(item.ID)" />
 
-                var elem = document.getElementById('dem');
-                elem.value = sott - 1;
-
-                let totals = 0;
-                for (var i = 1; i <= sott - 1; i++) {
-                    totals += Number($('#gd' + i).val());
-                }
-
-                if (totals === 0) {
-                    $('#sums').text("HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN");
-                } else {
-                    $('#sums').text(totals);
-                }
-            }
-        });
-        $('#addthem').on('click', function (e) {
-            let sott = Number($('#dem').val()) + 1;
-            if (sott > 5) {
-                alert("5 cái thôi nhiều quá rồi");
-            } else {
-                let nd = "'alias': 'decimal', 'groupSeparator': ','";
-                $('#appenddayne').replaceWith('<label style="font-weight:bold" for="ipcpgd' + sott + '" class="form-label">Giai đoạn ' + sott + ' </label>'
-                    + '<div id="ipcpgd' + sott + '" class="mb-3 col-md-6 col-12"><input id="gd' + sott + '" name="gd' + sott + '" type="text" style="font-weight:bold;" data-inputmask="' + nd + '" inputmode="numeric" class="form-control text-start text-danger" placeholder="Chi phí giai đoạn ' + sott + '" required /></div>'
-                    + '<div id="ipdgd' + sott + '" class="mb-3 col-md-6 col-12"><div class="input-group me-3"><input class="form-control flatpickr" type="text" placeholder="Ngày kết thúc giai đoạn ' + sott + '" id="date" aria-describedby="basic-addon-gd' + sott + '" required>'
-                    + '<span class="input-group-text text-muted" id="basic-addon-gd3"><i class="fe fe-calendar"></i></span>'
-                    + '</div></div><div id="appenddayne"></div>');
-                var elem = document.getElementById('dem');
-                elem.value = sott;
-                if ($("input").length && Inputmask().mask(document.querySelectorAll("input")), $("#editor").length) new Quill("#editor", {
-                    modules: {
-                        toolbar: [
-                            [{
-                                header: [1, 2, !1]
-                            }],
-                            [{
-                                font: []
-                            }],
-                            ["bold", "italic", "underline", "strike"],
-                            [{
-                                size: ["small", !1, "large", "huge"]
-                            }],
-                            [{
-                                list: "ordered"
-                            }, {
-                                list: "bullet"
-                            }],
-                            [{
-                                color: []
-                            }, {
-                                background: []
-                            }, {
-                                align: []
-                            }],
-                            ["link", "image", "code-block", "video"]
-                        ]
-                    },
-                    theme: "snow"
-                });
-                $(".flatpickr").length && flatpickr(".flatpickr", {
-                    disableMobile: !0
-                });
+                            <tr>
+                                <td hidden class="align-middle">
+                                    @i
+                                </td>
+                                <td class="align-middle ">
+                                    <div class="d-flex align-items-center text-nowrap">
+                                        @if (string.IsNullOrEmpty(item.Avatar))
+                                        {
+                                            <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt=""
+                                                 class="rounded-circle avatar-md me-2" />
+                                        }
+                                        else
+                                        {
+                                            <img src="@item.Avatar" alt=""
+                                                 class="rounded-circle avatar-md me-2" />
+                                        }
+                                        <h5 class="mb-0">@item.Name</h5>
+                                    </div>
+                                </td>
+                                <td class="align-middle ">
+                                    @item.Email
+                                </td>
+                                <td class="align-middle ">
+                                    @item.IdentityCard
+                                </td>
+                                <td class="align-middle ">
+                                    @item.Phone
+                                </td>
+                                <td class="align-middle ">
+                                    <button id="selectKhachHangCu@(item.ID)" name="@item.ID" class="btn btn-outline-primary btn-xs">CHỌN <i class="fe fe-check-square"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-            }
-        });
-        $('#frm').on('input', function (e) {
-            let sott = Number($('#dem').val());
-            let totals = 0;
-            for (var i = 1; i <= sott; i++) {
-                totals += Number($('#gd' + i).val());
-            }
-            //let totals = (Number($('#gd1').val()) +
-            //    Number($('#gd2').val()) +
-            //    Number($('#gd3').val()));
-            if (totals === 0) {
-                $('#sums').text("HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN");
-            } else {
-                $('#sums').text(totals);
-            }
-        });
-    });
-</script>
+<script src="~/Content/Admin/assets/js/reviewImage.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyDuAn/ThemDuAnValidation.js"></script>
