@@ -1,4 +1,19 @@
-﻿
+﻿@using ITGlobalProject.Models;
+@model ITGlobalProject.Models.Projects
+@{
+    IEnumerable<Histories> lichSu = Session["lst-lichSuDuAn"] as IEnumerable<Histories>;
+    int heights = 0;
+    if (Model.Tasks.Count < 1)
+    {
+        ViewBag.TongTheDuAn = 0;
+    }
+    else
+    {
+        heights = 400;
+        ViewBag.TongTheDuAn = Model.Tasks.Where(t => t.State.Equals("Đã hoàn thành")).ToList().Sum(t => t.OriginalEstimate) / Model.Tasks.ToList().Sum(t => t.OriginalEstimate);
+    }
+}
+
 <div id="chiTietDuAnPartialID">
     <div class="row">
         <div class="col-12 mb-4">
@@ -29,46 +44,18 @@
                 <div class="col-12 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            <div class="d-flex justify-content-between
-                    align-items-center">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <h4 class="mb-0">Thông tin Dự Án</h4>
                                 </div>
                                 <!-- dropdown  -->
-                                <div>
-                                    <span class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                                           href="#"
-                                           role="button"
-                                           id="DropdownTen"
-                                           data-bs-toggle="dropdown"
-                                           aria-haspopup="true"
-                                           aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <span class="dropdown-menu"
-                                              aria-labelledby="DropdownTen">
-                                            <span class="dropdown-header">Settings</span>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">
-                                                Another
-                                                action
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                Something
-                                                else
-                                                here
-                                            </a>
-                                        </span>
-                                    </span>
-                                </div>
                             </div>
 
 
                         </div>
                         <div class="card-body">
                             <p style="display:inline;">
-                                Xây dựng một phần mềm quản lý nhân sự giúp doanh nghiệp nâng cao chất lượng quản lý vận hành công việc một cách dễ dàng mà không cần quản lý thủ công như trước đây. Chúng thể hiện rõ các yêu cầu quản lý nhân sự của doanh nghiệp, phúc lợi nhân viên, chấm công – tính lương, đãi ngộ và các chế độ khác.
+                                @Model.Description
                             </p>
                             <ul style="margin-top: 15px" class="list-group list-group-flush">
                                 <li class="list-group-item px-0">
@@ -93,85 +80,84 @@
                                         <div>
                                             <div>
                                                 <p class="text-dark mb-0
-                                    fw-semi-bold">03 Tháng 10, 2022</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item px-0">
-                                    <div class="d-flex justify-content-between
+                                    fw-semi-bold">@Model.StartDate.ToString("dd") Tháng @Model.StartDate.ToString("MM, yyyy")</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item px-0">
+                        <div class="d-flex justify-content-between
                             align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                 width="16" height="16"
-                                                 fill="currentColor" class="bi
+                            <div class="d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="16" height="16"
+                                     fill="currentColor" class="bi
                                 bi-calendar4  text-primary"
-                                                 viewBox="0 0 16 16">
-                                                <path d="M3.5 0a.5.5 0 0 1
+                                     viewBox="0 0 16 16">
+                                    <path d="M3.5 0a.5.5 0 0 1
                                   .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0
                                   1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0
                                   1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1
                                   .5-.5zM2 2a1 1 0 0 0-1 1v1h14V3a1 1 0
                                   0 0-1-1H2zm13 3H1v9a1 1 0 0 0 1 1h12a1
                                   1 0 0 0 1-1V5z" />
-                                            </svg>
-                                            <div class="ms-2">
-                                                <h5 class="mb-0 text-body">Ngày Kết Thúc</h5>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div>
-                                                <p class="text-dark mb-0
-                                    fw-semi-bold">13 Tháng 05, 2023</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item  px-0">
-                                    <div class="d-flex justify-content-between
+                                </svg>
+                                <div class="ms-2">
+                                    <h5 class="mb-0 text-body">Ngày Kết Thúc</h5>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <p class="text-dark mb-0
+                                    fw-semi-bold">@Model.EndDate.ToString("dd") Tháng @Model.EndDate.ToString("MM, yyyy")</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item  px-0">
+                        <div class="d-flex justify-content-between
                         align-items-center">
-                                        <div class="d-flex align-items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                 width="18" height="18"
-                                                 fill="currentColor" class="bi bi-clock
+                            <div class="d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="18" height="18"
+                                     fill="currentColor" class="bi bi-clock
                              text-primary" viewBox="0 0 16
                             16">
-                                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5
+                                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5
                               0 0 0 .252.434l3.5 2a.5.5 0 0 0
                               .496-.868L8 8.71V3.5z" />
-                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0
+                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0
                                 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7
                                 0 0 1 14 0z" />
-                                            </svg>
-                                            <div class="ms-2">
-                                                <h5 class="mb-0 text-body">
-                                                    Thời Gian Thực Hiện
-                                                </h5>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div>
-                                                <p class="text-dark mb-0
+                                </svg>
+                                <div class="ms-2">
+                                    <h5 class="mb-0 text-body">
+                                        Thời Gian Thực Hiện
+                                    </h5>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <p class="text-dark mb-0
                                   fw-semi-bold">
-                                                    222
-                                                    Ngày
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item px-0 pb-0">
-                                    <div class="d-flex
+                                        @(Model.EndDate.CompareTo(Model.StartDate) + 1) Ngày
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item px-0 pb-0">
+                        <div class="d-flex
                           justify-content-between
                           align-items-center">
-                                        <div class="d-flex
+                            <div class="d-flex
                             align-items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                 width="18" height="18"
-                                                 fill="currentColor" class="bi
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="18" height="18"
+                                     fill="currentColor" class="bi
                               bi-currency-dollar text-primary
                               " viewBox="0 0 16 16">
-                                                <path d="M4 10.781c.148 1.667
+                                    <path d="M4 10.781c.148 1.667
                                 1.513 2.85 3.591
                                 3.003V15h1.043v-1.216c2.27-.179
                                 3.678-1.438 3.678-3.3
@@ -187,399 +173,241 @@
                                 1.852 1.769 0 1.097-.826
                                 1.828-2.2
                                 1.939V8.73l.348.086z" />
-                                            </svg>
-                                            <div class="ms-2">
-                                                <h5 class="mb-0 text-body">Tổng Chi Phí</h5>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div>
-                                                <p class="text-dark mb-0
-                                  fw-semi-bold">$ 95,000,000 đ</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-12 mb-4">
-                    <!-- card -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="mb-0">Thông Tin Khách Hàng </h4>
-
-                        </div>
-                        <!-- Card body -->
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div class="position-relative">
-                                    <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg" alt="" class="rounded-circle avatar-xl" />
-                                </div>
-                                <div class="ms-4">
-                                    <h3 class="mb-0">Nguyễn Minh Tân</h3>
-                                    <p class="mb-0 fs-5">IT-GLOBAL TECHNOLOGY SOLUTIONS COMPANY LIMITED</p>
-                                    <p class="mb-1 fs-5">info@it-global.net</p>
+                                </svg>
+                                <div class="ms-2">
+                                    <h5 class="mb-0 text-body">Tổng Chi Phí</h5>
                                 </div>
                             </div>
-                            <div style="text-align: center; margin-bottom: -20px" class="border-top row mt-3">
-                                <div class="col">
-                                    <div class="pe-1 ps-2 py-3">
-                                        <h5 class="mb-0">0987 613 161</h5>
-                                        <span class="fs-6">Số điện thoại</span>
-                                    </div>
-                                </div>
-                                <div class="col border-start">
-                                    <div class="pe-1 ps-3 py-3">
-                                        <h5 class="mb-0">01</h5>
-                                        <span class="fs-6">Dự án đang có</span>
-                                    </div>
-                                </div>
-                                <div class="col border-start">
-                                    <div class="pe-1 ps-3 py-3">
-                                        <a style="width: 90%; margin-top:5px" type="button" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
-                                    </div>
-                                </div>
+                            <div>
+                                <div>
+                                    <p class="text-danger mb-0
+                                  fw-semi-bold">$ @Model.Debts.Sum(P => P.Price).ToString("0,0").Replace(".", ",") đ</p>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-12 mb-4">
-                    <!-- card -->
-                    <div class="card">
-                        <!-- card body -->
+                </li>
 
-                        <div class="card-header">
-                            <h4 class="mb-0">
-                                Tiến Độ Dự Án
-                            </h4>
+            </ul>
+        </div>
+    </div>
+</div>
 
-                        </div>
-                        <!-- table -->
-                        <div class="table-responsive overflow-y-hidden">
-                            <table class="table mb-0 text-nowrap">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th scope="col" class="border-top-0">Thành viên</th>
-                                        <th scope="col" class="border-top-0 ">Vai trò</th>
-                                        <th scope="col" class="border-top-0 ">Số việc </th>
-                                        <th scope="col" class="border-top-0 ">Hoàn thành</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="align-middle">
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-sm">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg" alt="" class="rounded-circle">
-                                                </div>
-                                                <div class="ms-2">
-                                                    <h5 class="mb-0">Đặng Văn Tuấn </h5>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle ">
-                                            Web Development
-                                        </td>
-                                        <td class="align-middle ">
-                                            22
-                                        </td>
-                                        <td class="align-middle ">
-                                            <div class="d-flex align-items-center">
-
-                                                <div class="progress flex-auto" style="height: 6px;">
-                                                    <div class="progress-bar bg-success " role="progressbar" style="width: 62%;" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100">
-
-                                                    </div>
-                                                </div>
-                                                <div class="ms-2"> <span>62% </span> </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-sm">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-3.jpg" alt="" class="rounded-circle">
-                                                </div>
-                                                <div class="ms-2">
-                                                    <h5 class="mb-0">Lê Thị Lợi</h5>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle ">
-                                            Tester
-                                        </td>
-                                        <td class="align-middle ">
-                                            14
-                                        </td>
-                                        <td class="align-middle ">
-                                            <div class="d-flex align-items-center">
-
-                                                <div class="progress flex-auto" style="height: 6px;">
-                                                    <div class="progress-bar bg-success " role="progressbar" style="width: 45%;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
-
-                                                    </div>
-                                                </div>
-                                                <div class="ms-2"> <span>45% </span> </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-sm">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-4.jpg" alt="" class="rounded-circle">
-                                                </div>
-                                                <div class="ms-2">
-                                                    <h5 class="mb-0">Nguyễn Hiếu Nhân</h5>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle ">
-                                            Web Development
-                                        </td>
-                                        <td class="align-middle ">
-                                            10
-                                        </td>
-                                        <td class="align-middle ">
-                                            <div class="d-flex align-items-center">
-
-                                                <div class="progress flex-auto" style="height: 6px;">
-                                                    <div class="progress-bar bg-success " role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-
-                                                    </div>
-                                                </div>
-                                                <div class="ms-2"> <span>80% </span> </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-sm">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-5.jpg" alt="" class="rounded-circle">
-                                                </div>
-                                                <div class="ms-2">
-                                                    <h5 class="mb-0">Bùi Công Danh</h5>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle ">
-                                            Web Development
-                                        </td>
-                                        <td class="align-middle ">
-                                            19
-                                        </td>
-                                        <td class="align-middle ">
-                                            <div class="d-flex align-items-center">
-
-                                                <div class="progress flex-auto" style="height: 6px;">
-                                                    <div class="progress-bar bg-success " role="progressbar" style="width: 10%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
-
-                                                    </div>
-                                                </div>
-                                                <div class="ms-2"> <span>10% </span> </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-sm">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-6.jpg" alt="" class="rounded-circle">
-                                                </div>
-                                                <div class="ms-2">
-                                                    <h5 class="mb-0">Nguyễn Thanh Thiện</h5>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle ">
-                                            Tester
-                                        </td>
-                                        <td class="align-middle ">
-                                            12
-                                        </td>
-                                        <td class="align-middle ">
-                                            <div class="d-flex align-items-center">
-
-                                                <div class="progress flex-auto" style="height: 6px;">
-                                                    <div class="progress-bar bg-success " role="progressbar" style="width: 8%;" aria-valuenow="8" aria-valuemin="0" aria-valuemax="100">
-
-                                                    </div>
-                                                </div>
-                                                <div class="ms-2"> <span>8% </span> </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-sm">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-8.jpg" alt="" class="rounded-circle">
-                                                </div>
-                                                <div class="ms-2">
-                                                    <h5 class="mb-0">Nguyễn Huy Hoàng</h5>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle ">
-                                            Business Analyst
-                                        </td>
-                                        <td class="align-middle ">
-                                            18
-                                        </td>
-                                        <td class="align-middle ">
-                                            <div class="d-flex align-items-center">
-
-                                                <div class="progress flex-auto" style="height: 6px;">
-                                                    <div class="progress-bar bg-success " role="progressbar" style="width: 49%;" aria-valuenow="49" aria-valuemin="0" aria-valuemax="100">
-
-                                                    </div>
-                                                </div>
-                                                <div class="ms-2"> <span>49% </span> </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
+<div class="col-md-12 mb-4">
+    <!-- card -->
+    <div class="card">
+        <div class="card-header">
+            <h4 class="mb-0">Thông Tin Khách Hàng </h4>
 
         </div>
-        <div class="col-md-12 col-xl-4 col-12">
-            <!-- card  -->
-            <div class="card mb-4 bg-primary border-primary">
-                <!-- card body  -->
-                <div class="card-body">
-
-                    <h4 class="card-title text-white">Ngày Kết Thúc </h4>
-
-                    <!-- dropdown  -->
-                    <div class="d-flex justify-content-between align-items-center mt-8">
-                        <div>
-                            <h1 class="display-4 text-white mb-1">121 Ngày</h1>
-                            <p class="mb-0 text-white">Thứ Sáu, 13 Tháng 05</p>
-                        </div>
-                        <div>
-                            <i class="fe fe-flag fs-1 text-light-primary"></i>
-                        </div>
-                    </div>
-
+        <!-- Card body -->
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                <div class="position-relative">
+                    @if (string.IsNullOrEmpty(Model.Partners.Avatar))
+                    {
+                        <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt="" class="rounded-circle avatar-xl" />
+                    }
+                    else
+                    {
+                        <img src="@Model.Partners.Avatar" alt="" class="rounded-circle avatar-xl" />
+                    }
                 </div>
-
-            </div>
-            <!-- card  -->
-            <div class="card mb-4 ">
-                <!-- card body  -->
-                <div class="card-body">
-                    <h4 class=" card-title ">Tiến Độ Tổng Thể </h4>
-                    <div id="progressChart"></div>
+                <div class="ms-4">
+                    <h3 class="mb-0">@Model.Partners.Name</h3>
+                    <p class="mb-0 fs-5">@Model.Partners.Company</p>
+                    <p class="mb-1 fs-5">@Model.Partners.Email</p>
                 </div>
             </div>
-            <div class="card">
-                <!-- Card header -->
-                <div class="card-header card-header-height d-flex justify-content-between align-items-center">
-                    <div>
-                        <h4 class="mb-0">
-                            Hoạt Động Gần Đây
-                        </h4>
+            <div style="text-align: center; margin-bottom: -20px" class="border-top row mt-3">
+                <div class="col">
+                    <div class="pe-1 ps-2 py-3">
+                        <h5 class="mb-0">@Model.Partners.Phone</h5>
+                        <span class="fs-6">Số điện thoại</span>
                     </div>
-                    @*<div><a href="#">View All</a></div>*@
                 </div>
-                <!-- Card body -->
-                <div style="height: 400px;" class="card-body" data-simplebar>
-                    <!-- List group -->
-                    <ul class="list-group list-group-flush list-timeline-activity">
-                        <li class="list-group-item px-0 pt-0 border-0 pb-6">
-                            <div class="row position-relative">
-                                <div class="col-auto">
-                                    <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
-                                        <i class="fe fe-check"></i>
-                                    </div>
-                                </div>
-                                <div class="col ms-n3">
-                                    <h4 class="mb-0 h5">Hoàn thành Tác Vụ</h4>
-                                    <p class="mb-0 text-body">Đặng Văn Tuấn hoàn thành tác vụ <a href="#"><u>1052</u></a>.</p>
-
-                                </div>
-                                <div class="col-auto">
-                                    <span class="text-muted fs-6">13:30 24/05</span>
-
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item px-0 pt-0 border-0 pb-6">
-                            <div class="row position-relative">
-                                <div class="col-auto">
-                                    <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
-                                        <i class="fe fe-clock"></i>
-                                    </div>
-                                </div>
-                                <div class="col ms-n3">
-                                    <h4 class="mb-0 h5">Thực hiện Tác vụ</h4>
-                                    <p class="mb-0 text-body">Lê Thị Lợi thực hiện tác vụ <a href="#"><u>1295</u></a>.</p>
-
-                                </div>
-                                <div class="col-auto">
-                                    <span class="text-muted fs-6">15:12 24/05</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item px-0 pt-0 border-0 pb-6">
-                            <div class="row position-relative">
-                                <div class="col-auto">
-                                    <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
-                                        <i class="fe fe-clock"></i>
-                                    </div>
-                                </div>
-                                <div class="col ms-n3">
-                                    <h4 class="mb-0 h5">Thực hiện Tác vụ</h4>
-                                    <p class="mb-0 text-body">Nguyễn Hiếu Nhân thực hiện tác vụ <a href="#"><u>1104</u></a>.</p>
-
-                                </div>
-                                <div class="col-auto">
-                                    <span class="text-muted fs-6">06:25 23/05</span>
-
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item px-0 pt-0 border-0 pb-6">
-                            <div class="row position-relative">
-                                <div class="col-auto">
-                                    <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
-                                        <i class="fe fe-alert-triangle"></i>
-                                    </div>
-                                </div>
-                                <div class="col ms-n3">
-                                    <h4 class="mb-0 h5">Hoàn thành Tác vụ</h4>
-                                    <p class="mb-0 text-body">Bùi Công Danh hoàn thành tác vụ <a href="#"><u>1164</u></a>.</p>
-
-                                </div>
-                                <div class="col-auto">
-                                    <span class="text-muted fs-6">08:45 23/05</span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                <div class="col border-start">
+                    <div class="pe-1 ps-3 py-3">
+                        <h5 class="mb-0">@Model.Partners.Projects.Count.ToString("D2")</h5>
+                        <span class="fs-6">Dự án đang có</span>
+                    </div>
+                </div>
+                <div class="col border-start">
+                    <div class="pe-1 ps-3 py-3">
+                        <a href="#" style="width: 90%; margin-top:5px" role="button" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div class="col-md-12 mb-4">
+    <!-- card -->
+    <div class="card">
+        <!-- card body -->
+
+        <div class="card-header">
+            <h4 class="mb-0">
+                Tiến Độ Dự Án
+            </h4>
+
+        </div>
+        <!-- table -->
+        <div class="table-responsive overflow-y-hidden">
+            <table class="table mb-0 text-nowrap">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="border-top-0">Thành viên</th>
+                        <th scope="col" class="border-top-0 ">Vai trò</th>
+                        <th scope="col" class="border-top-0 ">Số việc </th>
+                        <th scope="col" class="border-top-0 ">Hoàn thành</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Teams)
+                    {
+                        <tr>
+                            <td class="align-middle">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar avatar-sm">
+                                        @if (string.IsNullOrEmpty(item.Employees.Avatar))
+                                        {
+                                            <span class="avatar-initials rounded-circle "> @item.Employees.Name.Substring(0, 1) </span>
+                                        }
+                                        else
+                                        {
+                                            <img src="@item.Employees.Avatar" alt="" class="avatar-initials rounded-circle">
+                                        }
+                                    </div>
+                                    <div class="ms-2">
+                                        <h5 class="mb-0">@item.Employees.Name </h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle ">
+                                @item.Employees.Position.Name
+                            </td>
+                            <td class="align-middle ">
+                                @Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee).ToList().Count
+                            </td>
+                            <td class="align-middle ">
+                                @if (Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee).ToList().Count < 1)
+                                {
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-auto" style="height: 6px;">
+                                            <div class="progress-bar bg-success " role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="ms-2"> <span>0% </span> </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-auto" style="height: 6px;">
+                                            <div class="progress-bar bg-success " role="progressbar" style="width: @(Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("Đã hoàn thành")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate))%;" aria-valuenow="@(Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("Đã hoàn thành")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate))" aria-valuemin="0" aria-valuemax="100">
+
+                                            </div>
+                                        </div>
+                                        <div class="ms-2"> <span>@(Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("Đã hoàn thành")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate))% </span> </div>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="col-md-12 col-xl-4 col-12">
+    <!-- card  -->
+    <div class="card mb-4 bg-primary border-primary">
+        <!-- card body  -->
+        <div class="card-body">
+
+            <h4 class="card-title text-white">Ngày Kết Thúc </h4>
+
+            <!-- dropdown  -->
+            <div class="d-flex justify-content-between align-items-center mt-8">
+                <div>
+                    <h1 class="display-4 text-white mb-1">
+                        @(Model.EndDate.CompareTo(DateTime.Now) + 1) Ngày
+                    </h1>
+                    <p class="mb-0 text-white">
+                        @Model.EndDate.ToString("dddd"), @Model.EndDate.ToString("dd") Tháng @Model.EndDate.ToString("MM"), @Model.EndDate.ToString("yyyy")
+                    </p>
+                </div>
+                <div>
+                    <i class="fe fe-flag fs-1 text-light-primary"></i>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- card  -->
+    <div class="card mb-4 ">
+        <!-- card body  -->
+        <div class="card-body">
+            <h4 class=" card-title ">Tiến Độ Tổng Thể </h4>
+            <div id="progressChart"></div>
+        </div>
+    </div>
+    <div class="card">
+        <!-- Card header -->
+        <div class="card-header card-header-height d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-0">
+                    Hoạt Động Gần Đây
+                </h4>
+            </div>
+            @*<div><a href="#">View All</a></div>*@
+        </div>
+        <!-- Card body -->
+        <div style="height: @(heights)px;" class="card-body" data-simplebar>
+            <!-- List group -->
+            <ul class="list-group list-group-flush list-timeline-activity">
+                @if (lichSu.ToList().Count < 1)
+                {
+                    <li style="margin-top: -10px" class="list-group-item px-0 pt-0 border-0 text-center">
+                        Chưa có hoạt động nào.
+                    </li>
+                }
+                else
+                {
+                    foreach (var item in lichSu)
+                    {
+                        <li class="list-group-item px-0 pt-0 border-0 pb-6">
+                            <div class="row position-relative">
+                                <div class="col-auto">
+                                    <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
+                                        <i class="fe fe-clock"></i>
+                                    </div>
+                                </div>
+                                <div class="col ms-n3">
+                                    <h4 class="mb-0 h5">@item.Name</h4>
+                                    <p class="mb-0 text-body">@item.Contents <a href="#"><u>@item.ID_Task</u></a>.</p>
+                                </div>
+                                <div class="col-auto">
+                                    <span class="text-muted fs-6">@item.Date.ToString("HH:mm dd/MM")</span>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+
+    </div>
+</div>
+</div>
 </div>
 

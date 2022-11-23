@@ -1,4 +1,10 @@
-﻿<div id="chiTietDuAnPartialID">
+﻿@using ITGlobalProject.Models;
+@model ITGlobalProject.Models.Projects
+@{
+    IEnumerable<Tasks> task = Session["lst-Task"] as IEnumerable<Tasks>;
+}
+
+<div id="chiTietDuAnPartialID">
     <div class="row">
         <div class="col-12 mb-4">
             <!-- nav  -->
@@ -23,25 +29,14 @@
     </div>
     <div>
         <div class="row mb-4 align-items-center">
-            <div class="col-xxl-5 col-xl-8 col-lg-6 col-md-12 col-12 mb-3 mb-lg-0">
+            <div class="col-xxl-6 col-xl-8 col-lg-6 col-md-12 col-12 mb-3 mb-lg-0">
                 <!-- heading -->
                 <h3 class="mb-0">
                     Công việc & Tiến độ dự án
                 </h3>
 
             </div>
-
-            <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-12 pe-lg-2">
-                <!-- select -->
-                <select style="color: dimgray; font-weight: bold;" class="form-select mb-2 mb-lg-0" data-width="100%">
-                    <option selected>Giai đoạn 1</option>
-                    <option value="None">Giai đoạn 2</option>
-                    <option value="Due Date">Giai đoạn 3</option>
-                    <option value="Assignee">Giai đoạn 4</option>
-                    <option value="Likes">Giai đoạn 5</option>
-                </select>
-            </div>
-            <div class="col-xxl-2 col-xl-2 col-lg-3 col-md-12 pe-lg-2">
+            <div class="col-xxl-3 col-xl-2 col-lg-3 col-md-12 pe-lg-2">
                 <!-- select -->
                 <select style="color: dimgray;font-weight:bold;" class="form-select mb-2 mb-lg-0" data-width="100%">
                     <option selected>Tất cả</option>
@@ -63,10 +58,9 @@
             </div>
         </div>
     </div>
-    <div class="row" >
+    <div class="row">
         <div class="col-12">
             <div class="task-kanban-container" style="height: 630px" data-simplebar>
-                <!-- card -->
                 <div style="width: 22.7%" class="card bg-gray-300 shadow-none rounded-3 d-inline-block me-4 align-top mb-4 task-card">
                     <!-- card body -->
                     <!-- card body -->
@@ -129,218 +123,123 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!-- task kanban -->
                             <div class="task-kanban">
                                 <div id="do">
-                                    <!-- card -->
-                                    <div class="card smooth-shadow-md">
-                                        <!-- card body -->
-                                        <div class="card-body p-3">
-                                            <div class="d-flex justify-content-between">
-                                                <div>
-                                                    <form>
-                                                        <!-- checkbox -->
-                                                        <div class="form-check custom-checkbox" style="margin-bottom:-20px; color: black">
-                                                            <a role="button" href="#" style="display:inline;" class="h6" data-bs-toggle="modal" data-bs-target="#edittaskModal">
-                                                                142. Thiết kế Prototype cho module Quản lý dự án.
-                                                            </a>
-                                                            <br>
-                                                            <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
-                                                                <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
-                                                                <label style="width: 49%; float: right;">40 giờ</label>
-                                                            </label>
-                                                            <label class="badge bg-warning" style="width: 100%; font-weight: bold">
-                                                                <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
-                                                                <label style="width: 49%; float:right;">0 giờ</label>
-                                                            </label>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div>
-                                                    <!-- dropdown -->
-                                                    <div class="dropdown dropstart">
-                                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                                                           href="#" id="dropdownTask1"
-                                                           data-bs-toggle="dropdown"
-                                                           aria-haspopup="true"
-                                                           aria-expanded="false">
-                                                            <i class="fe fe-more-horizontal"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu"
-                                                             aria-labelledby="dropdownTask1">
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-check-square"></i>Mark
-                                                                Complete
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-eye"></i>View
-                                                                Details
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
-                                                                New Tab
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
-                                                                task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-link"></i>Copy
-                                                                task link
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
-                                                            </a>
 
+                                    @foreach (var item in task)
+                                    {
+                                        if (item.State.Equals("do"))
+                                        {
+                                            <div class="card smooth-shadow-md">
+                                                <!-- card body -->
+                                                <div class="card-body p-3">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <form>
+                                                                <!-- checkbox -->
+                                                                <div class="form-check custom-checkbox" style="margin-bottom:-20px; color: black">
+                                                                    <a role="button" href="#" style="display:inline;" class="h6" data-bs-toggle="modal" data-bs-target="#edittaskModal">
+                                                                        142. Thiết kế Prototype cho module Quản lý dự án.
+                                                                    </a>
+                                                                    <br>
+                                                                    <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
+                                                                        <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
+                                                                        <label style="width: 49%; float: right;">40 giờ</label>
+                                                                    </label>
+                                                                    <label class="badge bg-warning" style="width: 100%; font-weight: bold">
+                                                                        <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
+                                                                        <label style="width: 49%; float:right;">0 giờ</label>
+                                                                    </label>
+                                                                </div>
+                                                            </form>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
-                                                <!-- img -->
-                                                <div class="d-flex align-items-center">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
-                                                         alt="" class="avatar avatar-xs rounded-circle imgtooltip"
-                                                         data-template="id1">
-                                                    <!-- avatar -->
-                                                    <!-- text -->
-                                                    <div id="id1" class="d-none">
-                                                        <h6 class="mb-0">Đặng Văn Tuấn</h6>
-                                                    </div>
-                                                    <!-- text -->
-                                                    <div class="ms-2">
-                                                        <span style="font-weight:bold" class="fs-6">
-                                                            <i style="font-weight:bold" class="fe fe-clock me-1"></i>25 Th 10, 2022
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <!-- message count -->
-                                                <div>
-                                                    <span class="badge-dot bg-gray-400 me-2 d-inline-block align-middle imgtooltip" data-template="stateid1"></span>
-                                                    <div id="stateid1" class="d-none">
-                                                        <h6 class="mb-0">Chưa thực hiện</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- card -->
-                                    <div class="card smooth-shadow-md">
-                                        <!-- card body -->
-                                        <div class="card-body p-3">
-                                            <div class="d-flex justify-content-between">
-                                                <div>
-                                                    <form>
-                                                        <div class="form-check custom-checkbox" style="margin-bottom:-20px">
-                                                            <a role="button" href="#" style="display:inline;" class="h6">
-                                                                103. Viết Testcase chức năng Thêm tài khoản.
-                                                            </a>
-                                                            <br>
-                                                            <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
-                                                                <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
-                                                                <label style="width: 49%; float: right;">40 giờ</label>
-                                                            </label>
-                                                            <label class="badge bg-warning" style="width: 100%; font-weight: bold">
-                                                                <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
-                                                                <label style="width: 49%; float:right;">0 giờ</label>
-                                                            </label>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div>
-                                                    <!-- dropdown -->
-                                                    <div class="dropdown dropstart">
-                                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                                                           href="#" id="dropdownTask1"
-                                                           data-bs-toggle="dropdown"
-                                                           aria-haspopup="true"
-                                                           aria-expanded="false">
-                                                            <i class="fe fe-more-horizontal"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu"
-                                                             aria-labelledby="dropdownTask1">
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-check-square"></i>Mark
-                                                                Complete
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-eye"></i>View
-                                                                Details
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
-                                                                New Tab
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
-                                                                task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-link"></i>Copy
-                                                                task link
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
-                                                            </a>
+                                                        <div>
+                                                            <!-- dropdown -->
+                                                            <div class="dropdown dropstart">
+                                                                <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
+                                                                   href="#" id="dropdownTask1"
+                                                                   data-bs-toggle="dropdown"
+                                                                   aria-haspopup="true"
+                                                                   aria-expanded="false">
+                                                                    <i class="fe fe-more-horizontal"></i>
+                                                                </a>
+                                                                <div class="dropdown-menu"
+                                                                     aria-labelledby="dropdownTask1">
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-check-square"></i>Mark
+                                                                        Complete
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-eye"></i>View
+                                                                        Details
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
+                                                                        New Tab
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
+                                                                        task
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-link"></i>Copy
+                                                                        task link
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
+                                                                    </a>
 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
+                                                        <!-- img -->
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
+                                                                 alt="" class="avatar avatar-xs rounded-circle imgtooltip"
+                                                                 data-template="id1">
+                                                            <!-- avatar -->
+                                                            <!-- text -->
+                                                            <div id="id1" class="d-none">
+                                                                <h6 class="mb-0">Đặng Văn Tuấn</h6>
+                                                            </div>
+                                                            <!-- text -->
+                                                            <div class="ms-2">
+                                                                <span style="font-weight:bold" class="fs-6">
+                                                                    <i style="font-weight:bold" class="fe fe-clock me-1"></i>25 Th 10, 2022
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <!-- message count -->
+                                                        <div>
+                                                            <span class="badge-dot bg-gray-400 me-2 d-inline-block align-middle imgtooltip" data-template="stateid1"></span>
+                                                            <div id="stateid1" class="d-none">
+                                                                <h6 class="mb-0">Chưa thực hiện</h6>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
-                                                <!-- img -->
-                                                <div class="d-flex align-items-center">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-2.jpg"
-                                                         alt="" class="avatar avatar-xs rounded-circle imgtooltip"
-                                                         data-template="id2">
-                                                    <!-- avatar -->
-                                                    <!-- text -->
-                                                    <div id="id2" class="d-none">
-                                                        <h6 class="mb-0">Lê Thị Lợi</h6>
-                                                    </div>
-                                                    <!-- text -->
-                                                    <div class="ms-2">
-                                                        <span style="font-weight:bold" class="fs-6">
-                                                            <i style="font-weight:bold" class="fe fe-clock me-1"></i>06 Th 11, 2022
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <!-- message count -->
-                                                <div>
-                                                    <span class="badge-dot bg-gray-400 me-2 d-inline-block align-middle imgtooltip" data-template="stateid2"></span>
-                                                    <div id="stateid2" class="d-none">
-                                                        <h6 class="mb-0">Chưa thực hiện</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div style="width: 22.7%" class="card bg-gray-300 shadow-none rounded-3 d-inline-block me-4 align-top mb-4 task-card">
                     <!-- card body -->
                     <div class="card-body p-3">
@@ -394,317 +293,121 @@
                             <!-- task kanban -->
                             <div class="task-kanban">
                                 <div id="progress">
-                                    <!-- card -->
-                                    <div class="card smooth-shadow-md">
-                                        <!-- card body -->
-                                        <div class="card-body p-3">
-                                            <div class="d-flex justify-content-between">
-                                                <div>
-                                                    <form>
-                                                        <!-- checkbox -->
-                                                        <div class="form-check custom-checkbox" style="margin-bottom:-20px">
-                                                            <a role="button" href="#" style="display:inline;" class="h6">
-                                                                112. Thiết kế Prototype cho module Quản lý Nhân sự.
-                                                            </a>
-                                                            <br>
-                                                            <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
-                                                                <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
-                                                                <label style="width: 49%; float: right;">18 giờ</label>
-                                                            </label>
-                                                            <label class="badge bg-warning" style="width: 100%; font-weight: bold">
-                                                                <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
-                                                                <label style="width: 49%; float:right;">8 giờ</label>
-                                                            </label>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div>
-                                                    <!-- dropdown -->
-                                                    <div class="dropdown dropstart">
-                                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                                                           href="#" id="dropdownTask1"
-                                                           data-bs-toggle="dropdown"
-                                                           aria-haspopup="true"
-                                                           aria-expanded="false">
-                                                            <i class="fe fe-more-horizontal"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu"
-                                                             aria-labelledby="dropdownTask1">
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-check-square"></i>Mark
-                                                                Complete
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-eye"></i>View
-                                                                Details
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
-                                                                New Tab
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
-                                                                task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-link"></i>Copy
-                                                                task link
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
-                                                            </a>
 
+                                    @foreach (var item in task)
+                                    {
+                                        if (item.State.Equals("progress"))
+                                        {
+                                            <div class="card smooth-shadow-md">
+                                                <!-- card body -->
+                                                <div class="card-body p-3">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <form>
+                                                                <!-- checkbox -->
+                                                                <div class="form-check custom-checkbox" style="margin-bottom:-20px">
+                                                                    <a role="button" href="#" style="display:inline;" class="h6">
+                                                                        112. Thiết kế Prototype cho module Quản lý Nhân sự.
+                                                                    </a>
+                                                                    <br>
+                                                                    <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
+                                                                        <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
+                                                                        <label style="width: 49%; float: right;">18 giờ</label>
+                                                                    </label>
+                                                                    <label class="badge bg-warning" style="width: 100%; font-weight: bold">
+                                                                        <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
+                                                                        <label style="width: 49%; float:right;">8 giờ</label>
+                                                                    </label>
+                                                                </div>
+                                                            </form>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
-                                                <!-- img -->
-                                                <div class="d-flex align-items-center">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-4.jpg"
-                                                         alt="" class="avatar avatar-xs rounded-circle imgtooltip"
-                                                         data-template="id3">
-                                                    <!-- avatar -->
-                                                    <!-- text -->
-                                                    <div id="id3" class="d-none">
-                                                        <h6 class="mb-0">Nguyễn Hiếu Nhân</h6>
-                                                    </div>
-                                                    <!-- text -->
-                                                    <div class="ms-2">
-                                                        <span style="font-weight:bold" class="fs-6">
-                                                            <i style="font-weight:bold" class="fe fe-clock me-1"></i>15 Th 11, 2022
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <!-- message count -->
-                                                <div>
-                                                    <span class="badge-dot bg-primary me-2 d-inline-block align-middle imgtooltip" data-template="stateid3"></span>
-                                                    <div id="stateid3" class="d-none">
-                                                        <h6 class="mb-0">Đang thực hiện</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- card -->
-                                    <div class="card smooth-shadow-md">
-                                        <!-- card body -->
-                                        <div class="card-body p-3">
-                                            <div class="d-flex justify-content-between">
-                                                <div>
-                                                    <form>
-                                                        <!-- checkbox -->
-                                                        <div class="form-check custom-checkbox" style="margin-bottom:-20px">
-                                                            <a role="button" href="#" style="display:inline;" class="h6">
-                                                                101. Thiết kế Prototype cho chức năng Đăng nhập / Đăng Xuất.
-                                                            </a>
-                                                            <br>
-                                                            <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
-                                                                <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
-                                                                <label style="width: 49%; float: right;">8 giờ</label>
-                                                            </label>
-                                                            <label class="badge bg-warning" style="width: 100%; font-weight: bold">
-                                                                <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
-                                                                <label style="width: 49%; float:right;">4 giờ</label>
-                                                            </label>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div>
-                                                    <!-- dropdown -->
-                                                    <div class="dropdown dropstart">
-                                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                                                           href="#" id="dropdownTask1"
-                                                           data-bs-toggle="dropdown"
-                                                           aria-haspopup="true"
-                                                           aria-expanded="false">
-                                                            <i class="fe fe-more-horizontal"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu"
-                                                             aria-labelledby="dropdownTask1">
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-check-square"></i>Mark
-                                                                Complete
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-eye"></i>View
-                                                                Details
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
-                                                                New Tab
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
-                                                                task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-link"></i>Copy
-                                                                task link
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
-                                                            </a>
+                                                        <div>
+                                                            <!-- dropdown -->
+                                                            <div class="dropdown dropstart">
+                                                                <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
+                                                                   href="#" id="dropdownTask1"
+                                                                   data-bs-toggle="dropdown"
+                                                                   aria-haspopup="true"
+                                                                   aria-expanded="false">
+                                                                    <i class="fe fe-more-horizontal"></i>
+                                                                </a>
+                                                                <div class="dropdown-menu"
+                                                                     aria-labelledby="dropdownTask1">
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-check-square"></i>Mark
+                                                                        Complete
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-eye"></i>View
+                                                                        Details
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
+                                                                        New Tab
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
+                                                                        task
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-link"></i>Copy
+                                                                        task link
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
+                                                                    </a>
 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
+                                                        <!-- img -->
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="~/Content/Admin/assets/images/avatar/avatar-4.jpg"
+                                                                 alt="" class="avatar avatar-xs rounded-circle imgtooltip"
+                                                                 data-template="id3">
+                                                            <!-- avatar -->
+                                                            <!-- text -->
+                                                            <div id="id3" class="d-none">
+                                                                <h6 class="mb-0">Nguyễn Hiếu Nhân</h6>
+                                                            </div>
+                                                            <!-- text -->
+                                                            <div class="ms-2">
+                                                                <span style="font-weight:bold" class="fs-6">
+                                                                    <i style="font-weight:bold" class="fe fe-clock me-1"></i>15 Th 11, 2022
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <!-- message count -->
+                                                        <div>
+                                                            <span class="badge-dot bg-primary me-2 d-inline-block align-middle imgtooltip" data-template="stateid3"></span>
+                                                            <div id="stateid3" class="d-none">
+                                                                <h6 class="mb-0">Đang thực hiện</h6>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
-                                                <!-- img -->
-                                                <div class="d-flex align-items-center">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-6.jpg"
-                                                         alt="" class="avatar avatar-xs rounded-circle imgtooltip"
-                                                         data-template="id3">
-                                                    <!-- avatar -->
-                                                    <!-- text -->
-                                                    <div id="id3" class="d-none">
-                                                        <h6 class="mb-0">Nguyễn Hiếu Nhân</h6>
-                                                    </div>
-                                                    <!-- text -->
-                                                    <div class="ms-2">
-                                                        <span style="font-weight:bold" class="fs-6">
-                                                            <i style="font-weight:bold" class="fe fe-clock me-1"></i>08 Th 11, 2022
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <!-- message count -->
-                                                <div>
-                                                    <span class="badge-dot bg-primary me-2 d-inline-block align-middle imgtooltip" data-template="stateid3"></span>
-                                                    <div id="stateid3" class="d-none">
-                                                        <h6 class="mb-0">Đang thực hiện</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- card -->
-                                    <div class="card smooth-shadow-md">
-                                        <!-- card body -->
-                                        <div class="card-body p-3">
-                                            <div class="d-flex justify-content-between">
-                                                <div>
-                                                    <form>
-                                                        <!-- checkbox -->
-                                                        <div class="form-check custom-checkbox" style="margin-bottom:-20px">
-                                                            <a role="button" href="#" style="display:inline;" class="h6">
-                                                                115. Thiết kế Prototype cho chức năng Đăng nhập / Đăng Xuất.
-                                                            </a>
-                                                            <br>
-                                                            <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
-                                                                <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
-                                                                <label style="width: 49%; float: right;">12 giờ</label>
-                                                            </label>
-                                                            <label class="badge bg-warning" style="width: 100%; font-weight: bold">
-                                                                <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
-                                                                <label style="width: 49%; float:right;">4 giờ</label>
-                                                            </label>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div>
-                                                    <!-- dropdown -->
-                                                    <div class="dropdown dropstart">
-                                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                                                           href="#" id="dropdownTask1"
-                                                           data-bs-toggle="dropdown"
-                                                           aria-haspopup="true"
-                                                           aria-expanded="false">
-                                                            <i class="fe fe-more-horizontal"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu"
-                                                             aria-labelledby="dropdownTask1">
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-check-square"></i>Mark
-                                                                Complete
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-eye"></i>View
-                                                                Details
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
-                                                                New Tab
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
-                                                                task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-link"></i>Copy
-                                                                task link
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
-                                                            </a>
 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
-                                                <!-- img -->
-                                                <div class="d-flex align-items-center">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-5.jpg"
-                                                         alt="" class="avatar avatar-xs rounded-circle imgtooltip"
-                                                         data-template="id3">
-                                                    <!-- avatar -->
-                                                    <!-- text -->
-                                                    <div id="id3" class="d-none">
-                                                        <h6 class="mb-0">Nguyễn Hiếu Nhân</h6>
-                                                    </div>
-                                                    <!-- text -->
-                                                    <div class="ms-2">
-                                                        <span style="font-weight:bold" class="fs-6">
-                                                            <i style="font-weight:bold" class="fe fe-clock me-1"></i>19 Th 11, 2022
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <!-- message count -->
-                                                <div>
-                                                    <span class="badge-dot bg-primary me-2 d-inline-block align-middle imgtooltip" data-template="stateid3"></span>
-                                                    <div id="stateid3" class="d-none">
-                                                        <h6 class="mb-0">Đang thực hiện</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div style="width: 22.7%" class="card bg-gray-300 shadow-none rounded-3 d-inline-block me-4 align-top mb-4 task-card">
                     <!-- card body -->
                     <div class="card-body p-3">
@@ -757,113 +460,120 @@
                             <!-- task kanban -->
                             <div class="task-kanban">
                                 <div id="review">
-                                    <!-- card -->
-                                    <div class="card smooth-shadow-md">
-                                        <!-- card body -->
-                                        <div class="card-body p-3">
-                                            <div class="d-flex justify-content-between">
-                                                <div>
-                                                    <form>
-                                                        <!-- checkbox -->
-                                                        <div class="form-check custom-checkbox" style="margin-bottom:-20px">
-                                                            <a role="button" href="#" style="display:inline;" class="h6">
-                                                                92. Thiết kế Prototype cho chức năng Quản lý công nợ.
-                                                            </a>
-                                                            <br>
-                                                            <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
-                                                                <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
-                                                                <label style="width: 49%; float: right;">22 giờ</label>
-                                                            </label>
-                                                            <label class="badge bg-warning" style="width: 100%; font-weight: bold">
-                                                                <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
-                                                                <label style="width: 49%; float:right;">10 giờ</label>
-                                                            </label>
+                                    @foreach (var item in task)
+                                    {
+                                        if (item.State.Equals("review"))
+                                        {
+                                            <div class="card smooth-shadow-md">
+                                                <!-- card body -->
+                                                <div class="card-body p-3">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <form>
+                                                                <!-- checkbox -->
+                                                                <div class="form-check custom-checkbox" style="margin-bottom:-20px">
+                                                                    <a role="button" href="#" style="display:inline;" class="h6">
+                                                                        92. Thiết kế Prototype cho chức năng Quản lý công nợ.
+                                                                    </a>
+                                                                    <br>
+                                                                    <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
+                                                                        <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
+                                                                        <label style="width: 49%; float: right;">22 giờ</label>
+                                                                    </label>
+                                                                    <label class="badge bg-warning" style="width: 100%; font-weight: bold">
+                                                                        <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
+                                                                        <label style="width: 49%; float:right;">10 giờ</label>
+                                                                    </label>
+                                                                </div>
+                                                            </form>
                                                         </div>
-                                                    </form>
-                                                </div>
-                                                <div>
-                                                    <!-- dropdown -->
-                                                    <div class="dropdown dropstart">
-                                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                                                           href="#" id="dropdownTask1"
-                                                           data-bs-toggle="dropdown"
-                                                           aria-haspopup="true"
-                                                           aria-expanded="false">
-                                                            <i class="fe fe-more-horizontal"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu"
-                                                             aria-labelledby="dropdownTask1">
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-check-square"></i>Mark
-                                                                Complete
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-eye"></i>View
-                                                                Details
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
-                                                                New Tab
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
-                                                                task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-link"></i>Copy
-                                                                task link
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
-                                                            </a>
+                                                        <div>
+                                                            <!-- dropdown -->
+                                                            <div class="dropdown dropstart">
+                                                                <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
+                                                                   href="#" id="dropdownTask1"
+                                                                   data-bs-toggle="dropdown"
+                                                                   aria-haspopup="true"
+                                                                   aria-expanded="false">
+                                                                    <i class="fe fe-more-horizontal"></i>
+                                                                </a>
+                                                                <div class="dropdown-menu"
+                                                                     aria-labelledby="dropdownTask1">
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-check-square"></i>Mark
+                                                                        Complete
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-eye"></i>View
+                                                                        Details
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
+                                                                        New Tab
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
+                                                                        task
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-link"></i>Copy
+                                                                        task link
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
+                                                                    </a>
 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
+                                                        <!-- img -->
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="~/Content/Admin/assets/images/avatar/avatar-7.jpg"
+                                                                 alt="" class="avatar avatar-xs rounded-circle imgtooltip"
+                                                                 data-template="id1">
+                                                            <!-- avatar -->
+                                                            <!-- text -->
+                                                            <div id="id1" class="d-none">
+                                                                <h6 class="mb-0">Đặng Văn Tuấn</h6>
+                                                            </div>
+                                                            <!-- text -->
+                                                            <div class="ms-2">
+                                                                <span style="font-weight:bold" class="fs-6">
+                                                                    <i style="font-weight:bold" class="fe fe-clock me-1"></i>30 Th 11, 2022
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <!-- message count -->
+                                                        <div>
+                                                            <span class="badge-dot bg-primary me-2 d-inline-block align-middle imgtooltip" data-template="stateid1"></span>
+                                                            <div id="stateid1" class="d-none">
+                                                                <h6 class="mb-0">Đang thực hiện</h6>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
-                                                <!-- img -->
-                                                <div class="d-flex align-items-center">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-7.jpg"
-                                                         alt="" class="avatar avatar-xs rounded-circle imgtooltip"
-                                                         data-template="id1">
-                                                    <!-- avatar -->
-                                                    <!-- text -->
-                                                    <div id="id1" class="d-none">
-                                                        <h6 class="mb-0">Đặng Văn Tuấn</h6>
-                                                    </div>
-                                                    <!-- text -->
-                                                    <div class="ms-2">
-                                                        <span style="font-weight:bold" class="fs-6">
-                                                            <i style="font-weight:bold" class="fe fe-clock me-1"></i>30 Th 11, 2022
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <!-- message count -->
-                                                <div>
-                                                    <span class="badge-dot bg-primary me-2 d-inline-block align-middle imgtooltip" data-template="stateid1"></span>
-                                                    <div id="stateid1" class="d-none">
-                                                        <h6 class="mb-0">Đang thực hiện</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        }
+                                    }
+                                    <!-- card -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div style="width: 22.7%" class="card bg-gray-300 shadow-none rounded-3 d-inline-block me-4 align-top mb-4 task-card">
                     <!-- card body -->
                     <div class="card-body p-3">
@@ -916,215 +626,122 @@
                             <!-- task kanban -->
                             <div class="task-kanban">
                                 <div id="done">
-                                    <!-- card -->
-                                    <div class="card smooth-shadow-md">
-                                        <!-- card body -->
-                                        <div class="card-body p-3">
-                                            <div class="d-flex justify-content-between">
-                                                <div>
-                                                    <form>
-                                                        <!-- checkbox -->
-                                                        <div class="form-check custom-checkbox" style="margin-bottom:-20px">
-                                                            <a role="button" href="#" style="display:inline;" class="h6">
-                                                                44. Mô tả chức năng của Người dùng.
-                                                            </a>
-                                                            <br>
-                                                            <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
-                                                                <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
-                                                                <label style="width: 49%; float: right;">14 giờ</label>
-                                                            </label>
-                                                            <label class="badge bg-warning" style="width: 100%; font-weight: bold">
-                                                                <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
-                                                                <label style="width: 49%; float:right;">14 giờ</label>
-                                                            </label>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div>
-                                                    <!-- dropdown -->
-                                                    <div class="dropdown dropstart">
-                                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                                                           href="#" id="dropdownTask1"
-                                                           data-bs-toggle="dropdown"
-                                                           aria-haspopup="true"
-                                                           aria-expanded="false">
-                                                            <i class="fe fe-more-horizontal"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu"
-                                                             aria-labelledby="dropdownTask1">
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-check-square"></i>Mark
-                                                                Complete
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-eye"></i>View
-                                                                Details
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
-                                                                New Tab
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
-                                                                task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-link"></i>Copy
-                                                                task link
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
-                                                            </a>
 
+                                    @foreach (var item in task)
+                                    {
+                                        if (item.State.Equals("done"))
+                                        {
+                                            <div class="card smooth-shadow-md">
+                                                <!-- card body -->
+                                                <div class="card-body p-3">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <form>
+                                                                <!-- checkbox -->
+                                                                <div class="form-check custom-checkbox" style="margin-bottom:-20px">
+                                                                    <a role="button" href="#" style="display:inline;" class="h6">
+                                                                        44. Mô tả chức năng của Người dùng.
+                                                                    </a>
+                                                                    <br>
+                                                                    <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
+                                                                        <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
+                                                                        <label style="width: 49%; float: right;">14 giờ</label>
+                                                                    </label>
+                                                                    <label class="badge bg-warning" style="width: 100%; font-weight: bold">
+                                                                        <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
+                                                                        <label style="width: 49%; float:right;">14 giờ</label>
+                                                                    </label>
+                                                                </div>
+                                                            </form>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
-                                                <!-- img -->
-                                                <div class="d-flex align-items-center">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-8.jpg"
-                                                         alt="" class="avatar avatar-xs rounded-circle imgtooltip"
-                                                         data-template="id1">
-                                                    <!-- avatar -->
-                                                    <!-- text -->
-                                                    <div id="id1" class="d-none">
-                                                        <h6 class="mb-0">Đặng Văn Tuấn</h6>
-                                                    </div>
-                                                    <!-- text -->
-                                                    <div class="ms-2">
-                                                        <span style="font-weight:bold" class="fs-6">
-                                                            <i style="font-weight:bold" class="fe fe-clock me-1"></i>04 Th 11, 2022
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <!-- message count -->
-                                                <div>
-                                                    <span class="badge-dot bg-success me-2 d-inline-block align-middle imgtooltip" data-template="stateid1"></span>
-                                                    <div id="stateid1" class="d-none">
-                                                        <h6 class="mb-0">Đã hoàn thành</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- card -->
-                                    <div class="card smooth-shadow-md">
-                                        <!-- card body -->
-                                        <div class="card-body p-3">
-                                            <div class="d-flex justify-content-between">
-                                                <div>
-                                                    <form>
-                                                        <!-- checkbox -->
-                                                        <div class="form-check custom-checkbox" style="margin-bottom:-20px">
-                                                            <a role="button" href="#" style="display:inline;" class="h6">
-                                                                59. Vẽ sơ đồ ngữ cảnh cho hệ thống.
-                                                            </a>
-                                                            <br>
-                                                            <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
-                                                                <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
-                                                                <label style="width: 49%; float: right;">9 giờ</label>
-                                                            </label>
-                                                            <label class="badge bg-warning" style="width: 100%; font-weight: bold">
-                                                                <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
-                                                                <label style="width: 49%; float:right;">9 giờ</label>
-                                                            </label>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div>
-                                                    <!-- dropdown -->
-                                                    <div class="dropdown dropstart">
-                                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                                                           href="#" id="dropdownTask1"
-                                                           data-bs-toggle="dropdown"
-                                                           aria-haspopup="true"
-                                                           aria-expanded="false">
-                                                            <i class="fe fe-more-horizontal"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu"
-                                                             aria-labelledby="dropdownTask1">
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-check-square"></i>Mark
-                                                                Complete
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-eye"></i>View
-                                                                Details
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
-                                                                New Tab
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
-                                                                task
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-link"></i>Copy
-                                                                task link
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center"
-                                                               href="#">
-                                                                <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
-                                                            </a>
+                                                        <div>
+                                                            <!-- dropdown -->
+                                                            <div class="dropdown dropstart">
+                                                                <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
+                                                                   href="#" id="dropdownTask1"
+                                                                   data-bs-toggle="dropdown"
+                                                                   aria-haspopup="true"
+                                                                   aria-expanded="false">
+                                                                    <i class="fe fe-more-horizontal"></i>
+                                                                </a>
+                                                                <div class="dropdown-menu"
+                                                                     aria-labelledby="dropdownTask1">
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-check-square"></i>Mark
+                                                                        Complete
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-eye"></i>View
+                                                                        Details
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
+                                                                        New Tab
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
+                                                                        task
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-link"></i>Copy
+                                                                        task link
+                                                                    </a>
+                                                                    <a class="dropdown-item d-flex align-items-center"
+                                                                       href="#">
+                                                                        <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
+                                                                    </a>
 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
+                                                        <!-- img -->
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="~/Content/Admin/assets/images/avatar/avatar-8.jpg"
+                                                                 alt="" class="avatar avatar-xs rounded-circle imgtooltip"
+                                                                 data-template="id1">
+                                                            <!-- avatar -->
+                                                            <!-- text -->
+                                                            <div id="id1" class="d-none">
+                                                                <h6 class="mb-0">Đặng Văn Tuấn</h6>
+                                                            </div>
+                                                            <!-- text -->
+                                                            <div class="ms-2">
+                                                                <span style="font-weight:bold" class="fs-6">
+                                                                    <i style="font-weight:bold" class="fe fe-clock me-1"></i>04 Th 11, 2022
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <!-- message count -->
+                                                        <div>
+                                                            <span class="badge-dot bg-success me-2 d-inline-block align-middle imgtooltip" data-template="stateid1"></span>
+                                                            <div id="stateid1" class="d-none">
+                                                                <h6 class="mb-0">Đã hoàn thành</h6>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
-                                                <!-- img -->
-                                                <div class="d-flex align-items-center">
-                                                    <img src="~/Content/Admin/assets/images/avatar/avatar-9.jpg"
-                                                         alt="" class="avatar avatar-xs rounded-circle imgtooltip"
-                                                         data-template="id1">
-                                                    <!-- avatar -->
-                                                    <!-- text -->
-                                                    <div id="id1" class="d-none">
-                                                        <h6 class="mb-0">Đặng Văn Tuấn</h6>
-                                                    </div>
-                                                    <!-- text -->
-                                                    <div class="ms-2">
-                                                        <span style="font-weight:bold" class="fs-6">
-                                                            <i style="font-weight:bold" class="fe fe-clock me-1"></i>02 Th 11, 2022
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <!-- message count -->
-                                                <div>
-                                                    <span class="badge-dot bg-success me-2 d-inline-block align-middle imgtooltip" data-template="stateid1"></span>
-                                                    <div id="stateid1" class="d-none">
-                                                        <h6 class="mb-0">Đã hoàn thành</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- card -->
+
             </div>
         </div>
     </div>
@@ -1230,7 +847,7 @@
 
                                     <!-- Điều kiện -->
                                     @*<p class="fs-6" style="padding-top: 70px; text-align: center; font-style:italic">Chưa có bình luận nào!</p>*@
-                                    <div class="mb-3 col-12" style="height:300px ;margin-bottom:5px; margin-top: 10px"  data-simplebar>
+                                    <div class="mb-3 col-12" style="height:300px ;margin-bottom:5px; margin-top: 10px" data-simplebar>
                                         <ul style="width: 96%; margin-left: 10px" class="list-group list-group-flush list-timeline-activity">
                                             <li class="list-group-item px-0 pt-0 border-0 pb-5">
                                                 <div class="row position-relative">
@@ -1369,5 +986,77 @@
         </div>
     </div>
 
+    <div class="modal fade modal-xl" id="addtaskModal" tabindex="-1" role="dialog" aria-labelledby="addtaskModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addtaskModalLabel"><i class="fe fe-clipboard"> </i> THÊM CÔNG VIỆC MỚI</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form style="margin-top: -10px" class="row">
+                        <div class="mb-2 col-8">
+                            <div class="mb-2 col-12">
+                                <label style="font-weight:bold" for="assign" class="col-form-label-sm">Người thực hiện  <span class="text-danger">*</span></label>
+                                <input class="form-select form-select-sm text-dark" list="assign" placeholder="Chọn người thực hiện" />
+                                <datalist data-width="100%" id="assign">
+                                    <option value="1 - Đặng Văn Tuấn - Web Development">
+                                    <option value="2 - Lê Thị Lợi - Tester">
+                                    <option value="3 - Nguyễn Hiếu Nhân - Web Development">
+                                    <option value="4 - Bùi Công Danh - Web Development">
+                                    <option value="5 - Nguyễn Thanh Thiện - Tester">
+                                    <option value="6 - Nguyễn Huy Hoàng - Web Development">
+                                </datalist>
+                            </div>
+                            <div class="mb-2 col-12">
+                                <label style="font-weight:bold" for="taskTitle" class="col-form-label-sm">Tên công việc  <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-sm" id="" placeholder="Nhập vào tên của công việc" required>
+                            </div>
+                            <div class="mb-3 col-12">
+                                <label style="font-weight:bold" for="taskTitle" class="col-form-label-sm">Mô tả công việc</label>
+                                <textarea rows="7" class="form-control form-control-sm" id="" placeholder="Nhập vào mô tả chi tiết công việc"></textarea>
+                            </div>
+
+                        </div>
+                        <div class="mb-2 col-4">
+                            <div class="mb-2 col-12">
+                                <label style="font-weight:bold" for="date" class="col-form-label-sm">Hạn chót <span class="text-danger">*</span></label>
+                                <input value="" class="form-control form-control-sm flatpickr" type="text" placeholder="Chọn ngày hoàn thành" id="date"
+                                       required>
+                            </div>
+                            <div class="mb-2 col-12">
+                                <label style="font-weight:bold" for="date" class="col-form-label-sm">Giờ ước lượng  <span class="text-danger">*</span></label>
+                                <input value="" class="form-control form-control-sm" type="text" placeholder="Số giờ sẽ hoàn thành công việc">
+                            </div>
+                            <div class="mb-2 col-12">
+                                <label style="font-weight:bold" for="date" class="col-form-label-sm">Tài liệu </label>
+                                <div class="input-group me-3">
+                                    <input class="form-control form-control-sm" type="text" placeholder="Nhập tên tài liệu" aria-describedby="basic-addon-gd2">
+                                    <select style="color: black; width: 100px; font-size: 12px; " class="input-group-text form-select-sm" data-width="100%">
+                                        <option value="1">.xlsx</option>
+                                        <option value="2">.docx</option>
+                                        <option value="3">.pptx</option>
+                                        <option value="4">.txt</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <input class="form-control form-control-sm text-primary" type="text" placeholder="Đường dẫn đến tài liệu (https://duongdantailieu...)">
+                            </div>
+                            <hr class="my-3" />
+                            <div class="mb-3 col-12">
+                                <button style="width: 100%" class="btn btn-success btn-sm" type="submit">
+                                    <i class="fe fe-save"> </i> Lưu và Đóng
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>

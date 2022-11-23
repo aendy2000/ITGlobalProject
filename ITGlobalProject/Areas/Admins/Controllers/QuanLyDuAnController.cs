@@ -47,7 +47,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             string email, string ngaysinh, string gioitinh, string diahchinha, int? id)
         {
             var khachHangCu = model.Partners.Where(p => p.ID == id).ToList();
-            if(id == null || khachHangCu.Count == 0)
+            if (id == null || khachHangCu.Count == 0)
             {
                 Partners kh = new Partners();
                 kh.Company = namedn.Trim();
@@ -165,17 +165,171 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 return Content(pro.ID.ToString());
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult> chinhSuaDuAn(HttpPostedFileBase avatar, string name, string mota, string batdau, string ketthuc,
+            string giaidoan, string chiphi, string namedn, string hoten, string cmnd, string phone,
+            string email, string ngaysinh, string gioitinh, string diahchinha, int idduan, int idkh)
+        {
+            var khachHang = model.Partners.FirstOrDefault(p => p.ID == idkh);
+            var duAn = model.Projects.FirstOrDefault(p => p.ID == idduan);
+            if (khachHang == null || duAn == null)
+                return Content("DANHSACH");
+
+            khachHang.Company = namedn.Trim();
+            khachHang.Name = hoten.Trim();
+            khachHang.IdentityCard = cmnd.Trim();
+            khachHang.Phone = phone.Trim();
+            khachHang.Email = email.Trim();
+            khachHang.Birthday = Convert.ToDateTime(ngaysinh);
+            khachHang.Sex = gioitinh.Trim();
+            khachHang.Address = diahchinha.Trim();
+            FileStream stream;
+            if (avatar != null)
+            {
+                if (avatar.ContentLength > 0)
+                {
+                    const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
+                    int length = 30;
+                    var sb = new StringBuilder();
+                    Random RNG = new Random();
+                    for (var i = 0; i < length; i++)
+                    {
+                        var c = src[RNG.Next(0, src.Length)];
+                        sb.Append(c);
+                    }
+
+                    string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + avatar.FileName); ;
+                    avatar.SaveAs(path);
+                    stream = new FileStream(Path.Combine(path), FileMode.Open);
+                    var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                    var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+                    var cancellation = new CancellationTokenSource();
+
+                    var task = new FirebaseStorage(
+                        Bucket,
+                        new FirebaseStorageOptions
+                        {
+                            AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                            ThrowOnCancel = true
+                        })
+                        .Child("images")
+                        .Child(sb.ToString().Trim() + avatar.FileName)
+                        .PutAsync(stream, cancellation.Token);
+                    try
+                    {
+                        string link = await task;
+                        khachHang.Avatar = link;
+                        System.IO.File.Delete(path);
+                    }
+                    catch
+                    {
+                        return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                    }
+                }
+            }
+
+            model.Entry(khachHang).State = EntityState.Modified;
+            model.SaveChanges();
+
+            duAn.Name = name;
+            duAn.Description = mota;
+            duAn.StartDate = Convert.ToDateTime(batdau);
+            duAn.EndDate = Convert.ToDateTime(ketthuc);
+            model.Entry(duAn).State = EntityState.Modified;
+            model.SaveChanges();
+
+            //giai đoạn hiện tại
+            int sogiaidoan = giaidoan.Split('_').ToList().Count;
+
+            //giai đoạn trước đó
+            var lstgiaidoan = model.Debts.Where(d => d.ID_Project == idduan).OrderBy(d => d.ID).ToList();
+
+            //Giai đoạn hiện tại bé hơn giai đoạn trước đó
+            if (sogiaidoan < lstgiaidoan.Count)
+            {
+                for (int i = 0; i < lstgiaidoan.Count; i++)
+                {
+                    if (i < sogiaidoan)
+                    {
+                        lstgiaidoan[i].Price = Convert.ToDecimal(chiphi.Split('_')[i].Replace(",", ""));
+                        lstgiaidoan[i].Date = Convert.ToDateTime(giaidoan.Split('_')[i]);
+                        model.Entry(lstgiaidoan[i]).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        model.Debts.Remove(lstgiaidoan[i]);
+                    }
+                }
+            }
+            //Giai đoạn hiện tại bằng giai đoạn trước đó
+            else if (sogiaidoan == lstgiaidoan.Count)
+            {
+                for (int i = 0; i < lstgiaidoan.Count; i++)
+                {
+                    lstgiaidoan[i].Price = Convert.ToDecimal(chiphi.Split('_')[i].Replace(",", ""));
+                    lstgiaidoan[i].Date = Convert.ToDateTime(giaidoan.Split('_')[i]);
+                    model.Entry(lstgiaidoan[i]).State = EntityState.Modified;
+                }
+            }
+            //Giai đoạn hiện tại lớn hơn giai đoạn trước đó
+            else if (sogiaidoan > lstgiaidoan.Count)
+            {
+                for (int i = 0; i < sogiaidoan; i++)
+                {
+                    if (i < lstgiaidoan.Count)
+                    {
+                        lstgiaidoan[i].Price = Convert.ToDecimal(chiphi.Split('_')[i].Replace(",", ""));
+                        lstgiaidoan[i].Date = Convert.ToDateTime(giaidoan.Split('_')[i]);
+                        model.Entry(lstgiaidoan[i]).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        Debts debt = new Debts();
+                        debt.ID_Project = idduan;
+                        debt.Stage = "Giai đoạn " + (i + 1);
+                        debt.Price = Convert.ToDecimal(chiphi.Split('_')[i].Replace(",", ""));
+                        debt.Date = Convert.ToDateTime(giaidoan.Split('_')[i]);
+                        debt.State = false;
+                        model.Debts.Add(debt);
+                        model.SaveChanges();
+                    }
+                }
+            }
+            model.SaveChanges();
+            model = new CP25Team06Entities();
+            return PartialView("_tongQuanPartial", duAn);
+        }
+
         public ActionResult chiTietDuAn(int? id)
         {
+            var pro = model.Projects.FirstOrDefault(p => p.ID == id);
+            if (id == null || pro == null)
+                return RedirectToAction("danhSachDuAn");
+
+            var lichsu = model.Histories.Where(l => l.Tasks.ID_Project == id).OrderByDescending(o => o.Date).ToList();
+            Session["lst-lichSuDuAn"] = lichsu;
             ViewBag.ShowActive = "danhSachDuAn";
-            return View();
+            return View(pro);
         }
         public ActionResult tongQuanPartial(int? id)
         {
-            return PartialView("_tongQuanPartial");
+            var pro = model.Projects.FirstOrDefault(p => p.ID == id);
+            if (id == null || pro == null)
+                return RedirectToAction("danhSachDuAn");
+
+            var lichsu = model.Histories.Where(l => l.Tasks.ID_Project == id).OrderByDescending(o => o.Date).ToList();
+            Session["lst-lichSuDuAn"] = lichsu;
+            ViewBag.ShowActive = "danhSachDuAn";
+            return PartialView("_tongQuanPartial", pro);
         }
         public ActionResult congViecPartial(int? id)
         {
+            var pro = model.Projects.FirstOrDefault(p => p.ID == id);
+            if (id == null || pro == null)
+                return Content("DANHSACH");
+
+            Session["lst-Task"] = model.Tasks.Where(t => t.ID_Project == id).OrderBy(t => t.ID).ToList();
             return PartialView("_congViecPartial");
         }
         public ActionResult nganSachPartial(int? id)

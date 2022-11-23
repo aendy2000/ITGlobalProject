@@ -320,7 +320,6 @@
         }
         //Khách hàng
         var id = $('#idKhachHang').val();
-        alert(id);
 
         //Check đúng hết thì làm
         $('#AjaxLoader').show();
