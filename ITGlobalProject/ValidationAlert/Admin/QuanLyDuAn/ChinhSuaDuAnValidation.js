@@ -139,9 +139,10 @@
                             }
                             else {
                                 $('#chiTietDuAnPartialID').replaceWith(ketqua);
+                                $('#selectFiles').val(null);
                                 $('#dongChinhSuaDuAn').click();
                                 $.when(
-                                    $.getScript($('#requestPath').val() + 'Content/Admin/js/SweetsAlerts.js'),
+                                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js'),
                                     $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/theme.min.js'),
                                     $.getScript($('#requestPath').val() + 'Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js'),
                                     $.getScript($('#requestPath').val() + 'Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js'),
@@ -149,7 +150,6 @@
                                         $(deferred.resolve);
                                     })
                                 ).done(function () { });
-
                                 if ($("#progressChart").length) {
                                     e = {
                                         series: [$('#tienDoTongTheDuAn').val()],

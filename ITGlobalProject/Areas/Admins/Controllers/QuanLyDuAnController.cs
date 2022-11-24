@@ -330,7 +330,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 return Content("DANHSACH");
 
             Session["lst-Task"] = model.Tasks.Where(t => t.ID_Project == id).OrderBy(t => t.ID).ToList();
-            return PartialView("_congViecPartial");
+            return PartialView("_congViecPartial", pro);
         }
         public ActionResult nganSachPartial(int? id)
         {
@@ -342,7 +342,65 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         public ActionResult doiNguPartial(int? id)
         {
-            return PartialView("_doiNguPartial");
+            var pro = model.Projects.FirstOrDefault(t => t.ID == id);
+            if (pro == null || id == null)
+                return Content("DANHSACH");
+
+            var exitsEmp = model.Teams.Where(t => t.ID_Project == id).ToList();
+            var emp = model.Employees.Where(e => !e.Position.Name.Equals("admin")).ToList().OrderByDescending(e => e.ID).ToList();
+            foreach (var item in exitsEmp)
+            {
+                emp.Remove(item.Employees);
+            }
+
+            Session["lst-DoiNguEmployee"] = emp;
+            return PartialView("_doiNguPartial", pro);
+        }
+        [HttpPost]
+        public ActionResult themThanhVien(int? idemp, int? idpro)
+        {
+            var emp = model.Employees.FirstOrDefault(e => e.ID == idemp);
+            var pro = model.Projects.FirstOrDefault(t => t.ID == idpro);
+            if (emp == null || pro == null || idemp == null || idpro == null)
+                return Content("DANHSACH");
+
+            Teams teams = new Teams();
+            teams.ID_Project = (int)idpro;
+            teams.ID_Employee = (int)idemp;
+            model.Teams.Add(teams);
+            model.SaveChanges();
+
+            model = new CP25Team06Entities();
+            var exitsEmp = model.Teams.Where(t => t.ID_Project == idpro).ToList();
+            var emps = model.Employees.Where(e => !e.Position.Name.Equals("admin")).ToList().OrderByDescending(e => e.ID).ToList();
+            foreach (var item in exitsEmp)
+            {
+                emps.Remove(item.Employees);
+            }
+            Session["lst-DoiNguEmployee"] = emps; 
+            return PartialView("_doiNguPartial", pro);
+        }
+        [HttpPost]
+        public ActionResult xoaThanhVien(int? idemp, int? idpro)
+        {
+            var emp = model.Employees.FirstOrDefault(e => e.ID == idemp);
+            var pro = model.Projects.FirstOrDefault(t => t.ID == idpro);
+            if (emp == null || pro == null || idemp == null || idpro == null)
+                return Content("DANHSACH");
+
+            var teams = model.Teams.FirstOrDefault(t => t.ID_Project == idpro && t.ID_Employee == idemp);
+            model.Teams.Remove(teams);
+            model.SaveChanges();
+
+            model = new CP25Team06Entities();
+            var exitsEmp = model.Teams.Where(t => t.ID_Project == idpro).ToList();
+            var emps = model.Employees.Where(e => !e.Position.Name.Equals("admin")).ToList().OrderByDescending(e => e.ID).ToList();
+            foreach (var item in exitsEmp)
+            {
+                emps.Remove(item.Employees);
+            }
+            Session["lst-DoiNguEmployee"] = emps;
+            return PartialView("_doiNguPartial", pro);
         }
     }
 }

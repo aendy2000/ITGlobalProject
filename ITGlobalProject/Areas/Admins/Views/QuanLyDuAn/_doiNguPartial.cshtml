@@ -1,4 +1,11 @@
-﻿<div id="chiTietDuAnPartialID">
+﻿@model ITGlobalProject.Models.Projects
+@using ITGlobalProject.Models;
+@{
+    CP25Team06Entities models = new CP25Team06Entities();
+    IEnumerable<Employees> emp = Session["lst-DoiNguEmployee"] as IEnumerable<Employees>;
+    int i = 0;
+}
+<div id="chiTietDuAnPartialID">
     <div class="row">
         <div class="col-12 mb-4">
             <!-- nav  -->
@@ -24,666 +31,136 @@
     <div class="row">
         <!-- search  -->
         <div class="col-xxl-3 col-lg-3 col-md-12 col-12 mb-4">
+            <button data-bs-toggle="modal" data-bs-target="#lstDanhSachNhanViens" id="themThanhViens" class="btn btn-outline-primary" style="width: 100%; height: 46px"><i class="fe fe-user-plus"> </i> Thêm Thành Viên</button>
+        </div>
+        <div class="col-xxl-9 col-lg-3 col-md-12 col-12 mb-4">
             <form>
-                <input type="search" class="form-control"
-                       placeholder="Tìm kiếm với tên thành viên">
+                <input id="timKiemThanhViens" type="search" class="form-control" placeholder="Nhập tìm kiếm với Tên hoặc địa chỉ Email">
             </form>
         </div>
     </div>
     <div class="row">
-        <div class="col-xl-3 col-lg-6 col-12">
-            <!-- card  -->
-            <div class="card mb-4">
-                <!-- card body  -->
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar avatar-lg">
-                            <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
-                                 alt="" class="rounded-circle">
-                        </div>
-                        <div class="ms-3">
-                            <h4 class="mb-0"><a href="#" class="text-inherit">Đặng Văn Tuấn</a></h4>
-                            <p class="mb-0 text-muted">Web Developer</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 lh-1 d-flex align-items-center">
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="mail">
-                            <i class="fe fe-mail
-                        fs-4"></i>
-                            <!-- text -->
-                            <div id="mail" class="d-none">
-                                <span>Gửi Email </span>
-                            </div>
-                        </a>
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="infor">
-                            <i class="fe fe-info fs-4"></i>
-                            <!-- text -->
-                            <div id="infor" class="d-none">
-                                <span>Xem thông tin </span>
-                            </div>
-                        </a>
-                        <span class="dropdown ">
-                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                               href="#"
-                               role="button"
-                               id="DropdownOne"
-                               data-bs-toggle="dropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false">
-                                <i class="fe fe-more-horizontal
-                          fs-4"></i>
-                            </a>
-                            <span class="dropdown-menu"
-                                  aria-labelledby="DropdownOne">
-                                <span class="dropdown-header">Settings</span>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-trash-2
-                            dropdown-item-icon"></i>Remove
-                                </a>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-edit
-                            dropdown-item-icon"></i>Edit
-                                </a>
-                            </span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-12">
-            <!-- card  -->
-            <div class="card mb-4">
-                <!-- card body  -->
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <!-- avatar  -->
-                        <div class="avatar avatar-lg">
-                            <img src="~/Content/Admin/assets/images/avatar/avatar-2.jpg"
-                                 alt="" class="rounded-circle">
-                        </div>
-                        <div class="ms-3">
-                            <h4 class="mb-0"><a href="#" class="text-inherit">Lê Thị Lợi</a></h4>
-                            <p class="mb-0 text-muted">UX Designer</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 lh-1 d-flex align-items-center">
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="mail">
-                            <i class="fe fe-mail
-                        fs-4"></i>
-                            <!-- text -->
-                            <div id="mail" class="d-none">
-                                <span>Gửi Email </span>
-                            </div>
-                        </a>
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="infor">
-                            <i class="fe fe-info fs-4"></i>
-                            <!-- text -->
-                            <div id="infor" class="d-none">
-                                <span>Xem thông tin </span>
-                            </div>
-                        </a>
-                        <!-- dropdown  -->
-                        <span class="dropdown ">
-                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                               href="#"
-                               role="button"
-                               id="DropdownTwo"
-                               data-bs-toggle="dropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false">
-                                <i class="fe fe-more-horizontal
-                          fs-4"></i>
-                            </a>
-                            <span class="dropdown-menu"
-                                  aria-labelledby="DropdownTwo">
-                                <span class="dropdown-header">Settings</span>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-trash-2
-                            dropdown-item-icon"></i>Remove
-                                </a>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-edit
-                            dropdown-item-icon"></i>Edit
-                                </a>
-                            </span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-12">
-            <!-- card  -->
-            <div class="card mb-4">
-                <!-- card body  -->
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar avatar-lg
-                      avatar-warning">
-                            <span class="avatar-initials
-                        rounded-circle fs-4">
-                                NHN
-                            </span>
-                        </div>
-                        <div class="ms-3">
-                            <h4 class="mb-0">
-                                <a href="#" class="text-inherit">Nguyễn Hiếu Nhân</a>
-                            </h4>
-                            <p class="mb-0 text-muted">Front End Developer</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 lh-1 d-flex align-items-center">
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="mail">
-                            <i class="fe fe-mail
-                        fs-4"></i>
-                            <!-- text -->
-                            <div id="mail" class="d-none">
-                                <span>Gửi Email </span>
-                            </div>
-                        </a>
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="infor">
-                            <i class="fe fe-info fs-4"></i>
-                            <!-- text -->
-                            <div id="infor" class="d-none">
-                                <span>Xem thông tin </span>
-                            </div>
-                        </a>
-                        <!-- dropdown  -->
-                        <span class="dropdown ">
-                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                               href="#"
-                               role="button"
-                               id="DropdownThree"
-                               data-bs-toggle="dropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false">
-                                <i class="fe fe-more-horizontal
-                          fs-4"></i>
-                            </a>
-                            <span class="dropdown-menu"
-                                  aria-labelledby="DropdownThree">
-                                <span class="dropdown-header">Settings</span>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-trash-2
-                            dropdown-item-icon"></i>Remove
-                                </a>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-edit
-                            dropdown-item-icon"></i>Edit
-                                </a>
-                            </span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-12">
-            <!-- card  -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar avatar-lg">
-                            <img src="~/Content/Admin/assets/images/avatar/avatar-4.jpg"
-                                 alt="" class="rounded-circle">
-                        </div>
-                        <div class="ms-3">
-                            <h4 class="mb-0"><a href="#" class="text-inherit">Bùi Công Danh</a></h4>
-                            <p class="mb-0 text-muted">Full Stack Developer</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 lh-1 d-flex align-items-center">
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="mail">
-                            <i class="fe fe-mail
-                        fs-4"></i>
-                            <!-- text -->
-                            <div id="mail" class="d-none">
-                                <span>Gửi Email </span>
-                            </div>
-                        </a>
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="infor">
-                            <i class="fe fe-info fs-4"></i>
-                            <!-- text -->
-                            <div id="infor" class="d-none">
-                                <span>Xem thông tin </span>
-                            </div>
-                        </a>
-                        <span class="dropdown ">
-                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                               href="#"
-                               role="button"
-                               id="DropdownFour"
-                               data-bs-toggle="dropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false">
-                                <i class="fe fe-more-horizontal
-                          fs-4"></i>
-                            </a>
-                            <span class="dropdown-menu"
-                                  aria-labelledby="DropdownFour">
-                                <span class="dropdown-header">Settings</span>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-trash-2
-                            dropdown-item-icon"></i>Remove
-                                </a>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-edit
-                            dropdown-item-icon"></i>Edit
-                                </a>
-                            </span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-12">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar avatar-lg">
-                            <img src="~/Content/Admin/assets/images/avatar/avatar-5.jpg"
-                                 alt="" class="rounded-circle">
-                        </div>
-                        <div class="ms-3">
-                            <h4 class="mb-0"><a href="#" class="text-inherit">Nguyễn Thanh Thiện</a></h4>
-                            <p class="mb-0 text-muted">HR Manager</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 lh-1 d-flex align-items-center">
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="mail">
-                            <i class="fe fe-mail
-                        fs-4"></i>
-                            <!-- text -->
-                            <div id="mail" class="d-none">
-                                <span>Gửi Email </span>
-                            </div>
-                        </a>
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="infor">
-                            <i class="fe fe-info fs-4"></i>
-                            <!-- text -->
-                            <div id="infor" class="d-none">
-                                <span>Xem thông tin </span>
-                            </div>
-                        </a>
-                        <span class="dropdown ">
-                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                               href="#"
-                               role="button"
-                               id="DropdownFive"
-                               data-bs-toggle="dropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false">
-                                <i class="fe fe-more-horizontal
-                          fs-4"></i>
-                            </a>
-                            <span class="dropdown-menu"
-                                  aria-labelledby="DropdownFive">
-                                <span class="dropdown-header">Settings</span>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-trash-2
-                            dropdown-item-icon"></i>Remove
-                                </a>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-edit
-                            dropdown-item-icon"></i>Edit
-                                </a>
-                            </span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-12">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar avatar-lg">
-                            <img src="~/Content/Admin/assets/images/avatar/avatar-6.jpg"
-                                 alt="" class="rounded-circle">
-                        </div>
-                        <div class="ms-3">
-                            <h4 class="mb-0"><a href="#" class="text-inherit">Lê Thanh Vân</a></h4>
-                            <p class="mb-0 text-muted">UI Designer</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 lh-1 d-flex align-items-center">
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="mail">
-                            <i class="fe fe-mail
-                        fs-4"></i>
-                            <!-- text -->
-                            <div id="mail" class="d-none">
-                                <span>Gửi Email </span>
-                            </div>
-                        </a>
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="infor">
-                            <i class="fe fe-info fs-4"></i>
-                            <!-- text -->
-                            <div id="infor" class="d-none">
-                                <span>Xem thông tin </span>
-                            </div>
-                        </a>
-                        <span class="dropdown ">
-                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                               href="#"
-                               role="button"
-                               id="DropdownSix"
-                               data-bs-toggle="dropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false">
-                                <i class="fe fe-more-horizontal
-                          fs-4"></i>
-                            </a>
-                            <span class="dropdown-menu"
-                                  aria-labelledby="DropdownSix">
-                                <span class="dropdown-header">Settings</span>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-trash-2
-                            dropdown-item-icon"></i>Remove
-                                </a>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-edit
-                            dropdown-item-icon"></i>Edit
-                                </a>
-                            </span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-12">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar avatar-lg">
-                            <img src="~/Content/Admin/assets/images/avatar/avatar-7.jpg"
-                                 alt="" class="rounded-circle">
-                        </div>
-                        <div class="ms-3">
-                            <h4 class="mb-0"><a href="#" class="text-inherit">Phạm Ngọc Tú</a></h4>
-                            <p class="mb-0 text-muted">UI Designer</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 lh-1 d-flex align-items-center">
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="mail">
-                            <i class="fe fe-mail
-                        fs-4"></i>
-                            <!-- text -->
-                            <div id="mail" class="d-none">
-                                <span>Gửi Email </span>
-                            </div>
-                        </a>
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="infor">
-                            <i class="fe fe-info fs-4"></i>
-                            <!-- text -->
-                            <div id="infor" class="d-none">
-                                <span>Xem thông tin </span>
-                            </div>
-                        </a>
-                        <span class="dropdown ">
-                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                               href="#"
-                               role="button"
-                               id="DropdownSeven"
-                               data-bs-toggle="dropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false">
-                                <i class="fe fe-more-horizontal
-                          fs-4"></i>
-                            </a>
-                            <span class="dropdown-menu"
-                                  aria-labelledby="DropdownSeven">
-                                <span class="dropdown-header">Settings</span>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-trash-2
-                            dropdown-item-icon"></i>Remove
-                                </a>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-edit
-                            dropdown-item-icon"></i>Edit
-                                </a>
-                            </span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-12">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar avatar-lg">
-                            <img src="~/Content/Admin/assets/images/avatar/avatar-8.jpg"
-                                 alt="" class="rounded-circle">
-                        </div>
-                        <div class="ms-3">
-                            <h4 class="mb-0"><a href="#" class="text-inherit">Nguyễn Thị Thúy Vy</a></h4>
-                            <p class="mb-0 text-muted">Full Stack Developer</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 lh-1 d-flex align-items-center">
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="mail">
-                            <i class="fe fe-mail
-                        fs-4"></i>
-                            <!-- text -->
-                            <div id="mail" class="d-none">
-                                <span>Gửi Email </span>
-                            </div>
-                        </a>
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="infor">
-                            <i class="fe fe-info fs-4"></i>
-                            <!-- text -->
-                            <div id="infor" class="d-none">
-                                <span>Xem thông tin </span>
-                            </div>
-                        </a>
-                        <span class="dropdown ">
-                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                               href="#"
-                               role="button"
-                               id="DropdownEight"
-                               data-bs-toggle="dropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false">
-                                <i class="fe fe-more-horizontal
-                          fs-4"></i>
-                            </a>
-                            <span class="dropdown-menu"
-                                  aria-labelledby="DropdownEight">
-                                <span class="dropdown-header">Settings</span>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-trash-2
-                            dropdown-item-icon"></i>Remove
-                                </a>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-edit
-                            dropdown-item-icon"></i>Edit
-                                </a>
-                            </span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-12">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar avatar-lg">
-                            <img src="~/Content/Admin/assets/images/avatar/avatar-9.jpg"
-                                 alt="" class="rounded-circle">
-                        </div>
-                        <div class="ms-3">
-                            <h4 class="mb-0"><a href="#" class="text-inherit">Trần Thanh Trúc</a></h4>
-                            <p class="mb-0 text-muted">Product Manager</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 lh-1 d-flex align-items-center">
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="mail">
-                            <i class="fe fe-mail
-                        fs-4"></i>
-                            <!-- text -->
-                            <div id="mail" class="d-none">
-                                <span>Gửi Email </span>
-                            </div>
-                        </a>
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="infor">
-                            <i class="fe fe-info fs-4"></i>
-                            <!-- text -->
-                            <div id="infor" class="d-none">
-                                <span>Xem thông tin </span>
-                            </div>
-                        </a>
-                        <span class="dropdown ">
-                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                               href="#"
-                               role="button"
-                               id="DropdownNine"
-                               data-bs-toggle="dropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false">
-                                <i class="fe fe-more-horizontal
-                          fs-4"></i>
-                            </a>
-                            <span class="dropdown-menu"
-                                  aria-labelledby="DropdownNine">
-                                <span class="dropdown-header">Settings</span>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-trash-2
-                            dropdown-item-icon"></i>Remove
-                                </a>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-edit
-                            dropdown-item-icon"></i>Edit
-                                </a>
-                            </span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-12">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar avatar-lg
-                      avatar-info">
-                            <span class="avatar-initials
-                        rounded-circle fs-4">
+        @foreach (var item in Model.Teams.OrderByDescending(t => t.ID))
+        {
+            <div class="col-xl-3 col-lg-6 col-12">
+                <!-- card  -->
+                <div class="card mb-4">
+                    <!-- card body  -->
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar avatar-lg avatar-danger">
+                                @if (string.IsNullOrEmpty(item.Employees.Avatar))
+                                {
+                                    <b>
+                                        <span class="avatar-initials rounded-circle fs-4">
+                                            @item.Employees.Name.Substring(0, 1)
+                                        </span>
+                                    </b>
+                                }
+                                else
+                                {
+                                    <img src="@item.Employees.Avatar" alt="" class="rounded-circle">
+                                }
 
-                                NHH
-                            </span>
+                            </div>
+                            <div class="ms-3">
+                                <h4 class="mb-0"><a href="#" class="text-inherit"> @item.Employees.Name</a></h4>
+                                <p class="mb-0 text-muted"> @item.Employees.Position.Name</p>
+                            </div>
                         </div>
-                        <div class="ms-3">
-                            <h4 class="mb-0"><a href="#" class="text-inherit">Nguyễn Huy Hoàng</a></h4>
-                            <p class="mb-0 text-muted">
-                                Digital Marketing
+                        <div class="mt-4 lh-1 d-flex align-items-center">
+                            <p class="mb-0 text-muted" style="font-size: 14px">
+                              @item.Employees.Email
                             </p>
-                        </div>
-                    </div>
-                    <div class="mt-4 lh-1 d-flex align-items-center">
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="mail">
-                            <i class="fe fe-mail
-                        fs-4"></i>
-                            <!-- text -->
-                            <div id="mail" class="d-none">
-                                <span>Gửi Email </span>
-                            </div>
-                        </a>
-                        <a href="#" class="me-3 text-muted
-                      texttooltip" data-template="infor">
-                            <i class="fe fe-info fs-4"></i>
-                            <!-- text -->
-                            <div id="infor" class="d-none">
-                                <span>Xem thông tin </span>
-                            </div>
-                        </a>
-                        <span class="dropdown ">
-                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                               href="#"
-                               role="button"
-                               id="DropdownTen"
-                               data-bs-toggle="dropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false">
-                                <i class="fe fe-more-horizontal
-                          fs-4"></i>
+
+                            <a id="xoaThanhViens@(item.Employees.ID)" name="@item.Employees.ID" class="text-muted ms-auto texttooltip text-end" data-template="xoa">
+                                <i class="fe fe-trash-2 fs-4 text-danger"></i>
+                                <!-- text -->
+                                <div id="xoa" class="d-none">
+                                    <span>Loại bỏ thành viên </span>
+                                </div>
                             </a>
-                            <span class="dropdown-menu"
-                                  aria-labelledby="DropdownTen">
-                                <span class="dropdown-header">Settings</span>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-trash-2
-                            dropdown-item-icon"></i>Remove
-                                </a>
-                                <a class="dropdown-item"
-                                   href="#">
-                                    <i class="fe
-                            fe-edit
-                            dropdown-item-icon"></i>Edit
-                                </a>
-                            </span>
-                        </span>
+                        </div>
                     </div>
                 </div>
             </div>
+        }
+
+    </div>
+
+    <div class="modal fade modal-xl" id="lstDanhSachNhanViens" tabindex="-1" role="dialog"
+         aria-labelledby="lstDanhSachNhanViensModalLabel" aria-hidden="true" data-simplebar>
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="lstDanhSachNhanViensModal"><i class="fe fe-user-check"> </i> Danh Sách Đối Tác</h4>
+                    <button id="tatBangThemThanhVien" type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                    </button>
+                </div>
+                <div class="card">
+                    <!-- form -->
+                    <!-- table -->
+                    <table id="dataTableBasic" class="table" style="width:100%">
+                        <thead class="table-light">
+                            <tr>
+                                <th hidden scope="col" class=" border-top-0"></th>
+                                <th scope="col" class=" border-top-0">Tên</th>
+                                <th scope="col" class=" border-top-0">Vai trò</th>
+                                <th scope="col" class=" border-top-0">Email</th>
+                                <th scope="col" class=" border-top-0 text-nowrap">Đang theo</th>
+                                <th scope="col" class=" border-top-0"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in emp)
+                            {
+                                var duan = models.Tasks.Where(t => t.Employees.ID == item.ID).ToList().GroupBy(g => g.ID_Project).ToList().Count;
+                                i++;
+                                <tr>
+                                    <td hidden class="align-middle">
+                                        @i
+                                    </td>
+                                    <td class="align-middle ">
+                                        <div class="d-flex align-items-center text-nowrap">
+                                            @if (string.IsNullOrEmpty(item.Avatar))
+                                            {
+                                                <div class="avatar avatar-md avatar-danger me-2">
+                                                    <span class="avatar-initials rounded-circle ">
+                                                        @item.Name.Substring(0, 1)
+                                                    </span>
+                                                </div>
+                                                <span class="mb-2"></span>
+                                            }
+                                            else
+                                            {
+                                                <img src="@item.Avatar" alt=""
+                                                     class="rounded-circle avatar-md me-2" />
+                                            }
+                                            <h5 class="mb-0">@item.Name</h5>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle ">
+                                        @item.Position.Name
+                                    </td>
+                                    <td class="align-middle ">
+                                        @item.Email
+                                    </td>
+                                    <td class="align-middle ">
+                                        @duan dự án
+                                    </td>
+                                    <td class="align-middle text-nowrap">
+                                        <a role="button" id="selectThanhVienMoiss@(item.ID)" name="@item.ID" class="btn btn-outline-primary btn-xs">THÊM THÀNH VIÊN&ensp;<i class="fe fe-check-square"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        
     </div>
 </div>
 
+<script src="~/ValidationAlert/Admin/QuanLyDuAn/ChiTietDuAn_DoiNguValidation.js"></script>
 

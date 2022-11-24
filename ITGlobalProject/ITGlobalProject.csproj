@@ -687,7 +687,6 @@
     <Content Include="Areas\Admins\Views\QuanLyDuAn\_congViecPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDuAn\_doiNguPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDuAn\_nganSachPartial.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyDuAn\_soLuocPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDuAn\_taiLieuPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDuAn\_tongQuanPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyLuong\bangLuong.cshtml" />
@@ -760,6 +759,7 @@
     <Content Include="ValidationAlert\Admin\LienHeTuVan\XoaOrDuyetValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChinhSuaDuAnValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAnValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_DoiNguValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ThemDuAnValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChinhSuaNhanVienValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\KhoaTaiKhoanValidation.js" />

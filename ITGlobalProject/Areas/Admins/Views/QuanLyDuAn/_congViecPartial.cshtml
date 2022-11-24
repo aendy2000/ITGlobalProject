@@ -140,16 +140,16 @@
                                                                 <!-- checkbox -->
                                                                 <div class="form-check custom-checkbox" style="margin-bottom:-20px; color: black">
                                                                     <a role="button" href="#" style="display:inline;" class="h6" data-bs-toggle="modal" data-bs-target="#edittaskModal">
-                                                                        142. Thiết kế Prototype cho module Quản lý dự án.
+                                                                        @item.ID. @item.Name.
                                                                     </a>
                                                                     <br>
                                                                     <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
                                                                         <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
-                                                                        <label style="width: 49%; float: right;">40 giờ</label>
+                                                                        <label style="width: 49%; float: right;">@item.OriginalEstimate giờ</label>
                                                                     </label>
                                                                     <label class="badge bg-warning" style="width: 100%; font-weight: bold">
                                                                         <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
-                                                                        <label style="width: 49%; float:right;">0 giờ</label>
+                                                                        <label style="width: 49%; float:right;">@item.CompletedWork giờ</label>
                                                                     </label>
                                                                 </div>
                                                             </form>
@@ -209,16 +209,16 @@
                                                         <div class="d-flex align-items-center">
                                                             <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
                                                                  alt="" class="avatar avatar-xs rounded-circle imgtooltip"
-                                                                 data-template="id1">
+                                                                 data-template="@item.ID">
                                                             <!-- avatar -->
                                                             <!-- text -->
-                                                            <div id="id1" class="d-none">
-                                                                <h6 class="mb-0">Đặng Văn Tuấn</h6>
+                                                            <div id="@item.ID" class="d-none">
+                                                                <h6 class="mb-0">@item.Employees.Name</h6>
                                                             </div>
                                                             <!-- text -->
                                                             <div class="ms-2">
                                                                 <span style="font-weight:bold" class="fs-6">
-                                                                    <i style="font-weight:bold" class="fe fe-clock me-1"></i>25 Th 10, 2022
+                                                                    <i style="font-weight:bold" class="fe fe-clock me-1"></i>@item.Deadline.ToString("dd") Th @item.Deadline.ToString("MM, yyyy")
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -760,8 +760,8 @@
                         <div class="mb-2 col-8">
                             <div class="mb-2 col-12">
                                 <label style="font-weight:bold" for="assign" class="col-form-label-sm">Người thực hiện  <span class="text-danger">*</span></label>
-                                <input class="form-control  form-control-sm" list="assign" placeholder="Chọn người thực hiện" value="1 - Đặng Văn Tuấn - Web Development" />
-                                <datalist data-width="100%" id="assign">
+                                <input class="form-control  form-control-sm" list="assignedit" placeholder="Chọn người thực hiện" value="1 - Đặng Văn Tuấn - Web Development" />
+                                <datalist data-width="100%" id="assignedit">
                                     <option value="1 - Đặng Văn Tuấn - Web Development">
                                     <option value="2 - Lê Thị Lợi - Tester">
                                     <option value="3 - Nguyễn Hiếu Nhân - Web Development">
@@ -996,23 +996,20 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form style="margin-top: -10px" class="row">
+                    <div style="margin-top: -10px" class="row">
                         <div class="mb-2 col-8">
                             <div class="mb-2 col-12">
                                 <label style="font-weight:bold" for="assign" class="col-form-label-sm">Người thực hiện  <span class="text-danger">*</span></label>
-                                <input class="form-select form-select-sm text-dark" list="assign" placeholder="Chọn người thực hiện" />
-                                <datalist data-width="100%" id="assign">
-                                    <option value="1 - Đặng Văn Tuấn - Web Development">
-                                    <option value="2 - Lê Thị Lợi - Tester">
-                                    <option value="3 - Nguyễn Hiếu Nhân - Web Development">
-                                    <option value="4 - Bùi Công Danh - Web Development">
-                                    <option value="5 - Nguyễn Thanh Thiện - Tester">
-                                    <option value="6 - Nguyễn Huy Hoàng - Web Development">
-                                </datalist>
+                                <select id="nguoithuchien" class="form-select form-select-sm text-dark">
+                                    @foreach (var item in Model.Teams.ToList())
+                                    {
+                                        <option value="@item.Employees.ID">@(item.Employees.ID.ToString("D3"))&emsp;|&emsp;@(item.Employees.Name)&emsp;|&emsp;@(item.Employees.Position.Name)</option>
+                                    }
+                                </select>
                             </div>
                             <div class="mb-2 col-12">
                                 <label style="font-weight:bold" for="taskTitle" class="col-form-label-sm">Tên công việc  <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control form-control-sm" id="" placeholder="Nhập vào tên của công việc" required>
+                                <input type="text" class="form-control form-control-sm" id="taskName" placeholder="Nhập vào tên của công việc" required>
                             </div>
                             <div class="mb-3 col-12">
                                 <label style="font-weight:bold" for="taskTitle" class="col-form-label-sm">Mô tả công việc</label>
@@ -1052,11 +1049,9 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
-
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>

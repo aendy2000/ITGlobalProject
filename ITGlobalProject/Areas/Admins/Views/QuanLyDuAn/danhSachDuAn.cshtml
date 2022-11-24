@@ -202,7 +202,7 @@
                                         <span style="width: 100px" class="badge bg-light-success text-dark-success">done</span>
                                     }
                                 </td>
-                                <td class="align-middle ">
+                                <td class="align-middle text-nowrap">
                                     <div class="avatar-group">
                                         <!-- Chưa có đội ngũ-->
                                         @if (item.Teams.Count == 0)
@@ -242,7 +242,7 @@
                                         //Đội ngũ nhiều hơn 3 người
                                         else
                                         {
-                                            for (int t = 0; t < 4; t++)
+                                            for (int t = 0; t < 3; t++)
                                             {
                                                 if (string.IsNullOrEmpty(item.Teams.ToList()[t].Employees.Avatar))
                                                 {
@@ -268,7 +268,7 @@
                                                     </span>
                                                 }
                                             }
-                                            <span class="avatar avatar-md ">
+                                            <span class="avatar avatar-md">
                                                 <span class="avatar-initials rounded-circle bg-light text-dark">@(item.Teams.Count - 3)+</span>
                                             </span>
                                         }
