@@ -103,10 +103,11 @@
         });
     });
 
-    //$('#do').live("DOMSubtreeModified", function () {
-    //        alert('Hello, world!');
-    //});
-    //$('#progress').live("DOMSubtreeModified", function () {
-    //        alert('Hello, world!');
-    //});
+    dragula([document.querySelector("#do"),
+    document.querySelector("#progress"),
+    document.querySelector("#review"),
+    document.querySelector("#done")]).on('drop', function (el) {
+        alert("Ok");
+    });
+
 });
