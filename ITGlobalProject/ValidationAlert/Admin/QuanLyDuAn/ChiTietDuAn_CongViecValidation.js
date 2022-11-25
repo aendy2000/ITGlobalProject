@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
 
+    //Thêm task mới
     $('#luuThemTask').on('click', function () {
         var idpro = $("#idpro").val();
         var assign = $('#nguoithuchien :selected').val();
@@ -103,11 +104,15 @@
         });
     });
 
+    //Kéo task
     dragula([document.querySelector("#do"),
     document.querySelector("#progress"),
     document.querySelector("#review"),
-    document.querySelector("#done")]).on('drop', function (el) {
-        alert("Ok");
+    document.querySelector("#done")]).on('drop', function (CucDuocKeo, viTriMoi, viTriCu, viTriPhiaTrenCucBiKeo) {
+        var vlue = viTriMoi.innerText.trim();
+        var source = viTriCu.innerText.trim();
+
+        alert(viTriMoi.id + " - " + vlue);
     });
 
 });
