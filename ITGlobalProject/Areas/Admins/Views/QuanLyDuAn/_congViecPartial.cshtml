@@ -145,11 +145,25 @@
                                                                     <br>
                                                                     <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
                                                                         <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
-                                                                        <label style="width: 49%; float: right;">@item.OriginalEstimate giờ</label>
+                                                                        @if (@Convert.ToDecimal(item.OriginalEstimate).ToString("0.0").Split(',')[1].Equals("0"))
+                                                                        {
+                                                                            <label style="width: 49%; float: right;">@Convert.ToDecimal(item.OriginalEstimate).ToString("0.0").Split(',')[0] giờ</label>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <label style="width: 49%; float: right;">@Convert.ToDecimal(item.OriginalEstimate).ToString("0.0") giờ</label>
+                                                                        }
                                                                     </label>
                                                                     <label class="badge bg-warning" style="width: 100%; font-weight: bold">
                                                                         <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
-                                                                        <label style="width: 49%; float:right;">@item.CompletedWork giờ</label>
+                                                                        @if (@Convert.ToDecimal(item.CompletedWork).ToString("0.0").Split(',')[1].Equals("0"))
+                                                                        {
+                                                                            <label style="width: 49%; float: right;">@Convert.ToDecimal(item.CompletedWork).ToString("0.0").Split(',')[0] giờ</label>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <label style="width: 49%; float: right;">@Convert.ToDecimal(item.CompletedWork).ToString("0.0") giờ</label>
+                                                                        }
                                                                     </label>
                                                                 </div>
                                                             </form>
@@ -207,10 +221,18 @@
                                                     <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
                                                         <!-- img -->
                                                         <div class="d-flex align-items-center">
-                                                            <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
-                                                                 alt="" class="avatar avatar-xs rounded-circle imgtooltip"
-                                                                 data-template="@item.ID">
-                                                            <!-- avatar -->
+                                                            @if (string.IsNullOrEmpty(item.Employees.Avatar))
+                                                            {
+                                                                <div class="avatar avatar-xs avatar-danger imgtooltip" data-template="@item.ID">
+                                                                    <span class="avatar-initials rounded-circle"> @item.Employees.Name.Substring(0, 1) </span>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="@item.Employees.Avatar"
+                                                                     alt="" class="avatar avatar-xs rounded-circle imgtooltip"
+                                                                     data-template="@item.ID">
+                                                            }
                                                             <!-- text -->
                                                             <div id="@item.ID" class="d-none">
                                                                 <h6 class="mb-0">@item.Employees.Name</h6>
@@ -992,7 +1014,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="addtaskModalLabel"><i class="fe fe-clipboard"> </i> THÊM CÔNG VIỆC MỚI</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <button type="button" id="dongthemTask" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
                 <div class="modal-body">
@@ -1009,44 +1031,43 @@
                             </div>
                             <div class="mb-2 col-12">
                                 <label style="font-weight:bold" for="taskTitle" class="col-form-label-sm">Tên công việc  <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control form-control-sm" id="taskName" placeholder="Nhập vào tên của công việc" required>
+                                <input type="text" class="form-control form-control-sm" id="taskName" name="taskName" placeholder="Nhập vào tên của công việc" required>
                             </div>
                             <div class="mb-3 col-12">
                                 <label style="font-weight:bold" for="taskTitle" class="col-form-label-sm">Mô tả công việc</label>
-                                <textarea rows="7" class="form-control form-control-sm" id="" placeholder="Nhập vào mô tả chi tiết công việc"></textarea>
+                                <textarea rows="7" class="form-control form-control-sm" id="motatask" name="motatask" placeholder="Nhập vào mô tả chi tiết công việc"></textarea>
                             </div>
 
                         </div>
                         <div class="mb-2 col-4">
                             <div class="mb-2 col-12">
                                 <label style="font-weight:bold" for="date" class="col-form-label-sm">Hạn chót <span class="text-danger">*</span></label>
-                                <input value="" class="form-control form-control-sm flatpickr" type="text" placeholder="Chọn ngày hoàn thành" id="date"
-                                       required>
+                                <input id="deadline" name="deadline" class="form-control form-control-sm flatpickr" type="text" placeholder="Chọn ngày hoàn thành">
                             </div>
                             <div class="mb-2 col-12">
                                 <label style="font-weight:bold" for="date" class="col-form-label-sm">Giờ ước lượng  <span class="text-danger">*</span></label>
-                                <input value="" class="form-control form-control-sm" type="text" placeholder="Số giờ sẽ hoàn thành công việc">
+                                <input id="estimate" name="estimate" class="form-control form-control-sm" type="text" placeholder="Số giờ sẽ hoàn thành công việc">
                             </div>
                             <div class="mb-2 col-12">
                                 <label style="font-weight:bold" for="date" class="col-form-label-sm">Tài liệu </label>
                                 <div class="input-group me-3">
-                                    <input class="form-control form-control-sm" type="text" placeholder="Nhập tên tài liệu" aria-describedby="basic-addon-gd2">
-                                    <select style="color: black; width: 100px; font-size: 12px; " class="input-group-text form-select-sm" data-width="100%">
-                                        <option value="1">.xlsx</option>
-                                        <option value="2">.docx</option>
-                                        <option value="3">.pptx</option>
-                                        <option value="4">.txt</option>
+                                    <input id="tentailieu" name="tentailieu" class="form-control form-control-sm" type="text" placeholder="Nhập tên tài liệu" aria-describedby="basic-addon-gd2">
+                                    <select id="loaitailieu" name="loaitailieu" style="color: black; width: 100px; font-size: 12px; " class="input-group-text form-select-sm" data-width="100%">
+                                        <option value="xlsx">.xlsx</option>
+                                        <option value="doct">.docx</option>
+                                        <option value="pptx">.pptx</option>
+                                        <option value="txt">.txt</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <input class="form-control form-control-sm text-primary" type="text" placeholder="Đường dẫn đến tài liệu (https://duongdantailieu...)">
+                                <input id="duongdantailieu" name="duongdantailieu" class="form-control form-control-sm text-primary" type="text" placeholder="Đường dẫn đến tài liệu (https://duongdantailieu...)">
                             </div>
                             <hr class="my-3" />
                             <div class="mb-3 col-12">
-                                <button style="width: 100%" class="btn btn-success btn-sm" type="submit">
+                                <a role="button" id="luuThemTask" style="width: 100%" class="btn btn-success btn-sm">
                                     <i class="fe fe-save"> </i> Lưu và Đóng
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -1054,4 +1075,5 @@
             </div>
         </div>
     </div>
+    <script src="~/ValidationAlert/Admin/QuanLyDuAn/ChiTietDuAn_CongViecValidation.js"></script>
 </div>

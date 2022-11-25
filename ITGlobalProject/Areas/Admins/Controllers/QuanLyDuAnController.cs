@@ -332,6 +332,45 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             Session["lst-Task"] = model.Tasks.Where(t => t.ID_Project == id).OrderBy(t => t.ID).ToList();
             return PartialView("_congViecPartial", pro);
         }
+        [HttpPost]
+        public ActionResult themCongViec(int? idpro, int? idassign, string taskname, string mota,
+            string deadline, decimal estimate, string tentailieu, string loaitailieu, string duongdantailieu)
+        {
+            var pro = model.Projects.FirstOrDefault(p => p.ID == idpro);
+            var emp = model.Employees.FirstOrDefault(e => e.ID == idassign);
+            if (pro == null || emp == null)
+                return Content("DANHSACH");
+
+            Tasks task = new Tasks();
+            task.ID_Employee = (int)idassign;
+            task.ID_Project = (int)idpro;
+            task.Name = taskname;
+            task.Description = mota;
+            task.State = "do";
+            task.Deadline = Convert.ToDateTime(deadline);
+            task.OriginalEstimate = estimate;
+            task.CompletedWork = 0;
+            task.DocumentName = tentailieu;
+            task.DocumentType = loaitailieu;
+            task.DocumentURL = duongdantailieu;
+
+            model.Tasks.Add(task);
+            model.SaveChanges();
+
+            Histories his = new Histories();
+            his.ID_Employee = 1;
+            his.ID_Task = task.ID;
+            his.Name = "Thêm Việc Mới";
+            his.Contents = "đã thêm công việc";
+            his.Date = DateTime.Now;
+            model.Histories.Add(his);
+            model.SaveChanges();
+            model = new CP25Team06Entities();
+
+            Session["lst-Task"] = model.Tasks.Where(t => t.ID_Project == idpro).OrderBy(t => t.ID).ToList();
+            return PartialView("_congViecPartial", pro);
+        }
+
         public ActionResult nganSachPartial(int? id)
         {
             return PartialView("_nganSachPartial");

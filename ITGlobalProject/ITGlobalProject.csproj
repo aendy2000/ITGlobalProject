@@ -463,8 +463,6 @@
     <Content Include="Content\Admin\assets\libs\wnumb\wNumb.min.js" />
     <Content Include="Content\Admin\css\main.css" />
     <Content Include="Content\Admin\css\util.css" />
-    <Content Include="Content\Admin\docs\changelog.html" />
-    <Content Include="Content\Admin\docs\index.html" />
     <Content Include="Content\Admin\fonts\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="Content\Admin\fonts\font-awesome-4.7.0\css\font-awesome.min.css" />
     <Content Include="Content\Admin\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
@@ -759,6 +757,7 @@
     <Content Include="ValidationAlert\Admin\LienHeTuVan\XoaOrDuyetValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChinhSuaDuAnValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAnValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_CongViecValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_DoiNguValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ThemDuAnValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChinhSuaNhanVienValidation.js" />

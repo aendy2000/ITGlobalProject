@@ -180,7 +180,7 @@
                                 <div>
                                     <p class="text-dark mb-0
                                   fw-semi-bold">
-                                        @(Model.EndDate.CompareTo(Model.StartDate) + 1) Ngày
+                                        @((Model.EndDate - Model.StartDate).TotalDays + 1) Ngày
                                     </p>
                                 </div>
                             </div>
@@ -411,7 +411,7 @@
             @*<div><a href="#">View All</a></div>*@
         </div>
         <!-- Card body -->
-        <div style="height: @(heights)px;" class="card-body" data-simplebar>
+        <div style="max-height: @(heights)px;" class="card-body" data-simplebar>
             <!-- List group -->
             <ul class="list-group list-group-flush list-timeline-activity">
                 @if (lichSu.ToList().Count < 1)
@@ -433,7 +433,7 @@
                                 </div>
                                 <div class="col ms-n3">
                                     <h4 class="mb-0 h5">@item.Name</h4>
-                                    <p class="mb-0 text-body">@item.Contents <a href="#"><u>@item.ID_Task</u></a>.</p>
+                                    <p class="mb-0 text-body">@item.Employees.Name @item.Contents <a  data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a>.</p>
                                 </div>
                                 <div class="col-auto">
                                     <span class="text-muted fs-6">@item.Date.ToString("HH:mm dd/MM")</span>
