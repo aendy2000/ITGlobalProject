@@ -35,7 +35,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
             var role = model.Position.Where(p => !p.Name.ToLower().Equals("admin")).ToList();
             Session["lst-role"] = role;
-
+            var kynang = model.SkillsCategory.OrderBy(k => k.Name).ToList();
+            Session["lst-kynang"] = kynang;
+            var trocap = model.SubsidiesCategory.OrderBy(k => k.Name).ToList();
+            Session["lst-trocap"] = trocap;
             if (type == null)
                 type = 1;
             if (page == null)
@@ -64,55 +67,231 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             ViewBag.typeListNhanSu = type;
             return PartialView("_nhanVienListPartialView", employee.ToPagedList((int)page, (int)pageSize));
         }
-        public ActionResult themNhanVien(string hotens, string cmnds, string sodienthoais, string ngaysinhs,
-            string gioitinhs, string diachinhas, string vaitros, string nguoiphuthuocs, string mucluongs,
-            string dsNganHangs, string sotaikhoans, string chutaikhoans, string diachiemails, string matkhaudangnhaps)
+        public async Task<ActionResult> themNhanVien(HttpPostedFileBase anhHopDong, string hoten,
+        string cmnd, string quoctich, string honnhan, string ngaysinh, string gioitinh, string diachinha,
+        string sodienthoaididong, string sodienthoaikhac, string diachiemailcongty, string diachiemailkhac,
+        string mucluong, string dsNganHang, string sotaikhoan, string chutaikhoan, string kynang, string trinhdongoaingu,
+        string phuthuocnhanthan, string trocap, string ngayvaolam, int vaitro, string hinhthuc, string username,
+        string matkhaudangnhap, string ngaykyhopdong, string ngaygiahanhopdong)
         {
             try
             {
-                var employee = new Employees();
-                employee.Name = hotens;
-                employee.IdentityCard = cmnds;
-                employee.Phone = sodienthoais;
-                employee.Birthday = Convert.ToDateTime(ngaysinhs);
-                employee.Sex = gioitinhs;
-                employee.Address = diachinhas;
-                employee.ID_Position = Int32.Parse(vaitros);
-                employee.NumberOfDependants = Int32.Parse(nguoiphuthuocs);
+                Employees emp = new Employees();
+                emp.ID_Position = vaitro;
+                emp.Name = hoten;
+                emp.IdentityCard = cmnd;
+                emp.Nationality = quoctich;
+                emp.MaritalStatus = honnhan;
+                emp.Birthday = Convert.ToDateTime(ngaysinh);
+                emp.Sex = gioitinh;
+                emp.Address = diachinha;
+                emp.TelephoneOrther = sodienthoaikhac;
+                emp.TelephoneMobile = sodienthoaididong;
+                emp.WorkEmail = diachiemailcongty;
+                emp.OrtherEmail = diachiemailkhac;
 
-                if (string.IsNullOrEmpty(mucluongs))
-                    employee.Wage = 0;
+                if (string.IsNullOrEmpty(mucluong))
+                    emp.Wage = 0;
                 else
-                    employee.Wage = Convert.ToDecimal(mucluongs.Replace(",", ""));
+                    emp.Wage = Convert.ToDecimal(mucluong.Replace(",", ""));
 
-                employee.BankName = dsNganHangs;
-                employee.BankAccountNumber = sotaikhoans;
-                employee.BankAccountHolderName = chutaikhoans;
-                employee.Email = diachiemails;
-                employee.Password = matkhaudangnhaps;
-
-                model.Employees.Add(employee);
+                emp.BankName = dsNganHang;
+                emp.BankAccountNumber = sotaikhoan;
+                emp.BankAccountHolderName = chutaikhoan;
+                emp.JoinedDate = Convert.ToDateTime(ngayvaolam);
+                emp.EmploymentStatus = hinhthuc;
+                emp.Username = username;
+                emp.Password = matkhaudangnhap;
+                emp.Lock = false;
+                emp.AccountStatus = true;
+                model.Employees.Add(emp);
                 model.SaveChanges();
 
                 model = new CP25Team06Entities();
+                EmploymentContracts employ = new EmploymentContracts();
+                employ.ID_Employee = emp.ID;
+                employ.StartDate = Convert.ToDateTime(ngaykyhopdong);
+                employ.EndDate = Convert.ToDateTime(ngaygiahanhopdong);
 
-                int type = 1;
-                int page = 1;
-                int pageSize = 8;
+                FileStream stream;
+                if (anhHopDong.ContentLength > 0)
+                {
+                    const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
+                    int length = 30;
+                    var sb = new StringBuilder();
+                    Random RNG = new Random();
+                    for (var i = 0; i < length; i++)
+                    {
+                        var c = src[RNG.Next(0, src.Length)];
+                        sb.Append(c);
+                    }
 
-                var employees = model.Employees.Where(e => e.ID_Position != 1).OrderByDescending(o => o.ID).ToList();
-                Session["lstEmployees"] = employees;
-                Session["DefaultlstEmployees"] = employees;
+                    string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + anhHopDong.FileName); ;
+                    anhHopDong.SaveAs(path);
+                    stream = new FileStream(Path.Combine(path), FileMode.Open);
+                    var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                    var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+                    var cancellation = new CancellationTokenSource();
 
-                ViewBag.typeListNhanSu = type;
-                return PartialView("_nhanVienListPartialView", employees.ToPagedList((int)page, (int)pageSize));
+                    var task = new FirebaseStorage(
+                        Bucket,
+                        new FirebaseStorageOptions
+                        {
+                            AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                            ThrowOnCancel = true
+                        })
+                        .Child("images")
+                        .Child(sb.ToString().Trim() + anhHopDong.FileName)
+                        .PutAsync(stream, cancellation.Token);
+                    try
+                    {
+                        string link = await task;
+                        employ.ImageURL = link;
+                        System.IO.File.Delete(path);
+                    }
+                    catch
+                    {
+                        return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                    }
+                }
+                model.EmploymentContracts.Add(employ);
+                model.SaveChanges();
+
+                //Kỹ năng
+                if (!string.IsNullOrEmpty(kynang))
+                {
+                    if (kynang.IndexOf("_") != -1)
+                    {
+                        for (int i = 0; i < kynang.Split('_').ToList().Count; i++)
+                        {
+                            PersonalSkills perSkill = new PersonalSkills();
+                            perSkill.ID_Employee = emp.ID;
+                            perSkill.ID_SkillsCategory = Int32.Parse(kynang.Split('_')[i]);
+                            model.PersonalSkills.Add(perSkill);
+                            model.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        PersonalSkills perSkill = new PersonalSkills();
+                        perSkill.ID_Employee = emp.ID;
+                        perSkill.ID_SkillsCategory = Int32.Parse(kynang);
+                        model.PersonalSkills.Add(perSkill);
+                        model.SaveChanges();
+                    }
+                }
+
+                //Ngoại ngữ
+                if (!string.IsNullOrEmpty(trinhdongoaingu))
+                {
+                    //Nhiều hơn 1 ngoại ngữ
+                    if (trinhdongoaingu.IndexOf("=") != -1)
+                    {
+                        for (int i = 0; i < trinhdongoaingu.Split('=').ToList().Count; i++)
+                        {
+                            LanguagesSkills lgSkill = new LanguagesSkills();
+                            lgSkill.ID_Employee = emp.ID;
+                            lgSkill.Name = trinhdongoaingu.Split('=')[i].Split('_')[0];
+                            lgSkill.listening = trinhdongoaingu.Split('=')[i].Split('_')[1];
+                            lgSkill.Speaking = trinhdongoaingu.Split('=')[i].Split('_')[2];
+                            lgSkill.Reading = trinhdongoaingu.Split('=')[i].Split('_')[3];
+                            lgSkill.Writing = trinhdongoaingu.Split('=')[i].Split('_')[4];
+
+                            model.LanguagesSkills.Add(lgSkill);
+                            model.SaveChanges();
+                        }
+                    }
+                    //Chỉ có 1 ngoại ngữ
+                    else
+                    {
+                        LanguagesSkills lgSkill = new LanguagesSkills();
+                        lgSkill.ID_Employee = emp.ID;
+                        lgSkill.Name = trinhdongoaingu.Split('_')[0];
+                        lgSkill.listening = trinhdongoaingu.Split('_')[0];
+                        lgSkill.Speaking = trinhdongoaingu.Split('_')[1];
+                        lgSkill.Reading = trinhdongoaingu.Split('_')[2];
+                        lgSkill.Writing = trinhdongoaingu.Split('_')[3];
+
+                        model.LanguagesSkills.Add(lgSkill);
+                        model.SaveChanges();
+                    }
+                }
+
+                //Phụ thuộc Nhân thân
+                if (!string.IsNullOrEmpty(phuthuocnhanthan))
+                {
+                    //Nhiều hơn 1 nhân thân
+                    if (phuthuocnhanthan.IndexOf("=") != -1)
+                    {
+                        for (int i = 0; i < phuthuocnhanthan.Split('=').ToList().Count; i++)
+                        {
+                            DependentsInformation depen = new DependentsInformation();
+                            depen.ID_Employee = emp.ID;
+                            depen.Name = phuthuocnhanthan.Split('=')[i].Split('_')[0];
+                            depen.Relationship = phuthuocnhanthan.Split('=')[i].Split('_')[1];
+                            depen.Birthday = Convert.ToDateTime(phuthuocnhanthan.Split('=')[i].Split('_')[2]);
+
+                            model.DependentsInformation.Add(depen);
+                            model.SaveChanges();
+                        }
+                    }
+                    //Chỉ có 1 nhân thân
+                    else
+                    {
+                        DependentsInformation depen = new DependentsInformation();
+                        depen.ID_Employee = emp.ID;
+                        depen.Name = phuthuocnhanthan.Split('_')[0];
+                        depen.Relationship = phuthuocnhanthan.Split('_')[1];
+                        depen.Birthday = Convert.ToDateTime(phuthuocnhanthan.Split('_')[2]);
+
+                        model.DependentsInformation.Add(depen);
+                        model.SaveChanges();
+                    }
+                }
+
+                //Trợ cấp & phụ cấp
+                if (!string.IsNullOrEmpty(trocap))
+                {
+                    if (trocap.IndexOf("_") != -1)
+                    {
+                        for (int i = 0; i < trocap.Split('_').ToList().Count; i++)
+                        {
+                            Subsidies subs = new Subsidies();
+                            subs.ID_Employee = emp.ID;
+                            subs.ID_SubsidiesCategory = Int32.Parse(trocap.Split('_')[i]);
+                            model.Subsidies.Add(subs);
+                            model.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        Subsidies subs = new Subsidies();
+                        subs.ID_Employee = emp.ID;
+                        subs.ID_SubsidiesCategory = Int32.Parse(trocap);
+                        model.Subsidies.Add(subs);
+                        model.SaveChanges();
+                    }
+                }
             }
             catch
             {
                 return Content("Đã có xảy ra lỗi, vui lòng thử lại");
             }
 
+            model = new CP25Team06Entities();
+
+            int type = 1;
+            int page = 1;
+            int pageSize = 8;
+
+            var employees = model.Employees.Where(e => e.ID_Position != 1).OrderByDescending(o => o.ID).ToList();
+            Session["lstEmployees"] = employees;
+            Session["DefaultlstEmployees"] = employees;
+
+            ViewBag.typeListNhanSu = type;
+            return PartialView("_nhanVienListPartialView", employees.ToPagedList((int)page, (int)pageSize));
         }
+
         [HttpPost]
         public ActionResult timKiemNhanVien(string noidungs, string typestr)
         {
@@ -183,7 +362,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         [HttpPost]
         public async Task<ActionResult> chinhSuaThongTinPartial(HttpPostedFileBase AvatarImg, int ids, string hotens, string cmnds, string sodienthoais, string ngaysinhs,
-            string diachiemails, string gioitinhs, string diachinhas, string vaitros, string nguoiphuthuocs, string mucluongs,
+            string diachiemails, string gioitinhs, string diachinhas, string vaitros, string mucluongs,
             string dsNganHangs, string sotaikhoans, string chutaikhoans, string avatars)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == ids);
@@ -241,12 +420,11 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     }
                     user.Name = hotens;
                     user.IdentityCard = cmnds;
-                    user.Phone = sodienthoais;
+                    user.TelephoneMobile = sodienthoais;
                     user.Birthday = Convert.ToDateTime(ngaysinhs);
                     user.Sex = gioitinhs;
                     user.Address = diachinhas;
                     user.ID_Position = Int32.Parse(vaitros);
-                    user.NumberOfDependants = Int32.Parse(nguoiphuthuocs);
 
                     if (string.IsNullOrEmpty(mucluongs))
                         user.Wage = 0;
@@ -256,7 +434,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     user.BankName = dsNganHangs;
                     user.BankAccountNumber = sotaikhoans;
                     user.BankAccountHolderName = chutaikhoans;
-                    user.Email = diachiemails;
+                    user.WorkEmail = diachiemails;
                     model.Entry(user).State = EntityState.Modified;
                     model.SaveChanges();
                     model = new CP25Team06Entities();
@@ -296,25 +474,35 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
             return Content("DANHSACH");
         }
-        public ActionResult duAnThamGiaPartial(int? ID)
+        public ActionResult duAnThamGiaPartial(int? id)
         {
-            return PartialView("_duAnThamGiaPartial");
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+
+            return PartialView("_duAnThamGiaPartial", user);
         }
-        public ActionResult lichSuHoatDongPartial(int? ID)
+        public ActionResult lichSuHoatDongPartial(int? id)
         {
-            return PartialView("_lichSuHoatDongPartial");
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+
+            return PartialView("_lichSuHoatDongPartial", user);
         }
-        public ActionResult bangLuongPartial(int? ID)
+        public ActionResult bangLuongPartial(int? id)
         {
-            return PartialView("_bangLuongPartial");
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+
+            return PartialView("_bangLuongPartial", user);
         }
-        public ActionResult lichBieuPartial(int? ID)
+        public ActionResult lichBieuPartial(int? id)
         {
-            return PartialView("_lichBieuPartial");
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+
+            return PartialView("_lichBieuPartial", user);
         }
-        public ActionResult baoCaoThongKePartial(int? ID)
+        public ActionResult baoCaoThongKePartial(int? id)
         {
-            return PartialView("_baoCaoThongKePartial");
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+
+            return PartialView("_baoCaoThongKePartial", user);
         }
 
     }

@@ -109,54 +109,54 @@
                                     }
                                     //Còn hạn và còn việc => đang thực hiện
                                     else if (item.Tasks.ToList().Count > 1
-                                        && (item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
+                                        && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
                                         && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
                                     {
                                         <div class="d-flex align-items-center">
-                                            <div class="me-2"><span>@((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%</span></div>
+                                            <div class="me-2"><span>@((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%</span></div>
                                             <div class="progress flex-auto" style="height: 6px;">
-                                                <div class="progress-bar bg-primary " role="progressbar" style="width: @((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%;"
-                                                     aria-valuenow="@((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar bg-primary " role="progressbar" style="width: @((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%;"
+                                                     aria-valuenow="@((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)" aria-valuemin="0" aria-valuemax="100">
                                                 </div>
                                             </div>
                                         </div>
                                     }
                                     //Qúa hạn, còn việc hoặc chưa thanh toán xong => đã quá hạn
                                     else if ((item.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0
-                                        && (item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
+                                        && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
                                         || item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
                                     {
                                         <div class="d-flex align-items-center">
-                                            <div class="me-2"><span>@((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%</span></div>
+                                            <div class="me-2"><span>@((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%</span></div>
                                             <div class="progress flex-auto" style="height: 6px;">
-                                                <div class="progress-bar bg-danger " role="progressbar" style="width: @((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%;"
-                                                     aria-valuenow="@((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar bg-danger " role="progressbar" style="width: @((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%;"
+                                                     aria-valuenow="@((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)" aria-valuemin="0" aria-valuemax="100">
                                                 </div>
                                             </div>
                                         </div>
                                     }
                                     //hết việc, chưa thanh toán xong => chờ thanh toán
-                                    else if ((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 >= 100
+                                    else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 >= 100
                                         && item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
                                     {
                                         <div class="d-flex align-items-center">
-                                            <div class="me-2"><span>@((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%</span></div>
+                                            <div class="me-2"><span>@((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%</span></div>
                                             <div class="progress flex-auto" style="height: 6px;">
-                                                <div class="progress-bar bg-danger " role="progressbar" style="width: @((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%;"
-                                                     aria-valuenow="@((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar bg-danger " role="progressbar" style="width: @((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%;"
+                                                     aria-valuenow="@((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)" aria-valuemin="0" aria-valuemax="100">
                                                 </div>
                                             </div>
                                         </div>
                                     }
                                     //hết việc, đã thanh toán xong => done
-                                    else if ((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 == 100
+                                    else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 == 100
                                         && item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
                                     {
                                         <div class="d-flex align-items-center">
-                                            <div class="me-2"><span>@((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%</span></div>
+                                            <div class="me-2"><span>@((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%</span></div>
                                             <div class="progress flex-auto" style="height: 6px;">
-                                                <div class="progress-bar bg-success " role="progressbar" style="width: @((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%;"
-                                                     aria-valuenow="@((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar bg-success " role="progressbar" style="width: @((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)%;"
+                                                     aria-valuenow="@((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100)" aria-valuemin="0" aria-valuemax="100">
                                                 </div>
                                             </div>
                                         </div>
@@ -177,26 +177,26 @@
                                     }
                                     //Còn hạn và còn việc => đang thực hiện
                                     else if (item.Tasks.ToList().Count > 1
-                                        && (item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
+                                        && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
                                         && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
                                     {
                                         <span style="width: 100px" class="badge bg-light-primary text-dark-primary">Đang thực hiện</span>
                                     }
                                     //Qúa hạn, còn việc hoặc chưa thanh toán xong => đã quá hạn
                                     else if ((item.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0
-                                        && (item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
+                                        && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
                                         || item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
                                     {
                                         <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã quá hạn</span>
                                     }
                                     //hết việc, chưa thanh toán xong => chờ thanh toán
-                                    else if ((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 >= 100
+                                    else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 >= 100
                                         && item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
                                     {
                                         <span style="width: 100px" class="badge bg-light-warning text-dark-warning">Chờ thanh toán</span>
                                     }
                                     //hết việc, đã thanh toán xong => done
-                                    else if ((item.Tasks.Where(t => !t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 == 100
+                                    else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 == 100
                                         && item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
                                     {
                                         <span style="width: 100px" class="badge bg-light-success text-dark-success">done</span>

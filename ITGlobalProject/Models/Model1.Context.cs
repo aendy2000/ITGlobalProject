@@ -29,16 +29,24 @@ namespace ITGlobalProject.Models
         public virtual DbSet<Consultation> Consultation { get; set; }
         public virtual DbSet<Debts> Debts { get; set; }
         public virtual DbSet<DependencyDeduction> DependencyDeduction { get; set; }
+        public virtual DbSet<DependentsInformation> DependentsInformation { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
+        public virtual DbSet<EmploymentContracts> EmploymentContracts { get; set; }
         public virtual DbSet<Histories> Histories { get; set; }
         public virtual DbSet<Insurance> Insurance { get; set; }
+        public virtual DbSet<LanguagesSkills> LanguagesSkills { get; set; }
         public virtual DbSet<Notification> Notification { get; set; }
         public virtual DbSet<Partners> Partners { get; set; }
         public virtual DbSet<PaymentHistory> PaymentHistory { get; set; }
         public virtual DbSet<Payroll> Payroll { get; set; }
+        public virtual DbSet<PersonalSkills> PersonalSkills { get; set; }
         public virtual DbSet<Position> Position { get; set; }
         public virtual DbSet<Projects> Projects { get; set; }
         public virtual DbSet<Recruitment> Recruitment { get; set; }
+        public virtual DbSet<SkillOfRecruitment> SkillOfRecruitment { get; set; }
+        public virtual DbSet<SkillsCategory> SkillsCategory { get; set; }
+        public virtual DbSet<Subsidies> Subsidies { get; set; }
+        public virtual DbSet<SubsidiesCategory> SubsidiesCategory { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Tasks> Tasks { get; set; }
         public virtual DbSet<Tax> Tax { get; set; }

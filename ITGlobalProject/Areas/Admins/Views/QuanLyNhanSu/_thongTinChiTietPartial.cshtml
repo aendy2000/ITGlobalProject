@@ -1,5 +1,18 @@
 ﻿@model ITGlobalProject.Models.Employees
+@using System.Globalization;
+@{ string date = DateTime.Now.Year + "-W" + (new CultureInfo("vi-VN").Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay, DayOfWeek.Monday) - 1);
 
+    string imagesUrl = "";
+
+    if (string.IsNullOrEmpty(Model.Avatar))
+    {
+        imagesUrl = "~/Content/Admin/assets/images/avatar/default-avatar.png";
+    }
+    else
+    {
+        imagesUrl = Model.Avatar;
+    }
+}
 <div id="contentPartial" class="container-fluid p-4">
     <div class="row">
         <!-- Page Header -->

@@ -122,7 +122,7 @@ namespace ITGlobalProject.Areas.Employee.Controllers
                     {
                         user.Avatar = avatars;
                     }
-                    user.Phone = sodienthoais;
+                    user.TelephoneMobile = sodienthoais;
                     user.BankName = nganhangs;
                     user.BankAccountNumber = sotaikhoans;
                     user.BankAccountHolderName = chutaikhoans;

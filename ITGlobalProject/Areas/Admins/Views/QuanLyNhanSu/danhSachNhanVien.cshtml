@@ -3,9 +3,14 @@
 @using ITGlobalProject.Models;
 @model IPagedList<ITGlobalProject.Models.Employees>
 @{
+    int j = 0;
+    int k = 0;
     ViewBag.Title = "Quản Lý Nhân Viên";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
     var lstPosition = Session["lst-role"] as List<Position>;
+    var lstkynang = Session["lst-kynang"] as List<SkillsCategory>;
+    var lsttrocap = Session["lst-trocap"] as List<SubsidiesCategory>;
+
 }
 
 <div class="container-fluid p-4">
@@ -271,7 +276,7 @@
                                                     @item.Position.Name
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    @item.Phone
+                                                    @item.TelephoneMobile
                                                 </td>
                                                 <td class="align-middle border-top-0">
                                                     @item.Birthday.ToString("dd/MM/yyyy")
@@ -576,7 +581,7 @@
                                                     @item.Position.Name
                                                 </td>
                                                 <td class="align-middle border-top-0">
-                                                    @item.Phone
+                                                    @item.TelephoneMobile
                                                 </td>
                                                 <td class="align-middle border-top-0">
                                                     @item.Birthday.ToString("dd/MM/yyyy")
@@ -695,135 +700,431 @@
     </div>
 </div>
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 900px;" data-simplebar>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 84%; height:100%" data-simplebar>
     <div id="actionSubmit" hidden data-request-url="@Url.Action("themNhanVien", "QuanLyNhanSu")"></div>
 
     <div class="offcanvas-body" data-simplebar>
         <div class="offcanvas-header px-2 pt-0">
             <div style="height:30px" class="row">
-                <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-user-plus"> </i> Thêm Nhân Viên</h4>
+                <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-user-plus"> </i> Thêm Nhân Viên Mới</h4>
                 <br />
                 <p>Nhập vào đầy đủ các thông tin bắt buộc của nhân viên mới.</p>
             </div>
             <button id="tatcanvas" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <hr class="my-4" />
-        <!-- card body -->
-        <div class="container">
-            <!-- form -->
-            <form class="row">
-                <!-- First name -->
-                <div class="mb-3 col-12 col-md-12">
-                    <label style="font-weight:bold;" class="form-label" for="fname">Họ và Tên <span class="text-danger">*</span></label>
-                    <input type="text" id="hoten" name="hoten" class="form-control" placeholder="Nguyễn Văn A" />
-                    <p style="font-size: 13px; color:red;" id="hotenvalidation"></p>
+        <form class="accordion accordion-flush" id="accordionExample">
+            <div class="border-bottom py-3 bg-light-primary border-1" style="border-radius: 5px;" id="headingOne">
+                <h4 class="mb-0 fw-bold">
+                    <a href="#" class="d-flex align-items-center text-inherit text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <span class="me-auto">
+                            &emsp; Thông Tin Cá Nhân&ensp;<i id="hoantatttcanhan" class="fe fe-check-circle font-weight-bold text-success"></i>
+                        </span>
+                        <span class="collapse-toggle ms-4">
+                            &emsp;<i class="fe fe-plus text-primary"></i>&emsp;
+                        </span>
+                    </a>
+                </h4>
+            </div>
+            <div class="container">
+
+                <div id="collapseOne" class=" collapse show row" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="py-3"></div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label" for="fname">Họ và Tên <span class="text-danger">*</span></label>
+                        <input type="text" id="hoten" name="hoten" class="form-control" placeholder="Nguyễn Văn A" />
+                        <p style="font-size: 13px; color:red;" id="hotenvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label" for="fname">Số CMND/CCCD <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="ccmnd" name="cmnd" data-inputmask="'mask': '9999 9999 9999'" inputmode="numeric"
+                               placeholder="Nhập số chứng minh hoặc căn cước" required>
+                        <p style="font-size: 13px; color:red;" id="cmndvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label" for="quoctich">Quốc tịch <span class="text-danger">*</span></label>
+                        <input type="text" id="quoctich" name="quoctich" class="form-control" placeholder="Việt Nam" />
+                        <p style="font-size: 13px; color:red;" id="quoctichvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label" for="honnhan">Tình trạng hôn nhân <span class="text-danger">*</span></label>
+                        <select data-width="100%" class="selectpicker" id="honnhan" name="honnhan">
+                            <option value="Độc thân">Độc thân</option>
+                            <option value="Đã kết hôn">Đã kết hôn</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                        <p style="font-size: 13px; color:red;" id="honnhanvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" l class="form-label" for="birth"> Ngày sinh <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control flatpickr" placeholder="Chọn ngày sinh" id="ngaysinh" name="ngaysinh" />
+                        <p style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label">Giới tính <span class="text-danger">*</span></label>
+                        <select name="gioitinh" id="gioitinh" class="selectpicker" data-width="100%">
+                            <option value="">Chọn giới tính</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                        </select>
+                        <p style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-12">
+                        <label style="font-weight:bold;" class="form-label" for="address">Địa chỉ nhà</label>
+                        <textarea rows="4" id="diachinha" name="diachinha" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla"></textarea>
+                    </div>
                 </div>
-                <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;" class="form-label" for="fname">Số CMND/CCCD <span class="text-danger">*</span></label>
-                    <input type="text" id="cmnd" name="cmnd" class="form-control" placeholder="07020000xxxx" />
-                    <p style="font-size: 13px; color:red;" id="cmndvalidation"></p>
+            </div>
+            <br />
+            <div class="border-bottom py-3 bg-light-primary border-1" style="border-radius: 5px;" id="heading2">
+                <h4 class="mb-0 fw-bold">
+                    <a href="#" class="d-flex align-items-center text-inherit text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="true" aria-controls="collapse2">
+                        <span class="me-auto">
+                            &emsp;Liên Hệ & Thanh Toán&ensp;<i id="hoantatttlienhe" class="fe fe-check-circle font-weight-bold text-success"></i>
+                        </span>
+                        <span class="collapse-toggle ms-4">
+                            &emsp;<i class="fe fe-plus text-primary"></i>&emsp;
+                        </span>
+                    </a>
+                </h4>
+            </div>
+            <div class="container">
+                <div id="collapse2" class=" collapse row" aria-labelledby="heading2" data-bs-parent="#accordionExample">
+                    <div class="py-3"></div>
+                    <div class="mb-2 col-12 col-md-6">
+                        <label style="font-weight:bold;" class="form-label" for="sodienthoaididong">Số điện thoại di động <span class="text-danger">*</span></label>
+                        <input type="tel" id="sodienthoaididong" name="sodienthoaididong" class="form-control" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" placeholder="Nhập số điện thoại di động" />
+                        <p style="font-size: 13px; color:red;" id="sodienthoaididongvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-6">
+                        <label style="font-weight:bold;" class="form-label" for="sodienthoaikhac">Số điện thoại công việc</label>
+                        <input type="tel" id="sodienthoaikhac" name="sodienthoaikhac" class="form-control" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" placeholder="Nhập số điện thoại nhà" />
+                        <p style="font-size: 13px; color:red;" id="sodienthoaikhacvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-6">
+                        <label style="font-weight:bold;" class="form-label" for="diachiemailcongty">Email Công Ty <span class="text-danger">*</span></label>
+                        <input type="text" id="diachiemailcongty" name="diachiemailcongty" class="form-control" data-inputmask="'alias': 'email'" inputmode="numeric" placeholder="example@itglobal.net" />
+                        <p style="font-size: 13px; color:red;" id="diachiemailcongtyvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-6">
+                        <label style="font-weight:bold;" class="form-label" for="diachiemailkhac">Email Khác</label>
+                        <input type="text" id="diachiemailkhac" name="diachiemailkhac" class="form-control" data-inputmask="'alias': 'email'" inputmode="numeric" placeholder="example@itglobal.net" />
+                        <p style="font-size: 13px; color:red;" id="diachiemailkhacvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-6">
+                        <label style="font-weight:bold;" class="form-label" for="phone">Mức lương <span class="text-danger">*</span></label>
+                        <input data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" style="font-weight:bold; color:brown" type="text" id="mucluong" name="mucluong" class="form-control  text-start" placeholder="Nhập mức lương đã thỏa thuận" />
+                    </div>
+                    <div class="mb-2 col-12 col-md-6">
+                        <label style="font-weight:bold;" for="dsNganHang" class="form-label">Ngân hàng</label>
+                        <input list="dsNganHang" id="tenNganHang" class="form-control" placeholder="Tên ngân hàng" />
+                        <datalist name="dsNganHang" id="dsNganHang">
+                            <option value="TPBank"></option>
+                            <option value="SacomBank"></option>
+                            <option value="VietinBank"></option>
+                        </datalist>
+                    </div>
+                    <div class="mb-2 col-12 col-md-6 py-3">
+                        <label style="font-weight:bold;" class="form-label">Số tài khoản</label>
+                        <input id="sotaikhoan" name="sotaikhoan" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
+                    </div>
+                    <div class="mb-2 col-12 col-md-6 py-3">
+                        <label style="font-weight:bold;" class="form-label">Chủ tài khoản</label>
+                        <input id="chutaikhoan" name="chutaikhoan" type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
+                    </div>
                 </div>
-                <!-- Phone -->
-                <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
-                    <input type="tel" id="sodienthoai" name="sodienthoai" class="form-control" placeholder="0999888xxx" />
-                    <p style="font-size: 13px; color:red;" id="sodienthoaivalidation"></p>
+            </div>
+            <br />
+            <div class="border-bottom py-3 bg-light-primary border-1" style="border-radius: 5px;" id="heading5">
+                <h4 class="mb-0 fw-bold">
+                    <a href="#" class="d-flex align-items-center text-inherit text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="true" aria-controls="collapse5">
+                        <span class="me-auto">
+                            &emsp;Kỹ Năng Chuyên Môn&ensp;<i id="hoantatttkynangchuyenmon" class="fe fe-check-circle font-weight-bold text-success"></i>
+                        </span>
+                        <span class="collapse-toggle ms-4">
+                            &emsp;<i class="fe fe-plus text-primary"></i>&emsp;
+                        </span>
+                    </a>
+                </h4>
+            </div>
+            <div class="container">
+                <div id="collapse5" class=" collapse row" aria-labelledby="heading5" data-bs-parent="#accordionExample">
+                    <div class="py-3"></div>
+
+                    @foreach (var item in lstkynang)
+                    {
+                        j++;
+                        <div class="form-check mb-2 col-12 col-md-4">
+                            <input class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(item.ID)">
+                            <label class="form-check-label" for="@item.ID">
+                                @item.Name
+                            </label>
+                        </div>
+                    }
+                    <input hidden value="@j" id="slkn" />
                 </div>
-                <!-- Birthday -->
-                <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;" l class="form-label" for="birth"> Ngày sinh <span class="text-danger">*</span></label>
-                    <input class="form-control flatpickr" type="text" placeholder="2000-01-01" id="ngaysinh" name="ngaysinh" />
-                    <p style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
+            </div>
+            <br />
+            <div class="border-bottom py-3 bg-light-primary border-1" style="border-radius: 5px;" id="heading6">
+                <h4 class="mb-0 fw-bold">
+                    <a href="#" class="d-flex align-items-center text-inherit text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="true" aria-controls="collapse6">
+                        <span class="me-auto">
+                            &emsp;Trình Độ Ngoại Ngữ&ensp;<i id="hoantatttkynangchuyenmon" class="fe fe-check-circle font-weight-bold text-success"></i>
+                        </span>
+                        <span class="collapse-toggle ms-4">
+                            &emsp;<i class="fe fe-plus text-primary"></i>&emsp;
+                        </span>
+                    </a>
+                </h4>
+            </div>
+            <div class="container">
+                <div id="collapse6" class=" collapse row" aria-labelledby="heading6" data-bs-parent="#accordionExample">
+                    <div class="py-3"></div>
+                    <input hidden id="demngoaingu" name="demngoaingu" value="0" />
+                    <div id="appendngoaingudayne" class="col-12"></div>
+                    <div style="text-align:center; margin-bottom: 10px; margin-top: 10px" class="mb-2 col-md-6 col-12">
+                        <a role="button" style="width: 100%" id="themngoaingu" class="btn text-primary border-primary btn-xs">
+                            <i class="fe fe-plus-circle"> </i> Thêm trình độ ngoại ngữ
+                        </a>
+                    </div>
+                    <div style="text-align: center; margin-bottom: 10px; margin-top: 10px" class="mb-2 col-md-6 col-12">
+                        <a role="button" style="width: 100%;" id="xoabotngoaingu" class="btn text-danger border-danger btn-xs">
+                            <i class="fe fe-minus-circle"> </i> Xóa trình độ ngoại ngữ
+                        </a>
+                    </div>
+
                 </div>
-                <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;" class="form-label">Giới tính <span class="text-danger">*</span></label>
-                    <select name="gioitinh" id="gioitinh" class="selectpicker" data-width="100%">
-                        <option value="">Chọn giới tính</option>
-                        <option value="Nam">Nam</option>
-                        <option value="Nữ">Nữ</option>
-                    </select>
-                    <p style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
+            </div>
+            <br />
+            <div class="border-bottom py-3 bg-light-primary border-1" style="border-radius: 5px;" id="heading4">
+                <h4 class="mb-0 fw-bold">
+                    <a href="#" class="d-flex align-items-center text-inherit text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="true" aria-controls="collapse4">
+                        <span class="me-auto">
+                            &emsp;Phụ Thuộc Nhân Thân&ensp;<i id="hoantatttlienhe" class="fe fe-check-circle font-weight-bold text-success"></i>
+                        </span>
+                        <span class="collapse-toggle ms-4">
+                            &emsp;<i class="fe fe-plus text-primary"></i>&emsp;
+                        </span>
+                    </a>
+                </h4>
+            </div>
+            <div class="container">
+                <div id="collapse4" class=" collapse row" aria-labelledby="heading4" data-bs-parent="#accordionExample">
+                    <div class="py-3"></div>
+                    <input hidden id="dem" name="dem" value="0" />
+
+                    <div id="appenddayne" class="col-12"></div>
+
+                    <div style="text-align: center; margin-bottom: 10px" class="mb-2 col-md-6 col-12">
+                        <a role="button" style="width: 100%" id="themnhanthan" class="btn text-primary border-primary btn-xs">
+                            <i class="fe fe-plus-circle"> </i> Thêm phụ thuộc nhân thân
+                        </a>
+                    </div>
+                    <div style="text-align: center; margin-bottom: 10px;" class="mb-2 col-md-6 col-12">
+                        <a role="button" style="width: 100%;" id="xoabotnhanthan" class="btn text-danger border-danger btn-xs">
+                            <i class="fe fe-minus-circle"> </i> Xóa phụ thuộc nhân thân
+                        </a>
+                    </div>
                 </div>
-                <div class="mb-3 col-12 col-md-12">
-                    <label style="font-weight:bold;" class="form-label" for="address">Địa chỉ nhà</label>
-                    <textarea rows="4" id="diachinha" name="diachinha" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla"></textarea>
+            </div>
+            <br />
+            <div class="border-bottom py-3 bg-light-primary border-1" style="border-radius: 5px;" id="heading7">
+                <h4 class="mb-0 fw-bold">
+                    <a href="#" class="d-flex align-items-center text-inherit text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="true" aria-controls="collapse7">
+                        <span class="me-auto">
+                            &emsp;Trợ Cấp & Phụ Cấp&ensp;<i id="hoantattttrocapphucap" class="fe fe-check-circle font-weight-bold text-success"></i>
+                        </span>
+                        <span class="collapse-toggle ms-4">
+                            &emsp;<i class="fe fe-plus text-primary"></i>&emsp;
+                        </span>
+                    </a>
+                </h4>
+            </div>
+            <div class="container">
+                <div id="collapse7" class=" collapse row" aria-labelledby="heading7" data-bs-parent="#accordionExample">
+                    <div class="py-3"></div>
+
+                    @foreach (var item in lsttrocap)
+                    {
+                        k++;
+                        <div class="form-check mb-2 col-12 col-md-4">
+                            <input class="form-check-input" type="checkbox" name="checktrocap@(k)" id="pc@(item.ID)">
+                            @if (item.Percentage != null && item.OnBasicSalary != null)
+                            {
+                                if (item.OnBasicSalary == true)
+                                {
+                                    if (item.DateApply == 0)
+                                    {
+                                        <label class="form-check-label" for="pc@(item.ID)">
+                                            @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Hàng tháng
+                                        </label>
+                                    }
+                                    else if (item.DateApply == -1)
+                                    {
+                                        <label class="form-check-label" for="pc@(item.ID)">
+                                            @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Sinh nhật
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <label class="form-check-label" for="pc@(item.ID)">
+                                            @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Mỗi tháng @item.DateApply
+                                        </label>
+                                    }
+                                }
+                                else
+                                {
+                                    if (item.DateApply == 0)
+                                    {
+                                        <label class="form-check-label" for="pc@(item.ID)">
+                                            @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Hàng tháng
+                                        </label>
+                                    }
+                                    else if (item.DateApply == -1)
+                                    {
+                                        <label class="form-check-label" for="pc@(item.ID)">
+                                            @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Tháng sinh
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <label class="form-check-label" for="pc@(item.ID)">
+                                            @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Mỗi tháng @item.DateApply
+                                        </label>
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                if (item.DateApply == 0)
+                                {
+                                    <label class="form-check-label" for="pc@(item.ID)">
+                                        @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Hàng tháng
+                                    </label>
+                                }
+                                else if (item.DateApply == -1)
+                                {
+                                    <label class="form-check-label" for="pc@(item.ID)">
+                                        @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Tháng sinh
+                                    </label>
+                                }
+                                else
+                                {
+                                    <label class="form-check-label" for="pc@(item.ID)">
+                                        @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Mỗi tháng @item.DateApply
+                                    </label>
+
+                                }
+                            }
+
+                        </div>
+                    }
+                    <input hidden value="@k" id="sltc" />
                 </div>
-                <hr class="my-4" />
-                <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;" class="form-label">Vai trò <span class="text-danger">*</span></label>
-                    <select id="vaitro" name="vaitro" class="selectpicker" data-width="100%">
-                        <option value="">Chọn vai trò</option>
-                        @foreach (var item in lstPosition)
-                        {
-                            <option value="@item.ID">@item.Name</option>
-                        }
-                    </select>
-                    <p style="font-size: 13px; color:red;" id="vaitrovalidation"></p>
+            </div>
+            <br />
+            <div class="border-bottom py-3 bg-light-primary border-1" style="border-radius: 5px;" id="heading3">
+                <h4 class="mb-0 fw-bold">
+                    <a href="#" class="d-flex align-items-center text-inherit text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+                        <span class="me-auto">
+                            &emsp;Hợp Đồng & Tài Khoản&ensp;<i id="hoantattthopdong" class="fe fe-check-circle font-weight-bold text-success"></i>
+                        </span>
+                        <span class="collapse-toggle ms-4">
+                            &emsp;<i class="fe fe-plus text-primary"></i>&emsp;
+                        </span>
+                    </a>
+                </h4>
+            </div>
+            <div class="container">
+                <div id="collapse3" class=" collapse row" aria-labelledby="heading3" data-bs-parent="#accordionExample">
+                    <div class="py-3"></div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Ngày vào làm <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control flatpickr" placeholder="Chọn ngày vào làm" id="ngayvaolam" name="ngayvaolam" />
+                        <p style="font-size: 13px; color:red;" id="ngayvaolamvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label">Vị trí làm việc <span class="text-danger">*</span></label>
+                        <select id="vaitro" name="vaitro" class="selectpicker" data-width="100%">
+                            <option value="">Chọn vị trí</option>
+                            @foreach (var item in lstPosition)
+                            {
+                                <option value="@item.ID">@item.Name</option>
+                            }
+                        </select>
+                        <p style="font-size: 13px; color:red;" id="vaitrovalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label">Hình thức làm việc <span class="text-danger">*</span></label>
+                        <select id="hinhthuc" name="hinhthuc" class="selectpicker" data-width="100%">
+                            <option value="Thử việc">Thử việc</option>
+                            <option value="Thực tập sinh">Thực tập sinh</option>
+                            <option value="Nhân viên chính thức">Nhân viên chính thức</option>
+                        </select>
+                        <p style="font-size: 13px; color:red;" id="hinhthucvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label" for="phone">Tên đăng nhập</label>
+                        <input type="text" id="username" name="username" class="form-control" placeholder="username" />
+                        <p style="font-size: 13px; color:red;" id="usernamevalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label" for="phone">Mật khẩu <span class="text-danger">*</span></label>
+                        <input type="password" id="matkhaudangnhap" name="matkhaudangnhap" class="form-control" placeholder="Nhập mật khẩu đăng nhập của tài khoản" />
+                        <p style="font-size: 13px; color:red;" id="matkhaudangnhapvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label" for="phone">Nhập lại mật khẩu <span class="text-danger">*</span></label>
+                        <input type="password" id="nhaplaimatkhaudangnhap" name="nhaplaimatkhaudangnhap" class="form-control" placeholder="Nhập lại mật khẩu đăng nhập của tài khoản" />
+                        <p style="font-size: 13px; color:red;" id="nhaplaimatkhaudangnhapvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Ngày bắt đầu hợp đồng <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control flatpickr" placeholder="Chọn ngày bắt đầu hợp đồng" id="ngaykyhopdong" name="ngaykyhopdong" />
+                        <p style="font-size: 13px; color:red;" id="ngaykyhopdongvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Ngày gia hạn hợp đồng <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control flatpickr" placeholder="Chọn ngày gia hạn hợp đồng" id="ngaygiahanhopdong" name="ngaygiahanhopdong" />
+                        <p style="font-size: 13px; color:red;" id="ngaygiahanhopdongvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Đính kèm hợp đồng <span class="text-danger">*</span></label><br />
+                        <a role="button" id="chonanhhopdong" class="btn btn-outline-primary" style="width:100%">
+                            <i class="fe fe-upload me-1"></i>
+                            Tải Lên Hình Ảnh
+                        </a>
+                    </div>
+                    <div class="py-3"></div>
+                    <div style="margin-left: 13px ;width: 98%" class="form-control bg-gray-200 mb-4 col-12 col-md-12 text-center ">
+                        <div class="py-3"></div>
+                        <input hidden id="selectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewImage'))" />
+                        <figure class="gallery__item gallery__item--1 mb-0">
+                            <img style="max-width: 700px;" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImage">
+                        </figure>
+                        <div class="py-3"></div>
+                    </div>
                 </div>
-                <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;" class="form-label" for="phone">Người phụ thuộc</label>
-                    <select name="nguoiphuthuoc" id="nguoiphuthuoc" class="selectpicker" data-width="100%" tabindex="null">
-                        <option value="0">Không có</option>
-                        <option value="1">1 Người</option>
-                        <option value="2">2 Người</option>
-                        <option value="3">3 Người</option>
-                        <option value="4">4 Người</option>
-                        <option value="5">5 Người</option>
-                        <option value="6">6 Người</option>
-                        <option value="7">7 Người</option>
-                        <option value="8">8 Người</option>
-                        <option value="9">9 Người</option>
-                        <option value="10">10 Người</option>
-                    </select>
-                </div>
-                <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;" class="form-label" for="phone">Mức lương</label>
-                    <input data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" style="font-weight:bold; color:brown" type="text" id="mucluong" name="mucluong" class="form-control  text-start" placeholder="Nhập mức lương đã thỏa thuận" />
-                </div>
-                <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;" for="dsNganHang" class="form-label">Ngân hàng</label>
-                    <input list="dsNganHang" id="tenNganHang" class="form-control" placeholder="Tên ngân hàng" />
-                    <datalist name="dsNganHang" id="dsNganHang">
-                        <option value="TPBank"></option>
-                        <option value="SacomBank"></option>
-                        <option value="VietinBank"></option>
-                    </datalist>
-                </div>
-                <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;" class="form-label" for="phone">Số tài khoản</label>
-                    <input id="sotaikhoan" name="sotaikhoan" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
-                </div>
-                <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;" class="form-label" for="phone">Chủ tài khoản</label>
-                    <input id="chutaikhoan" name="chutaikhoan" type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
-                </div>
-                <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
-                    <input type="text" id="diachiemail" name="diachiemail" class="form-control" placeholder="example@itglobal.net" />
-                    <p style="font-size: 13px; color:red;" id="diachiemailvalidation"></p>
-                </div>
-                <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold;" class="form-label" for="phone">Mật khẩu đăng nhập <span class="text-danger">*</span></label>
-                    <input type="password" id="matkhaudangnhap" name="matkhaudangnhap" class="form-control" placeholder="Nhập mật khẩu đăng nhập của tài khoản" />
-                    <p style="font-size: 13px; color:red;" id="matkhaudangnhapvalidation"></p>
-                </div>
-                <div class="col-md-8"></div>
-                <!-- button -->
+            </div>
+            <hr class="my-4" />
+            <div class="row">
                 <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
                     <button hidden id="resetDuLieu" type="reset"></button>
-                    <button style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="offcanvas" aria-label="Close">
+                    <a role="button" style="width: 230px" class="btn btn-outline-danger" data-bs-dismiss="offcanvas" aria-label="Close">
                         Hủy
-                    </button>
+                    </a>
                 </div>
                 <div style="padding-top: 20px" class="mb-3 col-12 col-md-6">
                     <a role="button" id="btnThemMoi" style="width: 230px" class="btn btn-success">
-                        Thêm
+                        Lưu
                     </a>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
+
 <script>
     $('#hotenvalidation').hide();
     $('#cmndvalidation').hide();
@@ -836,3 +1137,4 @@
 </script>
 <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ThemNhanVienValidation.js"></script>
 <script src="~/ValidationAlert/Admin/QuanLyNhanSu/TimKiemNhanVien.js"></script>
+<script src="~/Content/Admin/assets/js/reviewImage.js"></script>

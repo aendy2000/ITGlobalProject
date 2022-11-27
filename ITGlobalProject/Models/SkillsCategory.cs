@@ -12,30 +12,20 @@ namespace ITGlobalProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Recruitment
+    public partial class SkillsCategory
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Recruitment()
+        public SkillsCategory()
         {
+            this.PersonalSkills = new HashSet<PersonalSkills>();
             this.SkillOfRecruitment = new HashSet<SkillOfRecruitment>();
         }
     
         public int ID { get; set; }
-        public Nullable<int> ID_Position { get; set; }
-        public string Title { get; set; }
-        public int Amount { get; set; }
-        public string Form { get; set; }
-        public string Sex { get; set; }
-        public string Experience { get; set; }
-        public decimal Wage { get; set; }
-        public string Skill { get; set; }
-        public string JobDescription { get; set; }
-        public string CandidateRequirement { get; set; }
-        public string CandidateBenefits { get; set; }
-        public bool Status { get; set; }
-        public System.DateTime DateCreateOrPosted { get; set; }
+        public string Name { get; set; }
     
-        public virtual Position Position { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PersonalSkills> PersonalSkills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SkillOfRecruitment> SkillOfRecruitment { get; set; }
     }

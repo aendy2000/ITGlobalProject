@@ -39,7 +39,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult DangNhap(string username, string password)
         {
-            var user = model.Employees.FirstOrDefault(u => u.Username.ToLower().Equals(username.ToLower()) || u.Email.ToLower().Equals(username.ToLower()));
+            var user = model.Employees.FirstOrDefault(u => u.Username.ToLower().Equals(username.ToLower()) || u.WorkEmail.ToLower().Equals(username.ToLower()));
             if (user != null) //Tài khoản tồn tại
             {
                 if (user.Password.Equals(password)) //Mật khẩu đúng
@@ -48,7 +48,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     {
                         Session["user-fullname"] = user.Name;
                         Session["user-id"] = user.ID;
-                        Session["user-email"] = user.Email;
+                        Session["user-email"] = user.WorkEmail;
                         Session["user-role"] = user.Position.Name;
                         Session["user-vatatar"] = user.Avatar;
                         if (user.Position.Name.ToLower().Equals("admin"))
@@ -78,7 +78,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult QuenMatKhau(string email)
         {
-            var user = model.Employees.FirstOrDefault(u => u.Email.ToLower().Equals(email.ToLower()));
+            var user = model.Employees.FirstOrDefault(u => u.WorkEmail.ToLower().Equals(email.ToLower()));
             if (user != null)
             {
                 Random r = new Random();
@@ -91,7 +91,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     range -= 1;
                 }
                 user.Code = code; //Tạo mã xác minh đặt lại mật khẩu
-                user.Code_Time = DateTime.Now.AddMinutes(10);
+                user.CodeDate = DateTime.Now.AddMinutes(10);
                 model.Entry(user).State = EntityState.Modified;
                 model.SaveChanges();
 
@@ -136,21 +136,21 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult XacThucQuenMatKhau(string ma, string email)
         {
-            var user = model.Employees.FirstOrDefault(u => u.Email.ToLower().Equals(email.ToLower()));
+            var user = model.Employees.FirstOrDefault(u => u.WorkEmail.ToLower().Equals(email.ToLower()));
             if (string.IsNullOrEmpty(ma) || string.IsNullOrEmpty(email) || user == null)
             {
                 return Content("DANGNHAP");
             }
             else
             {
-                if (user.Code_Time.Value.CompareTo(DateTime.Now) <= 0)
+                if (user.CodeDate.Value.CompareTo(DateTime.Now) <= 0)
                 {
                     return Content("HETHANMA");
                 }
                 else if (user.Code.Equals(ma))
                 {
                     user.Code = "";
-                    user.Code_Time = null;
+                    user.CodeDate = null;
                     model.Entry(user).State = EntityState.Modified;
                     model.SaveChanges();
                     return Content("SUCCESS");
@@ -175,7 +175,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult DatLaiMatKhau(string password, string email)
         {
-            var user = model.Employees.FirstOrDefault(u => u.Email.ToLower().Equals(email.ToLower()));
+            var user = model.Employees.FirstOrDefault(u => u.WorkEmail.ToLower().Equals(email.ToLower()));
             if (user != null && !string.IsNullOrEmpty(password))
             {
                 user.Password = password;
@@ -272,11 +272,11 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     }
                     user.Name = hotens;
                     user.IdentityCard = cmnds;
-                    user.Phone = sodienthoais;
+                    user.TelephoneMobile = sodienthoais;
                     user.Birthday = Convert.ToDateTime(ngaysinhs);
                     user.Sex = gioitinhs;
                     user.Address = diachinhas;
-                    user.Email = diachiemails;
+                    user.WorkEmail = diachiemails;
                     model.Entry(user).State = EntityState.Modified;
                     model.SaveChanges();
                     model = new CP25Team06Entities();

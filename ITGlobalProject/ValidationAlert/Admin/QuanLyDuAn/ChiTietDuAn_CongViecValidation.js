@@ -8,6 +8,7 @@
         var mota = $('#motatask').val();
         var deadline = $('#deadline').val();
         var estimate = $('#estimate').val();
+
         var tentailieu = $('#tentailieu').val();
         var loaitailieu = $('#loaitailieu :selected').val();
         var duongdantailieu = $('#duongdantailieu').val();
@@ -25,7 +26,7 @@
         formData.append('taskname', taskname);
         formData.append('mota', mota);
         formData.append('deadline', deadline);
-        formData.append('estimate', estimate);
+        formData.append('estimate', estimate.replace(",", "."));
         formData.append('tentailieu', tentailieu);
         formData.append('loaitailieu', loaitailieu);
         formData.append('duongdantailieu', duongdantailieu);
@@ -109,10 +110,12 @@
     document.querySelector("#progress"),
     document.querySelector("#review"),
     document.querySelector("#done")]).on('drop', function (CucDuocKeo, viTriMoi, viTriCu, viTriPhiaTrenCucBiKeo) {
-        var vlue = viTriMoi.innerText.trim();
+        var target = viTriMoi.innerText.trim();
         var source = viTriCu.innerText.trim();
 
-        alert(viTriMoi.id + " - " + vlue);
+        alert(viTriMoi.id + " - " + vlue + " - " + viTriCu.id);
     });
+
+    //Load width
 
 });
