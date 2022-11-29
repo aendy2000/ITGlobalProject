@@ -765,6 +765,10 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_lienHeVaThanhToanPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_kyNangChuyenMonPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_trinhDoNgoaiNguPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_phuThuocNhanThanPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -785,7 +789,11 @@
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_CongViecValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_DoiNguValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ThemDuAnValidation.js" />
-    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChinhSuaNhanVienValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_PhuThuocNhanThanValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_TrinhDoNgoaiNguValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_KyNangChuyenMon.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_LHvaThanhToanValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_TTCaNhanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\KhoaTaiKhoanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ThemNhanVienValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\TimKiemNhanVien.js" />

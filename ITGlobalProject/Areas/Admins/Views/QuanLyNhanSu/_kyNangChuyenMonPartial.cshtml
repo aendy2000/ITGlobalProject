@@ -1,5 +1,8 @@
-﻿@model ITGlobalProject.Models.Employees
-@{ 
+﻿@using ITGlobalProject.Models;
+@model ITGlobalProject.Models.Employees
+@{
+    var lstkynang = Session["lst-kynang"] as List<SkillsCategory>;
+    int j = 0;
     string imagesUrl = "";
     if (string.IsNullOrEmpty(Model.Avatar))
     {
@@ -29,7 +32,7 @@
                             <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">Nhân Viên</a></li>
 
                             <li class="breadcrumb-item active" aria-current="page">
-                                Thông Tin Chi Tiết
+                                Kỹ Năng Chuyên Môn
                             </li>
                         </ol>
                     </nav>
@@ -89,12 +92,12 @@
                         @*<ul class="list-unstyled ms-n2 mb-4">*@
                         <ul class="list-unstyled ms-n2 mb-0">
                             <!-- Nav item -->
-                            <li class="nav-item active">
+                            <li class="nav-item ">
                                 <a role="button" id="ttcanhan" class="nav-link">
                                     <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
                                 </a>
                             </li>
-                            <li class="nav-item ">
+                            <li class="nav-item active">
                                 <a role="button" id="lhvathanhtoan" class="nav-link">
                                     <i class="fe fe-phone-call nav-icon"></i>Liên hệ & Thanh toán
                                 </a>
@@ -151,114 +154,46 @@
             <!-- Card -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="mb-0">Thông Tin Cá Nhân  </h3>
+                    <h3 class="mb-0">Kỹ Năng Chuyên Môn</h3>
                 </div>
                 <div class="card-body">
-                    <div id="reloadImage" class="d-lg-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center mb-4 mb-lg-0">
-                            <img src="@Url.Content(imagesUrl)" class="avatar-xl rounded-circle border border-4 border-white"
-                                 alt="" id="previewImage" />
-                            <div class="ms-3">
-                                <h4 class="mb-0">Hình đại diện</h4>
-                                <p class="mb-0">
-                                    PNG hoặc JPG hình vuông không lớn hơn 800px.
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <input hidden id="selectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewImage'))" />
-                            <a role="button" id="clickFiles" class="btn btn-outline-primary btn-sm">Tải lên</a>
-                            <a role="button" id="reloadButton" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
-                        </div>
-                    </div>
-                    <hr class="my-4" />
                     <div>
                         <form class="row">
-                            <div class="mb-2 col-12 col-md-4">
-                                <label style="font-weight:bold;" class="form-label" for="fname">Họ và Tên <span class="text-danger">*</span></label>
-                                <input value="@Model.Avatar" name="avatar" id="avatar" hidden />
-                                <input value="@Model.Name" type="text" id="hoten" name="hoten" class="form-control" placeholder="Nguyễn Văn A" />
-                                <p style="font-size: 13px; color:red;" id="hotenvalidation"></p>
-                            </div>
-                            <div class="mb-2 col-12 col-md-4">
-                                <label style="font-weight:bold;" class="form-label" for="fname">Số CMND/CCCD <span class="text-danger">*</span></label>
-                                <input value="@Model.IdentityCard" type="text" class="form-control" id="cmnd" name="cmnd" data-inputmask="'mask': '9999 9999 9999'" inputmode="numeric"
-                                       placeholder="Nhập số chứng minh hoặc căn cước" required>
-                                <p style="font-size: 13px; color:red;" id="cmndvalidation"></p>
-                            </div>
-                            <div class="mb-2 col-12 col-md-4">
-                                <label style="font-weight:bold;" class="form-label" for="quoctich">Quốc tịch <span class="text-danger">*</span></label>
-                                <input value="@Model.Nationality" type="text" id="quoctich" name="quoctich" class="form-control" placeholder="Việt Nam" />
-                                <p style="font-size: 13px; color:red;" id="quoctichvalidation"></p>
-                            </div>
-                            <div class="mb-2 col-12 col-md-4">
-                                <label style="font-weight:bold;" class="form-label" for="honnhan">Tình trạng hôn nhân <span class="text-danger">*</span></label>
-                                <select data-width="100%" class="form-select text-dark" id="honnhan" name="honnhan">
-
-                                    @if (Model.MaritalStatus.Equals("Độc thân"))
+                            @foreach (var item in lstkynang)
+                            {
+                                j++;
+                                <div class="form-check mb-2 col-12 col-md-4">
+                                    @if (Model.PersonalSkills.FirstOrDefault(k => k.ID_SkillsCategory == item.ID) != null)
                                     {
-                                        <option selected value="Độc thân">Độc thân</option>
-                                        <option value="Đã kết hôn">Đã kết hôn</option>
-                                        <option value="Khác">Khác</option>
-                                    }
-                                    else if (Model.MaritalStatus.Equals("Đã kết hôn"))
-                                    {
-                                        <option value="Độc thân">Độc thân</option>
-                                        <option selected value="Đã kết hôn">Đã kết hôn</option>
-                                        <option value="Khác">Khác</option>
+                                        <input checked class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(item.ID)">
                                     }
                                     else
                                     {
-                                        <option value="Độc thân">Độc thân</option>
-                                        <option value="Đã kết hôn">Đã kết hôn</option>
-                                        <option selected value="Khác">Khác</option>
+                                        <input class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(item.ID)">
                                     }
-                                </select>
-                                <p style="font-size: 13px; color:red;" id="honnhanvalidation"></p>
-                            </div>
-                            <div class="mb-2 col-12 col-md-4">
-                                <label style="font-weight:bold;" l class="form-label" for="birth"> Ngày sinh <span class="text-danger">*</span></label>
-                                <input value="@Model.Birthday.ToString("yyyy-MM-dd")" type="text" class="form-control flatpickr" placeholder="Chọn ngày sinh" id="ngaysinh" name="ngaysinh" />
-                                <p style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
-                            </div>
-                            <div class="mb-2 col-12 col-md-4">
-                                <label style="font-weight:bold;" class="form-label">Giới tính <span class="text-danger">*</span></label>
-                                <select name="gioitinh" id="gioitinh" class="form-select text-dark" data-width="100%">
-                                    @if (Model.Sex.Equals("Nam"))
-                                    {
-                                        <option selected value="Nam">Nam</option>
-                                        <option value="Nữ">Nữ</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="Nam">Nam</option>
-                                        <option selected value="Nữ">Nữ</option>
-                                    }
-                                </select>
-                                <p style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
-                            </div>
-                            <div class="mb-2 col-12 col-md-12">
-                                <label style="font-weight:bold;" class="form-label" for="address">Địa chỉ nhà</label>
-                                <textarea rows="4" id="diachinha" name="diachinha" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla">@Model.Address</textarea>
-                            </div>
-                            <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
+                                    <label class="form-check-label" for="@item.ID">
+                                        @item.Name
+                                    </label>
+                                </div>
+                            }
+                            <input hidden value="@j" id="slkn" />
+                            <div style="text-align: right; padding-top: 40px" class="mb-3 col-12 col-md-6">
                                 <button type="reset" style="width: 230px" class="btn btn-outline-danger">
                                     Hủy
                                 </button>
                             </div>
-                            <div style="padding-top: 20px" class="mb-3 col-12 col-md-6">
+                            <div style="padding-top: 40px" class="mb-3 col-12 col-md-6">
                                 <a role="button" id="btnLuuThongTin" style="width: 230px" class="btn btn-success">
                                     Lưu
                                 </a>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_TTCaNhanValidation.js"></script>
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_KyNangChuyenMon.js"></script>
     <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
 </div>
 
