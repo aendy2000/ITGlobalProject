@@ -199,12 +199,14 @@
                 <!-- card body -->
                 <div class="container ">
                     <!-- form -->
-                    <div class="row">
+                    <form class="row">
                         <!-- form group -->
                         <div class="mb-3 col-md-12">
                             <label style="font-weight: bold;" class="form-label">Tên vai trò <span class="text-danger">*</span></label>
-                            <input id="name" name="name" type="text" class="form-control" placeholder="Nhập tên vai trò" required>
+                            <input id="name" name="name" type="text" class="form-control" placeholder="Nhập tên vai trò">
                             <input id="id" name="id" hidden>
+                            <p style="color: red; font-size: 13px" id="EditRoleValidateResul"></p>
+
                         </div>
                         <!-- form group -->
                         <div class="mb-3 col-md-12">
@@ -217,11 +219,11 @@
                             </button>
                         </div>
                         <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
-                            <button id="luuChinhSua" style="width: 230px" class="btn btn-success">
+                            <a role="button" id="luuChinhSua" style="width: 230px" class="btn btn-success">
                                 Lưu
-                            </button>
+                            </a>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -246,7 +248,9 @@
                     <div class="mb-3 col-md-12">
                         <label style="font-weight: bold;" class="form-label">Tên vai trò <span class="text-danger">*</span></label>
                         <input id="tenvaitro" type="text" class="form-control" placeholder="Nhập tên vai trò">
+                        <p style="color: red; font-size: 13px" id="RoleValidateResul"></p>
                     </div>
+
                     <!-- form group -->
                     <div class="mb-3 col-md-12">
                         <label style="font-weight: bold;" class="form-label">Mô tả </label>
@@ -279,6 +283,6 @@
     });
 </script>
 
-<script id="reloadScriptSua" src="~/ValidationAlert/Admin/QuanLyVaiTro/SuaVaiTroValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyVaiTro/SuaVaiTroValidation.js"></script>
 <script src="~/ValidationAlert/Admin/QuanLyVaiTro/ThemVaiTroValidation.js"></script>
 <script src="~/ValidationAlert/Admin/QuanLyVaiTro/XoaVaiTroValidation.js"></script>

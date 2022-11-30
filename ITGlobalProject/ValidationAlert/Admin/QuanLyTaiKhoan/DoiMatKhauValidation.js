@@ -9,6 +9,10 @@
         let pw = $('#password').val();
         let newpw = $('#newpassword').val();
         let repw = $('#repassword').val();
+        var format = /[`!#$%^&*()+\=\[\]{};':"\\|,<>\/?~]/;
+        var formatLower = /[abcdefghiklmnopqrstuvwxyz]/;
+        var formatUpper = /[ABCDEFGHIKLMNOPQRSTUVWXYZ]/;
+        var formatnumber = /[1234567890]/;
         var checkspw = false;
         var checksnewpw = false;
         var checksrepw = false;
@@ -27,15 +31,7 @@
         }
 
         //MK mới
-        if (newpw.length < 1) {
-            $('#newpasswordValidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-            var searchInput = $('#newpassword');
-            var strLength = searchInput.val().length * 2;
-
-            searchInput.focus();
-            searchInput[0].setSelectionRange(strLength, strLength);
-        }
-        else if (pw == newpw) {
+        if (pw == newpw) {
             $("newpasswordValidation").text("Mật khẩu mới không được trùng với mật khẩu cũ.").show();
             var searchInput = $('#newpassword');
             var strLength = searchInput.val().length * 2;
@@ -43,50 +39,23 @@
             searchInput.focus();
             searchInput[0].setSelectionRange(strLength, strLength);
         }
-        else if (newpw.length < 8) {
-            $('#newpasswordValidation').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
-            var searchInput = $('#newpassword');
-            var strLength = searchInput.val().length * 2;
-
-            searchInput.focus();
-            searchInput[0].setSelectionRange(strLength, strLength);
-        } else if (pw.length >= 8 && pw.length <= 20) {
-            if (pw.length == 0) {
-                $('#newpasswordValidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-                var searchInput = $('#newpassword');
-                var strLength = searchInput.val().length * 2;
-
-                searchInput.focus();
-                searchInput[0].setSelectionRange(strLength, strLength);
-            }
-            else if (pw.length < 8) {
-                $('#newpasswordValidation').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
-                var searchInput = $('#newpassword');
-                var strLength = searchInput.val().length * 2;
-
-                searchInput.focus();
-                searchInput[0].setSelectionRange(strLength, strLength);
-            }
-            else if (pw.length > 20) {
-                $('#newpasswordValidation').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
-                var searchInput = $('#newpassword');
-                var strLength = searchInput.val().length * 2;
-
-                searchInput.focus();
-                searchInput[0].setSelectionRange(strLength, strLength);
-            }
-            else {
-                $('#newpasswordValidation').text("").hide();
-            }
+        else if (newpw.length == 0) {
+            checksnewpw = false;
+            $('#newpasswordValidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
-        else if (pw.length > 20) {
+        else if (newpw.length < 8) {
+            checksnewpw = false;
             $('#newpasswordValidation').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
-            var searchInput = $('#newpassword');
-            var strLength = searchInput.val().length * 2;
-
-            searchInput.focus();
-            searchInput[0].setSelectionRange(strLength, strLength);
-        } else {
+        }
+        else if (newpw.length > 20) {
+            checksnewpw = false;
+            $('#newpasswordValidation').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
+        }
+        else if (format.test(pw) == false || formatLower.test(pw) == false || formatUpper.test(pw) == false || formatnumber.test(pw) == false) {
+            checksnewpw = false;
+            $('#newpasswordValidation').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
+        }
+        else {
             checksnewpw = true;
         }
         //
@@ -100,7 +69,7 @@
             searchInput.focus();
             searchInput[0].setSelectionRange(strLength, strLength);
         }
-        else if (newpw !== repw) {
+        else if (newpw != repw) {
             $('#repasswordValidation').text("Xác nhận lại mật khẩu chưa trùng khớp! Vui lòng nhập lại.").show();
             var searchInput = $('#repassword');
             var strLength = searchInput.val().length * 2;

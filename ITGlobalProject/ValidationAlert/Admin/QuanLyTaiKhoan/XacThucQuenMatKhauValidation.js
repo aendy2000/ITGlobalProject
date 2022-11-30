@@ -55,31 +55,25 @@ $(document).ready(function () {
             checkMa = false;
             $('#UsernameValidateResul').text("Mã xác nhận chưa đúng! Vui lòng kiểm tra lại.").show();
         }
-        else if (ma.length === 6) {
-            if (ma.length < 1) {
-                checkMa = false;
-                $('#UsernameValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-            }
-            else {
-                checkMa = true;
-                $('#UsernameValidateResul').text("").hide();
-            }
-        }
         else if (ma.length > 6) {
             checkMa = false;
             $('#UsernameValidateResul').text("Mã xác nhận chưa đúng! Vui lòng kiểm tra lại.").show();
         }
-        else if (ma.indexOf(' ') !== -1) {
+        else if (ma.indexOf(' ') != -1) {
             checkMa = false;
             $('#UsernameValidateResul').text("Mã xác nhận chưa đúng! Vui lòng kiểm tra lại.").show();
         }
-        else if (format.test(ma) === true) {
+        else if (format.test(ma) == true) {
             checkMa = false;
             $('#UsernameValidateResul').text("Mã xác nhận chưa đúng! Vui lòng kiểm tra lại.").show();
         }
-        else if (formatTextVN.test(ma) === true) {
+        else if (formatTextVN.test(ma) == true) {
             checkMa = false;
             $('#UsernameValidateResul').text("Mã xác nhận chưa đúng! Vui lòng kiểm tra lại.").show();
+        } else {
+            checkMa = true;
+            $('#UsernameValidateResul').text("").hide();
+
         }
 
         if (checkMa === true) {

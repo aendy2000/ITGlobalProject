@@ -7,26 +7,31 @@
         let usn = $('#username').val();
         let pw = $('#password').val();
         var format = /[`!#$%^&*()+\=\[\]{};':"\\|,<>\/?~]/;
+        var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
         var formatTextVN = / àÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬđĐèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆìÌỉỈĩĨíÍịỊòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰỳỲỷỶỹỸýÝỵỴ/;
+        var formatLower = /[abcdefghiklmnopqrstuvwxyz]/;
+        var formatUpper = /[ABCDEFGHIKLMNOPQRSTUVWXYZ]/;
+        var formatnumber = /[1234567890]/;
+
         let checkusn = false;
         let checkpw = false;
         if (usn.length == 0) {
             checkusn = false;
             $('#UsernameValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
-        else if (usn.length < 8 && format.test(usn) === false && formatTextVN.test(usn) === false && usn.indexOf(' ') === -1) {
-            checkusn = false;
-            $('#UsernameValidateResul').text("Tài khoản tối thiểu 8 ký tự tối đa 50 ký tự. Vui lòng nhập lại.").show();
-        }
         else if (usn.length > 50) {
             checkusn = false;
-            $('#UsernameValidateResul').text("Tài khoản tối thiểu 8 ký tự tối đa 50 ký tự. Vui lòng nhập lại.").show();
+            $('#UsernameValidateResul').text("Tài khoản tối đa 50 ký tự. Vui lòng nhập lại.").show();
         }
         else if (usn.indexOf(' ') != -1) {
             checkusn = false;
             $('#UsernameValidateResul').text("Sai rồi! Vui lòng kiểm tra lại định dạng tài khoản.").show();
         }
         else if (format.test(usn) == true) {
+            checkusn = false;
+            $('#UsernameValidateResul').text("Sai rồi! Vui lòng kiểm tra lại định dạng tài khoản.").show();
+        }
+        else if (emailReg.test(usn) == false) {
             checkusn = false;
             $('#UsernameValidateResul').text("Sai rồi! Vui lòng kiểm tra lại định dạng tài khoản.").show();
         }
@@ -45,26 +50,19 @@
             checkpw = false;
             $('#PasswordValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
-        else if (pw.length < 8 && format.test(pw) === false && formatTextVN.test(pw) === false && pw.indexOf(' ') === -1) {
+        else if (pw.length < 8) {
             checkpw = false;
-            $('#PasswordValidateResul').text("Mật khẩu tối thiểu 8 ký tự tối đa 20 ký tự. Vui lòng nhập lại.").show();
+            $('#PasswordValidateResul').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
         }
         else if (pw.length > 20) {
             checkpw = false;
-            $('#PasswordValidateResul').text("Mật khẩu tối thiểu 8 ký tự tối đa 20 ký tự. Vui lòng nhập lại.").show();
+            $('#PasswordValidateResul').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
         }
-        else if (pw.indexOf(' ') != -1) {
+        else if (format.test(pw) == false || formatLower.test(pw) == false || formatUpper.test(pw) == false || formatnumber.test(pw) == false) {
             checkpw = false;
-            $('#PasswordValidateResul').text("Sai rồi! Vui lòng kiểm tra lại định dạng tài khoản.").show();
+            $('#PasswordValidateResul').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
         }
-        else if (format.test(pw) == true) {
-            checkpw = false;
-            $('#PasswordValidateResul').text("Sai rồi! Vui lòng kiểm tra lại định dạng tài khoản.").show();
-        }
-        else if (formatTextVN.test(pw) == true) {
-            checkpw = false;
-            $('#PasswordValidateResul').text("Sai rồi! Vui lòng kiểm tra lại định dạng tài khoản.").show();
-        } else {
+        else {
             checkpw = true;
             $('#PasswordValidateResul').text("").hide();
         }
