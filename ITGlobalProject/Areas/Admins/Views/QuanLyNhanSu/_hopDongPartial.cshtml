@@ -1,0 +1,456 @@
+﻿@model ITGlobalProject.Models.Employees
+@using ITGlobalProject.Models
+@{
+    int i = 0;
+    var lstPosition = Session["lst-role"] as List<Position>;
+    string imagesUrl = "";
+    if (string.IsNullOrEmpty(Model.Avatar))
+    {
+        imagesUrl = "~/Content/Admin/assets/images/avatar/default-avatar.png";
+    }
+    else
+    {
+        imagesUrl = Model.Avatar;
+    }
+}
+<div id="contentPartial" class="container-fluid p-4">
+    <div class="row">
+        <!-- Page Header -->
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="border-bottom pb-4 mb-4 d-flex justify-content-between align-items-center">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-1 h2 fw-bold">
+                        Thông Tin Chi Tiết
+                    </h1>
+                    <!-- Breadcrumb  -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">Quản Lý Nhân Sự</a></li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">Nhân Viên</a></li>
+
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Hợp Đồng & Công Việc
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- User info -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+            <!-- Bg -->
+            <div class="pt-16 rounded-top-md" style="
+								background: url(@Url.Content("~/Content/Admin/assets/images/background/profile-bg.jpg")) no-repeat;
+								background-size: cover;
+							"></div>
+            <div class="d-flex align-items-end justify-content-between bg-white px-4 pt-2 pb-4 rounde
+                     rounded-bottom-md shadow-sm">
+                <div class="d-flex align-items-center">
+                    <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
+                        <img src="@Url.Content(imagesUrl)" class="avatar-xl rounded-circle border border-4 border-white"
+                             alt="" />
+                    </div>
+                    <div class="lh-1">
+                        <h2 class="mb-0">
+                            @Model.Name
+                            <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
+                        </h2>
+                        <p class="mb-0 d-block">@Model.WorkEmail</p>
+                    </div>
+
+                </div>
+                <div><span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: 2022-10-14</span></div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Content -->
+    <div class="row mt-0 mt-md-4">
+        <div class="col-lg-3 col-md-4 col-12">
+            <!-- Side navbar -->
+            <nav class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
+                <!-- Menu -->
+                <a class="d-xl-none d-lg-none d-md-none text-inherit fw-bold" href="#">Menu</a>
+                <!-- Button -->
+                <button class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#sidenav" aria-controls="sidenav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="fe fe-menu"></span>
+                </button>
+                <!-- Collapse navbar -->
+                <div class="collapse navbar-collapse" id="sidenav">
+                    <div class="navbar-nav flex-column">
+                        <span class="navbar-header">Thông Tin Tài Khoản</span>
+                        <!-- List -->
+                        @*<ul class="list-unstyled ms-n2 mb-4">*@
+                        <ul class="list-unstyled ms-n2 mb-0">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="ttcanhan" class="nav-link">
+                                    <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="lhvathanhtoan" class="nav-link">
+                                    <i class="fe fe-phone-call nav-icon"></i>Liên hệ & Thanh toán
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="knchuyenmon" class="nav-link">
+                                    <i class="fe fe-code nav-icon"></i>Kỹ năng chuyên môn
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tdngoaingu" class="nav-link">
+                                    <i class="fe fe-award nav-icon"></i>Trình độ ngoại ngữ
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="ptnhanthan" class="nav-link">
+                                    <i class="fe fe-users nav-icon"></i>Phụ thuộc nhân thân
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tcvaphucap" class="nav-link">
+                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a role="button" id="hdvacongviec" class="nav-link">
+                                    <i class="fe fe-file-text nav-icon"></i>Hợp đồng & Công việc
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a role="button" class="nav-link" id="DAThamGia">
+                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" class="nav-link" id="LSHoatDong">
+                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a role="button" id="bangLuongs" class="nav-link">
+                                    <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
+                                </a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a role="button" class="nav-link" id="LBCongViec">
+                                    <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
+                                </a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a role="button" class="nav-link" id="BCThongKe">
+                                    <i class="fe fe-pie-chart nav-icon"></i>Báo cáo thống kê
+                                </a>
+                            </li>
+                            <hr />
+                            @if (Model.Lock == false)
+                            {
+                                <li style="text-align:center; margin-top:20px">
+                                    <a id="khoataikhoan" style="width:100%" class="btn btn-outline-danger btn-sm">
+                                        KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li style="text-align:center; margin-top:20px">
+                                    <a id="khoataikhoan" style="width:100%" class="btn btn-outline-success btn-sm">
+                                        MỞ KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col-lg-9 col-md-8 col-12">
+            <!-- Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Thông Tin Làm Việc</h3>
+                </div>
+                <div class="card-body">
+                    <form class="row">
+                        <div class="mb-2 col-12 col-md-4">
+                            <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Ngày vào làm <span class="text-danger">*</span></label>
+                            <input value="@Model.JoinedDate.ToString("yyyy-MM-dd")" type="text" class="form-control flatpickr" placeholder="Chọn ngày vào làm" id="ngayvaolam" name="ngayvaolam" />
+                            <p style="font-size: 13px; color:red;" id="ngayvaolamvalidation"></p>
+                        </div>
+                        <div class="mb-2 col-12 col-md-4">
+                            <label style="font-weight:bold;" class="form-label">Vị trí làm việc <span class="text-danger">*</span></label>
+                            <select id="vaitro" name="vaitro" class="form-select text-dark" data-width="100%">
+                                @foreach (var item in lstPosition)
+                                {
+                                    if (Model.ID_Position == item.ID)
+                                    {
+                                        <option selected value="@item.ID">@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ID">@item.Name</option>
+                                    }
+                                }
+                            </select>
+                            <p style="font-size: 13px; color:red;" id="vaitrovalidation"></p>
+                        </div>
+                        <div class="mb-2 col-12 col-md-4">
+                            <label style="font-weight:bold;" class="form-label">Hình thức làm việc <span class="text-danger">*</span></label>
+                            <select id="hinhthuc" name="hinhthuc" class="form-select text-dark" data-width="100%">
+                                @if (Model.EmploymentStatus.Equals("Thử việc"))
+                                {
+                                    <option value="Thử việc">Thử việc</option>
+                                }
+                                else if (Model.EmploymentStatus.Equals("Thực tập sinh"))
+                                {
+                                    <option value="Thực tập sinh">Thực tập sinh</option>
+                                }
+                                else
+                                {
+                                    <option value="Nhân viên chính thức">Nhân viên chính thức</option>
+                                }
+                            </select>
+                            <p style="font-size: 13px; color:red;" id="hinhthucvalidation"></p>
+                        </div>
+                        <div style="text-align: right; padding-top: 10px" class="mb-3 col-12 col-md-6">
+                            <button type="reset" style="width: 230px" class="btn btn-outline-danger">
+                                Hủy
+                            </button>
+                        </div>
+                        <div style="padding-top: 10px" class="mb-3 col-12 col-md-6">
+                            <a role="button" id="btnLuuThongTin" style="width: 230px" class="btn btn-success">
+                                Lưu
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                <div class="border-bottom py-3 bg-light-primary border-1" id="heading3">
+                    <h4 class="mb-0 fw-bold">
+                        <a href="#" class="d-flex align-items-center text-inherit text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+                            <span class="me-auto">
+                                &emsp;Thông Tin Hợp Đồng&ensp;<i id="hoantattthopdong" class="fe fe-check-circle font-weight-bold text-success"></i>
+                            </span>
+                            <span class="collapse-toggle ms-4">
+                                &emsp;<i class="fe fe-plus text-primary"></i>&emsp;
+                            </span>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse3" class=" collapse row" aria-labelledby="heading3" data-bs-parent="#accordionExample">
+                    <div class="row">
+                        <div class="col-12 col-md-12">
+                            <button class="btn btn-primary btn-xs" style="width: 215px; margin-top: 20px; margin-bottom: 20px; margin-left: 20px " data-bs-toggle="modal" data-bs-target="#themHopDongModal"><i class="fe fe-plus"> </i> Thêm Hợp Đồng</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table" style="width:100%">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" class=" border-top-0">STT</th>
+                                    <th scope="col" class=" border-top-0">Ngày bắt đầu</th>
+                                    <th scope="col" class=" border-top-0">Mgày gia hạn</th>
+                                    <th scope="col" class=" border-top-0" style="max-width: 150px">Hình ảnh</th>
+                                    <th scope="col" class=" border-top-0" style="max-width: 1px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.EmploymentContracts)
+                                {
+                                    i++;
+
+                                    <input hidden value="@item.StartDate.ToString("yyyy-MM-dd")" id="ngaybatdauInput@(item.ID)" />
+                                    <input hidden value="@item.EndDate.ToString("yyyy-MM-dd")" id="ngayketthucInput@(item.ID)" />
+                                    <input hidden value="@item.ImageURL" id="hinhanhInput@(item.ID)" />
+
+                                    <tr>
+                                        <td class="align-middle">
+                                            @i.ToString("D2")
+                                        </td>
+                                        <td class="align-middle ">
+                                            @item.StartDate.ToString("dd") Thg @item.StartDate.ToString("MM, yyyy")
+                                        </td>
+                                        <td class="align-middle ">
+                                            @item.EndDate.ToString("dd") Thg @item.EndDate.ToString("MM, yyyy")
+                                        </td>
+                                        <td class="align-middle ">
+                                            <a class="btn btn-outline-primary btn-xs" data-bs-toggle="modal" data-bs-target="#ModalXemHinhAnh@(item.ID)"><i class="fe fe-image"> </i> XEM HỢP ĐỒNG</a>
+                                        </td>
+                                        <td class="align-middle text-end">
+                                            <div class="dropdown dropstart">
+                                                <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown@(item.ID)"
+                                                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fe fe-more-vertical"></i>
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="Dropdown@(item.ID)">
+                                                    <span class="dropdown-header">Hành động</span>
+                                                    <a role="button" name="@item.ID" id="chinhsuaHD@(item.ID)" class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasChinhSua">
+                                                        <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa hợp đồng
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a role="button" name="@item.ID" id="xoaHopDong@(item.ID)" class="dropdown-item">
+                                                        <i class="fe fe-trash dropdown-item-icon"></i>Xóa hợp đồng
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_HopDongValidation.js"></script>
+        <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
+        @foreach (var item in Model.EmploymentContracts)
+        {
+            <!-- Hình ảnh hợp đồng -->
+            <div class="modal fade modal-lg" id="ModalXemHinhAnh@(item.ID)" tabindex="-1" role="dialog"
+                 aria-labelledby="themVaiTroModalLabel" aria-hidden="true" data-simplebar>
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5>ẢNH HỢP ĐỒNG</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="row text-center">
+                            <figure class="gallery__item gallery__item--1 mb-0">
+                                <img style="margin: 30px 30px 30px 30px; max-width:720px" src="@item.ImageURL" alt="Gallery image 1" class="gallery__img rounded-3">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+        <!-- Thêm HĐ -->
+        <div class="modal fade modal-lg" id="themHopDongModal" tabindex="-1" role="dialog"
+             aria-labelledby="themHopDongModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="themHopDongModal"><i class="fe fe-user-check"> </i> Thêm hợp đồng</h4>
+                        <button id="dongModalHopDongMoi" type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close">
+                        </button>
+                    </div>
+                    <form class="modal-body">
+                        <!-- form -->
+                        <div class="row">
+                            <!-- form group -->
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label">Ngày bắt đầu hợp đồng <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control flatpickr" placeholder="Chọn ngày bắt đầu" id="ngaykyhopdong" name="ngaykyhopdong" />
+                                <p style="font-size: 13px; color:red;" id="ngaykyhopdongvalidation"></p>
+                            </div>
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label">Ngày gia hạn hợp đồng <span class="text-danger">*</span></label>
+                                <input class="form-control flatpickr" placeholder="Chọn ngày gia hạn" id="ngaygiahanhopdong" name="ngaygiahanhopdong" />
+                                <p style="font-size: 13px; color:red;" id="ngaygiahanhopdongvalidation"></p>
+                            </div>
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label">Đính kèm hợp đồng <span class="text-danger">*</span></label><br />
+                                <a role="button" id="chonanhhopdongmoi" class="btn btn-outline-primary" style="width:100%">
+                                    <i class="fe fe-upload me-1"></i>
+                                    Tải Lên Hình Ảnh
+                                </a>
+                            </div>
+                            <div class="py-3"></div>
+                            <div style="margin-left: 13px ;width: 98%" class="form-control bg-gray-200 mb-4 col-12 col-md-12 text-center ">
+                                <div class="py-3"></div>
+                                <input hidden id="selectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewImage'))" />
+                                <figure class="gallery__item gallery__item--1 mb-0">
+                                    <img style="margin: 30px 30px 30px 30px; max-width:720px" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImage">
+                                </figure>
+                                <div class="py-3"></div>
+                            </div>
+                            <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
+                                <button id="dongthemhopdong" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="modal" aria-label="Close">
+                                    Hủy
+                                </button>
+                            </div>
+                            <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
+                                <a role="button" id="themHopDongMoi" style="width: 230px" class="btn btn-success">
+                                    Lưu
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--Sửa HĐ-->
+        <!-- Chỉnh sửa vai trò -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasChinhSua" style="width: 1000px;" data-simplebar>
+
+            <div class="offcanvas-body">
+                <div style="margin-bottom: -20px" class="offcanvas-header px-2 pt-0">
+                    <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Hợp Đồng</h4>
+                    <button id="dongChinhSuaHopDongCanvas" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <hr class="my-4" />
+                <!-- card body -->
+                <div class="container ">
+                    <!-- form -->
+                    <div class="row">
+                        <div class="row">
+                            <!-- form group -->
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label">Ngày bắt đầu hợp đồng <span class="text-danger">*</span></label>
+                                <input hidden id="chinhsuaidhopdong" />
+                                <input type="text" class="form-control flatpickr" placeholder="Chọn ngày bắt đầu" id="chinhsuangaykyhopdong" name="chinhsuangaykyhopdong" />
+                                <p style="font-size: 13px; color:red;" id="chinhsuangaykyhopdongvalidation"></p>
+                            </div>
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label">Ngày gia hạn hợp đồng <span class="text-danger">*</span></label>
+                                <input class="form-control flatpickr" placeholder="Chọn ngày gia hạn" id="chinhsuangaygiahanhopdong" name="chinhsuangaygiahanhopdong" />
+                                <p style="font-size: 13px; color:red;" id="chinhsuangaygiahanhopdongvalidation"></p>
+                            </div>
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label">Đính kèm hợp đồng <span class="text-danger">*</span></label><br />
+                                <a role="button" id="chinhsuachonanhhopdongmoi" class="btn btn-outline-primary" style="width:100%">
+                                    <i class="fe fe-upload me-1"></i>
+                                    Tải Lên Hình Ảnh
+                                </a>
+                            </div>
+                            <div class="py-3"></div>
+                            <div style="margin-left: 13px ;width: 98%" class="form-control bg-gray-200 mb-4 col-12 col-md-12 text-center ">
+                                <div class="py-3"></div>
+                                <input hidden id="chinhsuaselectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewEditImage'))" />
+                                <figure class="gallery__item gallery__item--1 mb-0">
+                                    <img style="margin: 30px 30px 30px 30px; max-width:720px" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewEditImage">
+                                </figure>
+                                <div class="py-3"></div>
+                            </div>
+                            <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
+                                <a role="button" style="width: 230px" class="btn btn-outline-danger" data-bs-dismiss="offcanvas" aria-label="Close">
+                                    Hủy
+                                </a>
+                            </div>
+                            <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
+                                <a role="button" id="LuuChinhSuaHopDong" style="width: 230px" class="btn btn-success">
+                                    Lưu
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

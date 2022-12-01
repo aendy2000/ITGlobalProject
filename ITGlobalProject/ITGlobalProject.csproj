@@ -720,7 +720,6 @@
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\thongTinChiTiet.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_bangLuongPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_baoCaoThongKePartial.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_chinhSuaThongTinPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_duAnThamGiaPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_lichBieuPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_lichSuHoatDongPartial.cshtml" />
@@ -769,6 +768,8 @@
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_kyNangChuyenMonPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_trinhDoNgoaiNguPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_phuThuocNhanThanPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_troCapPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_hopDongPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -789,6 +790,8 @@
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_CongViecValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_DoiNguValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ThemDuAnValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_HopDongValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_phuCapVaTroCapValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_PhuThuocNhanThanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_TrinhDoNgoaiNguValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_KyNangChuyenMon.js" />

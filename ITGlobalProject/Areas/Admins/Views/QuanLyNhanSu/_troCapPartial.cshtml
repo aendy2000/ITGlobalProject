@@ -1,5 +1,8 @@
-﻿@model ITGlobalProject.Models.Employees
+﻿@using ITGlobalProject.Models;
+@model ITGlobalProject.Models.Employees
 @{
+    var lstTroCap = Session["lst-trocap"] as List<SubsidiesCategory>;
+    int j = 0;
     string imagesUrl = "";
     if (string.IsNullOrEmpty(Model.Avatar))
     {
@@ -29,7 +32,7 @@
                             <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">Nhân Viên</a></li>
 
                             <li class="breadcrumb-item active" aria-current="page">
-                                Thông Tin Liên Hệ & Thanh Toán
+                                Trợ Cấp & Phụ Cấp
                             </li>
                         </ol>
                     </nav>
@@ -94,7 +97,7 @@
                                     <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
                                 </a>
                             </li>
-                            <li class="nav-item active">
+                            <li class="nav-item ">
                                 <a role="button" id="lhvathanhtoan" class="nav-link">
                                     <i class="fe fe-phone-call nav-icon"></i>Liên hệ & Thanh toán
                                 </a>
@@ -114,7 +117,7 @@
                                     <i class="fe fe-users nav-icon"></i>Phụ thuộc nhân thân
                                 </a>
                             </li>
-                            <li class="nav-item ">
+                            <li class="nav-item active">
                                 <a role="button" id="tcvaphucap" class="nav-link">
                                     <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
                                 </a>
@@ -175,70 +178,113 @@
             <!-- Card -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="mb-0">Thông Tin Liên Hệ & Thanh Toán</h3>
+                    <h3 class="mb-0">Trợ Cấp & Phụ Cấp</h3>
                 </div>
-                <div class="card-body">
-                    <div>
-                        <form class="row">
-                            <div class="mb-2 col-12 col-md-6">
-                                <label style="font-weight:bold;" class="form-label" for="sodienthoaididong">Số điện thoại di động <span class="text-danger">*</span></label>
-                                <input value="@Model.TelephoneMobile" type="tel" id="sodienthoaididong" name="sodienthoaididong" class="form-control" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" placeholder="Nhập số điện thoại di động" />
-                                <p style="font-size: 13px; color:red;" id="sodienthoaididongvalidation"></p>
+                <form class="card-body">
+                    <div class="row">
+                        @foreach (var item in lstTroCap)
+                        {
+                            j++;
+                            <div class="form-check mb-2 col-12 col-md-4">
+                                @if (Model.Subsidies.FirstOrDefault(s => s.ID_SubsidiesCategory == item.ID) != null)
+                                {
+                                    <input checked class="form-check-input" type="checkbox" name="checktrocap@(j)" id="pc@(item.ID)">
+                                }
+                                else
+                                {
+                                    <input class="form-check-input" type="checkbox" name="checktrocap@(j)" id="pc@(item.ID)">
+                                }
+                                @if (item.Percentage != null && item.OnBasicSalary != null)
+                                {
+                                    if (item.OnBasicSalary == true)
+                                    {
+                                        if (item.DateApply == 0)
+                                        {
+                                            <label class="form-check-label" for="pc@(item.ID)">
+                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Hàng tháng
+                                            </label>
+                                        }
+                                        else if (item.DateApply == -1)
+                                        {
+                                            <label class="form-check-label" for="pc@(item.ID)">
+                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Sinh nhật
+                                            </label>
+                                        }
+                                        else
+                                        {
+                                            <label class="form-check-label" for="pc@(item.ID)">
+                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Mỗi tháng @item.DateApply
+                                            </label>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (item.DateApply == 0)
+                                        {
+                                            <label class="form-check-label" for="pc@(item.ID)">
+                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Hàng tháng
+                                            </label>
+                                        }
+                                        else if (item.DateApply == -1)
+                                        {
+                                            <label class="form-check-label" for="pc@(item.ID)">
+                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Tháng sinh
+                                            </label>
+                                        }
+                                        else
+                                        {
+                                            <label class="form-check-label" for="pc@(item.ID)">
+                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Mỗi tháng @item.DateApply
+                                            </label>
+                                        }
+                                    }
+
+                                }
+                                else
+                                {
+                                    if (item.DateApply == 0)
+                                    {
+                                        <label class="form-check-label" for="pc@(item.ID)">
+                                            @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Hàng tháng
+                                        </label>
+                                    }
+                                    else if (item.DateApply == -1)
+                                    {
+                                        <label class="form-check-label" for="pc@(item.ID)">
+                                            @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Tháng sinh
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <label class="form-check-label" for="pc@(item.ID)">
+                                            @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Mỗi tháng @item.DateApply
+                                        </label>
+
+                                    }
+                                }
+
                             </div>
-                            <div class="mb-2 col-12 col-md-6">
-                                <label style="font-weight:bold;" class="form-label" for="sodienthoaikhac">Số điện thoại công việc</label>
-                                <input value="@Model.TelephoneOrther" type="tel" id="sodienthoaikhac" name="sodienthoaikhac" class="form-control" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" placeholder="Nhập số điện thoại nhà" />
-                                <p style="font-size: 13px; color:red;" id="sodienthoaikhacvalidation"></p>
-                            </div>
-                            <div class="mb-2 col-12 col-md-6">
-                                <label style="font-weight:bold;" class="form-label" for="diachiemailcongty">Email Công Ty <span class="text-danger">*</span></label>
-                                <input value="@Model.WorkEmail" type="text" id="diachiemailcongty" name="diachiemailcongty" class="form-control" data-inputmask="'alias': 'email'" inputmode="numeric" placeholder="example@itglobal.net" />
-                                <p style="font-size: 13px; color:red;" id="diachiemailcongtyvalidation"></p>
-                            </div>
-                            <div class="mb-2 col-12 col-md-6">
-                                <label style="font-weight:bold;" class="form-label" for="diachiemailkhac">Email Khác</label>
-                                <input value="@Model.OrtherEmail" type="text" id="diachiemailkhac" name="diachiemailkhac" class="form-control" data-inputmask="'alias': 'email'" inputmode="numeric" placeholder="example@itglobal.net" />
-                                <p style="font-size: 13px; color:red;" id="diachiemailkhacvalidation"></p>
-                            </div>
-                            <div class="mb-2 col-12 col-md-6">
-                                <label style="font-weight:bold;" class="form-label" for="phone">Mức lương <span class="text-danger">*</span></label>
-                                <input value="@Model.Wage.ToString("0,0").Replace(".", ",")" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" style="font-weight:bold; color:brown" type="text" id="mucluong" name="mucluong" class="form-control  text-start" placeholder="Nhập mức lương đã thỏa thuận" />
-                            </div>
-                            <div class="mb-2 col-12 col-md-6">
-                                <label style="font-weight:bold;" for="dsNganHang" class="form-label">Ngân hàng</label>
-                                <input value="@Model.BankName" list="dsNganHang" id="tenNganHang" class="form-control" placeholder="Tên ngân hàng" />
-                                <datalist name="dsNganHang" id="dsNganHang">
-                                    <option value="TPBank"></option>
-                                    <option value="SacomBank"></option>
-                                    <option value="VietinBank"></option>
-                                </datalist>
-                            </div>
-                            <div class="mb-2 col-12 col-md-6 py-3">
-                                <label style="font-weight:bold;" class="form-label">Số tài khoản</label>
-                                <input value="@Model.BankAccountNumber" id="sotaikhoan" name="sotaikhoan" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
-                            </div>
-                            <div class="mb-2 col-12 col-md-6 py-3">
-                                <label style="font-weight:bold;" class="form-label">Chủ tài khoản</label>
-                                <input value="@Model.BankAccountHolderName" id="chutaikhoan" name="chutaikhoan" type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
-                            </div>
-                            <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
-                                <button type="reset" style="width: 230px" class="btn btn-outline-danger">
-                                    Hủy
-                                </button>
-                            </div>
-                            <div style="padding-top: 20px" class="mb-3 col-12 col-md-6">
-                                <a role="button" id="btnLuuThongTin" style="width: 230px" class="btn btn-success">
-                                    Lưu
-                                </a>
-                            </div>
-                        </form>
+                        }
+                        <input hidden value="@j" id="sltc" />
 
                     </div>
-                </div>
+                    <div class="row">
+                        <div style="text-align: right; padding-top: 40px" class="mb-3 col-12 col-md-6">
+                            <button type="reset" style="width: 230px" class="btn btn-outline-danger">
+                                Hủy
+                            </button>
+                        </div>
+                        <div style="padding-top: 40px" class="mb-3 col-12 col-md-6">
+                            <a role="button" id="btnLuuThongTin" style="width: 230px" class="btn btn-success">
+                                Lưu
+                            </a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_LHvaThanhToanValidation.js"></script>
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_phuCapVaTroCapValidation.js"></script>
     <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
 </div>
 

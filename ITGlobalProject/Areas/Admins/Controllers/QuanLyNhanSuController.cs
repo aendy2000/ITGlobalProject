@@ -650,6 +650,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
             return Content("DANHSACH");
         }
+
         [HttpPost]
         public ActionResult chinhSuaPhuThuocNhanThan(int? id, string phuthuocnhanthan)
         {
@@ -702,6 +703,233 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
             return Content("DANHSACH");
         }
+        public ActionResult troCapPartial(int? id)
+        {
+            if (id == null)
+                return Content("DANHSACH");
+
+            ViewBag.ShowActive = "danhSachNhanVien";
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user != null)
+            {
+                var lstTroCap = model.SubsidiesCategory.OrderBy(t => t.Name).ToList();
+                Session["lst-trocap"] = lstTroCap;
+                return PartialView("_troCapPartial", user);
+            }
+            return Content("DANHSACH");
+        }
+
+        [HttpPost]
+        public ActionResult chinhSuaTroCap(int? id, string trocap)
+        {
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (id == null || user == null)
+                return Content("DANHSACH");
+
+            model.Subsidies.RemoveRange(user.Subsidies);
+            model.SaveChanges();
+            //Trợ cấp & phụ cấp
+            if (!string.IsNullOrEmpty(trocap))
+            {
+                if (trocap.IndexOf("_") != -1)
+                {
+                    for (int i = 0; i < trocap.Split('_').ToList().Count; i++)
+                    {
+                        Subsidies subs = new Subsidies();
+                        subs.ID_Employee = user.ID;
+                        subs.ID_SubsidiesCategory = Int32.Parse(trocap.Split('_')[i]);
+                        model.Subsidies.Add(subs);
+                    }
+                }
+                else
+                {
+                    Subsidies subs = new Subsidies();
+                    subs.ID_Employee = user.ID;
+                    subs.ID_SubsidiesCategory = Int32.Parse(trocap);
+                    model.Subsidies.Add(subs);
+                }
+
+                model.SaveChanges();
+                model = new CP25Team06Entities();
+                var lstTroCap = model.SubsidiesCategory.OrderBy(t => t.Name).ToList();
+                Session["lst-trocap"] = lstTroCap;
+                return PartialView("_troCapPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
+            }
+            return Content("DANHSACH");
+        }
+        public ActionResult hopDongPartial(int? id)
+        {
+            if (id == null)
+                return Content("DANHSACH");
+
+            ViewBag.ShowActive = "danhSachNhanVien";
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user != null)
+            {
+                Session["lst-role"] = model.Position.Where(p => p.ID != 1).OrderBy(o => o.Name).ToList();
+                return PartialView("_hopDongPartial", user);
+            }
+            return Content("DANHSACH");
+        }
+
+        [HttpPost]
+        public ActionResult chinhSuaViecLamHopDong(int? id, string ngayvaolam, int? vaitro, string hinhthuc)
+        {
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (id == null || user == null)
+                return Content("DANHSACH");
+
+            if (!string.IsNullOrEmpty(ngayvaolam) && vaitro != null && !string.IsNullOrEmpty(hinhthuc))
+            {
+                user.JoinedDate = Convert.ToDateTime(ngayvaolam);
+                user.ID_Position = (int)vaitro;
+                user.EmploymentStatus = hinhthuc;
+                model.Entry(user).State = EntityState.Modified;
+                model.SaveChanges();
+                model = new CP25Team06Entities();
+                Session["lst-role"] = model.Position.Where(p => p.ID != 1).OrderBy(o => o.Name).ToList();
+                return PartialView("_hopDongPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
+            }
+            return Content("DANHSACH");
+        }
+        [HttpPost]
+        public async Task<ActionResult> themHopDongMoi(HttpPostedFileBase anhHopDong, string ngaykyhopdong, string ngaygiahanhopdong, int id)
+        {
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user != null)
+            {
+                EmploymentContracts emp = new EmploymentContracts();
+                emp.ID_Employee = user.ID;
+                emp.StartDate = Convert.ToDateTime(ngaykyhopdong);
+                emp.EndDate = Convert.ToDateTime(ngaygiahanhopdong);
+
+                FileStream stream;
+                if (anhHopDong.ContentLength > 0)
+                {
+                    const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
+                    int length = 30;
+                    var sb = new StringBuilder();
+                    Random RNG = new Random();
+                    for (var i = 0; i < length; i++)
+                    {
+                        var c = src[RNG.Next(0, src.Length)];
+                        sb.Append(c);
+                    }
+
+                    string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + anhHopDong.FileName); ;
+                    anhHopDong.SaveAs(path);
+                    stream = new FileStream(Path.Combine(path), FileMode.Open);
+                    var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                    var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+                    var cancellation = new CancellationTokenSource();
+
+                    var task = new FirebaseStorage(
+                        Bucket,
+                        new FirebaseStorageOptions
+                        {
+                            AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                            ThrowOnCancel = true
+                        })
+                        .Child("images")
+                        .Child(sb.ToString().Trim() + anhHopDong.FileName)
+                        .PutAsync(stream, cancellation.Token);
+                    try
+                    {
+                        string link = await task;
+                        emp.ImageURL = link;
+                        System.IO.File.Delete(path);
+                    }
+                    catch
+                    {
+                        return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                    }
+                }
+
+                model.EmploymentContracts.Add(emp);
+                model.SaveChanges();
+                model = new CP25Team06Entities();
+
+                Session["lst-role"] = model.Position.Where(p => p.ID != 1).OrderBy(o => o.Name).ToList();
+                return PartialView("_hopDongPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
+            }
+            return Content("DANHSACH");
+        }
+        [HttpPost]
+        public ActionResult xoaHopDong(int? id, int? idus)
+        {
+            var user = model.Employees.FirstOrDefault(u => u.ID == idus);
+            if (idus == null || user == null || idus == null)
+                return Content("DANHSACH");
+
+            model.EmploymentContracts.Remove(user.EmploymentContracts.FirstOrDefault(h => h.ID == id));
+            model.SaveChanges();
+            model = new CP25Team06Entities();
+            Session["lst-role"] = model.Position.Where(p => p.ID != 1).OrderBy(o => o.Name).ToList();
+            return PartialView("_hopDongPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
+        }
+        [HttpPost]
+        public async Task<ActionResult> suaHopDong(HttpPostedFileBase anhHopDong, string ngaykyhopdong, string ngaygiahanhopdong, int id, int idus)
+        {
+            var user = model.Employees.FirstOrDefault(u => u.ID == idus);
+            if (user != null)
+            {
+                var emp = user.EmploymentContracts.FirstOrDefault(h => h.ID == id);
+                emp.StartDate = Convert.ToDateTime(ngaykyhopdong);
+                emp.EndDate = Convert.ToDateTime(ngaygiahanhopdong);
+
+                FileStream stream;
+                if (anhHopDong.ContentLength > 0)
+                {
+                    const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
+                    int length = 30;
+                    var sb = new StringBuilder();
+                    Random RNG = new Random();
+                    for (var i = 0; i < length; i++)
+                    {
+                        var c = src[RNG.Next(0, src.Length)];
+                        sb.Append(c);
+                    }
+
+                    string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + anhHopDong.FileName); ;
+                    anhHopDong.SaveAs(path);
+                    stream = new FileStream(Path.Combine(path), FileMode.Open);
+                    var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                    var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+                    var cancellation = new CancellationTokenSource();
+
+                    var task = new FirebaseStorage(
+                        Bucket,
+                        new FirebaseStorageOptions
+                        {
+                            AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                            ThrowOnCancel = true
+                        })
+                        .Child("images")
+                        .Child(sb.ToString().Trim() + anhHopDong.FileName)
+                        .PutAsync(stream, cancellation.Token);
+                    try
+                    {
+                        string link = await task;
+                        emp.ImageURL = link;
+                        System.IO.File.Delete(path);
+                    }
+                    catch
+                    {
+                        return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                    }
+                }
+
+                model.Entry(emp).State = EntityState.Modified;
+                model.SaveChanges();
+                model = new CP25Team06Entities();
+
+                Session["lst-role"] = model.Position.Where(p => p.ID != 1).OrderBy(o => o.Name).ToList();
+                return PartialView("_hopDongPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
+            }
+            return Content("DANHSACH");
+        }
+
+
 
         [HttpPost]
         public ActionResult khoaTaiKhoan(int id)
