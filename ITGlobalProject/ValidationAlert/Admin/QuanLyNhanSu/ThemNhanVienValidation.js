@@ -359,4 +359,30 @@
             }
         });
     });
+
+    //Reset
+    $('#reserData').on('click', function () {
+        let dem = $('#demngoaingu').val();
+        let bandau = $('#ngoaingubandau').val();
+        if (dem > bandau) {
+            for (var i = dem; i > bandau; i--) {
+                $('#grtenngoaingu' + i).remove();
+                $('#grtrinhdongoaingu' + i).remove();
+                $('#gachngang' + i).remove();
+            }
+        }
+
+        let demnhanthan = $('#dem').val();
+        let bandaunhanthan = $('#nhanthanbandau').val();
+        if (demnhanthan > bandaunhanthan) {
+            for (var i = demnhanthan; i > bandaunhanthan; i--) {
+                $('#grhotennhanthan' + i).remove();
+                $('#grmoiquanhenhanthan' + i).remove();
+                $('#grngaysinhnhanthan' + i).remove();
+            }
+        }
+
+        $('#previewImage').replaceWith('<img style="max-width: 700px;" src="' + $('#requestPath').val() + 'Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImage">');
+    });
+
 });

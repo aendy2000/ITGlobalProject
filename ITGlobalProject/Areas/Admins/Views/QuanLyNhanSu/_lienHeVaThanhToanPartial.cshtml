@@ -1,9 +1,6 @@
 ﻿@model ITGlobalProject.Models.Employees
-@using System.Globalization;
-@{ string date = DateTime.Now.Year + "-W" + (new CultureInfo("vi-VN").Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay, DayOfWeek.Monday) - 1);
-
+@{
     string imagesUrl = "";
-
     if (string.IsNullOrEmpty(Model.Avatar))
     {
         imagesUrl = "~/Content/Admin/assets/images/avatar/default-avatar.png";
@@ -14,7 +11,6 @@
     }
 }
 <div id="contentPartial" class="container-fluid p-4">
-
     <div class="row">
         <!-- Page Header -->
         <div class="col-lg-12 col-md-12 col-12">
@@ -33,7 +29,7 @@
                             <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">Nhân Viên</a></li>
 
                             <li class="breadcrumb-item active" aria-current="page">
-                                Lịch Sử Hoạt Động
+                                Thông Tin Liên Hệ & Thanh Toán
                             </li>
                         </ol>
                     </nav>
@@ -42,6 +38,7 @@
             </div>
         </div>
     </div>
+
     <!-- User info -->
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-12">
@@ -71,6 +68,7 @@
             </div>
         </div>
     </div>
+    <!-- Content -->
     <div class="row mt-0 mt-md-4">
         <div class="col-lg-3 col-md-4 col-12">
             <!-- Side navbar -->
@@ -96,7 +94,7 @@
                                     <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
                                 </a>
                             </li>
-                            <li class="nav-item ">
+                            <li class="nav-item active">
                                 <a role="button" id="lhvathanhtoan" class="nav-link">
                                     <i class="fe fe-phone-call nav-icon"></i>Liên hệ & Thanh toán
                                 </a>
@@ -131,7 +129,7 @@
                                     <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
                                 </a>
                             </li>
-                            <li class="nav-item active">
+                            <li class="nav-item ">
                                 <a role="button" class="nav-link" id="LSHoatDong">
                                     <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
                                 </a>
@@ -172,137 +170,75 @@
                     </div>
                 </div>
             </nav>
-
         </div>
         <div class="col-lg-9 col-md-8 col-12">
             <!-- Card -->
             <div class="card">
                 <div class="card-header">
-                    <div class="d-md-flex justify-content-between align-items-center mb-0">
-                        <div style="margin-top:10px">
-                            <!-- text -->
-                            <h3 class="mb-3 mb-md-0">Hoạt động 24/10 - 30/10/2022</h3>
-                            <p>Lịch sử các thay đổi, hoạt động của tài khoản trong khoảng thời gian được chọn.</p>
-                        </div>
-                        <div>
-                            <!-- button -->
-                            <input type="week" class="btn btn-outline-primary" value="@date" />
-                            <a href="#" class="btn btn-primary">
-                                Tìm <i class="fe fe-search"></i>
-                            </a>
-                        </div>
-                    </div>
+                    <h3 class="mb-0">Thông Tin Liên Hệ & Thanh Toán</h3>
                 </div>
                 <div class="card-body">
                     <div>
-                        <!-- List group -->
-                        <ul class="list-group list-group-flush list-timeline-activity">
-                            <li class="list-group-item px-0 pt-0 border-1 mb-4">
-                                <div class="row">
-                                    <!-- col -->
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
-                                            <i class="fe fe-clock"></i>
-                                        </div>
-                                    </div>
-                                    <!-- col -->
-                                    <div class="col ms-n2 mt-1">
-                                        <h4 class="mb-3">Hoàn thành công việc</h4>
-                                        <h5 class="mb-0">Công việc #19 - Lên kế hoạch dự án IT-Global đã hoàn thành.</h5>
-                                        <span class="fs-6 text-muted">Wed, 15 April 2022 at 4:30 pm</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- List group -->
-                            <li class="list-group-item px-0 pt-0  border-1 mb-4">
-                                <div class="row">
-                                    <!-- col -->
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
-                                            <i class="fe fe-check-circle"></i>
-                                        </div>
-                                    </div>
-                                    <!-- col -->
-                                    <div class="col ms-n2 mt-1">
-                                        <h4 class="mb-3">Thực hiện tác vụ, 16 April 2022 </h4>
-                                        <h5 class="mb-0">Thực tác vụ vẽ prototype dự án IT-Global</h5>
-                                        <span class="fs-6 text-muted">Wed, 15 April 2022 at 4:30 pm</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- List group -->
-                            <li class="list-group-item px-0 pt-0  border-1 mb-4">
-                                <div class="row">
-                                    <!-- col -->
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
-                                            <i class="fe fe-check-circle"></i>
-                                        </div>
-                                    </div>
-                                    <!-- col -->
-                                    <div class="col ms-n2 mt-1">
-                                        <h4 class="mb-3">Hoàn thành tác vụ, 16 April 2022 </h4>
-                                        <h5 class="mb-1">Tác vụ lập kế hoạch rủi ro hoàn thành.</h5>
-                                        <span class="fs-6 text-muted">Thu, 16 April 2022 at 5:00 pm</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- List group -->
-                            <li class="list-group-item px-0 pt-0 border-1 mb-4">
-                                <div class="row">
-                                    <!-- col -->
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
-                                            <i class="fe fe-clock"></i>
-                                        </div>
-                                    </div>
-                                    <!-- col -->
-                                    <div class="col ms-n2 mt-1">
-                                        <h4 class="mb-3">Bắt đầu tác vụ</h4>
-                                        <h5 class="mb-0">Bắt đầu thực hiện thiết kế cơ sở dữ liệu. Dự án IT-Global</h5>
-                                        <span class="fs-6 text-muted">Wed, 15 April 2022 at 4:30 pm</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- List group -->
-                            <li class="list-group-item px-0 pt-0  border-1 mb-4">
-                                <div class="row">
-                                    <!-- col -->
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
-                                            <i class="fe fe-check-circle"></i>
-                                        </div>
-                                    </div>
-                                    <!-- col -->
-                                    <div class="col ms-n2 mt-1">
-                                        <h4 class="mb-3">Hoàn thành tác vụ, 16 April 2022 </h4>
-                                        <h5 class="mb-0">Hoàn thành mô tả usecase của dự án IT-Global</h5>
-                                        <span class="fs-6 text-muted">Wed, 15 April 2022 at 4:30 pm</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- List group -->
-                            <li class="list-group-item px-0 pt-0  border-1 mb-4">
-                                <div class="row">
-                                    <!-- col -->
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
-                                            <i class="fe fe-clock"></i>
-                                        </div>
-                                    </div>
-                                    <!-- col -->
-                                    <div class="col ms-n2 mt-1">
-                                        <h4 class="mb-3">Bắt đầu tác vụ, 16 April 2022 </h4>
-                                        <h5 class="mb-1">Thực hiện tác vụ Phát triển chức năng Đăng nhập/Đăng xuất. Dự án IT-Global.</h5>
-                                        <span class="fs-6 text-muted">Thu, 16 April 2022 at 5:00 pm</span>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                        <form class="row">
+                            <div class="mb-2 col-12 col-md-6">
+                                <label style="font-weight:bold;" class="form-label" for="sodienthoaididong">Số điện thoại di động <span class="text-danger">*</span></label>
+                                <input value="@Model.TelephoneMobile" type="tel" id="sodienthoaididong" name="sodienthoaididong" class="form-control" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" placeholder="Nhập số điện thoại di động" />
+                                <p style="font-size: 13px; color:red;" id="sodienthoaididongvalidation"></p>
+                            </div>
+                            <div class="mb-2 col-12 col-md-6">
+                                <label style="font-weight:bold;" class="form-label" for="sodienthoaikhac">Số điện thoại công việc</label>
+                                <input value="@Model.TelephoneOrther" type="tel" id="sodienthoaikhac" name="sodienthoaikhac" class="form-control" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" placeholder="Nhập số điện thoại nhà" />
+                                <p style="font-size: 13px; color:red;" id="sodienthoaikhacvalidation"></p>
+                            </div>
+                            <div class="mb-2 col-12 col-md-6">
+                                <label style="font-weight:bold;" class="form-label" for="diachiemailcongty">Email Công Ty <span class="text-danger">*</span></label>
+                                <input value="@Model.WorkEmail" type="text" id="diachiemailcongty" name="diachiemailcongty" class="form-control" data-inputmask="'alias': 'email'" inputmode="numeric" placeholder="example@itglobal.net" />
+                                <p style="font-size: 13px; color:red;" id="diachiemailcongtyvalidation"></p>
+                            </div>
+                            <div class="mb-2 col-12 col-md-6">
+                                <label style="font-weight:bold;" class="form-label" for="diachiemailkhac">Email Khác</label>
+                                <input value="@Model.OrtherEmail" type="text" id="diachiemailkhac" name="diachiemailkhac" class="form-control" data-inputmask="'alias': 'email'" inputmode="numeric" placeholder="example@itglobal.net" />
+                                <p style="font-size: 13px; color:red;" id="diachiemailkhacvalidation"></p>
+                            </div>
+                            <div class="mb-2 col-12 col-md-6">
+                                <label style="font-weight:bold;" class="form-label" for="phone">Mức lương <span class="text-danger">*</span></label>
+                                <input value="@Model.Wage.ToString("0,0").Replace(".", ",")" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" style="font-weight:bold; color:brown" type="text" id="mucluong" name="mucluong" class="form-control  text-start" placeholder="Nhập mức lương đã thỏa thuận" />
+                            </div>
+                            <div class="mb-2 col-12 col-md-6">
+                                <label style="font-weight:bold;" for="dsNganHang" class="form-label">Ngân hàng</label>
+                                <input value="@Model.BankName" list="dsNganHang" id="tenNganHang" class="form-control" placeholder="Tên ngân hàng" />
+                                <datalist name="dsNganHang" id="dsNganHang">
+                                    <option value="TPBank"></option>
+                                    <option value="SacomBank"></option>
+                                    <option value="VietinBank"></option>
+                                </datalist>
+                            </div>
+                            <div class="mb-2 col-12 col-md-6 py-3">
+                                <label style="font-weight:bold;" class="form-label">Số tài khoản</label>
+                                <input value="@Model.BankAccountNumber" id="sotaikhoan" name="sotaikhoan" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
+                            </div>
+                            <div class="mb-2 col-12 col-md-6 py-3">
+                                <label style="font-weight:bold;" class="form-label">Chủ tài khoản</label>
+                                <input value="@Model.BankAccountHolderName" id="chutaikhoan" name="chutaikhoan" type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
+                            </div>
+                            <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
+                                <button type="reset" style="width: 230px" class="btn btn-outline-danger">
+                                    Hủy
+                                </button>
+                            </div>
+                            <div style="padding-top: 20px" class="mb-3 col-12 col-md-6">
+                                <a role="button" id="btnLuuThongTin" style="width: 230px" class="btn btn-success">
+                                    Lưu
+                                </a>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_LHvaThanhToanValidation.js"></script>
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
 </div>
-<script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
+

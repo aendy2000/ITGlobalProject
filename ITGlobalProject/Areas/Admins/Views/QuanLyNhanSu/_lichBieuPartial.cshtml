@@ -62,7 +62,7 @@
                             @Model.Name
                             <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
                         </h2>
-                        <p class="mb-0 d-block">@Model.Email</p>
+                        <p class="mb-0 d-block">@Model.WorkEmail</p>
                     </div>
 
                 </div>
@@ -92,13 +92,38 @@
                         <ul class="list-unstyled ms-n2 mb-0">
                             <!-- Nav item -->
                             <li class="nav-item ">
-                                <a role="button" id="ttchiTiet" class="nav-link">
+                                <a role="button" id="ttcanhan" class="nav-link">
                                     <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a role="button" id="csthongtin" class="nav-link">
-                                    <i class="fe fe-edit nav-icon"></i>Chỉnh sửa thông tin
+                                <a role="button" id="lhvathanhtoan" class="nav-link">
+                                    <i class="fe fe-phone-call nav-icon"></i>Liên hệ & Thanh toán
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="knchuyenmon" class="nav-link">
+                                    <i class="fe fe-code nav-icon"></i>Kỹ năng chuyên môn
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tdngoaingu" class="nav-link">
+                                    <i class="fe fe-award nav-icon"></i>Trình độ ngoại ngữ
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="ptnhanthan" class="nav-link">
+                                    <i class="fe fe-users nav-icon"></i>Phụ thuộc nhân thân
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tcvaphucap" class="nav-link">
+                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="hdvacongviec" class="nav-link">
+                                    <i class="fe fe-file-text nav-icon"></i>Hợp đồng & Công việc
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -113,10 +138,10 @@
                             </li>
                             <li class="nav-item">
                                 <a role="button" id="bangLuongs" class="nav-link">
-                                    <i class="fe fe-file-text nav-icon"></i>Bảng lương
+                                    <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
                                 </a>
                             </li>
-                            <li class="nav-item active">
+                            <li class="nav-item  active">
                                 <a role="button" class="nav-link" id="LBCongViec">
                                     <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
                                 </a>
@@ -127,16 +152,22 @@
                                 </a>
                             </li>
                             <hr />
-                            <li style="text-align:center; margin-top:20px">
-                                <a id="khoataikhoan" style="width:100%" class="btn btn-outline-danger btn-sm">
-                                    KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
-                                </a>
-                            </li>
-
-                            @*Nav item*@
-                            <!--<li class="nav-item">
-                                <a class="nav-link" href="~/Content/Admin/index.html"><i class="fe fe-power nav-icon"></i>Đăng xuất</a>
-                            </li>-->
+                            @if (Model.Lock == false)
+                            {
+                                <li style="text-align:center; margin-top:20px">
+                                    <a id="khoataikhoan" style="width:100%" class="btn btn-outline-danger btn-sm">
+                                        KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li style="text-align:center; margin-top:20px">
+                                    <a id="khoataikhoan" style="width:100%" class="btn btn-outline-success btn-sm">
+                                        MỞ KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -171,22 +202,6 @@
                                     <a class="nav-link" id="hoanthanh-tab" data-bs-toggle="pill" href="#hoanthanh" role="tab"
                                        aria-controls="archived" aria-selected="false">Hoàn Thành</a>
                                 </li>
-                                @if (Model.Lock == false)
-                                {
-                                    <li style="text-align:center; margin-top:20px">
-                                        <a id="khoataikhoan" style="width:100%" class="btn btn-outline-danger btn-sm">
-                                            KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
-                                        </a>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li style="text-align:center; margin-top:20px">
-                                        <a id="khoataikhoan" style="width:100%" class="btn btn-outline-success btn-sm">
-                                            MỞ KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
-                                        </a>
-                                    </li>
-                                }
                             </ul>
                         </div>
                         <div class="p-4 row">

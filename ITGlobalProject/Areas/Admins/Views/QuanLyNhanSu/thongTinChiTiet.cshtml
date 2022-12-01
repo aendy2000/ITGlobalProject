@@ -4,7 +4,6 @@
     ViewBag.Title = "Thông Tin Nhân Viên";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
     string imagesUrl = "";
-
     if (string.IsNullOrEmpty(Model.Avatar))
     {
         imagesUrl = "~/Content/Admin/assets/images/avatar/default-avatar.png";
@@ -69,7 +68,7 @@
                             @Model.Name
                             <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
                         </h2>
-                        <p class="mb-0 d-block">@Model.Email</p>
+                        <p class="mb-0 d-block">@Model.WorkEmail</p>
                     </div>
 
                 </div>
@@ -100,13 +99,38 @@
                         <ul class="list-unstyled ms-n2 mb-0">
                             <!-- Nav item -->
                             <li class="nav-item active">
-                                <a role="button" id="ttchiTiet" class="nav-link">
+                                <a role="button" id="ttcanhan" class="nav-link">
                                     <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a role="button" id="csthongtin" class="nav-link">
-                                    <i class="fe fe-edit nav-icon"></i>Chỉnh sửa thông tin
+                                <a role="button" id="lhvathanhtoan" class="nav-link">
+                                    <i class="fe fe-phone-call nav-icon"></i>Liên hệ & Thanh toán
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="knchuyenmon" class="nav-link">
+                                    <i class="fe fe-code nav-icon"></i>Kỹ năng chuyên môn
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tdngoaingu" class="nav-link">
+                                    <i class="fe fe-award nav-icon"></i>Trình độ ngoại ngữ
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="ptnhanthan" class="nav-link">
+                                    <i class="fe fe-users nav-icon"></i>Phụ thuộc nhân thân
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tcvaphucap" class="nav-link">
+                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="hdvacongviec" class="nav-link">
+                                    <i class="fe fe-file-text nav-icon"></i>Hợp đồng & Công việc
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -121,7 +145,7 @@
                             </li>
                             <li class="nav-item">
                                 <a role="button" id="bangLuongs" class="nav-link">
-                                    <i class="fe fe-file-text nav-icon"></i>Bảng lương
+                                    <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
                                 </a>
                             </li>
                             <li class="nav-item  ">
@@ -162,90 +186,125 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="mb-0">Thông Tin Cá Nhân  </h3>
-                    <p class="mb-0">
-                        Các thông tin về nhân viên được hiển thị dưới dạng xem.
-                    </p>
                 </div>
                 <div class="card-body">
-
+                    <div id="reloadImage" class="d-lg-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center mb-4 mb-lg-0">
+                            <img src="@Url.Content(imagesUrl)" class="avatar-xl rounded-circle border border-4 border-white"
+                                 alt="" id="previewImage" />
+                            <div class="ms-3">
+                                <h4 class="mb-0">Hình đại diện</h4>
+                                <p class="mb-0">
+                                    PNG hoặc JPG hình vuông không lớn hơn 800px.
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <input hidden id="selectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewImage'))" />
+                            <a role="button" id="clickFiles" class="btn btn-outline-primary btn-sm">Tải lên</a>
+                            <a role="button" id="reloadButton" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
+                        </div>
+                    </div>
+                    <hr class="my-4" />
                     <div>
                         <form class="row">
-                            <!-- First name -->
-                            <div class="mb-3 col-12 col-md-6">
-                                <label style="font-weight:bold" class="form-label" for="fname">Họ và Tên</label>
-                                <input readonly value="@Model.Name" type="text" id="fname" class="form-control" placeholder="Nguyễn Văn A..." required />
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label" for="fname">Họ và Tên <span class="text-danger">*</span></label>
+                                <input value="@Model.Avatar" name="avatar" id="avatar" hidden />
+                                <input value="@Model.Name" type="text" id="hoten" name="hoten" class="form-control" placeholder="Nguyễn Văn A" />
+                                <p style="font-size: 13px; color:red;" id="hotenvalidation"></p>
                             </div>
-                            <div class="mb-3 col-12 col-md-6">
-                                <label style="font-weight:bold" class="form-label" for="fname">Số CMND/CCCD</label>
-                                <input readonly value="@Model.IdentityCard" type="text" id="fname" class="form-control" placeholder="07020000xxxx..." required />
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label" for="fname">Số CMND/CCCD <span class="text-danger">*</span></label>
+                                <input value="@Model.IdentityCard" type="text" class="form-control" id="cmnd" name="cmnd" data-inputmask="'mask': '9999 9999 9999'" inputmode="numeric"
+                                       placeholder="Nhập số chứng minh hoặc căn cước" required>
+                                <p style="font-size: 13px; color:red;" id="cmndvalidation"></p>
                             </div>
-                            <!-- Phone -->
-                            <div class="mb-3 col-12 col-md-6">
-                                <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại</label>
-                                <input readonly value="@Model.Phone" type="tel" id="phone" class="form-control" placeholder="0999888777..." required />
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label" for="quoctich">Quốc tịch <span class="text-danger">*</span></label>
+                                <input value="@Model.Nationality" type="text" id="quoctich" name="quoctich" class="form-control" placeholder="Việt Nam" />
+                                <p style="font-size: 13px; color:red;" id="quoctichvalidation"></p>
                             </div>
-                            <!-- Birthday -->
-                            <div class="mb-3 col-12 col-md-6">
-                                <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh</label>
-                                <input style="background-color: #F5F4F8" disabled value="@Model.Birthday.ToString("yyyy-MM-dd")" class="form-control flatpickr" type="text" placeholder="2000-01-01..." id="birth"
-                                       name="birth" />
-                            </div>
-                            <div class="mb-3 col-12 col-md-6">
-                                <label style="font-weight:bold" class="form-label" for="phone">Email</label>
-                                <input readonly value="@Model.Email" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
-                            </div>
-                            <!-- Birthday -->
-                            <div class="mb-3 col-12 col-md-6">
-                                <label style="font-weight:bold" class="form-label">Giới tính</label>
-                                <input readonly value="@Model.Sex" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
-                            </div>
-                            <!-- Address -->
-                            <div class="mb-3 col-12 col-md-12">
-                                <label style="font-weight:bold" class="form-label" for="address">Địa chỉ</label>
-                                <textarea readonly rows="4" id="address" class="form-control" placeholder="Số 0/0 đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla..." required>@Model.Address</textarea>
-                            </div>
-                            <hr class="my-4" />
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label" for="honnhan">Tình trạng hôn nhân <span class="text-danger">*</span></label>
+                                <select data-width="100%" class="form-select text-dark" id="honnhan" name="honnhan">
 
-                            <!-- State -->
-                            <div class="mb-3 col-12 col-md-6">
-                                <label style="font-weight:bold" class="form-label">Vai trò</label>
-                                <input readonly value="@Model.Position.Name" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
+                                    @if (Model.MaritalStatus.Equals("Độc thân"))
+                                    {
+                                        <option selected value="Độc thân">Độc thân</option>
+                                        <option value="Đã kết hôn">Đã kết hôn</option>
+                                        <option value="Khác">Khác</option>
+                                    }
+                                    else if (Model.MaritalStatus.Equals("Đã kết hôn"))
+                                    {
+                                        <option value="Độc thân">Độc thân</option>
+                                        <option selected value="Đã kết hôn">Đã kết hôn</option>
+                                        <option value="Khác">Khác</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Độc thân">Độc thân</option>
+                                        <option value="Đã kết hôn">Đã kết hôn</option>
+                                        <option selected value="Khác">Khác</option>
+                                    }
+                                </select>
+                                <p style="font-size: 13px; color:red;" id="honnhanvalidation"></p>
                             </div>
-                            <div class="mb-3 col-12 col-md-6">
-                                <label style="font-weight:bold" class="form-label" for="phone">Người phụ thuộc <span class="text-danger">*</span></label>
-                                <input readonly value="Không có" type="text" class="form-control" placeholder="Cha mẹ già, con nhỏ, ... không có khả năng lao động" required />
-                            </div>                            <div class="mb-3 col-12 col-md-6">
-                                <label style="font-weight:bold" class="form-label" for="phone">Mức lương</label>
-                                <input readonly value="@Model.Wage.ToString("0,0").Replace(".", ",") đ" style="font-weight:bold; color:brown" type="text" id="luong" class="form-control" placeholder="10.000.000..." required />
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" l class="form-label" for="birth"> Ngày sinh <span class="text-danger">*</span></label>
+                                <input value="@Model.Birthday.ToString("yyyy-MM-dd")" type="text" class="form-control flatpickr" placeholder="Chọn ngày sinh" id="ngaysinh" name="ngaysinh" />
+                                <p style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
                             </div>
-                            <div class="mb-3 col-12 col-md-6">
-                                <label style="font-weight:bold;" class="form-label">Ngân hàng</label>
-                                <input readonly value="@Model.BankName" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label">Giới tính <span class="text-danger">*</span></label>
+                                <select name="gioitinh" id="gioitinh" class="form-select text-dark" data-width="100%">
+                                    @if (Model.Sex.Equals("Nam"))
+                                    {
+                                        <option selected value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Nam">Nam</option>
+                                        <option selected value="Nữ">Nữ</option>
+                                    }
+                                </select>
+                                <p style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
                             </div>
-                            <div class="mb-3 col-12 col-md-6">
-                                <label style="font-weight:bold;" class="form-label" for="phone">Số tài khoản</label>
-                                <input readonly value="@Model.BankAccountNumber" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
+                            <div class="mb-2 col-12 col-md-12">
+                                <label style="font-weight:bold;" class="form-label" for="address">Địa chỉ nhà</label>
+                                <textarea rows="4" id="diachinha" name="diachinha" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla">@Model.Address</textarea>
                             </div>
-                            <div class="mb-3 col-12 col-md-6">
-                                <label style="font-weight:bold;" class="form-label" for="phone">Chủ tài khoản</label>
-                                <input readonly value="@Model.BankAccountHolderName" type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
+                            <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
+                                <button type="reset" style="width: 230px" class="btn btn-outline-danger">
+                                    Hủy
+                                </button>
+                            </div>
+                            <div style="padding-top: 20px" class="mb-3 col-12 col-md-6">
+                                <a role="button" id="btnLuuThongTin" style="width: 230px" class="btn btn-success">
+                                    Lưu
+                                </a>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_TTCaNhanValidation.js"></script>
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
 </div>
-<script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
+<script src="~/Content/Admin/assets/js/reviewImage.js"></script>
 <script>
-    $(document).on('click', '#csthongtin', function (e) {
+
+    $(document).on('click', '#ttcanhan', function (e) {
         $.ajax({
-            url: '@Url.Action("chinhSuaThongTinPartial", "QuanLyNhanSu", new {id = Model.ID })',
+            url: '@Url.Action("thongTinChiTietPartial", "QuanLyNhanSu", new {id = Model.ID })',
             type: 'GET',
             dataType: 'html'
         }).done(function (ketqua) {
-            if (ketqua !== "DANHSACH") {
+             if (ketqua !== "DANHSACH") {
                 $('#contentPartial').replaceWith(ketqua);
                 $.when(
                     $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
@@ -265,9 +324,139 @@
         });
     });
 
-    $(document).on('click', '#ttchiTiet', function (e) {
+    $(document).on('click', '#lhvathanhtoan', function (e) {
         $.ajax({
-            url: '@Url.Action("thongTinChiTietPartial", "QuanLyNhanSu", new {id = Model.ID })',
+            url: '@Url.Action("lienHeVaThanhToanPartial", "QuanLyNhanSu", new {id = Model.ID })',
+            type: 'GET',
+            dataType: 'html'
+        }).done(function (ketqua) {
+             if (ketqua !== "DANHSACH") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            }
+            else {
+                window.location.href = $('#actionDanhsach').data('request-url');
+            }
+        });
+    });
+    $(document).on('click', '#knchuyenmon', function (e) {
+        $.ajax({
+            url: '@Url.Action("kyNangChuyenMonPartial", "QuanLyNhanSu", new {id = Model.ID })',
+            type: 'GET',
+            dataType: 'html'
+        }).done(function (ketqua) {
+             if (ketqua !== "DANHSACH") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            }
+            else {
+                window.location.href = $('#actionDanhsach').data('request-url');
+            }
+        });
+    });
+
+    $(document).on('click', '#tdngoaingu', function (e) {
+        $.ajax({
+            url: '@Url.Action("trinhDoNgoaiNguPartial", "QuanLyNhanSu", new {id = Model.ID })',
+            type: 'GET',
+            dataType: 'html'
+        }).done(function (ketqua) {
+             if (ketqua !== "DANHSACH") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            }
+            else {
+                window.location.href = $('#actionDanhsach').data('request-url');
+            }
+        });
+    });
+
+    $(document).on('click', '#ptnhanthan', function (e) {
+        $.ajax({
+            url: '@Url.Action("phuThuocNhanThanPartial", "QuanLyNhanSu", new {id = Model.ID })',
+            type: 'GET',
+            dataType: 'html'
+        }).done(function (ketqua) {
+             if (ketqua !== "DANHSACH") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            }
+            else {
+                window.location.href = $('#actionDanhsach').data('request-url');
+            }
+        });
+    });
+
+    $(document).on('click', '#tcvaphucap', function (e) {
+        $.ajax({
+            url: '@Url.Action("troCapPartial", "QuanLyNhanSu", new {id = Model.ID })',
+            type: 'GET',
+            dataType: 'html'
+        }).done(function (ketqua) {
+             if (ketqua !== "DANHSACH") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+            }
+            else {
+                window.location.href = $('#actionDanhsach').data('request-url');
+            }
+        });
+    });
+
+
+    $(document).on('click', '#hdvacongviec', function (e) {
+        $.ajax({
+            url: '@Url.Action("hopDongPartial", "QuanLyNhanSu", new {id = Model.ID })',
             type: 'GET',
             dataType: 'html'
         }).done(function (ketqua) {
