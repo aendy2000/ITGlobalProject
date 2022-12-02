@@ -49,7 +49,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                         Session["user-fullname"] = user.Name;
                         Session["user-id"] = user.ID;
                         Session["user-email"] = user.WorkEmail;
-                        Session["user-role"] = user.Position.Name;
+                        Session["user-role"] = user.Position.Name.ToLower();
                         Session["user-vatatar"] = user.Avatar;
                         if (user.Position.Name.ToLower().Equals("admin"))
                         {
@@ -202,7 +202,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 var infor = model.Employees.FirstOrDefault(i => i.ID == id);
                 if (infor != null)
                 {
-                    return View(infor);
+                    return View("ThongTinCaNhan", infor);
                 }
             }
             return RedirectToAction("Overview", "Dashboard");
@@ -218,8 +218,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 }
             }
             return Content("TRANGCHU");
-
         }
+
         [HttpPost]
         public async Task<ActionResult> ChinhSuaThongTinCaNhanPartial(HttpPostedFileBase AvatarImg, int ids, string hotens, string cmnds, string sodienthoais, string ngaysinhs,
         string diachiemails, string gioitinhs, string diachinhas, string avatars)

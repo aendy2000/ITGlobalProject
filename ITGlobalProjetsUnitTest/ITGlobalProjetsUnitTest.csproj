@@ -103,6 +103,7 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Admins\Controller\QuanLyNhanSu.cs" />
     <Compile Include="Areas\Admins\Controller\QuanLyTaiKhoan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

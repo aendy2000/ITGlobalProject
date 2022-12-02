@@ -20,6 +20,7 @@ using ITGlobalProject.Middleware;
 
 namespace ITGlobalProject.Areas.Admins.Controllers
 {
+    [AdminLoginVerification]
     public class QuanLyNhanSuController : Controller
     {
         CP25Team06Entities model = new CP25Team06Entities();
@@ -51,7 +52,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             Session["DefaultlstEmployees"] = employee;
 
             ViewBag.typeListNhanSu = type;
-            return View(employee.ToPagedList((int)page, (int)pageSize));
+            return View("danhSachNhanVien", employee.ToPagedList((int)page, (int)pageSize));
         }
         public ActionResult danhSachNhanVienGridPartial(int? page, int? pageSize, int? type)
         {
@@ -329,7 +330,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (user != null)
             {
-                return View(user);
+                return View("thongTinChiTiet", user);
             }
             return RedirectToAction("danhSachNhanVien", "QuanLyNhanSu");
         }
