@@ -50,7 +50,7 @@
                             @Model.Name
                             <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="@Model.Position.Name"></i>
                         </h2>
-                        <p class="mb-0 d-block">@Model.Email</p>
+                        <p class="mb-0 d-block">@Model.WorkEmail</p>
                     </div>
 
                 </div>
@@ -149,7 +149,7 @@
                             <!-- Phone -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
-                                <input value="@Model.Phone" type="tel" id="sodienthoai" name="sodienthoai" class="form-control" placeholder="0999888xxx" />
+                                <input value="@Model.TelephoneMobile" type="tel" id="sodienthoai" name="sodienthoai" class="form-control" placeholder="0999888xxx" />
                                 <p style="font-size: 13px; color:red;" id="sodienthoaivalidation"></p>
                             </div>
                             <!-- Birthday -->
@@ -160,7 +160,7 @@
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
-                                <input value="@Model.Email" type="text" id="diachiemail" name="diachiemail" class="form-control" placeholder="example@itglobal.net" />
+                                <input value="@Model.WorkEmail" type="text" id="diachiemail" name="diachiemail" class="form-control" placeholder="example@itglobal.net" />
                                 <p style="font-size: 13px; color:red;" id="diachiemailvalidation"></p>
                             </div>
                             <!-- Birthday -->

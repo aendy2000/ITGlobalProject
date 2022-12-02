@@ -29177,7 +29177,7 @@ var render = function () {
               _c("img", {
                 staticStyle: { "border-radius": "100%" },
                 attrs: {
-                    src: "Content/User/public/main/img/testimonial-graphics.png",
+                    src: $('#requestPath').val() + 'Content/User/public/main/img/testimonial-graphics.png',
                   alt: "image",
                 },
               }),
@@ -29229,7 +29229,7 @@ var render = function () {
                                       _vm._v(" "),
                                       _c("img", {
                                         attrs: {
-                                              src: "Content/User/public/main/img/user-1.jpg",
+                                              src: $('#requestPath').val() + "Content/User/public/main/img/user-1.jpg",
                                           alt: "image",
                                         },
                                       }),
@@ -29314,7 +29314,7 @@ var render = function () {
                                       _vm._v(" "),
                                       _c("img", {
                                         attrs: {
-                                              src: "Content/User/public/main/img/user-2.jpg",
+                                              src: $('#requestPath').val() + "Content/User/public/main/img/user-2.jpg",
                                           alt: "image",
                                         },
                                       }),
@@ -29392,7 +29392,7 @@ var render = function () {
                                       _vm._v(" "),
                                       _c("img", {
                                         attrs: {
-                                              src: "Content/User/public/main/img/user-3.jpg",
+                                              src: $('#requestPath').val() + "Content/User/public/main/img/user-3.jpg",
                                           alt: "image",
                                         },
                                       }),
@@ -29470,7 +29470,7 @@ var render = function () {
                                       _vm._v(" "),
                                       _c("img", {
                                         attrs: {
-                                              src: "Content/User/public/main/img/user-6.jpg",
+                                              src: $('#requestPath').val() + "Content/User/public/main/img/user-6.jpg",
                                           alt: "image",
                                         },
                                       }),
@@ -29549,7 +29549,7 @@ var render = function () {
                                       }),
                                       _c("img", {
                                         attrs: {
-                                              src: "Content/User/public/main/img/user-7.jpg",
+                                              src: $('#requestPath').val() + "Content/User/public/main/img/user-7.jpg",
                                           alt: "image",
                                         },
                                       }),

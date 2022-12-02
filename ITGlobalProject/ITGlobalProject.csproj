@@ -294,8 +294,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Middleware\AdminLoginVerification.cs" />
-    <Compile Include="Middleware\EmployeeLoginVerification.cs" />
+    <Compile Include="Middleware\LoginVerification.cs" />
     <Compile Include="Models\Comment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

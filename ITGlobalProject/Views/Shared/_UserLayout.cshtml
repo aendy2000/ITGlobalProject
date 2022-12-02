@@ -133,6 +133,7 @@
             <div id="app">
                 @RenderBody()
                 @RenderSection("scripts", required: false)
+                <input hidden value="@Url.Content("~")" id="requestPath" />
             </div>
             <footer id="dtr-footer">
 

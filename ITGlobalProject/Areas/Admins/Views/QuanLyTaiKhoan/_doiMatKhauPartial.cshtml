@@ -47,7 +47,7 @@
                             @Model.Name
                             <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="@Model.Position.Name"></i>
                         </h2>
-                        <p class="mb-0 d-block">@Model.Email</p>
+                        <p class="mb-0 d-block">@Model.WorkEmail</p>
                     </div>
 
                 </div>
@@ -112,39 +112,37 @@
                 </div>
                 <!-- Card body -->
                 <div class="card-body">
-                    <div>
-                        <form class="row">
-                            <!-- First name -->
-                            <div class="mb-3 col-12 col-md-12">
-                                <label style="font-weight:bold" class="form-label" for="fname">Mật khẩu cũ <span class="text-danger">*</span></label>
-                                <input type="password" id="password" name="password" class="form-control" placeholder="Nhập vào mật khẩu hiện tại" />
-                                <p style="font-size: 13px; color:red;" id="passwordValidation"></p>
+                    <form id="frmInput" class="row">
+                        <!-- First name -->
+                        <div class="mb-3 col-12 col-md-12">
+                            <label style="font-weight:bold" class="form-label" for="fname">Mật khẩu cũ <span class="text-danger">*</span></label>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Nhập vào mật khẩu hiện tại" />
+                            <p style="font-size: 13px; color:red;" id="passwordValidation"></p>
 
-                            </div>
-                            <div class="mb-3 col-12 col-md-12">
-                                <label style="font-weight:bold" class="form-label" for="fname">Mật khẩu mới <span class="text-danger">*</span></label>
-                                <input type="password" id="newpassword" name="newpassword" class="form-control" placeholder="Nhập vào mật khẩu mới" />
-                                <p style="font-size: 13px; color:red;" id="newpasswordValidation"></p>
+                        </div>
+                        <div class="mb-3 col-12 col-md-12">
+                            <label style="font-weight:bold" class="form-label" for="fname">Mật khẩu mới <span class="text-danger">*</span></label>
+                            <input type="password" id="newpassword" name="newpassword" class="form-control" placeholder="Nhập vào mật khẩu mới" />
+                            <p style="font-size: 13px; color:red;" id="newpasswordValidation"></p>
 
-                            </div>
-                            <!-- Phone -->
-                            <div class="mb-3 col-12 col-md-12">
-                                <label style="font-weight:bold" class="form-label" for="phone">Nhập lại mật khẩu mới <span class="text-danger">*</span></label>
-                                <input type="password" id="repassword" name="repassword" class="form-control" placeholder="Nhập lại mật khẩu mới" />
-                                <p style="font-size: 13px; color:red;" id="repasswordValidation"></p>
-                            </div>
-                            <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
-                                <button style="width: 230px" class="btn btn-outline-danger" type="reset">
-                                    Hủy thay đổi
-                                </button>
-                            </div>
-                            <div style="padding-top: 20px" class="mb-3 col-12 col-md-6">
-                                <a role="button" id="btnSubmit" style="width: 230px" class="btn btn-success">
-                                    Lưu thay đổi
-                                </a>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <!-- Phone -->
+                        <div class="mb-3 col-12 col-md-12">
+                            <label style="font-weight:bold" class="form-label" for="phone">Nhập lại mật khẩu mới <span class="text-danger">*</span></label>
+                            <input type="password" id="repassword" name="repassword" class="form-control" placeholder="Nhập lại mật khẩu mới" />
+                            <p style="font-size: 13px; color:red;" id="repasswordValidation"></p>
+                        </div>
+                        <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
+                            <button style="width: 230px" class="btn btn-outline-danger" type="reset">
+                                Hủy thay đổi
+                            </button>
+                        </div>
+                        <div style="padding-top: 20px" class="mb-3 col-12 col-md-6">
+                            <a role="button" id="btnSubmit" style="width: 230px" class="btn btn-success">
+                                Lưu thay đổi
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

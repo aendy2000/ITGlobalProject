@@ -34,7 +34,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult DangNhap()
         {
             ViewBag.Title = "Đăng Nhập";
-            return View();
+            return View("DangNhap");
         }
         [HttpPost]
         public ActionResult DangNhap(string username, string password)
@@ -73,7 +73,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         public ActionResult QuenMatKhau()
         {
-            return View();
+            return View("QuenMatKhau");
         }
         [HttpPost]
         public ActionResult QuenMatKhau(string email)
@@ -131,7 +131,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             {
                 return View("DangNhap");
             }
-            return View();
+            return View("XacThucQuenMatKhau");
         }
         [HttpPost]
         public ActionResult XacThucQuenMatKhau(string ma, string email)
@@ -143,21 +143,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
             else
             {
-                if (user.CodeDate.Value.CompareTo(DateTime.Now) <= 0)
+                if (user.CodeDate != null)
                 {
-                    return Content("HETHANMA");
-                }
-                else if (user.Code.Equals(ma))
-                {
-                    user.Code = "";
-                    user.CodeDate = null;
-                    model.Entry(user).State = EntityState.Modified;
-                    model.SaveChanges();
-                    return Content("SUCCESS");
+                    if (user.CodeDate.Value.CompareTo(DateTime.Now) <= 0)
+                    {
+                        return Content("HETHANMA");
+                    }
+                    else if (user.Code.Equals(ma))
+                    {
+                        user.Code = "";
+                        user.CodeDate = null;
+                        model.Entry(user).State = EntityState.Modified;
+                        model.SaveChanges();
+                        return Content("SUCCESS");
+                    }
+                    else
+                    {
+                        return Content("SAIMA");
+                    }
                 }
                 else
                 {
-                    return Content("SAIMA");
+                    return Content("DANGNHAP");
                 }
             }
         }
@@ -169,7 +176,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
             else
             {
-                return View();
+                return View("DatLaiMatKhau");
             }
         }
         [HttpPost]
