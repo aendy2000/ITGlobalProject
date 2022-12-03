@@ -10,6 +10,7 @@ using System.Data.Entity;
 
 namespace ITGlobalProject.Areas.Admins.Controllers
 {
+    [AdminLoginVerification]
     public class QuanLyVaiTroController : Controller
     {
         CP25Team06Entities model = new CP25Team06Entities();
@@ -19,12 +20,12 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         {
             var position = model.Position.Where(p => p.ID != 1).OrderByDescending(p => p.ID).ToList();
             ViewBag.ShowActive = "danhSachVaiTro";
-            return View(position);
+            return View("danhSachVaiTro", position);
         }
         [HttpPost]
         public ActionResult themVaiTro(string name, string description)
         {
-            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
                 return Content("DANHSACH");
 
             Position position = new Position();
@@ -60,7 +61,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             var position = model.Position.FirstOrDefault(p => p.ID == id);
             if (id == null || position == null)
                 return Content("DANHSACH");
-
             
             model.Position.Remove(position);
             model.SaveChanges();

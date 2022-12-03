@@ -933,10 +933,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
 
         [HttpPost]
-        public ActionResult khoaTaiKhoan(int id)
+        public ActionResult khoaTaiKhoan(int? id)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
-            if (user != null)
+            if (id != null && user != null)
             {
                 if (user.Lock == false)
                 {
