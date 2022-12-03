@@ -30,20 +30,33 @@
         let gioitinh = $('#gioitinh :selected').val();
         let diachinha = $('#diachinha').val();
         let diachiemail = $('#diachiemail').val();
+
         var checkshoten = false;
         var checkscmnd = false;
         var checkssodienthoai = false;
         var checksngaysinh = false;
         var checksgioitinh = false;
         var checksdiachiemail = false;
+
+        var format = /[`!#$%^&*()+\-=\[\]{}._@;':"\\|,<>\/?~]/;
+        var formatNumber = '0123456789';
+
         //Họ và tên
         if (hoten.length < 1) {
-            $('#hotenvalidation').text("Không có bỏ trống mà trời?").show();
-            var searchInput = $('#hoten');
-            var strLength = searchInput.val().length * 2;
-
-            searchInput.focus();
-            searchInput[0].setSelectionRange(strLength, strLength);
+            $('#hotenvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            var checkshoten = false;
+        } else if (format.length > 50) {
+            $('#hotenvalidation').text("Họ và Tên chỉ được phép tối đa 50 kí tự.").show();
+            var checkshoten = false;
+        } else if (format.test(hoten) == true) {
+            $('#hotenvalidation').text("Họ và Tên không hợp lệ.").show();
+            var checkshoten = false;
+        } else if (formatNumber.test(hoten) == true) {
+            $('#hotenvalidation').text("Họ và Tên không hợp lệ.").show();
+            var checkshoten = false;
+        } else if (format.length > 50) {
+            $('#hotenvalidation').text("Họ và Tên chỉ được phép tối đa 50 kí tự.").show();
+            var checkshoten = false;
         }
         else {
             checkshoten = true;
@@ -117,7 +130,7 @@
         if (checkshoten === true && checkscmnd === true && checkssodienthoai === true && checksngaysinh === true &&
             checksgioitinh === true && checksdiachiemail === true) {
             e.preventDefault();
-            $('#AjaxLoader').show(); 
+            $('#AjaxLoader').show();
             var formData = new FormData();
             formData.append('AvatarImg', $("#selectFiles")[0].files[0]);
             formData.append('ids', id);
@@ -139,7 +152,7 @@
                 processData: false,
                 data: formData
             }).done(function (ketqua) {
-                $('#AjaxLoader').hide(); 
+                $('#AjaxLoader').hide();
                 if (ketqua === "Đã có xảy ra lỗi, vui lòng thử lại") {
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {

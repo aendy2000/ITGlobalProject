@@ -16,16 +16,20 @@
     //Click lưu
 
     $('#luuChinhSua').on('click', function (e) {
-        alert("ákdhád");
         var id = $('#id').val();
         var name = $('#name').val();
         var des = $('#descript').val();
-        alert("ákdhádnaylaif");
+
+        var formats = /[`!#$%^&*()+\=\[\]{};':"\\|@_<>\/?~]/;
+
         if (name.length == 0) {
             $('#EditRoleValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-        } else {
-            alert("ákdhádelse");
-        
+        } else if (formats.test(name) == true) {
+            $('#EditRoleValidateResul').text("Tên Vai Trò không hợp lệ! Vui lòng kiểm tra lại.").show();
+        } else if (name.length > 50) {
+            $('#EditRoleValidateResul').text("Tên vai trò chỉ tối đa 50 ký tự! Vui lòng kiểm tra lại.").show();
+        }
+        else {        
             var formData = new FormData();
             formData.append('id', id);
             formData.append('name', name);

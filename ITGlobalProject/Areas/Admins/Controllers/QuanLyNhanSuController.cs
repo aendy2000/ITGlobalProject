@@ -208,10 +208,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                         LanguagesSkills lgSkill = new LanguagesSkills();
                         lgSkill.ID_Employee = emp.ID;
                         lgSkill.Name = trinhdongoaingu.Split('_')[0];
-                        lgSkill.listening = trinhdongoaingu.Split('_')[0];
-                        lgSkill.Speaking = trinhdongoaingu.Split('_')[1];
-                        lgSkill.Reading = trinhdongoaingu.Split('_')[2];
-                        lgSkill.Writing = trinhdongoaingu.Split('_')[3];
+                        lgSkill.listening = trinhdongoaingu.Split('_')[1];
+                        lgSkill.Speaking = trinhdongoaingu.Split('_')[2];
+                        lgSkill.Reading = trinhdongoaingu.Split('_')[3];
+                        lgSkill.Writing = trinhdongoaingu.Split('_')[4];
 
                         model.LanguagesSkills.Add(lgSkill);
                         model.SaveChanges();
@@ -618,9 +618,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     LanguagesSkills lgSkill = new LanguagesSkills();
                     lgSkill.ID_Employee = user.ID;
                     lgSkill.Name = trinhdongoaingu.Split('_')[0];
-                    lgSkill.listening = trinhdongoaingu.Split('_')[0];
-                    lgSkill.Speaking = trinhdongoaingu.Split('_')[1];
-                    lgSkill.Reading = trinhdongoaingu.Split('_')[2];
+                    lgSkill.listening = trinhdongoaingu.Split('_')[1];
+                    lgSkill.Speaking = trinhdongoaingu.Split('_')[2];
+                    lgSkill.Reading = trinhdongoaingu.Split('_')[3];
                     lgSkill.Writing = trinhdongoaingu.Split('_')[3];
 
                     model.LanguagesSkills.Add(lgSkill);

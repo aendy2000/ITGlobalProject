@@ -278,7 +278,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                         user.Avatar = avatars;
                     }
                     user.Name = hotens;
-                    user.IdentityCard = cmnds;
+                    user.IdentityCard = cmnds.Replace(" ", "");
                     user.TelephoneMobile = sodienthoais;
                     user.Birthday = Convert.ToDateTime(ngaysinhs);
                     user.Sex = gioitinhs;

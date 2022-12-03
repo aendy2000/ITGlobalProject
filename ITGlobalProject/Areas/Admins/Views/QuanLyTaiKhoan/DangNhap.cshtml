@@ -66,6 +66,20 @@
                         </span>
                     </div>
                     <p style="color: red; font-size: 13px; margin-top: -10px" hidden id="PasswordValidateResul"></p>
+
+                    <div id="frm-Captcha" style="background-color: white; height: 200px; border-style: dashed; margin-top: 20px" class="input100">
+                        <p style="margin-left: -55px;padding-top: 10px;margin-bottom: 20px; font-weight:bold;"> Nhập mã xác thực để tiếp tục</p>
+                        <div style="white-space: nowrap;" class="wrap-input100 validate-input" data-validate="Valid password reset is required: 000 000">
+                            <div class="input100" style="width: 140%; margin-left: -58px; background-image: url( @Url.Content("~/content/images/bg-capcha.jpg") )">
+                                <canvas style="margin-left: -30px" height="50" id="canvas"></canvas>
+                            </div>
+                            <button id="reload-button" style="padding-left: 175px;" class="symbol-input101">
+                                <i style="color: brown; margin-top: 3px" class="fa fa-refresh" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <input style="margin-left: -58px; width: 140%;" class="input100" type="text" id="user-input" placeholder="Nhập mã xác thực" />
+                        <p style="color: red; font-size: 13px; width: 140%; margin-left: -50px;" hidden id="user-inputValidateResul"></p>
+                    </div>
                     <div class="container-login100-form-btn">
                         <button id="subMitNe" class="login100-form-btn">
                             Đăng Nhập
@@ -80,15 +94,13 @@
                             Mật khẩu?
                         </a>
                     </div>
-
                     <div style="margin-top: -30px" class="text-center p-t-136">
                     </div>
-
-
                 </div>
             </div>
         </div>
     </div>
+    <input hidden id="correct-number" type="number" value="0" />
     <script src="~/Content/Admin/vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="~/Content/Admin/vendor/bootstrap/js/popper.js"></script>
     <script src="~/Content/Admin/vendor/bootstrap/js/bootstrap.min.js"></script>
