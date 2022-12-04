@@ -52,7 +52,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 Partners kh = new Partners();
                 kh.Company = namedn.Trim();
                 kh.Name = hoten.Trim();
-                kh.IdentityCard = cmnd.Trim();
+                kh.IdentityCard = cmnd.Replace(" ", "").Trim();
                 kh.Phone = phone.Trim();
                 kh.Email = email.Trim();
                 kh.Birthday = Convert.ToDateTime(ngaysinh);
@@ -329,7 +329,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (id == null || pro == null)
                 return Content("DANHSACH");
 
-            Session["lst-Task"] = model.Tasks.Where(t => t.ID_Project == id).OrderBy(t => t.ID).ToList();
+            Session["lst-Task"] = model.Tasks.Where(t => t.ID_Project == id).OrderBy(t => t.OrdinalNumbers).ToList();
             return PartialView("_congViecPartial", pro);
         }
         [HttpPost]
@@ -358,9 +358,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             model.SaveChanges();
 
             Histories his = new Histories();
-            his.ID_Employee = 1;
+            his.ID_Employee = Int32.Parse(Session["user-id"].ToString());
             his.ID_Task = task.ID;
-            his.Name = "Thêm Việc Mới";
+            his.Name = "Thêm Công Việc Mới";
             his.Contents = "đã thêm công việc";
             his.Date = DateTime.Now;
             model.Histories.Add(his);
@@ -370,7 +370,102 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             Session["lst-Task"] = model.Tasks.Where(t => t.ID_Project == idpro).OrderBy(t => t.ID).ToList();
             return PartialView("_congViecPartial", pro);
         }
+        [HttpPost]
+        public ActionResult capNhatCongViec(string lstTaskFirst, string lstTaskCurrent, int idTask)
+        {
+            try
+            {
+                int idPro = 0;
+                //Task cũ
+                if (lstTaskFirst.IndexOf("~") != -1)
+                {
+                    if (lstTaskFirst.Split('~')[1].IndexOf("_") != -1)
+                    {
+                        List<string> taskCu = lstTaskFirst.Split('~')[1].Split('_').ToList();
+                        string stateStr = lstTaskFirst.Split('~')[0];
+                        for (int i = 0; i < taskCu.Count; i++)
+                        {
+                            var taskIndex = model.Tasks.Find(Int32.Parse(taskCu[i]));
+                            taskIndex.State = stateStr;
+                            taskIndex.OrdinalNumbers = (i + 1);
+                            model.Entry(taskIndex).State = EntityState.Modified;
+                        }
+                        idPro = model.Tasks.Find(Int32.Parse(taskCu[0])).ID_Project;
+                    }
+                    else
+                    {
+                        string stateStr = lstTaskFirst.Split('~')[0];
+                        string taskCu = lstTaskFirst.Split('~')[1];
 
+                        var taskIndex = model.Tasks.Find(Int32.Parse(taskCu));
+                        taskIndex.State = stateStr;
+                        taskIndex.OrdinalNumbers = 1;
+                        model.Entry(taskIndex).State = EntityState.Modified;
+
+                        idPro = taskIndex.ID_Project;
+                    }
+                }
+
+                string stateStrCr = lstTaskCurrent.Split('~')[0];
+                //Task mới
+                if (lstTaskCurrent.Split('~')[1].IndexOf("_") != -1)
+                {
+                    List<string> taskCu = lstTaskCurrent.Split('~')[1].Split('_').ToList();
+                    for (int i = 0; i < taskCu.Count; i++)
+                    {
+                        var taskIndex = model.Tasks.Find(Int32.Parse(taskCu[i]));
+                        taskIndex.State = stateStrCr;
+                        taskIndex.OrdinalNumbers = (i + 1);
+                        model.Entry(taskIndex).State = EntityState.Modified;
+                    }
+                    idPro = model.Tasks.Find(Int32.Parse(taskCu[0])).ID_Project;
+                }
+                else
+                {
+                    string taskCu = lstTaskCurrent.Split('~')[1];
+
+                    var taskIndex = model.Tasks.Find(Int32.Parse(taskCu));
+                    taskIndex.State = stateStrCr;
+                    taskIndex.OrdinalNumbers = 1;
+                    model.Entry(taskIndex).State = EntityState.Modified;
+
+                    idPro = taskIndex.ID_Project;
+                }
+
+                //Add history
+                Histories his = new Histories();
+                his.ID_Employee = Int32.Parse(Session["user-id"].ToString());
+                his.ID_Task = idTask;
+                his.Name = "Cập Nhập Trạng Thái Công Việc";
+                his.Date = DateTime.Now;
+
+                if (stateStrCr.Equals("do"))
+                {
+                    his.Contents = "đã đặt trạng thái Công việc | thành \"Chưa Thực Hiện\"";
+                }
+                else if (stateStrCr.Equals("progress"))
+                {
+                    his.Contents = "đã bắt đầu thực hiện Công việc";
+                }
+                else if (stateStrCr.Equals("review"))
+                {
+                    his.Contents = "đã hoàn thành Công việc | và chờ xác nhận";
+                }
+                else
+                {
+                    his.Contents = "đã xác nhận Công việc được hoàn thành";
+                }
+                model.Histories.Add(his);
+                model.SaveChanges();
+
+                return Content("SUCCESS");
+            }
+            catch
+            {
+                return Content("FAILED");
+
+            }
+        }
         public ActionResult nganSachPartial(int? id)
         {
             return PartialView("_nganSachPartial");
@@ -416,7 +511,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             {
                 emps.Remove(item.Employees);
             }
-            Session["lst-DoiNguEmployee"] = emps; 
+            Session["lst-DoiNguEmployee"] = emps;
             return PartialView("_doiNguPartial", pro);
         }
         [HttpPost]

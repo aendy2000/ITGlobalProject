@@ -39,37 +39,29 @@
         var checksdiachiemail = false;
 
         var format = /[`!#$%^&*()+\-=\[\]{}._@;':"\\|,<>\/?~]/;
-        var formatNumber = '0123456789';
+        var formatNumber = /0123456789/;
 
         //Họ và tên
         if (hoten.length < 1) {
             $('#hotenvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-            var checkshoten = false;
-        } else if (format.length > 50) {
+             checkshoten = false;
+        } else if (hoten.length > 50) {
             $('#hotenvalidation').text("Họ và Tên chỉ được phép tối đa 50 kí tự.").show();
-            var checkshoten = false;
+             checkshoten = false;
         } else if (format.test(hoten) == true) {
             $('#hotenvalidation').text("Họ và Tên không hợp lệ.").show();
-            var checkshoten = false;
+             checkshoten = false;
         } else if (formatNumber.test(hoten) == true) {
             $('#hotenvalidation').text("Họ và Tên không hợp lệ.").show();
-            var checkshoten = false;
-        } else if (format.length > 50) {
-            $('#hotenvalidation').text("Họ và Tên chỉ được phép tối đa 50 kí tự.").show();
-            var checkshoten = false;
+             checkshoten = false;
         }
         else {
             checkshoten = true;
         }
-
         //CMND
         if (cmnd.length < 1) {
             $('#cmndvalidation').text("Không có bỏ trống mà trời?").show();
             var searchInput = $('#cmnd');
-            var strLength = searchInput.val().length * 2;
-
-            searchInput.focus();
-            searchInput[0].setSelectionRange(strLength, strLength);
         }
         else {
             checkscmnd = true;
@@ -126,7 +118,6 @@
         else {
             checksdiachiemail = true;
         }
-
         if (checkshoten === true && checkscmnd === true && checkssodienthoai === true && checksngaysinh === true &&
             checksgioitinh === true && checksdiachiemail === true) {
             e.preventDefault();

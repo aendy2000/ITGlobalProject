@@ -39,7 +39,7 @@
             processData: false,
             data: formData
         }).done(function (ketqua) {
-            if (ketqua === "Đã có xảy ra lỗi, vui lòng thử lại") {
+            if (ketqua === "Đã có lỗi xảy ra, vui lòng thử lại") {
                 $('#AjaxLoader').hide();
                 var SweetAlert2Demo = function () {
                     var initDemos = function () {
@@ -105,17 +105,140 @@
         });
     });
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     //Kéo task
     dragula([document.querySelector("#do"),
     document.querySelector("#progress"),
     document.querySelector("#review"),
     document.querySelector("#done")]).on('drop', function (CucDuocKeo, viTriMoi, viTriCu, viTriPhiaTrenCucBiKeo) {
-        var target = viTriMoi.innerText.trim();
-        var source = viTriCu.innerText.trim();
+        $('#AjaxLoader').show();
 
-        alert(viTriMoi.id + " - " + vlue + " - " + viTriCu.id);
+        var idTask = CucDuocKeo.id;
+
+        if (viTriMoi.id == "do") {
+            $('#trangThai_' + idTask).replaceWith('<div id="trangThai_' + idTask + '">'
+                + '<span class="badge-dot bg-gray-400 me-2 d-inline-block align-middle imgtooltip" data-template="stateid' + idTask + '"></span>'
+                + '<div id="stateid' + idTask + '" class="d-none">'
+                + '<h6 class="mb-0">Chưa thực hiện</h6>'
+                + '</div>'
+                + '</div>'
+            );
+
+        } else if (viTriMoi.id == "progress") {
+            $('#trangThai_' + idTask).replaceWith('<div id="trangThai_' + idTask + '">'
+                + '<span class="badge-dot bg-primary me-2 d-inline-block align-middle imgtooltip" data-template="stateid' + idTask + '"></span>'
+                + '<div id="stateid' + idTask + '" class="d-none">'
+                + '<h6 class="mb-0">Đang thực hiện</h6>'
+                + '</div>'
+                + '</div>'
+            );
+
+        } else if (viTriMoi.id == "review") {
+            $('#trangThai_' + idTask).replaceWith('<div id="trangThai_' + idTask + '">'
+                + '<span class="badge-dot bg-primary me-2 d-inline-block align-middle imgtooltip" data-template="stateid' + idTask + '"></span>'
+                + '<div id="stateid' + idTask + '" class="d-none">'
+                + '<h6 class="mb-0">Chờ Phê Duyệt</h6>'
+                + '</div>'
+                + '</div>'
+            );
+
+        } else {
+            $('#trangThai_' + idTask).replaceWith('<div id="trangThai_' + idTask + '">'
+                + '<span class="badge-dot bg-success me-2 d-inline-block align-middle imgtooltip" data-template="stateid' + idTask + '"></span>'
+                + '<div id="stateid' + idTask + '" class="d-none">'
+                + '<h6 class="mb-0">Đã hoàn thành</h6>'
+                + '</div>'
+                + '</div>'
+            );
+        }
+
+        //Tooltip
+        tippy('#trangThai_' + idTask, {
+            content(e) {
+                const t = 'stateid' + idTask;
+                return document.getElementById(t).innerHTML
+            },
+            allowHTML: !0,
+            theme: "light",
+            animation: "scale"
+        }), tippy(".bookmark", {
+            content: "Add to Bookmarks",
+            animation: "scale"
+        }), tippy(".removeBookmark", {
+            content: "Remove Bookmarks",
+            animation: "scale"
+        }), tippy(".texttooltip", {
+            content(e) {
+                const t = 'stateid' + idTask;
+                return document.getElementById(t).innerHTML
+            },
+            allowHTML: !0,
+            animation: "scale"
+        }), tippy(".dropdownTooltip", {
+            content(e) {
+                const t = 'stateid' + idTask;
+                return document.getElementById(t).innerHTML
+            },
+            allowHTML: !0,
+            animation: "scale",
+            placement: "right",
+            theme: "lightPurple"
+        }), $(".contacts-list .contacts-link").on("click", (function () {
+            $(".chat-body").addClass("chat-body-visible")
+        })), $("[data-close]").on("click", (function (e) {
+            e.preventDefault(), $(".chat-body").removeClass("chat-body-visible")
+        }));
+
+        ////////////////////////////////////////////////////////////////////////////
+
+        var lstTaskCurrent = viTriMoi.id + "~";
+        $('#' + viTriMoi.id).find('[id^="taskss"]').each(function () {
+            lstTaskCurrent += $(this).val() + "_";
+        });
+
+        var lstTaskFirst = viTriCu.id + "~";
+        $('#' + viTriCu.id).find('[id^="taskss"]').each(function () {
+            lstTaskFirst += $(this).val() + "_";
+        });
+
+        $.ajax({
+            url: $('#requestPath').val() + 'Admins/QuanLyDuAn/capNhatCongViec',
+            type: 'POST',
+            dataType: 'html',
+            data: {
+                'lstTaskFirst': lstTaskFirst.substring(0, lstTaskFirst.length - 1),
+                'lstTaskCurrent': lstTaskCurrent.substring(0, lstTaskCurrent.length - 1),
+                'idTask': idTask
+            }
+        }).done(function (ketqua) {
+            if (ketqua !== "FAILED") {
+                $('#AjaxLoader').hide();
+            }
+            else {
+                $('#AjaxLoader').hide();
+                var SweetAlert2Demo = function () {
+                    var initDemos = function () {
+                        swal("Thông Báo!", "Đã có lỗi xảy ra, thử tải lại trang và thực hiện lại!", {
+                            icon: "danger",
+                            buttons: {
+                                confirm: {
+                                    className: 'btn btn-danger'
+                                }
+                            },
+                        });
+                    };
+                    return {
+                        init: function () {
+                            initDemos();
+                        },
+                    };
+                }();
+
+                jQuery(document).ready(function () {
+                    SweetAlert2Demo.init();
+                });
+            }
+        });
+
     });
-
-    //Load width
-
 });
