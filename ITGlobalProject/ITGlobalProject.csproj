@@ -770,6 +770,9 @@
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_phuThuocNhanThanPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_troCapPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_hopDongPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_duAnThamGiaSearch.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_lichSuHoatDongSearch.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_lichBieuSearch.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -790,12 +793,15 @@
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_CongViecValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_DoiNguValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ThemDuAnValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_TienDoValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_LichSuHoatDongGiaValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_HopDongValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_phuCapVaTroCapValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_PhuThuocNhanThanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_TrinhDoNgoaiNguValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_KyNangChuyenMon.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_LHvaThanhToanValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_DuAnThamGiaValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_TTCaNhanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\KhoaTaiKhoanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ThemNhanVienValidation.js" />

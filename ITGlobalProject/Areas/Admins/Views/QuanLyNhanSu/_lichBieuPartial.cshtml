@@ -1,9 +1,9 @@
 ﻿@model ITGlobalProject.Models.Employees
-@using System.Globalization;
-@{ string date = DateTime.Now.Year + "-W" + (new CultureInfo("vi-VN").Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay, DayOfWeek.Monday) - 1);
+@using ITGlobalProject.Models
+@{
+    IEnumerable<Tasks> lstTask = Session["tienDoCongViec-lstTask"] as IEnumerable<Tasks>;
 
     string imagesUrl = "";
-
     if (string.IsNullOrEmpty(Model.Avatar))
     {
         imagesUrl = "~/Content/Admin/assets/images/avatar/default-avatar.png";
@@ -183,43 +183,34 @@
                         <div class="card-header border-bottom-0 p-0">
                             <ul class="nav nav-lb-tab" id="tab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="all-tab" data-bs-toggle="pill" href="#all" role="tab"
+                                    <a class="nav-link active" id="all" data-bs-toggle="pill" href="#all" role="tab"
                                        aria-controls="active" aria-selected="false">Tổng</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="chualam-tab" data-bs-toggle="pill" href="#chualam" role="tab"
+                                    <a class="nav-link" id="chualam" data-bs-toggle="pill" href="#chualam" role="tab"
                                        aria-controls="draft" aria-selected="false">Chưa Làm</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="danglam-tab" data-bs-toggle="pill" href="#danglam" role="tab"
+                                    <a class="nav-link" id="danglam" data-bs-toggle="pill" href="#danglam" role="tab"
                                        aria-controls="archived" aria-selected="false">Đang Làm</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="danop-tab" data-bs-toggle="pill" href="#danop" role="tab"
+                                    <a class="nav-link" id="danop" data-bs-toggle="pill" href="#danop" role="tab"
                                        aria-controls="archived" aria-selected="false">Đã Nộp</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="hoanthanh-tab" data-bs-toggle="pill" href="#hoanthanh" role="tab"
+                                    <a class="nav-link" id="hoanthanh" data-bs-toggle="pill" href="#hoanthanh" role="tab"
                                        aria-controls="archived" aria-selected="false">Hoàn Thành</a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="p-4 row">
-                            <!-- Form -->
-                            <form class="d-flex align-items-center col-12 col-md-8 col-lg-6">
-                                <span class="position-absolute ps-3 search-icon">
-                                    <i class="fe fe-search"></i>
-                                </span>
-                                <input type="search" class="form-control ps-6" placeholder="Tìm tên Công việc" />
-                            </form>
-                        </div>
                         <div>
                             <div class="tab-content" id="tabContent">
                                 <!-- Tab -->
-                                <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+                                <div class="tab-pane fade show active">
                                     <div class="table-responsive border-0">
                                         <!-- Table -->
-                                        <table class="table mb-0 text-nowrap">
+                                        <table id="dataTableBasic" class="table text-nowrap" style="width: 99%">
                                             <!-- Table Head -->
                                             <thead class="table-light">
                                                 <tr>
@@ -228,573 +219,70 @@
                                                     <th class="border-0">Trạng Thái</th>
                                                     <th class="border-0">Hạn chót</th>
                                                     <th class="border-0">Dự án</th>
-                                                    <th class="border-0"></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <!-- Table body -->
-                                                <tr>
-                                                    <td>
-                                                        1
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                Lập kế hoạch thực hiện dự án IT-Global
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="align-middle border-top-0 text-success">
-                                                        <span class="badge bg-success badge-dot me-1"></span>Hoàn Thành
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        14/10/2022
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                DA19
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="text-muted align-middle border-top-0 text-end">
-                                                        <span class="dropdown dropstart">
-                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
-                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
-                                                               aria-expanded="false">
-                                                                <i class="fe fe-more-vertical"></i>
+                                                @foreach (var item in lstTask)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @item.ID
+                                                        </td>
+                                                        <td class="align-middle border-top-0">
+                                                            <a href="#" class="text-inherit">
+                                                                <h5 class="mb-0 text-primary-hover">
+                                                                    @item.Name
+                                                                </h5>
                                                             </a>
-                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
-                                                                <span class="dropdown-header">Settings</span>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
-                                                                </a>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
-                                                                </a>
+                                                        </td>
+                                                        @if (item.State.Equals("do"))
+                                                        {
+                                                            <td class="align-middle border-top-0 text-gray-400">
+                                                                <span class="badge bg-gray-400 badge-dot me-1"></span><span> Chưa Thực Hiện</span>
+                                                            </td>
+                                                        }
 
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
-                                                                </a>
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        2
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                Lập kế hoạch thực hiện dự án IT-Global
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="align-middle border-top-0 text-gray-500">
-                                                        <span class="badge bg-gray-500 badge-dot me-1"></span>Chưa Làm
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        14/10/2022
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                DA19
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="text-muted align-middle border-top-0 text-end">
-                                                        <span class="dropdown dropstart">
-                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
-                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
-                                                               aria-expanded="false">
-                                                                <i class="fe fe-more-vertical"></i>
+                                                        else if (item.State.Equals("progress"))
+                                                        {
+                                                            <td class="align-middle border-top-0 text-primary">
+                                                                <span class="badge bg-primary badge-dot me-1"></span> <span> Đang Thực Hiện</span>
+                                                            </td>
+                                                        }
+                                                        else if (item.State.Equals("review"))
+                                                        {
+                                                            <td class="align-middle border-top-0 text-primary">
+                                                                <span class="badge bg-primary badge-dot me-1"></span>
+                                                                <span> Đang Chờ Duyệt</span>
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="align-middle border-top-0 text-success">
+                                                                <span class="badge bg-success badge-dot me-1"></span>
+                                                                <span> Đã Hoàn Thành</span>
+                                                            </td>
+                                                        }
+
+                                                        <td class="align-middle border-top-0">
+                                                            @item.Deadline.ToString("dd") Thg @item.Deadline.ToString("MM, yyyy")
+                                                        </td>
+                                                        <td class="align-middle border-top-0">
+                                                            <a href="#" class="text-inherit">
+                                                                <h5 class="mb-0 text-primary-hover">
+                                                                    @item.ID_Project
+                                                                </h5>
                                                             </a>
-                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
-                                                                <span class="dropdown-header">Settings</span>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
-                                                                </a>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
-                                                                </a>
+                                                        </td>
 
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
-                                                                </a>
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        3
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                Lập kế hoạch thực hiện dự án IT-Global
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="align-middle border-top-0 text-success">
-                                                        <span class="badge bg-success badge-dot me-1"></span>Hoàn Thành
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        14/10/2022
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                DA19
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="text-muted align-middle border-top-0 text-end">
-                                                        <span class="dropdown dropstart">
-                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
-                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
-                                                               aria-expanded="false">
-                                                                <i class="fe fe-more-vertical"></i>
-                                                            </a>
-                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
-                                                                <span class="dropdown-header">Settings</span>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
-                                                                </a>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
-                                                                </a>
-
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
-                                                                </a>
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        4
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                Lập kế hoạch thực hiện dự án IT-Global
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="align-middle border-top-0 text-warning">
-                                                        <span class="badge bg-warning badge-dot me-1"></span>Đã Nộp
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        14/10/2022
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                DA19
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="text-muted align-middle border-top-0 text-end">
-                                                        <span class="dropdown dropstart">
-                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
-                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
-                                                               aria-expanded="false">
-                                                                <i class="fe fe-more-vertical"></i>
-                                                            </a>
-                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
-                                                                <span class="dropdown-header">Settings</span>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
-                                                                </a>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
-                                                                </a>
-
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
-                                                                </a>
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        5
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                Lập kế hoạch thực hiện dự án IT-Global
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="align-middle border-top-0 text-success">
-                                                        <span class="badge bg-success badge-dot me-1"></span>Hoàn Thành
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        14/10/2022
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                DA19
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="text-muted align-middle border-top-0 text-end">
-                                                        <span class="dropdown dropstart">
-                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
-                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
-                                                               aria-expanded="false">
-                                                                <i class="fe fe-more-vertical"></i>
-                                                            </a>
-                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
-                                                                <span class="dropdown-header">Settings</span>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
-                                                                </a>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
-                                                                </a>
-
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
-                                                                </a>
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        6
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                Phân tích yêu cầu dự án IT-Global
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="align-middle border-top-0 text-primary">
-                                                        <span class="badge bg-primary badge-dot me-1"></span>Đang Làm
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        14/10/2022
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                DA19
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="text-muted align-middle border-top-0 text-end">
-                                                        <span class="dropdown dropstart">
-                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
-                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
-                                                               aria-expanded="false">
-                                                                <i class="fe fe-more-vertical"></i>
-                                                            </a>
-                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
-                                                                <span class="dropdown-header">Settings</span>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
-                                                                </a>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
-                                                                </a>
-
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
-                                                                </a>
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        7
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                Lập kế hoạch thực hiện dự án IT-Global
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="align-middle border-top-0 text-success">
-                                                        <span class="badge bg-success badge-dot me-1"></span>Hoàn Thành
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        14/10/2022
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                DA19
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="text-muted align-middle border-top-0 text-end">
-                                                        <span class="dropdown dropstart">
-                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
-                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
-                                                               aria-expanded="false">
-                                                                <i class="fe fe-more-vertical"></i>
-                                                            </a>
-                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
-                                                                <span class="dropdown-header">Settings</span>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
-                                                                </a>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
-                                                                </a>
-
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
-                                                                </a>
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        8
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                Lập kế hoạch thực hiện dự án IT-Global
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="align-middle border-top-0 text-success">
-                                                        <span class="badge bg-success badge-dot me-1"></span>Hoàn Thành
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        14/10/2022
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                DA19
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="text-muted align-middle border-top-0 text-end">
-                                                        <span class="dropdown dropstart">
-                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
-                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
-                                                               aria-expanded="false">
-                                                                <i class="fe fe-more-vertical"></i>
-                                                            </a>
-                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
-                                                                <span class="dropdown-header">Settings</span>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
-                                                                </a>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
-                                                                </a>
-
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
-                                                                </a>
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        9
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                Build dự án IT-Global
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="align-middle border-top-0 text-danger">
-                                                        <span class="badge bg-danger badge-dot me-1"></span>Đã Hủy
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        14/10/2022
-                                                    </td>
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-inherit">
-                                                            <h5 class="mb-0 text-primary-hover">
-                                                                DA19
-                                                            </h5>
-                                                        </a>
-                                                    </td>
-                                                    <td class="text-muted align-middle border-top-0 text-end">
-                                                        <span class="dropdown dropstart">
-                                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button"
-                                                               id="productDropdown1" data-bs-toggle="dropdown" data-bs-offset="-20,20"
-                                                               aria-expanded="false">
-                                                                <i class="fe fe-more-vertical"></i>
-                                                            </a>
-                                                            <span class="dropdown-menu" aria-labelledby="productDropdown1">
-                                                                <span class="dropdown-header">Settings</span>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit
-                                                                </a>
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-mail dropdown-item-icon"></i>Invite
-                                                                </a>
-
-                                                                <a class="dropdown-item" href="#">
-                                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete
-                                                                </a>
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-
+                                                    </tr>
+                                                }
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="chualam" role="tabpanel" aria-labelledby="chualam-tab">
-                                    <div class="table-responsive border-0">
-                                        <!-- Table -->
-                                        <table class="table mb-0 text-nowrap">
-                                            <!-- Table Head -->
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th class="border-0">Products</th>
-                                                    <th class="border-0">Status</th>
-                                                    <th class="border-0">Inventory</th>
-                                                    <th class="border-0">Category</th>
-                                                    <th class="border-0">Price</th>
-
-                                                    <th class="border-0"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
-                                <div class="tab-pane fade" id="danglam" role="tabpanel" aria-labelledby="danglam-tab">
-                                    <div class="table-responsive border-0">
-                                        <!-- Table -->
-                                        <table class="table mb-0 text-nowrap">
-                                            <!-- Table Head -->
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th class="border-0">Products</th>
-                                                    <th class="border-0">Status</th>
-                                                    <th class="border-0">Inventory</th>
-                                                    <th class="border-0">Category</th>
-                                                    <th class="border-0">Price</th>
-
-                                                    <th class="border-0"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
-
-                                <div class="tab-pane fade" id="danop" role="tabpanel" aria-labelledby="danop-tab">
-                                    <div class="table-responsive border-0">
-                                        <!-- Table -->
-                                        <table class="table mb-0 text-nowrap">
-                                            <!-- Table Head -->
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th class="border-0">Products</th>
-                                                    <th class="border-0">Status</th>
-                                                    <th class="border-0">Inventory</th>
-                                                    <th class="border-0">Category</th>
-                                                    <th class="border-0">Price</th>
-
-                                                    <th class="border-0"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-
-
-                                </div>
-                                <div class="tab-pane fade" id="hoanthanh" role="tabpanel" aria-labelledby="hoanthanh-tab">
-                                    <div class="table-responsive border-0">
-                                        <!-- Table -->
-                                        <table class="table mb-0 text-nowrap">
-                                            <!-- Table Head -->
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th class="border-0">Products</th>
-                                                    <th class="border-0">Status</th>
-                                                    <th class="border-0">Inventory</th>
-                                                    <th class="border-0">Category</th>
-                                                    <th class="border-0">Price</th>
-
-                                                    <th class="border-0"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="dahuy" role="tabpanel" aria-labelledby="dahuy-tab">
-                                    <div class="table-responsive border-0">
-                                        <!-- Table -->
-                                        <table class="table mb-0 text-nowrap">
-                                            <!-- Table Head -->
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th class="border-0">Products</th>
-                                                    <th class="border-0">Status</th>
-                                                    <th class="border-0">Inventory</th>
-                                                    <th class="border-0">Category</th>
-                                                    <th class="border-0">Price</th>
-
-                                                    <th class="border-0"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
-                        <!-- Card Footer -->
-                        <div class="card-footer border-top-0 d-md-flex justify-content-between align-items-center">
-                            <div>
-                                <span>Showing products 1 to 9 of 12</span>
-                            </div>
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination  mb-0">
-                                    <li class="page-item disabled">
-                                        <a class="page-link mx-1 rounded" href="#"><i class="mdi mdi-chevron-left"></i></a>
-                                    </li>
-                                    <li class="page-item active">
-                                        <a class="page-link mx-1 rounded" href="#">1</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link mx-1 rounded" href="#">2</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link mx-1 rounded" href="#">3</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link mx-1 rounded" href="#"><i class="mdi mdi-chevron-right"></i></a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -811,6 +299,6 @@
                 </div>*@
         </div>
     </div>
-
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_TienDoValidation.js"></script>
 </div>
-<script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>

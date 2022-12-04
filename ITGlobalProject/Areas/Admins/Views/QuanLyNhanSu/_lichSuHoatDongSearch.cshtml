@@ -1,0 +1,51 @@
+﻿@using ITGlobalProject.Models
+@{
+    IEnumerable<Histories> lstHis = Session["lichSuHoatDong-lstHistory"] as IEnumerable<Histories>;
+
+    var result = Convert.ToDateTime(Session["batdaucuatuan"]);
+    string date = Session["lichSuHoatDong-date"].ToString();
+}
+<div id="contentLichSuHoatDong" class="card-body">
+    <!-- List group -->
+    @if (lstHis.Count() > 0)
+    {
+        <ul class="list-group list-group-flush list-timeline-activity">
+            @foreach (var item in lstHis)
+            {
+                <li class="list-group-item px-0 pt-0 border-1 mb-4">
+                    <div class="row">
+                        <!-- col -->
+                        <div class="col-auto">
+                            <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
+                                <i class="fe fe-clock"></i>
+                            </div>
+                        </div>
+                        <!-- col -->
+                        <div class="col ms-n2 mt-1">
+                            <h4 class="mb-3">@item.Name</h4>
+                            @if (item.Contents.IndexOf("|") != -1)
+                            {
+                                <h5 class="mb-0">@item.Employees.Name @item.Contents.Split('|')[0] <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> @(item.Contents.Split('|')[1]).</h5>
+                            }
+                            else if (item.Contents.IndexOf("thêm") != -1)
+                            {
+                                <h5 class="mb-0"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> và được giao cho <a>@item.Tasks.Employees.Name.</a></h5>
+                            }
+                            else
+                            {
+                                <h5 class="mb-0"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a>.</h5>
+                            }
+                            <span class="fs-6 text-muted">@item.Date.ToString("dddd"), @item.Date.ToString("dd") Tháng @item.Date.ToString("MMMM"), 2022 lúc @item.Date.ToString("HH:mm")</span>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <div class="mb-3 col-12 col-md-12 text-center">
+            <span>Không có hoạt động nào trong tuần này.</span>
+        </div>
+    }
+</div>

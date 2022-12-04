@@ -314,7 +314,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             else
             {
                 var employee = Session["DefaultlstEmployees"] as List<Employees>;
-                var employees = employee.Where(e => e.Name.ToLower().Contains(noidungs.ToLower().Trim()) && e.ID_Position != 1).OrderByDescending(o => o.ID).ToList();
+                var employees = employee.Where(e => (e.Name.ToLower().Contains(noidungs.ToLower().Trim()) || e.WorkEmail.ToLower().Contains(noidungs.ToLower().Trim()) || e.IdentityCard.ToLower().Contains(noidungs.ToLower().Trim())) && e.ID_Position != 1).OrderByDescending(o => o.ID).ToList();
                 Session["lstEmployees"] = employees;
 
                 ViewBag.typeListNhanSu = type;
@@ -930,8 +930,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             return Content("DANHSACH");
         }
 
-
-
         [HttpPost]
         public ActionResult khoaTaiKhoan(int? id)
         {
@@ -960,14 +958,74 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult duAnThamGiaPartial(int? id)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user == null)
+                return Content("DANHSACH");
 
+            Session["lst-duanthamgia-detailemployee"] = model.Projects.Where(p => p.Teams.FirstOrDefault(t => t.ID_Employee == user.ID).ID_Employee == user.ID).ToList();
             return PartialView("_duAnThamGiaPartial", user);
+        }
+        [HttpPost]
+        public ActionResult timKiemDuAnThamGia(string contents, int? idus)
+        {
+            if (idus == null)
+                return Content("DANHSACH");
+
+            if (string.IsNullOrEmpty(contents.Trim()))
+                Session["lst-duanthamgia-detailemployee"] = model.Projects.Where(p => p.Teams.FirstOrDefault(t => t.ID_Employee == idus).ID_Employee == idus).ToList();
+            else
+                Session["lst-duanthamgia-detailemployee"] = model.Projects.Where(p => p.Teams.FirstOrDefault(t => t.ID_Employee == idus).ID_Employee == idus && p.Name.ToLower().Trim().Equals(contents.ToLower().Trim())).ToList();
+
+            return PartialView("_duAnThamGiaSearch");
         }
         public ActionResult lichSuHoatDongPartial(int? id)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user == null)
+                return Content("DANHSACH");
 
+            string date = DateTime.Now.Year + "-W" + (new CultureInfo("vi-VN").Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay, DayOfWeek.Monday) - 1);
+
+            DateTime jan1 = new DateTime(Int32.Parse(date.Split('-')[0]), 1, 1);
+            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
+            DateTime firstThursday = jan1.AddDays(daysOffset);
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            var weekNum = Int32.Parse(date.Split('-')[1].Replace("W", ""));
+            if (firstWeek == 1)
+            {
+                weekNum -= 1;
+            }
+            var result = firstThursday.AddDays(weekNum * 7);
+            result = result.AddDays(-3);
+            var lastResult = result.AddDays(6);
+
+            Session["lichSuHoatDong-lstHistory"] = model.Histories.Where(h => h.ID_Employee == id && h.Date >= result && h.Date <= lastResult).ToList();
+            Session["lichSuHoatDong-date"] = date;
             return PartialView("_lichSuHoatDongPartial", user);
+        }
+        public ActionResult timKiemLichSuHoatDong(int? idus, string date)
+        {
+            if (idus == null || string.IsNullOrEmpty(date))
+                return Content("DANHSACH");
+
+            DateTime jan1 = new DateTime(Int32.Parse(date.Split('-')[0]), 1, 1);
+            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
+            DateTime firstThursday = jan1.AddDays(daysOffset);
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            var weekNum = Int32.Parse(date.Split('-')[1].Replace("W", ""));
+            if (firstWeek == 1)
+            {
+                weekNum -= 1;
+            }
+            var result = firstThursday.AddDays(weekNum * 7);
+            result = result.AddDays(-3);
+            var lastResult = result.AddDays(6);
+
+            Session["lichSuHoatDong-lstHistory"] = model.Histories.Where(h => h.ID_Employee == idus && h.Date >= result && h.Date <= lastResult).ToList(); Session["lichSuHoatDong-date"] = date;
+            return PartialView("_lichSuHoatDongSearch");
         }
         public ActionResult bangLuongPartial(int? id)
         {
@@ -978,13 +1036,43 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult lichBieuPartial(int? id)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user == null)
+                return Content("DANHSACH");
 
+            Session["tienDoCongViec-lstTask"] = model.Tasks.Where(t => t.ID_Employee == id).OrderByDescending(o => o.ID).ToList();
             return PartialView("_lichBieuPartial", user);
+        }
+        [HttpPost]
+        public ActionResult timKiemLichBieu(string state, int? idus)
+        {
+            var user = model.Employees.FirstOrDefault(u => u.ID == idus);
+            if (user == null || string.IsNullOrEmpty(state))
+                return Content("DANHSACH");
+
+            if (state.Equals("all"))
+                Session["tienDoCongViec-lstTask"] = model.Tasks.Where(t => t.ID_Employee == idus).OrderByDescending(o => o.ID).ToList();
+           
+            else if (state.Equals("chualam"))
+                Session["tienDoCongViec-lstTask"] = model.Tasks.Where(t => t.ID_Employee == idus && t.State.Equals("do")).OrderByDescending(o => o.ID).ToList();
+            
+            else if (state.Equals("danglam"))
+                Session["tienDoCongViec-lstTask"] = model.Tasks.Where(t => t.ID_Employee == idus && t.State.Equals("progress")).OrderByDescending(o => o.ID).ToList();
+            
+            else if (state.Equals("danop"))
+                Session["tienDoCongViec-lstTask"] = model.Tasks.Where(t => t.ID_Employee == idus && t.State.Equals("review")).OrderByDescending(o => o.ID).ToList();
+            
+            else
+                Session["tienDoCongViec-lstTask"] = model.Tasks.Where(t => t.ID_Employee == idus && t.State.Equals("done")).OrderByDescending(o => o.ID).ToList();
+
+            return PartialView("_lichBieuSearch");
         }
         public ActionResult baoCaoThongKePartial(int? id)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user == null)
+                return Content("DANHSACH");
 
+            Session["thongke-Task"] = model.Tasks.Where(t => t.ID_Employee == id).ToList();
             return PartialView("_baoCaoThongKePartial", user);
         }
 

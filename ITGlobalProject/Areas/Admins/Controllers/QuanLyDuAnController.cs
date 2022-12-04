@@ -388,6 +388,12 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             var taskIndex = model.Tasks.Find(Int32.Parse(taskCu[i]));
                             taskIndex.State = stateStr;
                             taskIndex.OrdinalNumbers = (i + 1);
+
+                            if (stateStr.Equals("progress"))
+                                taskIndex.StartDate = DateTime.Now;
+                            else if (stateStr.Equals("done"))
+                                taskIndex.EndDate = DateTime.Now;
+
                             model.Entry(taskIndex).State = EntityState.Modified;
                         }
                         idPro = model.Tasks.Find(Int32.Parse(taskCu[0])).ID_Project;
@@ -400,8 +406,13 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                         var taskIndex = model.Tasks.Find(Int32.Parse(taskCu));
                         taskIndex.State = stateStr;
                         taskIndex.OrdinalNumbers = 1;
-                        model.Entry(taskIndex).State = EntityState.Modified;
 
+                        if (stateStr.Equals("progress"))
+                            taskIndex.StartDate = DateTime.Now;
+                        else if (stateStr.Equals("done"))
+                            taskIndex.EndDate = DateTime.Now;
+
+                        model.Entry(taskIndex).State = EntityState.Modified;
                         idPro = taskIndex.ID_Project;
                     }
                 }
@@ -416,6 +427,12 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                         var taskIndex = model.Tasks.Find(Int32.Parse(taskCu[i]));
                         taskIndex.State = stateStrCr;
                         taskIndex.OrdinalNumbers = (i + 1);
+
+                        if (stateStrCr.Equals("progress"))
+                            taskIndex.StartDate = DateTime.Now;
+                        else if (stateStrCr.Equals("done"))
+                            taskIndex.EndDate = DateTime.Now;
+
                         model.Entry(taskIndex).State = EntityState.Modified;
                     }
                     idPro = model.Tasks.Find(Int32.Parse(taskCu[0])).ID_Project;
@@ -427,6 +444,12 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     var taskIndex = model.Tasks.Find(Int32.Parse(taskCu));
                     taskIndex.State = stateStrCr;
                     taskIndex.OrdinalNumbers = 1;
+
+                    if (stateStrCr.Equals("progress"))
+                        taskIndex.StartDate = DateTime.Now;
+                    else if (stateStrCr.Equals("done"))
+                        taskIndex.EndDate = DateTime.Now;
+
                     model.Entry(taskIndex).State = EntityState.Modified;
 
                     idPro = taskIndex.ID_Project;
@@ -440,21 +463,14 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 his.Date = DateTime.Now;
 
                 if (stateStrCr.Equals("do"))
-                {
                     his.Contents = "đã đặt trạng thái Công việc | thành \"Chưa Thực Hiện\"";
-                }
                 else if (stateStrCr.Equals("progress"))
-                {
                     his.Contents = "đã bắt đầu thực hiện Công việc";
-                }
                 else if (stateStrCr.Equals("review"))
-                {
                     his.Contents = "đã hoàn thành Công việc | và chờ xác nhận";
-                }
                 else
-                {
                     his.Contents = "đã xác nhận Công việc được hoàn thành";
-                }
+
                 model.Histories.Add(his);
                 model.SaveChanges();
 
@@ -463,7 +479,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             catch
             {
                 return Content("FAILED");
-
             }
         }
         public ActionResult nganSachPartial(int? id)
