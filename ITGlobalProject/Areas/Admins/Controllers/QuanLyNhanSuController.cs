@@ -939,6 +939,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 if (user.Lock == false)
                 {
                     user.Lock = true;
+                    user.AccountStatus = false;
                     model.Entry(user).State = EntityState.Modified;
                     model.SaveChanges();
                     model = new CP25Team06Entities();
@@ -947,6 +948,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 else
                 {
                     user.Lock = false;
+                    user.AccountStatus = true;
                     model.Entry(user).State = EntityState.Modified;
                     model.SaveChanges();
                     model = new CP25Team06Entities();
