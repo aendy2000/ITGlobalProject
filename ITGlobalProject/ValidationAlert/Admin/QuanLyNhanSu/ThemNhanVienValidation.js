@@ -4,7 +4,7 @@
         $('#selectFiles').click();
     });
 
-    //Thêm nhân thân
+    //Thêm ngoại ngữ
     $('#themngoaingu').on('click', function (e) {
         let sott = Number($('#demngoaingu').val()) + 1;
         if (sott > 10) {
@@ -15,13 +15,14 @@
                 '<div id="grtenngoaingu' + sott + '" class="mb-2 col-12 col-md-3 py-2">'
                 + '<label style="font-weight:bold;" class="form-label">Ngoại ngữ ' + sott + ' <span class="text-danger">*</span></label>'
                 + '<input class="form-control" id="strtenngoaingu' + sott + '" placeholder="Tên ngoại ngữ" />'
+                + '<p style="font-size: 13px; color:red;" id="strtenngoaingu' + sott + 'validation"></p>'
                 + '</div>'
                 + '<div id="grtrinhdongoaingu' + sott + '" class="mb-2 col-12 col-md-9 py-2">'
                 + '<label style="font-weight:bold;" class="form-label">Trình độ kỹ năng <span class="text-danger">*</span></label>'
                 + '<div class="input-group">'
                 + '<span class="input-group-text bg-dark text-light">L</span>'
                 + '<select class="form-select text-dark" id="trinhdol' + sott + '" aria-label="Example select with button addon">'
-                + '<option selected>Listening</option>'
+                + '<option value="">Listening</option>'
                 + '<option value="Yếu">Yếu</option>'
                 + '<option value="Trung Bình">Trung Bình</option>'
                 + '<option value="Khá">Khá</option>'
@@ -29,7 +30,7 @@
                 + '</select>'
                 + '<span class="input-group-text bg-dark text-light">S</span>'
                 + '<select class="form-select text-dark" id="trinhdos' + sott + '" aria-label="Example select with button addon">'
-                + '<option selected>Speaking</option>'
+                + '<option value="">Speaking</option>'
                 + '<option value="Yếu">Yếu</option>'
                 + '<option value="Trung Bình">Trung Bình</option>'
                 + '<option value="Khá">Khá</option>'
@@ -37,7 +38,7 @@
                 + '</select>'
                 + '<span class="input-group-text bg-dark text-light">R</span>'
                 + '<select class="form-select text-dark" id="trinhdor' + sott + '" aria-label="Example select with button addon">'
-                + '<option selected>Reading</option>'
+                + '<option value="">Reading</option>'
                 + '<option value="Yếu">Yếu</option>'
                 + '<option value="Trung Bình">Trung Bình</option>'
                 + '<option value="Khá">Khá</option>'
@@ -45,16 +46,25 @@
                 + '</select>'
                 + '<span class="input-group-text bg-dark text-light">W</span>'
                 + '<select class="form-select text-dark" id="trinhdow' + sott + '" aria-label="Example select with button addon">'
-                + '<option selected>Writing</option>'
+                + '<option value="">Writing</option>'
                 + '<option value="Yếu">Yếu</option>'
                 + '<option value="Trung Bình">Trung Bình</option>'
                 + '<option value="Khá">Khá</option>'
                 + '<option value="Giỏi">Giỏi</option>'
                 + '</select>'
                 + '</div>'
+
+                + '<p style="font-size: 13px; color:red;" id="trinhdo' + sott + 'validation"></p>'
+
                 + '</div>'
                 + '<div id="appendngoaingudayne" class="col-12"></div>'
             );
+
+            $('#strtenngoaingu' + sott + 'validation').hide();
+            $('#trinhdol' + sott + 'validation').hide();
+            $('#trinhdos' + sott + 'validation').hide();
+            $('#trinhdor' + sott + 'validation').hide();
+            $('#trinhdow' + sott + 'validation').hide();
 
             var elem = document.getElementById('demngoaingu');
             elem.value = sott;
@@ -155,6 +165,12 @@
 
     //Lưu thông tin
     $('#btnThemMoi').on('click', function (e) {
+
+        var format = /[`!#$%^&*()+\=\[\]{};':"\\|,@.-_<>\/?~]/;
+        var formatTextVN = / àÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬđĐèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆìÌỉỈĩĨíÍịỊòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰỳỲỷỶỹỸýÝỵỴ/;
+        var formatLower = /[abcdefghiklmnopqrstuvwxyz]/;
+        var formatUpper = /[ABCDEFGHIKLMNOPQRSTUVWXYZ]/;
+        var formatnumber = /[1234567890]/;
         //Thông Tin Cá Nhân
         let hoten = $('#hoten').val();
         let cmnd = $('#cmnd').val();
@@ -163,6 +179,83 @@
         let ngaysinh = $('#ngaysinh').val();
         let gioitinh = $('#gioitinh :selected').val();
         let diachinha = $('#diachinha').val();
+
+        var checkthongtincanhan = true;
+
+        if (hoten.length < 1) {
+            checkthongtincanhan = false;
+            $("#hotenvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapseOne').collapse('show');
+        }
+        else if (hoten.length > 50) {
+            checkthongtincanhan = false;
+            $("#hotenvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+            $('#collapseOne').collapse('show');
+        }
+        else if (format.test(hoten) == true) {
+            checkthongtincanhan = false;
+            $("#hotenvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $('#collapseOne').collapse('show');
+
+        }
+        else if (formatnumber.test(hoten) == true) {
+            checkthongtincanhan = false;
+            $("#hotenvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $('#collapseOne').collapse('show');
+        }
+
+        if (cmnd.length < 1) {
+            checkthongtincanhan = false;
+            $("#cmndvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapseOne').collapse('show');
+
+        }
+        if (quoctich.length < 1) {
+            checkthongtincanhan = false;
+            $("#quoctichvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapseOne').collapse('show');
+        }
+        else if (quoctich.length > 50) {
+            checkthongtincanhan = false;
+            $("#quoctichvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+            $('#collapseOne').collapse('show');
+
+        }
+        else if (formatnumber.test(quoctich) == true) {
+            checkthongtincanhan = false;
+            $("#quoctichvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $('#collapseOne').collapse('show');
+        }
+        if (honnhan.length < 1) {
+            checkthongtincanhan = false;
+            $("#honnhanvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapseOne').collapse('show');
+        }
+        if (ngaysinh.length < 1) {
+            checkthongtincanhan = false;
+            $("#ngaysinhvalidation").text("Không được bỏ trống thông tin này!").show();
+            $('#collapseOne').collapse('show');
+        }
+        if (gioitinh.length < 1) {
+            checkthongtincanhan = false;
+            $("#gioitinhvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapseOne').collapse('show');
+        }
+        if (diachinha > 250) {
+            checkthongtincanhan = false;
+            $("#diachinhavalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+            $('#collapseOne').collapse('show');
+        }
+        if (checkthongtincanhan == true) {
+            $("#hotenvalidation").text("").hide();
+            $("#cmndvalidation").text("").hide();
+            $("#quoctichvalidation").text("").hide();
+            $("#honnhanvalidation").text("").hide();
+            $("#ngaysinhvalidation").text("").hide();
+            $("#diachinhavalidation").text("").hide();
+        }
+
+        // end validation
 
         //Liên Hệ & Thanh Toán
         let sodienthoaididong = $('#sodienthoaididong').val();
@@ -173,6 +266,105 @@
         let dsNganHang = $('#tenNganHang').val();
         let sotaikhoan = $('#sotaikhoan').val();
         let chutaikhoan = $('#chutaikhoan').val();
+
+        var checklienhethanhtoan = true;
+
+        if (sodienthoaididong.length < 1) {
+            checklienhethanhtoan = false;
+            $("#sodienthoaididongvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapse2').collapse('show');
+        }
+        if (diachiemailcongty.length < 1) {
+            checklienhethanhtoan = false;
+            $("#diachiemailcongtyvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapse2').collapse('show');
+
+        }
+        else if (diachiemailcongty.length > 50) {
+            checklienhethanhtoan = false;
+            $("#diachiemailcongtyvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+            $('#collapse2').collapse('show');
+
+        }
+        if (diachiemailkhac.length > 50) {
+            checklienhethanhtoan = false;
+            $("#diachiemailkhacvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+            $('#collapse2').collapse('show');
+
+        }
+        if (mucluong.length < 1) {
+            checklienhethanhtoan = false;
+            $("#mucluongvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapse2').collapse('show');
+
+        }
+        if (dsNganHang.length < 1) {
+            checklienhethanhtoan = false;
+            $("#tennganhangvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapse2').collapse('show');
+
+        }
+        else if (dsNganHang.length > 100) {
+            checklienhethanhtoan = false;
+            $("#tennganhangvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+            $('#collapse2').collapse('show');
+
+        }
+        else if (formatnumber.test(dsNganHang) == true) {
+            checklienhethanhtoan = false;
+            $("#tennganhangvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $('#collapse2').collapse('show');
+
+        }
+        if (sotaikhoan.length < 1) {
+            checklienhethanhtoan = false;
+            $("#sotaikhoanvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapse2').collapse('show');
+
+        }
+        else if (sotaikhoan.length > 50) {
+            checklienhethanhtoan = false;
+            $("#sotaikhoanvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+            $('#collapse2').collapse('show');
+
+        }
+
+        else if (format.test(sotaikhoan) == true || formatLower.test(sotaikhoan) == true || formatUpper.test(sotaikhoan) == true || formatTextVN.test(sotaikhoan) == true) {
+            checklienhethanhtoan = false;
+            $("#sotaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $('#collapse2').collapse('show');
+
+        }
+        if (chutaikhoan.length < 1) {
+            checklienhethanhtoan = false;
+            $("#chutaikhoanvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapse2').collapse('show');
+
+        }
+        else if (chutaikhoan.length > 50) {
+            checklienhethanhtoan = false;
+            $("#chutaikhoanvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+            $('#collapse2').collapse('show');
+
+        }
+        else if (formatnumber.test(chutaikhoan) == true) {
+            checklienhethanhtoan = false;
+            $("#chutaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $('#collapse2').collapse('show');
+
+        }
+        if (checklienhethanhtoan == true) {
+            $("#sodienthoaididongvalidation").text("").hide();
+            $("#diachiemailcongtyvalidation").text("").hide();
+            $("#diachiemailkhacvalidation").text("").hide();
+            $("#mucluongvalidation").text("").hide();
+            $("#tennganhangvalidation").text("").hide();
+            $("#sotaikhoanvalidation").text("").hide();
+            $("#chutaikhoanvalidation").text("").hide
+            $("#mucluongvalidation").text("").hide();
+        }
+
+        // end validation
 
         //Kỹ Năng Chuyên Môn, lấy biến [kynang]
         let kynang = "";
@@ -198,50 +390,129 @@
             }
         }
 
+
+
+        // end validation
+
         //Trình độ ngoại ngữ, lấy biến [trinhdongoaingu]
         let trinhdongoaingu = "";
-
         let soluongngoaingu = $('#demngoaingu').val();
+
+        var checkngoaingu = true;
+
         if (soluongngoaingu > 0) {
             for (var i = 1; i <= soluongngoaingu; i++) {
                 if (i == soluongngoaingu) {
-                    trinhdongoaingu += $('#strtenngoaingu' + i).val()
-                        + "_" + $('#trinhdol' + i + ' :selected').val()
-                        + "_" + $('#trinhdos' + i + ' :selected').val()
-                        + "_" + $('#trinhdor' + i + ' :selected').val()
-                        + "_" + $('#trinhdow' + i + ' :selected').val();
+                    if ($('#strtenngoaingu' + i).val().length < 1) {
+                        checkngoaingu = false;
+                        $('#strtenngoaingu' + i + 'validation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                        $('#collapse6').collapse('show');
+                    }
+
+                    if ($('#trinhdol' + i).val().length < 1 || $('#trinhdos' + i).val().length < 1 || $('#trinhdor' + i).val().length < 1 || $('#trinhdow' + i).val().length < 1) {
+                        checkngoaingu = false;
+                        $('#trinhdo' + i + 'validation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                        $('#collapse6').collapse('show');
+                    }
+                    if (checkngoaingu == true) {
+                        $('#strtenngoaingu' + i + 'validation').hide();
+                        $('#trinhdo' + i + 'validation').hide();
+                        trinhdongoaingu += $('#strtenngoaingu' + i).val()
+                            + "_" + $('#trinhdol' + i + ' :selected').val()
+                            + "_" + $('#trinhdos' + i + ' :selected').val()
+                            + "_" + $('#trinhdor' + i + ' :selected').val()
+                            + "_" + $('#trinhdow' + i + ' :selected').val();
+                    }
                 }
                 else {
-                    trinhdongoaingu += $('#strtenngoaingu' + i).val()
-                        + "_" + $('#trinhdol' + i + ' :selected').val()
-                        + "_" + $('#trinhdos' + i + ' :selected').val()
-                        + "_" + $('#trinhdor' + i + ' :selected').val()
-                        + "_" + $('#trinhdow' + i + ' :selected').val()
-                        + "=";
+                    if ($('#strtenngoaingu' + i).val().length < 1) {
+                        checkngoaingu = false;
+                        $('#strtenngoaingu' + i + 'validation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                        $('#collapse6').collapse('show');
+
+                    }
+                   
+                    if ($('#trinhdol' + i).val().length < 1 || $('#trinhdos' + i).val().length < 1 || $('#trinhdor' + i).val().length < 1 || $('#trinhdow' + i).val().length < 1)  {
+                        checkngoaingu = false;
+                        $('#trinhdo' + i + 'validation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                        $('#collapse6').collapse('show');
+                    }
+                    if (checkngoaingu == true) {
+                        $('#strtenngoaingu' + i + 'validation').hide();
+                        $('#trinhdo' + i + 'validation').hide();
+                        trinhdongoaingu += $('#strtenngoaingu' + i).val()
+                            + "_" + $('#trinhdol' + i + ' :selected').val()
+                            + "_" + $('#trinhdos' + i + ' :selected').val()
+                            + "_" + $('#trinhdor' + i + ' :selected').val()
+                            + "_" + $('#trinhdow' + i + ' :selected').val()
+                            + "=";
+                    }
                 }
             }
         }
+
+
+
+        // end validation
 
         //Phụ thuộc nhân thân, lấy biến [phuthuocnhanthan]
         let phuthuocnhanthan = "";
         let soluongnhanthan = $('#dem').val();
+
+        var checknhanthan = false;
+
         if (soluongnhanthan > 0) {
             for (var i = 1; i <= soluongnhanthan; i++) {
                 if (i == soluongnhanthan) {
-                    phuthuocnhanthan += $('#hotennhanthan' + i).val()
-                        + "_" + $('#moiquanhenhanthan' + i).val()
-                        + "_" + $('#ngaysinhnhanthan' + i).val();
+                    if ($('#hotennhanthan' + i).val().length < 1) {
+                        checknhanthan = false;
+                        $('#hotennhanthan' + i + 'validation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                    }
+                    if ($('#moiquanhenhanthan' + i).val().length < 1) {
+                        checknhanthan = false;
+                        $('#moiquanhenhanthan' + i + 'validation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                    }
+                    if ($('#ngaysinhnhanthan' + i).val().length < 1) {
+                        checknhanthan = false;
+                        $('#ngaysinhnhanthan' + i + 'validation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                    }
+                    if (checknhanthan == true) {
+                        $('#hotennhanthan' + i + 'validation').hide();
+                        $('#moiquanhenhanthan' + i + 'validation').hide();
+                        $('#ngaysinhnhanthan' + i + 'validation').hide();
+                        phuthuocnhanthan += $('#hotennhanthan' + i).val()
+                            + "_" + $('#moiquanhenhanthan' + i).val()
+                            + "_" + $('#ngaysinhnhanthan' + i).val();
+                    }
                 }
                 else {
-                    phuthuocnhanthan += $('#hotennhanthan' + i).val()
-                        + "_" + $('#moiquanhenhanthan' + i).val()
-                        + "_" + $('#ngaysinhnhanthan' + i).val()
-                        + "=";
+                    if ($('#hotennhanthan' + i).val().length < 1) {
+                        checknhanthan = false;
+                        $('#hotennhanthan' + i + 'validation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                    }
+                    if ($('#moiquanhenhanthan' + i).val().length < 1) {
+                        checknhanthan = false;
+                        $('#moiquanhenhanthan' + i + 'validation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                    }
+                    if ($('#ngaysinhnhanthan' + i).val().length < 1) {
+                        checknhanthan = false;
+                        $('#ngaysinhnhanthan' + i + 'validation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                    }
+                    if (checknhanthan == true) {
+                        $('#hotennhanthan' + i + 'validation').hide();
+                        $('#moiquanhenhanthan' + i + 'validation').hide();
+                        $('#ngaysinhnhanthan' + i + 'validation').hide();
+                        phuthuocnhanthan += $('#hotennhanthan' + i).val()
+                            + "_" + $('#moiquanhenhanthan' + i).val()
+                            + "_" + $('#ngaysinhnhanthan' + i).val()
+                            + "=";
+                    }
                 }
             }
         }
+        // end validation
 
-        //Trợ Cấp & Phụ Cấp, lấy biến [trocap]
+        //Trợ Cấp & Phụ Cấp, lấy biến [trocap] TỚI ĐÂY NÈ
         let trocap = "";
 
         let tongSoTroCap = $('#sltc').val();
@@ -265,6 +536,11 @@
             }
         }
 
+
+
+
+        // end validation
+
         //Hợp đồng & Tài khoản
         let ngayvaolam = $('#ngayvaolam').val();
         let vaitro = $('#vaitro :selected').val();
@@ -276,90 +552,186 @@
         let ngaygiahanhopdong = $('#ngaygiahanhopdong').val();
         let selectFiles = $('#selectFiles').val();
 
-        //Lập form
-        var formData = new FormData();
-        //Thông Tin Cá Nhân
-        formData.append('anhHopDong', $("#selectFiles")[0].files[0]);
-        formData.append('hoten', hoten);
-        formData.append('cmnd', cmnd);
-        formData.append('quoctich', quoctich);
-        formData.append('honnhan', honnhan);
-        formData.append('ngaysinh', ngaysinh);
-        formData.append('gioitinh', gioitinh);
-        formData.append('diachinha', diachinha);
-        //Liên Hệ & Thanh Toán
-        formData.append('sodienthoaididong', sodienthoaididong);
-        formData.append('sodienthoaikhac', sodienthoaikhac);
-        formData.append('diachiemailcongty', diachiemailcongty);
-        formData.append('diachiemailkhac', diachiemailkhac);
-        formData.append('mucluong', mucluong);
-        formData.append('dsNganHang', dsNganHang);
-        formData.append('sotaikhoan', sotaikhoan);
-        formData.append('chutaikhoan', chutaikhoan);
-        //Kỹ Năng Chuyên Môn, lấy biến [kynang]
-        formData.append('kynang', kynang);
-        //Trình độ ngoại ngữ, lấy biến [trinhdongoaingu]
-        formData.append('trinhdongoaingu', trinhdongoaingu);
-        //Phụ thuộc nhân thân, lấy biến [phuthuocnhanthan]
-        formData.append('phuthuocnhanthan', phuthuocnhanthan);
-        //Trợ Cấp & Phụ Cấp, lấy biến [trocap]
-        formData.append('trocap', trocap);
-        //Hợp đồng & Tài khoản
-        formData.append('ngayvaolam', ngayvaolam);
-        formData.append('vaitro', vaitro);
-        formData.append('hinhthuc', hinhthuc);
-        formData.append('username', username);
-        formData.append('matkhaudangnhap', matkhaudangnhap);
-        formData.append('ngaykyhopdong', ngaykyhopdong);
-        formData.append('ngaygiahanhopdong', ngaygiahanhopdong);
+        var checkhopdongtaikhoan = false;
 
-        e.preventDefault();
-        $('#AjaxLoader').show();
-        let urls = $('#actionSubmit').data('request-url');
-        $.ajax({
-            url: urls,
-            type: 'POST',
-            dataType: 'html',
-            contentType: false,
-            processData: false,
-            data: formData
-        }).done(function (ketqua) {
-            $('#AjaxLoader').hide();
-            if (ketqua === "Đã có xảy ra lỗi, vui lòng thử lại") {
-                alert("Đã có xảy ra lỗi, vui lòng thử lại");
-            }
-            else {
-                $('#tatcanvas').click();
-                $('#resetDuLieu').click();
-                $('#pagess2').replaceWith('<div id="pagess2" class="row">' + ketqua + '</div>');
-                var soluongNV = parseInt($('#soLuongNV').val()) + 1;
-                $('#showSLNV').text('(' + soluongNV + ')');
-                $('#soLuongNV').val(soluongNV);
-                var SweetAlert2Demo = function () {
-                    var initDemos = function () {
-                        swal("Thành Công!", "Đã thêm nhân viên mới", {
-                            icon: "success",
-                            buttons: {
-                                confirm: {
-                                    className: 'btn btn-success'
-                                }
+
+        if (ngayvaolam.length < 1) {
+            checkhopdongtaikhoan = false;
+            $('#ngayvaolamvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapse3').collapse('show');
+        }
+        if (vaitro.length < 1) {
+            checkhopdongtaikhoan = false;
+            $('#vaitrovalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapse3').collapse('show');
+
+        }
+        if (hinhthuc.length < 1) {
+            checkhopdongtaikhoan = false;
+            $('#hinhthucvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapse3').collapse('show');
+
+        }
+        if (username.length < 1) {
+            checkhopdongtaikhoan = false;
+            $('#usernamevalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapse3').collapse('show');
+        }
+        else if (username.length > 50) {
+            checkhopdongtaikhoan = false;
+            $('#usernamevalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+            $('#collapse3').collapse('show');
+        }
+        // Validation mật khẩu
+        if (matkhaudangnhap.length == 0) {
+            checkhopdongtaikhoan = false;
+            $('#matkhaudangnhapvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapse3').collapse('show');
+
+        }
+        else if (matkhaudangnhap.length < 8) {
+            checkhopdongtaikhoan = false;
+            $('#matkhaudangnhapvalidation').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
+            $('#collapse3').collapse('show');
+        }
+        else if (matkhaudangnhap.length > 20) {
+            checkhopdongtaikhoan = false;
+            $('#matkhaudangnhapvalidation').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
+            $('#collapse3').collapse('show');
+        }
+        else if (format.test(matkhaudangnhap) == false || formatLower.test(matkhaudangnhap) == false || formatUpper.test(matkhaudangnhap) == false || formatnumber.test(matkhaudangnhap) == false) {
+            checkhopdongtaikhoan = false;
+            $('#matkhaudangnhapvalidation').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
+            $('#collapse3').collapse('show');
+        }
+        // end Validation mật khẩu
+        // Validation nhập lại mk
+        if (nhaplaimatkhaudangnhap.length < 1) {
+            checkhopdongtaikhoan = false;
+            $('#nhaplaimatkhaudangnhapvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapse3').collapse('show');
+        }
+        else if (matkhaudangnhap != nhaplaimatkhaudangnhap) {
+            checkhopdongtaikhoan = false;
+            $('#nhaplaimatkhaudangnhapvalidation').text("Xác nhận lại mật khẩu chưa trùng khớp! Vui lòng nhập lại.").show();
+            $('#collapse3').collapse('show');
+        }
+        // end Validation nhập lại mk
+
+        if (ngaykyhopdong.length < 1) {
+            checkhopdongtaikhoan = false;
+            $('#ngaykyhopdongvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapse3').collapse('show');
+        }
+        if (ngaygiahanhopdong.length < 1) {
+            checkhopdongtaikhoan = false;
+            $('#ngaygiahanhopdongvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            $('#collapse3').collapse('show');
+        }
+        if (selectFiles.length < 1) {
+            checkhopdongtaikhoan = false;
+            $('#selectFilesvalidation').text("Không được bỏ trống thông tin này! Vui lòng tải ảnh hợp đồng.").show();
+            $('#collapse3').collapse('show');
+        }
+        if (checkhopdongtaikhoan == true) {
+            $('#ngayvaolamvalidation').text("").hide();
+            $('#vaitrovalidation').text("").hide();
+            $('#hinhthucvalidation').text("").hide();
+            $('#usernamevalidation').text("").hide();
+            $('#matkhaudangnhapvalidation').text("").hide();
+            $('#nhaplaimatkhaudangnhapvalidation').text("").hide();
+            $('#ngaykyhopdongvalidation').text("").hide();
+            $('#ngaygiahanhopdongvalidation').text("").hide();
+            $('#selectFilesvalidation').text("").hide();
+        }
+
+        // end validation
+        if (checkthongtincanhan == true && checklienhethanhtoan == true && checkngoaingu == true &&
+            checknhantha == true && checkhopdongtaikhoan == true) {
+            //Lập form
+            var formData = new FormData();
+            //Thông Tin Cá Nhân
+            formData.append('anhHopDong', $("#selectFiles")[0].files[0]);
+            formData.append('hoten', hoten);
+            formData.append('cmnd', cmnd);
+            formData.append('quoctich', quoctich);
+            formData.append('honnhan', honnhan);
+            formData.append('ngaysinh', ngaysinh);
+            formData.append('gioitinh', gioitinh);
+            formData.append('diachinha', diachinha);
+            //Liên Hệ & Thanh Toán
+            formData.append('sodienthoaididong', sodienthoaididong);
+            formData.append('sodienthoaikhac', sodienthoaikhac);
+            formData.append('diachiemailcongty', diachiemailcongty);
+            formData.append('diachiemailkhac', diachiemailkhac);
+            formData.append('mucluong', mucluong);
+            formData.append('dsNganHang', dsNganHang);
+            formData.append('sotaikhoan', sotaikhoan);
+            formData.append('chutaikhoan', chutaikhoan);
+            //Kỹ Năng Chuyên Môn, lấy biến [kynang]
+            formData.append('kynang', kynang);
+            //Trình độ ngoại ngữ, lấy biến [trinhdongoaingu]
+            formData.append('trinhdongoaingu', trinhdongoaingu);
+            //Phụ thuộc nhân thân, lấy biến [phuthuocnhanthan]
+            formData.append('phuthuocnhanthan', phuthuocnhanthan);
+            //Trợ Cấp & Phụ Cấp, lấy biến [trocap]
+            formData.append('trocap', trocap);
+            //Hợp đồng & Tài khoản
+            formData.append('ngayvaolam', ngayvaolam);
+            formData.append('vaitro', vaitro);
+            formData.append('hinhthuc', hinhthuc);
+            formData.append('username', username);
+            formData.append('matkhaudangnhap', matkhaudangnhap);
+            formData.append('ngaykyhopdong', ngaykyhopdong);
+            formData.append('ngaygiahanhopdong', ngaygiahanhopdong);
+
+            e.preventDefault();
+            $('#AjaxLoader').show();
+            let urls = $('#actionSubmit').data('request-url');
+            $.ajax({
+                url: urls,
+                type: 'POST',
+                dataType: 'html',
+                contentType: false,
+                processData: false,
+                data: formData
+            }).done(function (ketqua) {
+                $('#AjaxLoader').hide();
+                if (ketqua === "Đã có xảy ra lỗi, vui lòng thử lại") {
+                    alert("Đã có xảy ra lỗi, vui lòng thử lại");
+                }
+                else {
+                    $('#tatcanvas').click();
+                    $('#resetDuLieu').click();
+                    $('#pagess2').replaceWith('<div id="pagess2" class="row">' + ketqua + '</div>');
+                    var soluongNV = parseInt($('#soLuongNV').val()) + 1;
+                    $('#showSLNV').text('(' + soluongNV + ')');
+                    $('#soLuongNV').val(soluongNV);
+                    var SweetAlert2Demo = function () {
+                        var initDemos = function () {
+                            swal("Thành Công!", "Tuyệt quá! Nhân viên đã được thêm vào danh sách.", {
+                                icon: "success",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-success'
+                                    }
+                                },
+                            });
+                        };
+                        return {
+                            init: function () {
+                                initDemos();
                             },
-                        });
-                    };
-                    return {
-                        init: function () {
-                            initDemos();
-                        },
-                    };
-                }();
+                        };
+                    }();
 
-                jQuery(document).ready(function () {
-                    SweetAlert2Demo.init();
-                });
-            }
-        });
+                    jQuery(document).ready(function () {
+                        SweetAlert2Demo.init();
+                    });
+                }
+            });
+        }
     });
-
     //Reset
     $('#reserData').on('click', function () {
         let dem = $('#demngoaingu').val();

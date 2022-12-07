@@ -7,7 +7,7 @@
             var initDemos = function () {
                 swal({
                     title: 'Xóa Vai Trò?',
-                    text: "Bạn có chắc muốn xóa Vai trò này?",
+                    text: "Chắc chắn muốn xóa chứ?",
                     type: 'warning',
                     buttons: {
                         cancel: {
@@ -41,7 +41,7 @@
                                 $('#danhSachPartial').replaceWith(ketqua);
                                 var SweetAlert2Demo = function () {
                                     var initDemos = function () {
-                                        swal("Thành Công!", "Đã xóa một vai trò!", {
+                                        swal("Thành Công!", "Tuyệt quá! Vai trò đã được xóa thành công.", {
                                             icon: "success",
                                             buttons: {
                                                 confirm: {

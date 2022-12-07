@@ -748,6 +748,7 @@
                     <div class="mb-2 col-12 col-md-4">
                         <label style="font-weight:bold;" class="form-label" for="honnhan">Tình trạng hôn nhân <span class="text-danger">*</span></label>
                         <select data-width="100%" class="selectpicker" id="honnhan" name="honnhan">
+                            <option value="">Chọn tình trạng hôn nhân</option>
                             <option value="Độc thân">Độc thân</option>
                             <option value="Đã kết hôn">Đã kết hôn</option>
                             <option value="Khác">Khác</option>
@@ -765,12 +766,14 @@
                             <option value="">Chọn giới tính</option>
                             <option value="Nam">Nam</option>
                             <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
                         </select>
                         <p style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
                     </div>
                     <div class="mb-2 col-12 col-md-12">
                         <label style="font-weight:bold;" class="form-label" for="address">Địa chỉ nhà</label>
                         <textarea rows="4" id="diachinha" name="diachinha" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla"></textarea>
+                        <p style="font-size: 13px; color:red;" id="diachinhavalidation"></p>
                     </div>
                 </div>
             </div>
@@ -813,6 +816,8 @@
                     <div class="mb-2 col-12 col-md-6">
                         <label style="font-weight:bold;" class="form-label" for="phone">Mức lương <span class="text-danger">*</span></label>
                         <input data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" style="font-weight:bold; color:brown" type="text" id="mucluong" name="mucluong" class="form-control  text-start" placeholder="Nhập mức lương đã thỏa thuận" />
+                        <p style="font-size: 13px; color:red;" id="mucluongvalidation"></p>
+
                     </div>
                     <div class="mb-2 col-12 col-md-6">
                         <label style="font-weight:bold;" for="dsNganHang" class="form-label">Ngân hàng</label>
@@ -822,14 +827,17 @@
                             <option value="SacomBank"></option>
                             <option value="VietinBank"></option>
                         </datalist>
+                        <p style="font-size: 13px; color:red;" id="tennganhangvalidation"></p>
                     </div>
                     <div class="mb-2 col-12 col-md-6 py-3">
                         <label style="font-weight:bold;" class="form-label">Số tài khoản</label>
                         <input id="sotaikhoan" name="sotaikhoan" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
+                        <p style="font-size: 13px; color:red;" id="sotaikhoanvalidation"></p>
                     </div>
                     <div class="mb-2 col-12 col-md-6 py-3">
                         <label style="font-weight:bold;" class="form-label">Chủ tài khoản</label>
                         <input id="chutaikhoan" name="chutaikhoan" type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
+                        <p style="font-size: 13px; color:red;" id="chutaikhoanvalidation"></p>
                     </div>
                 </div>
             </div>
@@ -1104,6 +1112,7 @@
                         <figure class="gallery__item gallery__item--1 mb-0">
                             <img style="max-width: 700px;" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImage">
                         </figure>
+                        <p style="font-size: 13px; color:red;" id="selectFilesvalidation"></p>
                         <div class="py-3"></div>
                     </div>
                 </div>
