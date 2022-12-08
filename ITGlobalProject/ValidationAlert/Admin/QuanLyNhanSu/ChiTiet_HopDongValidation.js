@@ -2,6 +2,38 @@
 
     //...............
 
+    //Loại hợp đồng
+    $('#loaiHopDong').on('change', function () {
+        if ($('#loaiHopDong :selected').val() == "Hợp đồng có thời hạn") {
+
+            $("#taiAnhHopDong").addClass("col-md-12");
+            $("#taiAnhHopDong").removeClass("col-md-4");
+
+            $('#ketthucHopDong').prop('hidden', false);
+        } else {
+            $("#taiAnhHopDong").addClass("col-md-4");
+            $("#taiAnhHopDong").removeClass("col-md-12");
+
+            $('#ketthucHopDong').prop('hidden', true);
+        }
+    });
+
+    //Chinh Sửa Loại hợp đồng
+    $('#chonLoaiHopDongChinhSua').on('change', function () {
+        if ($('#chonLoaiHopDongChinhSua :selected').val() == "Hợp đồng có thời hạn") {
+
+            $("#taiAnhHopDongChinhSua").addClass("col-md-12");
+            $("#taiAnhHopDongChinhSua").removeClass("col-md-4");
+
+            $('#ketthucHopDongChinhSua').prop('hidden', false);
+        } else {
+            $("#taiAnhHopDongChinhSua").addClass("col-md-4");
+            $("#taiAnhHopDongChinhSua").removeClass("col-md-12");
+
+            $('#ketthucHopDongChinhSua').prop('hidden', true);
+        }
+    });
+
     //Xóa Hợp Đồng
     $('[id^="xoaHopDong"]').on('click', function () {
         let id = $(this).attr('name');
@@ -96,10 +128,24 @@
     //Sửa hợp đồng
     $('[id^="chinhsuaHD"]').on('click', function () {
         let id = $(this).attr('name');
-
         $('#chinhsuaidhopdong').val(id);
         $('#chinhsuangaykyhopdong').val($('#ngaybatdauInput' + id).val());
         $('#chinhsuangaygiahanhopdong').val($('#ngayketthucInput' + id).val());
+
+        $('#chonLoaiHopDongChinhSua').val($('#loaihopdongInput' + id).val()).prop('selected', true);
+        if ($('#loaihopdongInput' + id).val() == "Hợp đồng có thời hạn") {
+            $("#taiAnhHopDongChinhSua").addClass("col-md-12");
+            $("#taiAnhHopDongChinhSua").removeClass("col-md-4");
+
+            $('#ketthucHopDongChinhSua').prop('hidden', false);
+        } else {
+            $("#taiAnhHopDongChinhSua").addClass("col-md-4");
+            $("#taiAnhHopDongChinhSua").removeClass("col-md-12");
+
+            $('#ketthucHopDongChinhSua').prop('hidden', true);
+        }
+
+
         $('#previewEditImage').replaceWith('<img style="margin: 30px 30px 30px 30px; max-width:720px" src="' + $('#hinhanhInput' + id).val() + '" alt="Gallery image 1" class="gallery__img rounded-3" id="previewEditImage">');
     });
 
@@ -114,6 +160,7 @@
         let id = $('#chinhsuaidhopdong').val();
         let batdau = $('#chinhsuangaykyhopdong').val();
         let ketthuc = $('#chinhsuangaygiahanhopdong').val();
+        let loaihopdong = $('#chonLoaiHopDongChinhSua :selected').val();
 
         //Lập form
         var formData = new FormData();
@@ -122,6 +169,7 @@
         formData.append('ngaygiahanhopdong', ketthuc);
         formData.append('id', id);
         formData.append('idus', idus);
+        formData.append('loaihopdong', loaihopdong);
 
         $('#AjaxLoader').show();
         $.ajax({
@@ -182,6 +230,11 @@
     //Hủy thêm hợp đồng
     $('#dongthemhopdong').on('click', function () {
         $('#previewImage').replaceWith('<img style="max-width: 700px;" src="' + $('#requestPath').val() + 'Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImage">');
+
+        $("#taiAnhHopDong").addClass("col-md-4");
+        $("#taiAnhHopDong").removeClass("col-md-12");
+
+        $('#ketthucHopDong').prop('hidden', true);
     });
 
     //Chọn ảnh hợp đồng mới
@@ -195,6 +248,7 @@
         let ngaygiahanhopdong = $('#ngaygiahanhopdong').val();
         let selectFiles = $('#selectFiles').val();
         let id = $('#idus').val();
+        let loaihopdong = $('#loaiHopDong :selected').val();
 
         //Lập form
         var formData = new FormData();
@@ -202,6 +256,7 @@
         formData.append('ngaykyhopdong', ngaykyhopdong);
         formData.append('ngaygiahanhopdong', ngaygiahanhopdong);
         formData.append('id', id);
+        formData.append('loaihopdong', loaihopdong);
 
         $('#AjaxLoader').show();
         $.ajax({

@@ -16,9 +16,10 @@ namespace ITGlobalProject.Models
     {
         public int ID { get; set; }
         public int ID_Employee { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
+        public Nullable<System.DateTime> StartDate { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
         public string ImageURL { get; set; }
+        public string EmploymentCategory { get; set; }
     
         public virtual Employees Employees { get; set; }
     }

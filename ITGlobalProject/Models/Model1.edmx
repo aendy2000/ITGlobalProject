@@ -80,13 +80,12 @@
           <Property Name="BankAccountHolderName" Type="nvarchar" MaxLength="50" />
           <Property Name="JoinedDate" Type="date" Nullable="false" />
           <Property Name="EmploymentStatus" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Username" Type="varchar" MaxLength="50" />
-          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
           <Property Name="Lock" Type="bit" Nullable="false" />
           <Property Name="Code" Type="varchar" MaxLength="8" />
           <Property Name="CodeDate" Type="datetime" />
           <Property Name="AccessHistory" Type="datetime" />
-          <Property Name="AccountStatus" Type="bit" Nullable="false" />
+          <Property Name="AccountSatus" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="EmploymentContracts">
           <Key>
@@ -94,9 +93,10 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ID_Employee" Type="int" Nullable="false" />
-          <Property Name="StartDate" Type="date" Nullable="false" />
-          <Property Name="EndDate" Type="date" Nullable="false" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
           <Property Name="ImageURL" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EmploymentCategory" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Histories">
           <Key>
@@ -826,13 +826,11 @@
           <Property Name="BankAccountHolderName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="JoinedDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EmploymentStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Lock" Type="Boolean" Nullable="false" />
           <Property Name="Code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="CodeDate" Type="DateTime" Precision="3" />
           <Property Name="AccessHistory" Type="DateTime" Precision="3" />
-          <Property Name="AccountStatus" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Comment" Relationship="Self.FK_Comment_Employees" FromRole="Employees" ToRole="Comment" />
           <NavigationProperty Name="DependentsInformation" Relationship="Self.FK_DependentsInformation_Employees" FromRole="Employees" ToRole="DependentsInformation" />
           <NavigationProperty Name="Position" Relationship="Self.FK_Employees_Position" FromRole="Employees" ToRole="Position" />
@@ -845,6 +843,7 @@
           <NavigationProperty Name="Subsidies" Relationship="Self.FK_Subsidies_Employees" FromRole="Employees" ToRole="Subsidies" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Employees" FromRole="Employees" ToRole="Tasks" />
           <NavigationProperty Name="Teams" Relationship="Self.FK_Teams_Employees" FromRole="Employees" ToRole="Teams" />
+          <Property Name="AccountSatus" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="EmploymentContracts">
           <Key>
@@ -852,9 +851,10 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID_Employee" Type="Int32" Nullable="false" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
           <Property Name="ImageURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmploymentCategory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_EmploymentContracts_Employees" FromRole="EmploymentContracts" ToRole="Employees" />
         </EntityType>
         <EntityType Name="Histories">
@@ -1079,11 +1079,11 @@
           <Property Name="DocumentURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="StartDate" Type="DateTime" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="OrdinalNumbers" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Comment" Relationship="Self.FK_Comment_Tasks" FromRole="Tasks" ToRole="Comment" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_Tasks_Employees" FromRole="Tasks" ToRole="Employees" />
           <NavigationProperty Name="Histories" Relationship="Self.FK_Histories_Tasks" FromRole="Tasks" ToRole="Histories" />
           <NavigationProperty Name="Projects" Relationship="Self.FK_Tasks_Projects" FromRole="Tasks" ToRole="Projects" />
-          <Property Name="OrdinalNumbers" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Tax">
           <Key>
@@ -1598,6 +1598,7 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="CP25Team06Model.Employees">
               <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="AccountSatus" ColumnName="AccountSatus" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Position" ColumnName="ID_Position" />
                 <ScalarProperty Name="Avatar" ColumnName="Avatar" />
@@ -1618,13 +1619,11 @@
                 <ScalarProperty Name="BankAccountHolderName" ColumnName="BankAccountHolderName" />
                 <ScalarProperty Name="JoinedDate" ColumnName="JoinedDate" />
                 <ScalarProperty Name="EmploymentStatus" ColumnName="EmploymentStatus" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Lock" ColumnName="Lock" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="CodeDate" ColumnName="CodeDate" />
                 <ScalarProperty Name="AccessHistory" ColumnName="AccessHistory" />
-                <ScalarProperty Name="AccountStatus" ColumnName="AccountStatus" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1636,6 +1635,7 @@
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+                <ScalarProperty Name="EmploymentCategory" ColumnName="EmploymentCategory" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1836,7 +1836,6 @@
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="CP25Team06Model.Tasks">
               <MappingFragment StoreEntitySet="Tasks">
-                <ScalarProperty Name="OrdinalNumbers" ColumnName="OrdinalNumbers" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
                 <ScalarProperty Name="ID_Project" ColumnName="ID_Project" />
@@ -1851,6 +1850,7 @@
                 <ScalarProperty Name="DocumentURL" ColumnName="DocumentURL" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="OrdinalNumbers" ColumnName="OrdinalNumbers" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

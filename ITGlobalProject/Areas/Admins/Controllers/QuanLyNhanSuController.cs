@@ -72,8 +72,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         string cmnd, string quoctich, string honnhan, string ngaysinh, string gioitinh, string diachinha,
         string sodienthoaididong, string sodienthoaikhac, string diachiemailcongty, string diachiemailkhac,
         string mucluong, string dsNganHang, string sotaikhoan, string chutaikhoan, string kynang, string trinhdongoaingu,
-        string phuthuocnhanthan, string trocap, string ngayvaolam, int vaitro, string hinhthuc, string username,
-        string matkhaudangnhap, string ngaykyhopdong, string ngaygiahanhopdong)
+        string phuthuocnhanthan, string trocap, string ngayvaolam, int vaitro, string hinhthuc,
+        string matkhaudangnhap, string ngaykyhopdong, string ngaygiahanhopdong, string loaihopdong, bool trangThaiTK)
         {
             try
             {
@@ -101,10 +101,12 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 emp.BankAccountHolderName = chutaikhoan;
                 emp.JoinedDate = Convert.ToDateTime(ngayvaolam);
                 emp.EmploymentStatus = hinhthuc;
-                emp.Username = username;
-                emp.Password = matkhaudangnhap;
                 emp.Lock = false;
-                emp.AccountStatus = true;
+                emp.AccountSatus = trangThaiTK;
+
+                if (trangThaiTK == true)
+                    emp.Password = matkhaudangnhap;
+
                 model.Employees.Add(emp);
                 model.SaveChanges();
 
@@ -112,7 +114,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 EmploymentContracts employ = new EmploymentContracts();
                 employ.ID_Employee = emp.ID;
                 employ.StartDate = Convert.ToDateTime(ngaykyhopdong);
-                employ.EndDate = Convert.ToDateTime(ngaygiahanhopdong);
+                employ.EmploymentCategory = loaihopdong;
+
+                if (loaihopdong.Equals("Hợp đồng có thời hạn"))
+                    employ.EndDate = Convert.ToDateTime(ngaygiahanhopdong);
 
                 FileStream stream;
                 if (anhHopDong.ContentLength > 0)
@@ -349,7 +354,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         [HttpPost]
         public async Task<ActionResult> chinhSuaThongTinCaNhan(HttpPostedFileBase AvatarImg, int? id, string hoten, string cmnd,
-        string quoctich, string honnhan, string ngaysinh, string gioitinh, string diachinha, string avatars)
+        string quoctich, string honnhan, string ngaysinh, string gioitinh, string diachinha, string avatars, string sodienthoaididong,
+        string sodienthoaikhac, string diachiemailcongty, string diachiemailkhac)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (id == null || user == null)
@@ -413,6 +419,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 user.Birthday = Convert.ToDateTime(ngaysinh);
                 user.Sex = gioitinh;
                 user.Address = diachinha;
+                user.TelephoneMobile = sodienthoaididong;
+                user.TelephoneOrther = sodienthoaikhac;
+                user.WorkEmail = diachiemailcongty;
+                user.OrtherEmail = diachiemailkhac;
 
                 model.Entry(user).State = EntityState.Modified;
                 model.SaveChanges();
@@ -438,18 +448,14 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             return Content("DANHSACH");
         }
         [HttpPost]
-        public ActionResult chinhSuaLienHeVaThanhToan(int? id, string sodienthoaididong,
-        string sodienthoaikhac, string diachiemailcongty, string diachiemailkhac,
+        public ActionResult chinhSuaLienHeVaThanhToan(int? id,
         string mucluong, string dsNganHang, string sotaikhoan, string chutaikhoan)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (id == null || user == null)
                 return Content("DANHSACH");
 
-            user.TelephoneMobile = sodienthoaididong;
-            user.TelephoneOrther = sodienthoaikhac;
-            user.WorkEmail = diachiemailcongty;
-            user.OrtherEmail = diachiemailkhac;
+
             user.Wage = Convert.ToDecimal(mucluong.Replace(",", ""));
             user.BankName = dsNganHang;
             user.BankAccountNumber = sotaikhoan;
@@ -625,14 +631,12 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                     model.LanguagesSkills.Add(lgSkill);
                 }
-
                 model.SaveChanges();
-                model = new CP25Team06Entities();
-                var lstNgoaiNgu = model.LanguagesSkills.Where(l => l.ID_Employee == user.ID).ToList();
-                Session["lst-ngoaingu"] = lstNgoaiNgu;
-                return PartialView("_trinhDoNgoaiNguPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
             }
-            return Content("DANHSACH");
+            model = new CP25Team06Entities();
+            var lstNgoaiNgu = model.LanguagesSkills.Where(l => l.ID_Employee == user.ID).ToList();
+            Session["lst-ngoaingu"] = lstNgoaiNgu;
+            return PartialView("_trinhDoNgoaiNguPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
 
         }
 
@@ -659,7 +663,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (id == null || user == null)
                 return Content("DANHSACH");
 
-            //Ngoại ngữ
+            //Nhân Thân
             model.DependentsInformation.RemoveRange(user.DependentsInformation);
             model.SaveChanges();
             if (!string.IsNullOrEmpty(phuthuocnhanthan))
@@ -679,7 +683,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             depen.Birthday = Convert.ToDateTime(phuthuocnhanthan.Split('=')[i].Split('_')[2]);
 
                             model.DependentsInformation.Add(depen);
-                            model.SaveChanges();
                         }
                     }
                     //Chỉ có 1 nhân thân
@@ -692,17 +695,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                         depen.Birthday = Convert.ToDateTime(phuthuocnhanthan.Split('_')[2]);
 
                         model.DependentsInformation.Add(depen);
-                        model.SaveChanges();
                     }
-                }
+                    model.SaveChanges();
 
-                model.SaveChanges();
-                model = new CP25Team06Entities();
-                var lstNhanThan = model.DependentsInformation.Where(l => l.ID_Employee == user.ID).ToList();
-                Session["lst-nhanthan"] = lstNhanThan;
-                return PartialView("_phuThuocNhanThanPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
+                }
             }
-            return Content("DANHSACH");
+            model = new CP25Team06Entities();
+            var lstNhanThan = model.DependentsInformation.Where(l => l.ID_Employee == user.ID).ToList();
+            Session["lst-nhanthan"] = lstNhanThan;
+            return PartialView("_phuThuocNhanThanPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
         }
         public ActionResult troCapPartial(int? id)
         {
@@ -794,7 +795,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             return Content("DANHSACH");
         }
         [HttpPost]
-        public async Task<ActionResult> themHopDongMoi(HttpPostedFileBase anhHopDong, string ngaykyhopdong, string ngaygiahanhopdong, int id)
+        public async Task<ActionResult> themHopDongMoi(HttpPostedFileBase anhHopDong, string ngaykyhopdong, string ngaygiahanhopdong, int id, string loaihopdong)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (user != null)
@@ -802,50 +803,54 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 EmploymentContracts emp = new EmploymentContracts();
                 emp.ID_Employee = user.ID;
                 emp.StartDate = Convert.ToDateTime(ngaykyhopdong);
-                emp.EndDate = Convert.ToDateTime(ngaygiahanhopdong);
+                emp.EmploymentCategory = loaihopdong;
+                if (loaihopdong.Equals("Hợp đồng có thời hạn"))
+                    emp.EndDate = Convert.ToDateTime(ngaygiahanhopdong);
 
                 FileStream stream;
-                if (anhHopDong.ContentLength > 0)
+                if (anhHopDong != null)
                 {
-                    const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
-                    int length = 30;
-                    var sb = new StringBuilder();
-                    Random RNG = new Random();
-                    for (var i = 0; i < length; i++)
+                    if (anhHopDong.ContentLength > 0)
                     {
-                        var c = src[RNG.Next(0, src.Length)];
-                        sb.Append(c);
-                    }
-
-                    string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + anhHopDong.FileName); ;
-                    anhHopDong.SaveAs(path);
-                    stream = new FileStream(Path.Combine(path), FileMode.Open);
-                    var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
-                    var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
-                    var cancellation = new CancellationTokenSource();
-
-                    var task = new FirebaseStorage(
-                        Bucket,
-                        new FirebaseStorageOptions
+                        const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
+                        int length = 30;
+                        var sb = new StringBuilder();
+                        Random RNG = new Random();
+                        for (var i = 0; i < length; i++)
                         {
-                            AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
-                            ThrowOnCancel = true
-                        })
-                        .Child("images")
-                        .Child(sb.ToString().Trim() + anhHopDong.FileName)
-                        .PutAsync(stream, cancellation.Token);
-                    try
-                    {
-                        string link = await task;
-                        emp.ImageURL = link;
-                        System.IO.File.Delete(path);
-                    }
-                    catch
-                    {
-                        return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                            var c = src[RNG.Next(0, src.Length)];
+                            sb.Append(c);
+                        }
+
+                        string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + anhHopDong.FileName); ;
+                        anhHopDong.SaveAs(path);
+                        stream = new FileStream(Path.Combine(path), FileMode.Open);
+                        var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                        var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+                        var cancellation = new CancellationTokenSource();
+
+                        var task = new FirebaseStorage(
+                            Bucket,
+                            new FirebaseStorageOptions
+                            {
+                                AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                                ThrowOnCancel = true
+                            })
+                            .Child("images")
+                            .Child(sb.ToString().Trim() + anhHopDong.FileName)
+                            .PutAsync(stream, cancellation.Token);
+                        try
+                        {
+                            string link = await task;
+                            emp.ImageURL = link;
+                            System.IO.File.Delete(path);
+                        }
+                        catch
+                        {
+                            return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                        }
                     }
                 }
-
                 model.EmploymentContracts.Add(emp);
                 model.SaveChanges();
                 model = new CP25Team06Entities();
@@ -869,54 +874,61 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             return PartialView("_hopDongPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
         }
         [HttpPost]
-        public async Task<ActionResult> suaHopDong(HttpPostedFileBase anhHopDong, string ngaykyhopdong, string ngaygiahanhopdong, int id, int idus)
+        public async Task<ActionResult> suaHopDong(HttpPostedFileBase anhHopDong, string ngaykyhopdong, string ngaygiahanhopdong, int id, int idus, string loaihopdong)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == idus);
             if (user != null)
             {
                 var emp = user.EmploymentContracts.FirstOrDefault(h => h.ID == id);
                 emp.StartDate = Convert.ToDateTime(ngaykyhopdong);
-                emp.EndDate = Convert.ToDateTime(ngaygiahanhopdong);
+                emp.EmploymentCategory = loaihopdong;
+                if (loaihopdong.Equals("Hợp đồng có thời hạn"))
+                    emp.EndDate = Convert.ToDateTime(ngaygiahanhopdong);
+                else
+                    emp.EndDate = null;
 
                 FileStream stream;
-                if (anhHopDong.ContentLength > 0)
+                if (anhHopDong != null)
                 {
-                    const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
-                    int length = 30;
-                    var sb = new StringBuilder();
-                    Random RNG = new Random();
-                    for (var i = 0; i < length; i++)
+                    if (anhHopDong.ContentLength > 0)
                     {
-                        var c = src[RNG.Next(0, src.Length)];
-                        sb.Append(c);
-                    }
-
-                    string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + anhHopDong.FileName); ;
-                    anhHopDong.SaveAs(path);
-                    stream = new FileStream(Path.Combine(path), FileMode.Open);
-                    var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
-                    var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
-                    var cancellation = new CancellationTokenSource();
-
-                    var task = new FirebaseStorage(
-                        Bucket,
-                        new FirebaseStorageOptions
+                        const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
+                        int length = 30;
+                        var sb = new StringBuilder();
+                        Random RNG = new Random();
+                        for (var i = 0; i < length; i++)
                         {
-                            AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
-                            ThrowOnCancel = true
-                        })
-                        .Child("images")
-                        .Child(sb.ToString().Trim() + anhHopDong.FileName)
-                        .PutAsync(stream, cancellation.Token);
-                    try
-                    {
-                        string link = await task;
-                        emp.ImageURL = link;
-                        System.IO.File.Delete(path);
-                    }
-                    catch
-                    {
-                        return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                            var c = src[RNG.Next(0, src.Length)];
+                            sb.Append(c);
+                        }
+
+                        string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + anhHopDong.FileName); ;
+                        anhHopDong.SaveAs(path);
+                        stream = new FileStream(Path.Combine(path), FileMode.Open);
+                        var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                        var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+                        var cancellation = new CancellationTokenSource();
+
+                        var task = new FirebaseStorage(
+                            Bucket,
+                            new FirebaseStorageOptions
+                            {
+                                AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                                ThrowOnCancel = true
+                            })
+                            .Child("images")
+                            .Child(sb.ToString().Trim() + anhHopDong.FileName)
+                            .PutAsync(stream, cancellation.Token);
+                        try
+                        {
+                            string link = await task;
+                            emp.ImageURL = link;
+                            System.IO.File.Delete(path);
+                        }
+                        catch
+                        {
+                            return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                        }
                     }
                 }
 
@@ -939,7 +951,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 if (user.Lock == false)
                 {
                     user.Lock = true;
-                    user.AccountStatus = false;
                     model.Entry(user).State = EntityState.Modified;
                     model.SaveChanges();
                     model = new CP25Team06Entities();
@@ -948,7 +959,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 else
                 {
                     user.Lock = false;
-                    user.AccountStatus = true;
                     model.Entry(user).State = EntityState.Modified;
                     model.SaveChanges();
                     model = new CP25Team06Entities();
@@ -1053,16 +1063,16 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
             if (state.Equals("all"))
                 Session["tienDoCongViec-lstTask"] = model.Tasks.Where(t => t.ID_Employee == idus).OrderByDescending(o => o.ID).ToList();
-           
+
             else if (state.Equals("chualam"))
                 Session["tienDoCongViec-lstTask"] = model.Tasks.Where(t => t.ID_Employee == idus && t.State.Equals("do")).OrderByDescending(o => o.ID).ToList();
-            
+
             else if (state.Equals("danglam"))
                 Session["tienDoCongViec-lstTask"] = model.Tasks.Where(t => t.ID_Employee == idus && t.State.Equals("progress")).OrderByDescending(o => o.ID).ToList();
-            
+
             else if (state.Equals("danop"))
                 Session["tienDoCongViec-lstTask"] = model.Tasks.Where(t => t.ID_Employee == idus && t.State.Equals("review")).OrderByDescending(o => o.ID).ToList();
-            
+
             else
                 Session["tienDoCongViec-lstTask"] = model.Tasks.Where(t => t.ID_Employee == idus && t.State.Equals("done")).OrderByDescending(o => o.ID).ToList();
 

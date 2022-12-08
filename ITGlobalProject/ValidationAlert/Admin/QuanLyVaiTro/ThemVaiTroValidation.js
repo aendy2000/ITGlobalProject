@@ -13,10 +13,10 @@
             $('#RoleValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         } else if (formats.test(name) == true){
             checkname = false;
-            $('#RoleValidateResul').text("Tên Vai Trò không hợp lệ! Vui lòng kiểm tra lại.").show();
+            $('#RoleValidateResul').text("Tên chức danh không hợp lệ! Vui lòng kiểm tra lại.").show();
         } else if (name.length > 50) {
             checkname = false;
-            $('#RoleValidateResul').text("Tên vai trò chỉ tối đa 50 ký tự! Vui lòng kiểm tra lại.").show();
+            $('#RoleValidateResul').text("Tên chức danh chỉ tối đa 50 ký tự! Vui lòng kiểm tra lại.").show();
         }
         else {
             checkname = true;
@@ -42,7 +42,7 @@
                     $('#danhSachPartial').replaceWith(ketqua);
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Đã thêm một vai trò mới!", {
+                            swal("Thành Công!", "Đã thêm một chức danh mới!", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

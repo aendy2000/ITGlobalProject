@@ -25,9 +25,9 @@
         if (name.length == 0) {
             $('#EditRoleValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         } else if (formats.test(name) == true) {
-            $('#EditRoleValidateResul').text("Tên Vai Trò không hợp lệ! Vui lòng kiểm tra lại.").show();
+            $('#EditRoleValidateResul').text("Tên chức danh không hợp lệ! Vui lòng kiểm tra lại.").show();
         } else if (name.length > 50) {
-            $('#EditRoleValidateResul').text("Tên vai trò chỉ tối đa 50 ký tự! Vui lòng kiểm tra lại.").show();
+            $('#EditRoleValidateResul').text("Tên chức danh chỉ tối đa 50 ký tự! Vui lòng kiểm tra lại.").show();
         }
         else {        
             var formData = new FormData();

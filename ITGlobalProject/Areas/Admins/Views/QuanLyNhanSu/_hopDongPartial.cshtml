@@ -60,7 +60,7 @@
                     <div class="lh-1">
                         <h2 class="mb-0">
                             @Model.Name
-                            @if (Model.AccountStatus == true)
+                            @if (Model.Lock == false)
                             {
                                 <i id="CheckorX" class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
                             }
@@ -94,7 +94,7 @@
                 <!-- Collapse navbar -->
                 <div class="collapse navbar-collapse" id="sidenav">
                     <div class="navbar-nav flex-column">
-                        <span class="navbar-header">Thông Tin Tài Khoản</span>
+                        <span class="navbar-header">Hồ Sơ Nhân Viên</span>
                         <!-- List -->
                         @*<ul class="list-unstyled ms-n2 mb-4">*@
                         <ul class="list-unstyled ms-n2 mb-0">
@@ -106,7 +106,7 @@
                             </li>
                             <li class="nav-item ">
                                 <a role="button" id="lhvathanhtoan" class="nav-link">
-                                    <i class="fe fe-phone-call nav-icon"></i>Liên hệ & Thanh toán
+                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -121,7 +121,7 @@
                             </li>
                             <li class="nav-item ">
                                 <a role="button" id="ptnhanthan" class="nav-link">
-                                    <i class="fe fe-users nav-icon"></i>Phụ thuộc nhân thân
+                                    <i class="fe fe-users nav-icon"></i>Người phụ thuộc
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -195,7 +195,7 @@
                             <p style="font-size: 13px; color:red;" id="ngayvaolamvalidation"></p>
                         </div>
                         <div class="mb-2 col-12 col-md-4">
-                            <label style="font-weight:bold;" class="form-label">Vị trí làm việc <span class="text-danger">*</span></label>
+                            <label style="font-weight:bold;" class="form-label">Chức danh <span class="text-danger">*</span></label>
                             <select id="vaitro" name="vaitro" class="form-select text-dark" data-width="100%">
                                 @foreach (var item in lstPosition)
                                 {
@@ -216,15 +216,23 @@
                             <select id="hinhthuc" name="hinhthuc" class="form-select text-dark" data-width="100%">
                                 @if (Model.EmploymentStatus.Equals("Thử việc"))
                                 {
-                                    <option value="Thử việc">Thử việc</option>
+                                    <option selected value="Thử việc">Thử việc</option>
+                                    <option value="Thực tập sinh">Thực tập sinh</option>
+                                    <option value="Nhân viên chính thức">Nhân viên chính thức</option>
+
                                 }
                                 else if (Model.EmploymentStatus.Equals("Thực tập sinh"))
                                 {
-                                    <option value="Thực tập sinh">Thực tập sinh</option>
+                                    <option value="Thử việc">Thử việc</option>
+                                    <option selected value="Thực tập sinh">Thực tập sinh</option>
+                                    <option value="Nhân viên chính thức">Nhân viên chính thức</option>
+
                                 }
                                 else
                                 {
-                                    <option value="Nhân viên chính thức">Nhân viên chính thức</option>
+                                    <option value="Thử việc">Thử việc</option>
+                                    <option value="Thực tập sinh">Thực tập sinh</option>
+                                    <option selected value="Nhân viên chính thức">Nhân viên chính thức</option>
                                 }
                             </select>
                             <p style="font-size: 13px; color:red;" id="hinhthucvalidation"></p>
@@ -264,8 +272,9 @@
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col" class=" border-top-0">STT</th>
+                                    <th scope="col" class=" border-top-0">Loại hợp đồng</th>
                                     <th scope="col" class=" border-top-0">Ngày bắt đầu</th>
-                                    <th scope="col" class=" border-top-0">Ngày gia hạn</th>
+                                    <th scope="col" class=" border-top-0">Ngày kết thúc</th>
                                     <th scope="col" class=" border-top-0" style="max-width: 150px">Hình ảnh</th>
                                     <th scope="col" class=" border-top-0" style="max-width: 1px;"></th>
                                 </tr>
@@ -274,9 +283,16 @@
                                 @foreach (var item in Model.EmploymentContracts)
                                 {
                                     i++;
-
-                                    <input hidden value="@item.StartDate.ToString("yyyy-MM-dd")" id="ngaybatdauInput@(item.ID)" />
-                                    <input hidden value="@item.EndDate.ToString("yyyy-MM-dd")" id="ngayketthucInput@(item.ID)" />
+                                    <input hidden value="@item.EmploymentCategory" id="loaihopdongInput@(item.ID)" />
+                                    <input hidden value="@(Convert.ToDateTime(item.StartDate).ToString("yyyy-MM-dd"))" id="ngaybatdauInput@(item.ID)" />
+                                    if (item.EndDate == null)
+                                    {
+                                        <input hidden value="" id="ngayketthucInput@(item.ID)" />
+                                    }
+                                    else
+                                    {
+                                        <input hidden value="@(Convert.ToDateTime(item.EndDate).ToString("yyyy-MM-dd"))" id="ngayketthucInput@(item.ID)" />
+                                    }
                                     <input hidden value="@item.ImageURL" id="hinhanhInput@(item.ID)" />
 
                                     <tr>
@@ -284,11 +300,26 @@
                                             @i.ToString("D2")
                                         </td>
                                         <td class="align-middle ">
-                                            @item.StartDate.ToString("dd") Thg @item.StartDate.ToString("MM, yyyy")
+                                            @item.EmploymentCategory
                                         </td>
-                                        <td class="align-middle ">
-                                            @item.EndDate.ToString("dd") Thg @item.EndDate.ToString("MM, yyyy")
-                                        </td>
+                                        @if (item.EmploymentCategory.Equals("Hợp đồng có thời hạn"))
+                                        {
+                                            <td class="align-middle ">
+                                                @Convert.ToDateTime(item.StartDate).ToString("dd") Thg @Convert.ToDateTime(item.StartDate).ToString("MM, yyyy")
+                                            </td>
+                                            <td class="align-middle ">
+                                                @Convert.ToDateTime(item.EndDate).ToString("dd") Thg @Convert.ToDateTime(item.EndDate).ToString("MM, yyyy")
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle ">
+                                                @Convert.ToDateTime(item.StartDate).ToString("dd") Thg @Convert.ToDateTime(item.StartDate).ToString("MM, yyyy")
+                                            </td>
+                                            <td class="align-middle ">
+                                                Không Xác Định
+                                            </td>
+                                        }
                                         <td class="align-middle ">
                                             <a class="btn btn-outline-primary btn-xs" data-bs-toggle="modal" data-bs-target="#ModalXemHinhAnh@(item.ID)"><i class="fe fe-image"> </i> XEM HỢP ĐỒNG</a>
                                         </td>
@@ -345,7 +376,7 @@
         }
 
         <!-- Thêm HĐ -->
-        <div class="modal fade modal-lg" id="themHopDongModal" tabindex="-1" role="dialog"
+        <div class="modal fade modal-xl" id="themHopDongModal" tabindex="-1" role="dialog"
              aria-labelledby="themHopDongModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
@@ -360,16 +391,26 @@
                         <div class="row">
                             <!-- form group -->
                             <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label" for="loaiHopDong">Loại hợp đồng <span class="text-danger">*</span></label>
+                                <select id="loaiHopDong" name="loaiHopDong" class="form-select  text-dark" data-width="100%">
+                                    <option value="">Chọn loại hợp đồng</option>
+                                    <option value="Hợp đồng có thời hạn">Hợp đồng có thời hạn</option>
+                                    <option value="Hợp đồng vô thời hạn">Hợp đồng vô thời hạn</option>
+                                </select>
+                                <p style="font-size: 13px; color:red;" id="themloaihopdongvalidation"></p>
+
+                            </div>
+                            <div class="mb-2 col-12 col-md-4">
                                 <label style="font-weight:bold;" class="form-label">Ngày bắt đầu hợp đồng <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control flatpickr" placeholder="Chọn ngày bắt đầu" id="ngaykyhopdong" name="ngaykyhopdong" />
                                 <p style="font-size: 13px; color:red;" id="ngaykyhopdongvalidation"></p>
                             </div>
-                            <div class="mb-2 col-12 col-md-4">
-                                <label style="font-weight:bold;" class="form-label">Ngày gia hạn hợp đồng <span class="text-danger">*</span></label>
+                            <div id="ketthucHopDong" hidden="hidden" class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label">Ngày gia hạn / kết thúc hợp đồng <span class="text-danger">*</span></label>
                                 <input class="form-control flatpickr" placeholder="Chọn ngày gia hạn" id="ngaygiahanhopdong" name="ngaygiahanhopdong" />
                                 <p style="font-size: 13px; color:red;" id="ngaygiahanhopdongvalidation"></p>
                             </div>
-                            <div class="mb-2 col-12 col-md-4">
+                            <div id="taiAnhHopDong" class="mb-2 col-12 col-md-4">
                                 <label style="font-weight:bold;" class="form-label">Đính kèm hợp đồng <span class="text-danger">*</span></label><br />
                                 <a role="button" id="chonanhhopdongmoi" class="btn btn-outline-primary" style="width:100%">
                                     <i class="fe fe-upload me-1"></i>
@@ -402,8 +443,7 @@
         </div>
 
         <!--Sửa HĐ-->
-        <!-- Chỉnh sửa vai trò -->
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasChinhSua" style="width: 1000px;" data-simplebar>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasChinhSua" style="width: 1300px;" data-simplebar>
 
             <div class="offcanvas-body">
                 <div style="margin-bottom: -20px" class="offcanvas-header px-2 pt-0">
@@ -418,17 +458,27 @@
                         <div class="row">
                             <!-- form group -->
                             <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label" for="chonLoaiHopDongChinhSua">Loại hợp đồng <span class="text-danger">*</span></label>
+                                <select id="chonLoaiHopDongChinhSua" name="chonLoaiHopDongChinhSua" class="form-select text-dark" data-width="100%">
+                                    <option value="">Chọn loại hợp đồng</option>
+                                    <option value="Hợp đồng có thời hạn">Hợp đồng có thời hạn</option>
+                                    <option value="Hợp đồng vô thời hạn">Hợp đồng vô thời hạn</option>
+                                </select>
+                                <p style="font-size: 13px; color:red;" id="ChinhSualoaihopdongvalidation"></p>
+
+                            </div>
+                            <div class="mb-2 col-12 col-md-4">
                                 <label style="font-weight:bold;" class="form-label">Ngày bắt đầu hợp đồng <span class="text-danger">*</span></label>
                                 <input hidden id="chinhsuaidhopdong" />
                                 <input type="text" class="form-control flatpickr" placeholder="Chọn ngày bắt đầu" id="chinhsuangaykyhopdong" name="chinhsuangaykyhopdong" />
                                 <p style="font-size: 13px; color:red;" id="chinhsuangaykyhopdongvalidation"></p>
                             </div>
-                            <div class="mb-2 col-12 col-md-4">
-                                <label style="font-weight:bold;" class="form-label">Ngày gia hạn hợp đồng <span class="text-danger">*</span></label>
+                            <div id="ketthucHopDongChinhSua" hidden="hidden" class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label">Ngày gia hạn / kết thúc hợp đồng <span class="text-danger">*</span></label>
                                 <input class="form-control flatpickr" placeholder="Chọn ngày gia hạn" id="chinhsuangaygiahanhopdong" name="chinhsuangaygiahanhopdong" />
                                 <p style="font-size: 13px; color:red;" id="chinhsuangaygiahanhopdongvalidation"></p>
                             </div>
-                            <div class="mb-2 col-12 col-md-4">
+                            <div id="taiAnhHopDongChinhSua" class="mb-2 col-12 col-md-4">
                                 <label style="font-weight:bold;" class="form-label">Đính kèm hợp đồng <span class="text-danger">*</span></label><br />
                                 <a role="button" id="chinhsuachonanhhopdongmoi" class="btn btn-outline-primary" style="width:100%">
                                     <i class="fe fe-upload me-1"></i>

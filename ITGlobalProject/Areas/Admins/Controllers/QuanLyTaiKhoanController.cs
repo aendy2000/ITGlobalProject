@@ -39,7 +39,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult DangNhap(string username, string password)
         {
-            var user = model.Employees.FirstOrDefault(u => u.Username.ToLower().Equals(username.ToLower()) || u.WorkEmail.ToLower().Equals(username.ToLower()));
+            var user = model.Employees.FirstOrDefault(u =>  u.WorkEmail.ToLower().Equals(username.ToLower()));
             if (user != null) //Tài khoản tồn tại
             {
                 if (user.Password.Equals(password)) //Mật khẩu đúng

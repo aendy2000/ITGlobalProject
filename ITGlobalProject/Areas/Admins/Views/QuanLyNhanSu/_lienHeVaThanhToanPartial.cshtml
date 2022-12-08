@@ -57,7 +57,7 @@
                     <div class="lh-1">
                         <h2 class="mb-0">
                             @Model.Name
-                            @if (Model.AccountStatus == true)
+                            @if (Model.Lock == false)
                             {
                                 <i id="CheckorX" class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
                             }
@@ -91,7 +91,7 @@
                 <!-- Collapse navbar -->
                 <div class="collapse navbar-collapse" id="sidenav">
                     <div class="navbar-nav flex-column">
-                        <span class="navbar-header">Thông Tin Tài Khoản</span>
+                        <span class="navbar-header">Hồ Sơ Nhân Viên</span>
                         <!-- List -->
                         @*<ul class="list-unstyled ms-n2 mb-4">*@
                         <ul class="list-unstyled ms-n2 mb-0">
@@ -103,7 +103,7 @@
                             </li>
                             <li class="nav-item active">
                                 <a role="button" id="lhvathanhtoan" class="nav-link">
-                                    <i class="fe fe-phone-call nav-icon"></i>Liên hệ & Thanh toán
+                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -118,7 +118,7 @@
                             </li>
                             <li class="nav-item ">
                                 <a role="button" id="ptnhanthan" class="nav-link">
-                                    <i class="fe fe-users nav-icon"></i>Phụ thuộc nhân thân
+                                    <i class="fe fe-users nav-icon"></i>Người phụ thuộc
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -182,31 +182,12 @@
             <!-- Card -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="mb-0">Thông Tin Liên Hệ & Thanh Toán</h3>
+                    <h3 class="mb-0">Tiền Lương & Thanh Toán</h3>
                 </div>
                 <div class="card-body">
                     <div>
                         <form class="row">
-                            <div class="mb-2 col-12 col-md-6">
-                                <label style="font-weight:bold;" class="form-label" for="sodienthoaididong">Số điện thoại di động <span class="text-danger">*</span></label>
-                                <input value="@Model.TelephoneMobile" type="tel" id="sodienthoaididong" name="sodienthoaididong" class="form-control" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" placeholder="Nhập số điện thoại di động" />
-                                <p style="font-size: 13px; color:red;" id="sodienthoaididongvalidation"></p>
-                            </div>
-                            <div class="mb-2 col-12 col-md-6">
-                                <label style="font-weight:bold;" class="form-label" for="sodienthoaikhac">Số điện thoại nhà</label>
-                                <input value="@Model.TelephoneOrther" type="tel" id="sodienthoaikhac" name="sodienthoaikhac" class="form-control" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" placeholder="Nhập số điện thoại nhà" />
-                                <p style="font-size: 13px; color:red;" id="sodienthoaikhacvalidation"></p>
-                            </div>
-                            <div class="mb-2 col-12 col-md-6">
-                                <label style="font-weight:bold;" class="form-label" for="diachiemailcongty">Email Công Ty <span class="text-danger">*</span></label>
-                                <input value="@Model.WorkEmail" type="text" id="diachiemailcongty" name="diachiemailcongty" class="form-control" data-inputmask="'alias': 'email'" inputmode="numeric" placeholder="example@itglobal.net" />
-                                <p style="font-size: 13px; color:red;" id="diachiemailcongtyvalidation"></p>
-                            </div>
-                            <div class="mb-2 col-12 col-md-6">
-                                <label style="font-weight:bold;" class="form-label" for="diachiemailkhac">Email Khác</label>
-                                <input value="@Model.OrtherEmail" type="text" id="diachiemailkhac" name="diachiemailkhac" class="form-control" data-inputmask="'alias': 'email'" inputmode="numeric" placeholder="example@itglobal.net" />
-                                <p style="font-size: 13px; color:red;" id="diachiemailkhacvalidation"></p>
-                            </div>
+                           
                             <div class="mb-2 col-12 col-md-6">
                                 <label style="font-weight:bold;" class="form-label" for="phone">Mức lương <span class="text-danger">*</span></label>
                                 <input value="@Model.Wage.ToString("0,0").Replace(".", ",")" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" style="font-weight:bold; color:brown" type="text" id="mucluong" name="mucluong" class="form-control  text-start" placeholder="Nhập mức lương đã thỏa thuận" />

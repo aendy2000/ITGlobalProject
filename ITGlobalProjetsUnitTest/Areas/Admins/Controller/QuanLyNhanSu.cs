@@ -235,8 +235,7 @@ namespace ITGlobalProjetsUnitTest.Areas.Admins.Controller
             string dsNganHang = "Ngân Hàng";
             string sotaikhoan = "123123123";
             string chutaikhoan = "Chủ Tài khoản";
-            var contentResult = (ContentResult)qlnhansu.chinhSuaLienHeVaThanhToan(id, sodienthoaididong, sodienthoaikhac,
-                diachiemailcongty, diachiemailkhac, mucluong, dsNganHang, sotaikhoan, chutaikhoan);
+            var contentResult = (ContentResult)qlnhansu.chinhSuaLienHeVaThanhToan(id, mucluong, dsNganHang, sotaikhoan, chutaikhoan);
 
             Assert.IsNotNull(contentResult.Content);
             Assert.AreEqual("DANHSACH", contentResult.Content);
@@ -260,8 +259,7 @@ namespace ITGlobalProjetsUnitTest.Areas.Admins.Controller
             string dsNganHang = "Ngân Hàng";
             string sotaikhoan = "123123123";
             string chutaikhoan = "Chủ Tài khoản";
-            var contentResult = (ContentResult)qlnhansu.chinhSuaLienHeVaThanhToan(null, sodienthoaididong, sodienthoaikhac,
-                diachiemailcongty, diachiemailkhac, mucluong, dsNganHang, sotaikhoan, chutaikhoan);
+            var contentResult = (ContentResult)qlnhansu.chinhSuaLienHeVaThanhToan(null, mucluong, dsNganHang, sotaikhoan, chutaikhoan);
 
             Assert.IsNotNull(contentResult.Content);
             Assert.AreEqual("DANHSACH", contentResult.Content);

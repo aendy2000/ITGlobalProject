@@ -60,7 +60,7 @@
                     <div class="lh-1">
                         <h2 class="mb-0">
                             @Model.Name
-                            @if (Model.AccountStatus == true)
+                            @if (Model.Lock == false)
                             {
                                 <i id="CheckorX" class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
                             }
@@ -93,7 +93,7 @@
                 <!-- Collapse navbar -->
                 <div class="collapse navbar-collapse" id="sidenav">
                     <div class="navbar-nav flex-column">
-                        <span class="navbar-header">Thông Tin Tài Khoản</span>
+                        <span class="navbar-header">Hồ Sơ Nhân Viên</span>
                         <!-- List -->
                         @*<ul class="list-unstyled ms-n2 mb-4">*@
                         <ul class="list-unstyled ms-n2 mb-0">
@@ -105,7 +105,7 @@
                             </li>
                             <li class="nav-item ">
                                 <a role="button" id="lhvathanhtoan" class="nav-link">
-                                    <i class="fe fe-phone-call nav-icon"></i>Liên hệ & Thanh toán
+                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -120,7 +120,7 @@
                             </li>
                             <li class="nav-item ">
                                 <a role="button" id="ptnhanthan" class="nav-link">
-                                    <i class="fe fe-users nav-icon"></i>Phụ thuộc nhân thân
+                                    <i class="fe fe-users nav-icon"></i>Người phụ thuộc
                                 </a>
                             </li>
                             <li class="nav-item ">

@@ -5,10 +5,7 @@
     $('#btnLuuThongTin').on('click', function (e) {
         //Liên Hệ & Thanh Toán
         let id = $('#idus').val();
-        let sodienthoaididong = $('#sodienthoaididong').val();
-        let sodienthoaikhac = $('#sodienthoaikhac').val();
-        let diachiemailcongty = $('#diachiemailcongty').val();
-        let diachiemailkhac = $('#diachiemailkhac').val();
+
         let mucluong = $('#mucluong').val();
         let dsNganHang = $('#tenNganHang').val();
         let sotaikhoan = $('#sotaikhoan').val();
@@ -22,10 +19,7 @@
         //Thông Tin Cá Nhân
         formData.append('id', id);
         //Liên Hệ & Thanh Toán
-        formData.append('sodienthoaididong', sodienthoaididong);
-        formData.append('sodienthoaikhac', sodienthoaikhac);
-        formData.append('diachiemailcongty', diachiemailcongty);
-        formData.append('diachiemailkhac', diachiemailkhac);
+
         formData.append('mucluong', mucluong);
         formData.append('dsNganHang', dsNganHang);
         formData.append('sotaikhoan', sotaikhoan);
