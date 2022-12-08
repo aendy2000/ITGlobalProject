@@ -9,8 +9,8 @@
             $('#lbNhapLaiMatKhau').prop('hidden', false);
 
         } else {
-            $("#matkhaudangnhap").prop('disabled', true);
-            $("#nhaplaimatkhaudangnhap").prop('disabled', true);
+            $("#matkhaudangnhap").val('').prop('disabled', true);
+            $("#nhaplaimatkhaudangnhap").val('').prop('disabled', true);
             $('#lbNhapMatKhau').prop('hidden', true);
             $('#lbNhapLaiMatKhau').prop('hidden', true);
         }
