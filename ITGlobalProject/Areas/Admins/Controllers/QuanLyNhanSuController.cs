@@ -488,87 +488,34 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (id == null || user == null)
                 return Content("DANHSACH");
 
+            model.PersonalSkills.RemoveRange(user.PersonalSkills);
+            model.SaveChanges();
             //Kỹ năng
             if (!string.IsNullOrEmpty(kynang))
             {
-                var exitsKyNang = user.PersonalSkills.ToList();
-
-                if (kynang.IndexOf("_") != -1)
-                {
-
-                    for (int i = 0; i < exitsKyNang.Count; i++)
-                    {
-                        bool checks = false;
-                        for (int j = 0; j < kynang.Split('_').ToList().Count; j++)
-                        {
-                            if (exitsKyNang[i].ID_SkillsCategory == Int32.Parse(kynang.Split('_')[j]))
-                            {
-                                checks = true;
-                                break;
-                            }
-                        }
-                        if (checks == false)
-                        {
-                            model.PersonalSkills.Remove(exitsKyNang[i]);
-                        }
-
-                    }
-                }
-                else
-                {
-                    bool checks = false;
-                    int index = 0;
-                    for (int i = 0; i < exitsKyNang.Count; i++)
-                    {
-                        if (exitsKyNang[i].ID_SkillsCategory == Int32.Parse(kynang))
-                        {
-                            checks = true;
-                            break;
-                        }
-                        index++;
-                    }
-                    if (checks == false)
-                    {
-                        model.PersonalSkills.Remove(exitsKyNang[index]);
-                    }
-                }
-
-                model.SaveChanges();
-                model = new CP25Team06Entities();
-
                 if (kynang.IndexOf("_") != -1)
                 {
                     for (int i = 0; i < kynang.Split('_').ToList().Count; i++)
                     {
                         int idPerSkills = Int32.Parse(kynang.Split('_')[i]);
-                        var kynangs = model.PersonalSkills.FirstOrDefault(k => k.ID_Employee == user.ID
-                        && k.ID_SkillsCategory == idPerSkills);
 
-                        if (kynangs == null)
-                        {
-                            PersonalSkills perSkill = new PersonalSkills();
-                            perSkill.ID_Employee = user.ID;
-                            perSkill.ID_SkillsCategory = idPerSkills;
-                            model.PersonalSkills.Add(perSkill);
-                        }
-                    }
-                }
-                else
-                {
-                    int idPerSkills = Int32.Parse(kynang);
-                    var kynangs = model.PersonalSkills.FirstOrDefault(k => k.ID_Employee == user.ID
-                       && k.ID_SkillsCategory == idPerSkills);
-
-                    if (kynangs == null)
-                    {
                         PersonalSkills perSkill = new PersonalSkills();
                         perSkill.ID_Employee = user.ID;
                         perSkill.ID_SkillsCategory = idPerSkills;
                         model.PersonalSkills.Add(perSkill);
                     }
                 }
+                else
+                {
+                    int idPerSkills = Int32.Parse(kynang);
+
+                    PersonalSkills perSkill = new PersonalSkills();
+                    perSkill.ID_Employee = user.ID;
+                    perSkill.ID_SkillsCategory = idPerSkills;
+                    model.PersonalSkills.Add(perSkill);
+                }
+                model.SaveChanges();
             }
-            model.SaveChanges();
             model = new CP25Team06Entities();
             var lstkynang = model.SkillsCategory.OrderBy(k => k.Name).ToList();
             Session["lst-kynang"] = lstkynang;
@@ -637,7 +584,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             var lstNgoaiNgu = model.LanguagesSkills.Where(l => l.ID_Employee == user.ID).ToList();
             Session["lst-ngoaingu"] = lstNgoaiNgu;
             return PartialView("_trinhDoNgoaiNguPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
-
         }
 
         public ActionResult phuThuocNhanThanPartial(int? id)
@@ -752,12 +698,12 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 }
 
                 model.SaveChanges();
-                model = new CP25Team06Entities();
-                var lstTroCap = model.SubsidiesCategory.OrderBy(t => t.Name).ToList();
-                Session["lst-trocap"] = lstTroCap;
-                return PartialView("_troCapPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
+
             }
-            return Content("DANHSACH");
+            model = new CP25Team06Entities();
+            var lstTroCap = model.SubsidiesCategory.OrderBy(t => t.Name).ToList();
+            Session["lst-trocap"] = lstTroCap;
+            return PartialView("_troCapPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
         }
         public ActionResult hopDongPartial(int? id)
         {
