@@ -36,9 +36,18 @@
         var checksngaysinh = false;
         var checksgioitinh = false;
         var checksdiachiemail = false;
+        var checksdiachinha = flase;
         //Họ và tên
         if (hoten.length < 1) {
-            $('#hotenvalidation').text("Không có bỏ trống mà trời?").show();
+            $('#hotenvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            var searchInput = $('#hoten');
+            var strLength = searchInput.val().length * 2;
+
+            searchInput.focus();
+            searchInput[0].setSelectionRange(strLength, strLength);
+        }
+        else if (hoten.length > 50) {
+            $('#hotenvalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
             var searchInput = $('#hoten');
             var strLength = searchInput.val().length * 2;
 
@@ -47,11 +56,20 @@
         }
         else {
             checkshoten = true;
+            $('#hotenvalidation').text("").hide();
         }
 
         //CMND
         if (cmnd.length < 1) {
-            $('#cmndvalidation').text("Không có bỏ trống mà trời?").show();
+            $('#cmndvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            var searchInput = $('#cmnd');
+            var strLength = searchInput.val().length * 2;
+
+            searchInput.focus();
+            searchInput[0].setSelectionRange(strLength, strLength);
+        }
+        else if (cmnd.length > 8) {
+            $('#cmndvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
             var searchInput = $('#cmnd');
             var strLength = searchInput.val().length * 2;
 
@@ -60,11 +78,21 @@
         }
         else {
             checkscmnd = true;
+            $('#cmndvalidation').text("").hide();
+
         }
 
         //Điện thoại
         if (sodienthoai.length < 1) {
-            $('#sodienthoaivalidation').text("Không có bỏ trống mà trời?").show();
+            $('#sodienthoaivalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            var searchInput = $('#sodienthoai');
+            var strLength = searchInput.val().length * 2;
+
+            searchInput.focus();
+            searchInput[0].setSelectionRange(strLength, strLength);
+        }
+        else if (sodienthoai.length > 8) {
+            $('#sodienthoaivalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
             var searchInput = $('#sodienthoai');
             var strLength = searchInput.val().length * 2;
 
@@ -73,11 +101,12 @@
         }
         else {
             checkssodienthoai = true;
+            $('#sodienthoaivalidation').text("").hide();
         }
 
         //Ngày sinh
         if (ngaysinh.length < 1) {
-            $('#ngaysinhvalidation').text("Không có bỏ trống mà trời?").show();
+            $('#ngaysinhvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
             var searchInput = $('#ngaysinh');
             var strLength = searchInput.val().length * 2;
 
@@ -85,25 +114,20 @@
             searchInput[0].setSelectionRange(strLength, strLength);
         }
         else {
-            checksngaysinh = true;
+            checksngaysinh = true
+            $('#ngaysinhvalidation').text("").hide();
         }
-
-        //giới tính
-        if (gioitinh.length < 1) {
-            $('#gioitinhvalidation').text("Không có bỏ trống mà trời?").show();
-            var searchInput = $('#gioitinh');
+        //Email
+        if (diachiemail.length < 1) {
+            $('#diachiemailvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            var searchInput = $('#diachiemail');
             var strLength = searchInput.val().length * 2;
 
             searchInput.focus();
             searchInput[0].setSelectionRange(strLength, strLength);
         }
-        else {
-            checksgioitinh = true;
-        }
-
-        //Email
-        if (diachiemail.length < 1) {
-            $('#diachiemailvalidation').text("Không có bỏ trống mà trời?").show();
+        else if (diachiemail.length > 50) {
+            $('#diachiemailvalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
             var searchInput = $('#diachiemail');
             var strLength = searchInput.val().length * 2;
 
@@ -112,10 +136,39 @@
         }
         else {
             checksdiachiemail = true;
+            $('#diachiemailvalidation').text("").hide();
+        }
+        //giới tính
+        if (gioitinh.length < 1) {
+            $('#gioitinhvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            var searchInput = $('#gioitinh');
+            var strLength = searchInput.val().length * 2;
+
+            searchInput.focus();
+            searchInput[0].setSelectionRange(strLength, strLength);
+        }
+        else {
+            checksgioitinh = true;
+            $('#gioitinhvalidation').text("").hide();
+
+        }
+        if (diachinha.length < 1) {
+            $('#diachinhavalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+            var searchInput = $('#diachinha');
+            var strLength = searchInput.val().length * 2;
+
+            searchInput.focus();
+            searchInput[0].setSelectionRange(strLength, strLength);
+        }
+        else {
+            checksdiachinha = true;
+            $('#diachinhavalidation').text("").hide();
         }
 
+      
+
         if (checkshoten === true && checkscmnd === true && checkssodienthoai === true && checksngaysinh === true &&
-            checksgioitinh === true && checksdiachiemail === true) {
+            checksgioitinh === true && checksdiachiemail === true && checksdiachinha === true) {
             e.preventDefault();
             $('#AjaxLoader').show(); 
             var formData = new FormData();
@@ -170,7 +223,7 @@
                     $('#contentPartial').replaceWith(ketqua);
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Đã lưu thông tin chỉnh sửa!", {
+                            swal("Thành Công!", "Tuyệt quá! Thông tin đã được chỉnh sửa thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {
