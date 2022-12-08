@@ -4,12 +4,21 @@
     $('#themvaitro').on('click', function (e) {
         var name = $('#tenvaitro').val();
         var mota = $('#motavaitro').val();
+        var formats = /[`!#$%^&*()+\=\[\]{};':"\\|@_<>\/?~]/;
+
         checkname = false;
 
         if (name.length == 0) {
             checkname = false;
             $('#RoleValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-        } else {
+        } else if (formats.test(name) == true){
+            checkname = false;
+            $('#RoleValidateResul').text("Tên chức danh không hợp lệ! Vui lòng kiểm tra lại.").show();
+        } else if (name.length > 50) {
+            checkname = false;
+            $('#RoleValidateResul').text("Tên chức danh chỉ tối đa 50 ký tự! Vui lòng kiểm tra lại.").show();
+        }
+        else {
             checkname = true;
         }
         if (checkname == true) {    

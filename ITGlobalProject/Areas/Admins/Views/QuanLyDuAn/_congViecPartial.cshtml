@@ -94,63 +94,62 @@
                                     {
                                         if (item.State.Equals("do"))
                                         {
-                                            <div class="card smooth-shadow-md">
+                                            <div id="@item.ID" class="card smooth-shadow-md">
                                                 <!-- card body -->
                                                 <div class="card-body p-3">
                                                     <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <form>
-                                                                <!-- checkbox -->
-                                                                <div class="form-check custom-checkbox" style="margin-bottom:-20px; color: black">
-                                                                    <a role="button" href="#" style="display:inline;" class="h6" data-bs-toggle="modal" data-bs-target="#edittaskModal">
-                                                                        @item.ID. @item.Name.
-                                                                    </a>
-                                                                    <br>
-                                                                    <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
-                                                                        <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
-                                                                        @if (Convert.ToDecimal(item.OriginalEstimate).ToString("0.0").Split('.', ',')[1].Equals("0"))
-                                                                        {
-                                                                            <label style="width: 49%; float: right;">@Convert.ToDecimal(item.OriginalEstimate).ToString("0.0").Split('.', ',')[0] giờ</label>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <label style="width: 49%; float: right;">@Convert.ToDecimal(item.OriginalEstimate).ToString("0.0") giờ</label>
-                                                                        }
-                                                                    </label>
-                                                                    <label class="badge bg-warning" style="width: 100%; font-weight: bold">
-                                                                        <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
-                                                                        @if (Convert.ToDecimal(item.CompletedWork).ToString("0.0").Split('.', ',')[1].Equals("0"))
-                                                                        {
-                                                                            <label style="width: 49%; float: right;">@Convert.ToDecimal(item.CompletedWork).ToString("0.0").Split('.', ',')[0] giờ</label>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <label style="width: 49%; float: right;">@Convert.ToDecimal(item.CompletedWork).ToString("0.0") giờ</label>
-                                                                        }
-                                                                    </label>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                                                        <form>
+                                                            <!-- checkbox -->
+                                                            <div class="form-check custom-checkbox" style="margin-bottom:-20px; color: black">
+                                                                <input hidden value="@item.ID" id="taskss@(item.ID)" />
+                                                                <a role="button" href="#" style="display:inline;" class="h6" data-bs-toggle="modal" data-bs-target="#edittaskModal">
+                                                                    @item.ID. @item.Name.
+                                                                </a>
+                                                                <br>
+                                                                <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
+                                                                    <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
+                                                                    @if (Convert.ToDecimal(item.OriginalEstimate).ToString("0.0").Split('.', ',')[1].Equals("0"))
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.OriginalEstimate).ToString("0.0").Split('.', ',')[0] giờ</label>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.OriginalEstimate).ToString("0.0") giờ</label>
+                                                                    }
+                                                                </label>
+                                                                <label class="badge bg-warning" style="width: 100%; font-weight: bold">
+                                                                    <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
+                                                                    @if (Convert.ToDecimal(item.CompletedWork).ToString("0.0").Split('.', ',')[1].Equals("0"))
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.CompletedWork).ToString("0.0").Split('.', ',')[0] giờ</label>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.CompletedWork).ToString("0.0") giờ</label>
+                                                                    }
+                                                                </label>
+                                                            </div>
+                                                        </form>
                                                         <div>
                                                             <!-- dropdown -->
                                                             <div class="dropdown dropstart">
                                                                 <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                                                                   href="#" id="dropdownTask1"
+                                                                   href="#" id="dropdownTask@(item.ID)"
                                                                    data-bs-toggle="dropdown"
                                                                    aria-haspopup="true"
                                                                    aria-expanded="false">
                                                                     <i class="fe fe-more-horizontal"></i>
                                                                 </a>
                                                                 <div class="dropdown-menu"
-                                                                     aria-labelledby="dropdownTask1">
+                                                                     aria-labelledby="dropdownTask@(item.ID)">
 
                                                                     <a class="dropdown-item d-flex align-items-center"
-                                                                        data-bs-toggle="modal" data-bs-target="#edittaskModal">
+                                                                       data-bs-toggle="modal" data-bs-target="#edittaskModal">
                                                                         <i class="dropdown-item-icon fe fe-edit"></i>Xem và Sửa
                                                                     </a>
 
                                                                     <a class="dropdown-item d-flex align-items-center"
-                                                                        data-bs-toggle="modal" data-bs-target="#edittaskModal">
+                                                                       data-bs-toggle="modal" data-bs-target="#edittaskModal">
                                                                         <i class="dropdown-item-icon fe fe-trash-2"></i>Xóa Công Việc
                                                                     </a>
 
@@ -163,7 +162,7 @@
                                                         <div class="d-flex align-items-center">
                                                             @if (string.IsNullOrEmpty(item.Employees.Avatar))
                                                             {
-                                                                <div class="avatar avatar-xs avatar-danger imgtooltip" data-template="@item.ID">
+                                                                <div class="avatar avatar-xs avatar-danger imgtooltip" data-template="ToltipName_@item.ID">
                                                                     <span class="avatar-initials rounded-circle"> @item.Employees.Name.Substring(0, 1) </span>
                                                                 </div>
                                                             }
@@ -174,20 +173,20 @@
                                                                      data-template="@item.ID">
                                                             }
                                                             <!-- text -->
-                                                            <div id="@item.ID" class="d-none">
+                                                            <div id="ToltipName_@item.ID" class="d-none">
                                                                 <h6 class="mb-0">@item.Employees.Name</h6>
                                                             </div>
                                                             <!-- text -->
                                                             <div class="ms-2">
                                                                 <span style="font-weight:bold" class="fs-6">
-                                                                    <i style="font-weight:bold" class="fe fe-clock me-1"></i>@item.Deadline.ToString("dd") Th @item.Deadline.ToString("MM, yyyy")
+                                                                    <i style="font-weight:bold" class="fe fe-clock me-1"></i>@item.Deadline.ToString("dd") Thg @item.Deadline.ToString("MM, yyyy")
                                                                 </span>
                                                             </div>
                                                         </div>
                                                         <!-- message count -->
-                                                        <div>
-                                                            <span class="badge-dot bg-gray-400 me-2 d-inline-block align-middle imgtooltip" data-template="stateid1"></span>
-                                                            <div id="stateid1" class="d-none">
+                                                        <div id="trangThai_@item.ID">
+                                                            <span class="badge-dot bg-gray-400 me-2 d-inline-block align-middle imgtooltip" data-template="stateid@(item.ID)"></span>
+                                                            <div id="stateid@(item.ID)" class="d-none">
                                                                 <h6 class="mb-0">Chưa thực hiện</h6>
                                                             </div>
                                                         </div>
@@ -213,44 +212,6 @@
                                     <!-- task list -->
                                     <h4 class="mb-0">Đang thực hiện</h4>
                                 </div>
-                                <div class="d-flex align-items-center">
-                                    <!-- dropdown -->
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#"
-                                           id="dropdownboardTwo" data-bs-toggle="dropdown"
-                                           aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-horizontal fs-4"></i>
-                                        </a>
-
-                                        <div class="dropdown-menu"
-                                             aria-labelledby="dropdownboardTwo">
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-users"></i>Edit
-                                                Column
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-user-x"></i>Manage
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-clipboard"></i>Copy
-                                                Column link
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-edit"></i>Archive
-                                                All Cards
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-trash-2"></i>Delete
-                                                column
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <!-- task kanban -->
                             <div class="task-kanban">
@@ -260,73 +221,63 @@
                                     {
                                         if (item.State.Equals("progress"))
                                         {
-                                            <div class="card smooth-shadow-md">
+                                            <div id="@item.ID" class="card smooth-shadow-md">
                                                 <!-- card body -->
                                                 <div class="card-body p-3">
                                                     <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <form>
-                                                                <!-- checkbox -->
-                                                                <div class="form-check custom-checkbox" style="margin-bottom:-20px">
-                                                                    <a role="button" href="#" style="display:inline;" class="h6">
-                                                                        112. Thiết kế Prototype cho module Quản lý Nhân sự.
-                                                                    </a>
-                                                                    <br>
-                                                                    <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
-                                                                        <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
-                                                                        <label style="width: 49%; float: right;">18 giờ</label>
-                                                                    </label>
-                                                                    <label class="badge bg-warning" style="width: 100%; font-weight: bold">
-                                                                        <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
-                                                                        <label style="width: 49%; float:right;">8 giờ</label>
-                                                                    </label>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                                                        <form>
+                                                            <!-- checkbox -->
+                                                            <div class="form-check custom-checkbox" style="margin-bottom:-20px">
+                                                                <input hidden value="@item.ID" id="taskss@(item.ID)" />
+                                                                <a role="button" href="#" style="display:inline;" class="h6" data-bs-toggle="modal" data-bs-target="#edittaskModal">
+                                                                    @item.ID. @item.Name.
+                                                                </a>
+                                                                <br>
+                                                                <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
+                                                                    <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
+                                                                    @if (Convert.ToDecimal(item.OriginalEstimate).ToString("0.0").Split('.', ',')[1].Equals("0"))
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.OriginalEstimate).ToString("0.0").Split('.', ',')[0] giờ</label>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.OriginalEstimate).ToString("0.0") giờ</label>
+                                                                    }
+                                                                </label>
+                                                                <label class="badge bg-warning" style="width: 100%; font-weight: bold">
+                                                                    <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
+                                                                    @if (Convert.ToDecimal(item.CompletedWork).ToString("0.0").Split('.', ',')[1].Equals("0"))
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.CompletedWork).ToString("0.0").Split('.', ',')[0] giờ</label>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.CompletedWork).ToString("0.0") giờ</label>
+                                                                    }
+                                                                </label>
+                                                            </div>
+                                                        </form>
                                                         <div>
                                                             <!-- dropdown -->
                                                             <div class="dropdown dropstart">
                                                                 <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                                                                   href="#" id="dropdownTask1"
+                                                                   href="#" id="dropdownTask@(item.ID)"
                                                                    data-bs-toggle="dropdown"
                                                                    aria-haspopup="true"
                                                                    aria-expanded="false">
                                                                     <i class="fe fe-more-horizontal"></i>
                                                                 </a>
                                                                 <div class="dropdown-menu"
-                                                                     aria-labelledby="dropdownTask1">
+                                                                     aria-labelledby="dropdownTask@(item.ID)">
+
                                                                     <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
+                                                                       data-bs-toggle="modal" data-bs-target="#edittaskModal">
+                                                                        <i class="dropdown-item-icon fe fe-edit"></i>Xem và Sửa
                                                                     </a>
+
                                                                     <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-check-square"></i>Mark
-                                                                        Complete
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-eye"></i>View
-                                                                        Details
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
-                                                                        New Tab
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
-                                                                        task
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-link"></i>Copy
-                                                                        task link
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
+                                                                       data-bs-toggle="modal" data-bs-target="#edittaskModal">
+                                                                        <i class="dropdown-item-icon fe fe-trash-2"></i>Xóa Công Việc
                                                                     </a>
 
                                                                 </div>
@@ -336,25 +287,32 @@
                                                     <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
                                                         <!-- img -->
                                                         <div class="d-flex align-items-center">
-                                                            <img src="~/Content/Admin/assets/images/avatar/avatar-4.jpg"
-                                                                 alt="" class="avatar avatar-xs rounded-circle imgtooltip"
-                                                                 data-template="id3">
-                                                            <!-- avatar -->
+                                                            @if (string.IsNullOrEmpty(item.Employees.Avatar))
+                                                            {
+                                                                <div class="avatar avatar-xs avatar-danger imgtooltip" data-template="ToltipName_@item.ID">
+                                                                    <span class="avatar-initials rounded-circle"> @item.Employees.Name.Substring(0, 1) </span>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="@item.Employees.Avatar"
+                                                                     alt="" class="avatar avatar-xs rounded-circle imgtooltip"
+                                                                     data-template="ToltipName_@item.ID">
+                                                            }
                                                             <!-- text -->
-                                                            <div id="id3" class="d-none">
-                                                                <h6 class="mb-0">Nguyễn Hiếu Nhân</h6>
+                                                            <div id="ToltipName_@item.ID" class="d-none">
+                                                                <h6 class="mb-0">@item.Employees.Name</h6>
                                                             </div>
                                                             <!-- text -->
                                                             <div class="ms-2">
                                                                 <span style="font-weight:bold" class="fs-6">
-                                                                    <i style="font-weight:bold" class="fe fe-clock me-1"></i>15 Th 11, 2022
+                                                                    <i style="font-weight:bold" class="fe fe-clock me-1"></i>@item.Deadline.ToString("dd") Thg @item.Deadline.ToString("MM, yyyy")
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <!-- message count -->
-                                                        <div>
-                                                            <span class="badge-dot bg-primary me-2 d-inline-block align-middle imgtooltip" data-template="stateid3"></span>
-                                                            <div id="stateid3" class="d-none">
+                                                        <div id="trangThai_@item.ID">
+                                                            <span class="badge-dot bg-primary me-2 d-inline-block align-middle imgtooltip" data-template="stateid@(item.ID)"></span>
+                                                            <div id="stateid@(item.ID)" class="d-none">
                                                                 <h6 class="mb-0">Đang thực hiện</h6>
                                                             </div>
                                                         </div>
@@ -381,43 +339,6 @@
                                     <!-- task list -->
                                     <h4 class="mb-0">Phê duyệt</h4>
                                 </div>
-                                <div class="d-flex align-items-center">
-                                    <!-- dropdown -->
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#"
-                                           id="dropdownboardThree" data-bs-toggle="dropdown"
-                                           aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-horizontal fs-4"></i>
-                                        </a>
-                                        <div class="dropdown-menu"
-                                             aria-labelledby="dropdownboardThree">
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-users"></i>Edit
-                                                Column
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-user-x"></i>Manage
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-clipboard"></i>Copy
-                                                Column link
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-edit"></i>Archive
-                                                All Cards
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-trash-2"></i>Delete
-                                                column
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <!-- task kanban -->
                             <div class="task-kanban">
@@ -426,73 +347,64 @@
                                     {
                                         if (item.State.Equals("review"))
                                         {
-                                            <div class="card smooth-shadow-md">
+                                            <div id="@item.ID" class="card smooth-shadow-md">
                                                 <!-- card body -->
                                                 <div class="card-body p-3">
                                                     <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <form>
-                                                                <!-- checkbox -->
-                                                                <div class="form-check custom-checkbox" style="margin-bottom:-20px">
-                                                                    <a role="button" href="#" style="display:inline;" class="h6">
-                                                                        92. Thiết kế Prototype cho chức năng Quản lý công nợ.
-                                                                    </a>
-                                                                    <br>
-                                                                    <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
-                                                                        <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
-                                                                        <label style="width: 49%; float: right;">22 giờ</label>
-                                                                    </label>
-                                                                    <label class="badge bg-warning" style="width: 100%; font-weight: bold">
-                                                                        <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
-                                                                        <label style="width: 49%; float:right;">10 giờ</label>
-                                                                    </label>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+
+                                                        <form>
+                                                            <!-- checkbox -->
+                                                            <div class="form-check custom-checkbox" style="margin-bottom:-20px">
+                                                                <input hidden value="@item.ID" id="taskss@(item.ID)" />
+                                                                <a role="button" href="#" style="display:inline;" class="h6" data-bs-toggle="modal" data-bs-target="#edittaskModal">
+                                                                    @item.ID. @item.Name.
+                                                                </a>
+                                                                <br>
+                                                                <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
+                                                                    <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
+                                                                    @if (Convert.ToDecimal(item.OriginalEstimate).ToString("0.0").Split('.', ',')[1].Equals("0"))
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.OriginalEstimate).ToString("0.0").Split('.', ',')[0] giờ</label>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.OriginalEstimate).ToString("0.0") giờ</label>
+                                                                    }
+                                                                </label>
+                                                                <label class="badge bg-warning" style="width: 100%; font-weight: bold">
+                                                                    <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
+                                                                    @if (Convert.ToDecimal(item.CompletedWork).ToString("0.0").Split('.', ',')[1].Equals("0"))
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.CompletedWork).ToString("0.0").Split('.', ',')[0] giờ</label>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.CompletedWork).ToString("0.0") giờ</label>
+                                                                    }
+                                                                </label>
+                                                            </div>
+                                                        </form>
                                                         <div>
                                                             <!-- dropdown -->
                                                             <div class="dropdown dropstart">
                                                                 <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                                                                   href="#" id="dropdownTask1"
+                                                                   href="#" id="dropdownTask@(item.ID)"
                                                                    data-bs-toggle="dropdown"
                                                                    aria-haspopup="true"
                                                                    aria-expanded="false">
                                                                     <i class="fe fe-more-horizontal"></i>
                                                                 </a>
                                                                 <div class="dropdown-menu"
-                                                                     aria-labelledby="dropdownTask1">
+                                                                     aria-labelledby="dropdownTask@(item.ID)">
+
                                                                     <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
+                                                                       data-bs-toggle="modal" data-bs-target="#edittaskModal">
+                                                                        <i class="dropdown-item-icon fe fe-edit"></i>Xem và Sửa
                                                                     </a>
+
                                                                     <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-check-square"></i>Mark
-                                                                        Complete
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-eye"></i>View
-                                                                        Details
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
-                                                                        New Tab
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
-                                                                        task
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-link"></i>Copy
-                                                                        task link
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
+                                                                       data-bs-toggle="modal" data-bs-target="#edittaskModal">
+                                                                        <i class="dropdown-item-icon fe fe-trash-2"></i>Xóa Công Việc
                                                                     </a>
 
                                                                 </div>
@@ -502,26 +414,33 @@
                                                     <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
                                                         <!-- img -->
                                                         <div class="d-flex align-items-center">
-                                                            <img src="~/Content/Admin/assets/images/avatar/avatar-7.jpg"
-                                                                 alt="" class="avatar avatar-xs rounded-circle imgtooltip"
-                                                                 data-template="id1">
-                                                            <!-- avatar -->
+                                                            @if (string.IsNullOrEmpty(item.Employees.Avatar))
+                                                            {
+                                                                <div class="avatar avatar-xs avatar-danger imgtooltip" data-template="ToltipName_@item.ID">
+                                                                    <span class="avatar-initials rounded-circle"> @item.Employees.Name.Substring(0, 1) </span>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="@item.Employees.Avatar"
+                                                                     alt="" class="avatar avatar-xs rounded-circle imgtooltip"
+                                                                     data-template="ToltipName_@item.ID">
+                                                            }
                                                             <!-- text -->
-                                                            <div id="id1" class="d-none">
-                                                                <h6 class="mb-0">Đặng Văn Tuấn</h6>
+                                                            <div id="ToltipName_@item.ID" class="d-none">
+                                                                <h6 class="mb-0">@item.Employees.Name</h6>
                                                             </div>
                                                             <!-- text -->
                                                             <div class="ms-2">
                                                                 <span style="font-weight:bold" class="fs-6">
-                                                                    <i style="font-weight:bold" class="fe fe-clock me-1"></i>30 Th 11, 2022
+                                                                    <i style="font-weight:bold" class="fe fe-clock me-1"></i>@item.Deadline.ToString("dd") Thg @item.Deadline.ToString("MM, yyyy")
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <!-- message count -->
-                                                        <div>
-                                                            <span class="badge-dot bg-primary me-2 d-inline-block align-middle imgtooltip" data-template="stateid1"></span>
-                                                            <div id="stateid1" class="d-none">
-                                                                <h6 class="mb-0">Đang thực hiện</h6>
+                                                        <div id="trangThai_@item.ID">
+                                                            <span class="badge-dot bg-primary me-2 d-inline-block align-middle imgtooltip" data-template="stateid@(item.ID)"></span>
+                                                            <div id="stateid@(item.ID)" class="d-none">
+                                                                <h6 class="mb-0">Chờ Phê Duyệt</h6>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -547,43 +466,6 @@
                                     <!-- task list -->
                                     <h4 class="mb-0">Hoàn thành</h4>
                                 </div>
-                                <div class="d-flex align-items-center">
-                                    <!-- dropdown -->
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#"
-                                           id="dropdownboardFour" data-bs-toggle="dropdown"
-                                           aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-horizontal fs-4"></i>
-                                        </a>
-                                        <div class="dropdown-menu"
-                                             aria-labelledby="dropdownboardFour">
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-users"></i>Edit
-                                                Column
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-user-x"></i>Manage
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-clipboard"></i>Copy
-                                                Column link
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-edit"></i>Archive
-                                                All Cards
-                                            </a>
-                                            <a class="dropdown-item d-flex align-items-center"
-                                               href="#">
-                                                <i class="dropdown-item-icon fe fe-trash-2"></i>Delete
-                                                column
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <!-- task kanban -->
                             <div class="task-kanban">
@@ -593,73 +475,63 @@
                                     {
                                         if (item.State.Equals("done"))
                                         {
-                                            <div class="card smooth-shadow-md">
+                                            <div id="@item.ID" class="card smooth-shadow-md">
                                                 <!-- card body -->
                                                 <div class="card-body p-3">
                                                     <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <form>
-                                                                <!-- checkbox -->
-                                                                <div class="form-check custom-checkbox" style="margin-bottom:-20px">
-                                                                    <a role="button" href="#" style="display:inline;" class="h6">
-                                                                        44. Mô tả chức năng của Người dùng.
-                                                                    </a>
-                                                                    <br>
-                                                                    <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
-                                                                        <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
-                                                                        <label style="width: 49%; float: right;">14 giờ</label>
-                                                                    </label>
-                                                                    <label class="badge bg-warning" style="width: 100%; font-weight: bold">
-                                                                        <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
-                                                                        <label style="width: 49%; float:right;">14 giờ</label>
-                                                                    </label>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                                                        <form>
+                                                            <!-- checkbox -->
+                                                            <div class="form-check custom-checkbox" style="margin-bottom:-20px">
+                                                                <input hidden value="@item.ID" id="taskss@(item.ID)" />
+                                                                <a role="button" href="#" style="display:inline;" class="h6" data-bs-toggle="modal" data-bs-target="#edittaskModal">
+                                                                    @item.ID. @item.Name.
+                                                                </a>
+                                                                <br>
+                                                                <label class="badge bg-primary" style="width: 100%; font-weight: bold; margin-top: 15px">
+                                                                    <label style="width: 49%; text-align:left"> ƯỚC LƯỢNG:</label>
+                                                                    @if (Convert.ToDecimal(item.OriginalEstimate).ToString("0.0").Split('.', ',')[1].Equals("0"))
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.OriginalEstimate).ToString("0.0").Split('.', ',')[0] giờ</label>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.OriginalEstimate).ToString("0.0") giờ</label>
+                                                                    }
+                                                                </label>
+                                                                <label class="badge bg-warning" style="width: 100%; font-weight: bold">
+                                                                    <label style="width: 49%; text-align:left"> HOÀN THÀNH:</label>
+                                                                    @if (Convert.ToDecimal(item.CompletedWork).ToString("0.0").Split('.', ',')[1].Equals("0"))
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.CompletedWork).ToString("0.0").Split('.', ',')[0] giờ</label>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <label style="width: 49%; float: right;">@Convert.ToDecimal(item.CompletedWork).ToString("0.0") giờ</label>
+                                                                    }
+                                                                </label>
+                                                            </div>
+                                                        </form>
                                                         <div>
                                                             <!-- dropdown -->
                                                             <div class="dropdown dropstart">
                                                                 <a class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                                                                   href="#" id="dropdownTask1"
+                                                                   href="#" id="dropdownTask@(item.ID)"
                                                                    data-bs-toggle="dropdown"
                                                                    aria-haspopup="true"
                                                                    aria-expanded="false">
                                                                     <i class="fe fe-more-horizontal"></i>
                                                                 </a>
                                                                 <div class="dropdown-menu"
-                                                                     aria-labelledby="dropdownTask1">
+                                                                     aria-labelledby="dropdownTask@(item.ID)">
+
                                                                     <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-edit-2"></i>Edit this task
+                                                                       data-bs-toggle="modal" data-bs-target="#edittaskModal">
+                                                                        <i class="dropdown-item-icon fe fe-edit"></i>Xem và Sửa
                                                                     </a>
+
                                                                     <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-check-square"></i>Mark
-                                                                        Complete
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-eye"></i>View
-                                                                        Details
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-maximize-2"></i>Open in
-                                                                        New Tab
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-copy"></i>Duplicate
-                                                                        task
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-link"></i>Copy
-                                                                        task link
-                                                                    </a>
-                                                                    <a class="dropdown-item d-flex align-items-center"
-                                                                       href="#">
-                                                                        <i class="dropdown-item-icon fe fe-trash-2"></i>Delete task
+                                                                       data-bs-toggle="modal" data-bs-target="#edittaskModal">
+                                                                        <i class="dropdown-item-icon fe fe-trash-2"></i>Xóa Công Việc
                                                                     </a>
 
                                                                 </div>
@@ -669,25 +541,32 @@
                                                     <div class="d-flex justify-content-between align-items-center ps-4 mt-6">
                                                         <!-- img -->
                                                         <div class="d-flex align-items-center">
-                                                            <img src="~/Content/Admin/assets/images/avatar/avatar-8.jpg"
-                                                                 alt="" class="avatar avatar-xs rounded-circle imgtooltip"
-                                                                 data-template="id1">
-                                                            <!-- avatar -->
+                                                            @if (string.IsNullOrEmpty(item.Employees.Avatar))
+                                                            {
+                                                                <div class="avatar avatar-xs avatar-danger imgtooltip" data-template="ToltipName_@item.ID">
+                                                                    <span class="avatar-initials rounded-circle"> @item.Employees.Name.Substring(0, 1) </span>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="@item.Employees.Avatar"
+                                                                     alt="" class="avatar avatar-xs rounded-circle imgtooltip"
+                                                                     data-template="ToltipName_@item.ID">
+                                                            }
                                                             <!-- text -->
-                                                            <div id="id1" class="d-none">
-                                                                <h6 class="mb-0">Đặng Văn Tuấn</h6>
+                                                            <div id="ToltipName_@item.ID" class="d-none">
+                                                                <h6 class="mb-0">@item.Employees.Name</h6>
                                                             </div>
                                                             <!-- text -->
                                                             <div class="ms-2">
                                                                 <span style="font-weight:bold" class="fs-6">
-                                                                    <i style="font-weight:bold" class="fe fe-clock me-1"></i>04 Th 11, 2022
+                                                                    <i style="font-weight:bold" class="fe fe-clock me-1"></i>@item.Deadline.ToString("dd") Thg @item.Deadline.ToString("MM, yyyy")
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <!-- message count -->
-                                                        <div>
-                                                            <span class="badge-dot bg-success me-2 d-inline-block align-middle imgtooltip" data-template="stateid1"></span>
-                                                            <div id="stateid1" class="d-none">
+                                                        <div id="trangThai_@item.ID">
+                                                            <span class="badge-dot bg-success me-2 d-inline-block align-middle imgtooltip" data-template="stateid@(item.ID)"></span>
+                                                            <div id="stateid@(item.ID)" class="d-none">
                                                                 <h6 class="mb-0">Đã hoàn thành</h6>
                                                             </div>
                                                         </div>

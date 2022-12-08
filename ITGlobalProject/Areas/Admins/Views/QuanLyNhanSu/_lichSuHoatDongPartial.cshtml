@@ -1,7 +1,10 @@
 ﻿@model ITGlobalProject.Models.Employees
-@using System.Globalization;
-@{ string date = DateTime.Now.Year + "-W" + (new CultureInfo("vi-VN").Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay, DayOfWeek.Monday) - 1);
+@using ITGlobalProject.Models
+@{
+    IEnumerable<Histories> lstHis = Session["lichSuHoatDong-lstHistory"] as IEnumerable<Histories>;
 
+    var result = Convert.ToDateTime(Session["batdaucuatuan"]);
+    string date = Session["lichSuHoatDong-date"].ToString();
     string imagesUrl = "";
 
     if (string.IsNullOrEmpty(Model.Avatar))
@@ -60,7 +63,14 @@
                     <div class="lh-1">
                         <h2 class="mb-0">
                             @Model.Name
-                            <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
+                            @if (Model.Lock == false)
+                            {
+                                <i id="CheckorX" class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
+                            }
+                            else
+                            {
+                                <i id="CheckorX" style="font-size: 22px" class="fe fe-x-circle text-danger" data-bs-toggle="tooltip" data-placement="top" title="Đã ngưng làm"></i>
+                            }
                         </h2>
                         <p class="mb-0 d-block">@Model.WorkEmail</p>
                     </div>
@@ -86,7 +96,7 @@
                 <!-- Collapse navbar -->
                 <div class="collapse navbar-collapse" id="sidenav">
                     <div class="navbar-nav flex-column">
-                        <span class="navbar-header">Thông Tin Tài Khoản</span>
+                        <span class="navbar-header">Hồ Sơ Nhân Viên</span>
                         <!-- List -->
                         @*<ul class="list-unstyled ms-n2 mb-4">*@
                         <ul class="list-unstyled ms-n2 mb-0">
@@ -98,7 +108,7 @@
                             </li>
                             <li class="nav-item ">
                                 <a role="button" id="lhvathanhtoan" class="nav-link">
-                                    <i class="fe fe-phone-call nav-icon"></i>Liên hệ & Thanh toán
+                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -113,7 +123,7 @@
                             </li>
                             <li class="nav-item ">
                                 <a role="button" id="ptnhanthan" class="nav-link">
-                                    <i class="fe fe-users nav-icon"></i>Phụ thuộc nhân thân
+                                    <i class="fe fe-users nav-icon"></i>Người phụ thuộc
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -181,128 +191,62 @@
                     <div class="d-md-flex justify-content-between align-items-center mb-0">
                         <div style="margin-top:10px">
                             <!-- text -->
-                            <h3 class="mb-3 mb-md-0">Hoạt động 24/10 - 30/10/2022</h3>
+                            <h3 class="mb-3 mb-md-0">Lịch Sử Hoạt Động</h3>
                             <p>Lịch sử các thay đổi, hoạt động của tài khoản trong khoảng thời gian được chọn.</p>
                         </div>
                         <div>
                             <!-- button -->
-                            <input type="week" class="btn btn-outline-primary" value="@date" />
-                            <a href="#" class="btn btn-primary">
-                                Tìm <i class="fe fe-search"></i>
-                            </a>
+                            <input id="searchHistory" type="week" class="btn btn-outline-primary" value="@date" />
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div>
-                        <!-- List group -->
+                <div id="contentLichSuHoatDong" class="card-body">
+                    <!-- List group -->
+                    @if (lstHis.Count() > 0)
+                    {
                         <ul class="list-group list-group-flush list-timeline-activity">
-                            <li class="list-group-item px-0 pt-0 border-1 mb-4">
-                                <div class="row">
-                                    <!-- col -->
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
-                                            <i class="fe fe-clock"></i>
+                            @foreach (var item in lstHis)
+                            {
+                                <li class="list-group-item px-0 pt-0 border-1 mb-4">
+                                    <div class="row">
+                                        <!-- col -->
+                                        <div class="col-auto">
+                                            <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
+                                                <i class="fe fe-clock"></i>
+                                            </div>
+                                        </div>
+                                        <!-- col -->
+                                        <div class="col ms-n2 mt-1">
+                                            <h4 class="mb-3">@item.Name</h4>
+                                            @if (item.Contents.IndexOf("|") != -1)
+                                            {
+                                                <h5 class="mb-0">@item.Employees.Name @item.Contents.Split('|')[0] <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> @(item.Contents.Split('|')[1]).</h5>
+                                            }
+                                            else if (item.Contents.IndexOf("thêm") != -1)
+                                            {
+                                                <h5 class="mb-0"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> và được giao cho <a>@item.Tasks.Employees.Name.</a></h5>
+                                            }
+                                            else
+                                            {
+                                                <h5 class="mb-0"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a>.</h5>
+                                            }
+                                            <span class="fs-6 text-muted">@item.Date.ToString("dddd"), @item.Date.ToString("dd") Tháng @item.Date.ToString("MMMM"), 2022 lúc @item.Date.ToString("HH:mm")</span>
                                         </div>
                                     </div>
-                                    <!-- col -->
-                                    <div class="col ms-n2 mt-1">
-                                        <h4 class="mb-3">Hoàn thành công việc</h4>
-                                        <h5 class="mb-0">Công việc #19 - Lên kế hoạch dự án IT-Global đã hoàn thành.</h5>
-                                        <span class="fs-6 text-muted">Wed, 15 April 2022 at 4:30 pm</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- List group -->
-                            <li class="list-group-item px-0 pt-0  border-1 mb-4">
-                                <div class="row">
-                                    <!-- col -->
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
-                                            <i class="fe fe-check-circle"></i>
-                                        </div>
-                                    </div>
-                                    <!-- col -->
-                                    <div class="col ms-n2 mt-1">
-                                        <h4 class="mb-3">Thực hiện tác vụ, 16 April 2022 </h4>
-                                        <h5 class="mb-0">Thực tác vụ vẽ prototype dự án IT-Global</h5>
-                                        <span class="fs-6 text-muted">Wed, 15 April 2022 at 4:30 pm</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- List group -->
-                            <li class="list-group-item px-0 pt-0  border-1 mb-4">
-                                <div class="row">
-                                    <!-- col -->
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
-                                            <i class="fe fe-check-circle"></i>
-                                        </div>
-                                    </div>
-                                    <!-- col -->
-                                    <div class="col ms-n2 mt-1">
-                                        <h4 class="mb-3">Hoàn thành tác vụ, 16 April 2022 </h4>
-                                        <h5 class="mb-1">Tác vụ lập kế hoạch rủi ro hoàn thành.</h5>
-                                        <span class="fs-6 text-muted">Thu, 16 April 2022 at 5:00 pm</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- List group -->
-                            <li class="list-group-item px-0 pt-0 border-1 mb-4">
-                                <div class="row">
-                                    <!-- col -->
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
-                                            <i class="fe fe-clock"></i>
-                                        </div>
-                                    </div>
-                                    <!-- col -->
-                                    <div class="col ms-n2 mt-1">
-                                        <h4 class="mb-3">Bắt đầu tác vụ</h4>
-                                        <h5 class="mb-0">Bắt đầu thực hiện thiết kế cơ sở dữ liệu. Dự án IT-Global</h5>
-                                        <span class="fs-6 text-muted">Wed, 15 April 2022 at 4:30 pm</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- List group -->
-                            <li class="list-group-item px-0 pt-0  border-1 mb-4">
-                                <div class="row">
-                                    <!-- col -->
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
-                                            <i class="fe fe-check-circle"></i>
-                                        </div>
-                                    </div>
-                                    <!-- col -->
-                                    <div class="col ms-n2 mt-1">
-                                        <h4 class="mb-3">Hoàn thành tác vụ, 16 April 2022 </h4>
-                                        <h5 class="mb-0">Hoàn thành mô tả usecase của dự án IT-Global</h5>
-                                        <span class="fs-6 text-muted">Wed, 15 April 2022 at 4:30 pm</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- List group -->
-                            <li class="list-group-item px-0 pt-0  border-1 mb-4">
-                                <div class="row">
-                                    <!-- col -->
-                                    <div class="col-auto">
-                                        <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
-                                            <i class="fe fe-clock"></i>
-                                        </div>
-                                    </div>
-                                    <!-- col -->
-                                    <div class="col ms-n2 mt-1">
-                                        <h4 class="mb-3">Bắt đầu tác vụ, 16 April 2022 </h4>
-                                        <h5 class="mb-1">Thực hiện tác vụ Phát triển chức năng Đăng nhập/Đăng xuất. Dự án IT-Global.</h5>
-                                        <span class="fs-6 text-muted">Thu, 16 April 2022 at 5:00 pm</span>
-                                    </div>
-                                </div>
-                            </li>
+                                </li>
+                            }
                         </ul>
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="mb-3 col-12 col-md-12 text-center">
+                            <span>Không có hoạt động nào trong tuần này.</span>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_LichSuHoatDongGiaValidation.js"></script>
 </div>
-<script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>

@@ -34,12 +34,12 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult DangNhap()
         {
             ViewBag.Title = "Đăng Nhập";
-            return View();
+            return View("DangNhap");
         }
         [HttpPost]
         public ActionResult DangNhap(string username, string password)
         {
-            var user = model.Employees.FirstOrDefault(u => u.Username.ToLower().Equals(username.ToLower()) || u.WorkEmail.ToLower().Equals(username.ToLower()));
+            var user = model.Employees.FirstOrDefault(u =>  u.WorkEmail.ToLower().Equals(username.ToLower()));
             if (user != null) //Tài khoản tồn tại
             {
                 if (user.Password.Equals(password)) //Mật khẩu đúng
@@ -49,7 +49,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                         Session["user-fullname"] = user.Name;
                         Session["user-id"] = user.ID;
                         Session["user-email"] = user.WorkEmail;
-                        Session["user-role"] = user.Position.Name;
+                        Session["user-role"] = user.Position.Name.ToLower();
                         Session["user-vatatar"] = user.Avatar;
                         if (user.Position.Name.ToLower().Equals("admin"))
                         {
@@ -73,7 +73,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         public ActionResult QuenMatKhau()
         {
-            return View();
+            return View("QuenMatKhau");
         }
         [HttpPost]
         public ActionResult QuenMatKhau(string email)
@@ -131,7 +131,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             {
                 return View("DangNhap");
             }
-            return View();
+            return View("XacThucQuenMatKhau");
         }
         [HttpPost]
         public ActionResult XacThucQuenMatKhau(string ma, string email)
@@ -143,21 +143,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
             else
             {
-                if (user.CodeDate.Value.CompareTo(DateTime.Now) <= 0)
+                if (user.CodeDate != null)
                 {
-                    return Content("HETHANMA");
-                }
-                else if (user.Code.Equals(ma))
-                {
-                    user.Code = "";
-                    user.CodeDate = null;
-                    model.Entry(user).State = EntityState.Modified;
-                    model.SaveChanges();
-                    return Content("SUCCESS");
+                    if (user.CodeDate.Value.CompareTo(DateTime.Now) <= 0)
+                    {
+                        return Content("HETHANMA");
+                    }
+                    else if (user.Code.Equals(ma))
+                    {
+                        user.Code = "";
+                        user.CodeDate = null;
+                        model.Entry(user).State = EntityState.Modified;
+                        model.SaveChanges();
+                        return Content("SUCCESS");
+                    }
+                    else
+                    {
+                        return Content("SAIMA");
+                    }
                 }
                 else
                 {
-                    return Content("SAIMA");
+                    return Content("DANGNHAP");
                 }
             }
         }
@@ -169,7 +176,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
             else
             {
-                return View();
+                return View("DatLaiMatKhau");
             }
         }
         [HttpPost]
@@ -195,7 +202,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 var infor = model.Employees.FirstOrDefault(i => i.ID == id);
                 if (infor != null)
                 {
-                    return View(infor);
+                    return View("ThongTinCaNhan", infor);
                 }
             }
             return RedirectToAction("Overview", "Dashboard");
@@ -211,8 +218,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 }
             }
             return Content("TRANGCHU");
-
         }
+
         [HttpPost]
         public async Task<ActionResult> ChinhSuaThongTinCaNhanPartial(HttpPostedFileBase AvatarImg, int ids, string hotens, string cmnds, string sodienthoais, string ngaysinhs,
         string diachiemails, string gioitinhs, string diachinhas, string avatars)
@@ -271,7 +278,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                         user.Avatar = avatars;
                     }
                     user.Name = hotens;
-                    user.IdentityCard = cmnds;
+                    user.IdentityCard = cmnds.Replace(" ", "");
                     user.TelephoneMobile = sodienthoais;
                     user.Birthday = Convert.ToDateTime(ngaysinhs);
                     user.Sex = gioitinhs;

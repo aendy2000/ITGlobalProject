@@ -66,7 +66,7 @@
                             @Model.Name
                             <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="@Model.Position.Name"></i>
                         </h2>
-                        <p class="mb-0 d-block">@Model.Email</p>
+                        <p class="mb-0 d-block">@Model.WorkEmail</p>
                     </div>
 
                 </div>
@@ -89,7 +89,7 @@
                 <!-- Collapse navbar -->
                 <div class="collapse navbar-collapse" id="sidenav">
                     <div class="navbar-nav flex-column">
-                        <span class="navbar-header">Thông Tin Tài Khoản</span>
+                        <span class="navbar-header">Hồ Sơ Nhân Viên</span>
                         <!-- List -->
                         @*<ul class="list-unstyled ms-n2 mb-4">*@
                         <ul class="list-unstyled ms-n2 mb-0">
@@ -143,7 +143,7 @@
                             <!-- Phone -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại</label>
-                                <input readonly value="@Model.Phone" type="tel" id="phone" class="form-control" placeholder="0999888777..." required />
+                                <input readonly value="@Model.TelephoneMobile" type="tel" id="phone" class="form-control" placeholder="0999888777..." required />
                             </div>
                             <!-- Birthday -->
                             <div class="mb-3 col-12 col-md-6">
@@ -153,7 +153,7 @@
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Email</label>
-                                <input readonly value="@Model.Email" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
+                                <input readonly value="@Model.WorkEmail" type="text" id="email" class="form-control" placeholder="example@itglobal.net..." required />
                             </div>
                             <!-- Birthday -->
                             <div class="mb-3 col-12 col-md-6">

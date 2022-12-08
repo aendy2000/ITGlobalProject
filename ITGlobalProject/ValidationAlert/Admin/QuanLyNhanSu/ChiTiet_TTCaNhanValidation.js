@@ -26,6 +26,10 @@
         let gioitinh = $('#gioitinh :selected').val();
         let diachinha = $('#diachinha').val();
 
+        let sodienthoaididong = $('#sodienthoaididong').val();
+        let sodienthoaikhac = $('#sodienthoaikhac').val();
+        let diachiemailcongty = $('#diachiemailcongty').val();
+        let diachiemailkhac = $('#diachiemailkhac').val();
         //Check
 
         //Done
@@ -42,6 +46,11 @@
         formData.append('gioitinh', gioitinh);
         formData.append('diachinha', diachinha);
         formData.append('avatars', avatar);
+
+        formData.append('sodienthoaididong', sodienthoaididong);
+        formData.append('sodienthoaikhac', sodienthoaikhac);
+        formData.append('diachiemailcongty', diachiemailcongty);
+        formData.append('diachiemailkhac', diachiemailkhac);
 
         e.preventDefault();
         $('#AjaxLoader').show();

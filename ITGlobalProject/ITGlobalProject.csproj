@@ -294,8 +294,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Middleware\AdminLoginVerification.cs" />
-    <Compile Include="Middleware\EmployeeLoginVerification.cs" />
+    <Compile Include="Middleware\LoginVerification.cs" />
     <Compile Include="Models\Comment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -524,6 +523,7 @@
     <Content Include="Content\Admin\vendor\select2\select2.min.js" />
     <Content Include="Content\Admin\vendor\tilt\tilt.jquery.min.js" />
     <Content Include="Content\bootstrap-btn.css" />
+    <Content Include="Content\images\bg-capcha.jpg" />
     <Content Include="Content\images\default-avatar.png" />
     <Content Include="Content\Loader\Loader.css" />
     <Content Include="Content\Loader\Loader.js" />
@@ -757,6 +757,15 @@
     <Content Include="Areas\Employee\Views\QuanLyTaiKhoan\ThongTinCaNhan.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyVaiTro\_danhSachVaiTroPartial.cshtml" />
     <Content Include="Areas\Admins\Views\LienHeTuVan\_thongTinLienHeTuVanPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_lienHeVaThanhToanPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_kyNangChuyenMonPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_trinhDoNgoaiNguPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_phuThuocNhanThanPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_troCapPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_hopDongPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_duAnThamGiaSearch.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_lichSuHoatDongSearch.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_lichBieuSearch.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -764,12 +773,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_lienHeVaThanhToanPartial.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_kyNangChuyenMonPartial.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_trinhDoNgoaiNguPartial.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_phuThuocNhanThanPartial.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_troCapPartial.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_hopDongPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -790,12 +793,15 @@
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_CongViecValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_DoiNguValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ThemDuAnValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_TienDoValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_LichSuHoatDongGiaValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_HopDongValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_phuCapVaTroCapValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_PhuThuocNhanThanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_TrinhDoNgoaiNguValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_KyNangChuyenMon.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_LHvaThanhToanValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_DuAnThamGiaValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_TTCaNhanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\KhoaTaiKhoanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ThemNhanVienValidation.js" />

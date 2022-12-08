@@ -30,12 +30,17 @@
         let gioitinh = $('#gioitinh :selected').val();
         let diachinha = $('#diachinha').val();
         let diachiemail = $('#diachiemail').val();
+
         var checkshoten = false;
         var checkscmnd = false;
         var checkssodienthoai = false;
         var checksngaysinh = false;
         var checksgioitinh = false;
         var checksdiachiemail = false;
+
+        var format = /[`!#$%^&*()+\-=\[\]{}._@;':"\\|,<>\/?~]/;
+        var formatNumber = /0123456789/;
+
         var checksdiachinha = flase;
         //Họ và tên
         if (hoten.length < 1) {
@@ -58,15 +63,10 @@
             checkshoten = true;
             $('#hotenvalidation').text("").hide();
         }
-
         //CMND
         if (cmnd.length < 1) {
             $('#cmndvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
             var searchInput = $('#cmnd');
-            var strLength = searchInput.val().length * 2;
-
-            searchInput.focus();
-            searchInput[0].setSelectionRange(strLength, strLength);
         }
         else if (cmnd.length > 8) {
             $('#cmndvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
@@ -170,7 +170,7 @@
         if (checkshoten === true && checkscmnd === true && checkssodienthoai === true && checksngaysinh === true &&
             checksgioitinh === true && checksdiachiemail === true && checksdiachinha === true) {
             e.preventDefault();
-            $('#AjaxLoader').show(); 
+            $('#AjaxLoader').show();
             var formData = new FormData();
             formData.append('AvatarImg', $("#selectFiles")[0].files[0]);
             formData.append('ids', id);
@@ -192,7 +192,7 @@
                 processData: false,
                 data: formData
             }).done(function (ketqua) {
-                $('#AjaxLoader').hide(); 
+                $('#AjaxLoader').hide();
                 if (ketqua === "Đã có xảy ra lỗi, vui lòng thử lại") {
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {

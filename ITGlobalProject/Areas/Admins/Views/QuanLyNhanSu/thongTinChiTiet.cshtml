@@ -66,7 +66,14 @@
                     <div class="lh-1">
                         <h2 class="mb-0">
                             @Model.Name
-                            <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
+                            @if (Model.Lock == false)
+                            {
+                                <i id="CheckorX" class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
+                            }
+                            else
+                            {
+                                <i id="CheckorX" style="font-size: 22px" class="fe fe-x-circle text-danger" data-bs-toggle="tooltip" data-placement="top" title="Đã ngưng làm"></i>
+                            }
                         </h2>
                         <p class="mb-0 d-block">@Model.WorkEmail</p>
                     </div>
@@ -93,7 +100,7 @@
                 <!-- Collapse navbar -->
                 <div class="collapse navbar-collapse" id="sidenav">
                     <div class="navbar-nav flex-column">
-                        <span class="navbar-header">Thông Tin Tài Khoản</span>
+                        <span class="navbar-header">Hồ Sơ Nhân Viên</span>
                         <!-- List -->
                         @*<ul class="list-unstyled ms-n2 mb-4">*@
                         <ul class="list-unstyled ms-n2 mb-0">
@@ -105,7 +112,7 @@
                             </li>
                             <li class="nav-item ">
                                 <a role="button" id="lhvathanhtoan" class="nav-link">
-                                    <i class="fe fe-phone-call nav-icon"></i>Liên hệ & Thanh toán
+                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -120,7 +127,7 @@
                             </li>
                             <li class="nav-item ">
                                 <a role="button" id="ptnhanthan" class="nav-link">
-                                    <i class="fe fe-users nav-icon"></i>Phụ thuộc nhân thân
+                                    <i class="fe fe-users nav-icon"></i>Người phụ thuộc
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -208,7 +215,7 @@
                     <hr class="my-4" />
                     <div>
                         <form class="row">
-                            <div class="mb-2 col-12 col-md-4">
+                            <div class="mb-2 col-12 col-md-12">
                                 <label style="font-weight:bold;" class="form-label" for="fname">Họ và Tên <span class="text-danger">*</span></label>
                                 <input value="@Model.Avatar" name="avatar" id="avatar" hidden />
                                 <input value="@Model.Name" type="text" id="hoten" name="hoten" class="form-control" placeholder="Nguyễn Văn A" />
@@ -225,6 +232,50 @@
                                 <input value="@Model.Nationality" type="text" id="quoctich" name="quoctich" class="form-control" placeholder="Việt Nam" />
                                 <p style="font-size: 13px; color:red;" id="quoctichvalidation"></p>
                             </div>
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" l class="form-label" for="birth"> Ngày sinh <span class="text-danger">*</span></label>
+                                <input value="@Model.Birthday.ToString("yyyy-MM-dd")" type="text" class="form-control flatpickr" placeholder="Chọn ngày sinh" id="ngaysinh" name="ngaysinh" />
+                                <p style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
+                            </div>
+
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label" for="sodienthoaididong">Số điện thoại di động <span class="text-danger">*</span></label>
+                                <input value="@Model.TelephoneMobile" type="tel" id="sodienthoaididong" name="sodienthoaididong" class="form-control" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" placeholder="Nhập số điện thoại di động" />
+                                <p style="font-size: 13px; color:red;" id="sodienthoaididongvalidation"></p>
+                            </div>
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label" for="sodienthoaikhac">Số điện thoại nhà</label>
+                                <input value="@Model.TelephoneOrther" type="tel" id="sodienthoaikhac" name="sodienthoaikhac" class="form-control" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" placeholder="Nhập số điện thoại nhà" />
+                                <p style="font-size: 13px; color:red;" id="sodienthoaikhacvalidation"></p>
+                            </div>
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label">Giới tính <span class="text-danger">*</span></label>
+                                <select name="gioitinh" id="gioitinh" class="form-select text-dark" data-width="100%">
+                                    @if (Model.Sex.Equals("Nam"))
+                                    {
+                                        <option selected value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Nam">Nam</option>
+                                        <option selected value="Nữ">Nữ</option>
+                                    }
+                                </select>
+                                <p style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
+                            </div>
+
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label" for="diachiemailcongty">Email Công Ty <span class="text-danger">*</span></label>
+                                <input value="@Model.WorkEmail" type="text" id="diachiemailcongty" name="diachiemailcongty" class="form-control" data-inputmask="'alias': 'email'" inputmode="numeric" placeholder="example@itglobal.net" />
+                                <p style="font-size: 13px; color:red;" id="diachiemailcongtyvalidation"></p>
+                            </div>
+                            <div class="mb-2 col-12 col-md-4">
+                                <label style="font-weight:bold;" class="form-label" for="diachiemailkhac">Email Khác</label>
+                                <input value="@Model.OrtherEmail" type="text" id="diachiemailkhac" name="diachiemailkhac" class="form-control" data-inputmask="'alias': 'email'" inputmode="numeric" placeholder="example@itglobal.net" />
+                                <p style="font-size: 13px; color:red;" id="diachiemailkhacvalidation"></p>
+                            </div>
+
                             <div class="mb-2 col-12 col-md-4">
                                 <label style="font-weight:bold;" class="form-label" for="honnhan">Tình trạng hôn nhân <span class="text-danger">*</span></label>
                                 <select data-width="100%" class="form-select text-dark" id="honnhan" name="honnhan">
@@ -250,27 +301,8 @@
                                 </select>
                                 <p style="font-size: 13px; color:red;" id="honnhanvalidation"></p>
                             </div>
-                            <div class="mb-2 col-12 col-md-4">
-                                <label style="font-weight:bold;" l class="form-label" for="birth"> Ngày sinh <span class="text-danger">*</span></label>
-                                <input value="@Model.Birthday.ToString("yyyy-MM-dd")" type="text" class="form-control flatpickr" placeholder="Chọn ngày sinh" id="ngaysinh" name="ngaysinh" />
-                                <p style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
-                            </div>
-                            <div class="mb-2 col-12 col-md-4">
-                                <label style="font-weight:bold;" class="form-label">Giới tính <span class="text-danger">*</span></label>
-                                <select name="gioitinh" id="gioitinh" class="form-select text-dark" data-width="100%">
-                                    @if (Model.Sex.Equals("Nam"))
-                                    {
-                                        <option selected value="Nam">Nam</option>
-                                        <option value="Nữ">Nữ</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="Nam">Nam</option>
-                                        <option selected value="Nữ">Nữ</option>
-                                    }
-                                </select>
-                                <p style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
-                            </div>
+
+
                             <div class="mb-2 col-12 col-md-12">
                                 <label style="font-weight:bold;" class="form-label" for="address">Địa chỉ nhà</label>
                                 <textarea rows="4" id="diachinha" name="diachinha" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla">@Model.Address</textarea>

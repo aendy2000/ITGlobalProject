@@ -50,7 +50,7 @@
                             @Model.Name
                             <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="@Model.Position.Name"></i>
                         </h2>
-                        <p class="mb-0 d-block">@Model.Email</p>
+                        <p class="mb-0 d-block">@Model.WorkEmail</p>
                     </div>
 
                 </div>
@@ -73,7 +73,7 @@
                 <!-- Collapse navbar -->
                 <div class="collapse navbar-collapse" id="sidenav">
                     <div class="navbar-nav flex-column">
-                        <span class="navbar-header">Thông Tin Tài Khoản</span>
+                        <span class="navbar-header">Hồ Sơ Cá Nhân</span>
                         <!-- List -->
                         @*<ul class="list-unstyled ms-n2 mb-4">*@
                         <ul class="list-unstyled ms-n2 mb-0">
@@ -143,13 +143,13 @@
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="fname">Số CMND/CCCD <span class="text-danger">*</span></label>
-                                <input value="@Model.IdentityCard" type="text" id="cmnd" name="cmnd" class="form-control" placeholder="07020000xxxx" />
+                                <input value="@Model.IdentityCard" type="text" id="cmnd" name="cmnd" class="form-control" data-inputmask="'mask': '9999 9999 9999'" inputmode="numeric" placeholder="Nhập vào số chứng mình thư" />
                                 <p style="font-size: 13px; color:red;" id="cmndvalidation"></p>
                             </div>
                             <!-- Phone -->
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
-                                <input value="@Model.Phone" type="tel" id="sodienthoai" name="sodienthoai" class="form-control" placeholder="0999888xxx" />
+                                <input value="@Model.TelephoneMobile" type="tel" id="sodienthoai" name="sodienthoai" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" class="form-control" placeholder="Nhập vào số điện thoại" />
                                 <p style="font-size: 13px; color:red;" id="sodienthoaivalidation"></p>
                             </div>
                             <!-- Birthday -->
@@ -160,7 +160,7 @@
                             </div>
                             <div class="mb-3 col-12 col-md-6">
                                 <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
-                                <input value="@Model.Email" type="text" id="diachiemail" name="diachiemail" class="form-control" placeholder="example@itglobal.net" />
+                                <input value="@Model.WorkEmail" type="text" id="diachiemail" name="diachiemail" data-inputmask="'alias': 'email'" inputmode="numeric" class="form-control" placeholder="example@itglobal.net" />
                                 <p style="font-size: 13px; color:red;" id="diachiemailvalidation"></p>
                             </div>
                             <!-- Birthday -->
@@ -187,12 +187,12 @@
                             </div>
                             <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
                                 <button style="width: 230px" class="btn btn-outline-danger" type="reset">
-                                    Hủy thay đổi
+                                    Hủy
                                 </button>
                             </div>
                             <div style="padding-top: 20px" class="mb-3 col-12 col-md-6">
                                 <a role="button" id="luuChinhSua" style="width: 230px" class="btn btn-success">
-                                    Lưu thay đổi
+                                    Lưu
                                 </a>
                             </div>
                         </form>

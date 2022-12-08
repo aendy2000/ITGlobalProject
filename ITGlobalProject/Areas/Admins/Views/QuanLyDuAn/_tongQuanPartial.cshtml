@@ -332,13 +332,13 @@
         <!-- card body  -->
         <div class="card-body">
 
-            <h4 class="card-title text-white">Ngày Kết Thúc </h4>
+            <h3 class="card-title text-white">Thời Gian Còn Lại </h3>
 
             <!-- dropdown  -->
             <div class="d-flex justify-content-between align-items-center mt-8">
                 <div>
                     <h1 class="display-4 text-white mb-1">
-                        @(Model.EndDate.CompareTo(DateTime.Now) + 1) Ngày
+                        @((Model.EndDate - Model.StartDate).TotalDays + 1) Ngày
                     </h1>
                     <p class="mb-0 text-white">
                         @Model.EndDate.ToString("dddd"), @Model.EndDate.ToString("dd") Tháng @Model.EndDate.ToString("MM"), @Model.EndDate.ToString("yyyy")
@@ -393,7 +393,18 @@
                                 </div>
                                 <div class="col ms-n3">
                                     <h4 class="mb-0 h5">@item.Name</h4>
-                                    <p class="mb-0 text-body">@item.Employees.Name @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a>.</p>
+                                    @if (item.Contents.IndexOf("|") != -1)
+                                    {
+                                        <p class="mb-0 text-body">@item.Employees.Name @item.Contents.Split('|')[0] <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> @(item.Contents.Split('|')[1]).</p>
+                                    }
+                                    else if (item.Contents.IndexOf("thêm") != -1)
+                                    {
+                                        <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> và được giao cho <a>@item.Tasks.Employees.Name.</a></p>
+                                    }
+                                    else
+                                    {
+                                        <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a>.</p>
+                                    }
                                 </div>
                                 <div class="col-auto">
                                     <span class="text-muted fs-6">@item.Date.ToString("HH:mm dd/MM")</span>

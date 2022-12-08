@@ -1,4 +1,37 @@
 ﻿$(document).ready(function () {
+
+    //Cung cấp tài khoản
+    $('#cungCapTaiKhoan').on('change', function () {
+        if ($('#cungCapTaiKhoan').prop('checked')) {
+            $("#matkhaudangnhap").prop('disabled', false);
+            $("#nhaplaimatkhaudangnhap").prop('disabled', false);
+            $('#lbNhapMatKhau').prop('hidden', false);
+            $('#lbNhapLaiMatKhau').prop('hidden', false);
+
+        } else {
+            $("#matkhaudangnhap").val('').prop('disabled', true);
+            $("#nhaplaimatkhaudangnhap").val('').prop('disabled', true);
+            $('#lbNhapMatKhau').prop('hidden', true);
+            $('#lbNhapLaiMatKhau').prop('hidden', true);
+        }
+    });
+
+    //Loại hợp đồng
+    $('#loaiHopDong').on('change', function () {
+        if ($('#loaiHopDong :selected').val() == "Hợp đồng có thời hạn") {
+
+            $("#taiAnhHopDong").addClass("col-md-12");
+            $("#taiAnhHopDong").removeClass("col-md-4");
+
+            $('#ketthucHopDong').prop('hidden', false);
+        } else {
+            $("#taiAnhHopDong").addClass("col-md-4");
+            $("#taiAnhHopDong").removeClass("col-md-12");
+
+            $('#ketthucHopDong').prop('hidden', true);
+        }
+    });
+
     //Chọn ảnh hợp đồng
     $('#chonanhhopdong').on('click', function () {
         $('#selectFiles').click();
@@ -545,11 +578,11 @@
         let ngayvaolam = $('#ngayvaolam').val();
         let vaitro = $('#vaitro :selected').val();
         let hinhthuc = $('#hinhthuc :selected').val();
-        let username = $('#username').val();
         let matkhaudangnhap = $('#matkhaudangnhap').val();
         let nhaplaimatkhaudangnhap = $('#nhaplaimatkhaudangnhap').val();
         let ngaykyhopdong = $('#ngaykyhopdong').val();
         let ngaygiahanhopdong = $('#ngaygiahanhopdong').val();
+        let loaihopdong = $('#loaiHopDong :selected').val();
         let selectFiles = $('#selectFiles').val();
 
         var checkhopdongtaikhoan = false;
@@ -753,6 +786,11 @@
                 $('#grngaysinhnhanthan' + i).remove();
             }
         }
+
+        $("#matkhaudangnhap").prop('disabled', true);
+        $("#nhaplaimatkhaudangnhap").prop('disabled', true);
+        $('#lbNhapMatKhau').prop('hidden', true);
+        $('#lbNhapLaiMatKhau').prop('hidden', true);
 
         $('#previewImage').replaceWith('<img style="max-width: 700px;" src="' + $('#requestPath').val() + 'Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImage">');
     });

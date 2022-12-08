@@ -4,33 +4,33 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="07fe450feebc422abe52dd67d8d7449c" Name="Diagram1">
-        <EntityTypeShape EntityType="CP25Team06Model.Comment" Width="1.5" PointX="8.25" PointY="19.75" IsExpanded="true" />
+      <Diagram DiagramId="2695a2028edd4067b30132c53bec66eb" Name="Diagram1">
+        <EntityTypeShape EntityType="CP25Team06Model.Comment" Width="1.5" PointX="8.25" PointY="20" IsExpanded="true" />
         <EntityTypeShape EntityType="CP25Team06Model.Consultation" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.Debts" Width="1.5" PointX="10.25" PointY="37.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.Debts" Width="1.5" PointX="10.25" PointY="37.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CP25Team06Model.DependencyDeduction" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.DependentsInformation" Width="1.5" PointX="5.25" PointY="16.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.Employees" Width="1.5" PointX="3" PointY="16.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.EmploymentContracts" Width="1.5" PointX="5.25" PointY="19" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.Histories" Width="1.5" PointX="7.5" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.DependentsInformation" Width="1.5" PointX="5.25" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.Employees" Width="1.5" PointX="3" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.EmploymentContracts" Width="1.5" PointX="5.25" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.Histories" Width="1.5" PointX="7.5" PointY="25.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CP25Team06Model.Insurance" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.LanguagesSkills" Width="1.5" PointX="5.25" PointY="25.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.Notification" Width="1.5" PointX="5.25" PointY="29" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.Partners" Width="1.5" PointX="5.75" PointY="37.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.PaymentHistory" Width="1.5" PointX="12.5" PointY="37.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.Payroll" Width="1.5" PointX="5.25" PointY="32.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.PersonalSkills" Width="1.5" PointX="5.25" PointY="22" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.Position" Width="1.5" PointX="0.75" PointY="22.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.Projects" Width="1.5" PointX="8" PointY="37.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.Recruitment" Width="1.5" PointX="3" PointY="29.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.SkillOfRecruitment" Width="1.5" PointX="8.25" PointY="30.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.SkillsCategory" Width="1.5" PointX="3" PointY="26.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.Subsidies" Width="1.5" PointX="8.25" PointY="17" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.SubsidiesCategory" Width="1.5" PointX="6" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.LanguagesSkills" Width="1.5" PointX="5.25" PointY="26" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.Notification" Width="1.5" PointX="5.25" PointY="29.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.Partners" Width="1.5" PointX="5.75" PointY="37.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.PaymentHistory" Width="1.5" PointX="12.5" PointY="38" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.Payroll" Width="1.5" PointX="5.25" PointY="32.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.PersonalSkills" Width="1.5" PointX="5.25" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.Position" Width="1.5" PointX="0.75" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.Projects" Width="1.5" PointX="8" PointY="37.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.Recruitment" Width="1.5" PointX="3" PointY="30" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.SkillOfRecruitment" Width="1.5" PointX="8.25" PointY="31.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.SkillsCategory" Width="1.5" PointX="3" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.Subsidies" Width="1.5" PointX="8.25" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.SubsidiesCategory" Width="1.5" PointX="6" PointY="11.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CP25Team06Model.sysdiagrams" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.Tasks" Width="1.5" PointX="10.25" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.Tasks" Width="1.5" PointX="10.25" PointY="23.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CP25Team06Model.Tax" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CP25Team06Model.Teams" Width="1.5" PointX="11.25" PointY="20" IsExpanded="true" />
+        <EntityTypeShape EntityType="CP25Team06Model.Teams" Width="1.5" PointX="11.25" PointY="20.25" IsExpanded="true" />
         <AssociationConnector Association="CP25Team06Model.FK_Comment_Employees" ManuallyRouted="false" />
         <AssociationConnector Association="CP25Team06Model.FK_Comment_Tasks" ManuallyRouted="false" />
         <AssociationConnector Association="CP25Team06Model.FK_Debts_Projects" ManuallyRouted="false" />
