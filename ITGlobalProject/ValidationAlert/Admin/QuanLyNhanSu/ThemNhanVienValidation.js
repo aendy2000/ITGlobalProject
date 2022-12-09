@@ -1,5 +1,31 @@
 ﻿$(document).ready(function () {
 
+    //Bộ phận
+    $('#bophan').on('change', function () {
+        if ($('#bophan :selected').val().length < 1) {
+            document.getElementById('vaitro').value = "";
+            $('#vaitro').prop('disabled', true);
+        } else {
+            var formData = new FormData();
+            formData.append('id', $('#bophan :selected').val())
+
+            $.ajax({
+                url: $('#requestPath').val() + 'Admins/QuanLyNhanSu/luaChonBoPhan',
+                type: 'POST',
+                dataType: 'html',
+                contentType: false,
+                processData: false,
+                data: formData
+            }).done(function (ketqua) {
+                if (ketqua == "DANHSACH") {
+                    window.location.href = $('#requestPath').val() + 'Admins/QuanLyNhanSu/danhSachNhanVien';
+                } else {
+                    $('#vaitro').replaceWith(ketqua);
+                }
+            });
+        }
+    });
+
     //Cung cấp tài khoản
     $('#cungCapTaiKhoan').on('change', function () {
         if ($('#cungCapTaiKhoan').prop('checked')) {

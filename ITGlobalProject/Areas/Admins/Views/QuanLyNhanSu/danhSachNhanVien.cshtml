@@ -7,10 +7,11 @@
     int k = 0;
     ViewBag.Title = "Quản Lý Nhân Viên";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+
+    var department = Session["lst-department"] as List<Department>;
     var lstPosition = Session["lst-role"] as List<Position>;
     var lstkynang = Session["lst-kynang"] as List<SkillsCategory>;
     var lsttrocap = Session["lst-trocap"] as List<SubsidiesCategory>;
-
 }
 
 <div class="container-fluid p-4">
@@ -778,22 +779,12 @@
                         <input type="text" id="quoctich" name="quoctich" class="form-control" placeholder="Việt Nam" />
                         <p style="font-size: 13px; color:red;" id="quoctichvalidation"></p>
                     </div>
-                    <div class="mb-2 col-12 col-md-4">
-                        <label style="font-weight:bold;" class="form-label" for="honnhan">Tình trạng hôn nhân <span class="text-danger">*</span></label>
-                        <select data-width="100%" class="selectpicker" id="honnhan" name="honnhan">
-                            <option value="">Chọn tình trạng hôn nhân</option>
-                            <option value="Độc thân">Độc thân</option>
-                            <option value="Đã kết hôn">Đã kết hôn</option>
-                            <option value="Khác">Khác</option>
-                        </select>
-                        <p style="font-size: 13px; color:red;" id="honnhanvalidation"></p>
-                    </div>
+                   
                     <div class="mb-2 col-12 col-md-4">
                         <label style="font-weight:bold;" l class="form-label" for="birth"> Ngày sinh <span class="text-danger">*</span></label>
                         <input type="text" class="form-control flatpickr" placeholder="Chọn ngày sinh" id="ngaysinh" name="ngaysinh" />
                         <p style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
                     </div>
-
 
                     <div class="mb-2 col-12 col-md-4">
                         <label style="font-weight:bold;" class="form-label" for="sodienthoaididong">Số điện thoại di động <span class="text-danger">*</span></label>
@@ -1122,13 +1113,20 @@
                         <p style="font-size: 13px; color:red;" id="ngayvaolamvalidation"></p>
                     </div>
                     <div class="mb-2 col-12 col-md-4">
-                        <label style="font-weight:bold;" class="form-label">Chức danh <span class="text-danger">*</span></label>
-                        <select id="vaitro" name="vaitro" class="selectpicker" data-width="100%">
-                            <option value="">Chọn chức danh</option>
-                            @foreach (var item in lstPosition)
+                        <label style="font-weight:bold;" class="form-label">Bộ phận <span class="text-danger">*</span></label>
+                        <select id="bophan" name="bophan" class="selectpicker" data-width="100%">
+                            <option value="">Chọn bộ phận</option>
+                            @foreach (var item in department)
                             {
                                 <option value="@item.ID">@item.Name</option>
                             }
+                        </select>
+                        <p style="font-size: 13px; color:red;" id="bophanvalidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label">Chức danh <span class="text-danger">*</span></label>
+                        <select disabled="disabled" id="vaitro" name="vaitro" class="form-select" data-width="100%">
+                            <option value="">Chọn chức danh</option>
                         </select>
                         <p style="font-size: 13px; color:red;" id="vaitrovalidation"></p>
                     </div>

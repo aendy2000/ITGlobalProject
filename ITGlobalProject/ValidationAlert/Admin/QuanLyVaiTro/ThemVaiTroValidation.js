@@ -42,7 +42,7 @@
                     $('#danhSachPartial').replaceWith(ketqua);
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Tuyệt quá! Vai trò đã được thêm vào danh sách.", {
+                            swal("Thành Công!", "Tuyệt quá! Chức danh đã được thêm vào danh sách.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

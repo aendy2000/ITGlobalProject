@@ -26,6 +26,7 @@
           <Property Name="Contents" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="State" Type="bit" Nullable="false" />
+          <Property Name="AcceptDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Debts">
           <Key>
@@ -37,6 +38,14 @@
           <Property Name="Price" Type="money" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="State" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="DependencyDeduction">
           <Key>
@@ -199,6 +208,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="ID_Department" Type="int" />
         </EntityType>
         <EntityType Name="Projects">
           <Key>
@@ -494,6 +504,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Position_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Position" Type="Self.Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Position">
+              <PropertyRef Name="ID_Department" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Projects_Partners">
           <End Role="Partners" Type="Self.Partners" Multiplicity="1" />
           <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
@@ -618,6 +640,7 @@
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Consultation" EntityType="Self.Consultation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Debts" EntityType="Self.Debts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DependencyDeduction" EntityType="Self.DependencyDeduction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DependentsInformation" EntityType="Self.DependentsInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
@@ -701,6 +724,10 @@
             <End Role="SkillsCategory" EntitySet="SkillsCategory" />
             <End Role="PersonalSkills" EntitySet="PersonalSkills" />
           </AssociationSet>
+          <AssociationSet Name="FK_Position_Department" Association="Self.FK_Position_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Position" EntitySet="Position" />
+          </AssociationSet>
           <AssociationSet Name="FK_Projects_Partners" Association="Self.FK_Projects_Partners">
             <End Role="Partners" EntitySet="Partners" />
             <End Role="Projects" EntitySet="Projects" />
@@ -769,6 +796,7 @@
           <Property Name="Contents" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="State" Type="Boolean" Nullable="false" />
+          <Property Name="AcceptDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Debts">
           <Key>
@@ -971,6 +999,8 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_Employees_Position" FromRole="Position" ToRole="Employees" />
           <NavigationProperty Name="Recruitment" Relationship="Self.FK_Recruitment_Position" FromRole="Position" ToRole="Recruitment" />
+          <Property Name="ID_Department" Type="Int32" />
+          <NavigationProperty Name="Department" Relationship="CP25Team06Model.FK_Position_Department" FromRole="Position" ToRole="Department" />
         </EntityType>
         <EntityType Name="Projects">
           <Key>
@@ -1532,7 +1562,33 @@
             <End Role="SubsidiesCategory" EntitySet="SubsidiesCategory" />
             <End Role="Subsidies" EntitySet="Subsidies" />
           </AssociationSet>
+          <EntitySet Name="Department" EntityType="CP25Team06Model.Department" />
+          <AssociationSet Name="FK_Position_Department" Association="CP25Team06Model.FK_Position_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Position" EntitySet="Position" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Position" Relationship="CP25Team06Model.FK_Position_Department" FromRole="Department" ToRole="Position" />
+        </EntityType>
+        <Association Name="FK_Position_Department">
+          <End Type="CP25Team06Model.Department" Role="Department" Multiplicity="0..1" />
+          <End Type="CP25Team06Model.Position" Role="Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Position">
+              <PropertyRef Name="ID_Department" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1553,6 +1609,7 @@
           <EntitySetMapping Name="Consultation">
             <EntityTypeMapping TypeName="CP25Team06Model.Consultation">
               <MappingFragment StoreEntitySet="Consultation">
+                <ScalarProperty Name="AcceptDate" ColumnName="AcceptDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -1744,6 +1801,7 @@
           <EntitySetMapping Name="Position">
             <EntityTypeMapping TypeName="CP25Team06Model.Position">
               <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="ID_Department" ColumnName="ID_Department" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -1871,6 +1929,15 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
                 <ScalarProperty Name="ID_Project" ColumnName="ID_Project" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Department">
+            <EntityTypeMapping TypeName="CP25Team06Model.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

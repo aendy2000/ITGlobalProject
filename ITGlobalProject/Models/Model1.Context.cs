@@ -51,5 +51,6 @@ namespace ITGlobalProject.Models
         public virtual DbSet<Tasks> Tasks { get; set; }
         public virtual DbSet<Tax> Tax { get; set; }
         public virtual DbSet<Teams> Teams { get; set; }
+        public virtual DbSet<Department> Department { get; set; }
     }
 }

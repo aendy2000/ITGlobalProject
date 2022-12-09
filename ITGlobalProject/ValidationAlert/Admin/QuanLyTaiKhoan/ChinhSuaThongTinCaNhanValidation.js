@@ -41,7 +41,7 @@
         var format = /[`!#$%^&*()+\-=\[\]{}._@;':"\\|,<>\/?~]/;
         var formatNumber = /0123456789/;
 
-        var checksdiachinha = flase;
+        var checksdiachinha = false;
         //Họ và tên
         if (hoten.length < 1) {
             $('#hotenvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
@@ -166,7 +166,6 @@
         }
 
       
-
         if (checkshoten === true && checkscmnd === true && checkssodienthoai === true && checksngaysinh === true &&
             checksgioitinh === true && checksdiachiemail === true && checksdiachinha === true) {
             e.preventDefault();

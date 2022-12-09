@@ -56,6 +56,8 @@
         <AssociationConnector Association="CP25Team06Model.FK_SkillOfRecruitment_Recruitment" ManuallyRouted="false" />
         <AssociationConnector Association="CP25Team06Model.FK_SkillOfRecruitment_SkillsCategory" ManuallyRouted="false" />
         <AssociationConnector Association="CP25Team06Model.FK_Subsidies_SubsidiesCategory" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CP25Team06Model.Department" Width="1.5" PointX="0.75" PointY="19.875" />
+        <AssociationConnector Association="CP25Team06Model.FK_Position_Department" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

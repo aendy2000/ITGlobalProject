@@ -34,6 +34,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         {
             ViewBag.ShowActive = "danhSachNhanVien";
 
+            var department = model.Department.ToList();
+            Session["lst-department"] = department;
             var role = model.Position.Where(p => !p.Name.ToLower().Equals("admin")).ToList();
             Session["lst-role"] = role;
             var kynang = model.SkillsCategory.OrderBy(k => k.Name).ToList();
@@ -298,6 +300,17 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             return PartialView("_nhanVienListPartialView", employees.ToPagedList((int)page, (int)pageSize));
         }
 
+        [HttpPost]
+        public ActionResult luaChonBoPhan(int? id)
+        {
+            if (id == null)
+                return Content("DANHSACH");
+
+            var bophan = model.Department.Find(id);
+            bophan.Position.Remove(model.Position.Find(1));
+
+            return PartialView("_danhSachChucDanhTheoBoPhan_ThemNhanVien", bophan.Position.ToList());
+        }
         [HttpPost]
         public ActionResult timKiemNhanVien(string noidungs, string typestr)
         {

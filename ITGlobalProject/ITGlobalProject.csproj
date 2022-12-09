@@ -304,6 +304,9 @@
     <Compile Include="Models\Debts.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Department.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DependencyDeduction.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -529,6 +532,7 @@
     <Content Include="Content\Loader\Loader.js" />
     <Content Include="Content\Loader\loadingpage.gif" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="Content\User\public\css\app.css" />
     <Content Include="Content\User\public\images\hero-bottom.svg" />
     <Content Include="Content\User\public\js\app.js" />
@@ -773,6 +777,10 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admins\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admins\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_danhSachChucDanhTheoBoPhan_ThemNhanVien.cshtml" />
+    <Content Include="Areas\Admins\Views\LienHeTuVan\_thongTinDaLienHeTuVanPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -787,6 +795,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="ValidationAlert\Admin\LienHeTuVan\DanhSachLienHeValidation.js" />
     <Content Include="ValidationAlert\Admin\LienHeTuVan\XoaOrDuyetValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChinhSuaDuAnValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAnValidation.js" />

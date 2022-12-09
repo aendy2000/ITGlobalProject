@@ -12,15 +12,19 @@ namespace ITGlobalProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Consultation
+    public partial class Department
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Department()
+        {
+            this.Position = new HashSet<Position>();
+        }
+    
         public int ID { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public string Contents { get; set; }
-        public System.DateTime Date { get; set; }
-        public bool State { get; set; }
-        public Nullable<System.DateTime> AcceptDate { get; set; }
+        public string Description { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Position> Position { get; set; }
     }
 }

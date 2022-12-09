@@ -1,0 +1,11 @@
+﻿@model  IEnumerable<ITGlobalProject.Models.Position>
+@{
+    <select id="vaitro" name="vaitro" class="form-select text-dark" data-width="100%">
+        <option selected value="">Chọn chức danh</option>
+        @foreach (var item in Model)
+        {
+            <option value="@item.ID">@item.Name</option>
+        }
+    </select>
+}
+
