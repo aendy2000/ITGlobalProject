@@ -2,7 +2,8 @@
 @using ITGlobalProject.Models
 @{
     int i = 0;
-    var lstPosition = Session["lst-role"] as List<Position>;
+    var department = Session["lst-department"] as List<Department>;
+    CP25Team06Entities models = new CP25Team06Entities();
     string imagesUrl = "";
     if (string.IsNullOrEmpty(Model.Avatar))
     {
@@ -190,16 +191,61 @@
                 <div class="card-body">
                     <form class="row">
                         <div class="mb-2 col-12 col-md-4">
+                            <label style="font-weight:bold;" class="form-label" for="phone">Cấp tài khoản</label>
+                            <div class="form-check form-switch form-control">
+                                <label style="margin-top: 1px; margin-left: -10px" class="form-check-label" for="cungCapTaiKhoan">Tài khoản dùng hệ thống</label>
+                                &emsp;&emsp;&ensp;&ensp;&ensp;
+                                @if (Model.AccountSatus == true)
+                                {
+                                    <input checked style="margin-right: -20px" class="form-check-input" type="checkbox" role="switch" id="cungCapTaiKhoan">
+                                }
+                                else
+                                {
+                                    <input style="margin-right: -20px" class="form-check-input" type="checkbox" role="switch" id="cungCapTaiKhoan">
+                                }
+                            </div>
+                            <p style="font-size: 13px; color:red;" id="captaikhoanvalidation"></p>
+                        </div>
+                        <div class="mb-2 col-12 col-md-4">
+                            <label style="font-weight:bold;" class="form-label" for="phone">Mật khẩu <span id="lbNhapMatKhau" hidden="hidden" class="text-danger">*</span></label>
+                            <input disabled="disabled" type="password" id="matkhaudangnhap" name="matkhaudangnhap" class="form-control" placeholder="Nhập mật khẩu đăng nhập" />
+                            <p style="font-size: 13px; color:red;" id="matkhaudangnhapvalidation"></p>
+                        </div>
+                        <div class="mb-2 col-12 col-md-4">
+                            <label style="font-weight:bold;" class="form-label" for="phone">Nhập lại mật khẩu <span id="lbNhapLaiMatKhau" hidden="hidden" class="text-danger">*</span></label>
+                            <input disabled="disabled" type="password" id="nhaplaimatkhaudangnhap" name="nhaplaimatkhaudangnhap" class="form-control" placeholder="Nhập lại mật khẩu đăng nhập" />
+                            <p style="font-size: 13px; color:red;" id="nhaplaimatkhaudangnhapvalidation"></p>
+                        </div>
+                        <hr class="my-1" />
+                        <div class="py-2"></div>
+                        <div class="mb-2 col-12 col-md-4">
                             <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Ngày vào làm <span class="text-danger">*</span></label>
                             <input value="@Model.JoinedDate.ToString("yyyy-MM-dd")" type="text" class="form-control flatpickr" placeholder="Chọn ngày vào làm" id="ngayvaolam" name="ngayvaolam" />
                             <p style="font-size: 13px; color:red;" id="ngayvaolamvalidation"></p>
                         </div>
                         <div class="mb-2 col-12 col-md-4">
+                            <label style="font-weight:bold;" class="form-label">Bộ phận <span class="text-danger">*</span></label>
+                            <select id="bophan" name="bophan" class="form-select text-dark" data-width="100%">
+                                @foreach (var item in models.Department.ToList())
+                                {
+                                    if (item.ID == Model.Position.ID_Department)
+                                    {
+                                        <option selected value="@item.ID">@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ID">@item.Name</option>
+                                    }
+                                }
+                            </select>
+                            <p style="font-size: 13px; color:red;" id="bophanvalidation"></p>
+                        </div>
+                        <div class="mb-2 col-12 col-md-4">
                             <label style="font-weight:bold;" class="form-label">Chức danh <span class="text-danger">*</span></label>
                             <select id="vaitro" name="vaitro" class="form-select text-dark" data-width="100%">
-                                @foreach (var item in lstPosition)
+                                @foreach (var item in models.Position.Where(p => p.ID_Department == Model.Position.ID_Department))
                                 {
-                                    if (Model.ID_Position == item.ID)
+                                    if (item.ID == Model.ID_Position)
                                     {
                                         <option selected value="@item.ID">@item.Name</option>
                                     }
@@ -211,7 +257,7 @@
                             </select>
                             <p style="font-size: 13px; color:red;" id="vaitrovalidation"></p>
                         </div>
-                        <div class="mb-2 col-12 col-md-4">
+                        <div class="mb-2 col-12 col-md-12">
                             <label style="font-weight:bold;" class="form-label">Hình thức làm việc <span class="text-danger">*</span></label>
                             <select id="hinhthuc" name="hinhthuc" class="form-select text-dark" data-width="100%">
                                 @if (Model.EmploymentStatus.Equals("Thử việc"))
@@ -238,9 +284,9 @@
                             <p style="font-size: 13px; color:red;" id="hinhthucvalidation"></p>
                         </div>
                         <div style="text-align: right; padding-top: 10px" class="mb-3 col-12 col-md-6">
-                            <button type="reset" style="width: 230px" class="btn btn-outline-danger">
+                            <a role="button" id="reloadPage" style="width: 230px" class="btn btn-outline-danger">
                                 Hủy
-                            </button>
+                            </a>
                         </div>
                         <div style="padding-top: 10px" class="mb-3 col-12 col-md-6">
                             <a role="button" id="btnLuuThongTin" style="width: 230px" class="btn btn-success">

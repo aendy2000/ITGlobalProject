@@ -97,18 +97,19 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="align-middle border-top-0  text-nowrap">
-                                                        @item.Date.ToString("HH:mm, dd-MM-yyyy")
+                                                    <td class="align-middle border-top-0">
+                                                        @item.Date.ToString("HH:mm, dd") Thg @item.Date.ToString("MM, yyyy")
+
                                                     </td>
-                                                    <td style="max-width: 400px; word-break: break-word" class="align-middle border-top-0">
+                                                    <td style="max-width: 399px; word-break: break-word" class="align-middle border-top-0">
                                                         @item.Contents
                                                     </td>
-                                                    <td class="align-middle border-top-0 text-nowrap">
+                                                    <td class="align-middle border-top-0">
                                                         <div class="d-flex align-items-center">
                                                             <h5 class="mb-0"><i class="fe fe-phone-call"> </i> @item.Phone</h5>
                                                         </div>
                                                     </td>
-                                                    <td class="align-middle border-top-0 text-nowrap">
+                                                    <td class="align-middle border-top-0">
                                                         <a id="xoabo@(item.ID)" name="@item.ID" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
                                                         <a id="xacnhan@(item.ID)" name="@item.ID" href="#" class="btn btn-success btn-sm">Đã liên hệ</a>
                                                     </td>

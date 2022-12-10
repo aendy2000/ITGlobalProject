@@ -39,7 +39,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult DangNhap(string username, string password)
         {
-            var user = model.Employees.FirstOrDefault(u =>  u.WorkEmail.ToLower().Equals(username.ToLower()));
+            var user = model.Employees.FirstOrDefault(u => u.WorkEmail.ToLower().Equals(username.ToLower()) && u.AccountSatus == true);
             if (user != null) //Tài khoản tồn tại
             {
                 if (user.Password.Equals(password)) //Mật khẩu đúng
@@ -78,7 +78,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult QuenMatKhau(string email)
         {
-            var user = model.Employees.FirstOrDefault(u => u.WorkEmail.ToLower().Equals(email.ToLower()));
+            var user = model.Employees.FirstOrDefault(u => u.WorkEmail.ToLower().Equals(email.ToLower()) && u.AccountSatus == true);
             if (user != null)
             {
                 Random r = new Random();

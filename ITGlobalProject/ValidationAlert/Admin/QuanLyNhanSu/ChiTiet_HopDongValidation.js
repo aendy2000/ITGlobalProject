@@ -2,6 +2,47 @@
 
     //...............
 
+    //Cung cấp tài khoản
+    $('#cungCapTaiKhoan').on('change', function () {
+        if ($('#cungCapTaiKhoan').prop('checked')) {
+            $("#matkhaudangnhap").prop('disabled', false);
+            $("#nhaplaimatkhaudangnhap").prop('disabled', false);
+            $('#lbNhapMatKhau').prop('hidden', false);
+            $('#lbNhapLaiMatKhau').prop('hidden', false);
+
+        } else {
+            $("#matkhaudangnhap").val('').prop('disabled', true);
+            $("#nhaplaimatkhaudangnhap").val('').prop('disabled', true);
+            $('#lbNhapMatKhau').prop('hidden', true);
+            $('#lbNhapLaiMatKhau').prop('hidden', true);
+        }
+    });
+    //Bộ phận
+    $('#bophan').on('change', function () {
+        if ($('#bophan :selected').val().length < 1) {
+            document.getElementById('vaitro').value = "";
+            $('#vaitro').prop('disabled', true);
+        } else {
+            var formData = new FormData();
+            formData.append('id', $('#bophan :selected').val())
+
+            $.ajax({
+                url: $('#requestPath').val() + 'Admins/QuanLyNhanSu/luaChonBoPhan',
+                type: 'POST',
+                dataType: 'html',
+                contentType: false,
+                processData: false,
+                data: formData
+            }).done(function (ketqua) {
+                if (ketqua == "DANHSACH") {
+                    window.location.href = $('#requestPath').val() + 'Admins/QuanLyNhanSu/danhSachNhanVien';
+                } else {
+                    $('#vaitro').replaceWith(ketqua);
+                }
+            });
+        }
+    });
+
     //Loại hợp đồng
     $('#loaiHopDong').on('change', function () {
         if ($('#loaiHopDong :selected').val() == "Hợp đồng có thời hạn") {
@@ -315,9 +356,18 @@
     $('#btnLuuThongTin').on('click', function (e) {
         let id = $('#idus').val();
         //Hợp đồng & Tài khoản
+
+        let matkhaudangnhap = $('#matkhaudangnhap').val();
+        let nhaplaimatkhaudangnhap = $('#nhaplaimatkhaudangnhap').val();
+
         let ngayvaolam = $('#ngayvaolam').val();
         let vaitro = $('#vaitro :selected').val();
         let hinhthuc = $('#hinhthuc :selected').val();
+
+        let captaikhoancheck = false;
+        if ($('#cungCapTaiKhoan').prop('checked')) {
+            captaikhoancheck = true;
+        }
         //Check
 
         //Done
@@ -329,7 +379,8 @@
         formData.append('ngayvaolam', ngayvaolam);
         formData.append('vaitro', vaitro);
         formData.append('hinhthuc', hinhthuc);
-
+        formData.append('captaikhoancheck', captaikhoancheck);
+        formData.append('matkhaudangnhap', matkhaudangnhap);
         e.preventDefault();
         $('#AjaxLoader').show();
         $.ajax({
@@ -380,6 +431,30 @@
                 jQuery(document).ready(function () {
                     SweetAlert2Demo.init();
                 });
+            }
+        });
+    });
+
+    $('#reloadPage').on('click', function () {
+        $.ajax({
+            url: $('#requestPath').val() + 'Admins/QuanLyNhanSu/hopDongPartial?id=' + $('#idus').val(),
+            type: 'GET',
+            dataType: 'html'
+        }).done(function (ketqua) {
+            if (ketqua !== "DANHSACH") {
+                $('#contentPartial').replaceWith(ketqua);
+                $.when(
+                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js'),
+                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/theme.min.js'),
+                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js'),
+                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js'),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                );
+            }
+            else {
+                window.location.href = $('#actionDanhsach').data('request-url');
             }
         });
     });

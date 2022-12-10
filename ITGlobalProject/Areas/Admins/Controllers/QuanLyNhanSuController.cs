@@ -71,11 +71,11 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             return PartialView("_nhanVienListPartialView", employee.ToPagedList((int)page, (int)pageSize));
         }
         public async Task<ActionResult> themNhanVien(HttpPostedFileBase anhHopDong, string hoten,
-        string cmnd, string quoctich, string honnhan, string ngaysinh, string gioitinh, string diachinha,
+        string cmnd, string quoctich, string honnhan, string ngaysinh, string gioitinh,
         string sodienthoaididong, string sodienthoaikhac, string diachiemailcongty, string diachiemailkhac,
-        string mucluong, string dsNganHang, string sotaikhoan, string chutaikhoan, string kynang, string trinhdongoaingu,
+        string diachinha, string mucluong, string dsNganHang, string sotaikhoan, string chutaikhoan, string kynang, string trinhdongoaingu,
         string phuthuocnhanthan, string trocap, string ngayvaolam, int vaitro, string hinhthuc,
-        string matkhaudangnhap, string ngaykyhopdong, string ngaygiahanhopdong, string loaihopdong, bool trangThaiTK)
+        bool captaikhoancheck, string matkhaudangnhap, string loaihopdong, string ngaykyhopdong, string ngaygiahanhopdong)
         {
             try
             {
@@ -104,9 +104,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 emp.JoinedDate = Convert.ToDateTime(ngayvaolam);
                 emp.EmploymentStatus = hinhthuc;
                 emp.Lock = false;
-                emp.AccountSatus = trangThaiTK;
+                emp.AccountSatus = captaikhoancheck;
 
-                if (trangThaiTK == true)
+                if (captaikhoancheck == true)
                     emp.Password = matkhaudangnhap;
 
                 model.Employees.Add(emp);
@@ -727,14 +727,13 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (user != null)
             {
-                Session["lst-role"] = model.Position.Where(p => p.ID != 1).OrderBy(o => o.Name).ToList();
                 return PartialView("_hopDongPartial", user);
             }
             return Content("DANHSACH");
         }
 
         [HttpPost]
-        public ActionResult chinhSuaViecLamHopDong(int? id, string ngayvaolam, int? vaitro, string hinhthuc)
+        public ActionResult chinhSuaViecLamHopDong(int? id, string ngayvaolam, int? vaitro, string hinhthuc, bool captaikhoancheck, string matkhaudangnhap)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (id == null || user == null)
@@ -745,10 +744,14 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 user.JoinedDate = Convert.ToDateTime(ngayvaolam);
                 user.ID_Position = (int)vaitro;
                 user.EmploymentStatus = hinhthuc;
+                user.AccountSatus = captaikhoancheck;
+
+                if (captaikhoancheck == true && !string.IsNullOrEmpty(matkhaudangnhap.Trim()))
+                    user.Password = matkhaudangnhap;
+
                 model.Entry(user).State = EntityState.Modified;
                 model.SaveChanges();
                 model = new CP25Team06Entities();
-                Session["lst-role"] = model.Position.Where(p => p.ID != 1).OrderBy(o => o.Name).ToList();
                 return PartialView("_hopDongPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
             }
             return Content("DANHSACH");
