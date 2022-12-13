@@ -67,7 +67,7 @@
                             <div class="mb-3 col-md-6 col-12">
                                 <label style="font-weight:bold" class="form-label">Số Lượng Tuyển <span class="text-danger">*</span></label>
                                 <div class="input-group me-3">
-                                    <input type="number" id="soluong" class="form-control text-dark" placeholder="Nhập số lượng cần tuyển">
+                                    <input type="number" id="soluong" style="font-weight: 500;" class="form-control text-dark" placeholder="Nhập số lượng cần tuyển">
                                 </div>
                             </div>
                             <!-- form group -->
@@ -106,6 +106,20 @@
                                 </div>
                             </div>
                             <!-- form group -->
+
+                            <div class="mb-3 col-md-6 col-12">
+                                <label style="font-weight:bold" class="form-label">Mức lương tối thiểu <span class="text-danger">*</span> </label>
+                                <div class="input-group me-3">
+                                    <input id="mucluongtoithieu" style="font-weight:500;" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập mức lương tối thiểu">
+                                </div>
+                            </div>
+                            <!-- form group -->
+                            <div class="mb-3 col-md-6 col-12">
+                                <label style="font-weight:bold" class="form-label">Mức lương tối đa <span class="text-danger">*</span> </label>
+                                <div class="input-group me-3">
+                                    <input id="mucluongtoida" style="font-weight:500;" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập mức lương tối đa">
+                                </div>
+                            </div>
                             <div class="mb-3 col-md-6 col-12">
                                 <label style="font-weight:bold" class="form-label">Kinh Nghiệm <span class="text-danger">*</span></label>
                                 <div class="dropdown bootstrap-select" style="width: 100%;">
@@ -122,11 +136,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- form group -->
                             <div class="mb-3 col-md-6 col-12">
-                                <label style="font-weight:bold" class="form-label">Mức lương <span class="text-danger">*</span> </label>
+                                <label style="font-weight:bold" class="form-label">Hạn nộp CV <span class="text-danger">*</span> </label>
                                 <div class="input-group me-3">
-                                    <input id="mucluong" style="font-weight:bold;" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập mức lương">
+                                    <input id="hannopcv" value="" class="form-control flatpickr" type="text" placeholder="Chọn hạn nộp CV">
                                 </div>
                             </div>
                             <div class="mb-3 col-md-12 col-12 ">
@@ -150,7 +163,7 @@
                             <!-- yeu cau ung vien-->
                             <div class="mb-3 col-md-12 col-12">
                                 <label style="font-weight:bold" class="form-label">Yêu Cầu Ứng Viên <span class="text-danger">*</span></label>
-                                <textarea id="yeucauungvien"  rows="10" class="form-control" placeholder="- Có kinh nghiệm sử dụng một trong các Framework PHP: CakePHP, Laravel...
+                                <textarea id="yeucauungvien" rows="10" class="form-control" placeholder="- Có kinh nghiệm sử dụng một trong các Framework PHP: CakePHP, Laravel...
 - Thao tác tốt với HTML, CSS, JavaScript (Jquery, Ajax), Bootstrap, JSON
 - Có kinh nghiệm làm việc với MVC Framework, MySQL hoặc NoSQL (MongoDB), Github
 - Ưu tiên những ứng viên tốt nghiệp đại học, cao đẳng chuyên ngành IT..." required=""></textarea>
@@ -159,7 +172,7 @@
                             <!-- quyen loi cua ung vien-->
                             <div class="mb-3 col-md-12 col-12">
                                 <label style="font-weight:bold" class="form-label">Quyền lợi của ứng viên <span class="text-danger">*</span></label>
-                                <textarea id="quyenloiungvien"  rows="10" class="form-control" placeholder="- Lương cứng + Thưởng + Phụ cấp: Thu nhập từ 15 - 20 triệu (Deal theo năng lực và kinh nghiệm của ứng viên)
+                                <textarea id="quyenloiungvien" rows="10" class="form-control" placeholder="- Lương cứng + Thưởng + Phụ cấp: Thu nhập từ 15 - 20 triệu (Deal theo năng lực và kinh nghiệm của ứng viên)
 - Thưởng lương tháng 13, thưởng theo dự án, ...)
 - Đầy đủ các chế độ bảo hiểm theo luật lao động hiện hành
 - Chính sách phúc lợi theo quy định của Công ty đa dạng: Các hoạt động tri ân, chăm lo đời sống tinh thần CBNV..." required=""></textarea>

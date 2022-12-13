@@ -9,7 +9,7 @@ namespace ITGlobalProject.Controllers
     public class TinTuyenDungController : Controller
     {
         // GET: TinTuyenDung
-        public ActionResult thongTinTuyenDung()
+        public ActionResult thongTinTuyenDung(int? id)
         {
             ViewBag.HeaderPages = "TinTuyenDung";
             return View();

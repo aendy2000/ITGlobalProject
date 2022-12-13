@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="ID" />
@@ -226,18 +226,21 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ID_Position" Type="int" />
+          <Property Name="ID_Position" Type="int" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Amount" Type="int" Nullable="false" />
           <Property Name="Form" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Sex" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Experience" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Wage" Type="money" Nullable="false" />
+          <Property Name="MinimumWage" Type="money" Nullable="false" />
           <Property Name="JobDescription" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CandidateRequirement" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CandidateBenefits" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Status" Type="bit" Nullable="false" />
           <Property Name="DateCreateOrPosted" Type="datetime" Nullable="false" />
+          <Property Name="Views" Type="bigint" Nullable="false" />
+          <Property Name="MaximumWage" Type="money" Nullable="false" />
+          <Property Name="CVSubmissionDeadline" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="SkillOfRecruitment">
           <Key>
@@ -536,7 +539,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Recruitment_Position">
-          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
           <End Role="Recruitment" Type="Self.Recruitment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Position">
@@ -793,7 +796,8 @@
             <End Role="Teams" EntitySet="Teams" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CP25Team06Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1055,18 +1059,21 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_Position" Type="Int32" />
+          <Property Name="ID_Position" Type="Int32" Nullable="false" />
           <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Amount" Type="Int32" Nullable="false" />
           <Property Name="Form" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Sex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Experience" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Wage" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="MinimumWage" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="JobDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CandidateRequirement" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CandidateBenefits" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
           <Property Name="DateCreateOrPosted" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Views" Type="Int64" Nullable="false" />
+          <Property Name="MaximumWage" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CVSubmissionDeadline" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Position" Relationship="Self.FK_Recruitment_Position" FromRole="Recruitment" ToRole="Position" />
           <NavigationProperty Name="SkillOfRecruitment" Relationship="Self.FK_SkillOfRecruitment_Recruitment" FromRole="Recruitment" ToRole="SkillOfRecruitment" />
         </EntityType>
@@ -1418,7 +1425,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Recruitment_Position">
-          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
           <End Role="Recruitment" Type="Self.Recruitment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Position">
@@ -1889,12 +1896,15 @@
                 <ScalarProperty Name="Form" ColumnName="Form" />
                 <ScalarProperty Name="Sex" ColumnName="Sex" />
                 <ScalarProperty Name="Experience" ColumnName="Experience" />
-                <ScalarProperty Name="Wage" ColumnName="Wage" />
+                <ScalarProperty Name="MinimumWage" ColumnName="MinimumWage" />
                 <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
                 <ScalarProperty Name="CandidateRequirement" ColumnName="CandidateRequirement" />
                 <ScalarProperty Name="CandidateBenefits" ColumnName="CandidateBenefits" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="DateCreateOrPosted" ColumnName="DateCreateOrPosted" />
+                <ScalarProperty Name="Views" ColumnName="Views" />
+                <ScalarProperty Name="MaximumWage" ColumnName="MaximumWage" />
+                <ScalarProperty Name="CVSubmissionDeadline" ColumnName="CVSubmissionDeadline" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

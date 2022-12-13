@@ -26,8 +26,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         // GET: Admins/QuanLyTinTuyenDung
         public ActionResult danhSachTinTuyenDung()
         {
+            var lstTinTuyenDung = model.Recruitment.OrderByDescending(O => O.ID).ToList();
             ViewBag.ShowActive = "danhSachTinTuyenDung";
-            return View();
+            return View("danhSachTinTuyenDung", lstTinTuyenDung);
         }
         public ActionResult themTinTuyenDung()
         {
@@ -41,8 +42,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         [HttpPost]
         public ActionResult themTinTuyenDung(string tieude, int chucdanh, int soluong,
-        int thucTapSinh, int toanThoiGian, string gioitinh, string kinhnghiem, string mucluong,
-        string kynangchuyenmon, string motacongviec, string yeucauungvien, string quyenloiungvien, string action)
+        int thucTapSinh, int toanThoiGian, string gioitinh, string kinhnghiem, string hannopcv,
+        string mucluongtoithieu, string mucluongtoida, string kynangchuyenmon, string motacongviec,
+        string yeucauungvien, string quyenloiungvien, string action)
         {
             try
             {
@@ -64,11 +66,14 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 tintuyendungmoi.Form = hinhthuclamviec;
                 tintuyendungmoi.Sex = gioitinh;
                 tintuyendungmoi.Experience = kinhnghiem;
-                tintuyendungmoi.Wage = Convert.ToDecimal(mucluong.Replace(",", ""));
+                tintuyendungmoi.CVSubmissionDeadline = Convert.ToDateTime(hannopcv);
+                tintuyendungmoi.MinimumWage = Convert.ToDecimal(mucluongtoithieu.Replace(",", ""));
+                tintuyendungmoi.MaximumWage = Convert.ToDecimal(mucluongtoida.Replace(",", ""));
                 tintuyendungmoi.JobDescription = motacongviec;
                 tintuyendungmoi.CandidateRequirement = yeucauungvien;
                 tintuyendungmoi.CandidateBenefits = quyenloiungvien;
                 tintuyendungmoi.DateCreateOrPosted = DateTime.Now;
+                tintuyendungmoi.Views = 0;
 
                 if (action.Equals("Dang"))
                     tintuyendungmoi.Status = true;
@@ -111,13 +116,32 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 string loi = e.Message;
                 return Content("Chi tiết: " + e.Message);
             }
-
-
         }
-        public ActionResult suaTinTuyenDung()
+        public ActionResult chinhSuaTinTuyenDung(int id)
+        {
+            ViewBag.ShowActive = "danhSachTinTuyenDung";
+            return View("chinhSuaTinTuyenDung");
+        }
+        [HttpPost]
+        public ActionResult chinhSuaTinTuyenDung(int id, string tieude)
         {
             ViewBag.ShowActive = "danhSachTinTuyenDung";
             return View();
+        }
+        [HttpPost]
+        public ActionResult XoaTinTuyenDung(int? id)
+        {
+            var tintd = model.Recruitment.Find(id);
+            if (id == null || tintd == null)
+                return Content("DANHSACH");
+
+            model.SkillOfRecruitment.RemoveRange(tintd.SkillOfRecruitment);
+            model.SaveChanges();
+
+            model.Recruitment.Remove(tintd);
+            model.SaveChanges();
+            ViewBag.ShowActive = "danhSachTinTuyenDung";
+            return Content("SUCCESS");
         }
     }
 }
