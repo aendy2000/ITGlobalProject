@@ -16,9 +16,9 @@ namespace ITGlobalProject.Models
     {
         public int ID { get; set; }
         public int ID_Employee { get; set; }
-        public int ID_SkillsCategory { get; set; }
+        public int ID_Skills { get; set; }
     
         public virtual Employees Employees { get; set; }
-        public virtual SkillsCategory SkillsCategory { get; set; }
+        public virtual Skills Skills { get; set; }
     }
 }

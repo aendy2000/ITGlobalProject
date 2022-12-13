@@ -17,16 +17,13 @@ namespace ITGlobalProject.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SkillsCategory()
         {
-            this.PersonalSkills = new HashSet<PersonalSkills>();
-            this.SkillOfRecruitment = new HashSet<SkillOfRecruitment>();
+            this.Skills = new HashSet<Skills>();
         }
     
         public int ID { get; set; }
         public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PersonalSkills> PersonalSkills { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SkillOfRecruitment> SkillOfRecruitment { get; set; }
+        public virtual ICollection<Skills> Skills { get; set; }
     }
 }

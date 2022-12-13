@@ -15,10 +15,10 @@ namespace ITGlobalProject.Models
     public partial class SkillOfRecruitment
     {
         public int ID { get; set; }
-        public int ID_SkillsCategory { get; set; }
+        public int ID_Skills { get; set; }
         public int ID_Recruitment { get; set; }
     
         public virtual Recruitment Recruitment { get; set; }
-        public virtual SkillsCategory SkillsCategory { get; set; }
+        public virtual Skills Skills { get; set; }
     }
 }

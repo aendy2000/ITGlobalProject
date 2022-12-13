@@ -26,10 +26,10 @@ namespace ITGlobalProject.Models
         public string Description { get; set; }
         public Nullable<int> ID_Department { get; set; }
     
+        public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employees> Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Recruitment> Recruitment { get; set; }
-        public virtual Department Department { get; set; }
     }
 }
