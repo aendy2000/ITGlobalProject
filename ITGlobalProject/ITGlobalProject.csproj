@@ -852,7 +852,6 @@
     <Content Include="Views\HoiDap\Index.cshtml" />
     <Content Include="Views\LienHe\Index.cshtml" />
     <Content Include="Views\TinTuyenDung\danhSachTinTuyenDung.cshtml" />
-    <Content Include="Views\TinTuyenDung\Index.cshtml" />
     <Content Include="Views\TinTuyenDung\thongTinTuyenDung.cshtml" />
     <Content Include="Views\TrangChu\Index.cshtml" />
     <Content Include="Views\Shared\_UserLayout.cshtml" />

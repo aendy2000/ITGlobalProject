@@ -1,13 +1,6 @@
-﻿
+﻿@model ITGlobalProject.Models.Recruitment
 @{
-    ViewBag.Title = "Tuyển Dụng";
-    Layout = "~/Views/Shared/_UserLayout.cshtml";
-}
-
-
-
-@{
-    ViewBag.Title = "chiTietTinTuyenDung";
+    ViewBag.Title = "Tin Tuyển Dụng";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
@@ -43,96 +36,98 @@
 <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div style="padding-top:150px" class="container">
         <div class="row gy-5 gx-4">
-            <div class="col-lg-8">
-                <div class="d-flex align-items-center mb-5">
-                    <div class="text-start ps-4">
-                        <h3 class="mb-3">Tuyển dụng vị trí Backend Developer</h3>
-                        <span class="text-truncate me-3"><i class="fa fa-shopping-bag text-primary me-2"></i> Backend Developer </span>
-                        <span style="padding-left:100px" class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i> Toàn thời gian </span>
-                        <span style="padding-left:50px" class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i> 15.000.000 VNĐ </span>
-                    </div>
-                </div>
+            <div class="col-md-7 col-12">
+                <h4 class="mb-3">@Model.Title</h4>
+                <hr />
                 <div class="mb-5">
-                    <h4 class="mb-3">Mô tả công việc</h4>
-                    <p>
-                        <ul class="list-unstyled">
-                            <li>
-                                <i class="fa fa-angle-right text-primary me-2"></i> Tuyển dụng, đào tạo, quản lý bộ máy kinh doanh gồm nhân viên sale và marketing (5-10 nhân sự)
-                            </li>
-                            <li>
-                                <i class="fa fa-angle-right text-primary me-2"></i> Xây dựng, quản trị và định hướng phát triển các kênh truyền thông của công ty: website, fanpage, youtube ...
-                            </li>
-                            <li>
-                                <i class="fa fa-angle-right text-primary me-2"></i> Nghiên cứu, tham mưu, hoạch định chiến lược và xây dựng các giải pháp nhằm duy trì và thúc đẩy hoạt động kinh doanh
-                            </li>
-                            <li>
-                                <i class="fa fa-angle-right text-primary me-2"></i> Thiết lập ngân sách Marketing phù hợp trong từng giai đoạn. Chịu trách nhiệm trong phạm vi ngân sách được giao
-                            </li>
-                            <li>
-                                <i class="fa fa-angle-right text-primary me-2"></i> Phối hợp với các phòng ban khác để nghiên cứu cải thiện dịch vụ hoặc ý tưởng sản phẩm/dịch vụ mới
-                            </li>
-                        </ul>
-                    </p>
-                    <h4 class="mb-3">Yêu cầu ứng viên</h4>
+                    <h5 class="mb-3">Mô tả công việc</h5>
                     <ul class="list-unstyled">
-                        <li>
-                            <i class="fa fa-angle-right text-primary me-2"></i> Ít nhất 1 năm kinh nghiệm tại vị trí tương đương
-                        </li>
-                        <li>
-                            <i class="fa fa-angle-right text-primary me-2"></i> Có kỹ năng Report, phân tích số liệu và đưa ra giải pháp tối ưu.
-                        </li>
-                        <li>
-                            <i class="fa fa-angle-right text-primary me-2"></i> Xử lý nhanh các vấn đề phát sinh khi xảy ra sự cố.
-                        </li>
+                        @foreach (var item in Model.JobDescription.Split('\n').ToList())
+                        {
+                            <li>
+                                @item
+                            </li>
+                        }
                     </ul>
-                    <h4 class="mb-3">Quyền lợi của ứng viên</h4>
+                    <h5 class="mb-3">Yêu cầu ứng viên</h5>
                     <ul class="list-unstyled">
-                        <li>
-                            <i class="fa fa-angle-right text-primary me-2"></i> Lương cứng 15-20tr + thưởng doanh thu + thưởng vượt KPI
-                        </li>
-                        <li>
-                            <i class="fa fa-angle-right text-primary me-2"></i> Môi trường trẻ, năng động, nhiều cơ hội phát triển
-                        </li>
-                        <li>
-                            <i class="fa fa-angle-right text-primary me-2"></i> Được thoải mái đề xuất, nêu ý kiến, thử sai
-                        </li>
-                        <li>
-                            <i class="fa fa-angle-right text-primary me-2"></i> Được ưu đãi khi mua hàng, sử dụng dịch vụ của công ty
-                        </li>
+                        @foreach (var item in Model.CandidateRequirement.Split('\n').ToList())
+                        {
+                            <li>
+                                @item
+                            </li>
+                        }
+                    </ul>
+                    <h5 class="mb-3">Quyền lợi của ứng viên</h5>
+                    <ul class="list-unstyled">
+                        @foreach (var item in Model.CandidateBenefits.Split('\n').ToList())
+                        {
+                            <li>
+                                @item
+                            </li>
+                        }
                     </ul>
                 </div>
 
                 <div class="">
-                    <h4 class="mb-4">Ứng tuyển cho công việc này</h4>
-                    <span style="font-weight:bold"> Hồ sơ ứng viên</span>
+                    <h5 class="mb-4">Ứng tuyển cho công việc này</h5>
                     <span>
-                        gửi về:
+                        Gửi hồ sơ ứng viên đến:
                     </span>
                     <span style="font-weight:bold">
                         info@it-global.net
                     </span>
-                    <span>với tiêu đề : Họ Tên – CV NHÂN VIÊN BACKEND.</span>
                 </div>
             </div>
 
-            <div class="col-lg-4">
+            <div class="col-md-5 col-12">
                 <div class="bg-light rounded p-5 mb-4 wow slideInUp" data-wow-delay="0.1s">
-                    <h4 class="mb-4">Thông tin chung</h4>
+                    <h5 class="mb-4">Thông tin chung</h5>
                     <p>
-                        <i class="fa fa-angle-right text-primary me-2"></i> Mức lương: 15.000.000 VNĐ
+                        <u style="font-weight:bold"><i class="fa fa-angle-right text-primary me-2"></i> Hình thức làm việc:</u> @Model.Form.
                     </p>
                     <p>
-                        <i class="fa fa-angle-right text-primary me-2"></i> Số lượng tuyển: 3 người
+                        <u style="font-weight:bold"><i class="fa fa-angle-right text-primary me-2"></i> Vị trí:</u> @Model.Position.Name.
                     </p>
                     <p>
-                        <i class="fa fa-angle-right text-primary me-2"></i> Hình thức làm việc: Toàn thời gian
+                        <u style="font-weight:bold"><i class="fa fa-angle-right text-primary me-2"></i> Hạn nộp CV:</u> @Model.CVSubmissionDeadline.ToString("dd/MM/yyyy").
+                    </p>
+                    <hr />
+                    @if (Model.MinimumWage == 0 && Model.MaximumWage == 0)
+                    {
+                        <p>
+                            <u style="font-weight:bold"><i class="fa fa-angle-right text-primary me-2"></i> Mức lương:</u> Thõa thuận.
+                        </p>
+                    }
+                    else if (Model.MinimumWage == Model.MaximumWage)
+                    {
+                        <p>
+                            <u style="font-weight:bold"><i class="fa fa-angle-right text-primary me-2"></i> Mức lương:</u> @Model.MaximumWage.ToString("0,0").Replace(".", ",") VNĐ.
+                        </p>
+                    }
+                    else
+                    {
+                        <p>
+                            <u style="font-weight:bold"><i class="fa fa-angle-right text-primary me-2"></i> Mức lương:</u> @Model.MinimumWage.ToString("0,0").Replace(".", ",") - @Model.MaximumWage.ToString("0,0").Replace(".", ",") VNĐ.
+                        </p>
+                    }
+                    <p>
+                        <u style="font-weight:bold"><i class="fa fa-angle-right text-primary me-2"></i> Số lượng tuyển:</u> @Model.Amount người.
                     </p>
                     <p>
-                        <i class="fa fa-angle-right text-primary me-2"></i> Giới tính: Không yêu cầu
+                        <u style="font-weight:bold"><i class="fa fa-angle-right text-primary me-2"></i> Giới tính:</u> @Model.Sex.
                     </p>
                     <p class="m-0">
-                        <i class="fa fa-angle-right text-primary me-2"></i> Kinh nghiệm: 2 năm kinh nghiệm
+                        <u style="font-weight:bold"><i class="fa fa-angle-right text-primary me-2"></i> Kinh nghiệm:</u> @Model.Experience.
                     </p>
+                    <hr />
+                    <h5 class="mb-4">Yêu cầu kỹ năng</h5>
+                    @foreach (var item in Model.SkillOfRecruitment.ToList())
+                    {
+                        <p>
+                            <i class="fa fa-angle-right text-primary me-2"></i> @item.Skills.Name.
+                        </p>
+                    }
                 </div>
             </div>
         </div>
