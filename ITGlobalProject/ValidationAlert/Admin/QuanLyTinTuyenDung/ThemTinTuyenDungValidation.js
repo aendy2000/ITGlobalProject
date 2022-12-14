@@ -192,25 +192,13 @@
                 $('#resetdata').click();
                 var SweetAlert2Demo = function () {
                     var initDemos = function () {
-                        swal({
-                            title: 'Thành Công!',
-                            text: "Tuyệt quá! đã đăng một bài tuyển dụng mới.",
-                            type: 'success',
+                        swal('Thành Công!', "Tuyệt quá! đã thêm một bài tuyển dụng mới.", {
+                            icon: "success",
                             buttons: {
-                                cancel: {
-                                    visible: true,
-                                    text: ' Đóng ',
-                                    className: 'btn btn-danger'
-                                },
                                 confirm: {
-                                    text: 'Xem bài viết',
                                     className: 'btn btn-success'
                                 }
-                            }
-                        }).then((xacnhan) => {
-                            if (xacnhan) {
-                                window.location.href = $('#requestPath').val() + 'TinTuyenDung/thongTinTuyenDung/?id=' + ketqua.replace('SUCCESS', '');
-                            };
+                            },
                         });
                     };
                     return {

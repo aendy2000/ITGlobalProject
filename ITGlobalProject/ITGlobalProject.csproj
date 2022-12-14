@@ -856,6 +856,7 @@
     <Content Include="Views\TinTuyenDung\thongTinTuyenDung.cshtml" />
     <Content Include="Views\TrangChu\Index.cshtml" />
     <Content Include="Views\Shared\_UserLayout.cshtml" />
+    <Content Include="Views\TinTuyenDung\_timkiemtintuyendung.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
