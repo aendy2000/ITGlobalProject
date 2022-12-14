@@ -291,11 +291,11 @@
                            aria-expanded="false" aria-controls="navCMS">
                             <i class="nav-icon fe fe-book-open me-2"></i> Tin Tuyển Dụng
                         </a>
-                        @if (ViewBag.ShowActive == "danhSachTinTuyenDung" || ViewBag.ShowActive == "themTinTuyenDung")
+                        @if (ViewBag.ShowActive == "danhSachTinTuyenDung" || ViewBag.ShowActive == "themTinTuyenDung" || ViewBag.ShowActive == "chinhSuaTinTuyenDung")
                         {
                             <div id="navCMS" class="collapse show " data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
-                                    @if (ViewBag.ShowActive == "danhSachTinTuyenDung")
+                                    @if (ViewBag.ShowActive == "danhSachTinTuyenDung" || ViewBag.ShowActive == "chinhSuaTinTuyenDung")
                                     {
                                         <li class="nav-item">
                                             <a class="nav-link  active " href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")">
@@ -754,7 +754,7 @@
 
         </script>
     }
-    @if (ViewBag.ShowActive == "themTinTuyenDung")
+    @if (ViewBag.ShowActive == "themTinTuyenDung" || ViewBag.ShowActive == "chinhSuaTinTuyenDung")
     {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

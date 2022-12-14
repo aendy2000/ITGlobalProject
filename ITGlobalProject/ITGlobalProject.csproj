@@ -743,7 +743,7 @@
     <Content Include="Areas\Admins\Views\QuanLyTaiKhoan\_thongTinCaNhanPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyTinTuyenDung\chiTietTinTuyenDung.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyTinTuyenDung\danhSachTinTuyenDung.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyTinTuyenDung\suaTinTuyenDung.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyTinTuyenDung\chinhSuaTinTuyenDung.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyTinTuyenDung\themTinTuyenDung.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyVaiTro\danhSachVaiTro.cshtml" />
     <Content Include="Areas\Admins\Views\Shared\_AdminLayout.cshtml" />
@@ -785,6 +785,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admins\Views\QuanLyTinTuyenDung\_danhSachTinTuyenDungPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -825,7 +826,10 @@
     <Content Include="ValidationAlert\Admin\QuanLyTaiKhoan\DoiMatKhauValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyTaiKhoan\QuenMatKhauValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyTaiKhoan\XacThucQuenMatKhauValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyTinTuyenDung\ChinhSuaTinTuyenDungValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyTinTuyenDung\DangVaHuyDangBaiVietValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyTinTuyenDung\ThemTinTuyenDungValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyTinTuyenDung\XoaTinTuyenDungValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyVaiTro\SuaVaiTroValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyVaiTro\XoaVaiTroValidation.js" />
     <Content Include="ValidationAlert\Employee\QuanLyTaiKhoan\ChinhSuaThongTinCaNhanValidation.js" />

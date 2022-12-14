@@ -97,7 +97,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             kh.Avatar = link;
                             System.IO.File.Delete(path);
                         }
-                        catch (Exception e)
+                        catch
                         {
                             return Content("Đã có xảy ra lỗi, vui lòng thử lại");
                         }

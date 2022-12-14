@@ -150,8 +150,10 @@
 
         let gioitinh = $('#gioitinh :selected').val();
         let kinhnghiem = $('#kinhnghiem :selected').val();
-        let mucluong = $('#mucluong').val();
+        let mucluongtoithieu = $('#mucluongtoithieu').val();
+        let mucluongtoida = $('#mucluongtoida').val();
         let kynangchuyenmon = $('#selectKyNangChuyenMon').val();
+        let hannopcv = $('#hannopcv').val();
         let motacongviec = $('#motacongviec').val();
         let yeucauungvien = $('#yeucauungvien').val();
         let quyenloiungvien = $('#quyenloiungvien').val();
@@ -169,7 +171,9 @@
         formData.append('toanThoiGian', toanThoiGian);
         formData.append('gioitinh', gioitinh);
         formData.append('kinhnghiem', kinhnghiem);
-        formData.append('mucluong', mucluong);
+        formData.append('hannopcv', hannopcv);
+        formData.append('mucluongtoithieu', mucluongtoithieu);
+        formData.append('mucluongtoida', mucluongtoida);
         formData.append('kynangchuyenmon', kynangchuyenmon);
         formData.append('motacongviec', motacongviec);
         formData.append('yeucauungvien', yeucauungvien);

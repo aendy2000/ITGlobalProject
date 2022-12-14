@@ -34,7 +34,7 @@
             </div>
         </div>
     </div>
-    <div id="pageContents">
+    <div id="pageContentsssss">
         <div class="row">
             <div class="col-xl-3 col-lg-6 col-md-12 col-12">
                 <!-- Card -->
@@ -45,7 +45,7 @@
                         <div class="mt-2 d-flex justify-content-between align-items-center">
                             <div class="lh-1">
                                 <h2 class="h1 fw-bold mb-1">@Model.Count()</h2>
-                                <span>@Model.Where(r => r.Status == false).Count() bản nháp, @Model.Where(r => r.Status == true).Count() đã đăng</span>
+                                <span>@Model.Where(r => r.Status == false).Count() chưa đăng, @Model.Where(r => r.Status == true).Count() đã đăng</span>
                             </div>
                             <div>
                                 <span class="bg-light-primary icon-shape icon-xl rounded-3 text-dark-primary">
@@ -65,7 +65,7 @@
                         <div class="mt-2 d-flex justify-content-between align-items-center">
                             <div class="lh-1">
                                 <h2 class="h1 fw-bold mb-1">@Convert.ToDecimal(Model.OrderByDescending(o => o.Views).First().Views).ToString("0,0").Replace(".", ",")</h2>
-                                <span>Lượt xem - <a href="#">Tin số @Model.OrderByDescending(o => o.Views).First().ID</a></span>
+                                <span>Lượt xem - <a href="@Url.Action("thongTinTuyenDung", "TinTuyenDung", new {area = "", id = Model.OrderByDescending(o => o.Views).First().ID})">Tin số @Model.OrderByDescending(o => o.Views).First().ID</a></span>
                             </div>
                             <div>
                                 <span class="bg-light-warning icon-shape icon-xl rounded-3 text-dark-warning">
@@ -101,7 +101,7 @@
                 <div class="card mb-4">
                     <!-- Card Body -->
                     <div class="card-body">
-                        <span class="fs-6 text-uppercase fw-semi-bold">Chức danh công việc</span>
+                        <span class="fs-6 text-uppercase fw-semi-bold">Chức danh được tuyển</span>
                         <div class="mt-2 d-flex justify-content-between align-items-center">
                             <div class="lh-1">
                                 <h2 class="h1 fw-bold mb-1">@Convert.ToDecimal(Model.GroupBy(s => s.ID_Position).Count()).ToString("0,0").Replace(".", ",")</h2>
@@ -141,7 +141,7 @@
                                 {
                                     <tr>
                                         <td class="align-middle ">
-                                            <h5 data-bs-toggle="tooltip" data-placement="top" title="@item.Title"><a id="tenquadai1" href="@Url.Action("suaTinTuyenDung", "QuanLyTinTuyenDung", new { id = item.ID })" class="text-inherit">@item.Title</a></h5>
+                                            <h5 data-bs-toggle="tooltip" data-placement="top" title="@item.Title"><a id="tenquadai1" href="@Url.Action("thongTinTuyenDung", "TinTuyenDung", new { area = "", id = item.ID })" target="_blank" class="text-inherit">@item.Title</a></h5>
                                         </td>
                                         <td class="align-middle ">
                                             @item.DateCreateOrPosted.ToString("HH:mm - dd") Thg @item.DateCreateOrPosted.ToString("MM, yyyy")
@@ -151,19 +151,19 @@
                                         </td>
                                         <td class="align-middle ">
                                             <div class="avatar-group">
-                                                <span class="avatar avatar-md avatar-primary imgtooltip" data-template="textThree">
+                                                <span class="avatar avatar-md avatar-primary imgtooltip" data-template="text@(item.ID)">
                                                     <span class="avatar-initials rounded-circle ">
-                                                        @item.Position.Name.Substring(0, 2)
+                                                        @item.Position.Name.Substring(0, 1)
                                                     </span>
 
-                                                    <span id="textThree" class="d-none">
+                                                    <span id="text@(item.ID)" class="d-none">
                                                         <span class="mb-0 h6">@item.Position.Name</span>
                                                     </span>
                                                 </span>
                                             </div>
                                         </td>
                                         <td class="align-middle ">
-                                            @item.DateCreateOrPosted.ToString("dd") Thg @item.DateCreateOrPosted.ToString("MM, yyyy")
+                                            @item.CVSubmissionDeadline.ToString("dd") Thg @item.CVSubmissionDeadline.ToString("MM, yyyy")
                                         </td>
                                         <td class="align-middle ">
                                             @if (DateTime.Now > item.CVSubmissionDeadline)
@@ -178,7 +178,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <span style="width: 100px" class="badge bg-warning text-white">Bản Nháp</span>
+                                                    <span style="width: 100px" class="badge bg-warning text-white">Chưa được đăng</span>
                                                 }
                                             }
                                         </td>
@@ -190,13 +190,13 @@
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="Dropdown1">
                                                     <span class="dropdown-header">Hành động</span>
-                                                    <a class="dropdown-item" href="@Url.Action("thongTinTuyenDung", "TinTuyenDung", new { area = "", id = item.ID })" target="_blank">
-                                                        <i class="fe fe-info dropdown-item-icon"></i>Xem tin tuyển dụng
+                                                    <a role="button" class="dropdown-item" href="@Url.Action("thongTinTuyenDung", "TinTuyenDung", new { area = "", id = item.ID })" target="_blank">
+                                                        <i class="fe fe-eye dropdown-item-icon"></i>Xem tin tuyển dụng
                                                     </a>
-                                                    <a class="dropdown-item" href="@Url.Action("chinhSuaTinTuyenDung", "QuanLyTinTuyenDung", new { id = item.ID })">
+                                                    <a role="button" class="dropdown-item" href="@Url.Action("chinhSuaTinTuyenDung", "QuanLyTinTuyenDung", new { id = item.ID })">
                                                         <i class="fe fe-edit dropdown-item-icon"></i>Xem và Chỉnh sửa bài viết
                                                     </a>
-                                                    <a id="xoatintuyendung@(item.ID)" class="dropdown-item">
+                                                    <a role="button" id="xoatintuyendung@(item.ID)" name="@item.ID" class="dropdown-item">
                                                         <i class="fe fe-trash dropdown-item-icon"></i>Xóa bài viết
                                                     </a>
                                                 </div>
@@ -219,6 +219,7 @@
         </div>
     </div>
 </div>
+<script src="~/ValidationAlert/Admin/QuanLyTinTuyenDung/XoaTinTuyenDungValidation.js"></script>
 <script>
     $(document).ready(function () {
         $('[id^=tenquadai]').each(function () {
