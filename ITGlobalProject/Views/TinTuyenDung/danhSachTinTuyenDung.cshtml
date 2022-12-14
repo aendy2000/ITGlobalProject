@@ -1,4 +1,6 @@
-﻿@model IEnumerable<ITGlobalProject.Models.Recruitment>
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<ITGlobalProject.Models.Recruitment>
 @{
     ViewBag.Title = "Tin Tuyển Dụng";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
@@ -45,13 +47,14 @@
                 <div class="container-xxl py-5">
                     <div class="container">
                         <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
-                            <div class="container-fluid bg-secondary mb-4 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+                            <div class="container-fluid mb-4 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px; background-color: #191c2f">
                                 <div class="container">
                                     <div class="row g-2">
                                         <div class="col-md-10">
                                             <div class="row g-2">
-                                                <div class="col-12 col-md-12">
+                                                <div class="col-12 col-md-12 text-left">
                                                     <input id="timkiemtintuyendungs" style="height:55px" type="text" class="form-control border-0" placeholder="Tìm kiếm tin tuyển dụng" />
+                                                    <p id="timKiemValidation" style="color:lightcoral"></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -67,7 +70,7 @@
                                     {
                                         foreach (var item in Model)
                                         {
-                                            <div style="background-color: #EAE9ED; border-radius: 15px " class="job-item p-4 mb-4">
+                                            <div style="background-color: #dee2e6 !important; border-radius: 15px " class="job-item p-4 mb-4">
                                                 <div class="row g-4">
                                                     <div class="col-sm-12 col-md-8">
                                                         <div class="row text-start ps-4">
@@ -96,7 +99,16 @@
                                                 </div>
                                             </div>
                                         }
-                                        <a role="button" id="xemthems" class="dtr-btn btn-red dtr-btn-right-icon dtr-ml-30" style="width: 250px; color: white" >Xem thêm</a>
+                                        <div id="appendMoreItemt">
+                                            @if (Convert.ToBoolean(Session["fullPage-Sate"]) == false)
+                                            {
+                                                <a role="button" id="xemthems" class="dtr-btn btn-red dtr-btn-right-icon dtr-ml-30" style="width: 250px; color: white">Xem thêm</a>
+                                            }
+                                            else
+                                            {
+                                                <p>Đã hiển thị tất cả.</p>
+                                            }
+                                        </div>
                                     }
                                     else
                                     {
@@ -118,24 +130,37 @@
 <script>
     $(document).ready(function () {
         $('#submittimkiemtintuyendungs').on('click', function () {
-            var formData = new FormData();
-            formData.append('noidung', $('#timkiemtintuyendungs').val());
-            $('#AjaxLoader').show();
-            $.ajax({
-                url: $('#requestPath').val() + 'tintuyendung/timkiemtintuyendung',
-                type: 'POST',
-                dataType: 'html',
-                contentType: false,
-                processData: false,
-                data: formData
-            }).done(function (ketqua) {
-                $('#AppendContent').replaceWith(ketqua);
-                $('#AjaxLoader').hide();
-            });
+            if ($('#timkiemtintuyendungs').val().trim().length < 1) {
+                $('#timkiemtintuyendungs').focus();
+                $('#timKiemValidation').text("Hãy nhập nội dung tìm kiếm!").show();
+            } else {
+                var formData = new FormData();
+                formData.append('noidung', $('#timkiemtintuyendungs').val());
+                $.ajax({
+                    url: $('#requestPath').val() + 'tintuyendung/timkiemtintuyendung',
+                    type: 'POST',
+                    dataType: 'html',
+                    contentType: false,
+                    processData: false,
+                    data: formData
+                }).done(function (ketqua) {
+                    $('#AppendContent').replaceWith(ketqua);
+                });
+            }
         });
 
+        $('#timkiemtintuyendungs').on('input', function () {
+            $('#timKiemValidation').text("");
+        })
+
         $('#xemthems').on('click', function () {
-            alert('Ok');
+            $.ajax({
+                url: $('#requestPath').val() + 'tintuyendung/xemThemTinTuyenDung',
+                type: 'GET',
+                dataType: 'html'
+            }).done(function (ketqua) {
+                $('#appendMoreItemt').replaceWith(ketqua);
+            });
         })
     });
 </script>

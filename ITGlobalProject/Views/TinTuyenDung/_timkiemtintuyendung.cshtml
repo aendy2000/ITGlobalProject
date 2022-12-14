@@ -5,12 +5,12 @@
     {
         foreach (var item in Model)
         {
-            <div style="background-color: #EAE9ED; border-radius: 15px " class="job-item p-4 mb-4">
+            <div style="background-color: #dee2e6 !important; border-radius: 15px " class="job-item p-4 mb-4">
                 <div class="row g-4">
                     <div class="col-sm-12 col-md-8">
                         <div class="row text-start ps-4">
                             <div class="col-md-12">
-                                <a href="@Url.Action("thongtintuyendung", "tintuyendung", new { id = item.ID})"><h5 style="text-align: left; font-weight: bold; color: navy" class="mb-3">@item.Title</h5></a>
+                                <h5 style="text-align: left; font-weight: bold; color: navy" class="mb-3"><a href="@Url.Action("thongtintuyendung", "tintuyendung", new { id = item.ID })">@item.Title</a></h5>
                             </div>
                             <div class="col-md-4">
                                 <p style="text-align: left; font-style:italic; margin-bottom: -1px;" class="me-0"><u>Hình thức:</u></p>
@@ -28,28 +28,21 @@
                     </div>
                     <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                         <div class="d-flex mb-0">
-                            <a role="button" style="height: 40px; margin-right: 20px" class="btn btn-dark border-0 w-100" href="@Url.Action("thongtintuyendung","tintuyendung", new {id = item.ID})">&emsp;&emsp; Xem Tin &emsp;&emsp;</a>
+                            <a role="button" style="height: 40px; margin-right: 20px" class="btn btn-dark border-0 w-100" href="@Url.Action("thongtintuyendung", "tintuyendung", new { id = item.ID })">&emsp;&emsp; Xem Tin &emsp;&emsp;</a>
                         </div>
                     </div>
                 </div>
             </div>
         }
-        <a role="button" id="xemthems" class="dtr-btn btn-red dtr-btn-right-icon dtr-ml-30" style="width: 250px; color: white">Xem thêm</a>
+        <p>Đã hiển thị tất cả.</p>
     }
     else
     {
         <div class="row">
             <div class="col-md-12 col-12 mb-4 text-center">
-                <p>Không tìm thấy dữ liệu tương ứng.</p>
+                <p>Không có dữ liệu để hiển thị.</p>
             </div>
         </div>
     }
-
-    <script>
-    $(document).ready(function () {
-        $('#xemthems').on('click', function () {
-            alert('Ok');
-        })
-    });
-    </script>
 </div>
+

@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList.Mvc;
+using PagedList;
+using System.Globalization;
+using System.Web.WebPages;
+using System.Data.Entity.Validation;
+using System.Data.Entity;
+using System.Text;
 using ITGlobalProject.Models;
 namespace ITGlobalProject.Controllers
 {
@@ -26,7 +33,7 @@ namespace ITGlobalProject.Controllers
             {
                 var lstTTD = model.Recruitment.Where(r => r.Status == true).OrderByDescending(o => o.ID).ToList();
                 ViewBag.HeaderPages = "TinTuyenDung";
-                return PartialView("_timkiemtintuyendung", lstTTD);
+                return PartialView("_timkiemtintuyendung", lstTTD.ToPagedList(1, 10));
             }
             else
             {
@@ -47,7 +54,49 @@ namespace ITGlobalProject.Controllers
         {
             var lstTTD = model.Recruitment.Where(r => r.Status == true).OrderByDescending(o => o.ID).ToList();
             ViewBag.HeaderPages = "TinTuyenDung";
-            return View("danhSachTinTuyenDung", lstTTD);
+            Session["PageItem-Page"] = 1;
+            int count = lstTTD.ToPagedList(1, 10).PageCount;
+            if (count > 1)
+                Session["fullPage-Sate"] = false;
+            else
+                Session["fullPage-Sate"] = true;
+
+            return View("danhSachTinTuyenDung", lstTTD.ToPagedList(1, 10));
+        }
+
+        public ActionResult xemThemTinTuyenDung()
+        {
+            if (Session["PageItem-Page"] == null)
+            {
+                var lstTTD = model.Recruitment.Where(r => r.Status == true).OrderByDescending(o => o.ID).ToList();
+                ViewBag.HeaderPages = "TinTuyenDung";
+                Session["PageItem-Page"] = 1;
+                int count = lstTTD.ToPagedList(1, 10).PageCount;
+                if (count > 1)
+                    Session["fullPage-Sate"] = false;
+                else
+                    Session["fullPage-Sate"] = true;
+
+                return View("_xemthemtintuyendung", lstTTD.ToPagedList(1, 10));
+            }
+            else
+            {
+                int count = Convert.ToInt32(Session["PageItem-Page"]);
+                count += 1;
+                var lstTTD = model.Recruitment.Where(r => r.Status == true).OrderByDescending(o => o.ID).ToList();
+                int toTalCount = lstTTD.ToPagedList(1, 10).PageCount;
+                if (toTalCount > count)
+                {
+                    Session["PageItem-Page"] = count;
+                    Session["fullPage-Sate"] = false;
+                }
+                else
+                {
+                    Session["fullPage-Sate"] = true;
+                }
+                return View("_xemthemtintuyendung", lstTTD.ToPagedList(count, 10));
+            }
+
         }
     }
 }
