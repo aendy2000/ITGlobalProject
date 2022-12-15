@@ -23,6 +23,9 @@ namespace ITGlobalProject.Controllers
             if (tin == null)
                 return RedirectToAction("danhSachTinTuyenDung");
 
+            tin.Views = tin.Views + 1;
+            model.Entry(tin).State = EntityState.Modified;
+            model.SaveChanges();
             ViewBag.HeaderPages = "TinTuyenDung";
             return View("thongTinTuyenDung", tin);
         }
