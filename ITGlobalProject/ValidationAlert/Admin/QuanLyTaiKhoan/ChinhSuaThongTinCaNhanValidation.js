@@ -24,8 +24,8 @@
         let id = $('#id').val();
         let avatar = $('#avatar').val();
         let hoten = $('#hoten').val();
-        let cmnd = $('#cmnd').val();
-        let sodienthoai = $('#sodienthoai').val();
+        let cmnd = $('#cmnd').val().replace("_", "");
+        let sodienthoai = $('#sodienthoai').val().replace("_", "");
         let ngaysinh = $('#ngaysinh').val();
         let gioitinh = $('#gioitinh :selected').val();
         let diachinha = $('#diachinha').val();
@@ -36,14 +36,18 @@
         var checkssodienthoai = false;
         var checksngaysinh = false;
         var checksgioitinh = false;
-        var checksdiachiemail = false;
+        var checksdiachiemail = false
+        var checksdiachinha = false;
+
 
         var format = /[`!#$%^&*()+\-=\[\]{}._@;':"\\|,<>\/?~]/;
-        var formatNumber = /0123456789/;
+        var formatnumber = /[1234567890]/;
+        var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 
-        var checksdiachinha = flase;
+
         //Họ và tên
         if (hoten.length < 1) {
+            checkshoten = false;
             $('#hotenvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
             var searchInput = $('#hoten');
             var strLength = searchInput.val().length * 2;
@@ -52,6 +56,7 @@
             searchInput[0].setSelectionRange(strLength, strLength);
         }
         else if (hoten.length > 50) {
+            checkshoten = false;
             $('#hotenvalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
             var searchInput = $('#hoten');
             var strLength = searchInput.val().length * 2;
@@ -59,17 +64,27 @@
             searchInput.focus();
             searchInput[0].setSelectionRange(strLength, strLength);
         }
+        else if (format.test(hoten) == true || formatnumber.test(hoten) == true) {
+            checkshoten = false;
+            $('#hotenvalidation').text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+        }
         else {
             checkshoten = true;
-            $('#hotenvalidation').text("").hide();
+            $('#hotenvalidation').hide();
         }
         //CMND
         if (cmnd.length < 1) {
+            checkscmnd = false;
             $('#cmndvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
             var searchInput = $('#cmnd');
+            var strLength = searchInput.val().length * 2;
+
+            searchInput.focus();
+            searchInput[0].setSelectionRange(strLength, strLength);
         }
-        else if (cmnd.length > 8) {
-            $('#cmndvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+        else if (cmnd.length != 11 && cmnd.length != 14) {
+            checkscmnd = false;
+            $('#cmndvalidation').text("Vui lòng nhập đầy đủ thông tin này.").show();
             var searchInput = $('#cmnd');
             var strLength = searchInput.val().length * 2;
 
@@ -78,12 +93,13 @@
         }
         else {
             checkscmnd = true;
-            $('#cmndvalidation').text("").hide();
+            $('#cmndvalidation').hide();
 
         }
 
         //Điện thoại
         if (sodienthoai.length < 1) {
+            checkssodienthoai = false;
             $('#sodienthoaivalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
             var searchInput = $('#sodienthoai');
             var strLength = searchInput.val().length * 2;
@@ -91,8 +107,9 @@
             searchInput.focus();
             searchInput[0].setSelectionRange(strLength, strLength);
         }
-        else if (sodienthoai.length > 8) {
-            $('#sodienthoaivalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+        else if (sodienthoai.length != 12) {
+            checkssodienthoai = false;
+            $('#sodienthoaivalidation').text("Vui lòng nhập đầy đủ thông tin này.").show();
             var searchInput = $('#sodienthoai');
             var strLength = searchInput.val().length * 2;
 
@@ -106,6 +123,7 @@
 
         //Ngày sinh
         if (ngaysinh.length < 1) {
+            checksngaysinh = false;
             $('#ngaysinhvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
             var searchInput = $('#ngaysinh');
             var strLength = searchInput.val().length * 2;
@@ -119,6 +137,7 @@
         }
         //Email
         if (diachiemail.length < 1) {
+            checksdiachiemail = false;
             $('#diachiemailvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
             var searchInput = $('#diachiemail');
             var strLength = searchInput.val().length * 2;
@@ -127,7 +146,17 @@
             searchInput[0].setSelectionRange(strLength, strLength);
         }
         else if (diachiemail.length > 50) {
+            checksdiachiemail = false;
             $('#diachiemailvalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+            var searchInput = $('#diachiemail');
+            var strLength = searchInput.val().length * 2;
+
+            searchInput.focus();
+            searchInput[0].setSelectionRange(strLength, strLength);
+        }
+        else if (emailReg.test(diachiemail) == false) {
+            checksdiachiemail = false;
+            $('#diachiemailvalidation').text("Sai rồi! Vui lòng kiểm tra lại định dạng tài khoản.").show();
             var searchInput = $('#diachiemail');
             var strLength = searchInput.val().length * 2;
 
@@ -140,6 +169,7 @@
         }
         //giới tính
         if (gioitinh.length < 1) {
+            checksgioitinh = false;
             $('#gioitinhvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
             var searchInput = $('#gioitinh');
             var strLength = searchInput.val().length * 2;
@@ -152,7 +182,8 @@
             $('#gioitinhvalidation').text("").hide();
 
         }
-        if (diachinha.length < 1) {
+        if (diachinha.length > 250) {
+            checksdiachinha = false;
             $('#diachinhavalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
             var searchInput = $('#diachinha');
             var strLength = searchInput.val().length * 2;
@@ -165,7 +196,7 @@
             $('#diachinhavalidation').text("").hide();
         }
 
-      
+
 
         if (checkshoten === true && checkscmnd === true && checkssodienthoai === true && checksngaysinh === true &&
             checksgioitinh === true && checksdiachiemail === true && checksdiachinha === true) {

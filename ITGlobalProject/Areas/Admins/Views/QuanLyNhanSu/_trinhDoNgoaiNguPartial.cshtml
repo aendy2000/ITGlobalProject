@@ -97,86 +97,87 @@
                         <span class="navbar-header">Hồ Sơ Nhân Viên</span>
                         <!-- List -->
                         @*<ul class="list-unstyled ms-n2 mb-4">*@
-                    <ul class="list-unstyled ms-n2 mb-0">
-                        <!-- Nav item -->
-                        <li class="nav-item ">
-                            <a role="button" id="ttcanhan" class="nav-link">
-                                <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a role="button" id="lhvathanhtoan" class="nav-link">
-                                <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a role="button" id="knchuyenmon" class="nav-link">
-                                <i class="fe fe-code nav-icon"></i>Kỹ năng chuyên môn
-                            </a>
-                        </li>
-                        <li class="nav-item active">
-                            <a role="button" id="tdngoaingu" class="nav-link">
-                                <i class="fe fe-award nav-icon"></i>Trình độ ngoại ngữ
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a role="button" id="ptnhanthan" class="nav-link">
-                                <i class="fe fe-users nav-icon"></i>Người phụ thuộc
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a role="button" id="tcvaphucap" class="nav-link">
-                                <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a role="button" id="hdvacongviec" class="nav-link">
-                                <i class="fe fe-file-text nav-icon"></i>Hợp đồng & Công việc
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a role="button" class="nav-link" id="DAThamGia">
-                                <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a role="button" class="nav-link" id="LSHoatDong">
-                                <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a role="button" id="bangLuongs" class="nav-link">
-                                <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a role="button" class="nav-link" id="LBCongViec">
-                                <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a role="button" class="nav-link" id="BCThongKe">
-                                <i class="fe fe-pie-chart nav-icon"></i>Báo cáo thống kê
-                            </a>
-                        </li>
-                        <hr />
-                        @if (Model.Lock == false)
-                        {
-                            <li style="text-align:center; margin-top:20px">
-                                <a id="khoataikhoan" style="width:100%" class="btn btn-outline-danger btn-sm">
-                                    KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
+                        <ul class="list-unstyled ms-n2 mb-0">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="ttcanhan" class="nav-link">
+                                    <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
                                 </a>
                             </li>
-                        }
-                        else
-                        {
-                            <li style="text-align:center; margin-top:20px">
-                                <a id="khoataikhoan" style="width:100%" class="btn btn-outline-success btn-sm">
-                                    MỞ KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
+                            <li class="nav-item ">
+                                <a role="button" id="lhvathanhtoan" class="nav-link">
+                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
                                 </a>
                             </li>
-                        }
-                    </ul>                    </div>
+                            <li class="nav-item ">
+                                <a role="button" id="knchuyenmon" class="nav-link">
+                                    <i class="fe fe-code nav-icon"></i>Kỹ năng chuyên môn
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a role="button" id="tdngoaingu" class="nav-link">
+                                    <i class="fe fe-award nav-icon"></i>Trình độ ngoại ngữ
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="ptnhanthan" class="nav-link">
+                                    <i class="fe fe-users nav-icon"></i>Người phụ thuộc
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tcvaphucap" class="nav-link">
+                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="hdvacongviec" class="nav-link">
+                                    <i class="fe fe-file-text nav-icon"></i>Hợp đồng & Công việc
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a role="button" class="nav-link" id="DAThamGia">
+                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" class="nav-link" id="LSHoatDong">
+                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a role="button" id="bangLuongs" class="nav-link">
+                                    <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
+                                </a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a role="button" class="nav-link" id="LBCongViec">
+                                    <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
+                                </a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a role="button" class="nav-link" id="BCThongKe">
+                                    <i class="fe fe-pie-chart nav-icon"></i>Báo cáo thống kê
+                                </a>
+                            </li>
+                            <hr />
+                            @if (Model.Lock == false)
+                            {
+                                <li style="text-align:center; margin-top:20px">
+                                    <a id="khoataikhoan" style="width:100%" class="btn btn-outline-danger btn-sm">
+                                        KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li style="text-align:center; margin-top:20px">
+                                    <a id="khoataikhoan" style="width:100%" class="btn btn-outline-success btn-sm">
+                                        MỞ KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
             </nav>
         </div>
@@ -196,13 +197,14 @@
                             <div id="grtenngoaingu@(j)" class="mb-3 col-12 col-md-12">
                                 <label style="font-weight:bold;" class="form-label">Ngoại ngữ @(j) <span class="text-danger">*</span></label>
                                 <input value="@item.Name" class="form-control" id="strtenngoaingu@(j)" placeholder="Tên ngoại ngữ" />
+                                <p style="font-size: 13px; color:red;" id="strtenngoaingu@(j)validation"></p>
                             </div>
                             <div id="grtrinhdongoaingu@(j)" class="mb-3 col-12 col-md-12">
                                 <label style="font-weight:bold;" class="form-label">Trình độ kỹ năng <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-dark text-light">L</span>
                                     <select class="form-select text-dark" id="trinhdol@(j)" aria-label="Example select with button addon">
-                                        <option selected>Listening</option>
+                                        <option value="">Listening</option>
                                         @if (item.listening.Equals("Yếu"))
                                         {
                                             <option selected value="Yếu">Yếu</option>
@@ -234,7 +236,7 @@
                                     </select>
                                     <span class="input-group-text bg-dark text-light">S</span>
                                     <select class="form-select text-dark" id="trinhdos@(j)" aria-label="Example select with button addon">
-                                        <option selected>Speaking</option>
+                                        <option value="">Speaking</option>
                                         @if (item.Speaking.Equals("Yếu"))
                                         {
                                             <option selected value="Yếu">Yếu</option>
@@ -266,7 +268,7 @@
                                     </select>
                                     <span class="input-group-text bg-dark text-light">R</span>
                                     <select class="form-select text-dark" id="trinhdor@(j)" aria-label="Example select with button addon">
-                                        <option selected>Reading</option>
+                                        <option value="">Reading</option>
                                         @if (item.Reading.Equals("Yếu"))
                                         {
                                             <option selected value="Yếu">Yếu</option>
@@ -298,7 +300,7 @@
                                     </select>
                                     <span class="input-group-text bg-dark text-light">W</span>
                                     <select class="form-select text-dark" id="trinhdow@(j)" aria-label="Example select with button addon">
-                                        <option selected>Writing</option>
+                                        <option value="">Writing</option>
                                         @if (item.Writing.Equals("Yếu"))
                                         {
                                             <option selected value="Yếu">Yếu</option>
@@ -329,6 +331,7 @@
                                         }
                                     </select>
                                 </div>
+                                <p style="font-size: 13px; color:red;" id="trinhdo@(j)validation"></p>
                             </div>
                             <hr id="gachngang@(j)" class="my-4" />
                         }

@@ -215,7 +215,7 @@
                             <div class="mb-2 col-12 col-md-4">
                                 <label style="font-weight:bold;" class="form-label" for="fname">Số CMND/CCCD <span class="text-danger">*</span></label>
                                 <input value="@Model.IdentityCard" type="text" class="form-control" id="cmnd" name="cmnd" data-inputmask="'mask': '9999 9999 9999'" inputmode="numeric"
-                                       placeholder="Nhập số chứng minh hoặc căn cước" required>
+                                       placeholder="Nhập số chứng minh hoặc căn cước" />
                                 <p style="font-size: 13px; color:red;" id="cmndvalidation"></p>
                             </div>
                             <div class="mb-2 col-12 col-md-4">
@@ -297,6 +297,7 @@
                             <div class="mb-2 col-12 col-md-12">
                                 <label style="font-weight:bold;" class="form-label" for="address">Địa chỉ nhà</label>
                                 <textarea rows="4" id="diachinha" name="diachinha" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla">@Model.Address</textarea>
+                                <p style="font-size: 13px; color:red;" id="diachinhavalidation"></p>
                             </div>
                             <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
                                 <button type="reset" style="width: 230px" class="btn btn-outline-danger">
