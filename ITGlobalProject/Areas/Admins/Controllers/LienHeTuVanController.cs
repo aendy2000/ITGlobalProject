@@ -22,24 +22,43 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         // GET: Admins/LienHeTuVan
         public ActionResult thongTinLienHeTuVan()
         {
-            var lstCons = model.Consultation.ToList();
+            var lstCons = model.Consultation.Where(c => c.State == false).ToList();
             ViewBag.ShowActive = "thongTinLienHeTuVan";
-            return View(lstCons);
+            return View("thongTinLienHeTuVan", lstCons);
+        }
+        public ActionResult thongTinLienHeTuVanPartial()
+        {
+            var lstCons = model.Consultation.Where(c => c.State == false).ToList();
+            return PartialView("_thongTinLienHeTuVanPartial", lstCons);
+        }
+        public ActionResult thongTinDaLienHeTuVanPartial()
+        {
+            var lstCons = model.Consultation.Where(c => c.State == true).ToList();
+            return PartialView("_thongTinDaLienHeTuVanPartial", lstCons);
         }
         [HttpPost]
-        public ActionResult XoaLienHe(int? id)
+        public ActionResult XoaLienHe(int? id, bool? state)
         {
             var lienhe = model.Consultation.FirstOrDefault(l => l.ID == id);
 
-            if (id == null || lienhe == null)
+            if (id == null || lienhe == null || state == null)
                 return Content("DANHSACH");
 
             model.Consultation.Remove(lienhe);
             model.SaveChanges();
             model = new CP25Team06Entities();
 
-            var lstLH = model.Consultation.ToList();
-            return PartialView("_thongTinLienHeTuVanPartial", lstLH);
+            if (state == true)
+            {
+                var lstCons = model.Consultation.Where(c => c.State == true).ToList();
+                return PartialView("_thongTinDaLienHeTuVanPartial", lstCons);
+            }
+            else
+            {
+                var lstCons = model.Consultation.Where(c => c.State == false).ToList();
+                return PartialView("_thongTinLienHeTuVanPartial", lstCons);
+            }
+
         }
         [HttpPost]
         public ActionResult TiepNhanLienHe(int? id)
@@ -50,12 +69,13 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 return Content("DANHSACH");
 
             lienhe.State = true;
+            lienhe.AcceptDate = DateTime.Now;
             model.Entry(lienhe).State = EntityState.Modified;
             model.SaveChanges();
             model = new CP25Team06Entities();
 
-            var lstLH = model.Consultation.ToList();
-            return PartialView("_thongTinLienHeTuVanPartial", lstLH);
+            var lstCons = model.Consultation.Where(c => c.State == false).ToList();
+            return PartialView("_thongTinLienHeTuVanPartial", lstCons);
         }
     }
 }

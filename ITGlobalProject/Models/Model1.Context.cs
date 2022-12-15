@@ -28,6 +28,7 @@ namespace ITGlobalProject.Models
         public virtual DbSet<Comment> Comment { get; set; }
         public virtual DbSet<Consultation> Consultation { get; set; }
         public virtual DbSet<Debts> Debts { get; set; }
+        public virtual DbSet<Department> Department { get; set; }
         public virtual DbSet<DependencyDeduction> DependencyDeduction { get; set; }
         public virtual DbSet<DependentsInformation> DependentsInformation { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
@@ -44,6 +45,7 @@ namespace ITGlobalProject.Models
         public virtual DbSet<Projects> Projects { get; set; }
         public virtual DbSet<Recruitment> Recruitment { get; set; }
         public virtual DbSet<SkillOfRecruitment> SkillOfRecruitment { get; set; }
+        public virtual DbSet<Skills> Skills { get; set; }
         public virtual DbSet<SkillsCategory> SkillsCategory { get; set; }
         public virtual DbSet<Subsidies> Subsidies { get; set; }
         public virtual DbSet<SubsidiesCategory> SubsidiesCategory { get; set; }

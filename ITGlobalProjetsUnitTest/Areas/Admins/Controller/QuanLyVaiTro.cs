@@ -45,7 +45,7 @@ namespace ITGlobalProjetsUnitTest.Areas.Admins.Controller
             qlnhansu.ControllerContext = mockControllerContext.Object;
             string name = "";
             string description = "DescriptionTest";
-            ContentResult result = qlnhansu.themVaiTro(name, description) as ContentResult;
+            ContentResult result = qlnhansu.themVaiTro(name, description, null) as ContentResult;
 
             Assert.IsNotNull(result.Content);
             Assert.AreEqual("DANHSACH", result.Content);
@@ -63,7 +63,7 @@ namespace ITGlobalProjetsUnitTest.Areas.Admins.Controller
             qlnhansu.ControllerContext = mockControllerContext.Object;
             string name = "";
             string description = "DescriptionTest";
-            ContentResult result = qlnhansu.chinhSuaVaiTro(null, name, description) as ContentResult;
+            ContentResult result = qlnhansu.chinhSuaVaiTro(null, name, description, null) as ContentResult;
 
             Assert.IsNotNull(result.Content);
             Assert.AreEqual("DANHSACH", result.Content);
@@ -82,7 +82,7 @@ namespace ITGlobalProjetsUnitTest.Areas.Admins.Controller
             int id = 0;
             string name = "";
             string description = "DescriptionTest";
-            ContentResult result = qlnhansu.chinhSuaVaiTro(id, name, description) as ContentResult;
+            ContentResult result = qlnhansu.chinhSuaVaiTro(id, name, description, null) as ContentResult;
 
             Assert.IsNotNull(result.Content);
             Assert.AreEqual("DANHSACH", result.Content);

@@ -2,31 +2,52 @@
     $('#RoleValidateResul').hide();
     //Click lưu
     $('#themvaitro').on('click', function (e) {
+
+        $('#RoleValidateResul').text('');
+        $('#MoTaRoleValidateResul').text('');
+        $('#bophanvalidation').text('');
+
         var name = $('#tenvaitro').val();
         var mota = $('#motavaitro').val();
-        var formats = /[`!#$%^&*()+\=\[\]{};':"\\|@_<>\/?~]/;
+        var bophan = $('#bophan :selected').val();
 
-        checkname = false;
+        var formats = /[`!#$%^&*()+\=\[\]{};':"\\|@_<>\/?~]/;
+        var formatNumber = /[0123456789]/;
+
+        var checkname = true;
+        var checkmota = true;
+        var checkbophan = true;
 
         if (name.length == 0) {
             checkname = false;
             $('#RoleValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-        } else if (formats.test(name) == true){
+        } else if (formats.test(name) == true || formatNumber.test(name) == true) {
             checkname = false;
             $('#RoleValidateResul').text("Tên chức danh không hợp lệ! Vui lòng kiểm tra lại.").show();
         } else if (name.length > 50) {
             checkname = false;
             $('#RoleValidateResul').text("Tên chức danh chỉ tối đa 50 ký tự! Vui lòng kiểm tra lại.").show();
         }
-        else {
-            checkname = true;
+
+        if (mota.length > 200) {
+            checkmota = false;
+            $('#MoTaRoleValidateResul').text("Mô tả chức danh chỉ tối đa 200 ký tự! Vui lòng kiểm tra lại.").show();
+
         }
-        if (checkname == true) {    
+
+        if (bophan.length < 1) {
+            checkbophan = false;
+            $('#bophanvalidation').text('Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.').show();
+        }
+
+        if (checkname == true && checkbophan == true && checkmota == true) {    
             var formData = new FormData();
             formData.append('name', name);
             formData.append('description', mota);
+            formData.append('bophan', bophan);
 
             let urls = $('#actionThem').data('request-url');
+            
             $.ajax({
                 url: urls,
                 type: 'POST',
@@ -42,7 +63,7 @@
                     $('#danhSachPartial').replaceWith(ketqua);
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Tuyệt quá! Vai trò đã được thêm vào danh sách.", {
+                            swal("Thành Công!", "Tuyệt quá! Chức danh đã được thêm vào danh sách.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

@@ -18,12 +18,14 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         // GET: Admins/QuanLyVaiTro
         public ActionResult danhSachVaiTro()
         {
+            var department = model.Department.ToList();
+            Session["lst-department"] = department;
             var position = model.Position.Where(p => p.ID != 1).OrderByDescending(p => p.ID).ToList();
             ViewBag.ShowActive = "danhSachVaiTro";
             return View("danhSachVaiTro", position);
         }
         [HttpPost]
-        public ActionResult themVaiTro(string name, string description)
+        public ActionResult themVaiTro(string name, string description, int? bophan)
         {
             if (string.IsNullOrEmpty(name))
                 return Content("DANHSACH");
@@ -31,16 +33,19 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             Position position = new Position();
             position.Name = name;
             position.Description = description;
+            position.ID_Department = bophan;
             model.Position.Add(position);
             model.SaveChanges();
             model = new CP25Team06Entities();
 
+            var department = model.Department.ToList();
+            Session["lst-department"] = department;
             var positions = model.Position.Where(p => p.ID != 1).OrderByDescending(p => p.ID).ToList();
             return PartialView("_danhSachVaiTroPartial", positions);
         }
 
         [HttpPost]
-        public ActionResult chinhSuaVaiTro(int? id, string name, string description)
+        public ActionResult chinhSuaVaiTro(int? id, string name, string description, int? depart)
         {
             var position = model.Position.FirstOrDefault(p => p.ID == id);
             if (position == null || id == null || string.IsNullOrEmpty(name))
@@ -48,10 +53,13 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
             position.Name = name;
             position.Description = description;
+            position.ID_Department = depart;
             model.Entry(position).State = EntityState.Modified;
             model.SaveChanges();
             model = new CP25Team06Entities();
 
+            var department = model.Department.ToList();
+            Session["lst-department"] = department;
             var positions = model.Position.Where(p => p.ID != 1).OrderByDescending(p => p.ID).ToList();
             return PartialView("_danhSachVaiTroPartial", positions);
         }
@@ -66,6 +74,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             model.SaveChanges();
             model = new CP25Team06Entities();
 
+            var department = model.Department.ToList();
+            Session["lst-department"] = department;
             var positions = model.Position.Where(p => p.ID != 1).OrderByDescending(p => p.ID).ToList();
             return PartialView("_danhSachVaiTroPartial", positions);
         }

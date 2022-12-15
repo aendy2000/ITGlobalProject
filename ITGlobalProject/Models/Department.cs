@@ -12,13 +12,19 @@ namespace ITGlobalProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PersonalSkills
+    public partial class Department
     {
-        public int ID { get; set; }
-        public int ID_Employee { get; set; }
-        public int ID_Skills { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Department()
+        {
+            this.Position = new HashSet<Position>();
+        }
     
-        public virtual Employees Employees { get; set; }
-        public virtual Skills Skills { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Position> Position { get; set; }
     }
 }

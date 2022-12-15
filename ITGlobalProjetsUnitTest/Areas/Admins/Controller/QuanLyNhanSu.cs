@@ -693,8 +693,9 @@ namespace ITGlobalProjetsUnitTest.Areas.Admins.Controller
             string ngayvaolam = "dd-MM-yyyy";
             int vaitro = 0;
             string hinhthuc = "Hình Thức";
-
-            var contentResult = (ContentResult)qlnhansu.chinhSuaViecLamHopDong(id, ngayvaolam, vaitro, hinhthuc);
+            bool trangthai = true;
+            string mk = "";
+            var contentResult = (ContentResult)qlnhansu.chinhSuaViecLamHopDong(id, ngayvaolam, vaitro, hinhthuc, trangthai, mk);
 
             Assert.IsNotNull(contentResult.Content);
             Assert.AreEqual("DANHSACH", contentResult.Content);
@@ -713,8 +714,10 @@ namespace ITGlobalProjetsUnitTest.Areas.Admins.Controller
             string ngayvaolam = "dd-MM-yyyy";
             int vaitro = 0;
             string hinhthuc = "Hình Thức";
+            bool trangthai = true;
+            string mk = "";
+            var contentResult = (ContentResult)qlnhansu.chinhSuaViecLamHopDong(null, ngayvaolam, vaitro, hinhthuc, trangthai, mk);
 
-            var contentResult = (ContentResult)qlnhansu.chinhSuaViecLamHopDong(null, ngayvaolam, vaitro, hinhthuc);
             Assert.IsNotNull(contentResult.Content);
             Assert.AreEqual("DANHSACH", contentResult.Content);
         }

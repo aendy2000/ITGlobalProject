@@ -7,10 +7,11 @@
     int k = 0;
     ViewBag.Title = "Quản Lý Nhân Viên";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
-    var lstPosition = Session["lst-role"] as List<Position>;
-    var lstkynang = Session["lst-kynang"] as List<SkillsCategory>;
-    var lsttrocap = Session["lst-trocap"] as List<SubsidiesCategory>;
 
+    var department = Session["lst-department"] as List<Department>;
+    var lstPosition = Session["lst-role"] as List<Position>;
+    var lstkynang = Session["lst-kynang"] as List<Skills>;
+    var lsttrocap = Session["lst-trocap"] as List<SubsidiesCategory>;
 }
 
 <div class="container-fluid p-4">
@@ -778,22 +779,12 @@
                         <input type="text" id="quoctich" name="quoctich" class="form-control" placeholder="Việt Nam" />
                         <p style="font-size: 13px; color:red;" id="quoctichvalidation"></p>
                     </div>
-                    <div class="mb-2 col-12 col-md-4">
-                        <label style="font-weight:bold;" class="form-label" for="honnhan">Tình trạng hôn nhân <span class="text-danger">*</span></label>
-                        <select data-width="100%" class="selectpicker" id="honnhan" name="honnhan">
-                            <option value="">Chọn tình trạng hôn nhân</option>
-                            <option value="Độc thân">Độc thân</option>
-                            <option value="Đã kết hôn">Đã kết hôn</option>
-                            <option value="Khác">Khác</option>
-                        </select>
-                        <p style="font-size: 13px; color:red;" id="honnhanvalidation"></p>
-                    </div>
+                   
                     <div class="mb-2 col-12 col-md-4">
                         <label style="font-weight:bold;" l class="form-label" for="birth"> Ngày sinh <span class="text-danger">*</span></label>
                         <input type="text" class="form-control flatpickr" placeholder="Chọn ngày sinh" id="ngaysinh" name="ngaysinh" />
                         <p style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
                     </div>
-
 
                     <div class="mb-2 col-12 col-md-4">
                         <label style="font-weight:bold;" class="form-label" for="sodienthoaididong">Số điện thoại di động <span class="text-danger">*</span></label>
@@ -924,7 +915,7 @@
                 <h4 class="mb-0 fw-bold">
                     <a href="#" class="d-flex align-items-center text-inherit text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="true" aria-controls="collapse6">
                         <span class="me-auto">
-                            &emsp;Trình Độ Ngoại Ngữ&ensp;<i id="hoantatttkynangchuyenmon" class="fe fe-check-circle font-weight-bold text-success"></i>
+                            &emsp;Trình Độ Ngoại Ngữ&ensp;<i id="hoantattdngoaingu" class="fe fe-check-circle font-weight-bold text-success"></i>
                         </span>
                         <span class="collapse-toggle ms-4">
                             &emsp;<i class="fe fe-plus text-primary"></i>&emsp;
@@ -956,7 +947,7 @@
                 <h4 class="mb-0 fw-bold">
                     <a href="#" class="d-flex align-items-center text-inherit text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="true" aria-controls="collapse4">
                         <span class="me-auto">
-                            &emsp;Người Phụ Thuộc&ensp;<i id="hoantatttlienhe" class="fe fe-check-circle font-weight-bold text-success"></i>
+                            &emsp;Người Phụ Thuộc&ensp;<i id="hoantatnguoiphuthuoc" class="fe fe-check-circle font-weight-bold text-success"></i>
                         </span>
                         <span class="collapse-toggle ms-4">
                             &emsp;<i class="fe fe-plus text-primary"></i>&emsp;
@@ -1122,26 +1113,24 @@
                         <p style="font-size: 13px; color:red;" id="ngayvaolamvalidation"></p>
                     </div>
                     <div class="mb-2 col-12 col-md-4">
-                        <label style="font-weight:bold;" class="form-label">Chức danh <span class="text-danger">*</span></label>
-                        <select id="vaitro" name="vaitro" class="selectpicker" data-width="100%">
-                            <option value="">Chọn chức danh</option>
-                            @foreach (var item in lstPosition)
+                        <label style="font-weight:bold;" class="form-label">Bộ phận <span class="text-danger">*</span></label>
+                        <select id="bophan" name="bophan" class="selectpicker" data-width="100%">
+                            <option value="">Chọn bộ phận</option>
+                            @foreach (var item in department)
                             {
                                 <option value="@item.ID">@item.Name</option>
                             }
                         </select>
-                        <p style="font-size: 13px; color:red;" id="vaitrovalidation"></p>
+                        <p style="font-size: 13px; color:red;" id="bophanvalidation"></p>
                     </div>
                     <div class="mb-2 col-12 col-md-4">
-                        <label style="font-weight:bold;" class="form-label">Hình thức làm việc <span class="text-danger">*</span></label>
-                        <select id="hinhthuc" name="hinhthuc" class="selectpicker" data-width="100%">
-                            <option value="">Chọn hình thức làm việc</option>
-                            <option value="Thử việc">Thử việc</option>
-                            <option value="Thực tập sinh">Thực tập sinh</option>
-                            <option value="Nhân viên chính thức">Nhân viên chính thức</option>
+                        <label style="font-weight:bold;" class="form-label">Chức danh <span class="text-danger">*</span></label>
+                        <select disabled="disabled" id="vaitro" name="vaitro" class="form-select" data-width="100%">
+                            <option value="">Chọn chức danh</option>
                         </select>
-                        <p style="font-size: 13px; color:red;" id="hinhthucvalidation"></p>
+                        <p style="font-size: 13px; color:red;" id="vaitrovalidation"></p>
                     </div>
+
                     <div id="chonLoaiHopDong" class="mb-2 col-12 col-md-4">
                         <label style="font-weight:bold;" class="form-label" for="loaiHopDong">Loại hợp đồng <span class="text-danger">*</span></label>
                         <select id="loaiHopDong" name="loaiHopDong" class="selectpicker" data-width="100%">
@@ -1162,7 +1151,17 @@
                         <input type="text" class="form-control flatpickr" placeholder="Chọn ngày gia hạn hợp đồng" id="ngaygiahanhopdong" name="ngaygiahanhopdong" />
                         <p style="font-size: 13px; color:red;" id="ngaygiahanhopdongvalidation"></p>
                     </div>
-                    <div id="taiAnhHopDong" class="mb-2 col-12 col-md-4">
+                    <div class="mb-2 col-12 col-md-4">
+                        <label style="font-weight:bold;" class="form-label">Hình thức làm việc <span class="text-danger">*</span></label>
+                        <select id="hinhthuc" name="hinhthuc" class="selectpicker" data-width="100%">
+                            <option value="">Chọn hình thức làm việc</option>
+                            <option value="Thử việc">Thử việc</option>
+                            <option value="Thực tập sinh">Thực tập sinh</option>
+                            <option value="Nhân viên chính thức">Nhân viên chính thức</option>
+                        </select>
+                        <p style="font-size: 13px; color:red;" id="hinhthucvalidation"></p>
+                    </div>
+                    <div id="taiAnhHopDong" class="mb-2 col-12 col-md-12">
                         <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Tải lên hợp đồng <span class="text-danger">*</span></label>
                         <a role="button" id="chonanhhopdong" class="btn btn-outline-primary" style="width:100%">
                             <i class="fe fe-upload me-1"></i>
@@ -1176,6 +1175,7 @@
                         <figure class="gallery__item gallery__item--1 mb-0">
                             <img style="max-width: 700px;" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImage">
                         </figure>
+                        <p style="font-size: 13px; color:red;" id="selectFilesvalidation"></p>
                         <div class="py-3"></div>
                     </div>
                 </div>

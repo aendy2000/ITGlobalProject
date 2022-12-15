@@ -1,7 +1,7 @@
 ﻿@using ITGlobalProject.Models;
 @model ITGlobalProject.Models.Employees
 @{
-    var lstkynang = Session["lst-kynang"] as List<SkillsCategory>;
+    var lstkynang = Session["lst-kynang"] as List<Skills>;
     int j = 0;
     string imagesUrl = "";
     if (string.IsNullOrEmpty(Model.Avatar))
@@ -194,7 +194,7 @@
                             {
                                 j++;
                                 <div class="form-check mb-2 col-12 col-md-4">
-                                    @if (Model.PersonalSkills.FirstOrDefault(k => k.ID_SkillsCategory == item.ID) != null)
+                                    @if (Model.PersonalSkills.FirstOrDefault(k => k.ID_Skills == item.ID) != null)
                                     {
                                         <input checked class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(item.ID)">
                                     }

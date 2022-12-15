@@ -1,4 +1,6 @@
-﻿
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<ITGlobalProject.Models.Recruitment>
 @{
     ViewBag.Title = "Tin Tuyển Dụng";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
@@ -12,7 +14,7 @@
 
     <!-- Favicon -->
     <link href="~/favicon.ico" rel="icon">
-
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +36,7 @@
 </head>
 
 
-<section id="about" class="dtr-section dtr-pt-100 dtr-pb-150" style="margin-top: 80px">
+<section id="about" class="dtr-section dtr-pt-100 dtr-pb-150" style="margin-top: 80px; margin-bottom: -150px">
     <!-- blue overlay -->
     <div class="container color-dark">
 
@@ -45,115 +47,78 @@
                 <div class="container-xxl py-5">
                     <div class="container">
                         <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
-                            <div class="container-fluid bg-secondary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+                            <div class="container-fluid mb-4 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px; background-color: #191c2f">
                                 <div class="container">
                                     <div class="row g-2">
                                         <div class="col-md-10">
                                             <div class="row g-2">
-                                                <div class="col-6 col-md-6">
-                                                    <input style="height:55px" type="text" class="form-control border-0" placeholder="Tìm kiếm với tiêu đề tin" />
-                                                </div>
-                                                <div class="col-6 col-md-6">
-                                                    <select class="form-select border-0">
-                                                        <option selected>Tất cả vị trí</option>
-                                                        <option value="1"> Front-End Web Developer </option>
-                                                        <option value="2"> Back-End Web Developer </option>
-                                                        <option value="3"> Front-End Mobile-Developer </option>
-                                                        <option value="4"> Back-End Mobile-Developer </option>
-                                                        <option value="5"> Tester </option>
-                                                        <option value="6"> Business Analysts </option>
-                                                        <option value="7"> Product Owner </option>
-                                                        <option value="8"> Product Manager </option>
-                                                    </select>
+                                                <div class="col-12 col-md-12 text-left">
+                                                    <input id="timkiemtintuyendungs" style="height:55px" type="text" class="form-control border-0" placeholder="Tìm kiếm tin tuyển dụng" />
+                                                    <p id="timKiemValidation" style="color:lightcoral"></p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-6 col-md-2">
-                                            <button style="height:55px;width:300px" class="btn btn-dark border-0 w-100">Tìm kiếm</button>
+                                            <button id="submittimkiemtintuyendungs" style="height:55px;width:300px" class="btn btn-dark border-0 w-100">Tìm kiếm</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="tab-content">
-                                <div id="tab-1" class="tab-pane fade show p-0 active">
-                                    <div  style="background-color: #EAE9ED; border-radius: 15px " class="job-item p-4 mb-4">
-                                        <div class="row g-4">
-                                            <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                                <div class="text-start ps-4">
-                                                    <h5 style="text-align:left" class="mb-3">Lập trình viên C#</h5>
-                                                    <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i> Toàn thời gian </span>
-                                                    <span style="padding-left:100px" class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i> Lương thỏa thuận</span>
-                                                    <span style="padding-left:50px" class="text-truncate me-0"><i class="fa fa-hourglass-half text-primary me-2"></i> Hạn nộp: 20/11/2022</span>
+                                <div id="AppendContent">
+                                    @if (Model.Count() > 0)
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                            <div style="background-color: #dee2e6 !important; border-radius: 15px " class="job-item p-4 mb-4">
+                                                <div class="row g-4">
+                                                    <div class="col-sm-12 col-md-8">
+                                                        <div class="row text-start ps-4">
+                                                            <div class="col-md-12">
+                                                                <h5 style="text-align: left; font-weight: bold; color: navy" class="mb-3"><a href="@Url.Action("thongtintuyendung", "tintuyendung", new { id = item.ID })">@item.Title</a></h5>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <p style="text-align: left; font-style:italic; margin-bottom: -1px;" class="me-0"><u>Hình thức:</u></p>
+                                                                <p style="text-align:left" class="me-3"><i class="far fa-clock text-primary me-2"></i> @item.Form</p>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <p style="text-align: left; font-style: italic; margin-bottom: -1px;" class="me-0"><u>Vị trí:</u></p>
+                                                                <p style="text-align:left" class="me-0"><i class="far fa-user text-primary me-2"></i> @item.Position.Name</p>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <p style="text-align: left; font-style: italic; margin-bottom: -1px; " class="me-0"><u>Hạn nộp CV:</u></p>
+                                                                <p style="text-align:left" class="me-0"><i class="fa fa-hourglass-half text-primary me-2"></i> @item.CVSubmissionDeadline.ToString("dd/MM/yyyy")</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                                                        <div class="d-flex mb-0">
+                                                            <a role="button" style="height: 40px; margin-right: 20px" class="btn btn-dark border-0 w-100" href="@Url.Action("thongtintuyendung", "tintuyendung", new { id = item.ID })">&emsp;&emsp; Xem Tin &emsp;&emsp;</a>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                                <div class="d-flex mb-0">
-                                                    <a role="button" style="height: 40px; margin-right: 20px" class="btn btn-dark border-0 w-100" href="@Url.Action("thongTinTuyenDung","TinTuyenDung")">&emsp;&emsp; Xem Tin &emsp;&emsp;</a>
-                                                </div>
+                                        }
+                                        <div id="appendMoreItemt">
+                                            @if (Convert.ToBoolean(Session["fullPage-Sate"]) == false)
+                                            {
+                                                <a role="button" id="xemthems" class="dtr-btn btn-red dtr-btn-right-icon dtr-ml-30" style="width: 250px; color: white">Xem thêm</a>
+                                            }
+                                            else
+                                            {
+                                                <p>Đã hiển thị tất cả.</p>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-12 col-12 mb-4 text-center">
+                                                <p>Không có dữ liệu để hiển thị.</p>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div style="background-color: #EAE9ED; border-radius: 15px"  class="job-item p-4 mb-4">
-                                        <div class="row g-4">
-                                            <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                                <div class="text-start ps-4">
-                                                    <h5 style="text-align:left" class="mb-3">Trưởng phòng Marketing</h5>
-                                                    <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i> Toàn thời gian </span>
-                                                    <span style="padding-left:100px" class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i> Lương thỏa thuận</span>
-                                                    <span style="padding-left:50px" class="text-truncate me-0"><i class="fa fa-hourglass-half text-primary me-2"></i> Hạn nộp: 20/11/2022</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                                <div class="d-flex mb-0">
-                                                    <a role="button" style="height: 40px; margin-right: 20px" class="btn btn-dark border-0 w-100" href="">&emsp;&emsp; Xem Tin &emsp;&emsp;</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div style="background-color: #EAE9ED; border-radius: 15px" class="job-item p-4 mb-4">
-                                        <div class="row g-4">
-                                            <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                                <div class="text-start ps-4">
-                                                    <h5 style="text-align:left" class="mb-3">Desinger</h5>
-                                                    <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i> Toàn thời gian </span>
-                                                    <span style="padding-left:100px" class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i> 10.000.000 VNĐ</span>
-                                                    <span style="padding-left:50px" class="text-truncate me-0"><i class="fa fa-hourglass-half text-primary me-2"></i> Hạn nộp: 20/11/2022</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                                <div class="d-flex mb-0">
-                                                    <a role="button" style="height: 40px; margin-right: 20px" class="btn btn-dark border-0 w-100" href="">&emsp;&emsp; Xem Tin &emsp;&emsp;</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div style="background-color: #EAE9ED; border-radius: 15px " class="job-item p-4 mb-4">
-                                        <div class="row g-4">
-                                            <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                                <div class="text-start ps-4">
-                                                    <h5 style="text-align:left" class="mb-3">Lập trình viên Wordpress</h5>
-                                                    <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i> Toàn thời gian </span>
-                                                    <span style="padding-left:50px" class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i> Lương thỏa thuận</span>
-                                                    <span style="padding-left:50px" class="text-truncate me-0"><i class="fa fa-hourglass-half text-primary me-2"></i> Hạn nộp: 20/11/2022</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                                <div class="d-flex mb-0">
-                                                    <a role="button" style="height: 40px; margin-right: 20px" class="btn btn-dark border-0 w-100" href="">&emsp;&emsp; Xem Tin &emsp;&emsp;</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a class="dtr-btn btn-red dtr-btn-right-icon dtr-ml-30" style="width: 250px" href="#">Xem thêm</a>
-
+                                    }
                                 </div>
-                                @*<div id="tab-2" class="tab-pane fade show p-0">
-                                </div>
-                                <div id="tab-3" class="tab-pane fade show p-0">
-                                </div>*@
                             </div>
                         </div>
                     </div>
@@ -162,4 +127,40 @@
         </div>
     </div>
 </section>
+<script>
+    $(document).ready(function () {
+        $('#submittimkiemtintuyendungs').on('click', function () {
+            if ($('#timkiemtintuyendungs').val().trim().length < 1) {
+                $('#timkiemtintuyendungs').focus();
+                $('#timKiemValidation').text("Hãy nhập nội dung tìm kiếm!").show();
+            } else {
+                var formData = new FormData();
+                formData.append('noidung', $('#timkiemtintuyendungs').val());
+                $.ajax({
+                    url: $('#requestPath').val() + 'tintuyendung/timkiemtintuyendung',
+                    type: 'POST',
+                    dataType: 'html',
+                    contentType: false,
+                    processData: false,
+                    data: formData
+                }).done(function (ketqua) {
+                    $('#AppendContent').replaceWith(ketqua);
+                });
+            }
+        });
 
+        $('#timkiemtintuyendungs').on('input', function () {
+            $('#timKiemValidation').text("");
+        })
+
+        $('#xemthems').on('click', function () {
+            $.ajax({
+                url: $('#requestPath').val() + 'tintuyendung/xemThemTinTuyenDung',
+                type: 'GET',
+                dataType: 'html'
+            }).done(function (ketqua) {
+                $('#appendMoreItemt').replaceWith(ketqua);
+            });
+        })
+    });
+</script>

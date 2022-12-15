@@ -21,5 +21,6 @@ namespace ITGlobalProject.Models
         public string Contents { get; set; }
         public System.DateTime Date { get; set; }
         public bool State { get; set; }
+        public Nullable<System.DateTime> AcceptDate { get; set; }
     }
 }

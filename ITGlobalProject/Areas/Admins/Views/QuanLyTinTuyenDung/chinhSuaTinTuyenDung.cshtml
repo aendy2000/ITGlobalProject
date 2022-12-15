@@ -1,0 +1,305 @@
+﻿@model ITGlobalProject.Models.Recruitment
+@using ITGlobalProject.Models
+@{
+    IEnumerable<Position> vitri = Session["tintuyendung-position"] as IEnumerable<Position>;
+    IEnumerable<Skills> kynang = Session["tintuyendung-kynang"] as IEnumerable<Skills>;
+
+    ViewBag.Title = "Cập Nhật Tin Tuyển Dụng";
+    Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+
+}
+<input hidden id="id" value="@Model.ID" />
+<div class="container-fluid p-4">
+    <div class="row">
+        <!-- Page header -->
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
+                <div class="mb-3 mb-md-0">
+                    <h1 class="mb-1 h2 fw-bold">Thêm Tin Tuyển Dụng </h1>
+
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")">Tin Tuyển Dụng</a>
+                            </li>
+                            <li class="breadcrumb-item " aria-current="page">
+                                Cập Nhật Tin Tuyển Dụng
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <div>
+                    @if (Model.Status == true)
+                    {
+                        <a id="doitrangthai" name="@Model.ID" class="btn btn-warning me-2" style="width:230px" role="button">
+                            <i class="fe fe-slash"></i>&ensp;Ngừng Đăng Tin
+                        </a>
+                    }
+                    else
+                    {
+                        <a id="doitrangthai" name="@Model.ID" class="btn btn-primary me-2" style="width:230px" role="button">
+                            <i class="fe fe-check-square"></i>&ensp;Đăng Bài Viết
+                        </a>
+                    }
+                    <a id="xoatin" name="@Model.ID" class="btn btn-danger me-2" style="width:230px" role="button">
+                        <i class="fe fe-trash-2"></i>&ensp;Xóa Bài Viết
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-lg-8 col-md-12 col-12">
+            <!-- Card -->
+            <div class="card border-0 mb-4">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="mt-2">
+                        <form class="row">
+                            <div class="mb-3 col-md-12">
+                                <label style="font-weight:bold" class="form-label">Tiêu Đề Tin Tuyển Dụng <span class="text-danger">*</span></label>
+                                <input id="tieude" value="@Model.Title" type="text" class="form-control" placeholder="Nhập vào tiêu đề tin tuyển dụng" required>
+                            </div>
+                            <div class="mb-3 col-md-6 col-12">
+                                <label style="font-weight:bold" class="form-label">Vai Trò Tuyển Dụng <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <select data-width="100%" name="chucdanh" id="chucdanh">
+                                        @foreach (var item in vitri)
+                                        {
+                                            if (Model.ID_Position == item.ID)
+                                            {
+                                                <option selected value="@item.ID">@item.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.ID">@item.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- form group -->
+                            <div class="mb-3 col-md-6 col-12">
+                                <label style="font-weight:bold" class="form-label">Số Lượng Tuyển <span class="text-danger">*</span></label>
+                                <div class="input-group me-3">
+                                    <input type="number" id="soluong" value="@Model.Amount" style="font-weight: 500;" class="form-control text-dark" placeholder="Nhập số lượng cần tuyển">
+                                </div>
+                            </div>
+                            <!-- form group -->
+                            <div class="mb-3 col-md-6 col-12 ">
+                                <label style="font-weight:bold" class="form-label">Hình Thức Làm Việc<span class="text-danger">*</span></label>
+                                <div class="form-control">
+                                    <div class="input-group">
+                                        @if (Model.Form.IndexOf(",") != -1)
+                                        {
+                                            <div class="form-check col-md-4 col-12" aria-label="thucTap">
+                                                <input checked type="checkbox" class="form-check-input" id="thucTapSinh" value="0">
+                                                <label class="form-check-label" for="thucTapSinh">
+                                                    Thực Tập Sinh
+                                                </label>
+                                            </div>
+                                            <div class="form-check col-md-4 col-12" aria-label="fulltime">
+                                                <input checked type="checkbox" class="form-check-input" id="toanThoiGian" value="0">
+                                                <label class="form-check-label" for="toanThoiGian">
+                                                    Toàn Thời Gian
+                                                </label>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="form-check col-md-4 col-12" aria-label="thucTap">
+                                                @if (Model.Form.IndexOf("Thực tập sinh") != -1)
+                                                {
+                                                    <input checked type="checkbox" class="form-check-input" id="thucTapSinh" value="0">
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="form-check-input" id="thucTapSinh" value="0">
+                                                }
+                                                <label class="form-check-label" for="thucTapSinh">
+                                                    Thực Tập Sinh
+                                                </label>
+                                            </div>
+                                            <div class="form-check col-md-4 col-12" aria-label="fulltime">
+                                                @if (Model.Form.IndexOf("Toàn thời gian") != -1)
+                                                {
+                                                    <input checked type="checkbox" class="form-check-input" id="toanThoiGian" value="0">
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="form-check-input" id="toanThoiGian" value="0">
+                                                }
+                                                <label class="form-check-label" for="toanThoiGian">
+                                                    Toàn Thời Gian
+                                                </label>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- form group -->
+                            <div class="mb-3 col-md-6 col-12">
+                                <label style="font-weight:bold" class="form-label">Giới Tính <span class="text-danger">*</span></label>
+                                <div class="dropdown bootstrap-select" style="width: 100%;">
+                                    <div class="dropdown bootstrap-select" style="width: 100%;">
+                                        <select id="gioitinh" class="selectpicker" data-width="100%" tabindex="null">
+                                            @if (Model.Sex.Equals("Không yêu cầu"))
+                                            {
+                                                <option selected value="Không yêu cầu">Không yêu cầu</option>
+                                                <option value="Nam">Nam</option>
+                                                <option value="Nữ">Nữ</option>
+                                            }
+                                            else if (Model.Sex.Equals("Nam"))
+                                            {
+                                                <option value="Không yêu cầu">Không yêu cầu</option>
+                                                <option selected value="Nam">Nam</option>
+                                                <option value="Nữ">Nữ</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="Không yêu cầu">Không yêu cầu</option>
+                                                <option value="Nam">Nam</option>
+                                                <option selected value="Nữ">Nữ</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- form group -->
+
+                            <div class="mb-3 col-md-6 col-12">
+                                <label style="font-weight:bold" class="form-label">Mức lương tối thiểu <span class="text-danger">*</span> </label>
+                                <div class="input-group me-3">
+                                    <input id="mucluongtoithieu" style="font-weight:500;" value="@Model.MinimumWage.ToString("0,0").Replace(".", ",")" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập mức lương tối thiểu">
+                                </div>
+                            </div>
+                            <!-- form group -->
+                            <div class="mb-3 col-md-6 col-12">
+                                <label style="font-weight:bold" class="form-label">Mức lương tối đa <span class="text-danger">*</span> </label>
+                                <div class="input-group me-3">
+                                    <input id="mucluongtoida" style="font-weight:500;" value="@Model.MaximumWage.ToString("0,0").Replace(".", ",")" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập mức lương tối đa">
+                                </div>
+                            </div>
+                            <div class="mb-3 col-md-6 col-12">
+                                <label style="font-weight:bold" class="form-label">Kinh Nghiệm <span class="text-danger">*</span></label>
+                                <div class="dropdown bootstrap-select" style="width: 100%;">
+                                    <div class="dropdown bootstrap-select" style="width: 100%;">
+                                        <select id="kinhnghiem" class="selectpicker" data-width="100%" tabindex="null">
+                                            @if (Model.Experience.Equals("Không yêu cầu kinh nghiệm"))
+                                            {
+                                                <option selected value="Không yêu cầu kinh nghiệm">Không yêu cầu kinh nghiệm </option>
+                                            }
+                                            else
+                                            {
+                                                <option value="Không yêu cầu kinh nghiệm">Không yêu cầu kinh nghiệm </option>
+                                                for (int i = 1; i <= 5; i++)
+                                                {
+                                                    string chuoi = "Từ " + i + " năm kinh nghiệm";
+                                                    if (chuoi.Equals(Model.Experience))
+                                                    {
+                                                        <option selected value="@chuoi">@chuoi</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@chuoi">@chuoi</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-md-6 col-12">
+                                <label style="font-weight:bold" class="form-label">Hạn nộp CV <span class="text-danger">*</span> </label>
+                                <div class="input-group me-3">
+                                    <input id="hannopcv" value="@Model.CVSubmissionDeadline.ToString("yyyy-MM-dd")" class="form-control flatpickr" type="text" placeholder="Chọn hạn nộp CV">
+                                </div>
+                            </div>
+                            <div class="mb-3 col-md-12 col-12 ">
+                                <label style="font-weight:bold" class="form-label">Yêu Cầu Kỹ Năng <span class="text-danger">*</span></label>
+                                <select id="selectKyNangChuyenMon" placeholder="Chọn các kỹ năng chuyên môn yêu cầu" class="form-control" data-width="100%" name="tags" multiple>
+                                    @foreach (var item in kynang)
+                                    {
+                                        if (item.SkillOfRecruitment.FirstOrDefault(s => s.ID_Recruitment == Model.ID) != null)
+                                        {
+                                            <option selected value="@item.ID">@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.ID">@item.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <!-- mo ta cong viec -->
+                            <div class="mb-3 col-md-12 col-12">
+                                <label style="font-weight:bold" class="form-label">Mô tả công việc <span class="text-danger">*</span></label>
+                                <textarea id="motacongviec" rows="10" class="form-control" placeholder="✓ Tham gia thiết kế và phát triển các sản phẩm phần mềm của Công ty hoặc cho khách hàng tại VN (sử dụng ngôn ngữ PHP)
+✓ Tham gia vào các dự án xây dựng ứng dụng bằng PHP & MySQL, Javascript hoặc các dự án Website của công ty.
+✓ Thực hiện coding các module đã được thiết kế sẵn.
+✓ Tùy chỉnh và nâng cấp hệ thống đáp ứng yêu cầu của khách hàng.
+✓ Báo cáo cho quản lý khi có yêu cầu..." required="">@Model.JobDescription</textarea>
+                            </div>
+                            <!-- yeu cau ung vien-->
+                            <div class="mb-3 col-md-12 col-12">
+                                <label style="font-weight:bold" class="form-label">Yêu Cầu Ứng Viên <span class="text-danger">*</span></label>
+                                <textarea id="yeucauungvien" rows="10" class="form-control" placeholder="- Có kinh nghiệm sử dụng một trong các Framework PHP: CakePHP, Laravel...
+- Thao tác tốt với HTML, CSS, JavaScript (Jquery, Ajax), Bootstrap, JSON
+- Có kinh nghiệm làm việc với MVC Framework, MySQL hoặc NoSQL (MongoDB), Github
+- Ưu tiên những ứng viên tốt nghiệp đại học, cao đẳng chuyên ngành IT..." required="">@Model.CandidateRequirement</textarea>
+                            </div>
+
+                            <!-- quyen loi cua ung vien-->
+                            <div class="mb-3 col-md-12 col-12">
+                                <label style="font-weight:bold" class="form-label">Quyền lợi của ứng viên <span class="text-danger">*</span></label>
+                                <textarea id="quyenloiungvien" rows="10" class="form-control" placeholder="- Lương cứng + Thưởng + Phụ cấp: Thu nhập từ 15 - 20 triệu (Deal theo năng lực và kinh nghiệm của ứng viên)
+- Thưởng lương tháng 13, thưởng theo dự án, ...)
+- Đầy đủ các chế độ bảo hiểm theo luật lao động hiện hành
+- Chính sách phúc lợi theo quy định của Công ty đa dạng: Các hoạt động tri ân, chăm lo đời sống tinh thần CBNV..." required="">@Model.CandidateBenefits</textarea>
+
+                            </div>
+
+                            <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
+                                <a style="width: 230px" class="btn btn-outline-danger" href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")" role="button">
+                                    Hủy
+                                </a>
+                            </div>
+                            <div style="padding-top: 20px" class="mb-3 col-12 col-md-6">
+                                <a id="savedata" style="width: 230px" class="btn btn-success" role="button">
+                                    Lưu
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/ValidationAlert/Admin/QuanLyTinTuyenDung/ChinhSuaTinTuyenDungValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyTinTuyenDung/XoaTinTuyenDungValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyTinTuyenDung/DangVaHuyDangBaiVietValidation.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#chucdanh").select2();
+        $("#selectKyNangChuyenMon").select2();
+
+        //tìm kiếm Kỹ năng chuyên môn
+        if ($('#selectKyNangChuyenMon').val().length < 1) {
+            $('.select2-search__field').addClass('form-control');
+            $(".select2-search__field").attr("placeholder", "Nhập tìm kiếm và chọn các kỹ năng chuyên môn cần có");
+            $(".select2-search__field").css('width', '100%');
+        }
+        $('#selectKyNangChuyenMon').on('change', function () {
+            if ($(this).val().length < 1) {
+                $(".select2-search__field").attr("placeholder", "Nhập tìm kiếm và chọn các kỹ năng chuyên môn cần có");
+                $(".select2-search__field").css('width', '100%');
+            }
+        });
+    });
+</script>

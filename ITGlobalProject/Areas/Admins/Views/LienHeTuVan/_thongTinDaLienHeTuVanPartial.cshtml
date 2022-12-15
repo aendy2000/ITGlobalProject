@@ -27,6 +27,9 @@
                             Điện thoại
                         </th>
                         <th scope="col" class="border-0 text-uppercase">
+                            Đã liên hệ
+                        </th>
+                        <th scope="col" class="border-0 text-uppercase">
                         </th>
                     </tr>
                 </thead>
@@ -60,8 +63,10 @@
                                     </div>
                                 </td>
                                 <td class="align-middle border-top-0 text-nowrap">
-                                    <a id="xoabo@(item.ID)" name="@item.ID" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
-                                    <a id="xacnhan@(item.ID)" name="@item.ID" href="#" class="btn btn-success btn-sm">Đã liên hệ</a>
+                                    @Convert.ToDateTime(item.AcceptDate).ToString("HH:mm, dd-MM-yyyy")
+                                </td>
+                                <td class="align-middle border-top-0 text-nowrap">
+                                    <a id="DaLienHexoabo@(item.ID)" name="@item.ID" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
                                 </td>
                             </tr>
                         }
@@ -69,11 +74,12 @@
                     else
                     {
                         <tr>
-                            <td colspan="6" class="align-middle border-top-0 text-center">
+                            <td colspan="7" class="align-middle border-top-0 text-center">
                                 Không có dữ liệu để hiển thị.
                             </td>
                         </tr>
                     }
+
                 </tbody>
             </table>
         </div>

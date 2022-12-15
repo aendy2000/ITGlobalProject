@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<ITGlobalProject.Models.Recruitment>
 @{
     ViewBag.Title = "Tin Tuyển Dụng";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
@@ -34,366 +34,183 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xl-3 col-lg-6 col-md-12 col-12">
-            <!-- Card -->
-            <div class="card mb-4">
-                <!-- Card body -->
-                <div class="card-body">
-                    <span class="fs-6 text-uppercase fw-semi-bold">Tổng Bài Viết</span>
-                    <div class="mt-2 d-flex justify-content-between align-items-center">
-                        <div class="lh-1">
-                            <h2 class="h1 fw-bold mb-1">20</h2>
-                            <span>4 bản nháp, 16 đã đăng</span>
+    <div id="pageContentsssss">
+        <div class="row">
+            <div class="col-xl-3 col-lg-6 col-md-12 col-12">
+                <!-- Card -->
+                <div class="card mb-4">
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <span class="fs-6 text-uppercase fw-semi-bold">Tổng Bài Viết</span>
+                        <div class="mt-2 d-flex justify-content-between align-items-center">
+                            <div class="lh-1">
+                                <h2 class="h1 fw-bold mb-1">@Model.Count()</h2>
+                                <span>@Model.Where(r => r.Status == false).Count() chưa đăng, @Model.Where(r => r.Status == true).Count() đã đăng</span>
+                            </div>
+                            <div>
+                                <span class="bg-light-primary icon-shape icon-xl rounded-3 text-dark-primary">
+                                    <i class="mdi mdi-text-box-multiple mdi-24px"></i>
+                                </span>
+                            </div>
                         </div>
-                        <div>
-                            <span class="bg-light-primary icon-shape icon-xl rounded-3 text-dark-primary">
-                                <i class="mdi mdi-text-box-multiple mdi-24px"></i>
-                            </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-12 col-12">
+                <!-- Card -->
+                <div class="card mb-4">
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <span class="fs-6 text-uppercase fw-semi-bold">Xem nhiều nhất</span>
+                        <div class="mt-2 d-flex justify-content-between align-items-center">
+                            <div class="lh-1">
+                                <h2 class="h1 fw-bold mb-1">@Convert.ToDecimal(Model.OrderByDescending(o => o.Views).First().Views).ToString("0,0").Replace(".", ",")</h2>
+                                <span>Lượt xem - <a href="@Url.Action("thongTinTuyenDung", "TinTuyenDung", new {area = "", id = Model.OrderByDescending(o => o.Views).First().ID})">Tin số @Model.OrderByDescending(o => o.Views).First().ID</a></span>
+                            </div>
+                            <div>
+                                <span class="bg-light-warning icon-shape icon-xl rounded-3 text-dark-warning">
+                                    <i class="mdi mdi-post-outline mdi-24px"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-12 col-12">
+                <!-- Card -->
+                <div class="card mb-4">
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <span class="fs-6 text-uppercase fw-semi-bold">lượng truy cập</span>
+                        <div class="mt-2 d-flex justify-content-between align-items-center">
+                            <div class="lh-1">
+                                <h2 class="h1 fw-bold mb-1">@Convert.ToDecimal(Model.Sum(s => s.Views)).ToString("0,0").Replace(".", ",")</h2>
+                                <span>Lượt xem tin tuyển dụng</span>
+                            </div>
+                            <div>
+                                <span class="bg-light-success icon-shape icon-xl rounded-3 text-dark-success">
+                                    <i class="mdi mdi-account-multiple mdi-24px"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-12 col-12">
+                <!-- Card -->
+                <div class="card mb-4">
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <span class="fs-6 text-uppercase fw-semi-bold">Chức danh được tuyển</span>
+                        <div class="mt-2 d-flex justify-content-between align-items-center">
+                            <div class="lh-1">
+                                <h2 class="h1 fw-bold mb-1">@Convert.ToDecimal(Model.GroupBy(s => s.ID_Position).Count()).ToString("0,0").Replace(".", ",")</h2>
+                                <span>Được đăng tin</span>
+                            </div>
+                            <div>
+                                <span class="bg-light-danger icon-shape icon-xl rounded-3 text-danger">
+                                    <i class="mdi mdi-account-tie mdi-24px"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-lg-6 col-md-12 col-12">
-            <!-- Card -->
-            <div class="card mb-4">
-                <!-- Card Body -->
-                <div class="card-body">
-                    <span class="fs-6 text-uppercase fw-semi-bold">Xem nhiều nhất</span>
-                    <div class="mt-2 d-flex justify-content-between align-items-center">
-                        <div class="lh-1">
-                            <h2 class="h1 fw-bold mb-1">215</h2>
-                            <span>Lượt xem - <a href="#">Tin số 27</a></span>
-                        </div>
-                        <div>
-                            <span class="bg-light-warning icon-shape icon-xl rounded-3 text-dark-warning">
-                                <i class="mdi mdi-post-outline mdi-24px"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-md-12 col-12">
-            <!-- Card -->
-            <div class="card mb-4">
-                <!-- Card Body -->
-                <div class="card-body">
-                    <span class="fs-6 text-uppercase fw-semi-bold">lượng truy cập</span>
-                    <div class="mt-2 d-flex justify-content-between align-items-center">
-                        <div class="lh-1">
-                            <h2 class="h1 fw-bold mb-1">1,204</h2>
-                            <span>Lượt xem tin tuyển dụng</span>
-                        </div>
-                        <div>
-                            <span class="bg-light-success icon-shape icon-xl rounded-3 text-dark-success">
-                                <i class="mdi mdi-account-multiple mdi-24px"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6 col-md-12 col-12">
-            <!-- Card -->
-            <div class="card mb-4">
-                <!-- Card Body -->
-                <div class="card-body">
-                    <span class="fs-6 text-uppercase fw-semi-bold">Vai trò tuyển dụng</span>
-                    <div class="mt-2 d-flex justify-content-between align-items-center">
-                        <div class="lh-1">
-                            <h2 class="h1 fw-bold mb-1">08</h2>
-                            <span>Được đăng tin</span>
-                        </div>
-                        <div>
-                            <span class="bg-light-danger icon-shape icon-xl rounded-3 text-danger">
-                                <i class="mdi mdi-account-tie mdi-24px"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-12">
-            <!-- Card -->
-            <div class="card">
-                <!-- table -->
-                <div class="card-body pt-4">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-12">
+                <!-- Card -->
+                <div class="card">
+                    <!-- table -->
                     <table id="dataTableBasic" class="table" style="width:100%">
-                        <thead>
+                        <thead class="table-light">
                             <tr>
                                 <th scope="col" class="border-0">Tiêu đề</th>
-                                <th scope="col" class="border-0">Ngày đăng</th>
+                                <th scope="col" class="border-0">Ngày tạo/đăng</th>
                                 <th scope="col" class="border-0">lượt xem</th>
-                                <th scope="col" class="border-0">Vai trò</th>
-                                <th scope="col" class="border-0">kỹ năng</th>
+                                <th scope="col" class="border-0">Chức danh</th>
+                                <th scope="col" class="border-0">hạn nộp cv</th>
                                 <th scope="col" class="border-0">trạng thái</th>
                                 <th scope="col" class="border-0"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="align-middle ">
-                                    <h5 data-bs-toggle="tooltip" data-placement="top" title="Web Developer (.NET/ASP.NET/C#)"><a id="tenquadai1" href="@Url.Action("suaTinTuyenDung", "QuanLyTinTuyenDung", new {id = 1})" class="text-inherit">Web Developer (.NET/ASP.NET/C#)</a></h5>
-                                </td>
-                                <td class="align-middle ">
-                                    13:20 - 05 Thg 11, 2022
-                                </td>
-                                <td class="align-middle ">
-                                    129 lượt xem
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-                                                W
-                                            </span>
+                            @if (Model.Count() > 0)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="align-middle ">
+                                            <h5 data-bs-toggle="tooltip" data-placement="top" title="@item.Title"><a id="tenquadai1" href="@Url.Action("thongTinTuyenDung", "TinTuyenDung", new { area = "", id = item.ID })" target="_blank" class="text-inherit">@item.Title</a></h5>
+                                        </td>
+                                        <td class="align-middle ">
+                                            @item.DateCreateOrPosted.ToString("HH:mm - dd") Thg @item.DateCreateOrPosted.ToString("MM, yyyy")
+                                        </td>
+                                        <td class="align-middle ">
+                                            @item.Views lượt xem
+                                        </td>
+                                        <td class="align-middle ">
+                                            <div class="avatar-group">
+                                                <span class="avatar avatar-md avatar-primary imgtooltip" data-template="text@(item.ID)">
+                                                    <span class="avatar-initials rounded-circle ">
+                                                        @item.Position.Name.Substring(0, 1)
+                                                    </span>
 
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md avatar-danger imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-                                                WD
-                                            </span>
-
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-danger imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-                                                T
-                                            </span>
-
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-danger imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-                                                BA
-                                            </span>
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">1+</span>
-                                        </span>
-                                    </div>
-                                </td>
-
-                                <td class="align-middle ">
-                                    <span style="width: 100px" class="badge bg-success text-white">Đã đăng</span>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Hành động</span>
-                                            <a class="dropdown-item" href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = 1})">
-                                                <i class="fe fe-info dropdown-item-icon"></i>Xem chi tiết
-                                            </a>
-
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa thông tin
-
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Xóa dự án
-                                            </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-printer dropdown-item-icon"></i>Xuất file Excel
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="align-middle ">
-                                    <h5 class="mb-0 imgtooltip" data-template="noibatlen2"><a id="tenquadai1" href="@Url.Action("suaTinTuyenDung", "QuanLyTinTuyenDung", new {id = 1})" class="text-inherit">Back-end Engineer (NodeJS)</a></h5>
-                                    <span id="noibatlen2" class="d-none">
-                                        <span class="mb-0 h6">Back-end Engineer (NodeJS)</span>
-                                    </span>
-                                </td>
-                                <td class="align-middle ">
-                                    12:20 - 13 Thg 08, 2022
-                                </td>
-                                <td class="align-middle ">
-                                    57 lượt xem
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-                                                H
-                                            </span>
-
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md avatar-danger imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-                                                WD
-                                            </span>
-
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-danger imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-                                                T
-                                            </span>
-
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                </td>
-
-                                <td class="align-middle ">
-                                    <span style="width: 100px" class="badge bg-success text-white">Đã đăng</span>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Hành động</span>
-                                            <a class="dropdown-item" href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = 1})">
-                                                <i class="fe fe-info dropdown-item-icon"></i>Xem chi tiết
-                                            </a>
-
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa thông tin
-
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Xóa dự án
-                                            </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-printer dropdown-item-icon"></i>Xuất file Excel
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="align-middle ">
-                                    <h5 class="mb-0"><a id="tenquadai" href="@Url.Action("suaTinTuyenDung", "QuanLyTinTuyenDung", new {id = 1})" class="text-inherit">Web Application Design</a></h5>
-                                </td>
-                                <td class="align-middle ">
-                                    07:42 - 20 Thg 09, 2022
-                                </td>
-                                <td class="align-middle ">
-                                    93 lượt xem
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-                                                W
-                                            </span>
-
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                </td>
-
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md avatar-danger imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-                                                WD
-                                            </span>
-
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-danger imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-                                                T
-                                            </span>
-
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-danger imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-                                                BA
-                                            </span>
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">3+</span>
-                                        </span>
-                                    </div>
-                                </td>
-
-                                <td class="align-middle ">
-                                    <span style="width: 100px" class="badge bg-warning text-white">Bản nháp</span>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Hành động</span>
-                                            <a class="dropdown-item" href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = 1})">
-                                                <i class="fe fe-info dropdown-item-icon"></i>Xem chi tiết
-                                            </a>
-
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa thông tin
-
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Xóa dự án
-                                            </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-printer dropdown-item-icon"></i>Xuất file Excel
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                                    <span id="text@(item.ID)" class="d-none">
+                                                        <span class="mb-0 h6">@item.Position.Name</span>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle ">
+                                            @item.CVSubmissionDeadline.ToString("dd") Thg @item.CVSubmissionDeadline.ToString("MM, yyyy")
+                                        </td>
+                                        <td class="align-middle ">
+                                            @if (DateTime.Now > item.CVSubmissionDeadline)
+                                            {
+                                                <span style="width: 100px" class="badge bg-danger text-white">Đã Hết Hạn</span>
+                                            }
+                                            else
+                                            {
+                                                if (item.Status == true)
+                                                {
+                                                    <span style="width: 100px" class="badge bg-success text-white">Đã Đăng</span>
+                                                }
+                                                else
+                                                {
+                                                    <span style="width: 100px" class="badge bg-warning text-white">Chưa được đăng</span>
+                                                }
+                                            }
+                                        </td>
+                                        <td class="text-muted align-middle text-end">
+                                            <div class="dropdown dropstart">
+                                                <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
+                                                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fe fe-more-vertical"></i>
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="Dropdown1">
+                                                    <span class="dropdown-header">Hành động</span>
+                                                    <a role="button" class="dropdown-item" href="@Url.Action("thongTinTuyenDung", "TinTuyenDung", new { area = "", id = item.ID })" target="_blank">
+                                                        <i class="fe fe-eye dropdown-item-icon"></i>Xem tin tuyển dụng
+                                                    </a>
+                                                    <a role="button" class="dropdown-item" href="@Url.Action("chinhSuaTinTuyenDung", "QuanLyTinTuyenDung", new { id = item.ID })">
+                                                        <i class="fe fe-edit dropdown-item-icon"></i>Xem và Chỉnh sửa bài viết
+                                                    </a>
+                                                    <a role="button" id="xoatintuyendung@(item.ID)" name="@item.ID" class="dropdown-item">
+                                                        <i class="fe fe-trash dropdown-item-icon"></i>Xóa bài viết
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="align-middle">Không có dữ liệu để hiển thị.</td>
+                                </tr>
+                            }
 
                         </tbody>
                     </table>
@@ -402,6 +219,7 @@
         </div>
     </div>
 </div>
+<script src="~/ValidationAlert/Admin/QuanLyTinTuyenDung/XoaTinTuyenDungValidation.js"></script>
 <script>
     $(document).ready(function () {
         $('[id^=tenquadai]').each(function () {

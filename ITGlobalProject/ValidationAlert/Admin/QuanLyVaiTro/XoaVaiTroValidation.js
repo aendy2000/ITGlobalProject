@@ -6,7 +6,7 @@
         var SweetAlert2Demo = function () {
             var initDemos = function () {
                 swal({
-                    title: 'Xóa Vai Trò?',
+                    title: 'Xóa Chức danh?',
                     text: "Chắc chắn muốn xóa chứ?",
                     type: 'warning',
                     buttons: {
@@ -41,7 +41,7 @@
                                 $('#danhSachPartial').replaceWith(ketqua);
                                 var SweetAlert2Demo = function () {
                                     var initDemos = function () {
-                                        swal("Thành Công!", "Tuyệt quá! Vai trò đã được xóa thành công.", {
+                                        swal("Thành Công!", "Tuyệt quá! Chức danh đã được xóa thành công.", {
                                             icon: "success",
                                             buttons: {
                                                 confirm: {
@@ -62,8 +62,8 @@
                                 });
 
                                 $.when(
-                                    $.getScript($('#requestScript').val() + "Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"),
-                                    $.getScript($('#requestScript').val() + "Content/Admin/assets/js/theme.min.js"),
+                                    $.getScript($('#requestPath').val() + "Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"),
+                                    $.getScript($('#requestPath').val() + "Content/Admin/assets/js/theme.min.js"),
 
                                     $.Deferred(function (deferred) {
                                         $(deferred.resolve);

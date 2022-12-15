@@ -308,8 +308,6 @@
             $('#hoantatttcanhan').removeClass('fe-check-circle');
             $('#hoantatttcanhan').removeClass('text-success');
         }
-
-
         if (quoctich.length < 1) {
             checkthongtincanhan = false;
             $("#quoctichvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();

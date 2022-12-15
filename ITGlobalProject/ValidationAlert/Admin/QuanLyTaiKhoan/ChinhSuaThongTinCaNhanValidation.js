@@ -196,8 +196,7 @@
             $('#diachinhavalidation').text("").hide();
         }
 
-
-
+      
         if (checkshoten === true && checkscmnd === true && checkssodienthoai === true && checksngaysinh === true &&
             checksgioitinh === true && checksdiachiemail === true && checksdiachinha === true) {
             e.preventDefault();
