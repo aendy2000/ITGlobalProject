@@ -238,17 +238,16 @@
 
         //Thông Tin Cá Nhân
         let hoten = $('#hoten').val().trim();
-        let cmnd = $('#cmnd').val().replace("_", "");
+        let cmnd = $('#cmnd').val().replace(/_/g, '');
         let quoctich = $('#quoctich').val().trim();
         let honnhan = $('#honnhan :selected').val();
         let ngaysinh = $('#ngaysinh').val();
         let gioitinh = $('#gioitinh :selected').val();
         let diachinha = $('#diachinha').val().trim();
-        let sodienthoaididong = $('#sodienthoaididong').val().replace("_", "");
-        let sodienthoaikhac = $('#sodienthoaikhac').val().replace("_", "");
+        let sodienthoaididong = $('#sodienthoaididong').val().replace(/_/g, '');
+        let sodienthoaikhac = $('#sodienthoaikhac').val().replace(/_/g, '');
         let diachiemailcongty = $('#diachiemailcongty').val();
         let diachiemailkhac = $('#diachiemailkhac').val();
-
 
         var checkthongtincanhan = true;
 
@@ -1038,12 +1037,22 @@
             $('#hoantattthopdong').removeClass('fe-check-circle');
             $('#hoantattthopdong').removeClass('text-success');
         }
+        var checkDates = parseInt(ngaygiahanhopdong.replace(/-/g, '').trim()) - parseInt(ngaykyhopdong.replace(/-/g, '').trim());
 
         //ngày kết thúc hợp đồng
         if (loaihopdong == "Hợp đồng có thời hạn") {
             if (ngaygiahanhopdong.length < 1) {
                 checkhopdongtaikhoan = false;
                 $('#ngaygiahanhopdongvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                $('#collapse3').collapse('show');
+                $('#hoantattthopdong').addClass('fe-x-circle');
+                $('#hoantattthopdong').addClass('text-danger');
+                $('#hoantattthopdong').removeClass('fe-check-circle');
+                $('#hoantattthopdong').removeClass('text-success');
+            }
+            else if (checkDates < 0) {
+                checkhopdongtaikhoan = false;
+                $('#ngaygiahanhopdongvalidation').text("Ngày gia hạn/kết thúc không thể nhỏ hơn ngày bắt đầu.").show();
                 $('#collapse3').collapse('show');
                 $('#hoantattthopdong').addClass('fe-x-circle');
                 $('#hoantattthopdong').addClass('text-danger');

@@ -38,15 +38,14 @@
         let avatar = $('#avatar').val();
         let id = $('#idus').val();
         let hoten = $('#hoten').val().trim();
-        let cmnd = $('#cmnd').val().replace("_", "");
+        let cmnd = $('#cmnd').val().replace(/_/g, '').trim();
         let quoctich = $('#quoctich').val().trim();
         let honnhan = $('#honnhan :selected').val();
         let ngaysinh = $('#ngaysinh').val();
         let gioitinh = $('#gioitinh :selected').val();
         let diachinha = $('#diachinha').val().trim();
-
-        let sodienthoaididong = $('#sodienthoaididong').val().replace("_", "");
-        let sodienthoaikhac = $('#sodienthoaikhac').val().replace("_", "");
+        let sodienthoaididong = $('#sodienthoaididong').val().replace(/_/g, '').trim();
+        let sodienthoaikhac = $('#sodienthoaikhac').val().replace(/_/g, '').trim();
         let diachiemailcongty = $('#diachiemailcongty').val();
         let diachiemailkhac = $('#diachiemailkhac').val();
 

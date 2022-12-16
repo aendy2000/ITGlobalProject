@@ -196,6 +196,7 @@
         $('#chinhsuaselectFiles').click();
     });
 
+    //Lưu chỉnh sửa hợp đồng
     $('#LuuChinhSuaHopDong').on('click', function () {
 
         $('#ChinhSualoaihopdongvalidation').text("").hide();
@@ -226,11 +227,16 @@
             $('#chinhsuangaykyhopdongvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
 
+        var checkDates = parseInt(ketthuc.replace(/-/g, '').trim()) - parseInt(batdau.replace(/-/g, '').trim());
         //ngày kết thúc hợp đồng
         if (loaihopdong == "Hợp đồng có thời hạn") {
             if (ketthuc.length < 1) {
                 checkhopdongtaikhoan = false;
                 $('#chinhsuangaygiahanhopdongvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            }
+            else if (checkDates < 0) {
+                checkhopdongtaikhoan = false;
+                $('#chinhsuangaygiahanhopdongvalidation').text("Ngày gia hạn/kết thúc không thể nhỏ hơn ngày bắt đầu.").show();
             }
         }
         //Done
@@ -344,11 +350,16 @@
             $('#ngaykyhopdongvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
 
+        var checkDates = parseInt(ngaygiahanhopdong.replace(/-/g, '').trim()) - parseInt(ngaykyhopdong.replace(/-/g, '').trim());
         //ngày kết thúc hợp đồng
         if (loaihopdong == "Hợp đồng có thời hạn") {
             if (ngaygiahanhopdong.length < 1) {
                 checkhopdongtaikhoan = false;
                 $('#ngaygiahanhopdongvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            }
+            else if (checkDates < 0) {
+                checkhopdongtaikhoan = false;
+                $('#ngaygiahanhopdongvalidation').text("Ngày gia hạn/kết thúc không thể nhỏ hơn ngày bắt đầu.").show();
             }
         }
 
