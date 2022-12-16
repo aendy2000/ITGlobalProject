@@ -1,7 +1,8 @@
 ﻿@using ITGlobalProject.Models;
 @model ITGlobalProject.Models.Employees
 @{
-    var lstkynang = Session["lst-kynang"] as List<Skills>;
+    string coll = "show";
+    var lstkynang = Session["lst-kynang"] as List<SkillsCategory>;
     int j = 0;
     string imagesUrl = "";
     if (string.IsNullOrEmpty(Model.Avatar))
@@ -190,23 +191,51 @@
                 <div class="card-body">
                     <div>
                         <form class="row">
-                            @foreach (var item in lstkynang)
-                            {
-                                j++;
-                                <div class="form-check mb-2 col-12 col-md-4">
-                                    @if (Model.PersonalSkills.FirstOrDefault(k => k.ID_Skills == item.ID) != null)
-                                    {
-                                        <input checked class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(item.ID)">
-                                    }
-                                    else
-                                    {
-                                        <input class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(item.ID)">
-                                    }
-                                    <label class="form-check-label" for="@item.ID">
-                                        @item.Name
-                                    </label>
-                                </div>
-                            }
+
+                            <div class="accordion" id="accordionExample">
+                                @foreach (var item in lstkynang)
+                                {
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="Headingskillitem@(item.ID)">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseskillitem@(item.ID)" aria-expanded="false" aria-controls="collapseskillitem@(item.ID)">
+                                                @item.Name
+                                            </button>
+                                        </h2>
+                                        <div id="collapseskillitem@(item.ID)" class="accordion-collapse collapse @coll" aria-labelledby="headingskillitem@(item.ID)" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body row">
+                                                @if (item.Skills.Count > 0)
+                                                {
+                                                    foreach (var items in item.Skills)
+                                                    {
+                                                        j++;
+                                                        <div class="form-check mb-2 col-12 col-md-4">
+                                                            @if (Model.PersonalSkills.FirstOrDefault(k => k.ID_Skills == items.ID) != null)
+                                                            {
+                                                                <input checked class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(items.ID)">
+                                                            }
+                                                            else
+                                                            {
+                                                                <input class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(items.ID)">
+                                                            }
+                                                            <label class="form-check-label" for="@items.ID">
+                                                                @items.Name
+                                                            </label>
+                                                        </div>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="mb-2 col-12 col-md-12 text-center">
+                                                        Không có dữ liệu để hiển thị.
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    coll = "";
+                                }
+                            </div>
+
                             <input hidden value="@j" id="slkn" />
                             <div style="text-align: right; padding-top: 40px" class="mb-3 col-12 col-md-6">
                                 <button type="reset" style="width: 230px" class="btn btn-outline-danger">

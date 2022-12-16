@@ -38,7 +38,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             Session["lst-department"] = department;
             var role = model.Position.Where(p => !p.Name.ToLower().Equals("admin")).ToList();
             Session["lst-role"] = role;
-            var kynang = model.Skills.OrderBy(k => k.Name).ToList();
+            var kynang = model.SkillsCategory.OrderBy(k => k.Name).ToList();
             Session["lst-kynang"] = kynang;
             var trocap = model.SubsidiesCategory.OrderBy(k => k.Name).ToList();
             Session["lst-trocap"] = trocap;
@@ -488,7 +488,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (user != null)
             {
-                var kynang = model.Skills.OrderBy(k => k.Name).ToList();
+                var kynang = model.SkillsCategory.OrderBy(k => k.Name).ToList();
                 Session["lst-kynang"] = kynang;
                 return PartialView("_kyNangChuyenMonPartial", user);
             }
@@ -530,7 +530,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 model.SaveChanges();
             }
             model = new CP25Team06Entities();
-            var lstkynang = model.Skills.OrderBy(k => k.Name).ToList();
+            var lstkynang = model.SkillsCategory.OrderBy(k => k.Name).ToList();
             Session["lst-kynang"] = lstkynang;
             return PartialView("_kyNangChuyenMonPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
         }
