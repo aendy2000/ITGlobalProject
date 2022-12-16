@@ -494,6 +494,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
             return Content("DANHSACH");
         }
+
         [HttpPost]
         public ActionResult chinhSuaKyNangChuyenMon(int? id, string kynang)
         {

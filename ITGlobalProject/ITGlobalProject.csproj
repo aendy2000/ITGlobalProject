@@ -273,7 +273,9 @@
     <Compile Include="Areas\Admins\AdminsAreaRegistration.cs" />
     <Compile Include="Areas\Admins\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admins\Controllers\LienHeTuVanController.cs" />
+    <Compile Include="Areas\Admins\Controllers\QuanLyDanhMucBoPhanController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyDuAnController.cs" />
+    <Compile Include="Areas\Admins\Controllers\QuanLyKyNangChuyenMonController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyLuongController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyNhanSuController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyTaiKhoanController.cs" />
@@ -786,6 +788,10 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <Content Include="Areas\Admins\Views\QuanLyTinTuyenDung\_danhSachTinTuyenDungPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyDanhMucBoPhan\danhSachBoPhan.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyDanhMucBoPhan\_danhSachBoPhanPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyKyNangChuyenMon\danhSachDanhMucKyNang.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyKyNangChuyenMon\_danhSachDanhMucKyNangPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -802,6 +808,9 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="ValidationAlert\Admin\LienHeTuVan\DanhSachLienHeValidation.js" />
     <Content Include="ValidationAlert\Admin\LienHeTuVan\XoaOrDuyetValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyDanhMucKyNang\SuaDanhMucKyNangValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyDanhMucKyNang\ThemDanhMucKyNangValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyDanhMucKyNang\XoaDanhMucKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChinhSuaDuAnValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAnValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_CongViecValidation.js" />
@@ -830,6 +839,9 @@
     <Content Include="ValidationAlert\Admin\QuanLyTinTuyenDung\DangVaHuyDangBaiVietValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyTinTuyenDung\ThemTinTuyenDungValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyTinTuyenDung\XoaTinTuyenDungValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyBoPhan\SuaBoPhanValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyBoPhan\ThemBoPhanValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyBoPhan\XoaBoPhanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyVaiTro\SuaVaiTroValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyVaiTro\XoaVaiTroValidation.js" />
     <Content Include="ValidationAlert\Employee\QuanLyTaiKhoan\ChinhSuaThongTinCaNhanValidation.js" />

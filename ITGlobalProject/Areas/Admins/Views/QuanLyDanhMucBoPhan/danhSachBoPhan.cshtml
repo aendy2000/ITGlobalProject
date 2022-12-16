@@ -1,16 +1,10 @@
-﻿@model IEnumerable<ITGlobalProject.Models.Position>
-@using ITGlobalProject.Models
+﻿@model IEnumerable<ITGlobalProject.Models.Department>
 @{
-    var department = Session["lst-department"] as List<Department>;
-    ViewBag.Title = "danhSachVaiTro";
+    ViewBag.Title = "Danh Sách Bộ Phận";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+
     int i = 0;
 }
-<div id="actionChinhSua" hidden data-request-url="@Url.Action("chinhSuaVaiTro", "QuanLyVaiTro")"></div>
-<div id="actionThem" hidden data-request-url="@Url.Action("themVaiTro", "QuanLyVaiTro")"></div>
-<div id="actionXoa" hidden data-request-url="@Url.Action("xoaVaiTro", "QuanLyVaiTro")"></div>
-
-<div id="actionDanhSach" hidden data-request-url="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")"></div>
 
 <div class="container-fluid p-4">
     <div class="row ">
@@ -18,7 +12,7 @@
             <!-- Page header -->
             <div class="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
                 <div class="mb-2 mb-lg-0">
-                    <h1 class="mb-0 h2 fw-bold">Quản Lý Chức Danh </h1>
+                    <h1 class="mb-0 h2 fw-bold">Quản Lý Danh Mục Bộ Phận </h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -26,23 +20,21 @@
                                 <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("danhsachvaitro", "quanlyvaitro")">Quản Lý Chức Danh</a>
+                                <a href="@Url.Action("danhsachbophan", "quanlybophan")">Quản Lý Danh Mục Bộ Phận</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                Danh Sách Chức Danh
+                                Danh Sách Bộ Phận
                             </li>
                         </ol>
                     </nav>
                 </div>
                 <!-- button -->
                 <div>
-                    <a href="#" class="btn btn-primary me-2" style="width:250px" data-bs-toggle="modal" data-bs-target="#themVaiTroModal">
-                        <i class="fe fe-user-check"> </i> Thêm Chức Danh
+                    <a href="#" class="btn btn-primary me-2" style="width:250px" data-bs-toggle="modal" data-bs-target="#themBoPhanModal">
+                        <i class="fe fe-briefcase"> </i> Thêm Bộ Phận
                     </a>
-
                 </div>
             </div>
-
         </div>
     </div>
     <!-- row -->
@@ -56,10 +48,9 @@
                     <thead class="table-light">
                         <tr>
                             <th scope="col" class=" border-top-0">#</th>
-                            <th scope="col" class=" border-top-0">Tên chức danh</th>
+                            <th scope="col" class=" border-top-0">Tên bộ phận</th>
                             <th scope="col" class=" border-top-0">Mô tả </th>
-                            <th scope="col" class=" border-top-0">Bộ phận</th>
-                            <th scope="col" class=" border-top-0">Được áp dụng </th>
+                            <th scope="col" class=" border-top-0">Số chức danh </th>
                             <th scope="col" class=" border-top-0"></th>
                         </tr>
                     </thead>
@@ -72,8 +63,7 @@
                                 <input hidden value="@item.ID" id="ids@(item.ID)" />
                                 <input hidden value="@item.Name" id="names@(item.ID)" />
                                 <input hidden value="@item.Description" id="des@(item.ID)" />
-                                <input hidden value="@item.Department.ID" id="depart@(item.ID)" />
-                                var employee = item.Employees.ToList();
+                                var positions = item.Position.ToList();
                                 <tr>
                                     <td class="align-middle">
                                         @i
@@ -87,39 +77,25 @@
                                     <td style="max-width: 350px">
                                         <p data-bs-toggle="tooltip" data-placement="top" title="@item.Description" id="tendaiqua">@item.Description</p>
                                     </td>
-                                    <td class="align-middle h4">
-                                        @item.Department.Name
-                                    </td>
                                     <td class="align-middle ">
                                         <div class="avatar-group">
-                                            @if (employee.Count < 1)
+                                            @if (positions.Count < 1)
                                             {
-                                                <span>Chưa áp dụng</span>
+                                                <span>Chưa có chức danh nào</span>
                                             }
-                                            else if (employee.Count < 4)
+                                            else if (positions.Count < 4)
                                             {
-                                                foreach (var emp in item.Employees.ToList())
+                                                foreach (var posi in item.Position.ToList())
                                                 {
-                                                    if (!string.IsNullOrEmpty(emp.Avatar))
+                                                    if (posi.ID != 1)
                                                     {
-                                                        <span class="avatar avatar-md">
-
-                                                            <img alt="avatar" src="@emp.Avatar"
-                                                                 class="rounded-circle imgtooltip" data-template="@emp.ID">
-                                                            <span id="@emp.ID" class="d-none">
-                                                                <span class="mb-0 h6">@emp.Name</span>
-                                                            </span>
-                                                        </span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@emp.ID">
+                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@posi.ID">
                                                             <span class="avatar-initials rounded-circle ">
-                                                                @emp.Name.Substring(0, 1)
+                                                                @posi.Name.Substring(0, 1)
                                                             </span>
 
-                                                            <span id="@emp.ID" class="d-none">
-                                                                <span class="mb-0 h6">@emp.Name</span>
+                                                            <span id="@posi.ID" class="d-none">
+                                                                <span class="mb-0 h6">@posi.Name</span>
 
                                                             </span>
                                                         </span>
@@ -128,35 +104,29 @@
                                             }
                                             else
                                             {
-                                                for (int d = 0; d < 3; d++)
+                                                int max = 3;
+                                                for (int d = 0; d < max; d++)
                                                 {
-                                                    if (!string.IsNullOrEmpty(employee[d].Avatar))
+                                                    if (positions[d].ID != 1)
                                                     {
-                                                        <span class="avatar avatar-md">
+                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@positions[d].ID">
+                                                            <span class="avatar-initials rounded-circle ">
+                                                                @positions[d].Name.Substring(0, 1)
+                                                            </span>
 
-                                                            <img alt="avatar" src="@employee[d].Avatar"
-                                                                 class="rounded-circle imgtooltip" data-template="@employee[d].ID">
-                                                            <span id="@employee[d].ID" class="d-none">
-                                                                <span class="mb-0 h6">@employee[d].Name</span>
+                                                            <span id="@positions[d].ID" class="d-none">
+                                                                <span class="mb-0 h6">@positions[d].Name</span>
+
                                                             </span>
                                                         </span>
                                                     }
                                                     else
                                                     {
-                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@employee[d].ID">
-                                                            <span class="avatar-initials rounded-circle ">
-                                                                @employee[d].Name.Substring(0, 1)
-                                                            </span>
-
-                                                            <span id="@employee[d].ID" class="d-none">
-                                                                <span class="mb-0 h6">@employee[d].Name</span>
-
-                                                            </span>
-                                                        </span>
+                                                        max++;
                                                     }
                                                 }
                                                 <span class="avatar avatar-md ">
-                                                    <span class="avatar-initials rounded-circle bg-light text-dark">@(employee.Count - 3)+</span>
+                                                    <span class="avatar-initials rounded-circle bg-light text-dark">@(positions.Count - (max - 3) - 3)+</span>
                                                 </span>
                                             }
 
@@ -171,13 +141,13 @@
                                             <div class="dropdown-menu" aria-labelledby="Dropdown1">
                                                 <span class="dropdown-header">Hành động</span>
                                                 <a role="button" name="@item.ID" id="chinhsua@(item.ID)" class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
-                                                    <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa chức danh
+                                                    <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa bộ phận
                                                 </a>
-                                                @if (employee.Count < 1)
+                                                @if (positions.Count < 1)
                                                 {
                                                     <div class="dropdown-divider"></div>
                                                     <a role="button" name="@item.ID" id="xoa@(item.ID)" class="dropdown-item" href="#">
-                                                        <i class="fe fe-trash dropdown-item-icon"></i>Xóa chức danh
+                                                        <i class="fe fe-trash dropdown-item-icon"></i>Xóa bộ phận
                                                     </a>
                                                 }
                                             </div>
@@ -198,12 +168,12 @@
                 </table>
             </div>
         </div>
-        <!-- Chỉnh sửa vai trò -->
+        <!-- Chỉnh sửa bộ phận -->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 800px;">
 
             <div class="offcanvas-body" data-simplebar>
                 <div style="margin-bottom: -20px" class="offcanvas-header px-2 pt-0">
-                    <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Chức Danh</h4>
+                    <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Bộ Phận</h4>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <hr class="my-4" />
@@ -212,27 +182,17 @@
                     <!-- form -->
                     <form class="row">
                         <!-- form group -->
-                        <div class="mb-2 col-md-12">
-                            <label style="font-weight:bold;" class="form-label">Bộ phận <span class="text-danger">*</span></label>
-                            <select id="bophansua" name="bophansua" class="form-select text-dark" data-width="100%">
-                                @foreach (var item in department)
-                                {
-                                    <option value="@item.ID">@item.Name</option>
-                                }
-                            </select>
-                            <p style="font-size: 13px; color:red;"></p>
-                        </div>
                         <div class="mb-3 col-md-12">
-                            <label style="font-weight: bold;" class="form-label">Tên chức danh <span class="text-danger">*</span></label>
-                            <input id="name" name="name" type="text" class="form-control" placeholder="Nhập tên chức danh">
+                            <label style="font-weight: bold;" class="form-label">Tên bộ phận <span class="text-danger">*</span></label>
+                            <input id="name" name="name" type="text" class="form-control" placeholder="Nhập tên bộ phận">
                             <input id="id" name="id" hidden>
-                            <p style="color: red; font-size: 13px" id="EditRoleValidateResul"></p>
+                            <p style="color: red; font-size: 13px" id="EditBoPhanValidateResul"></p>
                         </div>
                         <!-- form group -->
                         <div class="mb-3 col-md-12">
                             <label style="font-weight: bold;" class="form-label">Mô tả </label>
-                            <textarea class="form-control" id="descript" name="descript" placeholder="Mô tả chức danh..." rows="5"></textarea>
-                            <p style="color: red; font-size: 13px" id="MoTaEditRoleValidateResul"></p>
+                            <textarea class="form-control" id="descript" name="descript" placeholder="Mô tả bộ phận..." rows="5"></textarea>
+                            <p style="color: red; font-size: 13px" id="MoTaEditBoPhanValidateResul"></p>
                         </div>
                         <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
                             <button id="dongChinhSua" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="offcanvas" aria-label="Close">
@@ -251,13 +211,13 @@
     </div>
 
 </div>
-<!-- Thêm vai trò -->
-<div class="modal fade modal-lg" id="themVaiTroModal" tabindex="-1" role="dialog"
+<!-- Thêm bộ phận -->
+<div class="modal fade modal-lg" id="themBoPhanModal" tabindex="-1" role="dialog"
      aria-labelledby="themVaiTroModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="themVaiTroModal"><i class="fe fe-user-check"> </i> Thêm Chức Danh</h4>
+                <h4 class="modal-title" id="themVaiTroModal"><i class="fe fe-briefcase"> </i> Thêm Bộ Phận</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close">
                 </button>
@@ -265,37 +225,26 @@
             <form class="modal-body">
                 <!-- form -->
                 <div class="row">
-                    <!-- form group -->
-                    <div class="mb-2 col-md-12">
-                        <label style="font-weight:bold;" class="form-label">Bộ phận <span class="text-danger">*</span></label>
-                        <select id="bophan" name="bophan" class="form-select text-dark" data-width="100%">
-                            <option value="">Chọn bộ phận</option>
-                            @foreach (var item in department)
-                            {
-                                <option value="@item.ID">@item.Name</option>
-                            }
-                        </select>
-                        <p style="font-size: 13px; color:red;" id="bophanvalidation"></p>
-                    </div>
+
                     <div class="mb-3 col-md-12">
-                        <label style="font-weight: bold;" class="form-label">Tên chức danh <span class="text-danger">*</span></label>
-                        <input id="tenvaitro" type="text" class="form-control" placeholder="Nhập tên chức danh">
-                        <p style="color: red; font-size: 13px" id="RoleValidateResul"></p>
+                        <label style="font-weight: bold;" class="form-label">Tên bộ phận <span class="text-danger">*</span></label>
+                        <input id="tenbophan" type="text" class="form-control" placeholder="Nhập tên bộ phận">
+                        <p style="color: red; font-size: 13px" id="BoPhanValidateResul"></p>
                     </div>
 
                     <!-- form group -->
                     <div class="mb-3 col-md-12">
                         <label style="font-weight: bold;" class="form-label">Mô tả </label>
-                        <textarea id="motavaitro" class="form-control" placeholder="Nhập mô tả vai trò" rows="5"></textarea>
-                        <p style="color: red; font-size: 13px" id="MoTaRoleValidateResul"></p>
+                        <textarea id="motabophan" class="form-control" placeholder="Nhập mô tả bộ phận" rows="5"></textarea>
+                        <p style="color: red; font-size: 13px" id="MoTaBoPhanValidateResul"></p>
                     </div>
                     <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
-                        <button id="dongthemvaitro" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="modal" aria-label="Close">
+                        <button id="dongthembophan" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="modal" aria-label="Close">
                             Hủy
                         </button>
                     </div>
                     <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
-                        <a role="button" id="themvaitro" style="width: 230px" class="btn btn-success">
+                        <a role="button" id="thembophan" style="width: 230px" class="btn btn-success">
                             Lưu
                         </a>
                     </div>
@@ -304,7 +253,9 @@
         </div>
     </div>
 </div>
-
+<script src="~/ValidationAlert/Admin/QuanLyBoPhan/ThemBoPhanValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyBoPhan/XoaBoPhanValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyBoPhan/SuaBoPhanValidation.js"></script>
 <script>
     $(document).ready(function () {
         $('[id^=tendaiqua]').each(function () {
@@ -316,6 +267,4 @@
     });
 </script>
 
-<script src="~/ValidationAlert/Admin/QuanLyVaiTro/SuaVaiTroValidation.js"></script>
-<script src="~/ValidationAlert/Admin/QuanLyVaiTro/ThemVaiTroValidation.js"></script>
-<script src="~/ValidationAlert/Admin/QuanLyVaiTro/XoaVaiTroValidation.js"></script>
+
