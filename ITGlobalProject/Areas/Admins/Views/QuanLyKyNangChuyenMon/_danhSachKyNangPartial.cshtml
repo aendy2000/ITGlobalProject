@@ -1,0 +1,204 @@
+﻿@model IEnumerable<ITGlobalProject.Models.Skills>
+@using ITGlobalProject.Models
+@{
+    var lstDMKyNang = Session["danhSachKyNang-lstSkillCategory"] as List<SkillsCategory>;
+    int i = 0;
+}
+
+<div id="danhSachPartial" class="row">
+    <!-- col -->
+    <div class="col-md-12 col-12 mb-5">
+        <!-- card -->
+        <div class="card">
+            <!-- table -->
+            <table id="dataTableBasic" class="table" style="width:100%">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class=" border-top-0">#</th>
+                        <th scope="col" class=" border-top-0">Tên kỹ năng</th>
+                        <th scope="col" class=" border-top-0">Danh mục</th>
+                        <th scope="col" class=" border-top-0">Nhân viên</th>
+                        <th scope="col" class=" border-top-0"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count() > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            i++;
+                            <input hidden value="@item.ID" id="ids@(item.ID)" />
+                            <input hidden value="@item.Name" id="names@(item.ID)" />
+                            <input hidden value="@item.ID_SkillsCategory" id="categorys@(item.ID)" />
+                            var employee = item.PersonalSkills.ToList();
+                            <tr>
+                                <td class="align-middle">
+                                    @i
+                                <td class="align-middle ">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <h4 class="mb-0"><a href="#" class="text-inherit">@item.Name</a></h4>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle h4">
+                                    @item.SkillsCategory.Name
+                                </td>
+                                <td class="align-middle ">
+                                    <div class="avatar-group">
+                                        @if (employee.Count < 1)
+                                        {
+                                            <span>Chưa áp dụng</span>
+                                        }
+                                        else if (employee.Count < 4)
+                                        {
+                                            foreach (var emp in item.PersonalSkills.ToList())
+                                            {
+                                                if (!string.IsNullOrEmpty(emp.Employees.Avatar))
+                                                {
+                                                    <span class="avatar avatar-md">
+
+                                                        <img alt="avatar" src="@emp.Employees.Avatar"
+                                                             class="rounded-circle imgtooltip" data-template="@emp.Employees.ID">
+                                                        <span id="@emp.Employees.ID" class="d-none">
+                                                            <span class="mb-0 h6">@emp.Employees.Name</span>
+                                                        </span>
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@emp.Employees.ID">
+                                                        <span class="avatar-initials rounded-circle ">
+                                                            @emp.Employees.Name.Substring(0, 1)
+                                                        </span>
+
+                                                        <span id="@emp.Employees.ID" class="d-none">
+                                                            <span class="mb-0 h6">@emp.Employees.Name</span>
+
+                                                        </span>
+                                                    </span>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            for (int d = 0; d < 3; d++)
+                                            {
+                                                if (!string.IsNullOrEmpty(employee[d].Employees.Avatar))
+                                                {
+                                                    <span class="avatar avatar-md">
+
+                                                        <img alt="avatar" src="@employee[d].Employees.Avatar"
+                                                             class="rounded-circle imgtooltip" data-template="@employee[d].Employees.ID">
+                                                        <span id="@employee[d].Employees.ID" class="d-none">
+                                                            <span class="mb-0 h6">@employee[d].Employees.Name</span>
+                                                        </span>
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@employee[d].Employees.ID">
+                                                        <span class="avatar-initials rounded-circle ">
+                                                            @employee[d].Employees.Name.Substring(0, 1)
+                                                        </span>
+
+                                                        <span id="@employee[d].Employees.ID" class="d-none">
+                                                            <span class="mb-0 h6">@employee[d].Employees.Name</span>
+
+                                                        </span>
+                                                    </span>
+                                                }
+                                            }
+                                            <span class="avatar avatar-md ">
+                                                <span class="avatar-initials rounded-circle bg-light text-dark">@(employee.Count - 3)+</span>
+                                            </span>
+                                        }
+
+                                    </div>
+                                </td>
+                                <td class="text-muted align-middle text-end">
+                                    <div class="dropdown dropstart">
+                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
+                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fe fe-more-vertical"></i>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
+                                            <span class="dropdown-header">Hành động</span>
+                                            <a role="button" name="@item.ID" id="chinhsua@(item.ID)" class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
+                                                <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa kỹ năng
+                                            </a>
+
+                                            @if (item.PersonalSkills.Count < 1)
+                                            {
+                                                <div class="dropdown-divider"></div>
+                                                <a role="button" name="@item.ID" id="xoa@(item.ID)" class="dropdown-item" href="#">
+                                                    <i class="fe fe-trash dropdown-item-icon"></i>Xóa kỹ năng
+                                                </a>
+                                            }
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="align-middle text-center">
+                                Không có dữ liệu để hiển thị.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Chỉnh sửa vai trò -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 800px;">
+
+        <div class="offcanvas-body" data-simplebar>
+            <div style="margin-bottom: -20px" class="offcanvas-header px-2 pt-0">
+                <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Kỹ Năng</h4>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <hr class="my-4" />
+            <!-- card body -->
+            <div class="container ">
+                <!-- form -->
+                <form class="row">
+                    <!-- form group -->
+                    <div class="mb-2 col-md-12">
+                        <label style="font-weight:bold;" class="form-label">Danh mục kỹ năng <span class="text-danger">*</span></label>
+                        <select id="kynangsua" name="kynangsua" class="form-select text-dark" data-width="100%">
+                            @foreach (var item in lstDMKyNang)
+                            {
+                                <option value="@item.ID">@item.Name</option>
+                            }
+                        </select>
+                        <p style="font-size: 13px; color:red;"></p>
+                    </div>
+                    <div class="mb-3 col-md-12">
+                        <label style="font-weight: bold;" class="form-label">Tên kỹ năng <span class="text-danger">*</span></label>
+                        <input id="name" name="name" type="text" class="form-control" placeholder="Nhập tên kỹ năng">
+                        <input id="id" name="id" hidden>
+                        <p style="color: red; font-size: 13px" id="EditKyNangValidateResul"></p>
+                    </div>
+
+                    <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
+                        <button id="dongChinhSua" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="offcanvas" aria-label="Close">
+                            Hủy
+                        </button>
+                    </div>
+                    <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
+                        <a role="button" id="luuChinhSua" style="width: 230px" class="btn btn-success">
+                            Lưu
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/ValidationAlert/Admin/QuanLyKyNang/SuaKyNangValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyKyNang/XoaKyNangValidation.js"></script>

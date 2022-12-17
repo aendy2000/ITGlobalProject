@@ -66,5 +66,70 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             var lstSkillcate = model.SkillsCategory.OrderByDescending(o => o.ID).ToList();
             return PartialView("_danhSachDanhMucKyNangPartial", lstSkillcate);
         }
+
+        //Kỹ năng
+
+        public ActionResult danhSachKyNang()
+        {
+            var lstSkillCategory = model.SkillsCategory.ToList();
+            Session["danhSachKyNang-lstSkillCategory"] = lstSkillCategory;
+
+            ViewBag.ShowActive = "danhSachKyNang";
+            var lstKyNang = model.Skills.OrderByDescending(o => o.ID).ToList();
+            return View("danhSachKyNang", lstKyNang);
+        }
+
+        [HttpPost]
+        public ActionResult themKyNang(string name, int? category)
+        {
+            if (string.IsNullOrEmpty(name) || category == null)
+                return Content("DANHSACH");
+
+            Skills skill = new Skills();
+            skill.Name = name;
+            skill.ID_SkillsCategory = (int)category;
+            model.Skills.Add(skill);
+            model.SaveChanges();
+            model = new CP25Team06Entities();
+
+            var lstSkill = model.Skills.OrderByDescending(o => o.ID).ToList();
+            return PartialView("_danhSachKyNangPartial", lstSkill);
+        }
+
+        [HttpPost]
+        public ActionResult chinhSuaKyNang(int? id, string name, int? category)
+        {
+            var skilcate = model.Skills.Find(id);
+            if (skilcate == null || id == null || string.IsNullOrEmpty(name) || category == null)
+                return Content("DANHSACH");
+
+            skilcate.Name = name;
+            skilcate.ID_SkillsCategory = (int)category;
+            model.Entry(skilcate).State = EntityState.Modified;
+            model.SaveChanges();
+            model = new CP25Team06Entities();
+
+            var lstSkill = model.Skills.OrderByDescending(o => o.ID).ToList();
+            return PartialView("_danhSachKyNangPartial", lstSkill);
+        }
+
+        [HttpPost]
+        public ActionResult xoaKyNang(int? id)
+        {
+            var skilcate = model.Skills.Find(id);
+            if (id == null || skilcate == null)
+                return Content("DANHSACH");
+
+            model.Skills.Remove(skilcate);
+            model.SaveChanges();
+            model = new CP25Team06Entities();
+
+            var lstSkill = model.Skills.OrderByDescending(o => o.ID).ToList();
+            return PartialView("_danhSachKyNangPartial", lstSkill);
+        }
+
+
+
+
     }
 }
