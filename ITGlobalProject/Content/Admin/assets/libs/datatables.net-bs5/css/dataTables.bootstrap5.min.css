@@ -270,15 +270,16 @@ table.dataTable {
     }
 
 div.dataTables_wrapper div.dataTables_length label {
+    margin: 2em 2em 2em 0em;
+    margin-bottom: 1.5em;
     font-weight: normal;
     text-align: left;
-    white-space: nowrap
+    white-space: nowrap;
+    width: -webkit-fill-available;
 }
 
 div.dataTables_wrapper div.dataTables_length select {
-    margin: 2em;
-    margin-bottom: 1.5em;
-    width: 200px;
+
     display: inline-block;
 }
 
@@ -287,16 +288,16 @@ div.dataTables_wrapper div.dataTables_filter {
 }
 
     div.dataTables_wrapper div.dataTables_filter label {
+        margin: 2em 0em 2em 2em;
+        margin-bottom: 1.5em;
         font-weight: normal;
         white-space: nowrap;
-        text-align: left
+        text-align: left;
+        width: -webkit-fill-available;
     }
 
     div.dataTables_wrapper div.dataTables_filter input {
-        margin: 2em;
-        margin-bottom: 1.5em;
         display: inline-block;
-        width: 350px;
     }
 
 div.dataTables_wrapper div.dataTables_info {

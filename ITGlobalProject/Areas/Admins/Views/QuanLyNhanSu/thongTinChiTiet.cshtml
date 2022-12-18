@@ -79,7 +79,18 @@
                     </div>
 
                 </div>
-                <div><span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: 2022-10-14</span></div>
+                <div>
+                    @if (Model.Lock == true)
+                    {
+                        <span id="ngaythoiviec" typeof="text" style="float: right; margin-top:1%; padding-left: 10px" class="btn btn-outline-danger btn-sm">Ngày thôi việc: @Convert.ToDateTime(Model.DayOff).ToString("yyyy-MM-dd")</span><span id="ngaythoiviecspace" style="width: 20px; float: right;">&ensp;</span>
+                        <span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: @Model.JoinedDate.ToString("yyyy-MM-dd")</span>
+                    }
+                    else
+                    {
+                        <span hidden="hidden" id="ngaythoiviec" typeof="text" style="float: right; margin-top:1%; padding-left: 10px" class="btn btn-outline-danger btn-sm">Ngày thôi việc: @Convert.ToDateTime(Model.DayOff).ToString("yyyy-MM-dd")</span><span hidden="hidden" id="ngaythoiviecspace" style="width: 20px; float: right;">&ensp;</span>
+                        <span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: @Model.JoinedDate.ToString("yyyy-MM-dd")</span>
+                    }
+                </div>
 
             </div>
         </div>
@@ -103,16 +114,11 @@
                         <span class="navbar-header">Hồ Sơ Nhân Viên</span>
                         <!-- List -->
                         @*<ul class="list-unstyled ms-n2 mb-4">*@
-                        <ul class="list-unstyled ms-n2 mb-0">
+                        <ul class="list-unstyled ms-n2 mb-4">
                             <!-- Nav item -->
                             <li class="nav-item active">
                                 <a role="button" id="ttcanhan" class="nav-link">
                                     <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a role="button" id="lhvathanhtoan" class="nav-link">
-                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -131,23 +137,23 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a role="button" id="tcvaphucap" class="nav-link">
-                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
-                                </a>
-                            </li>
-                            <li class="nav-item ">
                                 <a role="button" id="hdvacongviec" class="nav-link">
                                     <i class="fe fe-file-text nav-icon"></i>Hợp đồng & Công việc
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a role="button" class="nav-link" id="DAThamGia">
-                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                        </ul>
+
+                        <span class="navbar-header">Thông Tin Lương</span>
+                        <ul class="list-unstyled ms-n2 mb-4">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="lhvathanhtoan" class="nav-link">
+                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a role="button" class="nav-link" id="LSHoatDong">
-                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
+                                <a role="button" id="tcvaphucap" class="nav-link">
+                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -155,9 +161,26 @@
                                     <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
                                 </a>
                             </li>
+                        </ul>
+
+
+                        <span class="navbar-header">Dự án & Công việc</span>
+                        <ul class="list-unstyled ms-n2 mb-0">
+                            <!-- Nav item -->
+
+                            <li class="nav-item">
+                                <a role="button" class="nav-link" id="DAThamGia">
+                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                                </a>
+                            </li>
                             <li class="nav-item  ">
                                 <a role="button" class="nav-link" id="LBCongViec">
                                     <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" class="nav-link" id="LSHoatDong">
+                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
                                 </a>
                             </li>
                             <li class="nav-item  ">
@@ -214,7 +237,7 @@
                     </div>
                     <hr class="my-4" />
                     <div>
-                        <form class="row">
+                        <form id="noidungPage" class="row">
                             <div class="mb-2 col-12 col-md-12">
                                 <label style="font-weight:bold;" class="form-label" for="fname">Họ và Tên <span class="text-danger">*</span></label>
                                 <input value="@Model.Avatar" name="avatar" id="avatar" hidden />
@@ -309,7 +332,7 @@
                                 <p style="font-size: 13px; color:red;" id="diachinhavalidation"></p>
                             </div>
                             <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
-                                <button type="reset" style="width: 230px" class="btn btn-outline-danger">
+                                <button id="resetData" type="reset" style="width: 230px" class="btn btn-outline-danger">
                                     Hủy
                                 </button>
                             </div>
@@ -330,384 +353,1219 @@
 </div>
 <script src="~/Content/Admin/assets/js/reviewImage.js"></script>
 <script>
+    var somethingChanged = false;
+    $('#noidungPage').change(function () {
+        somethingChanged = true;
+    });
+
+    $('#btnLuuThongTin').on('click', function () {
+        somethingChanged = false;
+    });
+
+    $('#resetData').on('click', function () {
+        somethingChanged = false;
+    });
 
     $(document).on('click', '#ttcanhan', function (e) {
-        $.ajax({
+
+        if (somethingChanged == true) {
+            var SweetAlert2Demo = function () {
+                var initDemos = function () {
+                    swal({
+                        title: 'Rời khỏi trang?',
+                        text: "Những thay đổi vẫn chưa được lưu! Tiếp tục rời khỏi trang?",
+                        type: 'warning',
+                        buttons: {
+                            cancel: {
+                                visible: true,
+                                text: ' Hủy Bỏ ',
+                                className: 'btn btn-danger'
+                            },
+                            confirm: {
+                                text: 'Xác Nhận',
+                                className: 'btn btn-success'
+                            }
+                        }
+                    }).then((roikhoitrang) => {
+                        if (roikhoitrang) {
+                            somethingChanged = false;
+
+                            $.ajax({
+                            url: '@Url.Action("thongTinChiTietPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                            type: 'GET',
+                            dataType: 'html'
+                            }).done(function (ketqua) {
+                                if (ketqua !== "DANHSACH") {
+                                    $('#contentPartial').replaceWith(ketqua);
+                                    $.when(
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                                        $.Deferred(function (deferred) {
+                                            $(deferred.resolve);
+                                        })
+                                    ).done(function () {
+                                        //place your code here, the scripts are all loaded
+                                    });
+                                }
+                                else {
+                                    window.location.href = $('#actionDanhsach').data('request-url');
+                                }
+                            });
+
+
+                        }
+                    });
+                };
+                return {
+                    init: function () {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function () {
+                SweetAlert2Demo.init();
+            });
+
+        } else {
+            $.ajax({
             url: '@Url.Action("thongTinChiTietPartial", "QuanLyNhanSu", new {id = Model.ID })',
             type: 'GET',
             dataType: 'html'
-        }).done(function (ketqua) {
-             if (ketqua !== "DANHSACH") {
-                $('#contentPartial').replaceWith(ketqua);
-                $.when(
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                    $.Deferred(function (deferred) {
-                        $(deferred.resolve);
-                    })
-                ).done(function () {
-                    //place your code here, the scripts are all loaded
-                });
-            }
-            else {
-                window.location.href = $('#actionDanhsach').data('request-url');
-            }
-        });
+            }).done(function (ketqua) {
+                if (ketqua !== "DANHSACH") {
+                    $('#contentPartial').replaceWith(ketqua);
+                    $.when(
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                        $.Deferred(function (deferred) {
+                            $(deferred.resolve);
+                        })
+                    ).done(function () {
+                        //place your code here, the scripts are all loaded
+                    });
+                }
+                else {
+                    window.location.href = $('#actionDanhsach').data('request-url');
+                }
+            });
+        }
     });
 
     $(document).on('click', '#lhvathanhtoan', function (e) {
-        $.ajax({
-            url: '@Url.Action("lienHeVaThanhToanPartial", "QuanLyNhanSu", new {id = Model.ID })',
-            type: 'GET',
-            dataType: 'html'
-        }).done(function (ketqua) {
-             if (ketqua !== "DANHSACH") {
-                $('#contentPartial').replaceWith(ketqua);
-                $.when(
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                    $.Deferred(function (deferred) {
-                        $(deferred.resolve);
-                    })
-                ).done(function () {
-                    //place your code here, the scripts are all loaded
-                });
-            }
-            else {
-                window.location.href = $('#actionDanhsach').data('request-url');
-            }
-        });
+
+        if (somethingChanged == true) {
+            var SweetAlert2Demo = function () {
+                var initDemos = function () {
+                    swal({
+                        title: 'Rời khỏi trang?',
+                        text: "Những thay đổi vẫn chưa được lưu! Tiếp tục rời khỏi trang?",
+                        type: 'warning',
+                        buttons: {
+                            cancel: {
+                                visible: true,
+                                text: ' Hủy Bỏ ',
+                                className: 'btn btn-danger'
+                            },
+                            confirm: {
+                                text: 'Xác Nhận',
+                                className: 'btn btn-success'
+                            }
+                        }
+                    }).then((roikhoitrang) => {
+                        if (roikhoitrang) {
+                            somethingChanged = false;
+
+                            $.ajax({
+                                url: '@Url.Action("lienHeVaThanhToanPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                                type: 'GET',
+                                dataType: 'html'
+                            }).done(function (ketqua) {
+                                if (ketqua !== "DANHSACH") {
+                                    $('#contentPartial').replaceWith(ketqua);
+                                    $.when(
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                                        $.Deferred(function (deferred) {
+                                            $(deferred.resolve);
+                                        })
+                                    ).done(function () {
+                                        //place your code here, the scripts are all loaded
+                                    });
+                                }
+                                else {
+                                    window.location.href = $('#actionDanhsach').data('request-url');
+                                }
+                            });
+
+                        }
+                    });
+                };
+                return {
+                    init: function () {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function () {
+                SweetAlert2Demo.init();
+            });
+
+        } else {
+
+            $.ajax({
+                url: '@Url.Action("lienHeVaThanhToanPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                type: 'GET',
+                dataType: 'html'
+            }).done(function (ketqua) {
+                if (ketqua !== "DANHSACH") {
+                    $('#contentPartial').replaceWith(ketqua);
+                    $.when(
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                        $.Deferred(function (deferred) {
+                            $(deferred.resolve);
+                        })
+                    ).done(function () {
+                        //place your code here, the scripts are all loaded
+                    });
+                }
+                else {
+                    window.location.href = $('#actionDanhsach').data('request-url');
+                }
+            });
+
+        }
     });
+
     $(document).on('click', '#knchuyenmon', function (e) {
-        $.ajax({
+
+        if (somethingChanged == true) {
+            var SweetAlert2Demo = function () {
+                var initDemos = function () {
+                    swal({
+                        title: 'Rời khỏi trang?',
+                        text: "Những thay đổi vẫn chưa được lưu! Tiếp tục rời khỏi trang?",
+                        type: 'warning',
+                        buttons: {
+                            cancel: {
+                                visible: true,
+                                text: ' Hủy Bỏ ',
+                                className: 'btn btn-danger'
+                            },
+                            confirm: {
+                                text: 'Xác Nhận',
+                                className: 'btn btn-success'
+                            }
+                        }
+                    }).then((roikhoitrang) => {
+                        if (roikhoitrang) {
+                            somethingChanged = false;
+
+                            $.ajax({
+                                url: '@Url.Action("kyNangChuyenMonPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                                type: 'GET',
+                                dataType: 'html'
+                            }).done(function (ketqua) {
+                                if (ketqua !== "DANHSACH") {
+                                    $('#contentPartial').replaceWith(ketqua);
+                                    $.when(
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                                        $.Deferred(function (deferred) {
+                                            $(deferred.resolve);
+                                        })
+                                    ).done(function () {
+                                        //place your code here, the scripts are all loaded
+                                    });
+                                }
+                                else {
+                                    window.location.href = $('#actionDanhsach').data('request-url');
+                                }
+                            });
+
+                        }
+                    });
+                };
+                return {
+                    init: function () {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function () {
+                SweetAlert2Demo.init();
+            });
+
+        } else {
+            $.ajax({
             url: '@Url.Action("kyNangChuyenMonPartial", "QuanLyNhanSu", new {id = Model.ID })',
             type: 'GET',
             dataType: 'html'
-        }).done(function (ketqua) {
-             if (ketqua !== "DANHSACH") {
-                $('#contentPartial').replaceWith(ketqua);
-                $.when(
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                    $.Deferred(function (deferred) {
-                        $(deferred.resolve);
-                    })
-                ).done(function () {
-                    //place your code here, the scripts are all loaded
-                });
-            }
-            else {
-                window.location.href = $('#actionDanhsach').data('request-url');
-            }
-        });
+            }).done(function (ketqua) {
+                if (ketqua !== "DANHSACH") {
+                    $('#contentPartial').replaceWith(ketqua);
+                    $.when(
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                        $.Deferred(function (deferred) {
+                            $(deferred.resolve);
+                        })
+                    ).done(function () {
+                        //place your code here, the scripts are all loaded
+                    });
+                }
+                else {
+                    window.location.href = $('#actionDanhsach').data('request-url');
+                }
+            });
+        }
     });
 
     $(document).on('click', '#tdngoaingu', function (e) {
-        $.ajax({
-            url: '@Url.Action("trinhDoNgoaiNguPartial", "QuanLyNhanSu", new {id = Model.ID })',
-            type: 'GET',
-            dataType: 'html'
-        }).done(function (ketqua) {
-             if (ketqua !== "DANHSACH") {
-                $('#contentPartial').replaceWith(ketqua);
-                $.when(
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                    $.Deferred(function (deferred) {
-                        $(deferred.resolve);
-                    })
-                ).done(function () {
-                    //place your code here, the scripts are all loaded
-                });
-            }
-            else {
-                window.location.href = $('#actionDanhsach').data('request-url');
-            }
-        });
+
+        if (somethingChanged == true) {
+            var SweetAlert2Demo = function () {
+                var initDemos = function () {
+                    swal({
+                        title: 'Rời khỏi trang?',
+                        text: "Những thay đổi vẫn chưa được lưu! Tiếp tục rời khỏi trang?",
+                        type: 'warning',
+                        buttons: {
+                            cancel: {
+                                visible: true,
+                                text: ' Hủy Bỏ ',
+                                className: 'btn btn-danger'
+                            },
+                            confirm: {
+                                text: 'Xác Nhận',
+                                className: 'btn btn-success'
+                            }
+                        }
+                    }).then((roikhoitrang) => {
+                        if (roikhoitrang) {
+                            somethingChanged = false;
+
+                            $.ajax({
+                                url: '@Url.Action("trinhDoNgoaiNguPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                                type: 'GET',
+                                dataType: 'html'
+                            }).done(function (ketqua) {
+                                 if (ketqua !== "DANHSACH") {
+                                    $('#contentPartial').replaceWith(ketqua);
+                                    $.when(
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                                        $.Deferred(function (deferred) {
+                                            $(deferred.resolve);
+                                        })
+                                    ).done(function () {
+                                        //place your code here, the scripts are all loaded
+                                    });
+                                }
+                                else {
+                                    window.location.href = $('#actionDanhsach').data('request-url');
+                                }
+                            });
+
+                        }
+                    });
+                };
+                return {
+                    init: function () {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function () {
+                SweetAlert2Demo.init();
+            });
+
+        } else {
+            $.ajax({
+                url: '@Url.Action("trinhDoNgoaiNguPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                type: 'GET',
+                dataType: 'html'
+            }).done(function (ketqua) {
+                 if (ketqua !== "DANHSACH") {
+                    $('#contentPartial').replaceWith(ketqua);
+                    $.when(
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                        $.Deferred(function (deferred) {
+                            $(deferred.resolve);
+                        })
+                    ).done(function () {
+                        //place your code here, the scripts are all loaded
+                    });
+                }
+                else {
+                    window.location.href = $('#actionDanhsach').data('request-url');
+                }
+            });
+        }
     });
 
     $(document).on('click', '#ptnhanthan', function (e) {
-        $.ajax({
-            url: '@Url.Action("phuThuocNhanThanPartial", "QuanLyNhanSu", new {id = Model.ID })',
-            type: 'GET',
-            dataType: 'html'
-        }).done(function (ketqua) {
-             if (ketqua !== "DANHSACH") {
-                $('#contentPartial').replaceWith(ketqua);
-                $.when(
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                    $.Deferred(function (deferred) {
-                        $(deferred.resolve);
-                    })
-                ).done(function () {
-                    //place your code here, the scripts are all loaded
-                });
-            }
-            else {
-                window.location.href = $('#actionDanhsach').data('request-url');
-            }
-        });
+
+        if (somethingChanged == true) {
+            var SweetAlert2Demo = function () {
+                var initDemos = function () {
+                    swal({
+                        title: 'Rời khỏi trang?',
+                        text: "Những thay đổi vẫn chưa được lưu! Tiếp tục rời khỏi trang?",
+                        type: 'warning',
+                        buttons: {
+                            cancel: {
+                                visible: true,
+                                text: ' Hủy Bỏ ',
+                                className: 'btn btn-danger'
+                            },
+                            confirm: {
+                                text: 'Xác Nhận',
+                                className: 'btn btn-success'
+                            }
+                        }
+                    }).then((roikhoitrang) => {
+                        if (roikhoitrang) {
+                            somethingChanged = false;
+
+                            $.ajax({
+                                url: '@Url.Action("phuThuocNhanThanPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                                type: 'GET',
+                                dataType: 'html'
+                            }).done(function (ketqua) {
+                                 if (ketqua !== "DANHSACH") {
+                                    $('#contentPartial').replaceWith(ketqua);
+                                    $.when(
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                                        $.Deferred(function (deferred) {
+                                            $(deferred.resolve);
+                                        })
+                                    ).done(function () {
+                                        //place your code here, the scripts are all loaded
+                                    });
+                                }
+                                else {
+                                    window.location.href = $('#actionDanhsach').data('request-url');
+                                }
+                            });
+
+                        }
+                    });
+                };
+                return {
+                    init: function () {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function () {
+                SweetAlert2Demo.init();
+            });
+
+        } else {
+            $.ajax({
+                url: '@Url.Action("phuThuocNhanThanPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                type: 'GET',
+                dataType: 'html'
+            }).done(function (ketqua) {
+                 if (ketqua !== "DANHSACH") {
+                    $('#contentPartial').replaceWith(ketqua);
+                    $.when(
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                        $.Deferred(function (deferred) {
+                            $(deferred.resolve);
+                        })
+                    ).done(function () {
+                        //place your code here, the scripts are all loaded
+                    });
+                }
+                else {
+                    window.location.href = $('#actionDanhsach').data('request-url');
+                }
+            });
+        }
     });
 
     $(document).on('click', '#tcvaphucap', function (e) {
-        $.ajax({
-            url: '@Url.Action("troCapPartial", "QuanLyNhanSu", new {id = Model.ID })',
-            type: 'GET',
-            dataType: 'html'
-        }).done(function (ketqua) {
-             if (ketqua !== "DANHSACH") {
-                $('#contentPartial').replaceWith(ketqua);
-                $.when(
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                    $.Deferred(function (deferred) {
-                        $(deferred.resolve);
-                    })
-                ).done(function () {
-                    //place your code here, the scripts are all loaded
-                });
-            }
-            else {
-                window.location.href = $('#actionDanhsach').data('request-url');
-            }
-        });
+
+        if (somethingChanged == true) {
+            var SweetAlert2Demo = function () {
+                var initDemos = function () {
+                    swal({
+                        title: 'Rời khỏi trang?',
+                        text: "Những thay đổi vẫn chưa được lưu! Tiếp tục rời khỏi trang?",
+                        type: 'warning',
+                        buttons: {
+                            cancel: {
+                                visible: true,
+                                text: ' Hủy Bỏ ',
+                                className: 'btn btn-danger'
+                            },
+                            confirm: {
+                                text: 'Xác Nhận',
+                                className: 'btn btn-success'
+                            }
+                        }
+                    }).then((roikhoitrang) => {
+                        if (roikhoitrang) {
+                            somethingChanged = false;
+
+                            $.ajax({
+                                url: '@Url.Action("troCapPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                                type: 'GET',
+                                dataType: 'html'
+                            }).done(function (ketqua) {
+                                 if (ketqua !== "DANHSACH") {
+                                    $('#contentPartial').replaceWith(ketqua);
+                                    $.when(
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                                        $.Deferred(function (deferred) {
+                                            $(deferred.resolve);
+                                        })
+                                    ).done(function () {
+                                        //place your code here, the scripts are all loaded
+                                    });
+                                }
+                                else {
+                                    window.location.href = $('#actionDanhsach').data('request-url');
+                                }
+                            });
+
+                        }
+                    });
+                };
+                return {
+                    init: function () {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function () {
+                SweetAlert2Demo.init();
+            });
+
+        } else {
+            $.ajax({
+                url: '@Url.Action("troCapPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                type: 'GET',
+                dataType: 'html'
+            }).done(function (ketqua) {
+                 if (ketqua !== "DANHSACH") {
+                    $('#contentPartial').replaceWith(ketqua);
+                    $.when(
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                        $.Deferred(function (deferred) {
+                            $(deferred.resolve);
+                        })
+                    ).done(function () {
+                        //place your code here, the scripts are all loaded
+                    });
+                }
+                else {
+                    window.location.href = $('#actionDanhsach').data('request-url');
+                }
+            });
+        }
     });
 
 
     $(document).on('click', '#hdvacongviec', function (e) {
-        $.ajax({
-            url: '@Url.Action("hopDongPartial", "QuanLyNhanSu", new {id = Model.ID })',
-            type: 'GET',
-            dataType: 'html'
-        }).done(function (ketqua) {
-             if (ketqua !== "DANHSACH") {
-                $('#contentPartial').replaceWith(ketqua);
-                $.when(
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                    $.Deferred(function (deferred) {
-                        $(deferred.resolve);
-                    })
-                ).done(function () {
-                    //place your code here, the scripts are all loaded
-                });
-            }
-            else {
-                window.location.href = $('#actionDanhsach').data('request-url');
-            }
-        });
+
+        if (somethingChanged == true) {
+            var SweetAlert2Demo = function () {
+                var initDemos = function () {
+                    swal({
+                        title: 'Rời khỏi trang?',
+                        text: "Những thay đổi vẫn chưa được lưu! Tiếp tục rời khỏi trang?",
+                        type: 'warning',
+                        buttons: {
+                            cancel: {
+                                visible: true,
+                                text: ' Hủy Bỏ ',
+                                className: 'btn btn-danger'
+                            },
+                            confirm: {
+                                text: 'Xác Nhận',
+                                className: 'btn btn-success'
+                            }
+                        }
+                    }).then((roikhoitrang) => {
+                        if (roikhoitrang) {
+                            somethingChanged = false;
+
+                            $.ajax({
+                                url: '@Url.Action("hopDongPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                                type: 'GET',
+                                dataType: 'html'
+                            }).done(function (ketqua) {
+                                 if (ketqua !== "DANHSACH") {
+                                    $('#contentPartial').replaceWith(ketqua);
+                                    $.when(
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                                        $.Deferred(function (deferred) {
+                                            $(deferred.resolve);
+                                        })
+                                    ).done(function () {
+                                        //place your code here, the scripts are all loaded
+                                    });
+                                }
+                                else {
+                                    window.location.href = $('#actionDanhsach').data('request-url');
+                                }
+                            });
+
+                        }
+                    });
+                };
+                return {
+                    init: function () {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function () {
+                SweetAlert2Demo.init();
+            });
+
+        } else {
+            $.ajax({
+                url: '@Url.Action("hopDongPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                type: 'GET',
+                dataType: 'html'
+            }).done(function (ketqua) {
+                 if (ketqua !== "DANHSACH") {
+                    $('#contentPartial').replaceWith(ketqua);
+                    $.when(
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                        $.Deferred(function (deferred) {
+                            $(deferred.resolve);
+                        })
+                    ).done(function () {
+                        //place your code here, the scripts are all loaded
+                    });
+                }
+                else {
+                    window.location.href = $('#actionDanhsach').data('request-url');
+                }
+            });
+        }
     });
 
-   $(document).on('click', '#DAThamGia', function (e) {
-        $.ajax({
-            url: '@Url.Action("duAnThamGiaPartial", "QuanLyNhanSu", new {id = Model.ID })',
-            type: 'GET',
-            dataType: 'html'
-        }).done(function (ketqua) {
-            if (ketqua !== "DANHSACH") {
-                $('#contentPartial').replaceWith(ketqua);
-                $.when(
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                    $.Deferred(function (deferred) {
-                        $(deferred.resolve);
-                    })
-                ).done(function () {
-                    //place your code here, the scripts are all loaded
-                });
-            }
-            else {
-                window.location.href = $('#actionDanhsach').data('request-url');
-            }
+    $(document).on('click', '#DAThamGia', function (e) {
 
-        });
+        if (somethingChanged == true) {
+            var SweetAlert2Demo = function () {
+                var initDemos = function () {
+                    swal({
+                        title: 'Rời khỏi trang?',
+                        text: "Những thay đổi vẫn chưa được lưu! Tiếp tục rời khỏi trang?",
+                        type: 'warning',
+                        buttons: {
+                            cancel: {
+                                visible: true,
+                                text: ' Hủy Bỏ ',
+                                className: 'btn btn-danger'
+                            },
+                            confirm: {
+                                text: 'Xác Nhận',
+                                className: 'btn btn-success'
+                            }
+                        }
+                    }).then((roikhoitrang) => {
+                        if (roikhoitrang) {
+                            somethingChanged = false;
+
+                            $.ajax({
+                                url: '@Url.Action("duAnThamGiaPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                                type: 'GET',
+                                dataType: 'html'
+                            }).done(function (ketqua) {
+                                if (ketqua !== "DANHSACH") {
+                                    $('#contentPartial').replaceWith(ketqua);
+                                    $.when(
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                                        $.Deferred(function (deferred) {
+                                            $(deferred.resolve);
+                                        })
+                                    ).done(function () {
+                                        //place your code here, the scripts are all loaded
+                                    });
+                                }
+                                else {
+                                    window.location.href = $('#actionDanhsach').data('request-url');
+                                }
+                            });
+
+                        }
+                    });
+                };
+                return {
+                    init: function () {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function () {
+                SweetAlert2Demo.init();
+            });
+
+        } else {
+            $.ajax({
+                url: '@Url.Action("duAnThamGiaPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                type: 'GET',
+                dataType: 'html'
+            }).done(function (ketqua) {
+                if (ketqua !== "DANHSACH") {
+                    $('#contentPartial').replaceWith(ketqua);
+                    $.when(
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                        $.Deferred(function (deferred) {
+                            $(deferred.resolve);
+                        })
+                    ).done(function () {
+                        //place your code here, the scripts are all loaded
+                    });
+                }
+                else {
+                    window.location.href = $('#actionDanhsach').data('request-url');
+                }
+            });
+        }
     });
 
     $(document).on('click', '#LSHoatDong', function (e) {
-        $.ajax({
-            url: '@Url.Action("lichSuHoatDongPartial", "QuanLyNhanSu", new {id = Model.ID })',
-            type: 'GET',
-            dataType: 'html'
-        }).done(function (ketqua) {
-            if (ketqua !== "DANHSACH") {
-                $('#contentPartial').replaceWith(ketqua);
-                $.when(
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                    $.Deferred(function (deferred) {
-                        $(deferred.resolve);
-                    })
-                ).done(function () {
-                    //place your code here, the scripts are all loaded
-                });
-            }
-            else {
-                window.location.href = $('#actionDanhsach').data('request-url');
-            }
 
-        });
+        if (somethingChanged == true) {
+            var SweetAlert2Demo = function () {
+                var initDemos = function () {
+                    swal({
+                        title: 'Rời khỏi trang?',
+                        text: "Những thay đổi vẫn chưa được lưu! Tiếp tục rời khỏi trang?",
+                        type: 'warning',
+                        buttons: {
+                            cancel: {
+                                visible: true,
+                                text: ' Hủy Bỏ ',
+                                className: 'btn btn-danger'
+                            },
+                            confirm: {
+                                text: 'Xác Nhận',
+                                className: 'btn btn-success'
+                            }
+                        }
+                    }).then((roikhoitrang) => {
+                        if (roikhoitrang) {
+                            somethingChanged = false;
+
+                            $.ajax({
+                                url: '@Url.Action("lichSuHoatDongPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                                type: 'GET',
+                                dataType: 'html'
+                            }).done(function (ketqua) {
+                                if (ketqua !== "DANHSACH") {
+                                    $('#contentPartial').replaceWith(ketqua);
+                                    $.when(
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                                        $.Deferred(function (deferred) {
+                                            $(deferred.resolve);
+                                        })
+                                    ).done(function () {
+                                        //place your code here, the scripts are all loaded
+                                    });
+                                }
+                                else {
+                                    window.location.href = $('#actionDanhsach').data('request-url');
+                                }
+
+                            });
+
+                        }
+                    });
+                };
+                return {
+                    init: function () {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function () {
+                SweetAlert2Demo.init();
+            });
+
+        } else {
+            $.ajax({
+                url: '@Url.Action("lichSuHoatDongPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                type: 'GET',
+                dataType: 'html'
+            }).done(function (ketqua) {
+                if (ketqua !== "DANHSACH") {
+                    $('#contentPartial').replaceWith(ketqua);
+                    $.when(
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                        $.Deferred(function (deferred) {
+                            $(deferred.resolve);
+                        })
+                    ).done(function () {
+                        //place your code here, the scripts are all loaded
+                    });
+                }
+                else {
+                    window.location.href = $('#actionDanhsach').data('request-url');
+                }
+
+            });
+        }
     });
 
     $(document).on('click', '#bangLuongs', function (e) {
-        $.ajax({
-            url: '@Url.Action("bangLuongPartial", "QuanLyNhanSu", new {id = Model.ID })',
-            type: 'GET',
-            dataType: 'html'
-        }).done(function (ketqua) {
-             if (ketqua !== "DANHSACH") {
-                $('#contentPartial').replaceWith(ketqua);
-                $.when(
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                    $.Deferred(function (deferred) {
-                        $(deferred.resolve);
-                    })
-                ).done(function () {
-                    //place your code here, the scripts are all loaded
-                });
-            }
-            else {
-                window.location.href = $('#actionDanhsach').data('request-url');
-            }
-        });
+
+        if (somethingChanged == true) {
+            var SweetAlert2Demo = function () {
+                var initDemos = function () {
+                    swal({
+                        title: 'Rời khỏi trang?',
+                        text: "Những thay đổi vẫn chưa được lưu! Tiếp tục rời khỏi trang?",
+                        type: 'warning',
+                        buttons: {
+                            cancel: {
+                                visible: true,
+                                text: ' Hủy Bỏ ',
+                                className: 'btn btn-danger'
+                            },
+                            confirm: {
+                                text: 'Xác Nhận',
+                                className: 'btn btn-success'
+                            }
+                        }
+                    }).then((roikhoitrang) => {
+                        if (roikhoitrang) {
+                            somethingChanged = false;
+
+                            $.ajax({
+                                url: '@Url.Action("bangLuongPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                                type: 'GET',
+                                dataType: 'html'
+                            }).done(function (ketqua) {
+                                 if (ketqua !== "DANHSACH") {
+                                    $('#contentPartial').replaceWith(ketqua);
+                                    $.when(
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                                        $.Deferred(function (deferred) {
+                                            $(deferred.resolve);
+                                        })
+                                    ).done(function () {
+                                        //place your code here, the scripts are all loaded
+                                    });
+                                }
+                                else {
+                                    window.location.href = $('#actionDanhsach').data('request-url');
+                                }
+                            });
+
+                        }
+                    });
+                };
+                return {
+                    init: function () {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function () {
+                SweetAlert2Demo.init();
+            });
+
+        } else {
+            $.ajax({
+                url: '@Url.Action("bangLuongPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                type: 'GET',
+                dataType: 'html'
+            }).done(function (ketqua) {
+                 if (ketqua !== "DANHSACH") {
+                    $('#contentPartial').replaceWith(ketqua);
+                    $.when(
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                        $.Deferred(function (deferred) {
+                            $(deferred.resolve);
+                        })
+                    ).done(function () {
+                        //place your code here, the scripts are all loaded
+                    });
+                }
+                else {
+                    window.location.href = $('#actionDanhsach').data('request-url');
+                }
+            });
+        }
     });
 
     $(document).on('click', '#LBCongViec', function (e) {
-        $.ajax({
-            url: '@Url.Action("lichBieuPartial", "QuanLyNhanSu", new {id = Model.ID })',
-            type: 'GET',
-            dataType: 'html'
-        }).done(function (ketqua) {
-             if (ketqua !== "DANHSACH") {
-                $('#contentPartial').replaceWith(ketqua);
-                $.when(
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                    $.Deferred(function (deferred) {
-                        $(deferred.resolve);
-                    })
-                ).done(function () {
-                    //place your code here, the scripts are all loaded
-                });
-            }
-            else {
-                window.location.href = $('#actionDanhsach').data('request-url');
-            }
-        });
+
+        if (somethingChanged == true) {
+            var SweetAlert2Demo = function () {
+                var initDemos = function () {
+                    swal({
+                        title: 'Rời khỏi trang?',
+                        text: "Những thay đổi vẫn chưa được lưu! Tiếp tục rời khỏi trang?",
+                        type: 'warning',
+                        buttons: {
+                            cancel: {
+                                visible: true,
+                                text: ' Hủy Bỏ ',
+                                className: 'btn btn-danger'
+                            },
+                            confirm: {
+                                text: 'Xác Nhận',
+                                className: 'btn btn-success'
+                            }
+                        }
+                    }).then((roikhoitrang) => {
+                        if (roikhoitrang) {
+                            somethingChanged = false;
+
+                            $.ajax({
+                                url: '@Url.Action("lichBieuPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                                type: 'GET',
+                                dataType: 'html'
+                            }).done(function (ketqua) {
+                                 if (ketqua !== "DANHSACH") {
+                                    $('#contentPartial').replaceWith(ketqua);
+                                    $.when(
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                                        $.Deferred(function (deferred) {
+                                            $(deferred.resolve);
+                                        })
+                                    ).done(function () {
+                                        //place your code here, the scripts are all loaded
+                                    });
+                                }
+                                else {
+                                    window.location.href = $('#actionDanhsach').data('request-url');
+                                }
+                            });
+
+                        }
+                    });
+                };
+                return {
+                    init: function () {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function () {
+                SweetAlert2Demo.init();
+            });
+
+        } else {
+            $.ajax({
+                url: '@Url.Action("lichBieuPartial", "QuanLyNhanSu", new {id = Model.ID })',
+                type: 'GET',
+                dataType: 'html'
+            }).done(function (ketqua) {
+                 if (ketqua !== "DANHSACH") {
+                    $('#contentPartial').replaceWith(ketqua);
+                    $.when(
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                        $.Deferred(function (deferred) {
+                            $(deferred.resolve);
+                        })
+                    ).done(function () {
+                        //place your code here, the scripts are all loaded
+                    });
+                }
+                else {
+                    window.location.href = $('#actionDanhsach').data('request-url');
+                }
+            });
+        }
     });
 
     $(document).on('click', '#BCThongKe', function (e) {
-        $.ajax({
-            url: '@Url.Action("baoCaoThongKePartial", "QuanLyNhanSu", new {id = Model.ID })',
-            type: 'GET',
-            dataType: 'html'
-        }).done(function (ketqua) {
-             if (ketqua !== "DANHSACH") {
-                $('#contentPartial').replaceWith(ketqua);
-                $.when(
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
-                    $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
-                    $.Deferred(function (deferred) {
-                        $(deferred.resolve);
-                    })
-                ).done(function () {
-                    //place your code here, the scripts are all loaded
-                });
-                 if ($("#taskSummary").length) {
-                     e = {
-                         series: [{
-                             name: "Closed",
-                             type: "column",
-                             data: [11, 18, 20, 32, 19, 25, 30]
-                         }, {
-                             name: "New",
-                             type: "line",
-                             data: [30, 32, 28, 50, 38, 35, 49]
-                         }],
-                         chart: {
-                             height: 350,
-                             type: "line",
-                             toolbar: {
+
+        if (somethingChanged == true) {
+            var SweetAlert2Demo = function () {
+                var initDemos = function () {
+                    swal({
+                        title: 'Rời khỏi trang?',
+                        text: "Những thay đổi vẫn chưa được lưu! Tiếp tục rời khỏi trang?",
+                        type: 'warning',
+                        buttons: {
+                            cancel: {
+                                visible: true,
+                                text: ' Hủy Bỏ ',
+                                className: 'btn btn-danger'
+                            },
+                            confirm: {
+                                text: 'Xác Nhận',
+                                className: 'btn btn-success'
+                            }
+                        }
+                    }).then((roikhoitrang) => {
+                        if (roikhoitrang) {
+                            somethingChanged = false;
+                            $.ajax({
+                                url: '@Url.Action("baoCaoThongKePartial", "QuanLyNhanSu", new {id = Model.ID })',
+                                type: 'GET',
+                                dataType: 'html'
+                            }).done(function (ketqua) {
+                                 if (ketqua !== "DANHSACH") {
+                                    $('#contentPartial').replaceWith(ketqua);
+                                    $.when(
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                                        $.Deferred(function (deferred) {
+                                            $(deferred.resolve);
+                                        })
+                                    ).done(function () {
+                                        //place your code here, the scripts are all loaded
+                                    });
+                                     if ($("#taskSummary").length) {
+                                         e = {
+                                             series: [{
+                                                 name: "Closed",
+                                                 type: "column",
+                                                 data: [11, 18, 20, 32, 19, 25, 30]
+                                             }, {
+                                                 name: "New",
+                                                 type: "line",
+                                                 data: [30, 32, 28, 50, 38, 35, 49]
+                                             }],
+                                             chart: {
+                                                 height: 350,
+                                                 type: "line",
+                                                 toolbar: {
+                                                     show: !1
+                                                 }
+                                             },
+                                             plotOptions: {
+                                                 bar: {
+                                                     horizontal: !1,
+                                                     columnWidth: "40%",
+                                                     borderRadius: 5
+                                                 }
+                                             },
+                                             markers: {
+                                                 colors: [window.theme.dark],
+                                                 fillColor: window.theme.gray200
+                                             },
+                                             colors: [window.theme.lightPrimary, window.theme.primary],
+                                             legend: {
+                                                 show: !1
+                                             },
+                                             stroke: {
+                                                 width: [0, 4],
+                                                 colors: [window.theme.lightPrimary]
+                                             },
+                                             dataLabels: {
+                                                 enabled: !0,
+                                                 enabledOnSeries: [1]
+                                             },
+                                             labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                                             xaxis: {
+                                                 labels: {
+                                                     style: {
+                                                         fontSize: "13px",
+                                                         fontWeight: 400,
+                                                         colors: window.theme.gray500,
+                                                         fontFamily: "inter"
+                                                     }
+                                                 }
+                                             },
+                                             yaxis: {
+                                                 labels: {
+                                                     style: {
+                                                         fontSize: "13px",
+                                                         fontWeight: 400,
+                                                         colors: window.theme.gray500,
+                                                         fontFamily: "inter"
+                                                     }
+                                                 }
+                                             }
+                                         };
+                                         new ApexCharts(document.querySelector("#taskSummary"), e).render()
+                                     }
+                                }
+                                else {
+                                    window.location.href = $('#actionDanhsach').data('request-url');
+                                }
+                            });
+                        }
+                    });
+                };
+                return {
+                    init: function () {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function () {
+                SweetAlert2Demo.init();
+            });
+
+        } else {
+            $.ajax({
+                url: '@Url.Action("baoCaoThongKePartial", "QuanLyNhanSu", new {id = Model.ID })',
+                type: 'GET',
+                dataType: 'html'
+            }).done(function (ketqua) {
+                 if (ketqua !== "DANHSACH") {
+                    $('#contentPartial').replaceWith(ketqua);
+                    $.when(
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                        $.Deferred(function (deferred) {
+                            $(deferred.resolve);
+                        })
+                    ).done(function () {
+                        //place your code here, the scripts are all loaded
+                    });
+                     if ($("#taskSummary").length) {
+                         e = {
+                             series: [{
+                                 name: "Closed",
+                                 type: "column",
+                                 data: [11, 18, 20, 32, 19, 25, 30]
+                             }, {
+                                 name: "New",
+                                 type: "line",
+                                 data: [30, 32, 28, 50, 38, 35, 49]
+                             }],
+                             chart: {
+                                 height: 350,
+                                 type: "line",
+                                 toolbar: {
+                                     show: !1
+                                 }
+                             },
+                             plotOptions: {
+                                 bar: {
+                                     horizontal: !1,
+                                     columnWidth: "40%",
+                                     borderRadius: 5
+                                 }
+                             },
+                             markers: {
+                                 colors: [window.theme.dark],
+                                 fillColor: window.theme.gray200
+                             },
+                             colors: [window.theme.lightPrimary, window.theme.primary],
+                             legend: {
                                  show: !1
-                             }
-                         },
-                         plotOptions: {
-                             bar: {
-                                 horizontal: !1,
-                                 columnWidth: "40%",
-                                 borderRadius: 5
-                             }
-                         },
-                         markers: {
-                             colors: [window.theme.dark],
-                             fillColor: window.theme.gray200
-                         },
-                         colors: [window.theme.lightPrimary, window.theme.primary],
-                         legend: {
-                             show: !1
-                         },
-                         stroke: {
-                             width: [0, 4],
-                             colors: [window.theme.lightPrimary]
-                         },
-                         dataLabels: {
-                             enabled: !0,
-                             enabledOnSeries: [1]
-                         },
-                         labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-                         xaxis: {
-                             labels: {
-                                 style: {
-                                     fontSize: "13px",
-                                     fontWeight: 400,
-                                     colors: window.theme.gray500,
-                                     fontFamily: "inter"
+                             },
+                             stroke: {
+                                 width: [0, 4],
+                                 colors: [window.theme.lightPrimary]
+                             },
+                             dataLabels: {
+                                 enabled: !0,
+                                 enabledOnSeries: [1]
+                             },
+                             labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                             xaxis: {
+                                 labels: {
+                                     style: {
+                                         fontSize: "13px",
+                                         fontWeight: 400,
+                                         colors: window.theme.gray500,
+                                         fontFamily: "inter"
+                                     }
+                                 }
+                             },
+                             yaxis: {
+                                 labels: {
+                                     style: {
+                                         fontSize: "13px",
+                                         fontWeight: 400,
+                                         colors: window.theme.gray500,
+                                         fontFamily: "inter"
+                                     }
                                  }
                              }
-                         },
-                         yaxis: {
-                             labels: {
-                                 style: {
-                                     fontSize: "13px",
-                                     fontWeight: 400,
-                                     colors: window.theme.gray500,
-                                     fontFamily: "inter"
-                                 }
-                             }
-                         }
-                     };
-                     new ApexCharts(document.querySelector("#taskSummary"), e).render()
-                 }
-            }
-            else {
-                window.location.href = $('#actionDanhsach').data('request-url');
-            }
-        });
+                         };
+                         new ApexCharts(document.querySelector("#taskSummary"), e).render()
+                     }
+                }
+                else {
+                    window.location.href = $('#actionDanhsach').data('request-url');
+                }
+            });
+        }
     });
 
 </script>

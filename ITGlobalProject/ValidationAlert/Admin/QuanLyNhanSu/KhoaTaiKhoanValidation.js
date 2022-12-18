@@ -33,6 +33,15 @@
                                     $('#khoataikhoan').replaceWith('<a id="khoataikhoan" style="width:100%" class="btn btn-outline-success btn-sm">MỞ KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i></a>');
                                     $('#CheckorX').replaceWith('<i id="CheckorX" style="font-size: 22px" class="fe fe-x-circle text-danger" data-bs-toggle="tooltip" data-placement="top" title="Đã ngưng làm"></i>');
 
+                                    var d = new Date();
+                                    var month = d.getMonth() + 1;
+                                    var day = d.getDate();
+                                    var currentDate = d.getFullYear() + '-' +
+                                        (month < 10 ? '0' : '') + month + '-' +
+                                        (day < 10 ? '0' : '') + day;
+                                    $('#ngaythoiviec').text("Ngày thôi việc " + currentDate).prop("hidden", false);
+                                    $('#ngaythoiviecspace').prop('hidden', false);
+
                                     if ($('[data-bs-toggle="tooltip"]').length) [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map((function (e) {
                                         return new bootstrap.Tooltip(e)
                                     }));
@@ -113,6 +122,7 @@
                                 if (ketqua === "DAKHOA") {
                                     $('#khoataikhoan').replaceWith('<a id="khoataikhoan" style="width:100%" class="btn btn-outline-success btn-sm">MỞ KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i></a>');
                                     $('#CheckorX').replaceWith('<i id="CheckorX" style="font-size: 22px" class="fe fe-x-circle text-danger" data-bs-toggle="tooltip" data-placement="top" title="Đã ngưng làm"></i>');
+
                                     if ($('[data-bs-toggle="tooltip"]').length) [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map((function (e) {
                                         return new bootstrap.Tooltip(e)
                                     }));
@@ -139,6 +149,10 @@
                                 else {
                                     $('#khoataikhoan').replaceWith('<a id="khoataikhoan" style="width:100%" class="btn btn-outline-danger btn-sm">KHÓA TÀI KHOẢN <i class="mdi mdi-lock "></i></a>');
                                     $('#CheckorX').replaceWith('<i id="CheckorX" class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>');
+
+                                    $('#ngaythoiviec').prop("hidden", true);
+                                    $('#ngaythoiviecspace').prop("hidden", true);
+
                                     if ($('[data-bs-toggle="tooltip"]').length) [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map((function (e) {
                                         return new bootstrap.Tooltip(e)
                                     }));

@@ -112,59 +112,66 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 model.Employees.Add(emp);
                 model.SaveChanges();
 
+                //Hợp đồng
                 model = new CP25Team06Entities();
-                EmploymentContracts employ = new EmploymentContracts();
-                employ.ID_Employee = emp.ID;
-                employ.StartDate = Convert.ToDateTime(ngaykyhopdong);
-                employ.EmploymentCategory = loaihopdong;
-
-                if (loaihopdong.Equals("Hợp đồng có thời hạn"))
-                    employ.EndDate = Convert.ToDateTime(ngaygiahanhopdong);
-
-                FileStream stream;
-                if (anhHopDong.ContentLength > 0)
+                if (!string.IsNullOrEmpty(loaihopdong) || !string.IsNullOrEmpty(ngaykyhopdong) || !string.IsNullOrEmpty(ngaygiahanhopdong))
                 {
-                    const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
-                    int length = 30;
-                    var sb = new StringBuilder();
-                    Random RNG = new Random();
-                    for (var i = 0; i < length; i++)
+                    EmploymentContracts employ = new EmploymentContracts();
+                    employ.ID_Employee = emp.ID;
+                    employ.StartDate = Convert.ToDateTime(ngaykyhopdong);
+                    employ.EmploymentCategory = loaihopdong;
+
+                    if (loaihopdong.Equals("Hợp đồng có thời hạn"))
+                        employ.EndDate = Convert.ToDateTime(ngaygiahanhopdong);
+
+                    FileStream stream;
+                    if (anhHopDong != null)
                     {
-                        var c = src[RNG.Next(0, src.Length)];
-                        sb.Append(c);
-                    }
-
-                    string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + anhHopDong.FileName); ;
-                    anhHopDong.SaveAs(path);
-                    stream = new FileStream(Path.Combine(path), FileMode.Open);
-                    var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
-                    var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
-                    var cancellation = new CancellationTokenSource();
-
-                    var task = new FirebaseStorage(
-                        Bucket,
-                        new FirebaseStorageOptions
+                        if (anhHopDong.ContentLength > 0)
                         {
-                            AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
-                            ThrowOnCancel = true
-                        })
-                        .Child("images")
-                        .Child(sb.ToString().Trim() + anhHopDong.FileName)
-                        .PutAsync(stream, cancellation.Token);
-                    try
-                    {
-                        string link = await task;
-                        employ.ImageURL = link;
-                        System.IO.File.Delete(path);
-                    }
-                    catch
-                    {
-                        return Content("Đã có xảy ra lỗi, vui lòng thử lại");
-                    }
-                }
-                model.EmploymentContracts.Add(employ);
-                model.SaveChanges();
+                            const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
+                            int length = 30;
+                            var sb = new StringBuilder();
+                            Random RNG = new Random();
+                            for (var i = 0; i < length; i++)
+                            {
+                                var c = src[RNG.Next(0, src.Length)];
+                                sb.Append(c);
+                            }
 
+                            string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + anhHopDong.FileName); ;
+                            anhHopDong.SaveAs(path);
+                            stream = new FileStream(Path.Combine(path), FileMode.Open);
+                            var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                            var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+                            var cancellation = new CancellationTokenSource();
+
+                            var task = new FirebaseStorage(
+                                Bucket,
+                                new FirebaseStorageOptions
+                                {
+                                    AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                                    ThrowOnCancel = true
+                                })
+                                .Child("images")
+                                .Child(sb.ToString().Trim() + anhHopDong.FileName)
+                                .PutAsync(stream, cancellation.Token);
+                            try
+                            {
+                                string link = await task;
+                                employ.ImageURL = link;
+                                System.IO.File.Delete(path);
+                            }
+                            catch
+                            {
+                                return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                            }
+                        }
+                    }
+                    model.EmploymentContracts.Add(employ);
+                    model.SaveChanges();
+                }
+                
                 //Kỹ năng
                 if (!string.IsNullOrEmpty(kynang))
                 {
@@ -913,6 +920,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 if (user.Lock == false)
                 {
                     user.Lock = true;
+                    user.DayOff = DateTime.Now;
                     model.Entry(user).State = EntityState.Modified;
                     model.SaveChanges();
                     model = new CP25Team06Entities();
@@ -921,6 +929,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 else
                 {
                     user.Lock = false;
+                    user.DayOff = null;
                     model.Entry(user).State = EntityState.Modified;
                     model.SaveChanges();
                     model = new CP25Team06Entities();

@@ -98,16 +98,11 @@
                         <span class="navbar-header">Hồ Sơ Nhân Viên</span>
                         <!-- List -->
                         @*<ul class="list-unstyled ms-n2 mb-4">*@
-                        <ul class="list-unstyled ms-n2 mb-0">
+                        <ul class="list-unstyled ms-n2 mb-4">
                             <!-- Nav item -->
                             <li class="nav-item ">
                                 <a role="button" id="ttcanhan" class="nav-link">
                                     <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a role="button" id="lhvathanhtoan" class="nav-link">
-                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -125,24 +120,24 @@
                                     <i class="fe fe-users nav-icon"></i>Người phụ thuộc
                                 </a>
                             </li>
-                            <li class="nav-item ">
-                                <a role="button" id="tcvaphucap" class="nav-link">
-                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
-                                </a>
-                            </li>
                             <li class="nav-item active">
                                 <a role="button" id="hdvacongviec" class="nav-link">
                                     <i class="fe fe-file-text nav-icon"></i>Hợp đồng & Công việc
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a role="button" class="nav-link" id="DAThamGia">
-                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                        </ul>
+
+                        <span class="navbar-header">Thông Tin Lương</span>
+                        <ul class="list-unstyled ms-n2 mb-4">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="lhvathanhtoan" class="nav-link">
+                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a role="button" class="nav-link" id="LSHoatDong">
-                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
+                                <a role="button" id="tcvaphucap" class="nav-link">
+                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -150,9 +145,26 @@
                                     <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
                                 </a>
                             </li>
+                        </ul>
+
+
+                        <span class="navbar-header">Dự án & Công việc</span>
+                        <ul class="list-unstyled ms-n2 mb-0">
+                            <!-- Nav item -->
+
+                            <li class="nav-item">
+                                <a role="button" class="nav-link" id="DAThamGia">
+                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                                </a>
+                            </li>
                             <li class="nav-item  ">
                                 <a role="button" class="nav-link" id="LBCongViec">
                                     <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" class="nav-link" id="LSHoatDong">
+                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
                                 </a>
                             </li>
                             <li class="nav-item  ">
@@ -178,6 +190,7 @@
                                 </li>
                             }
                         </ul>
+
                     </div>
                 </div>
             </nav>
@@ -189,7 +202,7 @@
                     <h3 class="mb-0">Thông Tin Làm Việc</h3>
                 </div>
                 <div class="card-body">
-                    <form class="row">
+                    <form id="noidungPage" class="row">
                         <div class="mb-2 col-12 col-md-4">
                             <label style="font-weight:bold;" class="form-label" for="phone">Cấp tài khoản</label>
                             <div class="form-check form-switch form-control">
@@ -397,6 +410,17 @@
         </div>
         <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_HopDongValidation.js"></script>
         <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
+        <script>
+            $('#noidungPage').change(function () {
+                somethingChanged = true;
+            });
+            $('#btnLuuThongTin').on('click', function () {
+                somethingChanged = false;
+            });
+            $('#reloadPage').on('click', function () {
+                somethingChanged = false;
+            });
+        </script>
         @foreach (var item in Model.EmploymentContracts)
         {
             <!-- Hình ảnh hợp đồng -->

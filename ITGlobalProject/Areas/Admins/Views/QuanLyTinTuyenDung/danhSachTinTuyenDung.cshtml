@@ -65,7 +65,7 @@
                         <div class="mt-2 d-flex justify-content-between align-items-center">
                             <div class="lh-1">
                                 <h2 class="h1 fw-bold mb-1">@Convert.ToDecimal(Model.OrderByDescending(o => o.Views).First().Views).ToString("0,0").Replace(".", ",")</h2>
-                                <span>Lượt xem - <a href="@Url.Action("thongTinTuyenDung", "TinTuyenDung", new {area = "", id = Model.OrderByDescending(o => o.Views).First().ID})">Tin số @Model.OrderByDescending(o => o.Views).First().ID</a></span>
+                                <span>Lượt xem - <a target="_blank" href="@Url.Action("thongTinTuyenDung", "TinTuyenDung", new {area = "", id = Model.OrderByDescending(o => o.Views).First().ID})">Tin số @Model.OrderByDescending(o => o.Views).First().ID</a></span>
                             </div>
                             <div>
                                 <span class="bg-light-warning icon-shape icon-xl rounded-3 text-dark-warning">
