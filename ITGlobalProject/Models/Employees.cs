@@ -56,6 +56,7 @@ namespace ITGlobalProject.Models
         public Nullable<System.DateTime> CodeDate { get; set; }
         public Nullable<System.DateTime> AccessHistory { get; set; }
         public bool AccountSatus { get; set; }
+        public Nullable<System.DateTime> DayOff { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comment { get; set; }

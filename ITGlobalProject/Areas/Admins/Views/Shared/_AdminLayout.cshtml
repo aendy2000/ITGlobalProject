@@ -117,7 +117,7 @@
                            aria-expanded="false" aria-controls="navProfile">
                             <i class="nav-icon fe fe-users me-2"></i> Quản Lý Nhân Sự
                         </a>
-                        @if (ViewBag.ShowActive == "danhSachNhanVien" || ViewBag.ShowActive == "danhSachVaiTro")
+                        @if (ViewBag.ShowActive == "danhSachNhanVien" || ViewBag.ShowActive == "danhSachVaiTro" || ViewBag.ShowActive == "danhSachBoPhan")
                         {
                             <div id="navProfile" class="collapse show" data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
@@ -133,8 +133,13 @@
                                                 Chức danh
                                             </a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")">
+                                                Bộ phận
+                                            </a>
+                                        </li>
                                     }
-                                    else
+                                    else if (ViewBag.ShowActive == "danhSachVaiTro")
                                     {
                                         <li class="nav-item ">
                                             <a class="nav-link " href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">
@@ -144,6 +149,29 @@
                                         <li class="nav-item">
                                             <a class="nav-link active" href="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")">
                                                 Chức danh
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")">
+                                                Bộ phận
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item ">
+                                            <a class="nav-link " href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">
+                                                Nhân viên
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")">
+                                                Chức danh
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")">
+                                                Bộ phận
                                             </a>
                                         </li>
                                     }
@@ -164,10 +192,79 @@
                                             Chức danh
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")">
+                                            Bộ phận
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         }
                     </li>
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link  " href="#" data-bs-toggle="collapse" data-bs-target="#navKyNangChuyenMon"
+                           aria-expanded="false" aria-controls="navKyNangChuyenMon">
+                            <i class="nav-icon fe fe-award me-2"></i> Kỹ Năng Chuyên Môn
+                        </a>
+                        @if (ViewBag.ShowActive == "danhSachDanhMucKyNang" || ViewBag.ShowActive == "danhSachKyNang")
+                        {
+                            <div id="navKyNangChuyenMon" class="collapse show" data-bs-parent="#sideNavbar">
+                                <ul class="nav flex-column">
+                                    @if (ViewBag.ShowActive == "danhSachKyNang")
+                                    {
+                                        <li class="nav-item ">
+                                            <a class="nav-link active" href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")">
+                                                Kỹ năng
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")">
+                                                Danh mục kỹ năng
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item ">
+                                            <a class="nav-link " href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")">
+                                                Kỹ năng
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")">
+                                                Danh mục kỹ năng
+                                            </a>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="navKyNangChuyenMon" class="collapse " data-bs-parent="#sideNavbar">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")">
+                                            Kỹ năng
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")">
+                                            Danh mục kỹ năng
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                    </li>
+
+
+
+
 
                     <li class="nav-item">
                         <a class="nav-link  " href="#" data-bs-toggle="collapse" data-bs-target="#navluong"
@@ -374,6 +471,23 @@
                         <li class="nav-item ">
                             <a class="nav-link " href="@Url.Action("thongTinLienHeTuVan", "LienHeTuVan")">
                                 <i class="nav-icon fe fe-phone-outgoing me-2"></i> Thông Tin Tư Vấn
+                            </a>
+                        </li>
+                    }
+
+                    @if (ViewBag.ShowActive == "danhSachKhoanTroCapVaPhuCap")
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link  active" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")">
+                                <i class="nav-icon fe fe-heart me-2"></i> Trợ cấp & Phụ cấp
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link " href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")">
+                                <i class="nav-icon fe fe-heart me-2"></i> Trợ cấp & Phụ cấp
                             </a>
                         </li>
                     }
@@ -664,9 +778,8 @@
 
     <!-- Theme JS -->
     <script src="~/Content/Admin/assets/js/theme.min.js"></script>
-
     <script src="~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-
+    <script src="~/Content/Admin/js/bootstrap-notify.min.js"></script>
     @if (ViewBag.Title == "Chi Tiết Dự Án")
     {
         <script>
@@ -760,5 +873,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <link href="~/Content/Admin/css/Select2.css" rel="stylesheet" />
     }
+
+
 </body>
 </html>

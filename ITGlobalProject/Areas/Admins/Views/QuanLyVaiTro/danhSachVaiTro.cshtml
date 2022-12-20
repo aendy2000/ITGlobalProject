@@ -26,7 +26,7 @@
                                 <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("danhSachQuyen", "QuanLyQuyen")">Quản Lý Chức Danh</a>
+                                <a href="@Url.Action("danhsachvaitro", "quanlyvaitro")">Quản Lý Chức Danh</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 Danh Sách Chức Danh
@@ -128,28 +128,28 @@
                                             }
                                             else
                                             {
-                                                foreach (var emp in employee)
+                                                for (int d = 0; d < 3; d++)
                                                 {
-                                                    if (!string.IsNullOrEmpty(emp.Avatar))
+                                                    if (!string.IsNullOrEmpty(employee[d].Avatar))
                                                     {
                                                         <span class="avatar avatar-md">
 
-                                                            <img alt="avatar" src="@emp.Avatar"
-                                                                 class="rounded-circle imgtooltip" data-template="@emp.ID">
-                                                            <span id="@emp.ID" class="d-none">
-                                                                <span class="mb-0 h6">@emp.Name</span>
+                                                            <img alt="avatar" src="@employee[d].Avatar"
+                                                                 class="rounded-circle imgtooltip" data-template="@employee[d].ID">
+                                                            <span id="@employee[d].ID" class="d-none">
+                                                                <span class="mb-0 h6">@employee[d].Name</span>
                                                             </span>
                                                         </span>
                                                     }
                                                     else
                                                     {
-                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@emp.ID">
+                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@employee[d].ID">
                                                             <span class="avatar-initials rounded-circle ">
-                                                                @emp.Name.Substring(0, 1)
+                                                                @employee[d].Name.Substring(0, 1)
                                                             </span>
 
-                                                            <span id="@emp.ID" class="d-none">
-                                                                <span class="mb-0 h6">@emp.Name</span>
+                                                            <span id="@employee[d].ID" class="d-none">
+                                                                <span class="mb-0 h6">@employee[d].Name</span>
 
                                                             </span>
                                                         </span>

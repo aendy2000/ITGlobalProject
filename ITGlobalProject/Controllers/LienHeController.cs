@@ -17,7 +17,7 @@ namespace ITGlobalProject.Controllers
         public ActionResult Index()
         {
             ViewBag.HeaderPages = "LienHe";
-            return View();
+            return View("Index");
         }
         [HttpPost]
         public ActionResult guiThongTin(string name, string phone, string email, string message)

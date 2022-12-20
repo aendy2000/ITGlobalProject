@@ -11,7 +11,7 @@ namespace ITGlobalProject.Controllers
         public ActionResult Index()
         {
             ViewBag.HeaderPages = "TrangChu";
-            return View();
+            return View("Index");
         }
     }
 }

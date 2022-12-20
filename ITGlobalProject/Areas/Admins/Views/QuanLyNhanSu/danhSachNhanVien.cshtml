@@ -3,6 +3,7 @@
 @using ITGlobalProject.Models;
 @model IPagedList<ITGlobalProject.Models.Employees>
 @{
+    string coll = "show";
     int j = 0;
     int k = 0;
     ViewBag.Title = "Quản Lý Nhân Viên";
@@ -10,7 +11,7 @@
 
     var department = Session["lst-department"] as List<Department>;
     var lstPosition = Session["lst-role"] as List<Position>;
-    var lstkynang = Session["lst-kynang"] as List<Skills>;
+    var lstkynang = Session["lst-kynang"] as List<SkillsCategory>;
     var lsttrocap = Session["lst-trocap"] as List<SubsidiesCategory>;
 }
 
@@ -469,7 +470,8 @@
                                 <div class="mb-3 col-12 col-md-12 text-center">
                                     <label style="width: 100%" class="text-center">Không tìm thấy dữ liệu tương ứng.</label>
                                 </div>
-                            }                            <div class="col-lg-12 col-md-12 col-12">
+                            }
+                            <div class="col-lg-12 col-md-12 col-12">
                                 <div class="pt-4">
                                     <!-- Pagination -->
                                     <nav>
@@ -779,7 +781,7 @@
                         <input type="text" id="quoctich" name="quoctich" class="form-control" placeholder="Việt Nam" />
                         <p style="font-size: 13px; color:red;" id="quoctichvalidation"></p>
                     </div>
-                   
+
                     <div class="mb-2 col-12 col-md-4">
                         <label style="font-weight:bold;" l class="form-label" for="birth"> Ngày sinh <span class="text-danger">*</span></label>
                         <input type="text" class="form-control flatpickr" placeholder="Chọn ngày sinh" id="ngaysinh" name="ngaysinh" />
@@ -858,7 +860,7 @@
 
                     </div>
                     <div class="mb-2 col-12 col-md-6">
-                        <label style="font-weight:bold;" for="dsNganHang" class="form-label">Ngân hàng <span class="text-danger">*</span></label>
+                        <label style="font-weight:bold;" for="dsNganHang" class="form-label">Ngân hàng</label>
                         <input list="dsNganHang" id="tenNganHang" class="form-control" placeholder="Tên ngân hàng" />
                         <p style="font-size: 13px; color:red;" id="tennganhangvalidation"></p>
                         <datalist name="dsNganHang" id="dsNganHang">
@@ -869,12 +871,12 @@
                         <p style="font-size: 13px; color:red;" id="tennganhangvalidation"></p>
                     </div>
                     <div class="mb-2 col-12 col-md-6 py-2">
-                        <label style="font-weight:bold;" class="form-label">Số tài khoản <span class="text-danger">*</span></label>
+                        <label style="font-weight:bold;" class="form-label">Số tài khoản</label>
                         <input id="sotaikhoan" name="sotaikhoan" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
                         <p style="font-size: 13px; color:red;" id="sotaikhoanvalidation"></p>
                     </div>
                     <div class="mb-2 col-12 col-md-6 py-2">
-                        <label style="font-weight:bold;" class="form-label">Chủ tài khoản <span class="text-danger">*</span></label>
+                        <label style="font-weight:bold;" class="form-label">Chủ tài khoản</label>
                         <input id="chutaikhoan" name="chutaikhoan" type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
                         <p style="font-size: 13px; color:red;" id="chutaikhoanvalidation"></p>
                     </div>
@@ -894,19 +896,47 @@
                 </h4>
             </div>
             <div class="container">
-                <div id="collapse5" class=" collapse row" aria-labelledby="heading5" data-bs-parent="#accordionExample">
+                <div id="collapse5" class="collapse" aria-labelledby="heading5" data-bs-parent="#accordionExample">
                     <div class="py-3"></div>
 
-                    @foreach (var item in lstkynang)
-                    {
-                        j++;
-                        <div class="form-check mb-2 col-12 col-md-4">
-                            <input class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(item.ID)">
-                            <label class="form-check-label" for="@item.ID">
-                                @item.Name
-                            </label>
-                        </div>
-                    }
+                    <div class="accordion border" id="accordionExampleChild">
+                        @foreach (var item in lstkynang)
+                        {
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading@(item.ID)">
+                                    <button style="font-weight: bold" class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapses@(item.ID)" aria-expanded="true" aria-controls="collapses@(item.ID)">
+                                        @item.Name
+                                    </button>
+                                </h2>
+                                <div id="collapses@(item.ID)" class="accordion-collapse collapse @coll"
+                                     aria-labelledby="heading@(item.ID)" data-bs-parent="#accordionExampleChild">
+                                    <div class="accordion-body row">
+                                        @if (item.Skills.Count > 0)
+                                        {
+                                            foreach (var items in item.Skills)
+                                            {
+                                                j++;
+                                                <div class="form-check mb-2 col-12 col-md-4">
+                                                    <input class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(items.ID)">
+                                                    <label class="form-check-label" for="@items.ID">
+                                                        @items.Name
+                                                    </label>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div class="mb-2 col-12 col-md-12 text-center">
+                                                Không có dữ liệu để hiển thị.
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            coll = "";
+                        }
+                    </div>
                     <input hidden value="@j" id="slkn" />
                 </div>
             </div>
@@ -1132,7 +1162,7 @@
                     </div>
 
                     <div id="chonLoaiHopDong" class="mb-2 col-12 col-md-4">
-                        <label style="font-weight:bold;" class="form-label" for="loaiHopDong">Loại hợp đồng <span class="text-danger">*</span></label>
+                        <label style="font-weight:bold;" class="form-label" for="loaiHopDong">Loại hợp đồng</label>
                         <select id="loaiHopDong" name="loaiHopDong" class="selectpicker" data-width="100%">
                             <option value="">Chọn loại hợp đồng</option>
                             <option value="Hợp đồng có thời hạn">Hợp đồng có thời hạn</option>
@@ -1142,12 +1172,12 @@
 
                     </div>
                     <div class="mb-2 col-12 col-md-4">
-                        <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Ngày bắt đầu hợp đồng <span class="text-danger">*</span></label>
+                        <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Ngày bắt đầu hợp đồng</label>
                         <input type="text" class="form-control flatpickr" placeholder="Chọn ngày bắt đầu hợp đồng" id="ngaykyhopdong" name="ngaykyhopdong" />
                         <p style="font-size: 13px; color:red;" id="ngaykyhopdongvalidation"></p>
                     </div>
                     <div id="ketthucHopDong" hidden="hidden" class="mb-2 col-12 col-md-4">
-                        <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Ngày gia hạn / kết thúc hợp đồng <span class="text-danger">*</span></label>
+                        <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Ngày gia hạn / kết thúc hợp đồng</label>
                         <input type="text" class="form-control flatpickr" placeholder="Chọn ngày gia hạn hợp đồng" id="ngaygiahanhopdong" name="ngaygiahanhopdong" />
                         <p style="font-size: 13px; color:red;" id="ngaygiahanhopdongvalidation"></p>
                     </div>
@@ -1162,7 +1192,7 @@
                         <p style="font-size: 13px; color:red;" id="hinhthucvalidation"></p>
                     </div>
                     <div id="taiAnhHopDong" class="mb-2 col-12 col-md-12">
-                        <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Tải lên hợp đồng <span class="text-danger">*</span></label>
+                        <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Tải lên hợp đồng</label>
                         <a role="button" id="chonanhhopdong" class="btn btn-outline-primary" style="width:100%">
                             <i class="fe fe-upload me-1"></i>
                             Tải Lên Hình Ảnh
@@ -1207,6 +1237,12 @@
     $('#vaitrovalidation').hide();
     $('#diachiemailvalidation').hide();
     $('#matkhaudangnhapvalidation').hide();
+
+    $('[id^="Headingskillitem"]').on('click', function () {
+        $("#collapse5").show();
+    });
+
+
 </script>
 <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ThemNhanVienValidation.js"></script>
 <script src="~/ValidationAlert/Admin/QuanLyNhanSu/TimKiemNhanVien.js"></script>

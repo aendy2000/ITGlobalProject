@@ -105,7 +105,15 @@
   <ItemGroup>
     <Compile Include="Areas\Admins\Controller\QuanLyNhanSu.cs" />
     <Compile Include="Areas\Admins\Controller\QuanLyTaiKhoan.cs" />
+    <Compile Include="Areas\Admins\Controller\LienHeTuVan.cs" />
+    <Compile Include="Areas\Admins\Controller\QuanLyTinTuyenDung.cs" />
     <Compile Include="Areas\Admins\Controller\QuanLyVaiTro.cs" />
+    <Compile Include="User\DuAnThanhCong.cs" />
+    <Compile Include="User\GioiThieu.cs" />
+    <Compile Include="User\HoiDap.cs" />
+    <Compile Include="User\LienHe.cs" />
+    <Compile Include="User\TinTuyenDung.cs" />
+    <Compile Include="User\TrangChu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

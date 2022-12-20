@@ -47,7 +47,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult chinhSuaVaiTro(int? id, string name, string description, int? depart)
         {
-            var position = model.Position.FirstOrDefault(p => p.ID == id);
+            var position = model.Position.Find(id);
             if (position == null || id == null || string.IsNullOrEmpty(name))
                 return Content("DANHSACH");
 
@@ -66,7 +66,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult xoaVaiTro(int? id)
         {
-            var position = model.Position.FirstOrDefault(p => p.ID == id);
+            var position = model.Position.Find(id);
             if (id == null || position == null)
                 return Content("DANHSACH");
             

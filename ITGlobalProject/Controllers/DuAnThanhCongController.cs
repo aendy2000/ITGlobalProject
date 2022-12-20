@@ -12,7 +12,7 @@ namespace ITGlobalProject.Controllers
         public ActionResult Index()
         {
             ViewBag.HeaderPages = "DuAnThanhCong";
-            return View();
+            return View("Index");
         }
     }
 }

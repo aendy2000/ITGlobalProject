@@ -73,8 +73,11 @@
                     </div>
 
                 </div>
-                <div><span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: 2022-10-14</span></div>
-
+                <div><span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: @Model.JoinedDate.ToString("yyyy-MM-dd")</span></div>
+                @if (Model.Lock == true)
+                {
+                    <div><span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày thôi việc: @Convert.ToDateTime(Model.DayOff).ToString("yyyy-MM-dd")</span></div>
+                }
             </div>
         </div>
     </div>
@@ -97,16 +100,11 @@
                         <span class="navbar-header">Hồ Sơ Nhân Viên</span>
                         <!-- List -->
                         @*<ul class="list-unstyled ms-n2 mb-4">*@
-                        <ul class="list-unstyled ms-n2 mb-0">
+                        <ul class="list-unstyled ms-n2 mb-4">
                             <!-- Nav item -->
                             <li class="nav-item ">
                                 <a role="button" id="ttcanhan" class="nav-link">
                                     <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a role="button" id="lhvathanhtoan" class="nav-link">
-                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -124,24 +122,24 @@
                                     <i class="fe fe-users nav-icon"></i>Người phụ thuộc
                                 </a>
                             </li>
-                            <li class="nav-item active">
-                                <a role="button" id="tcvaphucap" class="nav-link">
-                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
-                                </a>
-                            </li>
                             <li class="nav-item ">
                                 <a role="button" id="hdvacongviec" class="nav-link">
                                     <i class="fe fe-file-text nav-icon"></i>Hợp đồng & Công việc
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a role="button" class="nav-link" id="DAThamGia">
-                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                        </ul>
+
+                        <span class="navbar-header">Thông Tin Lương</span>
+                        <ul class="list-unstyled ms-n2 mb-4">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="lhvathanhtoan" class="nav-link">
+                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
                                 </a>
                             </li>
-                            <li class="nav-item ">
-                                <a role="button" class="nav-link" id="LSHoatDong">
-                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
+                            <li class="nav-item active">
+                                <a role="button" id="tcvaphucap" class="nav-link">
+                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -149,9 +147,26 @@
                                     <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
                                 </a>
                             </li>
+                        </ul>
+
+
+                        <span class="navbar-header">Dự án & Công việc</span>
+                        <ul class="list-unstyled ms-n2 mb-0">
+                            <!-- Nav item -->
+
+                            <li class="nav-item">
+                                <a role="button" class="nav-link" id="DAThamGia">
+                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                                </a>
+                            </li>
                             <li class="nav-item  ">
                                 <a role="button" class="nav-link" id="LBCongViec">
                                     <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" class="nav-link" id="LSHoatDong">
+                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
                                 </a>
                             </li>
                             <li class="nav-item  ">
@@ -177,6 +192,7 @@
                                 </li>
                             }
                         </ul>
+
                     </div>
                 </div>
             </nav>
@@ -187,7 +203,7 @@
                 <div class="card-header">
                     <h3 class="mb-0">Trợ Cấp & Phụ Cấp</h3>
                 </div>
-                <form class="card-body">
+                <form id="noidungPage" class="card-body">
                     <div class="row">
                         @foreach (var item in lstTroCap)
                         {
@@ -277,7 +293,7 @@
                     </div>
                     <div class="row">
                         <div style="text-align: right; padding-top: 40px" class="mb-3 col-12 col-md-6">
-                            <button type="reset" style="width: 230px" class="btn btn-outline-danger">
+                            <button type="reset" id="reloadPage" style="width: 230px" class="btn btn-outline-danger">
                                 Hủy
                             </button>
                         </div>
@@ -293,5 +309,16 @@
     </div>
     <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_phuCapVaTroCapValidation.js"></script>
     <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
+    <script>
+        $('#noidungPage').change(function () {
+            somethingChanged = true;
+        });
+        $('#btnLuuThongTin').on('click', function () {
+            somethingChanged = false;
+        });
+        $('#reloadPage').on('click', function () {
+            somethingChanged = false;
+        });
+    </script>
 </div>
 

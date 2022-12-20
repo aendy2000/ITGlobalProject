@@ -238,17 +238,16 @@
 
         //Thông Tin Cá Nhân
         let hoten = $('#hoten').val().trim();
-        let cmnd = $('#cmnd').val().replace("_", "");
+        let cmnd = $('#cmnd').val().replace(/_/g, '');
         let quoctich = $('#quoctich').val().trim();
         let honnhan = $('#honnhan :selected').val();
         let ngaysinh = $('#ngaysinh').val();
         let gioitinh = $('#gioitinh :selected').val();
         let diachinha = $('#diachinha').val().trim();
-        let sodienthoaididong = $('#sodienthoaididong').val().replace("_", "");
-        let sodienthoaikhac = $('#sodienthoaikhac').val().replace("_", "");
+        let sodienthoaididong = $('#sodienthoaididong').val().replace(/_/g, '');
+        let sodienthoaikhac = $('#sodienthoaikhac').val().replace(/_/g, '');
         let diachiemailcongty = $('#diachiemailcongty').val();
         let diachiemailkhac = $('#diachiemailkhac').val();
-
 
         var checkthongtincanhan = true;
 
@@ -495,126 +494,129 @@
             $('#hoantatttlienhe').removeClass('text-success');
 
         }
-        if (dsNganHang.length < 1) {
-            checklienhethanhtoan = false;
-            $("#tennganhangvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-            $('#collapse2').collapse('show');
-            $('#hoantatttlienhe').addClass('fe-x-circle');
-            $('#hoantatttlienhe').addClass('text-danger');
-            $('#hoantatttlienhe').removeClass('fe-check-circle');
-            $('#hoantatttlienhe').removeClass('text-success');
+        if (dsNganHang.length > 0 || sotaikhoan.length > 0 || chutaikhoan.length > 0) {
 
-        }
-        else if (dsNganHang.length > 100) {
-            checklienhethanhtoan = false;
-            $("#tennganhangvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
-            $('#collapse2').collapse('show');
-            $('#hoantatttlienhe').addClass('fe-x-circle');
-            $('#hoantatttlienhe').addClass('text-danger');
-            $('#hoantatttlienhe').removeClass('fe-check-circle');
-            $('#hoantatttlienhe').removeClass('text-success');
+            if (dsNganHang.length < 1) {
+                checklienhethanhtoan = false;
+                $("#tennganhangvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                $('#collapse2').collapse('show');
+                $('#hoantatttlienhe').addClass('fe-x-circle');
+                $('#hoantatttlienhe').addClass('text-danger');
+                $('#hoantatttlienhe').removeClass('fe-check-circle');
+                $('#hoantatttlienhe').removeClass('text-success');
 
-        }
-        else if (formatss.test(dsNganHang.toLowerCase().replace(/\d+/g, '')) == true) {
-            checklienhethanhtoan = false;
-            $("#tennganhangvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
-            $('#collapse2').collapse('show');
-            $('#hoantatttlienhe').addClass('fe-x-circle');
-            $('#hoantatttlienhe').addClass('text-danger');
-            $('#hoantatttlienhe').removeClass('fe-check-circle');
-            $('#hoantatttlienhe').removeClass('text-success');
-        }
-        else if (formatnumber.test(dsNganHang) == true) {
-            checklienhethanhtoan = false;
-            $("#tennganhangvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
-            $('#collapse2').collapse('show');
-            $('#hoantatttlienhe').addClass('fe-x-circle');
-            $('#hoantatttlienhe').addClass('text-danger');
-            $('#hoantatttlienhe').removeClass('fe-check-circle');
-            $('#hoantatttlienhe').removeClass('text-success');
+            }
+            else if (dsNganHang.length > 100) {
+                checklienhethanhtoan = false;
+                $("#tennganhangvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+                $('#collapse2').collapse('show');
+                $('#hoantatttlienhe').addClass('fe-x-circle');
+                $('#hoantatttlienhe').addClass('text-danger');
+                $('#hoantatttlienhe').removeClass('fe-check-circle');
+                $('#hoantatttlienhe').removeClass('text-success');
 
-        }
-        if (sotaikhoan.length < 1) {
-            checklienhethanhtoan = false;
-            $("#sotaikhoanvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-            $('#collapse2').collapse('show');
-            $('#hoantatttlienhe').addClass('fe-x-circle');
-            $('#hoantatttlienhe').addClass('text-danger');
-            $('#hoantatttlienhe').removeClass('fe-check-circle');
-            $('#hoantatttlienhe').removeClass('text-success');
+            }
+            else if (formatss.test(dsNganHang.toLowerCase().replace(/\d+/g, '')) == true) {
+                checklienhethanhtoan = false;
+                $("#tennganhangvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                $('#collapse2').collapse('show');
+                $('#hoantatttlienhe').addClass('fe-x-circle');
+                $('#hoantatttlienhe').addClass('text-danger');
+                $('#hoantatttlienhe').removeClass('fe-check-circle');
+                $('#hoantatttlienhe').removeClass('text-success');
+            }
+            else if (formatnumber.test(dsNganHang) == true) {
+                checklienhethanhtoan = false;
+                $("#tennganhangvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                $('#collapse2').collapse('show');
+                $('#hoantatttlienhe').addClass('fe-x-circle');
+                $('#hoantatttlienhe').addClass('text-danger');
+                $('#hoantatttlienhe').removeClass('fe-check-circle');
+                $('#hoantatttlienhe').removeClass('text-success');
 
-        }
-        else if (sotaikhoan.length > 50) {
-            checklienhethanhtoan = false;
-            $("#sotaikhoanvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
-            $('#collapse2').collapse('show');
-            $('#hoantatttlienhe').addClass('fe-x-circle');
-            $('#hoantatttlienhe').addClass('text-danger');
-            $('#hoantatttlienhe').removeClass('fe-check-circle');
-            $('#hoantatttlienhe').removeClass('text-success');
+            }
+            if (sotaikhoan.length < 1) {
+                checklienhethanhtoan = false;
+                $("#sotaikhoanvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                $('#collapse2').collapse('show');
+                $('#hoantatttlienhe').addClass('fe-x-circle');
+                $('#hoantatttlienhe').addClass('text-danger');
+                $('#hoantatttlienhe').removeClass('fe-check-circle');
+                $('#hoantatttlienhe').removeClass('text-success');
 
-        }
-        else if (formatTextVN.test(sotaikhoan) == true || formatss.test(sotaikhoan.toLowerCase().replace(/\d+/g, '')) == true) {
-            checklienhethanhtoan = false;
-            $("#sotaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
-            $('#collapse2').collapse('show');
-            $('#hoantatttlienhe').addClass('fe-x-circle');
-            $('#hoantatttlienhe').addClass('text-danger');
-            $('#hoantatttlienhe').removeClass('fe-check-circle');
-            $('#hoantatttlienhe').removeClass('text-success');
-        }
+            }
+            else if (sotaikhoan.length > 50) {
+                checklienhethanhtoan = false;
+                $("#sotaikhoanvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+                $('#collapse2').collapse('show');
+                $('#hoantatttlienhe').addClass('fe-x-circle');
+                $('#hoantatttlienhe').addClass('text-danger');
+                $('#hoantatttlienhe').removeClass('fe-check-circle');
+                $('#hoantatttlienhe').removeClass('text-success');
 
-        if (chutaikhoan.length < 1) {
-            checklienhethanhtoan = false;
-            $("#chutaikhoanvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-            $('#collapse2').collapse('show');
-            $('#hoantatttlienhe').addClass('fe-x-circle');
-            $('#hoantatttlienhe').addClass('text-danger');
-            $('#hoantatttlienhe').removeClass('fe-check-circle');
-            $('#hoantatttlienhe').removeClass('text-success');
+            }
+            else if (formatTextVN.test(sotaikhoan) == true || formatss.test(sotaikhoan.toLowerCase().replace(/\d+/g, '')) == true) {
+                checklienhethanhtoan = false;
+                $("#sotaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                $('#collapse2').collapse('show');
+                $('#hoantatttlienhe').addClass('fe-x-circle');
+                $('#hoantatttlienhe').addClass('text-danger');
+                $('#hoantatttlienhe').removeClass('fe-check-circle');
+                $('#hoantatttlienhe').removeClass('text-success');
+            }
 
-        }
-        else if (chutaikhoan.length > 50) {
-            checklienhethanhtoan = false;
-            $("#chutaikhoanvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
-            $('#collapse2').collapse('show');
-            $('#hoantatttlienhe').addClass('fe-x-circle');
-            $('#hoantatttlienhe').addClass('text-danger');
-            $('#hoantatttlienhe').removeClass('fe-check-circle');
-            $('#hoantatttlienhe').removeClass('text-success');
+            if (chutaikhoan.length < 1) {
+                checklienhethanhtoan = false;
+                $("#chutaikhoanvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                $('#collapse2').collapse('show');
+                $('#hoantatttlienhe').addClass('fe-x-circle');
+                $('#hoantatttlienhe').addClass('text-danger');
+                $('#hoantatttlienhe').removeClass('fe-check-circle');
+                $('#hoantatttlienhe').removeClass('text-success');
 
-        }
-        else if (formatss.test(chutaikhoan.toLowerCase().replace(/\d+/g, '')) == true) {
-            checklienhethanhtoan = false;
-            $("#chutaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
-            $('#collapse2').collapse('show');
-            $('#hoantatttlienhe').addClass('fe-x-circle');
-            $('#hoantatttlienhe').addClass('text-danger');
-            $('#hoantatttlienhe').removeClass('fe-check-circle');
-            $('#hoantatttlienhe').removeClass('text-success');
-        }
-        else if (formatnumber.test(chutaikhoan) == true) {
-            checklienhethanhtoan = false;
-            $("#chutaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
-            $('#collapse2').collapse('show');
-            $('#hoantatttlienhe').addClass('fe-x-circle');
-            $('#hoantatttlienhe').addClass('text-danger');
-            $('#hoantatttlienhe').removeClass('fe-check-circle');
-            $('#hoantatttlienhe').removeClass('text-success');
+            }
+            else if (chutaikhoan.length > 50) {
+                checklienhethanhtoan = false;
+                $("#chutaikhoanvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+                $('#collapse2').collapse('show');
+                $('#hoantatttlienhe').addClass('fe-x-circle');
+                $('#hoantatttlienhe').addClass('text-danger');
+                $('#hoantatttlienhe').removeClass('fe-check-circle');
+                $('#hoantatttlienhe').removeClass('text-success');
 
-        }
-        if (checklienhethanhtoan == true) {
+            }
+            else if (formatss.test(chutaikhoan.toLowerCase().replace(/\d+/g, '')) == true) {
+                checklienhethanhtoan = false;
+                $("#chutaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                $('#collapse2').collapse('show');
+                $('#hoantatttlienhe').addClass('fe-x-circle');
+                $('#hoantatttlienhe').addClass('text-danger');
+                $('#hoantatttlienhe').removeClass('fe-check-circle');
+                $('#hoantatttlienhe').removeClass('text-success');
+            }
+            else if (formatnumber.test(chutaikhoan) == true) {
+                checklienhethanhtoan = false;
+                $("#chutaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                $('#collapse2').collapse('show');
+                $('#hoantatttlienhe').addClass('fe-x-circle');
+                $('#hoantatttlienhe').addClass('text-danger');
+                $('#hoantatttlienhe').removeClass('fe-check-circle');
+                $('#hoantatttlienhe').removeClass('text-success');
 
-            $("#mucluongvalidation").text("").hide();
-            $("#tennganhangvalidation").text("").hide();
-            $("#sotaikhoanvalidation").text("").hide();
-            $("#chutaikhoanvalidation").text("").hide();
+            }
+            if (checklienhethanhtoan == true) {
 
-            $('#hoantatttlienhe').addClass('fe-check-circle');
-            $('#hoantatttlienhe').addClass('text-success');
-            $('#hoantatttlienhe').removeClass('fe-x-circle');
-            $('#hoantatttlienhe').removeClass('text-danger');
+                $("#mucluongvalidation").text("").hide();
+                $("#tennganhangvalidation").text("").hide();
+                $("#sotaikhoanvalidation").text("").hide();
+                $("#chutaikhoanvalidation").text("").hide();
 
+                $('#hoantatttlienhe').addClass('fe-check-circle');
+                $('#hoantatttlienhe').addClass('text-success');
+                $('#hoantatttlienhe').removeClass('fe-x-circle');
+                $('#hoantatttlienhe').removeClass('text-danger');
+
+            }
         }
 
         // end validation
@@ -917,17 +919,6 @@
             $('#hoantattthopdong').removeClass('text-success');
         }
 
-        //Loại hợp đồng
-        if (loaihopdong.length < 1) {
-            checkhopdongtaikhoan = false;
-            $('#loaihopdongvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-            $('#collapse3').collapse('show');
-            $('#hoantattthopdong').addClass('fe-x-circle');
-            $('#hoantattthopdong').addClass('text-danger');
-            $('#hoantattthopdong').removeClass('fe-check-circle');
-            $('#hoantattthopdong').removeClass('text-success');
-        }
-
         //Ngày vào làm
         if (ngayvaolam.length < 1) {
             checkhopdongtaikhoan = false;
@@ -1027,57 +1018,80 @@
             // end Validation nhập lại mk
         }
 
-
-        //Ngày ký hđ
-        if (ngaykyhopdong.length < 1) {
-            checkhopdongtaikhoan = false;
-            $('#ngaykyhopdongvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-            $('#collapse3').collapse('show');
-            $('#hoantattthopdong').addClass('fe-x-circle');
-            $('#hoantattthopdong').addClass('text-danger');
-            $('#hoantattthopdong').removeClass('fe-check-circle');
-            $('#hoantattthopdong').removeClass('text-success');
-        }
-
-        //ngày kết thúc hợp đồng
-        if (loaihopdong == "Hợp đồng có thời hạn") {
-            if (ngaygiahanhopdong.length < 1) {
+        if (loaihopdong.length > 0 || ngaykyhopdong.length > 0) {
+            //Loại hợp đồng
+            if (loaihopdong.length < 1) {
                 checkhopdongtaikhoan = false;
-                $('#ngaygiahanhopdongvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                $('#loaihopdongvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
                 $('#collapse3').collapse('show');
                 $('#hoantattthopdong').addClass('fe-x-circle');
                 $('#hoantattthopdong').addClass('text-danger');
                 $('#hoantattthopdong').removeClass('fe-check-circle');
                 $('#hoantattthopdong').removeClass('text-success');
             }
-        }
 
-        if (selectFiles.length < 1) {
-            checkhopdongtaikhoan = false;
-            $('#selectFilesvalidation').text("Không được bỏ trống thông tin này! Vui lòng tải ảnh hợp đồng.").show();
-            $('#collapse3').collapse('show');
-            $('#hoantattthopdong').addClass('fe-x-circle');
-            $('#hoantattthopdong').addClass('text-danger');
-            $('#hoantattthopdong').removeClass('fe-check-circle');
-            $('#hoantattthopdong').removeClass('text-success');
-        }
-        if (checkhopdongtaikhoan == true) {
-            $('#ngayvaolamvalidation').text("").hide();
-            $('#vaitrovalidation').text("").hide();
-            $('#hinhthucvalidation').text("").hide();
-            $('#usernamevalidation').text("").hide();
-            $('#matkhaudangnhapvalidation').text("").hide();
-            $('#nhaplaimatkhaudangnhapvalidation').text("").hide();
-            $('#loaihopdongvalidation').text("").hide();
-            $('#ngaykyhopdongvalidation').text("").hide();
-            $('#ngaygiahanhopdongvalidation').text("").hide();
-            $('#selectFilesvalidation').text("").hide();
+            //Ngày ký hđ
+            if (ngaykyhopdong.length < 1) {
+                checkhopdongtaikhoan = false;
+                $('#ngaykyhopdongvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                $('#collapse3').collapse('show');
+                $('#hoantattthopdong').addClass('fe-x-circle');
+                $('#hoantattthopdong').addClass('text-danger');
+                $('#hoantattthopdong').removeClass('fe-check-circle');
+                $('#hoantattthopdong').removeClass('text-success');
+            }
+            var checkDates = parseInt(ngaygiahanhopdong.replace(/-/g, '').trim()) - parseInt(ngaykyhopdong.replace(/-/g, '').trim());
 
-            $('#hoantattthopdong').addClass('fe-check-circle');
-            $('#hoantattthopdong').addClass('text-success');
-            $('#hoantattthopdong').removeClass('fe-x-circle');
-            $('#hoantattthopdong').removeClass('text-danger');
+            //ngày kết thúc hợp đồng
+            if (loaihopdong == "Hợp đồng có thời hạn") {
+                if (ngaygiahanhopdong.length < 1) {
+                    checkhopdongtaikhoan = false;
+                    $('#ngaygiahanhopdongvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                    $('#collapse3').collapse('show');
+                    $('#hoantattthopdong').addClass('fe-x-circle');
+                    $('#hoantattthopdong').addClass('text-danger');
+                    $('#hoantattthopdong').removeClass('fe-check-circle');
+                    $('#hoantattthopdong').removeClass('text-success');
+                }
+                else if (checkDates < 0) {
+                    checkhopdongtaikhoan = false;
+                    $('#ngaygiahanhopdongvalidation').text("Ngày gia hạn/kết thúc không thể nhỏ hơn ngày bắt đầu.").show();
+                    $('#collapse3').collapse('show');
+                    $('#hoantattthopdong').addClass('fe-x-circle');
+                    $('#hoantattthopdong').addClass('text-danger');
+                    $('#hoantattthopdong').removeClass('fe-check-circle');
+                    $('#hoantattthopdong').removeClass('text-success');
+                }
+            }
+
+            if (selectFiles.length < 1) {
+                checkhopdongtaikhoan = false;
+                $('#selectFilesvalidation').text("Không được bỏ trống thông tin này! Vui lòng tải ảnh hợp đồng.").show();
+                $('#collapse3').collapse('show');
+                $('#hoantattthopdong').addClass('fe-x-circle');
+                $('#hoantattthopdong').addClass('text-danger');
+                $('#hoantattthopdong').removeClass('fe-check-circle');
+                $('#hoantattthopdong').removeClass('text-success');
+            }
+            if (checkhopdongtaikhoan == true) {
+                $('#ngayvaolamvalidation').text("").hide();
+                $('#vaitrovalidation').text("").hide();
+                $('#hinhthucvalidation').text("").hide();
+                $('#usernamevalidation').text("").hide();
+                $('#matkhaudangnhapvalidation').text("").hide();
+                $('#nhaplaimatkhaudangnhapvalidation').text("").hide();
+                $('#loaihopdongvalidation').text("").hide();
+                $('#ngaykyhopdongvalidation').text("").hide();
+                $('#ngaygiahanhopdongvalidation').text("").hide();
+                $('#selectFilesvalidation').text("").hide();
+
+                $('#hoantattthopdong').addClass('fe-check-circle');
+                $('#hoantattthopdong').addClass('text-success');
+                $('#hoantattthopdong').removeClass('fe-x-circle');
+                $('#hoantattthopdong').removeClass('text-danger');
+            }
         }
+        
 
         // end validation
         if (checkthongtincanhan == true && checklienhethanhtoan == true && checkngoaingu == true &&

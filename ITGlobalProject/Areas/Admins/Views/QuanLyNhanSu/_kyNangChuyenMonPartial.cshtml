@@ -1,7 +1,8 @@
 ﻿@using ITGlobalProject.Models;
 @model ITGlobalProject.Models.Employees
 @{
-    var lstkynang = Session["lst-kynang"] as List<Skills>;
+    string coll = "show";
+    var lstkynang = Session["lst-kynang"] as List<SkillsCategory>;
     int j = 0;
     string imagesUrl = "";
     if (string.IsNullOrEmpty(Model.Avatar))
@@ -97,16 +98,11 @@
                         <span class="navbar-header">Hồ Sơ Nhân Viên</span>
                         <!-- List -->
                         @*<ul class="list-unstyled ms-n2 mb-4">*@
-                        <ul class="list-unstyled ms-n2 mb-0">
+                        <ul class="list-unstyled ms-n2 mb-4">
                             <!-- Nav item -->
                             <li class="nav-item ">
                                 <a role="button" id="ttcanhan" class="nav-link">
                                     <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a role="button" id="lhvathanhtoan" class="nav-link">
-                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
                                 </a>
                             </li>
                             <li class="nav-item active">
@@ -125,23 +121,23 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a role="button" id="tcvaphucap" class="nav-link">
-                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
-                                </a>
-                            </li>
-                            <li class="nav-item ">
                                 <a role="button" id="hdvacongviec" class="nav-link">
                                     <i class="fe fe-file-text nav-icon"></i>Hợp đồng & Công việc
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a role="button" class="nav-link" id="DAThamGia">
-                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                        </ul>
+
+                        <span class="navbar-header">Thông Tin Lương</span>
+                        <ul class="list-unstyled ms-n2 mb-4">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="lhvathanhtoan" class="nav-link">
+                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a role="button" class="nav-link" id="LSHoatDong">
-                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
+                                <a role="button" id="tcvaphucap" class="nav-link">
+                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -149,9 +145,26 @@
                                     <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
                                 </a>
                             </li>
+                        </ul>
+
+
+                        <span class="navbar-header">Dự án & Công việc</span>
+                        <ul class="list-unstyled ms-n2 mb-0">
+                            <!-- Nav item -->
+
+                            <li class="nav-item">
+                                <a role="button" class="nav-link" id="DAThamGia">
+                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                                </a>
+                            </li>
                             <li class="nav-item  ">
                                 <a role="button" class="nav-link" id="LBCongViec">
                                     <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" class="nav-link" id="LSHoatDong">
+                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
                                 </a>
                             </li>
                             <li class="nav-item  ">
@@ -177,6 +190,7 @@
                                 </li>
                             }
                         </ul>
+
                     </div>
                 </div>
             </nav>
@@ -189,24 +203,52 @@
                 </div>
                 <div class="card-body">
                     <div>
-                        <form class="row">
-                            @foreach (var item in lstkynang)
-                            {
-                                j++;
-                                <div class="form-check mb-2 col-12 col-md-4">
-                                    @if (Model.PersonalSkills.FirstOrDefault(k => k.ID_Skills == item.ID) != null)
-                                    {
-                                        <input checked class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(item.ID)">
-                                    }
-                                    else
-                                    {
-                                        <input class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(item.ID)">
-                                    }
-                                    <label class="form-check-label" for="@item.ID">
-                                        @item.Name
-                                    </label>
-                                </div>
-                            }
+                        <form id="noidungPage" class="row">
+
+                            <div class="accordion" id="accordionExample">
+                                @foreach (var item in lstkynang)
+                                {
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="Headingskillitem@(item.ID)">
+                                            <button style="font-weight: bold" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseskillitem@(item.ID)" aria-expanded="false" aria-controls="collapseskillitem@(item.ID)">
+                                                @item.Name
+                                            </button>
+                                        </h2>
+                                        <div id="collapseskillitem@(item.ID)" class="accordion-collapse collapse @coll" aria-labelledby="headingskillitem@(item.ID)" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body row">
+                                                @if (item.Skills.Count > 0)
+                                                {
+                                                    foreach (var items in item.Skills)
+                                                    {
+                                                        j++;
+                                                        <div class="form-check mb-2 col-12 col-md-4">
+                                                            @if (Model.PersonalSkills.FirstOrDefault(k => k.ID_Skills == items.ID) != null)
+                                                            {
+                                                                <input checked class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(items.ID)">
+                                                            }
+                                                            else
+                                                            {
+                                                                <input class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(items.ID)">
+                                                            }
+                                                            <label class="form-check-label" for="@items.ID">
+                                                                @items.Name
+                                                            </label>
+                                                        </div>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <div class="mb-2 col-12 col-md-12 text-center">
+                                                        Không có dữ liệu để hiển thị.
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    coll = "";
+                                }
+                            </div>
+
                             <input hidden value="@j" id="slkn" />
                             <div style="text-align: right; padding-top: 40px" class="mb-3 col-12 col-md-6">
                                 <button type="reset" style="width: 230px" class="btn btn-outline-danger">
@@ -226,5 +268,16 @@
     </div>
     <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_KyNangChuyenMon.js"></script>
     <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
+    <script>
+        $('#noidungPage').change(function () {
+            somethingChanged = true;
+        });
+        $('#btnLuuThongTin').on('click', function () {
+            somethingChanged = false;
+        });
+        $('#resetData').on('click', function () {
+            somethingChanged = false;
+        });
+    </script>
 </div>
 

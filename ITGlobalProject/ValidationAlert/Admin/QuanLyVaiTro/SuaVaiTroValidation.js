@@ -90,8 +90,9 @@
                         SweetAlert2Demo.init();
                     });
                     $.when(
-                        $.getScript($('#requestScript').val() + "Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"),
-                        $.getScript($('#requestScript').val() + "Content/Admin/assets/js/theme.min.js"),
+                        $.getScript($('#requestPath').val() + "Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"),
+                        $.getScript($('#requestPath').val() + "Content/Admin/assets/js/theme.min.js"),
+
                         $.Deferred(function (deferred) {
                             $(deferred.resolve);
                         })

@@ -36,6 +36,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             var lstCons = model.Consultation.Where(c => c.State == true).ToList();
             return PartialView("_thongTinDaLienHeTuVanPartial", lstCons);
         }
+
         [HttpPost]
         public ActionResult XoaLienHe(int? id, bool? state)
         {

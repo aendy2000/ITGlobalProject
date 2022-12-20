@@ -1,0 +1,466 @@
+﻿@model IEnumerable<ITGlobalProject.Models.SubsidiesCategory>
+@{
+    ViewBag.Title = "Danh Sách Khoản Trợ Cấp & Phụ Cấp";
+    Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+
+    int i = 0;
+}
+
+<div class="container-fluid p-4">
+    <div class="row ">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Page header -->
+            <div class="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Quản Lý Khoản Trợ Cấp & Phụ Cấp </h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("danhsachbophan", "quanlybophan")">Quản Lý Khoản Trợ Cấp & Phụ Cấp</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Danh Sách Khoản Trợ Cấp & Phụ Cấp
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- button -->
+                <div>
+                    <a href="#" class="btn btn-primary me-2" style="width:250px" data-bs-toggle="modal" data-bs-target="#themKhoanModal">
+                        <i class="fe fe-heart"> </i> Thêm Khoản Trợ Cấp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row -->
+    <div id="danhSachPartial" class="row">
+        <!-- col -->
+        <div class="col-md-12 col-12 mb-5">
+            <!-- card -->
+            <div class="card">
+                <!-- table -->
+                <table id="dataTableBasic" class="table" style="width:100%">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class=" border-top-0">#</th>
+                            <th scope="col" class=" border-top-0">tên</th>
+                            <th scope="col" class=" border-top-0">số tiền</th>
+                            <th scope="col" class=" border-top-0">thời gian hưởng</th>
+                            <th scope="col" class=" border-top-0">nhân viên</th>
+                            <th scope="col" class=" border-top-0">Tính thuế</th>
+                            <th scope="col" class=" border-top-0">Tính BHXH</th>
+                            <th scope="col" class=" border-top-0"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                i++;
+                                <input hidden value="@item.ID" id="ids@(item.ID)" />
+                                <input hidden value="@item.Name" id="names@(item.ID)" />
+                                <input hidden value="@item.Price.ToString("0,0").Replace(".", ",")" id="prices@(item.ID)" />
+                                <input hidden value="@Convert.ToDecimal(item.Percentage).ToString("0")" id="percentages@(item.ID)" />
+                                <input hidden value="@item.OnBasicSalary.ToString()" id="onbasicsalarys@(item.ID)" />
+                                <input hidden value="@item.DateApply" id="dateapplys@(item.ID)" />
+                                <input hidden value="@item.Tax.ToString()" id="taxs@(item.ID)" />
+                                <input hidden value="@item.Insurance.ToString()" id="insurances@(item.ID)" />
+
+                                var employee = item.Subsidies.ToList();
+                                <tr>
+                                    <td class="align-middle">
+                                        @i
+                                    </td>
+                                    <td class="align-middle ">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <h4 class="mb-0"><a href="#" class="text-inherit">@item.Name</a></h4>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle text-danger">
+                                        @if (item.Percentage != null && item.OnBasicSalary == true)
+                                        {
+                                            <b>@item.Percentage.Value.ToString("0,0")% lương CB</b>
+                                        }
+                                        else if (item.Percentage != null && item.OnBasicSalary == false)
+                                        {
+                                            <b>@item.Percentage.Value.ToString("0,0")% thực lãnh</b>
+                                        }
+                                        else
+                                        {
+                                            <b>@item.Price.ToString("0,0").Replace(".", ",") đ</b>
+                                        }
+                                    </td>
+                                    <td class="align-middle">
+                                        @if (item.DateApply != 0)
+                                        {
+                                            <b>Mỗi tháng @item.DateApply.ToString("D2")</b>
+                                        }
+                                        else
+                                        {
+                                            <b>Hàng tháng</b>
+                                        }
+                                    </td>
+                                    <td class="align-middle ">
+                                        <div class="avatar-group">
+                                            @if (employee.Count < 1)
+                                            {
+                                                <span>Chưa áp dụng</span>
+                                            }
+                                            else if (employee.Count < 4)
+                                            {
+                                                foreach (var sub in item.Subsidies.ToList())
+                                                {
+
+                                                    if (!string.IsNullOrEmpty(sub.Employees.Avatar))
+                                                    {
+                                                        <span class="avatar avatar-md">
+
+                                                            <img alt="avatar" src="@sub.Employees.Avatar"
+                                                                 class="rounded-circle imgtooltip" data-template="@sub.Employees.ID">
+                                                            <span id="@sub.Employees.ID" class="d-none">
+                                                                <span class="mb-0 h6">@sub.Employees.Name</span>
+                                                            </span>
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@sub.Employees.ID">
+                                                            <span class="avatar-initials rounded-circle ">
+                                                                @sub.Employees.Name.Substring(0, 1)
+                                                            </span>
+
+                                                            <span id="@sub.Employees.ID" class="d-none">
+                                                                <span class="mb-0 h6">@sub.Employees.Name</span>
+
+                                                            </span>
+                                                        </span>
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                for (int d = 0; d < 3; d++)
+                                                {
+                                                    if (!string.IsNullOrEmpty(employee[d].Employees.Avatar))
+                                                    {
+                                                        <span class="avatar avatar-md">
+
+                                                            <img alt="avatar" src="@employee[d].Employees.Avatar"
+                                                                 class="rounded-circle imgtooltip" data-template="@employee[d].Employees.ID">
+                                                            <span id="@employee[d].Employees.ID" class="d-none">
+                                                                <span class="mb-0 h6">@employee[d].Employees.Name</span>
+                                                            </span>
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@employee[d].Employees.ID">
+                                                            <span class="avatar-initials rounded-circle ">
+                                                                @employee[d].Employees.Name.Substring(0, 1)
+                                                            </span>
+
+                                                            <span id="@employee[d].Employees.ID" class="d-none">
+                                                                <span class="mb-0 h6">@employee[d].Employees.Name</span>
+
+                                                            </span>
+                                                        </span>
+                                                    }
+                                                }
+                                                <span class="avatar avatar-md ">
+                                                    <span class="avatar-initials rounded-circle bg-light text-dark">@(employee.Count - 3)+</span>
+                                                </span>
+                                            }
+
+                                        </div>
+                                    </td>
+                                    @if (item.Percentage != null && item.OnBasicSalary == false)
+                                    {
+                                        <td class="align-middle ">
+                                            Không
+                                        </td>
+                                        <td class="align-middle ">
+                                            Không
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="align-middle ">
+
+
+                                            @if (item.Tax == true)
+                                            {
+                                                <input id="columnTinhThue@(item.ID)" name="@item.ID" checked style="height: 20px; width:20px;" class="form-check-input" type="checkbox">
+                                            }
+                                            else
+                                            {
+                                                <input id="columnTinhThue@(item.ID)" name="@item.ID" style="height: 20px; width:20px;" class="form-check-input" type="checkbox">
+                                            }
+                                        </td>
+                                        <td class="align-middle ">
+                                            @if (item.Insurance == true)
+                                            {
+                                                <input id="columnTinhBH@(item.ID)" name="@item.ID" checked style="height: 20px; width:20px;" class="form-check-input" type="checkbox">
+                                            }
+                                            else
+                                            {
+                                                <input id="columnTinhBH@(item.ID)" name="@item.ID" style="height: 20px; width:20px;" class="form-check-input" type="checkbox">
+                                            }
+                                        </td>
+                                    }
+
+                                    <td class="text-muted align-middle text-end">
+                                        <div class="dropdown dropstart">
+                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
+                                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fe fe-more-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="Dropdown1">
+                                                <span class="dropdown-header">Hành động</span>
+                                                <a role="button" name="@item.ID" id="chinhsuaTroCap@(item.ID)" class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
+                                                    <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa khoản trợ cấp & phụ cấp
+                                                </a>
+                                                @if (employee.Count < 1)
+                                                {
+                                                    <div class="dropdown-divider"></div>
+                                                    <a role="button" name="@item.ID" id="xoa@(item.ID)" class="dropdown-item" href="#">
+                                                        <i class="fe fe-trash dropdown-item-icon"></i>Xóa khoản trợ cấp & phụ cấp
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="align-middle text-center">
+                                    Không có dữ liệu để hiển thị.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Chỉnh sửa bộ phận -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 800px;">
+
+            <div class="offcanvas-body" data-simplebar>
+                <div style="margin-bottom: -20px" class="offcanvas-header px-2 pt-0">
+                    <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Khoản Trợ Cấp & Phụ Cấp</h4>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <hr class="my-4" />
+                <div class="container ">
+                    <div class="row">
+                        <div class="mb-3 col-md-12">
+                            <label style="font-weight: bold;" class="form-label">Tên khoản trợ cấp <span class="text-danger">*</span></label>
+                            <input hidden="hidden" id="id" />
+                            <input id="chinhsuatenkhoan" type="text" class="form-control" placeholder="Nhập tên khoản trợ cấp">
+                            <p style="color: red; font-size: 13px" id="chinhsuakhoanValidateResul"></p>
+                        </div>
+                        <div class="mb-3 col-md-12">
+                            <label style="font-weight: bold;" class="form-label">Thời gian áp dụng <span class="text-danger">*</span></label>
+                            <select id="chinhsuadate" class="form-select text-dark" data-width="100%">
+                                <option value="0">Trợ cấp hàng tháng</option>
+                                <option value="1">Trợ cấp vào mỗi tháng 01</option>
+                                <option value="2">Trợ cấp vào mỗi tháng 02</option>
+                                <option value="3">Trợ cấp vào mỗi tháng 03</option>
+                                <option value="4">Trợ cấp vào mỗi tháng 04</option>
+                                <option value="5">Trợ cấp vào mỗi tháng 05</option>
+                                <option value="6">Trợ cấp vào mỗi tháng 06</option>
+                                <option value="7">Trợ cấp vào mỗi tháng 07</option>
+                                <option value="8">Trợ cấp vào mỗi tháng 08</option>
+                                <option value="9">Trợ cấp vào mỗi tháng 09</option>
+                                <option value="10">Trợ cấp vào mỗi tháng 10</option>
+                                <option value="11">Trợ cấp vào mỗi tháng 11</option>
+                                <option value="12">Trợ cấp vào mỗi tháng 12</option>
+                            </select>
+                            <p style="color: red; font-size: 13px" id="chinhsuadateValidateResul"></p>
+                        </div>
+                        <div id="chinhsuadivtientrocap" class="mb-3 col-12 col-md-6">
+                            <label style="font-weight:bold;" class="form-label" for="phone">Loại tiền trợ cấp</label>
+                            <div class="form-check form-switch form-control">
+                                <label style="margin-top: 1px; margin-left: -10px" class="form-check-label" for="loaitrocap">Trợ cấp / thưởng dựa trên mức lương</label>
+                                &emsp;&emsp;&ensp;&ensp;&ensp;
+                                <input id="chinhsualoaitrocap" style="margin-right: -20px" class="form-check-input" type="checkbox" role="switch">
+                            </div>
+                        </div>
+                        <div id="chinhsuadivsotien" class="mb-3 col-md-6">
+                            <label style="font-weight: bold;" class="form-label">Số tiền <span class="text-danger">*</span></label>
+                            <input id="chinhsuasotien" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" style="font-weight:bold; color:brown" type="text" class="form-control  text-start" placeholder="Nhập số tiền trợ cấp, thưởng" />
+                            <p style="color: red; font-size: 13px" id="chinhsuasotienValidateResul"></p>
+                        </div>
+                        <div hidden id="chinhsuadivloailuong" class="mb-3 col-md-6">
+                            <label style="font-weight: bold;" class="form-label">Loại lương <span class="text-danger">*</span></label>
+                            <select id="chinhsualoailuong" class="form-select text-dark" data-width="100%">
+                                <option disabled selected value="">Chọn loại lương tính số tiền trợ cấp</option>
+                                <option value="true">Lương cơ bản</option>
+                                <option value="false">Lương thực lãnh</option>
+                            </select>
+                            <p style="color: red; font-size: 13px" id="chinhsualoailuongValidateResul"></p>
+                        </div>
+                        <div hidden id="chinhsuadivtile" class="mb-3 col-md-6">
+                            <label style="font-weight: bold;" class="form-label">% tiền trợ cấp theo mức lương <span class="text-danger">*</span></label>
+                            <input class="form-control" type="number" id="chinhsuatile" placeholder="Nhập % số tiền dựa trên mức lương" />
+                            <p style="color: red; font-size: 13px" id="chinhsuatileValidateResul"></p>
+                        </div>
+
+                        <div id="chinhsuadivthue" class="mb-3 col-md-6">
+                            <label style="font-weight: bold;" class="form-label">Tính thuế <span class="text-danger">*</span></label>
+                            <select id="chinhsuatinhthue" class="form-select text-dark" data-width="100%">
+                                <option disabled selected value="">Khoản trợ cấp được tính thuế</option>
+                                <option value="false">Không tính thuế</option>
+                                <option value="true">Tính thuế</option>
+                            </select>
+                            <p style="color: red; font-size: 13px" id="chinhsuatinhthueValidateResul"></p>
+                        </div>
+                        <div id="chinhsuadivbh" class="mb-3 col-md-6">
+                            <label style="font-weight: bold;" class="form-label">Tính bảo hiểm xã hội <span class="text-danger">*</span></label>
+                            <select id="chinhsuatinhbaohiem" class="form-select text-dark" data-width="100%">
+                                <option disabled selected value="">Khoản trợ cấp được tính bảo hiểm</option>
+                                <option value="false">Không tính bảo hiểm</option>
+                                <option value="true">Tính bảo hiểm</option>
+                            </select>
+                            <p style="color: red; font-size: 13px" id="chinhsuatinhbaohiemValidateResul"></p>
+                        </div>
+                        <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
+                            <button id="dongChinhSua" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="offcanvas" aria-label="Close">
+                                Hủy
+                            </button>
+                        </div>
+                        <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
+                            <a role="button" id="luuChinhSua" style="width: 230px" class="btn btn-success">
+                                Lưu
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Thêm bộ phận -->
+<div class="modal fade modal-lg" id="themKhoanModal" tabindex="-1" role="dialog"
+     aria-labelledby="themKhoanModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="themKhoanModal"><i class="fe fe-heart"> </i> Thêm Khoản Trợ Cấp & Phụ Cấp</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+            <form class="modal-body">
+                <!-- form -->
+                <div class="row">
+                    <div class="mb-3 col-md-12">
+                        <label style="font-weight: bold;" class="form-label">Tên khoản trợ cấp <span class="text-danger">*</span></label>
+                        <input id="tenkhoan" type="text" class="form-control" placeholder="Nhập tên khoản trợ cấp">
+                        <p style="color: red; font-size: 13px" id="khoanValidateResul"></p>
+                    </div>
+                    <div class="mb-3 col-md-12">
+                        <label style="font-weight: bold;" class="form-label">Thời gian áp dụng <span class="text-danger">*</span></label>
+                        <select id="date" class="selectpicker" data-width="100%">
+                            <option disabled selected value="">Chọn tháng áp dụng khoản trợ cấp</option>
+                            <option value="0">Trợ cấp hàng tháng</option>
+                            <option value="1">Trợ cấp vào mỗi tháng 01</option>
+                            <option value="2">Trợ cấp vào mỗi tháng 02</option>
+                            <option value="3">Trợ cấp vào mỗi tháng 03</option>
+                            <option value="4">Trợ cấp vào mỗi tháng 04</option>
+                            <option value="5">Trợ cấp vào mỗi tháng 05</option>
+                            <option value="6">Trợ cấp vào mỗi tháng 06</option>
+                            <option value="7">Trợ cấp vào mỗi tháng 07</option>
+                            <option value="8">Trợ cấp vào mỗi tháng 08</option>
+                            <option value="9">Trợ cấp vào mỗi tháng 09</option>
+                            <option value="10">Trợ cấp vào mỗi tháng 10</option>
+                            <option value="11">Trợ cấp vào mỗi tháng 11</option>
+                            <option value="12">Trợ cấp vào mỗi tháng 12</option>
+                        </select>
+                        <p style="color: red; font-size: 13px" id="dateValidateResul"></p>
+                    </div>
+                    <div id="divtientrocap" class="mb-3 col-12 col-md-6">
+                        <label style="font-weight:bold;" class="form-label" for="phone">Loại tiền trợ cấp</label>
+                        <div class="form-check form-switch form-control">
+                            <label style="margin-top: 1px; margin-left: -10px" class="form-check-label" for="loaitrocap">Trợ cấp / thưởng dựa trên mức lương</label>
+                            &emsp;&emsp;&ensp;&ensp;&ensp;
+                            <input id="loaitrocap" style="margin-right: -20px" class="form-check-input" type="checkbox" role="switch">
+                        </div>
+                    </div>
+                    <div id="divsotien" class="mb-3 col-md-6">
+                        <label style="font-weight: bold;" class="form-label">Số tiền <span class="text-danger">*</span></label>
+                        <input id="sotien" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" style="font-weight:bold; color:brown" type="text" class="form-control  text-start" placeholder="Nhập số tiền trợ cấp, thưởng" />
+                        <p style="color: red; font-size: 13px" id="sotienValidateResul"></p>
+                    </div>
+                    <div hidden id="divloailuong" class="mb-3 col-md-6">
+                        <label style="font-weight: bold;" class="form-label">Loại lương <span class="text-danger">*</span></label>
+                        <select id="loailuong" class="selectpicker" data-width="100%">
+                            <option disabled selected value="">Chọn loại lương tính số tiền trợ cấp</option>
+                            <option value="true">Lương cơ bản</option>
+                            <option value="false">Lương thực lãnh</option>
+                        </select>
+                        <p style="color: red; font-size: 13px" id="loailuongValidateResul"></p>
+                    </div>
+                    <div hidden id="divtile" class="mb-3 col-md-6">
+                        <label style="font-weight: bold;" class="form-label">% tiền trợ cấp theo mức lương <span class="text-danger">*</span></label>
+                        <input class="form-control" type="number" id="tile" placeholder="Nhập % số tiền dựa trên mức lương" />
+                        <p style="color: red; font-size: 13px" id="tileValidateResul"></p>
+                    </div>
+
+                    <div id="divthue" class="mb-3 col-md-6">
+                        <label style="font-weight: bold;" class="form-label">Tính thuế <span class="text-danger">*</span></label>
+                        <select id="tinhthue" class="selectpicker" data-width="100%">
+                            <option disabled selected value="">Khoản trợ cấp được tính thuế</option>
+                            <option value="false">Không tính thuế</option>
+                            <option value="true">Tính thuế</option>
+                        </select>
+                        <p style="color: red; font-size: 13px" id="tinhthueValidateResul"></p>
+                    </div>
+                    <div id="divbh" class="mb-3 col-md-6">
+                        <label style="font-weight: bold;" class="form-label">Tính bảo hiểm xã hội <span class="text-danger">*</span></label>
+                        <select id="tinhbaohiem" class="selectpicker" data-width="100%">
+                            <option disabled selected value="">Khoản trợ cấp được tính bảo hiểm</option>
+                            <option value="false">Không tính bảo hiểm</option>
+                            <option value="true">Tính bảo hiểm</option>
+                        </select>
+                        <p style="color: red; font-size: 13px" id="tinhbaohiemValidateResul"></p>
+                    </div>
+                    <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
+                        <button id="dongthemtrocap" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="modal" aria-label="Close">
+                            Hủy
+                        </button>
+                    </div>
+                    <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
+                        <a role="button" id="themkhoantrocap" style="width: 230px" class="btn btn-success">
+                            Lưu
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/ValidationAlert/Admin/QuanLyKhoanTroCapValidation/ThemTroCapValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyKhoanTroCapValidation/XoaTroCapValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyKhoanTroCapValidation/SuaTroCapValidation.js"></script>
+<script>
+    $(document).ready(function () {
+        $('[id^=tendaiqua]').each(function () {
+            text = $(this).text();
+            if (text.length > 50) {
+                $(this).html(text.substr(0, 50) + '...');
+            }
+        });
+    });
+</script>

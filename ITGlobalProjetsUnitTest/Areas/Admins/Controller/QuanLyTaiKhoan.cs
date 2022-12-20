@@ -27,7 +27,7 @@ namespace ITGlobalProjetsUnitTest.Areas.Admins.Controller
 
             qltkcontroller.ControllerContext = mockControllerContext.Object;
             string username = "info@it-global.net";
-            string password = "AdminAdmin.123";
+            string password = "Admin.123";
 
             ContentResult result = qltkcontroller.DangNhap(username, password) as ContentResult;
 
@@ -44,7 +44,7 @@ namespace ITGlobalProjetsUnitTest.Areas.Admins.Controller
 
             qltkcontroller.ControllerContext = mockControllerContext.Object;
             string username = "dnguyenhoang94@gmail.com";
-            string password = "Tuanoi.Tuan123";
+            string password = "AdminAdmin.123";
 
             ContentResult resultViewWithEmployee = qltkcontroller.DangNhap(username, password) as ContentResult;
 
@@ -240,7 +240,7 @@ namespace ITGlobalProjetsUnitTest.Areas.Admins.Controller
         {
             var mockControllerContext = new Mock<ControllerContext>();
             var mockSession = new Mock<HttpSessionStateBase>();
-            mockSession.SetupGet(s => s["XacThucEmail"]).Returns(null);
+            mockSession.SetupGet(s => s["XacThucEmail"]).Returns("dnguyenhoang94@gmail.com");
             mockControllerContext.Setup(p => p.HttpContext.Session).Returns(mockSession.Object);
 
             qltkcontroller.ControllerContext = mockControllerContext.Object;
