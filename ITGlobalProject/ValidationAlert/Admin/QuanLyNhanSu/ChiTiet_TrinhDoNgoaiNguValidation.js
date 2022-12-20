@@ -9,7 +9,6 @@
             type: 'GET',
             dataType: 'html',
         }).done(function (ketqua) {
-            somethingChanged = false;
             if (ketqua !== "DANHSACH") {
                 $('#contentPartial').replaceWith(ketqua);
                 $.when(
@@ -85,8 +84,6 @@
 
             var elem = document.getElementById('demngoaingu');
             elem.value = sott;
-            somethingChanged = true;
-
         }
     });
 
@@ -101,8 +98,6 @@
             $('#gachngang' + sott).remove();
             var elem = document.getElementById('demngoaingu');
             elem.value = sott - 1;
-            somethingChanged = true;
-
         }
     });
 

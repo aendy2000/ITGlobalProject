@@ -280,6 +280,7 @@
     <Compile Include="Areas\Admins\Controllers\QuanLyNhanSuController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyTaiKhoanController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyTinTuyenDungController.cs" />
+    <Compile Include="Areas\Admins\Controllers\QuanLyTroCapVaPhuCapController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyVaiTroController.cs" />
     <Compile Include="Areas\Admins\Controllers\ThongTinDoiTacController.cs" />
     <Compile Include="Areas\Employee\Controllers\QuanLyCongViecController.cs" />
@@ -794,6 +795,8 @@
     <Content Include="Areas\Admins\Views\QuanLyKyNangChuyenMon\_danhSachDanhMucKyNangPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyKyNangChuyenMon\danhSachKyNang.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyKyNangChuyenMon\_danhSachKyNangPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyTroCapVaPhuCap\danhSachKhoanTroCapVaPhuCap.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyTroCapVaPhuCap\_danhSachKhoanTroCapVaPhuCapPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -818,6 +821,9 @@
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_CongViecValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_DoiNguValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ThemDuAnValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyKhoanTroCapValidation\SuaTroCapValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyKhoanTroCapValidation\ThemTroCapValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyKhoanTroCapValidation\XoaTroCapValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\SuaKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\ThemKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\XoaKyNangValidation.js" />

@@ -474,6 +474,23 @@
                             </a>
                         </li>
                     }
+
+                    @if (ViewBag.ShowActive == "danhSachKhoanTroCapVaPhuCap")
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link  active" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")">
+                                <i class="nav-icon fe fe-heart me-2"></i> Trợ cấp & Phụ cấp
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link " href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")">
+                                <i class="nav-icon fe fe-heart me-2"></i> Trợ cấp & Phụ cấp
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         </nav>
