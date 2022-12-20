@@ -510,6 +510,7 @@
     <Content Include="Content\Admin\images\img-02.png" />
     <Content Include="Content\Admin\images\intro.gif" />
     <Content Include="Content\Admin\Image\favicon.ico" />
+    <Content Include="Content\Admin\js\bootstrap-notify.min.js" />
     <Content Include="Content\Admin\js\main.js" />
     <Content Include="Content\Admin\js\SweetsAlerts.js" />
     <Content Include="Content\Admin\vendor\animate\animate.css" />

@@ -14,6 +14,21 @@
             contentType: false,
             processData: false,
             data: form,
+        }).done(function () {
+            var content = {};
+            content.message = 'Đã thay đổi trạng thái Tính Thuế';
+            content.title = 'Thành công!';
+            content.icon = 'nav-icon fe fe-bell me-2';
+
+            $.notify(content, {
+                type: "success",
+                placement: {
+                    from: "bottom",
+                    align: "right"
+                },
+                time: 1000,
+                delay: 1000,
+            });
         });
     });
 
@@ -31,6 +46,21 @@
             contentType: false,
             processData: false,
             data: form,
+        }).done(function () {
+            var content = {};
+            content.message = 'Đã thay đổi trạng thái Tính Bảo Hiểm';
+            content.title = 'Thành công!';
+            content.icon = 'nav-icon fe fe-bell me-2';
+
+            $.notify(content, {
+                type: "success",
+                placement: {
+                    from: "bottom",
+                    align: "right"
+                },
+                time: 1000,
+                delay: 1000,
+            });
         });
     });
 
