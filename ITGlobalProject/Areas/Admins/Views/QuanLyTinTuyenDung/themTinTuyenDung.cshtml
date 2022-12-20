@@ -50,6 +50,7 @@
                             <div class="mb-3 col-md-12">
                                 <label style="font-weight:bold" class="form-label">Tiêu Đề Tin Tuyển Dụng <span class="text-danger">*</span></label>
                                 <input id="tieude" value="" type="text" class="form-control" placeholder="Nhập vào tiêu đề tin tuyển dụng" required>
+                                <p style="font-size: 13px; color:red;" id="tieudevalidation"></p>
                             </div>
                             <div class="mb-3 col-md-6 col-12">
                                 <label style="font-weight:bold" class="form-label">Vai Trò Tuyển Dụng <span class="text-danger">*</span></label>
@@ -61,6 +62,7 @@
                                             <option value="@item.ID">@item.Name</option>
                                         }
                                     </select>
+                                    <p style="font-size: 13px; color:red;" id="chucdanhvalidation"></p>
                                 </div>
                             </div>
                             <!-- form group -->
@@ -69,6 +71,7 @@
                                 <div class="input-group me-3">
                                     <input type="number" id="soluong" style="font-weight: 500;" class="form-control text-dark" placeholder="Nhập số lượng cần tuyển">
                                 </div>
+                                <p style="font-size: 13px; color:red;" id="soluongvalidation"></p>
                             </div>
                             <!-- form group -->
                             <div class="mb-3 col-md-6 col-12 ">
@@ -89,6 +92,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <p style="font-size: 13px; color:red;" id="hinhthucvalidation"></p>
                             </div>
 
                             <!-- form group -->
@@ -102,6 +106,7 @@
                                             <option value="Nam">Nam</option>
                                             <option value="Nữ">Nữ</option>
                                         </select>
+                                        <p style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
                                     </div>
                                 </div>
                             </div>
@@ -112,6 +117,7 @@
                                 <div class="input-group me-3">
                                     <input id="mucluongtoithieu" style="font-weight:500;" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập mức lương tối thiểu">
                                 </div>
+                                <p style="font-size: 13px; color:red;" id="mucluongtoithieuvalidation"></p>
                             </div>
                             <!-- form group -->
                             <div class="mb-3 col-md-6 col-12">
@@ -119,6 +125,7 @@
                                 <div class="input-group me-3">
                                     <input id="mucluongtoida" style="font-weight:500;" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập mức lương tối đa">
                                 </div>
+                                <p style="font-size: 13px; color:red;" id="mucluongtoidavalidation"></p>
                             </div>
                             <div class="mb-3 col-md-6 col-12">
                                 <label style="font-weight:bold" class="form-label">Kinh Nghiệm <span class="text-danger">*</span></label>
@@ -133,6 +140,7 @@
                                             <option value="Từ 4 năm kinh nghiệm">Từ 4 năm kinh nghiệm </option>
                                             <option value="Từ 5 năm kinh nghiệm">Từ 5 năm kinh nghiệm </option>
                                         </select>
+                                        <p style="font-size: 13px; color:red;" id="kinhnghiemvalidation"></p>
                                     </div>
                                 </div>
                             </div>
@@ -141,6 +149,7 @@
                                 <div class="input-group me-3">
                                     <input id="hannopcv" value="" class="form-control flatpickr" type="text" placeholder="Chọn hạn nộp CV">
                                 </div>
+                                <p style="font-size: 13px; color:red;" id="hannopcvvalidation"></p>
                             </div>
                             <div class="mb-3 col-md-12 col-12 ">
                                 <label style="font-weight:bold" class="form-label">Yêu Cầu Kỹ Năng <span class="text-danger">*</span></label>
@@ -150,6 +159,7 @@
                                         <option value="@item.ID">@item.Name</option>
                                     }
                                 </select>
+                                <p style="font-size: 13px; color:red;" id="selectKyNangChuyenMonvalidation"></p>
                             </div>
                             <!-- mo ta cong viec -->
                             <div class="mb-3 col-md-12 col-12">
@@ -159,6 +169,7 @@
 ✓ Thực hiện coding các module đã được thiết kế sẵn.
 ✓ Tùy chỉnh và nâng cấp hệ thống đáp ứng yêu cầu của khách hàng.
 ✓ Báo cáo cho quản lý khi có yêu cầu..." required=""></textarea>
+                                <p style="font-size: 13px; color:red;" id="motacongviecvalidation"></p>
                             </div>
                             <!-- yeu cau ung vien-->
                             <div class="mb-3 col-md-12 col-12">
@@ -167,6 +178,7 @@
 - Thao tác tốt với HTML, CSS, JavaScript (Jquery, Ajax), Bootstrap, JSON
 - Có kinh nghiệm làm việc với MVC Framework, MySQL hoặc NoSQL (MongoDB), Github
 - Ưu tiên những ứng viên tốt nghiệp đại học, cao đẳng chuyên ngành IT..." required=""></textarea>
+                                <p style="font-size: 13px; color:red;" id="yeucauungvienvalidation"></p>
                             </div>
 
                             <!-- quyen loi cua ung vien-->
@@ -176,7 +188,7 @@
 - Thưởng lương tháng 13, thưởng theo dự án, ...)
 - Đầy đủ các chế độ bảo hiểm theo luật lao động hiện hành
 - Chính sách phúc lợi theo quy định của Công ty đa dạng: Các hoạt động tri ân, chăm lo đời sống tinh thần CBNV..." required=""></textarea>
-
+                                <p style="font-size: 13px; color:red;" id="quyenloiungvienvalidation"></p>
                             </div>
 
                             <div style="text-align: right; padding-top: 20px" class="mb-3 col-12 col-md-6">
