@@ -162,6 +162,7 @@
             $('#chinhsuatile').val(percentages);
         }
         else {
+            $('#chinhsualoaitrocap').prop("checked", false);
             $('#chinhsuasotien').val(prices);
             $('#chinhsuadivtientrocap').addClass("col-md-6");
             $('#chinhsuadivtientrocap').removeClass("col-md-12");
@@ -176,13 +177,13 @@
     //Click lưu
     $('#luuChinhSua').on('click', function (e) {
 
-        $('#khoanValidateResul').hide();
-        $('#sotienValidateResul').hide();
-        $('#loailuongValidateResul').hide();
-        $('#tileValidateResul').hide();
-        $('#tinhthueValidateResul').hide();
-        $('#tinhbaohiemValidateResul').hide();
-        $('#dateValidateResul').hide();
+        $('#chinhsuakhoanValidateResul').hide();
+        $('#chinhsuasotienValidateResul').hide();
+        $('#chinhsualoailuongValidateResul').hide();
+        $('#chinhsuatileValidateResul').hide();
+        $('#chinhsuatinhthueValidateResul').hide();
+        $('#chinhsuatinhbaohiemValidateResul').hide();
+        $('#chinhsuadateValidateResul').hide();
 
         var id = $('#id').val().trim();
         var name = $('#chinhsuatenkhoan').val().trim();
@@ -192,6 +193,7 @@
         var tinhthue = $('#chinhsuatinhthue :selected').val().trim();
         var tinhbaohiem = $('#chinhsuatinhbaohiem :selected').val().trim();
         var date = $('#chinhsuadate :selected').val().trim();
+
 
         //Check validation
         var checkname = true;
@@ -214,6 +216,21 @@
                 checkloailuong = false;
                 $('#chinhsualoailuongValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
             }
+
+            if (loailuong.toLowerCase() != "false") {
+                //Chọn tính thuế
+                if (tinhthue.length < 1) {
+                    checktinhthue = false;
+                    $('#chinhsuatinhthueValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                }
+
+                //Chọn tính bảo hiểm
+                if (tinhbaohiem.length < 1) {
+                    checktinhbaohiem = false;
+                    $('#chinhsuatinhbaohiemValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                }
+            }
+
             if (tile.length < 1) {
                 checktile = false;
                 $('#chinhsuatileValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
@@ -234,18 +251,7 @@
             }
         }
 
-        //Chọn tính thuế
-        if (tinhthue.length < 1) {
-            checktinhthue = false;
-            $('#chinhsuatinhthueValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-        }
-
-        //Chọn tính bảo hiểm
-        if (tinhbaohiem.length < 1) {
-            checktinhbaohiem = false;
-            $('#chinhsuatinhbaohiemValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-        }
-
+      
         //Thời gian áp dụng
         if (date.length < 1) {
             checkdate = false;

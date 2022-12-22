@@ -217,7 +217,7 @@
                                 {
                                     <input class="form-check-input" type="checkbox" name="checktrocap@(j)" id="pc@(item.ID)">
                                 }
-                                @if (item.Percentage != null && item.OnBasicSalary != null)
+                                @if (item.Price == 0 && item.Percentage != null && item.OnBasicSalary != null)
                                 {
                                     if (item.OnBasicSalary == true)
                                     {
@@ -230,7 +230,7 @@
                                         else if (item.DateApply == -1)
                                         {
                                             <label class="form-check-label" for="pc@(item.ID)">
-                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Sinh nhật
+                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Tùy chọn
                                             </label>
                                         }
                                         else
@@ -251,7 +251,7 @@
                                         else if (item.DateApply == -1)
                                         {
                                             <label class="form-check-label" for="pc@(item.ID)">
-                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Tháng sinh
+                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Tùy chọn
                                             </label>
                                         }
                                         else
@@ -274,7 +274,7 @@
                                     else if (item.DateApply == -1)
                                     {
                                         <label class="form-check-label" for="pc@(item.ID)">
-                                            @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Tháng sinh
+                                            @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Tùy chọn
                                         </label>
                                     }
                                     else
@@ -282,7 +282,6 @@
                                         <label class="form-check-label" for="pc@(item.ID)">
                                             @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Mỗi tháng @item.DateApply
                                         </label>
-
                                     }
                                 }
 

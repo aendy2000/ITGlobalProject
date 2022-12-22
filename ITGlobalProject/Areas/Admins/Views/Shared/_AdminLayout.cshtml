@@ -37,7 +37,6 @@
     <link href="~/Content/Admin/assets/libs/glightbox/dist/css/glightbox.min.css" rel="stylesheet">
     <!-- Theme CSS -->
     <link class="reloadMe" rel="stylesheet" href="~/Content/Admin/assets/css/theme.min.css">
-
     <link href="~/Content/Loader/Loader.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 </head>
@@ -322,7 +321,22 @@
                             </div>
                         }
                     </li>
-
+                    @if (ViewBag.ShowActive == "danhSachKhoanTroCapVaPhuCap")
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link  active" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")">
+                                <i class="nav-icon fe fe-dollar-sign me-2"></i> Trợ cấp & Phụ cấp
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link " href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")">
+                                <i class="nav-icon fe fe-dollar-sign me-2"></i> Trợ cấp & Phụ cấp
+                            </a>
+                        </li>
+                    }
 
                     <li class="nav-item ">
                         <a class="nav-link " href="#" data-bs-toggle="collapse"
@@ -471,23 +485,6 @@
                         <li class="nav-item ">
                             <a class="nav-link " href="@Url.Action("thongTinLienHeTuVan", "LienHeTuVan")">
                                 <i class="nav-icon fe fe-phone-outgoing me-2"></i> Thông Tin Tư Vấn
-                            </a>
-                        </li>
-                    }
-
-                    @if (ViewBag.ShowActive == "danhSachKhoanTroCapVaPhuCap")
-                    {
-                        <li class="nav-item ">
-                            <a class="nav-link  active" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")">
-                                <i class="nav-icon fe fe-heart me-2"></i> Trợ cấp & Phụ cấp
-                            </a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item ">
-                            <a class="nav-link " href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")">
-                                <i class="nav-icon fe fe-heart me-2"></i> Trợ cấp & Phụ cấp
                             </a>
                         </li>
                     }
@@ -735,16 +732,15 @@
         <input hidden value="@Url.Content("~")" id="requestPath" />
     </div>
     <!-- Script -->
-    <script src="~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
-
     <!-- Libs JS -->
     <script src="~/Content/Admin/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/Content/Admin/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/Content/Admin/assets/libs/odometer/odometer.min.js"></script>
     <script src="~/Content/Admin/assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
-    <script src="~/Content/Admin/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/Content/Admin/assets/libs/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
     <script src="~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js"></script>
     <script src="~/Content/Admin/assets/libs/inputmask/dist/jquery.inputmask.min.js"></script>
+    <script src="~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="~/Content/Admin/assets/libs/quill/dist/quill.min.js"></script>
     <script src="~/Content/Admin/assets/libs/file-upload-with-preview/dist/file-upload-with-preview.iife.js"></script>
     <script src="~/Content/Admin/assets/libs/dragula/dist/dragula.min.js"></script>
@@ -777,9 +773,10 @@
     <script src='https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min.js'></script>
 
     <!-- Theme JS -->
-    <script src="~/Content/Admin/assets/js/theme.min.js"></script>
-    <script src="~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+
     <script src="~/Content/Admin/js/bootstrap-notify.min.js"></script>
+    <script src="~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+    <script src="~/Content/Admin/assets/js/theme.min.js"></script>
     @if (ViewBag.Title == "Chi Tiết Dự Án")
     {
         <script>

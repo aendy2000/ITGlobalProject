@@ -118,6 +118,22 @@
                 checkloailuong = false;
                 $('#loailuongValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
             }
+
+            if (loailuong.toLowerCase() != "false") {
+
+                //Chọn tính thuế
+                if (tinhthue.length < 1) {
+                    checktinhthue = false;
+                    $('#tinhthueValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                }
+
+                //Chọn tính bảo hiểm
+                if (tinhbaohiem.length < 1) {
+                    checktinhbaohiem = false;
+                    $('#tinhbaohiemValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                }
+            }
+
             if (tile.length < 1) {
                 checktile = false;
                 $('#tileValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
@@ -125,7 +141,6 @@
                 checktile = false;
                 $('#tileValidateResul').text("Tỉ lệ trợ cấp theo mức lương phải lớn hơn 0.").show();
             }
-
         }
         //Tiền trợ cấp
         else {
@@ -137,20 +152,8 @@
                 $('#sotienValidateResul').text("Số tiền trợ cấp không thể bé hơn 1.").show();
             }
         }
-
-        //Chọn tính thuế
-        if (tinhthue.length < 1) {
-            checktinhthue = false;
-            $('#tinhthueValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-        }
-
-        //Chọn tính bảo hiểm
-        if (tinhbaohiem.length < 1) {
-            checktinhbaohiem = false;
-            $('#tinhbaohiemValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-        }
-
-        //Thời gian áp dụng
+     
+        //Thời gian dụng
         if (date.length < 1) {
             checkdate = false;
             $('#dateValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();

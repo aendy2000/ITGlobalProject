@@ -31,7 +31,7 @@
                 <!-- button -->
                 <div>
                     <a href="#" class="btn btn-primary me-2" style="width:250px" data-bs-toggle="modal" data-bs-target="#themKhoanModal">
-                        <i class="fe fe-heart"> </i> Thêm Khoản Trợ Cấp
+                        <i class="fe fe-dollar-sign"> </i> Thêm Khoản Trợ Cấp
                     </a>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                                 <input hidden value="@item.ID" id="ids@(item.ID)" />
                                 <input hidden value="@item.Name" id="names@(item.ID)" />
                                 <input hidden value="@item.Price.ToString("0,0").Replace(".", ",")" id="prices@(item.ID)" />
-                                <input hidden value="@Convert.ToDecimal(item.Percentage).ToString("0")" id="percentages@(item.ID)" />
+                                <input hidden value="@Convert.ToDecimal(item.Percentage).ToString("0.0")" id="percentages@(item.ID)" />
                                 <input hidden value="@item.OnBasicSalary.ToString()" id="onbasicsalarys@(item.ID)" />
                                 <input hidden value="@item.DateApply" id="dateapplys@(item.ID)" />
                                 <input hidden value="@item.Tax.ToString()" id="taxs@(item.ID)" />
@@ -87,11 +87,11 @@
                                     <td class="align-middle text-danger">
                                         @if (item.Percentage != null && item.OnBasicSalary == true)
                                         {
-                                            <b>@item.Percentage.Value.ToString("0,0")% lương CB</b>
+                                            <b>@Convert.ToDecimal(item.Percentage).ToString("0.0").Replace(".", ",")% lương CB</b>
                                         }
                                         else if (item.Percentage != null && item.OnBasicSalary == false)
                                         {
-                                            <b>@item.Percentage.Value.ToString("0,0")% thực lãnh</b>
+                                            <b>@Convert.ToDecimal(item.Percentage).ToString("0.0").Replace(".", ",")% thực lãnh</b>
                                         }
                                         else
                                         {
@@ -99,13 +99,17 @@
                                         }
                                     </td>
                                     <td class="align-middle">
-                                        @if (item.DateApply != 0)
+                                        @if (item.DateApply < 0)
                                         {
-                                            <b>Mỗi tháng @item.DateApply.ToString("D2")</b>
+                                            <b>Tùy chọn</b>
                                         }
-                                        else
+                                        else if (item.DateApply == 0)
                                         {
                                             <b>Hàng tháng</b>
+                                        }
+                                        else if (item.DateApply > 0)
+                                        {
+                                            <b>Mỗi tháng @item.DateApply.ToString("D2")</b>
                                         }
                                     </td>
                                     <td class="align-middle ">
@@ -272,6 +276,7 @@
                         <div class="mb-3 col-md-12">
                             <label style="font-weight: bold;" class="form-label">Thời gian áp dụng <span class="text-danger">*</span></label>
                             <select id="chinhsuadate" class="form-select text-dark" data-width="100%">
+                                <option value="-1">Tùy chọn trợ cấp</option>
                                 <option value="0">Trợ cấp hàng tháng</option>
                                 <option value="1">Trợ cấp vào mỗi tháng 01</option>
                                 <option value="2">Trợ cấp vào mỗi tháng 02</option>
@@ -357,7 +362,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="themKhoanModal"><i class="fe fe-heart"> </i> Thêm Khoản Trợ Cấp & Phụ Cấp</h4>
+                <h4 class="modal-title" id="themKhoanModal"><i class="fe fe-dollar-sign"> </i> Thêm Khoản Trợ Cấp & Phụ Cấp</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close">
                 </button>
@@ -374,6 +379,7 @@
                         <label style="font-weight: bold;" class="form-label">Thời gian áp dụng <span class="text-danger">*</span></label>
                         <select id="date" class="selectpicker" data-width="100%">
                             <option disabled selected value="">Chọn tháng áp dụng khoản trợ cấp</option>
+                            <option value="-1">Tùy chọn trợ cấp</option>
                             <option value="0">Trợ cấp hàng tháng</option>
                             <option value="1">Trợ cấp vào mỗi tháng 01</option>
                             <option value="2">Trợ cấp vào mỗi tháng 02</option>

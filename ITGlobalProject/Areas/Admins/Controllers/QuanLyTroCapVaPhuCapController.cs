@@ -32,7 +32,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
 
         [HttpPost]
-        public ActionResult themKhoanTroCapVaPhuCap(string name, string price, string percentage, 
+        public ActionResult themKhoanTroCapVaPhuCap(string name, string price, decimal percentage, 
             bool? basicSalary, int date, bool? tax, bool? insurance, bool tinhbangtien)
         {
             if (string.IsNullOrEmpty(name))
@@ -43,6 +43,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
             if(tinhbangtien == false)
             {
+                trocap.Price = 0;
                 trocap.Percentage = Convert.ToDecimal(percentage);
                 trocap.OnBasicSalary = basicSalary;
                 if(basicSalary == false)
@@ -68,7 +69,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
 
         [HttpPost]
-        public ActionResult chinhSuaTroCapVaPhuCap(int? id, string name, string price, string percentage, 
+        public ActionResult chinhSuaTroCapVaPhuCap(int? id, string name, string price, decimal percentage, 
             bool? basicSalary, int date, bool? tax, bool? insurance, bool tinhbangtien)
         {
             var trocap = model.SubsidiesCategory.Find(id);
@@ -78,6 +79,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             trocap.Name = name;
             if (tinhbangtien == false)
             {
+                trocap.Price = 0;
                 trocap.Percentage = Convert.ToDecimal(percentage);
                 trocap.OnBasicSalary = basicSalary;
                 if (basicSalary == false)
