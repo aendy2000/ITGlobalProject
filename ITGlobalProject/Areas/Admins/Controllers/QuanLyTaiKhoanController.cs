@@ -33,30 +33,46 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         // GET: Admins/QuanLyTaiKhoan
         public ActionResult DangNhap()
         {
+            if (Session["user-role"] != null)
+            {
+                if (Session["user-role"].ToString().ToLower().Equals("admin"))
+                    return RedirectToAction("Overview", "Dashboard");
+                else
+                    return RedirectToAction("danhSachDuAn", "QuanLyCongViec", new { area = "Employee" });
+            }
+
             ViewBag.Title = "Đăng Nhập";
             return View("DangNhap");
         }
         [HttpPost]
         public ActionResult DangNhap(string username, string password)
         {
-            var user = model.Employees.FirstOrDefault(u => u.WorkEmail.ToLower().Equals(username.ToLower()) && u.AccountSatus == true);
+            var user = model.Employees.FirstOrDefault(u => u.WorkEmail.ToLower().Equals(username.ToLower().Trim()));
             if (user != null) //Tài khoản tồn tại
             {
                 if (user.Password.Equals(password)) //Mật khẩu đúng
                 {
                     if (user.Lock == false) //Tài khoản không bị khóa
                     {
-                        Session["user-fullname"] = user.Name;
-                        Session["user-id"] = user.ID;
-                        Session["user-email"] = user.WorkEmail;
-                        Session["user-role"] = user.Position.Name.ToLower();
-                        Session["user-vatatar"] = user.Avatar;
                         if (user.Position.Name.ToLower().Equals("admin"))
                         {
+                            Session["user-fullname"] = user.Name;
+                            Session["user-id"] = user.ID;
+                            Session["user-email"] = user.WorkEmail;
+                            Session["user-role"] = user.Position.Name.ToLower();
+                            Session["user-vatatar"] = user.Avatar;
                             return Content("admin");
                         }
                         else
                         {
+                            if (user.AccountSatus == false)
+                                return Content(user.ID.ToString());
+
+                            Session["user-fullname"] = user.Name;
+                            Session["user-id"] = user.ID;
+                            Session["user-email"] = user.WorkEmail;
+                            Session["user-role"] = user.Position.Name.ToLower();
+                            Session["user-vatatar"] = user.Avatar;
                             return Content("employee");
                         }
                     }
@@ -78,7 +94,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult QuenMatKhau(string email)
         {
-            var user = model.Employees.FirstOrDefault(u => u.WorkEmail.ToLower().Equals(email.ToLower()) && u.AccountSatus == true);
+            var user = model.Employees.FirstOrDefault(u => u.WorkEmail.ToLower().Equals(email.ToLower()));
             if (user != null)
             {
                 Random r = new Random();
@@ -99,7 +115,12 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 {
                     mailMessage.Subject = "Đặt Lại Mật Khẩu - IT-Global.Net";
                     mailMessage.IsBodyHtml = true;
-                    mailMessage.Body = "<font size=5>Mã xác nhận của bạn là: </font><br>" + "<font size=20><b>   " + code + "</b></font>";
+                    mailMessage.Body = "<font size=4>Xin chào <b>" + user.Name + "</b>,<br/><br/></font>" +
+                        "<font size=4>Chúng tôi đã thiết lập một mã để đặt lại mật khẩu cho tài khoản <b>IT-Global.net</b> của bạn.<br/>" +
+                        "Nếu bạn đã không hoặc vô tình yêu cầu cung cấp mã thì bạn có thể bỏ qua email này.<br/><br/>" +
+                        "Mã xác nhận của bạn là: <br/></font>" + "<font size=14><b>   " + code + "</b></font>" +
+                        "<font size=4 color=red><br/><br/><i><u>Thông tin này là bảo mật. Vui lòng không cung cấp mã này cho bất kỳ ai.</u></i></font>";
+
 
                     using (SmtpClient smtp = new SmtpClient())
                     {
@@ -186,6 +207,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (user != null && !string.IsNullOrEmpty(password))
             {
                 user.Password = password;
+                user.AccountSatus = true;
                 model.Entry(user).State = EntityState.Modified;
                 model.SaveChanges();
                 return Content("SUCCESS");
@@ -194,6 +216,27 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             {
                 return Content("DANGNHAP");
             }
+        }
+        [HttpPost]
+        public ActionResult doiMatKhauLanDau(string password, int id)
+        {
+            var user = model.Employees.Find(id);
+            if (user != null && !string.IsNullOrEmpty(password))
+            {
+                user.Password = password;
+                user.AccountSatus = true;
+                model.Entry(user).State = EntityState.Modified;
+                model.SaveChanges();
+
+                Session["user-fullname"] = user.Name;
+                Session["user-id"] = user.ID;
+                Session["user-email"] = user.WorkEmail;
+                Session["user-role"] = user.Position.Name.ToLower();
+                Session["user-vatatar"] = user.Avatar;
+
+                return Content("SUCCESS");
+            }
+            return Content("DANGNHAP");
         }
         public ActionResult ThongTinCaNhan(int? id)
         {
@@ -333,6 +376,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     if (infor.Password.Equals(password))
                     {
                         infor.Password = newpassword;
+                        infor.AccountSatus = true;
+
                         model.Entry(infor).State = EntityState.Modified;
                         model.SaveChanges();
                         model = new CP25Team06Entities();

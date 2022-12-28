@@ -76,11 +76,20 @@
         <div class="mb-3 col-12 col-md-3">
             <a style="width:100%" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fe fe-user-plus"> </i> Thêm Nhân viên</a>
         </div>
-        <div class="mb-3 col-12 col-md-9">
-            <input id="searchNhanViens" type="search" class="form-control" placeholder="Tìm kiếm với Tên, Email hoặc CMND/CCCD Nhân viên" />
+        <div class="mb-3 col-12 col-md-6">
+            <input id="searchNhanViens" type="search" class="form-control" placeholder="Tìm kiếm với Mã, Tên, Email hoặc CMND/CCCD của Nhân viên" />
             <input value="1" hidden id="valueTypes" />
+            <input value="8" hidden id="valueListCount" />
             <div id="actionTimKiems" hidden data-request-url="@Url.Action("timKiemNhanVien", "QuanLyNhanSu")"></div>
             <div id="actionDangNhap" hidden data-request-url="@Url.Action("DangNhap", "QuanLyTaiKhoan")"></div>
+        </div>
+        <div class="mb-3 col-12 col-md-3">
+            <select class="selectpicker" id="hienthiphantrang" data-width="100%">
+                <option value="8">Hiển thị 8</option>
+                <option value="25">Hiển thị 25</option>
+                <option value="50">Hiển thị 50</option>
+                <option value="100">Hiển thị 100</option>
+            </select>
         </div>
     </div>
     <div id="pagess2" class="row">
@@ -114,11 +123,41 @@
                                                         }
                                                     </a>
                                                     <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
-                                                        <h4 class="mb-0" title="Xem trang cá nhân">@item.Name</h4>
+                                                        <h4 class="mb-0" title="Xem trang cá nhân">
+                                                            @item.Name
+                                                            @if (item.Lock == false)
+                                                            {
+                                                                <i id="CheckorX" class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i id="CheckorX" style="font-size: 15px" class="fe fe-x-circle text-danger" data-bs-toggle="tooltip" data-placement="top" title="Đã ngưng làm"></i>
+                                                            }
+                                                        </h4>
                                                     </a>
                                                     <p class="mb-0">@item.Position.Name</p>
                                                 </div>
                                                 <div class="d-flex justify-content-between border-bottom py-2 mt-4">
+                                                    <span>Mã nhân viên</span>
+                                                    <b>
+                                                        <span class="text-gray-700">@item.ID_Employee</span>
+                                                    </b>
+                                                </div>
+                                                <div class="d-flex justify-content-between border-bottom py-2">
+                                                    <span>Điện thoại</span>
+                                                    <b>
+                                                        <span class="text-gray-700">@item.TelephoneMobile</span>
+                                                    </b>
+                                                </div>
+                                                <div class="d-flex justify-content-between pt-2">
+                                                    <span>Email</span>
+                                                    <b>
+                                                        <span class="text-gray-700">@item.WorkEmail</span>
+                                                    </b>
+                                                </div>
+                                                <div class="d-flex justify-content-between border-bottom py-3">
+                                                </div>
+                                                <div class="d-flex justify-content-between border-bottom py-2 mt-3">
                                                     <span>Tổng công việc</span>
                                                     <b>
                                                         <span class="text-success">Coming Soon <i class="mdi mdi-check-all"></i></span>
@@ -160,7 +199,7 @@
                                             @if (Model.PageNumber == 1)
                                             {
                                                 <li class="page-item disabled">
-                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber - 1), pageSize = 8, type = 1 })" tabindex="-1">
+                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber - 1), pageSize = ViewBag.countListNhanSu, type = 1 })" tabindex="-1">
                                                         <i class="mdi mdi-chevron-left"></i>
                                                     </a>
                                                 </li>
@@ -171,7 +210,7 @@
                                                     @using (Ajax.BeginForm("danhSachNhanVienGridPartial", "QuanLyNhanSu", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "pagess2", InsertionMode = InsertionMode.Replace }))
                                                     {
                                                         <input hidden name="page" value="@(Model.PageNumber - 1)" />
-                                                        <input hidden name="pageSize" value="8" />
+                                                        <input hidden name="pageSize" value="@ViewBag.countListNhanSu" />
                                                         <input hidden name="type" value="1" />
                                                         <button class="page-link mx-1 rounded" type="submit" tabindex="-1" aria-disabled="true">
                                                             <i class="mdi mdi-chevron-left"></i>
@@ -185,7 +224,7 @@
                                                 if (Model.PageNumber == i)
                                                 {
                                                     <li class="page-item active">
-                                                        <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = i, pageSize = 8, type = 1 })">@i</a>
+                                                        <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = i, pageSize = ViewBag.countListNhanSu, type = 1 })">@i</a>
                                                     </li>
                                                 }
                                                 else
@@ -194,7 +233,7 @@
                                                         @using (Ajax.BeginForm("danhSachNhanVienGridPartial", "QuanLyNhanSu", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "pagess2", InsertionMode = InsertionMode.Replace }))
                                                         {
                                                             <input hidden name="page" value="@i" />
-                                                            <input hidden name="pageSize" value="8" />
+                                                            <input hidden name="pageSize" value="@ViewBag.countListNhanSu" />
                                                             <input hidden name="type" value="1" />
                                                             <button class="page-link mx-1 rounded" type="submit">@i</button>
                                                         }
@@ -204,7 +243,7 @@
                                             @if (Model.PageNumber == Model.PageCount)
                                             {
                                                 <li class="page-item disabled">
-                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber + 1), pageSize = 8, type = 1 })">
+                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber + 1), pageSize = ViewBag.countListNhanSu, type = 1 })">
                                                         <i class="mdi mdi-chevron-right"></i>
                                                     </a>
                                                 </li>
@@ -215,7 +254,7 @@
                                                     @using (Ajax.BeginForm("danhSachNhanVienGridPartial", "QuanLyNhanSu", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "pagess2", InsertionMode = InsertionMode.Replace }))
                                                     {
                                                         <input hidden name="page" value="@(Model.PageNumber + 1)" />
-                                                        <input hidden name="pageSize" value="8" />
+                                                        <input hidden name="pageSize" value="@ViewBag.countListNhanSu" />
                                                         <input hidden name="type" value="1" />
                                                         <button class="page-link mx-1 rounded" type="submit">
                                                             <i class="mdi mdi-chevron-right"></i>
@@ -241,6 +280,7 @@
                                 <table class="table mb-0 text-nowrap">
                                     <thead class="table-light">
                                         <tr>
+                                            <th scope="col" class="border-0">Mã nhân viên</th>
                                             <th scope="col" class="border-0">Họ và Tên</th>
                                             <th scope="col" class="border-0">Vai trò</th>
                                             <th scope="col" class="border-0">
@@ -256,7 +296,6 @@
                                                 Trạng thái
                                             </th>
                                             <th scope="col" class="border-0"></th>
-                                            <th scope="col" class="border-0"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -265,6 +304,9 @@
                                             foreach (var item in Model)
                                             {
                                                 <tr>
+                                                    <td class="align-middle border-top-0">
+                                                        @item.ID_Employee
+                                                    </td>
                                                     <td class="align-middle border-top-0">
                                                         <div class="d-flex align-items-center">
                                                             <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
@@ -306,15 +348,9 @@
                                                     else
                                                     {
                                                         <td class="align-middle text-danger border-top-0">
-                                                            Đã ngưng làm <i class="mdi mdi-x-circle"></i>
+                                                            Đã ngưng làm <i class="fe fe-x-circle"></i>
                                                         </td>
                                                     }
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-muted" data-bs-toggle="tooltip"
-                                                           data-placement="top" title="Gửi mail">
-                                                            <i class="fe fe-mail"></i>
-                                                        </a>
-                                                    </td>
                                                     <td class="align-middle border-top-0">
                                                         <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" class="text-muted" data-bs-toggle="tooltip"
                                                            data-placement="top" title="Chi tiết">
@@ -339,7 +375,7 @@
                                             @if (Model.PageNumber == 1)
                                             {
                                                 <li class="page-item disabled">
-                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber - 1), pageSize = 8, type = 2 })" tabindex="-1">
+                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber - 1), pageSize = ViewBag.countListNhanSu, type = 2 })" tabindex="-1">
                                                         <i class="mdi mdi-chevron-left"></i>
                                                     </a>
                                                 </li>
@@ -350,7 +386,7 @@
                                                     @using (Ajax.BeginForm("danhSachNhanVienGridPartial", "QuanLyNhanSu", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "pagess2", InsertionMode = InsertionMode.Replace }))
                                                     {
                                                         <input hidden name="page" value="@(Model.PageNumber - 1)" />
-                                                        <input hidden name="pageSize" value="8" />
+                                                        <input hidden name="pageSize" value="@ViewBag.countListNhanSu" />
                                                         <input hidden name="type" value="2" />
                                                         <button class="page-link mx-1 rounded" type="submit" tabindex="-1" aria-disabled="true">
                                                             <i class="mdi mdi-chevron-left"></i>
@@ -373,7 +409,7 @@
                                                         @using (Ajax.BeginForm("danhSachNhanVienGridPartial", "QuanLyNhanSu", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "pagess2", InsertionMode = InsertionMode.Replace }))
                                                         {
                                                             <input hidden name="page" value="@i" />
-                                                            <input hidden name="pageSize" value="8" />
+                                                            <input hidden name="pageSize" value="@ViewBag.countListNhanSu" />
                                                             <input hidden name="type" value="2" />
                                                             <button class="page-link mx-1 rounded" type="submit">@i</button>
                                                         }
@@ -383,7 +419,7 @@
                                             @if (Model.PageNumber == Model.PageCount)
                                             {
                                                 <li class="page-item disabled">
-                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber + 1), pageSize = 8, type = 2 })">
+                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber + 1), pageSize = ViewBag.countListNhanSu, type = 2 })">
                                                         <i class="mdi mdi-chevron-right"></i>
                                                     </a>
                                                 </li>
@@ -394,7 +430,7 @@
                                                     @using (Ajax.BeginForm("danhSachNhanVienGridPartial", "QuanLyNhanSu", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "pagess2", InsertionMode = InsertionMode.Replace }))
                                                     {
                                                         <input hidden name="page" value="@(Model.PageNumber + 1)" />
-                                                        <input hidden name="pageSize" value="8" />
+                                                        <input hidden name="pageSize" value="@ViewBag.countListNhanSu" />
                                                         <input hidden name="type" value="2" />
                                                         <button class="page-link mx-1 rounded" type="submit">
                                                             <i class="mdi mdi-chevron-right"></i>
@@ -434,11 +470,41 @@
                                                         }
                                                     </a>
                                                     <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
-                                                        <h4 class="mb-0" title="Xem trang cá nhân">@item.Name</h4>
+                                                        <h4 class="mb-0" title="Xem trang cá nhân">
+                                                            @item.Name
+                                                            @if (item.Lock == false)
+                                                            {
+                                                                <i id="CheckorX" class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i id="CheckorX" style="font-size: 15px" class="fe fe-x-circle text-danger" data-bs-toggle="tooltip" data-placement="top" title="Đã ngưng làm"></i>
+                                                            }
+                                                        </h4>
                                                     </a>
                                                     <p class="mb-0">@item.Position.Name</p>
                                                 </div>
                                                 <div class="d-flex justify-content-between border-bottom py-2 mt-4">
+                                                    <span>Mã nhân viên</span>
+                                                    <b>
+                                                        <span class="text-gray-700">@item.ID_Employee</span>
+                                                    </b>
+                                                </div>
+                                                <div class="d-flex justify-content-between border-bottom py-2">
+                                                    <span>Điện thoại</span>
+                                                    <b>
+                                                        <span class="text-gray-700">@item.TelephoneMobile</span>
+                                                    </b>
+                                                </div>
+                                                <div class="d-flex justify-content-between pt-2">
+                                                    <span>Email</span>
+                                                    <b>
+                                                        <span class="text-gray-700">@item.WorkEmail</span>
+                                                    </b>
+                                                </div>
+                                                <div class="d-flex justify-content-between border-bottom py-3">
+                                                </div>
+                                                <div class="d-flex justify-content-between border-bottom py-2 mt-3">
                                                     <span>Tổng công việc</span>
                                                     <b>
                                                         <span class="text-success">Coming Soon <i class="mdi mdi-check-all"></i></span>
@@ -479,7 +545,7 @@
                                             @if (Model.PageNumber == 1)
                                             {
                                                 <li class="page-item disabled">
-                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber - 1), pageSize = 8, type = 1 })" tabindex="-1">
+                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber - 1), pageSize = ViewBag.countListNhanSu, type = 1 })" tabindex="-1">
                                                         <i class="mdi mdi-chevron-left"></i>
                                                     </a>
                                                 </li>
@@ -490,7 +556,7 @@
                                                     @using (Ajax.BeginForm("danhSachNhanVienGridPartial", "QuanLyNhanSu", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "pagess2", InsertionMode = InsertionMode.Replace }))
                                                     {
                                                         <input hidden name="page" value="@(Model.PageNumber - 1)" />
-                                                        <input hidden name="pageSize" value="8" />
+                                                        <input hidden name="pageSize" value="@ViewBag.countListNhanSu" />
                                                         <input hidden name="type" value="1" />
                                                         <button class="page-link mx-1 rounded" type="submit" tabindex="-1" aria-disabled="true">
                                                             <i class="mdi mdi-chevron-left"></i>
@@ -504,7 +570,7 @@
                                                 if (Model.PageNumber == i)
                                                 {
                                                     <li class="page-item active">
-                                                        <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = i, pageSize = 8, type = 1 })">@i</a>
+                                                        <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = i, pageSize = ViewBag.countListNhanSu, type = 1 })">@i</a>
                                                     </li>
                                                 }
                                                 else
@@ -513,7 +579,7 @@
                                                         @using (Ajax.BeginForm("danhSachNhanVienGridPartial", "QuanLyNhanSu", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "pagess2", InsertionMode = InsertionMode.Replace }))
                                                         {
                                                             <input hidden name="page" value="@i" />
-                                                            <input hidden name="pageSize" value="8" />
+                                                            <input hidden name="pageSize" value="@ViewBag.countListNhanSu" />
                                                             <input hidden name="type" value="1" />
                                                             <button class="page-link mx-1 rounded" type="submit">@i</button>
                                                         }
@@ -523,7 +589,7 @@
                                             @if (Model.PageNumber == Model.PageCount)
                                             {
                                                 <li class="page-item disabled">
-                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber + 1), pageSize = 8, type = 1 })">
+                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber + 1), pageSize = ViewBag.countListNhanSu, type = 1 })">
                                                         <i class="mdi mdi-chevron-right"></i>
                                                     </a>
                                                 </li>
@@ -534,7 +600,7 @@
                                                     @using (Ajax.BeginForm("danhSachNhanVienGridPartial", "QuanLyNhanSu", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "pagess2", InsertionMode = InsertionMode.Replace }))
                                                     {
                                                         <input hidden name="page" value="@(Model.PageNumber + 1)" />
-                                                        <input hidden name="pageSize" value="8" />
+                                                        <input hidden name="pageSize" value="@ViewBag.countListNhanSu" />
                                                         <input hidden name="type" value="1" />
                                                         <button class="page-link mx-1 rounded" type="submit">
                                                             <i class="mdi mdi-chevron-right"></i>
@@ -561,6 +627,7 @@
                                 <table class="table mb-0 text-nowrap">
                                     <thead class="table-light">
                                         <tr>
+                                            <th scope="col" class="border-0">Mã nhân viên</th>
                                             <th scope="col" class="border-0">Họ và Tên</th>
                                             <th scope="col" class="border-0">Vai trò</th>
                                             <th scope="col" class="border-0">
@@ -576,7 +643,6 @@
                                                 Trạng thái
                                             </th>
                                             <th scope="col" class="border-0"></th>
-                                            <th scope="col" class="border-0"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -585,6 +651,9 @@
                                             foreach (var item in Model)
                                             {
                                                 <tr>
+                                                    <td class="align-middle border-top-0">
+                                                        @item.ID_Employee
+                                                    </td>
                                                     <td class="align-middle border-top-0">
                                                         <div class="d-flex align-items-center">
                                                             <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
@@ -626,15 +695,9 @@
                                                     else
                                                     {
                                                         <td class="align-middle text-danger border-top-0">
-                                                            Đã ngưng làm <i class="mdi mdi-x-circle"></i>
+                                                            Đã ngưng làm <i class="fe fe-x-circle"></i>
                                                         </td>
                                                     }
-                                                    <td class="align-middle border-top-0">
-                                                        <a href="#" class="text-muted" data-bs-toggle="tooltip"
-                                                           data-placement="top" title="Gửi mail">
-                                                            <i class="fe fe-mail"></i>
-                                                        </a>
-                                                    </td>
                                                     <td class="align-middle border-top-0">
                                                         <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" class="text-muted" data-bs-toggle="tooltip"
                                                            data-placement="top" title="Chi tiết">
@@ -659,7 +722,7 @@
                                             @if (Model.PageNumber == 1)
                                             {
                                                 <li class="page-item disabled">
-                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber - 1), pageSize = 8, type = 2 })" tabindex="-1">
+                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber - 1), pageSize = @ViewBag.countListNhanSu, type = 2 })" tabindex="-1">
                                                         <i class="mdi mdi-chevron-left"></i>
                                                     </a>
                                                 </li>
@@ -670,7 +733,7 @@
                                                     @using (Ajax.BeginForm("danhSachNhanVienGridPartial", "QuanLyNhanSu", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "pagess2", InsertionMode = InsertionMode.Replace }))
                                                     {
                                                         <input hidden name="page" value="@(Model.PageNumber - 1)" />
-                                                        <input hidden name="pageSize" value="8" />
+                                                        <input hidden name="pageSize" value="@ViewBag.countListNhanSu" />
                                                         <input hidden name="type" value="2" />
                                                         <button class="page-link mx-1 rounded" type="submit" tabindex="-1" aria-disabled="true">
                                                             <i class="mdi mdi-chevron-left"></i>
@@ -684,7 +747,7 @@
                                                 if (Model.PageNumber == i)
                                                 {
                                                     <li class="page-item active">
-                                                        <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = i, pageSize = 8, type = 2 })">@i</a>
+                                                        <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = i, pageSize = @ViewBag.countListNhanSu, type = 2 })">@i</a>
                                                     </li>
                                                 }
                                                 else
@@ -693,7 +756,7 @@
                                                         @using (Ajax.BeginForm("danhSachNhanVienGridPartial", "QuanLyNhanSu", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "pagess2", InsertionMode = InsertionMode.Replace }))
                                                         {
                                                             <input hidden name="page" value="@i" />
-                                                            <input hidden name="pageSize" value="8" />
+                                                            <input hidden name="pageSize" value="@ViewBag.countListNhanSu" />
                                                             <input hidden name="type" value="2" />
                                                             <button class="page-link mx-1 rounded" type="submit">@i</button>
                                                         }
@@ -703,7 +766,7 @@
                                             @if (Model.PageNumber == Model.PageCount)
                                             {
                                                 <li class="page-item disabled">
-                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber + 1), pageSize = 8, type = 2 })">
+                                                    <a class="page-link mx-1 rounded" href="@Url.Action("danhSachNhanVien", new { page = (Model.PageNumber + 1), pageSize = ViewBag.countListNhanSu, type = 2 })">
                                                         <i class="mdi mdi-chevron-right"></i>
                                                     </a>
                                                 </li>
@@ -714,7 +777,7 @@
                                                     @using (Ajax.BeginForm("danhSachNhanVienGridPartial", "QuanLyNhanSu", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "pagess2", InsertionMode = InsertionMode.Replace }))
                                                     {
                                                         <input hidden name="page" value="@(Model.PageNumber + 1)" />
-                                                        <input hidden name="pageSize" value="8" />
+                                                        <input hidden name="pageSize" value="@ViewBag.countListNhanSu" />
                                                         <input hidden name="type" value="2" />
                                                         <button class="page-link mx-1 rounded" type="submit">
                                                             <i class="mdi mdi-chevron-right"></i>
@@ -737,7 +800,7 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 84%; height:100%" data-simplebar>
     <div id="actionSubmit" hidden data-request-url="@Url.Action("themNhanVien", "QuanLyNhanSu")"></div>
 
-    <div class="offcanvas-body" data-simplebar>
+    <div class="offcanvas-body">
         <div class="offcanvas-header px-2 pt-0">
             <div style="height:30px" class="row">
                 <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-user-plus"> </i> Thêm Nhân Viên Mới</h4>
@@ -831,7 +894,7 @@
 
                     <div class="mb-2 col-12 col-md-12">
                         <label style="font-weight:bold;" class="form-label" for="address">Địa chỉ nhà</label>
-                        <textarea rows="4" id="diachinha" name="diachinha" class="form-control" placeholder="Số này/kia đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla"></textarea>
+                        <textarea rows="4" id="diachinha" name="diachinha" class="form-control" placeholder="Nhập vào địa chỉ nhà"></textarea>
                         <p style="font-size: 13px; color:red;" id="diachinhavalidation"></p>
                     </div>
                 </div>
@@ -854,20 +917,16 @@
                     <div class="py-3"></div>
 
                     <div class="mb-2 col-12 col-md-6">
-                        <label style="font-weight:bold;" class="form-label" for="phone">Mức lương <span class="text-danger">*</span></label>
+                        <label style="font-weight:bold;" class="form-label" for="phone">Mức lương (VND) <span class="text-danger">*</span></label>
                         <input data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" style="font-weight:bold; color:brown" type="text" id="mucluong" name="mucluong" class="form-control  text-start" placeholder="Nhập mức lương đã thỏa thuận" />
                         <p style="font-size: 13px; color:red;" id="mucluongvalidation"></p>
 
                     </div>
                     <div class="mb-2 col-12 col-md-6">
                         <label style="font-weight:bold;" for="dsNganHang" class="form-label">Ngân hàng</label>
-                        <input list="dsNganHang" id="tenNganHang" class="form-control" placeholder="Tên ngân hàng" />
-                        <p style="font-size: 13px; color:red;" id="tennganhangvalidation"></p>
-                        <datalist name="dsNganHang" id="dsNganHang">
-                            <option value="TPBank"></option>
-                            <option value="SacomBank"></option>
-                            <option value="VietinBank"></option>
-                        </datalist>
+                        <select id="dsNganHang" data-width="100%">
+                            <option value="">Chọn ngân hàng</option>
+                        </select>
                         <p style="font-size: 13px; color:red;" id="tennganhangvalidation"></p>
                     </div>
                     <div class="mb-2 col-12 col-md-6 py-2">
@@ -1040,7 +1099,7 @@
                                     else if (item.DateApply == -1)
                                     {
                                         <label class="form-check-label" for="pc@(item.ID)">
-                                            @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Sinh nhật
+                                            @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Tùy chọn
                                         </label>
                                     }
                                     else
@@ -1061,7 +1120,7 @@
                                     else if (item.DateApply == -1)
                                     {
                                         <label class="form-check-label" for="pc@(item.ID)">
-                                            @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Tháng sinh
+                                            @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Tùy chọn
                                         </label>
                                     }
                                     else
@@ -1078,19 +1137,19 @@
                                 if (item.DateApply == 0)
                                 {
                                     <label class="form-check-label" for="pc@(item.ID)">
-                                        @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Hàng tháng
+                                        @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") (VND)</b> - Hàng tháng
                                     </label>
                                 }
                                 else if (item.DateApply == -1)
                                 {
                                     <label class="form-check-label" for="pc@(item.ID)">
-                                        @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Tháng sinh
+                                        @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") (VND)</b> - Tùy chọn
                                     </label>
                                 }
                                 else
                                 {
                                     <label class="form-check-label" for="pc@(item.ID)">
-                                        @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Mỗi tháng @item.DateApply
+                                        @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") (VND)</b> - Mỗi tháng @item.DateApply
                                     </label>
 
                                 }
@@ -1106,7 +1165,7 @@
                 <h4 class="mb-0 fw-bold">
                     <a href="#" class="d-flex align-items-center text-inherit text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
                         <span class="me-auto">
-                            &emsp;Hợp Đồng & Tài Khoản&ensp;<i id="hoantattthopdong" class="fe fe-check-circle font-weight-bold text-success"></i>
+                            &emsp;Thông Tin Hợp Đồng&ensp;<i id="hoantattthopdong" class="fe fe-check-circle font-weight-bold text-success"></i>
                         </span>
                         <span class="collapse-toggle ms-4">
                             &emsp;<i class="fe fe-plus text-primary"></i>&emsp;
@@ -1117,26 +1176,6 @@
             <div class="container">
                 <div id="collapse3" class=" collapse row" aria-labelledby="heading3" data-bs-parent="#accordionExample">
                     <div class="py-3"></div>
-                    <div class="mb-2 col-12 col-md-4">
-                        <label style="font-weight:bold;" class="form-label" for="phone">Cấp tài khoản</label>
-                        <div class="form-check form-switch form-control">
-                            <label style="margin-top: 1px; margin-left: -10px" class="form-check-label" for="cungCapTaiKhoan">Cung cấp tài khoản sử dụng hệ thống</label>
-                            &emsp;&emsp;&ensp;&ensp;&ensp;<input style="margin-right: -20px" class="form-check-input" type="checkbox" role="switch" id="cungCapTaiKhoan">
-                        </div>
-                        <p style="font-size: 13px; color:red;" id="captaikhoanvalidation"></p>
-                    </div>
-                    <div class="mb-2 col-12 col-md-4">
-                        <label style="font-weight:bold;" class="form-label" for="phone">Mật khẩu <span id="lbNhapMatKhau" hidden="hidden" class="text-danger">*</span></label>
-                        <input disabled="disabled" type="password" id="matkhaudangnhap" name="matkhaudangnhap" class="form-control" placeholder="Nhập mật khẩu đăng nhập của tài khoản" />
-                        <p style="font-size: 13px; color:red;" id="matkhaudangnhapvalidation"></p>
-                    </div>
-                    <div class="mb-2 col-12 col-md-4">
-                        <label style="font-weight:bold;" class="form-label" for="phone">Nhập lại mật khẩu <span id="lbNhapLaiMatKhau" hidden="hidden" class="text-danger">*</span></label>
-                        <input disabled="disabled" type="password" id="nhaplaimatkhaudangnhap" name="nhaplaimatkhaudangnhap" class="form-control" placeholder="Nhập lại mật khẩu đăng nhập của tài khoản" />
-                        <p style="font-size: 13px; color:red;" id="nhaplaimatkhaudangnhapvalidation"></p>
-                    </div>
-                    <hr class="my-1" />
-                    <div class="py-2"></div>
                     <div class="mb-2 col-12 col-md-4">
                         <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Ngày vào làm <span class="text-danger">*</span></label>
                         <input type="text" class="form-control flatpickr" placeholder="Chọn ngày vào làm" id="ngayvaolam" name="ngayvaolam" />
@@ -1242,7 +1281,27 @@
         $("#collapse5").show();
     });
 
-
+    $(document).ready(function (e) {
+        $.ajax({
+            url: 'https://api.vietqr.io/v2/banks',
+            type: 'GET',
+            async: false,
+            success: function (result) {
+                var Name = result["data"].map(({ name }) => name);
+                var ShortName = result["data"].map(({ shortName }) => shortName);
+                $.each(Name, function (i, item) {
+                    $('#dsNganHang').append($('<option>', {
+                        value: ShortName[i],
+                        text: ShortName[i] + " - " + Name[i]
+                    }));
+                });
+            }
+        });
+        $('#dsNganHang option[value="' + $('#currentBankName').val() + '"]').prop("selected", true);
+        $('#dsNganHang').select2({
+            dropdownParent: $("#offcanvasRight")
+        });
+    });
 </script>
 <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ThemNhanVienValidation.js"></script>
 <script src="~/ValidationAlert/Admin/QuanLyNhanSu/TimKiemNhanVien.js"></script>

@@ -37,6 +37,7 @@
     <div id="actionlinks" hidden data-request-url="@Url.Action("DangNhap", "QuanLyTaiKhoan")"></div>
     <div id="actionAdminSuccess" hidden data-request-url="@Url.Action("Analystics", "Dashboard")"></div>
     <div id="actionEmployeeSuccess" hidden data-request-url="@Url.Action("danhSachDuAn", "QuanLyCongViec", new { Area = "Employee"})"></div>
+    <input hidden id="requestPath" value="@Url.Content("~")" />
 
     <div class="limiter">
         <div class="container-login100">
@@ -100,6 +101,7 @@
             </div>
         </div>
     </div>
+
     <input hidden id="correct-number" type="number" value="0" />
     <script src="~/Content/Admin/vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="~/Content/Admin/vendor/bootstrap/js/popper.js"></script>
@@ -113,7 +115,7 @@
     </script>
     <script src="~/Content/Admin/js/main.js"></script>
 
-    <script src="~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!--============================ Validation =============================-->
     <script src="~/ValidationAlert/Admin/QuanLyTaiKhoan/DangNhapValidation.js"></script>

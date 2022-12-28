@@ -38,6 +38,7 @@
             toanThoiGian = 1;
         }
 
+        let datetimes = $('#Currentdate').val().replace(/-/g, '');
         let gioitinh = $('#gioitinh :selected').val();
         let kinhnghiem = $('#kinhnghiem :selected').val();
         let mucluongtoithieu = $('#mucluongtoithieu').val();
@@ -75,7 +76,7 @@
             checktintuyendung = false;
             $("#soluongvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
-        else if (Number(soluong.replace(/,/d, '')) < 1) {
+        else if (Number(soluong.replace(/,/g, '')) < 1) {
             checktintuyendung = false;
             $("#soluongvalidation").text("Thông tin này tối thiểu là 1 ! Vui lòng nhập lại.").show();
         }
@@ -98,7 +99,7 @@
             checktintuyendung = false;
             $("#mucluongtoithieuvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
-        else if (Number(mucluongtoithieu.replace(/,/d, '')) < 1) {
+        else if (Number(mucluongtoithieu.replace(/,/g, '')) < 1) {
             checktintuyendung = false;
             $("#mucluongtoithieuvalidation").text("Thông tin này tối thiểu là 1 ! Vui lòng nhập lại.").show();
         }
@@ -106,7 +107,7 @@
             checktintuyendung = false;
             $("#mucluongtoithieuvalidation").text("Vui lòng nhập lại một số nguyên.").show();
         }
-        else if (Number(mucluongtoithieu.replace(/,/d, '')) > Number(mucluongtoida.replace(/,/d, ''))) {
+        else if (Number(mucluongtoithieu.replace(/,/g, '')) > Number(mucluongtoida.replace(/,/g, ''))) {
             checktintuyendung = false;
             $("#mucluongtoithieuvalidation").text("Mức lương tối thiểu không được lớn hơn mức lương tối đa! Vui lòng nhập lại.").show();
         }
@@ -115,7 +116,7 @@
             checktintuyendung = false;
             $("#mucluongtoidavalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
-        else if (Number(mucluongtoida.replace(/,/d, '')) < 1) {
+        else if (Number(mucluongtoida.replace(/,/g, '')) < 1) {
             checktintuyendung = false;
             $("#mucluongtoidavalidation").text("Thông tin này tối thiểu là 1 ! Vui lòng nhập lại.").show();
         }
@@ -132,6 +133,9 @@
         if (hannopcv.length < 1) {
             checktintuyendung = false;
             $("#hannopcvvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+        } else if (Number(hannopcv.replace(/-/g, '')) < Number(datetimes)) {
+            checktintuyendung = false;
+            $("#hannopcvvalidation").text("Hạn nộp CV không thể thấp hơn ngày hiện tại!").show();
         }
         // Vali yêu cầu kỹ năng
         if (kynangchuyenmon.length < 1) {
@@ -267,6 +271,7 @@
         var formatnumber = /[1234567890]/;
         var formatEmail = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 
+        let datetimes = $('#Currentdate').val().replace(/-/g, '');
         //Lấy giá trị
         let tieude = $('#tieude').val().trim();
         let chucdanh = $('#chucdanh :selected').val();
@@ -319,7 +324,7 @@
             checktintuyendung = false;
             $("#soluongvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
-        else if (Number(soluong.replace(/,/d, '')) < 1) {
+        else if (Number(soluong.replace(/,/g, '')) < 1) {
             checktintuyendung = false;
             $("#soluongvalidation").text("Thông tin này tối thiểu là 1 ! Vui lòng nhập lại.").show();
         }
@@ -342,7 +347,7 @@
             checktintuyendung = false;
             $("#mucluongtoithieuvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
-        else if (Number(mucluongtoithieu.replace(/,/d, '')) < 1) {
+        else if (Number(mucluongtoithieu.replace(/,/g, '')) < 1) {
             checktintuyendung = false;
             $("#mucluongtoithieuvalidation").text("Thông tin này tối thiểu là 1 ! Vui lòng nhập lại.").show();
         }
@@ -350,7 +355,7 @@
             checktintuyendung = false;
             $("#mucluongtoithieuvalidation").text("Vui lòng nhập lại một số nguyên.").show();
         }
-        else if (Number(mucluongtoithieu.replace(/,/d, '')) > Number(mucluongtoida.replace(/,/d, ''))) {
+        else if (Number(mucluongtoithieu.replace(/,/g, '')) > Number(mucluongtoida.replace(/,/g, ''))) {
             checktintuyendung = false;
             $("#mucluongtoithieuvalidation").text("Mức lương tối thiểu không được lớn hơn mức lương tối đa! Vui lòng nhập lại.").show();
         }
@@ -359,7 +364,7 @@
             checktintuyendung = false;
             $("#mucluongtoidavalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
-        else if (Number(mucluongtoida.replace(/,/d, '')) < 1) {
+        else if (Number(mucluongtoida.replace(/,/g, '')) < 1) {
             checktintuyendung = false;
             $("#mucluongtoidavalidation").text("Thông tin này tối thiểu là 1 ! Vui lòng nhập lại.").show();
         }
@@ -376,6 +381,10 @@
         if (hannopcv.length < 1) {
             checktintuyendung = false;
             $("#hannopcvvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+        }
+        else if (Number(hannopcv.replace(/-/g, '')) < Number(datetimes)) {
+            checktintuyendung = false;
+            $("#hannopcvvalidation").text("Hạn nộp CV không thể thấp hơn ngày hiện tại!").show();
         }
         // Vali yêu cầu kỹ năng
         if (kynangchuyenmon.length < 1) {

@@ -69,7 +69,7 @@
             <div class="card mb-4">
                 <!-- Card Body -->
                 <div class="card-body">
-                    <span class="fs-6 text-uppercase fw-semi-bold">Chức danh được tuyển</span>
+                    <span class="fs-6 text-uppercase fw-semi-bold">Vị Trí Tuyển Dụng</span>
                     <div class="mt-2 d-flex justify-content-between align-items-center">
                         <div class="lh-1">
                             <h2 class="h1 fw-bold mb-1">@Convert.ToDecimal(Model.GroupBy(s => s.ID_Position).Count()).ToString("0,0").Replace(".", ",")</h2>
@@ -159,10 +159,10 @@
                                             <div class="dropdown-menu" aria-labelledby="Dropdown1">
                                                 <span class="dropdown-header">Hành động</span>
                                                 <a role="button" class="dropdown-item" href="@Url.Action("thongTinTuyenDung", "TinTuyenDung", new { area = "", id = item.ID })" target="_blank">
-                                                    <i class="fe fe-eye dropdown-item-icon"></i>Xem tin tuyển dụng
+                                                    <i class="fe fe-eye dropdown-item-icon"></i>Xem bài viết
                                                 </a>
                                                 <a role="button" class="dropdown-item" href="@Url.Action("chinhSuaTinTuyenDung", "QuanLyTinTuyenDung", new { id = item.ID })">
-                                                    <i class="fe fe-edit dropdown-item-icon"></i>Xem và Chỉnh sửa bài viết
+                                                    <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa bài viết
                                                 </a>
                                                 <a role="button" id="xoatintuyendung@(item.ID)" name="@item.ID" class="dropdown-item">
                                                     <i class="fe fe-trash dropdown-item-icon"></i>Xóa bài viết

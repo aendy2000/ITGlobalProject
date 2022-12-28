@@ -7,7 +7,7 @@
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
 
 }
-
+<input hidden value="@DateTime.Now.ToString("yyyy-MM-dd")" id="Currentdate" />
 <div class="container-fluid p-4">
     <div class="row">
         <!-- Page header -->
@@ -113,7 +113,7 @@
                             <!-- form group -->
 
                             <div class="mb-3 col-md-6 col-12">
-                                <label style="font-weight:bold" class="form-label">Mức lương tối thiểu <span class="text-danger">*</span> </label>
+                                <label style="font-weight:bold" class="form-label">Mức lương tối thiểu (VND) <span class="text-danger">*</span> </label>
                                 <div class="input-group me-3">
                                     <input id="mucluongtoithieu" style="font-weight:500;" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập mức lương tối thiểu">
                                 </div>
@@ -121,7 +121,7 @@
                             </div>
                             <!-- form group -->
                             <div class="mb-3 col-md-6 col-12">
-                                <label style="font-weight:bold" class="form-label">Mức lương tối đa <span class="text-danger">*</span> </label>
+                                <label style="font-weight:bold" class="form-label">Mức lương tối đa (VND)<span class="text-danger">*</span> </label>
                                 <div class="input-group me-3">
                                     <input id="mucluongtoida" style="font-weight:500;" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập mức lương tối đa">
                                 </div>

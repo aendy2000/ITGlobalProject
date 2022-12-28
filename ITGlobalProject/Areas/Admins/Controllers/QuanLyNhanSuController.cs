@@ -17,6 +17,11 @@ using System.Threading.Tasks;
 using System.Text;
 using ITGlobalProject.Models;
 using ITGlobalProject.Middleware;
+using System.Drawing.Printing;
+using System.Web.UI;
+using System.Net.Mail;
+using System.Net;
+using System.Web.Helpers;
 
 namespace ITGlobalProject.Areas.Admins.Controllers
 {
@@ -49,13 +54,16 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (pageSize == null)
                 pageSize = 8;
 
-            var employee = model.Employees.Where(e => e.ID_Position != 1).OrderByDescending(o => o.ID).ToList();
+            var employee = model.Employees.OrderByDescending(o => o.ID).ToList();
+            employee.Remove(model.Employees.Find(1));
+
             Session["lstEmployees"] = employee;
             Session["DefaultlstEmployees"] = employee;
 
             ViewBag.typeListNhanSu = type;
             return View("danhSachNhanVien", employee.ToPagedList((int)page, (int)pageSize));
         }
+
         public ActionResult danhSachNhanVienGridPartial(int? page, int? pageSize, int? type)
         {
             if (type == null)
@@ -70,12 +78,32 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             ViewBag.typeListNhanSu = type;
             return PartialView("_nhanVienListPartialView", employee.ToPagedList((int)page, (int)pageSize));
         }
+
+        [HttpPost]
+        public ActionResult SoLuongPhanTrang(int? typestr, int? listCount)
+        {
+            if (Session["lstEmployees"] == null)
+                return Content("DANGNHAP");
+
+            if (typestr == null)
+                typestr = 1;
+            int page = 1;
+            if (listCount == null)
+                listCount = 8;
+            var employee = Session["lstEmployees"] as List<Employees>;
+
+            ViewBag.typeListNhanSu = typestr;
+            ViewBag.countListNhanSu = listCount;
+
+            return PartialView("_nhanVienListPartialView", employee.OrderByDescending(o => o.ID).ToPagedList((int)page, (int)listCount));
+        }
+
         public async Task<ActionResult> themNhanVien(HttpPostedFileBase anhHopDong, string hoten,
         string cmnd, string quoctich, string honnhan, string ngaysinh, string gioitinh,
         string sodienthoaididong, string sodienthoaikhac, string diachiemailcongty, string diachiemailkhac,
-        string diachinha, string mucluong, string dsNganHang, string sotaikhoan, string chutaikhoan, string kynang, string trinhdongoaingu,
-        string phuthuocnhanthan, string trocap, string ngayvaolam, int vaitro, string hinhthuc,
-        bool captaikhoancheck, string matkhaudangnhap, string loaihopdong, string ngaykyhopdong, string ngaygiahanhopdong)
+        string diachinha, string mucluong, string dsNganHang, string sotaikhoan, string chutaikhoan, string kynang,
+        string trinhdongoaingu, string phuthuocnhanthan, string trocap, string ngayvaolam, int vaitro, string hinhthuc,
+         string loaihopdong, string ngaykyhopdong, string ngaygiahanhopdong)
         {
             try
             {
@@ -104,12 +132,25 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 emp.JoinedDate = Convert.ToDateTime(ngayvaolam);
                 emp.EmploymentStatus = hinhthuc;
                 emp.Lock = false;
-                emp.AccountSatus = captaikhoancheck;
+                emp.AccountSatus = false;
 
-                if (captaikhoancheck == true)
-                    emp.Password = matkhaudangnhap;
+                //Tạo mật khẩu ngẫu nhiên 10 ký tự
+                const string srcs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                int lengths = 10;
+                var pass = new StringBuilder();
+                Random Ran = new Random();
+                for (var i = 0; i < lengths; i++)
+                {
+                    var c = srcs[Ran.Next(0, srcs.Length)];
+                    pass.Append(c);
+                }
+                emp.Password = pass.ToString();
 
                 model.Employees.Add(emp);
+                model.SaveChanges();
+
+                emp.ID_Employee = "NV" + emp.ID.ToString("D8");
+                model.Entry(emp).State = EntityState.Modified;
                 model.SaveChanges();
 
                 //Hợp đồng
@@ -171,7 +212,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     model.EmploymentContracts.Add(employ);
                     model.SaveChanges();
                 }
-                
+
                 //Kỹ năng
                 if (!string.IsNullOrEmpty(kynang))
                 {
@@ -287,6 +328,32 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                         model.SaveChanges();
                     }
                 }
+
+                //Gửi mật khẩu đến email
+                using (MailMessage mailMessage = new MailMessage("noreply.itglobal@gmail.com", diachiemailcongty))
+                {
+                    mailMessage.Subject = "Cấp tài khoản - IT-Global.Net";
+                    mailMessage.IsBodyHtml = true;
+                    mailMessage.Body = "<font size=4><b>Xin chào " + hoten.Trim() + ",</b><br/><br/></font>" +
+                        "<font size=4>Chúng tôi đã thiết lập một tài khoản truy cập vào hệ thống IT-Global.net.<br/>" +
+                        "Sau khi đăng nhập lần đầu, hệ thống sẽ yêu cầu thay đổi mật khẩu cho bạn.<br/>" +
+                        "Thông tin tài khoản của bạn là:<br/><br/>" +
+                        "<b>Tài khoản:</b> " + diachiemailcongty + "<br/>" +
+                        "<b>Mật khẩu:</b> " + pass.ToString() + "<br/><br/></font>" +
+                        "<font size=4 color=red><i><u>Thông tin này là bảo mật. Vui lòng không cung cấp thông tin này cho bất kỳ ai.</u></i></font>";
+
+                    using (SmtpClient smtp = new SmtpClient())
+                    {
+                        smtp.Host = "smtp.gmail.com";
+                        smtp.EnableSsl = true;
+                        NetworkCredential cred = new NetworkCredential("noreply.itglobal@gmail.com", "dagpayhjihvgdfym");
+                        smtp.UseDefaultCredentials = true;
+                        smtp.Credentials = cred;
+                        smtp.Port = 587;
+
+                        smtp.Send(mailMessage);
+                    }
+                }
             }
             catch
             {
@@ -319,31 +386,36 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             return PartialView("_danhSachChucDanhTheoBoPhan_ThemNhanVien", bophan.Position.ToList());
         }
         [HttpPost]
-        public ActionResult timKiemNhanVien(string noidungs, string typestr)
+        public ActionResult timKiemNhanVien(string noidungs, int? typestr, int? listCount)
         {
             if (Session["lstEmployees"] == null)
                 return Content("DANGNHAP");
 
-            int type = Int32.Parse(typestr);
+            noidungs = noidungs.ToLower().Trim();
             int page = 1;
-            int pageSize = 8;
+            if (listCount == null)
+                listCount = 8;
+
+            ViewBag.countListNhanSu = listCount;
+            ViewBag.typeListNhanSu = typestr;
+
             if (string.IsNullOrEmpty(noidungs))
             {
                 var employee = Session["DefaultlstEmployees"] as List<Employees>;
-                var employeess = employee.Where(e => e.ID_Position != 1).OrderByDescending(o => o.ID).ToList(); ;
-                Session["lstEmployees"] = employeess;
+                Session["lstEmployees"] = employee;
 
-                ViewBag.typeListNhanSu = type;
-                return PartialView("_nhanVienListPartialView", employeess.ToPagedList((int)page, (int)pageSize));
+                return PartialView("_nhanVienListPartialView", employee.ToPagedList((int)page, (int)listCount));
             }
             else
             {
                 var employee = Session["DefaultlstEmployees"] as List<Employees>;
-                var employees = employee.Where(e => (e.Name.ToLower().Contains(noidungs.ToLower().Trim()) || e.WorkEmail.ToLower().Contains(noidungs.ToLower().Trim()) || e.IdentityCard.ToLower().Contains(noidungs.ToLower().Trim())) && e.ID_Position != 1).OrderByDescending(o => o.ID).ToList();
+                var employees = employee.Where(e => e.Name.ToLower().Contains(noidungs)
+                || e.ID_Employee.ToLower().Contains(noidungs)
+                || e.WorkEmail.ToLower().Contains(noidungs)
+                || e.IdentityCard.ToLower().Contains(noidungs)).OrderByDescending(o => o.ID).ToList();
                 Session["lstEmployees"] = employees;
 
-                ViewBag.typeListNhanSu = type;
-                return PartialView("_nhanVienListPartialView", employees.ToPagedList((int)page, (int)pageSize));
+                return PartialView("_nhanVienListPartialView", employees.ToPagedList((int)page, (int)listCount));
             }
         }
         public ActionResult thongTinChiTiet(int? id)
@@ -351,7 +423,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (id == null)
                 return RedirectToAction("danhSachNhanVien", "QuanLyNhanSu");
 
-            ViewBag.ShowActive = "danhSachNhanVien";
+            ViewBag.ShowActive = "TTChiTiet";
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (user != null)
             {
@@ -364,8 +436,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (id == null)
                 return Content("DANHSACH");
 
-            ViewBag.ShowActive = "danhSachNhanVien";
-            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            ViewBag.ShowActive = "TTChiTiet"; var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (user != null)
             {
                 return PartialView("_thongTinChiTietPartial", user);
@@ -446,6 +517,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                 model.Entry(user).State = EntityState.Modified;
                 model.SaveChanges();
+
                 return PartialView("_thongTinChiTietPartial", model.Employees.FirstOrDefault(u => u.ID == user.ID));
             }
             catch
@@ -491,7 +563,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (id == null)
                 return Content("DANHSACH");
 
-            ViewBag.ShowActive = "danhSachNhanVien";
+            ViewBag.ShowActive = "TTChiTiet";
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (user != null)
             {
@@ -548,7 +620,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (id == null)
                 return Content("DANHSACH");
 
-            ViewBag.ShowActive = "danhSachNhanVien";
+            ViewBag.ShowActive = "TTChiTiet";
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (user != null)
             {
@@ -612,7 +684,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (id == null)
                 return Content("DANHSACH");
 
-            ViewBag.ShowActive = "danhSachNhanVien";
+            ViewBag.ShowActive = "TTChiTiet";
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (user != null)
             {
@@ -676,7 +748,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (id == null)
                 return Content("DANHSACH");
 
-            ViewBag.ShowActive = "danhSachNhanVien";
+            ViewBag.ShowActive = "TTChiTiet";
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (user != null)
             {
@@ -716,9 +788,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     subs.ID_SubsidiesCategory = Int32.Parse(trocap);
                     model.Subsidies.Add(subs);
                 }
-
                 model.SaveChanges();
-
             }
             model = new CP25Team06Entities();
             var lstTroCap = model.SubsidiesCategory.OrderBy(t => t.Name).ToList();
@@ -730,7 +800,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (id == null)
                 return Content("DANHSACH");
 
-            ViewBag.ShowActive = "danhSachNhanVien";
+            ViewBag.ShowActive = "TTChiTiet";
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (user != null)
             {
@@ -740,7 +810,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
 
         [HttpPost]
-        public ActionResult chinhSuaViecLamHopDong(int? id, string ngayvaolam, int? vaitro, string hinhthuc, bool captaikhoancheck, string matkhaudangnhap)
+        public ActionResult chinhSuaViecLamHopDong(int? id, string ngayvaolam, int? vaitro, string hinhthuc)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (id == null || user == null)
@@ -751,10 +821,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 user.JoinedDate = Convert.ToDateTime(ngayvaolam);
                 user.ID_Position = (int)vaitro;
                 user.EmploymentStatus = hinhthuc;
-                user.AccountSatus = captaikhoancheck;
-
-                if (captaikhoancheck == true && !string.IsNullOrEmpty(matkhaudangnhap.Trim()))
-                    user.Password = matkhaudangnhap;
 
                 model.Entry(user).State = EntityState.Modified;
                 model.SaveChanges();

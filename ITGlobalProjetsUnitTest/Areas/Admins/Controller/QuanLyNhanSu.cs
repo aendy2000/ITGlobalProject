@@ -44,8 +44,9 @@ namespace ITGlobalProjetsUnitTest.Areas.Admins.Controller
 
             qlnhansu.ControllerContext = mockControllerContext.Object;
             string content = "A";
-            string typestr = "1";
-            var resultViewRequest = (ContentResult)qlnhansu.timKiemNhanVien(content, typestr);
+            int typestr = 1;
+            int listCount = 8;
+            var resultViewRequest = (ContentResult)qlnhansu.timKiemNhanVien(content, typestr, listCount);
 
             Assert.IsNotNull(resultViewRequest.Content);
         }
@@ -693,9 +694,8 @@ namespace ITGlobalProjetsUnitTest.Areas.Admins.Controller
             string ngayvaolam = "dd-MM-yyyy";
             int vaitro = 0;
             string hinhthuc = "Hình Thức";
-            bool trangthai = true;
-            string mk = "";
-            var contentResult = (ContentResult)qlnhansu.chinhSuaViecLamHopDong(id, ngayvaolam, vaitro, hinhthuc, trangthai, mk);
+
+            var contentResult = (ContentResult)qlnhansu.chinhSuaViecLamHopDong(id, ngayvaolam, vaitro, hinhthuc);
 
             Assert.IsNotNull(contentResult.Content);
             Assert.AreEqual("DANHSACH", contentResult.Content);
@@ -714,9 +714,8 @@ namespace ITGlobalProjetsUnitTest.Areas.Admins.Controller
             string ngayvaolam = "dd-MM-yyyy";
             int vaitro = 0;
             string hinhthuc = "Hình Thức";
-            bool trangthai = true;
-            string mk = "";
-            var contentResult = (ContentResult)qlnhansu.chinhSuaViecLamHopDong(null, ngayvaolam, vaitro, hinhthuc, trangthai, mk);
+
+            var contentResult = (ContentResult)qlnhansu.chinhSuaViecLamHopDong(null, ngayvaolam, vaitro, hinhthuc);
 
             Assert.IsNotNull(contentResult.Content);
             Assert.AreEqual("DANHSACH", contentResult.Content);

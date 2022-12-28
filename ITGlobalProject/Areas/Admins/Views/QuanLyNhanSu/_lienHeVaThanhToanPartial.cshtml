@@ -10,7 +10,9 @@
         imagesUrl = Model.Avatar;
     }
 }
+
 <div id="contentPartial" class="container-fluid p-4">
+
     <div class="row">
         <!-- Page Header -->
         <div class="col-lg-12 col-md-12 col-12">
@@ -70,8 +72,18 @@
                     </div>
 
                 </div>
-                <div><span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: 2022-10-14</span></div>
-
+                <div>
+                    @if (Model.Lock == true)
+                    {
+                        <span id="ngaythoiviec" typeof="text" style="float: right; margin-top:1%; padding-left: 10px" class="btn btn-outline-danger btn-sm">Ngày thôi việc: @Convert.ToDateTime(Model.DayOff).ToString("yyyy-MM-dd")</span><span id="ngaythoiviecspace" style="width: 20px; float: right;">&ensp;</span>
+                        <span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: @Model.JoinedDate.ToString("yyyy-MM-dd")</span>
+                    }
+                    else
+                    {
+                        <span hidden="hidden" id="ngaythoiviec" typeof="text" style="float: right; margin-top:1%; padding-left: 10px" class="btn btn-outline-danger btn-sm">Ngày thôi việc: @Convert.ToDateTime(Model.DayOff).ToString("yyyy-MM-dd")</span><span hidden="hidden" id="ngaythoiviecspace" style="width: 20px; float: right;">&ensp;</span>
+                        <span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: @Model.JoinedDate.ToString("yyyy-MM-dd")</span>
+                    }
+                </div>
             </div>
         </div>
     </div>
@@ -201,28 +213,26 @@
                     <div>
                         <form id="noidungPage" class="row">
                             <div class="mb-2 col-12 col-md-6">
-                                <label style="font-weight:bold;" class="form-label" for="phone">Mức lương <span class="text-danger">*</span></label>
+                                <label style="font-weight:bold;" class="form-label" for="phone">Mức lương (VND) <span class="text-danger">*</span></label>
                                 <input value="@Model.Wage.ToString("0,0").Replace(".", ",")" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" style="font-weight:bold; color:brown" type="text" id="mucluong" name="mucluong" class="form-control  text-start" placeholder="Nhập mức lương đã thỏa thuận" />
                                 <p style="font-size: 13px; color:red;" id="mucluongvalidation"></p>
 
                             </div>
                             <div class="mb-2 col-12 col-md-6">
-                                <label style="font-weight:bold;" for="dsNganHang" class="form-label">Ngân hàng <span class="text-danger">*</span></label>
-                                <input value="@Model.BankName" list="dsNganHang" id="tenNganHang" class="form-control" placeholder="Tên ngân hàng" />
-                                <datalist name="dsNganHang" id="dsNganHang">
-                                    <option value="TPBank"></option>
-                                    <option value="SacomBank"></option>
-                                    <option value="VietinBank"></option>
-                                </datalist>
+                                <label style="font-weight:bold;" for="dsNganHang" class="form-label">Ngân hàng</label>
+                                <input hidden value="@Model.BankName" id="currentBankName" />
+                                <select id="dsNganHang" class="form-select text-dark" data-width="100%">
+                                    <option value="">Chưa có tài khoản ngân hàng</option>
+                                </select>
                                 <p style="font-size: 13px; color:red;" id="tennganhangvalidation"></p>
                             </div>
                             <div class="mb-2 col-12 col-md-6 py-3">
-                                <label style="font-weight:bold;" class="form-label">Số tài khoản <span class="text-danger">*</span></label>
+                                <label style="font-weight:bold;" class="form-label">Số tài khoản</label>
                                 <input value="@Model.BankAccountNumber" id="sotaikhoan" name="sotaikhoan" type="text" class="form-control" placeholder="Số tài khoản ngân hàng" />
                                 <p style="font-size: 13px; color:red;" id="sotaikhoanvalidation"></p>
                             </div>
                             <div class="mb-2 col-12 col-md-6 py-3">
-                                <label style="font-weight:bold;" class="form-label">Chủ tài khoản <span class="text-danger">*</span></label>
+                                <label style="font-weight:bold;" class="form-label">Tên chủ tài khoản</label>
                                 <input value="@Model.BankAccountHolderName" id="chutaikhoan" name="chutaikhoan" type="text" class="form-control" placeholder="Tên người sở hữu tài khoản ngân hàng" />
                                 <p style="font-size: 13px; color:red;" id="chutaikhoanvalidation"></p>
                             </div>
@@ -243,9 +253,16 @@
             </div>
         </div>
     </div>
+
     <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_LHvaThanhToanValidation.js"></script>
     <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link href="~/Content/Admin/css/Select2.css" rel="stylesheet" />
+
     <script>
+
         $('#noidungPage').change(function () {
             somethingChanged = true;
         });
@@ -255,6 +272,29 @@
         $('#reloadPage').on('click', function () {
             somethingChanged = false;
         });
+
+        $(document).ready(function (e) {
+            $.ajax({
+                url: 'https://api.vietqr.io/v2/banks',
+                type: 'GET',
+                async: false,
+                success: function (result) {
+                    var Name = result["data"].map(({ name }) => name);
+                    var ShortName = result["data"].map(({ shortName }) => shortName);
+                    $.each(Name, function (i, item) {
+                        $('#dsNganHang').append($('<option>', {
+                            value: ShortName[i],
+                            text: ShortName[i] + " - " + Name[i]
+                        }));
+                    });
+                }
+            });
+            $('#dsNganHang option[value="' + $('#currentBankName').val() + '"]').prop("selected", true);
+            $('#dsNganHang').select2();
+        });
+
     </script>
+
+
 </div>
 

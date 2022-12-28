@@ -1,23 +1,5 @@
 ﻿$(document).ready(function () {
 
-    //...............
-
-    //Cung cấp tài khoản
-    $('#cungCapTaiKhoan').on('change', function () {
-        if ($('#cungCapTaiKhoan').prop('checked')) {
-            $("#matkhaudangnhap").prop('disabled', false);
-            $("#nhaplaimatkhaudangnhap").prop('disabled', false);
-            $('#lbNhapMatKhau').prop('hidden', false);
-            $('#lbNhapLaiMatKhau').prop('hidden', false);
-
-        }
-        else {
-            $("#matkhaudangnhap").val('').prop('disabled', true);
-            $("#nhaplaimatkhaudangnhap").val('').prop('disabled', true);
-            $('#lbNhapMatKhau').prop('hidden', true);
-            $('#lbNhapLaiMatKhau').prop('hidden', true);
-        }
-    });
     //Bộ phận
     $('#bophan').on('change', function () {
         if ($('#bophan :selected').val().length < 1) {
@@ -439,18 +421,10 @@
         $('#vaitrovalidation').text("").hide();
         $('#hinhthucvalidation').text("").hide();
         $('#usernamevalidation').text("").hide();
-        $('#matkhaudangnhapvalidation').text("").hide();
-        $('#nhaplaimatkhaudangnhapvalidation').text("").hide();
 
         let id = $('#idus').val();
         //Hợp đồng & Tài khoản
-        let matkhaudangnhap = $('#matkhaudangnhap').val().trim();
-        let nhaplaimatkhaudangnhap = $('#nhaplaimatkhaudangnhap').val().trim();
-        var captaikhoancheck = false;
-        if ($('#cungCapTaiKhoan').prop('checked')) {
-            captaikhoancheck = true;
-        }
-
+       
         let ngayvaolam = $('#ngayvaolam').val();
         let bophan = $('#bophan :selected').val();
         let vaitro = $('#vaitro :selected').val();
@@ -489,38 +463,7 @@
             $('#hinhthucvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
 
-        //Cấp tài khoản
-        if ($('#cungCapTaiKhoan').prop('checked')) {
-            // Validation mật khẩu
-            if (matkhaudangnhap.length == 0) {
-                checkhopdongtaikhoan = false;
-                $('#matkhaudangnhapvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-            }
-            else if (matkhaudangnhap.length < 8) {
-                checkhopdongtaikhoan = false;
-                $('#matkhaudangnhapvalidation').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
-            }
-            else if (matkhaudangnhap.length > 20) {
-                checkhopdongtaikhoan = false;
-                $('#matkhaudangnhapvalidation').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
-            }
-            else if (formatss.test(matkhaudangnhap) == false || formatLower.test(matkhaudangnhap) == false || formatUpper.test(matkhaudangnhap) == false || formatnumber.test(matkhaudangnhap) == false) {
-                checkhopdongtaikhoan = false;
-                $('#matkhaudangnhapvalidation').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
-            }
-            // end Validation mật khẩu
-
-            // Validation nhập lại mk
-            if (nhaplaimatkhaudangnhap.length < 1) {
-                checkhopdongtaikhoan = false;
-                $('#nhaplaimatkhaudangnhapvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
-            }
-            else if (matkhaudangnhap != nhaplaimatkhaudangnhap) {
-                checkhopdongtaikhoan = false;
-                $('#nhaplaimatkhaudangnhapvalidation').text("Xác nhận lại mật khẩu chưa trùng khớp! Vui lòng nhập lại.").show();
-            }
-            // end Validation nhập lại mk
-        }
+       
         //Done
         if (checkhopdongtaikhoan == true) {
             //Lập form
@@ -531,8 +474,6 @@
             formData.append('ngayvaolam', ngayvaolam);
             formData.append('vaitro', vaitro);
             formData.append('hinhthuc', hinhthuc);
-            formData.append('captaikhoancheck', captaikhoancheck);
-            formData.append('matkhaudangnhap', matkhaudangnhap);
             e.preventDefault();
             $('#AjaxLoader').show();
             $.ajax({

@@ -170,7 +170,6 @@
 
         if (checkusn == true && checkpw == true && checkcaptcha == true) {
             $('#AjaxLoader').show();
-            e.preventDefault();
             let urls = $('#actionlinks').data('request-url');
             $.ajax({
                 url: urls,
@@ -194,26 +193,13 @@
                 }
                 else if (ketqua === "KHOA") {
                     $('#AjaxLoader').hide();
-                    var SweetAlert2Demo = function () {
-                        var initDemos = function () {
-                            swal("Thông Báo!", "Tài khoản của bạn đã bị khóa!", {
-                                icon: "error",
-                                buttons: {
-                                    confirm: {
-                                        className: 'btn btn-danger'
-                                    }
-                                },
-                            });
-                        };
-                        return {
-                            init: function () {
-                                initDemos();
-                            },
-                        };
-                    }();
 
-                    jQuery(document).ready(function () {
-                        SweetAlert2Demo.init();
+                    Swal.fire({
+                        title: 'Thông Báo!',
+                        text: 'Tài khoản của bạn đã bị khóa, vui lòng liên hệ cho Quản Trị để biết thêm thông tin!',
+                        icon: 'info',
+                        confirmButtonText: 'Xác nhận',
+                        confirmButtonColor: '#57b846',
                     });
                 }
                 else {
@@ -226,6 +212,116 @@
                     else if (ketqua === "employee") {
                         window.location.href = $('#actionEmployeeSuccess').data('request-url');
                         $('#AjaxLoader').hide();
+                    }
+                    else {
+                        $('#AjaxLoader').hide();
+                        swal.fire({
+                            html: '<span style="font-size: 16px">Bạn đang sử dụng mật khẩu mặc định của hệ thống, hãy thay đổi sang một mật khẩu mới!</span>'
+                                + '<div style="margin-top: 20px" class="wrap-input100 validate-input" data-validate="Nhập vào mật khẩu với tối thiểu 8 ký tự và tối đa 20 ký tự">'
+                                + '<input class="input100" type="password" id="matkhau" name="matkhau" placeholder="Nhập mật khẩu mới">'
+                                + '<span class="focus-input100"></span><span class="symbol-input100"><i class="fa fa-lock" aria-hidden="true"></i></span></div>'
+                                + '<p style="color: red; font-size: 13px; margin-top: -10px" hidden id="matkhauValidate"></p>'
+
+                                + '<div class="wrap-input100 validate-input" data-validate="Nhập vào mật khẩu với tối thiểu 8 ký tự và tối đa 20 ký tự">'
+                                + '<input class="input100" type="password" id="nhaplaimatkhau" name="nhaplaimatkhau" placeholder="Nhập lại mật khẩu mới">'
+                                + '<span class="focus-input100"></span><span class="symbol-input100"><i class="fa fa-lock" aria-hidden="true"></i></span></div>'
+                                + '<p style="color: red; font-size: 13px; margin-top: -10px" hidden id="nhaplaimatkhauValidate"></p>',
+                            title: 'Đổi Mật Khẩu',
+                            showCancelButton: true,
+                            focusConfirm: false,
+                            cancelButtonText: 'Hủy bỏ',
+                            confirmButtonText: 'Xác nhận',
+                            confirmButtonColor: '#57b846',
+                            cancelButtonColor: '#e53f3c',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            allowEnterKey: false,
+                            preConfirm: () => {
+                                Swal.showLoading();
+                                let pw = $('#matkhau').val();
+                                let repw = $('#nhaplaimatkhau').val();
+
+                                $('#matkhauValidate').hide();
+                                $('#nhaplaimatkhauValidate').hide();
+
+                                var checkpw = true;
+                                var checkrepw = true;
+
+                                var formatps = /[`!#$%^&*()+\=\[\]{};':"\\|.@-_,<>\/?~]/;
+                                var formatLower = /[abcdefghiklmnopqrstuvwxyz]/;
+                                var formatUpper = /[ABCDEFGHIKLMNOPQRSTUVWXYZ]/;
+                                var formatnumber = /[1234567890]/;
+
+                                //Mk mới
+                                if (pw.length == 0) {
+                                    checkpw = false;
+                                    $('#matkhauValidate').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                                }
+                                else if (pw.length < 8) {
+                                    checkpw = false;
+                                    $('#matkhauValidate').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
+                                }
+                                else if (pw.length > 20) {
+                                    checkpw = false;
+                                    $('#matkhauValidate').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
+                                }
+                                else if (formatps.test(pw) == false || formatLower.test(pw) == false || formatUpper.test(pw) == false || formatnumber.test(pw) == false) {
+                                    checkpw = false;
+                                    $('#matkhauValidate').text("Mật khẩu phải tối thiểu 8 ký tự và tối đa 20 ký tự bao gồm chữ thường, chữ hoa, chữ số và ký tự đặc biệt.").show();
+                                }
+
+                                //Lại mk mới
+                                if (repw.length < 1) {
+                                    checkrepw = false;
+                                    $('#nhaplaimatkhauValidate').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+                                }
+                                else if (repw != pw) {
+                                    checkrepw = false;
+                                    $('#nhaplaimatkhauValidate').text("Xác nhận lại mật khẩu chưa trùng khớp! Vui lòng nhập lại.").show();
+                                }
+
+                                if (checkpw == true && checkrepw == true) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            },
+                        }).then((result) => {
+                            if (result.value) {
+                                e.preventDefault();
+                                let id = ketqua;
+                                let pw = $('#matkhau').val();
+                                let urls = $('#requestPath').val() + 'Admins/QuanLyTaiKhoan/doiMatKhauLanDau';
+                                $.ajax({
+                                    url: urls,
+                                    type: 'POST',
+                                    traditional: true,
+                                    async: false,
+                                    cache: false,
+                                    context: document.body,
+                                    dataType: 'html',
+                                    data: {
+                                        password: pw,
+                                        id: id
+                                    }
+                                }).done(function (ketquas) {
+                                    if (ketquas === "DANGNHAP") {
+                                        window.location.href = $('#requestPath').val() + 'Amdins/QuanLyTaiKhoan/DangNhap';
+                                    }
+                                    else if (ketquas === "SUCCESS") {
+                                        Swal.fire({
+                                            title: 'Thành công!',
+                                            text: 'Mật khẩu của bạn đã được thay đổi.',
+                                            icon: 'success',
+                                            confirmButtonText: 'Xác nhận',
+                                            confirmButtonColor: '#57b846',
+                                        }).then(() => {
+                                            window.location.href = $('#requestPath').val() + 'Employee';
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     }
                 }
             });

@@ -34,13 +34,13 @@ namespace ITGlobalProject.Controllers
         {
             if (string.IsNullOrEmpty(noidung.Trim()))
             {
-                var lstTTD = model.Recruitment.Where(r => r.Status == true).OrderByDescending(o => o.ID).ToList();
+                var lstTTD = model.Recruitment.Where(r => r.Status == true && r.CVSubmissionDeadline >= DateTime.Now).OrderByDescending(o => o.ID).ToList();
                 ViewBag.HeaderPages = "TinTuyenDung";
                 return PartialView("_timkiemtintuyendung", lstTTD.ToPagedList(1, 10));
             }
             else
             {
-                var lstTTD = model.Recruitment.Where(r => r.Status == true && (r.Title.ToLower().Contains(noidung.Trim().ToLower())
+                var lstTTD = model.Recruitment.Where(r => r.Status == true && r.CVSubmissionDeadline >= DateTime.Now && (r.Title.ToLower().Contains(noidung.Trim().ToLower())
                 || r.Position.Name.ToLower().Contains(noidung.Trim().ToLower())
                 || r.Form.ToLower().Contains(noidung.Trim().ToLower())
                 || r.Experience.ToLower().Contains(noidung.Trim().ToLower())
@@ -55,7 +55,7 @@ namespace ITGlobalProject.Controllers
         }
         public ActionResult danhSachTinTuyenDung()
         {
-            var lstTTD = model.Recruitment.Where(r => r.Status == true).OrderByDescending(o => o.ID).ToList();
+            var lstTTD = model.Recruitment.Where(r => r.Status == true && r.CVSubmissionDeadline >= DateTime.Now).OrderByDescending(o => o.ID).ToList();
             ViewBag.HeaderPages = "TinTuyenDung";
             Session["PageItem-Page"] = 1;
             int count = lstTTD.ToPagedList(1, 10).PageCount;
@@ -71,7 +71,7 @@ namespace ITGlobalProject.Controllers
         {
             if (Session["PageItem-Page"] == null)
             {
-                var lstTTD = model.Recruitment.Where(r => r.Status == true).OrderByDescending(o => o.ID).ToList();
+                var lstTTD = model.Recruitment.Where(r => r.Status == true && r.CVSubmissionDeadline >= DateTime.Now).OrderByDescending(o => o.ID).ToList();
                 ViewBag.HeaderPages = "TinTuyenDung";
                 Session["PageItem-Page"] = 1;
                 int count = lstTTD.ToPagedList(1, 10).PageCount;
@@ -86,7 +86,7 @@ namespace ITGlobalProject.Controllers
             {
                 int count = Convert.ToInt32(Session["PageItem-Page"]);
                 count += 1;
-                var lstTTD = model.Recruitment.Where(r => r.Status == true).OrderByDescending(o => o.ID).ToList();
+                var lstTTD = model.Recruitment.Where(r => r.Status == true && r.CVSubmissionDeadline >= DateTime.Now).OrderByDescending(o => o.ID).ToList();
                 int toTalCount = lstTTD.ToPagedList(1, 10).PageCount;
                 if (toTalCount > count)
                 {

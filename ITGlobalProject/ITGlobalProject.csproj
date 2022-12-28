@@ -274,6 +274,8 @@
     <Compile Include="Areas\Admins\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admins\Controllers\LienHeTuVanController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyDanhMucBoPhanController.cs" />
+    <Compile Include="Areas\Admins\Controllers\QuanLyDanhMucNgayNghiPhepController.cs" />
+    <Compile Include="Areas\Admins\Controllers\QuanLyDonNghiPhepController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyDuAnController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyKyNangChuyenMonController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyLuongController.cs" />
@@ -331,6 +333,12 @@
     <Compile Include="Models\LanguagesSkills.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LeaveApplication.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LeaveDate.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -347,6 +355,9 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Notification.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OnLeave.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Partners.cs">
@@ -745,7 +756,6 @@
     <Content Include="Areas\Admins\Views\QuanLyTaiKhoan\_chinhSuaThongTinCaNhanPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyTaiKhoan\_doiMatKhauPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyTaiKhoan\_thongTinCaNhanPartial.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyTinTuyenDung\chiTietTinTuyenDung.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyTinTuyenDung\danhSachTinTuyenDung.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyTinTuyenDung\chinhSuaTinTuyenDung.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyTinTuyenDung\themTinTuyenDung.cshtml" />
@@ -782,13 +792,6 @@
     <Content Include="Areas\Admins\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_danhSachChucDanhTheoBoPhan_ThemNhanVien.cshtml" />
     <Content Include="Areas\Admins\Views\LienHeTuVan\_thongTinDaLienHeTuVanPartial.cshtml" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\Admins\Views\QuanLyTinTuyenDung\_danhSachTinTuyenDungPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDanhMucBoPhan\danhSachBoPhan.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDanhMucBoPhan\_danhSachBoPhanPartial.cshtml" />
@@ -798,6 +801,14 @@
     <Content Include="Areas\Admins\Views\QuanLyKyNangChuyenMon\_danhSachKyNangPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyTroCapVaPhuCap\danhSachKhoanTroCapVaPhuCap.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyTroCapVaPhuCap\_danhSachKhoanTroCapVaPhuCapPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyDanhMucNgayNghiPhep\danhSachDanhMucNgayNghiPhep.cshtml" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -884,6 +895,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admins\Views\QuanLyDonNghiPhep\" />
     <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>

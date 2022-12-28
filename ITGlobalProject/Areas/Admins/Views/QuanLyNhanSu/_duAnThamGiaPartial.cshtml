@@ -73,8 +73,18 @@
                     </div>
 
                 </div>
-                <div><span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: 2022-10-14</span></div>
-
+                <div>
+                    @if (Model.Lock == true)
+                    {
+                        <span id="ngaythoiviec" typeof="text" style="float: right; margin-top:1%; padding-left: 10px" class="btn btn-outline-danger btn-sm">Ngày thôi việc: @Convert.ToDateTime(Model.DayOff).ToString("yyyy-MM-dd")</span><span id="ngaythoiviecspace" style="width: 20px; float: right;">&ensp;</span>
+                        <span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: @Model.JoinedDate.ToString("yyyy-MM-dd")</span>
+                    }
+                    else
+                    {
+                        <span hidden="hidden" id="ngaythoiviec" typeof="text" style="float: right; margin-top:1%; padding-left: 10px" class="btn btn-outline-danger btn-sm">Ngày thôi việc: @Convert.ToDateTime(Model.DayOff).ToString("yyyy-MM-dd")</span><span hidden="hidden" id="ngaythoiviecspace" style="width: 20px; float: right;">&ensp;</span>
+                        <span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: @Model.JoinedDate.ToString("yyyy-MM-dd")</span>
+                    }
+                </div>
             </div>
         </div>
     </div>    <div class="row mt-0 mt-md-4">

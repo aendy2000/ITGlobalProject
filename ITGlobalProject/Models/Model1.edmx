@@ -96,6 +96,7 @@
           <Property Name="AccessHistory" Type="datetime" />
           <Property Name="AccountSatus" Type="bit" Nullable="false" />
           <Property Name="DayOff" Type="datetime" />
+          <Property Name="ID_Employee" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="EmploymentContracts">
           <Key>
@@ -140,6 +141,32 @@
           <Property Name="Reading" Type="nvarchar" MaxLength="50" />
           <Property Name="listening" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="LeaveApplication">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Employee" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+          <Property Name="SendDate" Type="datetime" Nullable="false" />
+          <Property Name="State" Type="bit" />
+          <Property Name="Contents" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ResponsiveDate" Type="datetime" />
+          <Property Name="Reply" Type="nvarchar" MaxLength="200" />
+          <Property Name="OnWage" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LeaveDate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="StartDay" Type="int" Nullable="false" />
+          <Property Name="StartMonth" Type="int" Nullable="false" />
+          <Property Name="EndDay" Type="int" Nullable="false" />
+          <Property Name="EndMonth" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Notification">
           <Key>
             <PropertyRef Name="ID" />
@@ -151,6 +178,14 @@
           <Property Name="State" Type="bit" Nullable="false" />
           <Property Name="Push" Type="bit" Nullable="false" />
           <Property Name="Url" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="OnLeave">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Employee" Type="int" Nullable="false" />
+          <Property Name="ID_LeaveDate" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Partners">
           <Key>
@@ -455,6 +490,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LeaveApplication_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="LeaveApplication" Type="Self.LeaveApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LeaveApplication">
+              <PropertyRef Name="ID_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Notification_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
@@ -464,6 +511,30 @@
             </Principal>
             <Dependent Role="Notification">
               <PropertyRef Name="ID_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OnLeave_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="OnLeave" Type="Self.OnLeave" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OnLeave">
+              <PropertyRef Name="ID_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OnLeave_LeaveDate">
+          <End Role="LeaveDate" Type="Self.LeaveDate" Multiplicity="1" />
+          <End Role="OnLeave" Type="Self.OnLeave" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeaveDate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OnLeave">
+              <PropertyRef Name="ID_LeaveDate" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -671,7 +742,10 @@
           <EntitySet Name="Histories" EntityType="Self.Histories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Insurance" EntityType="Self.Insurance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LanguagesSkills" EntityType="Self.LanguagesSkills" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeaveApplication" EntityType="Self.LeaveApplication" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeaveDate" EntityType="Self.LeaveDate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OnLeave" EntityType="Self.OnLeave" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Partners" EntityType="Self.Partners" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentHistory" EntityType="Self.PaymentHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payroll" EntityType="Self.Payroll" Schema="dbo" store:Type="Tables" />
@@ -728,9 +802,21 @@
             <End Role="Employees" EntitySet="Employees" />
             <End Role="LanguagesSkills" EntitySet="LanguagesSkills" />
           </AssociationSet>
+          <AssociationSet Name="FK_LeaveApplication_Employees" Association="Self.FK_LeaveApplication_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="LeaveApplication" EntitySet="LeaveApplication" />
+          </AssociationSet>
           <AssociationSet Name="FK_Notification_Employees" Association="Self.FK_Notification_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OnLeave_Employees" Association="Self.FK_OnLeave_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="OnLeave" EntitySet="OnLeave" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OnLeave_LeaveDate" Association="Self.FK_OnLeave_LeaveDate">
+            <End Role="LeaveDate" EntitySet="LeaveDate" />
+            <End Role="OnLeave" EntitySet="OnLeave" />
           </AssociationSet>
           <AssociationSet Name="FK_PaymentHistory_Debts" Association="Self.FK_PaymentHistory_Debts">
             <End Role="Debts" EntitySet="Debts" />
@@ -897,19 +983,22 @@
           <Property Name="CodeDate" Type="DateTime" Precision="3" />
           <Property Name="AccessHistory" Type="DateTime" Precision="3" />
           <Property Name="AccountSatus" Type="Boolean" Nullable="false" />
+          <Property Name="DayOff" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Comment" Relationship="Self.FK_Comment_Employees" FromRole="Employees" ToRole="Comment" />
           <NavigationProperty Name="DependentsInformation" Relationship="Self.FK_DependentsInformation_Employees" FromRole="Employees" ToRole="DependentsInformation" />
           <NavigationProperty Name="Position" Relationship="Self.FK_Employees_Position" FromRole="Employees" ToRole="Position" />
           <NavigationProperty Name="EmploymentContracts" Relationship="Self.FK_EmploymentContracts_Employees" FromRole="Employees" ToRole="EmploymentContracts" />
           <NavigationProperty Name="Histories" Relationship="Self.FK_Histories_Employees" FromRole="Employees" ToRole="Histories" />
           <NavigationProperty Name="LanguagesSkills" Relationship="Self.FK_LanguagesSkills_Employees" FromRole="Employees" ToRole="LanguagesSkills" />
+          <NavigationProperty Name="LeaveApplication" Relationship="Self.FK_LeaveApplication_Employees" FromRole="Employees" ToRole="LeaveApplication" />
           <NavigationProperty Name="Notification" Relationship="Self.FK_Notification_Employees" FromRole="Employees" ToRole="Notification" />
+          <NavigationProperty Name="OnLeave" Relationship="Self.FK_OnLeave_Employees" FromRole="Employees" ToRole="OnLeave" />
           <NavigationProperty Name="Payroll" Relationship="Self.FK_Payroll_Employees" FromRole="Employees" ToRole="Payroll" />
           <NavigationProperty Name="PersonalSkills" Relationship="Self.FK_PersonalSkills_Employees" FromRole="Employees" ToRole="PersonalSkills" />
           <NavigationProperty Name="Subsidies" Relationship="Self.FK_Subsidies_Employees" FromRole="Employees" ToRole="Subsidies" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Employees" FromRole="Employees" ToRole="Tasks" />
           <NavigationProperty Name="Teams" Relationship="Self.FK_Teams_Employees" FromRole="Employees" ToRole="Teams" />
-          <Property Name="DayOff" Type="DateTime" Precision="3" />
+          <Property Name="ID_Employee" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="EmploymentContracts">
           <Key>
@@ -959,6 +1048,34 @@
           <Property Name="listening" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_LanguagesSkills_Employees" FromRole="LanguagesSkills" ToRole="Employees" />
         </EntityType>
+        <EntityType Name="LeaveApplication">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Employee" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="SendDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="State" Type="Boolean" />
+          <Property Name="Contents" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ResponsiveDate" Type="DateTime" Precision="3" />
+          <Property Name="Reply" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="OnWage" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_LeaveApplication_Employees" FromRole="LeaveApplication" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="LeaveDate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StartDay" Type="Int32" Nullable="false" />
+          <Property Name="StartMonth" Type="Int32" Nullable="false" />
+          <Property Name="EndDay" Type="Int32" Nullable="false" />
+          <Property Name="EndMonth" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="OnLeave" Relationship="Self.FK_OnLeave_LeaveDate" FromRole="LeaveDate" ToRole="OnLeave" />
+        </EntityType>
         <EntityType Name="Notification">
           <Key>
             <PropertyRef Name="ID" />
@@ -971,6 +1088,16 @@
           <Property Name="Push" Type="Boolean" Nullable="false" />
           <Property Name="Url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_Notification_Employees" FromRole="Notification" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="OnLeave">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Employee" Type="Int32" Nullable="false" />
+          <Property Name="ID_LeaveDate" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_OnLeave_Employees" FromRole="OnLeave" ToRole="Employees" />
+          <NavigationProperty Name="LeaveDate" Relationship="Self.FK_OnLeave_LeaveDate" FromRole="OnLeave" ToRole="LeaveDate" />
         </EntityType>
         <EntityType Name="Partners">
           <Key>
@@ -1305,6 +1432,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LeaveApplication_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="LeaveApplication" Type="Self.LeaveApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LeaveApplication">
+              <PropertyRef Name="ID_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Notification_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
@@ -1313,6 +1452,18 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Notification">
+              <PropertyRef Name="ID_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OnLeave_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="OnLeave" Type="Self.OnLeave" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OnLeave">
               <PropertyRef Name="ID_Employee" />
             </Dependent>
           </ReferentialConstraint>
@@ -1398,6 +1549,18 @@
             </Principal>
             <Dependent Role="Histories">
               <PropertyRef Name="ID_Task" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OnLeave_LeaveDate">
+          <End Role="LeaveDate" Type="Self.LeaveDate" Multiplicity="1" />
+          <End Role="OnLeave" Type="Self.OnLeave" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeaveDate">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OnLeave">
+              <PropertyRef Name="ID_LeaveDate" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1521,7 +1684,10 @@
           <EntitySet Name="Histories" EntityType="Self.Histories" />
           <EntitySet Name="Insurance" EntityType="Self.Insurance" />
           <EntitySet Name="LanguagesSkills" EntityType="Self.LanguagesSkills" />
+          <EntitySet Name="LeaveApplication" EntityType="Self.LeaveApplication" />
+          <EntitySet Name="LeaveDate" EntityType="Self.LeaveDate" />
           <EntitySet Name="Notification" EntityType="Self.Notification" />
+          <EntitySet Name="OnLeave" EntityType="Self.OnLeave" />
           <EntitySet Name="Partners" EntityType="Self.Partners" />
           <EntitySet Name="PaymentHistory" EntityType="Self.PaymentHistory" />
           <EntitySet Name="Payroll" EntityType="Self.Payroll" />
@@ -1578,9 +1744,17 @@
             <End Role="Employees" EntitySet="Employees" />
             <End Role="LanguagesSkills" EntitySet="LanguagesSkills" />
           </AssociationSet>
+          <AssociationSet Name="FK_LeaveApplication_Employees" Association="Self.FK_LeaveApplication_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="LeaveApplication" EntitySet="LeaveApplication" />
+          </AssociationSet>
           <AssociationSet Name="FK_Notification_Employees" Association="Self.FK_Notification_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OnLeave_Employees" Association="Self.FK_OnLeave_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="OnLeave" EntitySet="OnLeave" />
           </AssociationSet>
           <AssociationSet Name="FK_Payroll_Employees" Association="Self.FK_Payroll_Employees">
             <End Role="Employees" EntitySet="Employees" />
@@ -1609,6 +1783,10 @@
           <AssociationSet Name="FK_Histories_Tasks" Association="Self.FK_Histories_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="Histories" EntitySet="Histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OnLeave_LeaveDate" Association="Self.FK_OnLeave_LeaveDate">
+            <End Role="LeaveDate" EntitySet="LeaveDate" />
+            <End Role="OnLeave" EntitySet="OnLeave" />
           </AssociationSet>
           <AssociationSet Name="FK_Projects_Partners" Association="Self.FK_Projects_Partners">
             <End Role="Partners" EntitySet="Partners" />
@@ -1722,7 +1900,7 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="CP25Team06Model.Employees">
               <MappingFragment StoreEntitySet="Employees">
-                <ScalarProperty Name="DayOff" ColumnName="DayOff" />
+                <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Position" ColumnName="ID_Position" />
                 <ScalarProperty Name="Avatar" ColumnName="Avatar" />
@@ -1749,6 +1927,7 @@
                 <ScalarProperty Name="CodeDate" ColumnName="CodeDate" />
                 <ScalarProperty Name="AccessHistory" ColumnName="AccessHistory" />
                 <ScalarProperty Name="AccountSatus" ColumnName="AccountSatus" />
+                <ScalarProperty Name="DayOff" ColumnName="DayOff" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1799,6 +1978,34 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="LeaveApplication">
+            <EntityTypeMapping TypeName="CP25Team06Model.LeaveApplication">
+              <MappingFragment StoreEntitySet="LeaveApplication">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="SendDate" ColumnName="SendDate" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Contents" ColumnName="Contents" />
+                <ScalarProperty Name="ResponsiveDate" ColumnName="ResponsiveDate" />
+                <ScalarProperty Name="Reply" ColumnName="Reply" />
+                <ScalarProperty Name="OnWage" ColumnName="OnWage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeaveDate">
+            <EntityTypeMapping TypeName="CP25Team06Model.LeaveDate">
+              <MappingFragment StoreEntitySet="LeaveDate">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StartDay" ColumnName="StartDay" />
+                <ScalarProperty Name="StartMonth" ColumnName="StartMonth" />
+                <ScalarProperty Name="EndDay" ColumnName="EndDay" />
+                <ScalarProperty Name="EndMonth" ColumnName="EndMonth" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Notification">
             <EntityTypeMapping TypeName="CP25Team06Model.Notification">
               <MappingFragment StoreEntitySet="Notification">
@@ -1809,6 +2016,15 @@
                 <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="Push" ColumnName="Push" />
                 <ScalarProperty Name="Url" ColumnName="Url" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OnLeave">
+            <EntityTypeMapping TypeName="CP25Team06Model.OnLeave">
+              <MappingFragment StoreEntitySet="OnLeave">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
+                <ScalarProperty Name="ID_LeaveDate" ColumnName="ID_LeaveDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

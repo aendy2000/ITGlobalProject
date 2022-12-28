@@ -73,11 +73,18 @@
                     </div>
 
                 </div>
-                <div><span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: @Model.JoinedDate.ToString("yyyy-MM-dd")</span></div>
-                @if (Model.Lock == true)
-                {
-                    <div><span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày thôi việc: @Convert.ToDateTime(Model.DayOff).ToString("yyyy-MM-dd")</span></div>
-                }
+                <div>
+                    @if (Model.Lock == true)
+                    {
+                        <span id="ngaythoiviec" typeof="text" style="float: right; margin-top:1%; padding-left: 10px" class="btn btn-outline-danger btn-sm">Ngày thôi việc: @Convert.ToDateTime(Model.DayOff).ToString("yyyy-MM-dd")</span><span id="ngaythoiviecspace" style="width: 20px; float: right;">&ensp;</span>
+                        <span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: @Model.JoinedDate.ToString("yyyy-MM-dd")</span>
+                    }
+                    else
+                    {
+                        <span hidden="hidden" id="ngaythoiviec" typeof="text" style="float: right; margin-top:1%; padding-left: 10px" class="btn btn-outline-danger btn-sm">Ngày thôi việc: @Convert.ToDateTime(Model.DayOff).ToString("yyyy-MM-dd")</span><span hidden="hidden" id="ngaythoiviecspace" style="width: 20px; float: right;">&ensp;</span>
+                        <span typeof="text" style="float: right; margin-top:1%" class="btn btn-outline-dark btn-sm">Ngày vào làm: @Model.JoinedDate.ToString("yyyy-MM-dd")</span>
+                    }
+                </div>
             </div>
         </div>
     </div>
@@ -268,19 +275,19 @@
                                     if (item.DateApply == 0)
                                     {
                                         <label class="form-check-label" for="pc@(item.ID)">
-                                            @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Hàng tháng
+                                            @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") (VND)</b> - Hàng tháng
                                         </label>
                                     }
                                     else if (item.DateApply == -1)
                                     {
                                         <label class="form-check-label" for="pc@(item.ID)">
-                                            @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Tùy chọn
+                                            @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") (VND)</b> - Tùy chọn
                                         </label>
                                     }
                                     else
                                     {
                                         <label class="form-check-label" for="pc@(item.ID)">
-                                            @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") đ</b> - Mỗi tháng @item.DateApply
+                                            @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") (VND)</b> - Mỗi tháng @item.DateApply
                                         </label>
                                     }
                                 }

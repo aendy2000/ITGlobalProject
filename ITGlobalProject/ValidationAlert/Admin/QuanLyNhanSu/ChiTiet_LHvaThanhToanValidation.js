@@ -7,16 +7,13 @@
         let id = $('#idus').val();
 
         let mucluong = $('#mucluong').val();
-        let dsNganHang = $('#tenNganHang').val().trim();
+        let dsNganHang = $('#dsNganHang :selected').val().trim();
         let sotaikhoan = $('#sotaikhoan').val().trim();
         let chutaikhoan = $('#chutaikhoan').val().trim();
 
         var formatss = /[`!*()\=\[\]{}#;'%:"\\|,^@&.+-_<>\/?~]/;
         var formatTextVN = /[ àÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬđĐèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆìÌỉỈĩĨíÍịỊòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰỳỲỷỶỹỸýÝỵỴ]/;
-        var formatLower = /[abcdefghiklmnopqrstuvwxyz]/;
-        var formatUpper = /[ABCDEFGHIKLMNOPQRSTUVWXYZ]/;
         var formatnumber = /[1234567890]/;
-        var formatEmail = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 
         $("#mucluongvalidation").text("").hide();
         $("#tennganhangvalidation").text("").hide();
@@ -31,68 +28,57 @@
             checklienhethanhtoan = false;
             $("#mucluongvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
-        // Vali dsNganHang
-        if (dsNganHang.length < 1) {
-            checklienhethanhtoan = false;
-            $("#tennganhangvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
 
-        }
-        else if (dsNganHang.length > 100) {
-            checklienhethanhtoan = false;
-            $("#tennganhangvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+        if (dsNganHang.length > 0 || sotaikhoan.length > 0 || chutaikhoan.length > 0)
+        {
+            // Vali dsNganHang
+            if (dsNganHang.length < 1) {
+                checklienhethanhtoan = false;
+                $("#tennganhangvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            }
 
-
-        }
-        else if (formatss.test(dsNganHang.toLowerCase().replace(/\d+/g, '')) == true) {
-            checklienhethanhtoan = false;
-            $("#tennganhangvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
-        }
-        else if (formatnumber.test(dsNganHang) == true) {
-            checklienhethanhtoan = false;
-            $("#tennganhangvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
-        }
-        // Vali sotaikhoan
-        if (sotaikhoan.length < 1) {
-            checklienhethanhtoan = false;
-            $("#sotaikhoanvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            // Vali sotaikhoan
+            if (sotaikhoan.length < 1) {
+                checklienhethanhtoan = false;
+                $("#sotaikhoanvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
 
 
-        }
-        else if (sotaikhoan.length > 50) {
-            checklienhethanhtoan = false;
-            $("#sotaikhoanvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
+            }
+            else if (sotaikhoan.length > 50) {
+                checklienhethanhtoan = false;
+                $("#sotaikhoanvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
 
 
-        }
-        else if (formatTextVN.test(sotaikhoan) == true || formatss.test(sotaikhoan.toLowerCase().replace(/\d+/g, '')) == true) {
-            checklienhethanhtoan = false;
-            $("#sotaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            }
+            else if (formatTextVN.test(sotaikhoan) == true || formatss.test(sotaikhoan.toLowerCase().replace(/\d+/g, '')) == true) {
+                checklienhethanhtoan = false;
+                $("#sotaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
 
-        }
-        // Vali chutaikhoan
-        if (chutaikhoan.length < 1) {
-            checklienhethanhtoan = false;
-            $("#chutaikhoanvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
+            }
+            // Vali chutaikhoan
+            if (chutaikhoan.length < 1) {
+                checklienhethanhtoan = false;
+                $("#chutaikhoanvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
 
-        }
-        else if (chutaikhoan.length > 50) {
-            checklienhethanhtoan = false;
-            $("#chutaikhoanvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
-
-
-        }
-        else if (formatss.test(chutaikhoan.toLowerCase().replace(/\d+/g, '')) == true) {
-            checklienhethanhtoan = false;
-            $("#chutaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
-
-        }
-        else if (formatnumber.test(chutaikhoan) == true) {
-            checklienhethanhtoan = false;
-            $("#chutaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            }
+            else if (chutaikhoan.length > 50) {
+                checklienhethanhtoan = false;
+                $("#chutaikhoanvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
 
 
+            }
+            else if (formatss.test(chutaikhoan.toLowerCase().replace(/\d+/g, '')) == true) {
+                checklienhethanhtoan = false;
+                $("#chutaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+
+            }
+            else if (formatnumber.test(chutaikhoan) == true) {
+                checklienhethanhtoan = false;
+                $("#chutaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            }
         }
         //Done
+
         if (checklienhethanhtoan == true) {
             //Lập form
             var formData = new FormData();

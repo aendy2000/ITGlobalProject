@@ -36,7 +36,10 @@ namespace ITGlobalProject.Models
         public virtual DbSet<Histories> Histories { get; set; }
         public virtual DbSet<Insurance> Insurance { get; set; }
         public virtual DbSet<LanguagesSkills> LanguagesSkills { get; set; }
+        public virtual DbSet<LeaveApplication> LeaveApplication { get; set; }
+        public virtual DbSet<LeaveDate> LeaveDate { get; set; }
         public virtual DbSet<Notification> Notification { get; set; }
+        public virtual DbSet<OnLeave> OnLeave { get; set; }
         public virtual DbSet<Partners> Partners { get; set; }
         public virtual DbSet<PaymentHistory> PaymentHistory { get; set; }
         public virtual DbSet<Payroll> Payroll { get; set; }

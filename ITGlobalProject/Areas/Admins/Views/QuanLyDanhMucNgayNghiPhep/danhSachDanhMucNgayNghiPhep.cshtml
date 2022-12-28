@@ -1,0 +1,275 @@
+﻿@model IEnumerable<ITGlobalProject.Models.LeaveDate>
+@{
+    ViewBag.Title = "Danh Sách Bộ Phận";
+    Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+
+    int i = 0;
+}
+
+<div class="container-fluid p-4">
+    <div class="row ">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Page header -->
+            <div class="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Quản Lý Danh Mục Ngày Nghỉ Phép </h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")">Quản Lý Danh Mục Ngày Nghỉ Phép</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Danh Sách Ngày Nghỉ Phép
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- button -->
+                <div>
+                    <a href="#" class="btn btn-primary me-2" style="width:250px" data-bs-toggle="modal" data-bs-target="#themNgayNghiPhepModal">
+                        <i class="fe fe-calendar"> </i> Thêm Ngày Nghỉ Phép
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row -->
+    <div id="danhSachPartial" class="row">
+        <!-- col -->
+        <div class="col-md-12 col-12 mb-5">
+            <!-- card -->
+            <div class="card">
+                <!-- table -->
+                <table id="dataTableBasic" class="table" style="width:100%">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class=" border-top-0">#</th>
+                            <th scope="col" class=" border-top-0">Tên</th>
+                            <th scope="col" class=" border-top-0">Ngày bắt đầu</th>
+                            <th scope="col" class=" border-top-0">Ngày kế thúc</th>
+                            <th scope="col" class=" border-top-0">Nhân viên</th>
+                            <th scope="col" class=" border-top-0"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                i++;
+                                <input hidden value="@item.ID" id="ids@(item.ID)" />
+                                <input hidden value="@item.Name" id="names@(item.ID)" />
+                                <input hidden value="@item.StartDay" id="stdays@(item.ID)" />
+                                <input hidden value="@item.StartMonth" id="stmonths@(item.ID)" />
+                                <input hidden value="@item.EndDay" id="enddays@(item.ID)" />
+                                <input hidden value="@item.EndMonth" id="endmonths@(item.ID)" />
+
+                                var positions = item.OnLeave.ToList();
+                                <tr>
+                                    <td class="align-middle">
+                                        @i
+                                    </td>
+                                    <td class="align-middle ">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <h4 class="mb-0"><a href="#" class="text-inherit">@item.Name</a></h4>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">
+                                    </td>
+                                    <td class="align-middle ">
+                                        <div class="avatar-group">
+                                            @if (positions.Count < 1)
+                                            {
+                                                <span>Chưa có chức danh nào</span>
+                                            }
+                                            else if (positions.Count < 4)
+                                            {
+                                                foreach (var posi in item.Position.ToList())
+                                                {
+                                                    if (posi.ID != 1)
+                                                    {
+                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@posi.ID">
+                                                            <span class="avatar-initials rounded-circle ">
+                                                                @posi.Name.Substring(0, 1)
+                                                            </span>
+
+                                                            <span id="@posi.ID" class="d-none">
+                                                                <span class="mb-0 h6">@posi.Name</span>
+
+                                                            </span>
+                                                        </span>
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                int max = 3;
+                                                for (int d = 0; d < max; d++)
+                                                {
+                                                    if (positions[d].ID != 1)
+                                                    {
+                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@positions[d].ID">
+                                                            <span class="avatar-initials rounded-circle ">
+                                                                @positions[d].Name.Substring(0, 1)
+                                                            </span>
+
+                                                            <span id="@positions[d].ID" class="d-none">
+                                                                <span class="mb-0 h6">@positions[d].Name</span>
+
+                                                            </span>
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        max++;
+                                                    }
+                                                }
+                                                <span class="avatar avatar-md ">
+                                                    <span class="avatar-initials rounded-circle bg-light text-dark">@(positions.Count - (max - 3) - 3)+</span>
+                                                </span>
+                                            }
+
+                                        </div>
+                                    </td>
+                                    <td class="text-muted align-middle text-end">
+                                        <div class="dropdown dropstart">
+                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
+                                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fe fe-more-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="Dropdown1">
+                                                <span class="dropdown-header">Hành động</span>
+                                                <a role="button" name="@item.ID" id="chinhsua@(item.ID)" class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
+                                                    <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa bộ phận
+                                                </a>
+                                                @if (positions.Count < 1)
+                                                {
+                                                    <div class="dropdown-divider"></div>
+                                                    <a role="button" name="@item.ID" id="xoa@(item.ID)" class="dropdown-item" href="#">
+                                                        <i class="fe fe-trash dropdown-item-icon"></i>Xóa bộ phận
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="align-middle text-center">
+                                    Không có dữ liệu để hiển thị.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Chỉnh sửa bộ phận -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 800px;">
+
+            <div class="offcanvas-body" data-simplebar>
+                <div style="margin-bottom: -20px" class="offcanvas-header px-2 pt-0">
+                    <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Bộ Phận</h4>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <hr class="my-4" />
+                <!-- card body -->
+                <div class="container ">
+                    <!-- form -->
+                    <form class="row">
+                        <!-- form group -->
+                        <div class="mb-3 col-md-12">
+                            <label style="font-weight: bold;" class="form-label">Tên bộ phận <span class="text-danger">*</span></label>
+                            <input id="name" name="name" type="text" class="form-control" placeholder="Nhập tên bộ phận">
+                            <input id="id" name="id" hidden>
+                            <p style="color: red; font-size: 13px" id="EditBoPhanValidateResul"></p>
+                        </div>
+                        <!-- form group -->
+                        <div class="mb-3 col-md-12">
+                            <label style="font-weight: bold;" class="form-label">Mô tả </label>
+                            <textarea class="form-control" id="descript" name="descript" placeholder="Mô tả bộ phận..." rows="5"></textarea>
+                            <p style="color: red; font-size: 13px" id="MoTaEditBoPhanValidateResul"></p>
+                        </div>
+                        <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
+                            <button id="dongChinhSua" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="offcanvas" aria-label="Close">
+                                Hủy
+                            </button>
+                        </div>
+                        <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
+                            <a role="button" id="luuChinhSua" style="width: 230px" class="btn btn-success">
+                                Lưu
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Thêm bộ phận -->
+<div class="modal fade modal-lg" id="themBoPhanModal" tabindex="-1" role="dialog"
+     aria-labelledby="themVaiTroModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="themVaiTroModal"><i class="fe fe-briefcase"> </i> Thêm Bộ Phận</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+            <form class="modal-body">
+                <!-- form -->
+                <div class="row">
+
+                    <div class="mb-3 col-md-12">
+                        <label style="font-weight: bold;" class="form-label">Tên bộ phận <span class="text-danger">*</span></label>
+                        <input id="tenbophan" type="text" class="form-control" placeholder="Nhập tên bộ phận">
+                        <p style="color: red; font-size: 13px" id="BoPhanValidateResul"></p>
+                    </div>
+
+                    <!-- form group -->
+                    <div class="mb-3 col-md-12">
+                        <label style="font-weight: bold;" class="form-label">Mô tả </label>
+                        <textarea id="motabophan" class="form-control" placeholder="Nhập mô tả bộ phận" rows="5"></textarea>
+                        <p style="color: red; font-size: 13px" id="MoTaBoPhanValidateResul"></p>
+                    </div>
+                    <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
+                        <button id="dongthembophan" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="modal" aria-label="Close">
+                            Hủy
+                        </button>
+                    </div>
+                    <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
+                        <a role="button" id="thembophan" style="width: 230px" class="btn btn-success">
+                            Lưu
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/ValidationAlert/Admin/QuanLyBoPhan/ThemBoPhanValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyBoPhan/XoaBoPhanValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyBoPhan/SuaBoPhanValidation.js"></script>
+<script>
+    $(document).ready(function () {
+        $('[id^=tendaiqua]').each(function () {
+            text = $(this).text();
+            if (text.length > 50) {
+                $(this).html(text.substr(0, 50) + '...');
+            }
+        });
+    });
+</script>
+
+
