@@ -170,9 +170,8 @@
 
         if (checkusn == true && checkpw == true && checkcaptcha == true) {
             $('#AjaxLoader').show();
-            let urls = $('#actionlinks').data('request-url');
             $.ajax({
-                url: urls,
+                url: $('#requestPath').val() + 'Admins/QuanLyTaiKhoan/DangNhap',
                 type: 'POST',
                 dataType: 'html',
                 data: { username: usn, password: pw }

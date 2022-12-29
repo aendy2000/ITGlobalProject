@@ -39,35 +39,80 @@
                         </ol>
                     </nav>
                 </div>
-                <div class="nav btn-group" role="tablist">
+                <div class="mb-2 mb-lg-0">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li>
+                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalUploadFile">
+                                    <i class="fe fe-upload"> </i> Nhập Nhân Viên
+                                </button>
+                                <div class="modal fade" id="modalUploadFile" tabindex="-1" role="dialog" aria-labelledby="modalUploadFileTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalUploadFileTitle">Nhập danh sách Nhân viên</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="mb-1 text-dark">Chọn file danh sách với định dạng Excel (.xls/.xlsx)</p>
+                                                <div class="input-group mb-1">
+                                                    <input title="Chọn file import" type="file" class="form-control" id="fileimport" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                                </div>
+                                                <p hidden="hidden" style="font-size: 13px; color:red;" id="importfilevalidation"></p>
 
-                    @if (Convert.ToInt32(ViewBag.typeListNhanSu) == 1)
-                    {
-                        <button id="tabGridActive" class="btn btn-outline-white  active" data-bs-toggle="tab"
-                                data-bs-target="#tabPaneGrid" role="tab" aria-controls="tabPaneGrid"
-                                aria-selected="true">
-                            <span class="fe fe-grid"></span>
-                        </button>
-                        <button id="tabListActive" class="btn btn-outline-white " data-bs-toggle="tab"
-                                data-bs-target="#tabPaneList" role="tab" aria-controls="tabPaneList"
-                                aria-selected="false">
-                            <span class="fe fe-list"></span>
-                        </button>
-                    }
-                    else
-                    {
-                        <button id="tabGridActive" class="btn btn-outline-white " data-bs-toggle="tab"
-                                data-bs-target="#tabPaneGrid" role="tab" aria-controls="tabPaneGrid"
-                                aria-selected="false">
-                            <span class="fe fe-grid"></span>
-                        </button>
-                        <button id="tabListActive" class="btn btn-outline-white active" data-bs-toggle="tab"
-                                data-bs-target="#tabPaneList" role="tab" aria-controls="tabPaneList"
-                                aria-selected="true">
-                            <span class="fe fe-list"></span>
-                        </button>
-                    }
+                                            </div>
+                                            <div class="row">
+                                                <div style="text-align: right; padding-bottom: 20px" class="mb-2 col-12 col-md-6">
+                                                    <button type="reset" id="reserImport" style="width: 150px" class="btn btn-outline-danger" data-bs-dismiss="modal">
+                                                        Hủy
+                                                    </button>
+                                                </div>
+                                                <div style="padding-bottom: 20px" class="mb-2 col-12 col-md-6">
+                                                    <a role="button" id="btnSubmitImport" style="width: 150px" class="btn btn-success">
+                                                        Kiểm Tra
+                                                    </a>
+                                                </div>
+                                            </div>
 
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <li>
+                                <div class="nav btn-group" role="tablist">
+                                    @if (Convert.ToInt32(ViewBag.typeListNhanSu) == 1)
+                                    {
+                                        <button id="tabGridActive" class="btn btn-outline-white  active" data-bs-toggle="tab"
+                                                data-bs-target="#tabPaneGrid" role="tab" aria-controls="tabPaneGrid"
+                                                aria-selected="true">
+                                            <span class="fe fe-grid"></span>
+                                        </button>
+                                        <button id="tabListActive" class="btn btn-outline-white " data-bs-toggle="tab"
+                                                data-bs-target="#tabPaneList" role="tab" aria-controls="tabPaneList"
+                                                aria-selected="false">
+                                            <span class="fe fe-list"></span>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button id="tabGridActive" class="btn btn-outline-white " data-bs-toggle="tab"
+                                                data-bs-target="#tabPaneGrid" role="tab" aria-controls="tabPaneGrid"
+                                                aria-selected="false">
+                                            <span class="fe fe-grid"></span>
+                                        </button>
+                                        <button id="tabListActive" class="btn btn-outline-white active" data-bs-toggle="tab"
+                                                data-bs-target="#tabPaneList" role="tab" aria-controls="tabPaneList"
+                                                aria-selected="true">
+                                            <span class="fe fe-list"></span>
+                                        </button>
+                                    }
+
+                                </div>
+                            </li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -867,7 +912,6 @@
                             <option value="">Chọn giới tính</option>
                             <option value="Nam">Nam</option>
                             <option value="Nữ">Nữ</option>
-                            <option value="Khác">Khác</option>
                         </select>
                         <p style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
                     </div>
@@ -1267,6 +1311,34 @@
     </div>
 </div>
 
+<!-- Danh sách tạm -->
+<button hidden data-bs-toggle="modal" id="openListEmployeeTemp" data-bs-target="#lstEmployeeTemp"></button>
+<div class="modal fade gd-example-modal-xl" id="lstEmployeeTemp" tabindex="-1" role="dialog" aria-labelledby="lstEmployeeTempTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lstEmployeeTempTitle">Danh sách nhân viên được nhập vào hệ thống</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="lstTempDataEmployee" class="card" data-simplebar>
+            </div>
+            <div class="row">
+                <div style="text-align: right; padding-bottom: 20px; padding-top: 25px" class="mb-2 col-12 col-md-6">
+                    <button id="dongDSImport" style="width: 150px" class="btn btn-outline-danger" data-bs-dismiss="modal">
+                        Đóng
+                    </button>
+                </div>
+                <div style="padding-bottom: 20px; padding-top: 25px" class="mb-2 col-12 col-md-6">
+                    <a role="button" id="btnSubmitImport" style="width: 150px" class="btn btn-success">
+                        Kiểm Tra
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
     $('#hotenvalidation').hide();
     $('#cmndvalidation').hide();
@@ -1306,3 +1378,4 @@
 <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ThemNhanVienValidation.js"></script>
 <script src="~/ValidationAlert/Admin/QuanLyNhanSu/TimKiemNhanVien.js"></script>
 <script src="~/Content/Admin/assets/js/reviewImage.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyNhanSu/ImportfileValidation.js"></script>

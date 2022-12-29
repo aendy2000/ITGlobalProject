@@ -34,7 +34,7 @@ namespace ITGlobalProject.Areas.Employee.Controllers
         public ActionResult DangXuat()
         {
             Session.Clear();
-            return RedirectToAction("DangNhap", "QuanLyTaiKhoan", new { Area = "Admins" });
+            return RedirectToAction("DangNhap", "Admins/QuanLyTaiKhoan");
         }
         public ActionResult QuenMatKhau()
         {

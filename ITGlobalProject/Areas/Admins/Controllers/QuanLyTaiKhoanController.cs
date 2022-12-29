@@ -38,7 +38,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 if (Session["user-role"].ToString().ToLower().Equals("admin"))
                     return RedirectToAction("Overview", "Dashboard");
                 else
-                    return RedirectToAction("danhSachDuAn", "QuanLyCongViec", new { area = "Employee" });
+                    return RedirectToAction("danhSachDuAn", "Employee/QuanLyCongViec");
             }
 
             ViewBag.Title = "Đăng Nhập";

@@ -809,6 +809,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_DanhSachNhanVienImport.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -849,6 +850,7 @@
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_LHvaThanhToanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_DuAnThamGiaValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_TTCaNhanValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ImportfileValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\KhoaTaiKhoanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ThemNhanVienValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\TimKiemNhanVien.js" />
@@ -896,6 +898,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admins\Views\QuanLyDonNghiPhep\" />
+    <Folder Include="Content\FileUpload\" />
     <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>

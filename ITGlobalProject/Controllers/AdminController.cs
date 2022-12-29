@@ -11,7 +11,7 @@ namespace ITGlobalProject.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            return RedirectToAction("DangNhap", "QuanLyTaiKhoan", new { area = "Admins" });
+            return RedirectToAction("DangNhap", "Admins/QuanLyTaiKhoan");
         }
     }
 }

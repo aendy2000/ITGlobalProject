@@ -22,6 +22,9 @@ using System.Web.UI;
 using System.Net.Mail;
 using System.Net;
 using System.Web.Helpers;
+using System.Configuration;
+using System.Data.OleDb;
+using System.Data;
 
 namespace ITGlobalProject.Areas.Admins.Controllers
 {
@@ -97,7 +100,390 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
             return PartialView("_nhanVienListPartialView", employee.OrderByDescending(o => o.ID).ToPagedList((int)page, (int)listCount));
         }
+        [HttpPost]
+        public ActionResult imPortNhanVien(HttpPostedFileBase lstNhanVien)
+        {
+            string filePath = string.Empty;
+            if (lstNhanVien != null)
+            {
+                string path = Server.MapPath("~/Content/FileUpload/");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                filePath = path + Path.GetFileName(lstNhanVien.FileName);
+                string extension = Path.GetExtension(lstNhanVien.FileName);
+                lstNhanVien.SaveAs(filePath);
 
+                string conString = string.Empty;
+                switch (extension)
+                {
+                    case ".xls":
+                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
+                        break;
+                    case ".xlsx":
+                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
+                        break;
+                }
+                DataTable dtExcel = new DataTable();
+                //đọc dữ liệu từ excel
+                try
+                {
+                    conString = string.Format(conString, filePath);
+                    using (OleDbConnection connExcel = new OleDbConnection(conString))
+                    {
+                        using (OleDbCommand cmdExcel = new OleDbCommand())
+                        {
+                            using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
+                            {
+                                cmdExcel.Connection = connExcel;
+                                connExcel.Open();
+                                DataTable dtExcelSchema = connExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                                string sheetName = dtExcelSchema.Rows[1].Field<string>("TABLE_NAME");
+                                connExcel.Close();
+
+                                connExcel.Open();
+                                cmdExcel.CommandText = "SELECT * from [" + sheetName + "]";
+                                odaExcel.SelectCommand = cmdExcel;
+                                odaExcel.Fill(dtExcel);
+                                connExcel.Close();
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    return Content("INCORRECT");
+                }
+
+                DataRow dr = dtExcel.Rows[0];
+                dr.Delete();
+                dtExcel.AcceptChanges();
+
+                List<List<string>> lstTemp = new List<List<string>>();
+                int index = 0;
+
+                if (dtExcel.Rows.Count != 13)
+                {
+                    foreach (DataRow data in dtExcel.Rows)
+                    {
+                        Employees emp = new Employees();
+                        string error = "";
+                        int i = 1;
+
+                        char[] checkDate = {'!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '=',
+                        '~', '`', '\'', '\\', '\'', ':', ';', '[', '{', ']', '}', '|', '/', '?', '.', '>', ',', '<', '\"'};
+
+                        char[] kytudacbiet = {'!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=',
+                        '~', '`', '\'', '\\', '\'', ':', ';', '[', '{', ']', '}', '|', '/', '?', '.', '>', ',', '<', '\"'};
+                        char[] so = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+                        char[] chuViet = {'à','À','ả','Ả','ã','Ã','á','Á','ạ','Ạ','ă','Ă','ằ','Ằ','ẳ','Ẳ','ẵ','Ẵ','ắ','Ắ','ặ',
+                            'Ặ','â','Â','ầ','Ầ','ẩ','Ẩ','ẫ','Ẫ','ấ','Ấ','ậ','Ậ','đ','Đ','è','È','ẻ','Ẻ','ẽ','Ẽ','é','É','ẹ','Ẹ',
+                            'ê','Ê','ề','Ề','ể','Ể','ễ','Ễ','ế','Ế','ệ','Ệ','ì','Ì','ỉ','Ỉ','ĩ','Ĩ','í','Í','ị','Ị','ò','Ò','ỏ',
+                            'Ỏ','õ','Õ','ó','Ó','ọ','Ọ','ô','Ô','ồ','Ồ','ổ','Ổ','ỗ','Ỗ','ố','Ố','ộ','Ộ','ơ','Ơ','ờ','Ờ','ở','Ở',
+                            'ỡ','Ỡ','ớ','Ớ','ợ','Ợ','ù','Ù','ủ','Ủ','ũ','Ũ','ú','Ú','ụ','Ụ','ư','Ư','ừ','Ừ','ử','Ử','ữ','Ữ','ứ',
+                            'Ứ','ự','Ự','ỳ','Ỳ','ỷ','Ỷ','ỹ','Ỹ','ý','Ý','ỵ','Ỵ'};
+                        char[] chuAnh = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+                            't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O',
+                            'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+                        char[] khoangTrang = { ' ' };
+
+                        // 1 Validation tên
+                        if (data[1].ToString().Trim().Length < 1)
+                        {
+                            error += i + ". Không tìm thấy tên Nhân viên.#";
+                            i++;
+                        }
+                        else if (data[1].ToString().Trim().LastIndexOfAny(kytudacbiet) != -1 || data[1].ToString().Trim().LastIndexOfAny(so) != -1)
+                        {
+                            error += i + ". Tên nhân viên không đúng định dạng.#";
+                            i++;
+                        }
+
+                        // 2 Validation cmnd
+                        if (data[2].ToString().Trim().Length < 1)
+                        {
+                            error += i + ". Không tìm thấy CMND/CCCD Nhân viên.#";
+                            i++;
+                        }
+                        else if ((data[2].ToString().Trim().Length != 12 && data[2].ToString().Trim().Length != 9)
+                            || data[2].ToString().Trim().LastIndexOfAny(kytudacbiet) != -1 || data[2].ToString().Trim().LastIndexOfAny(chuViet) != -1
+                            || data[2].ToString().Trim().LastIndexOfAny(chuAnh) != -1 || data[2].ToString().Trim().LastIndexOfAny(khoangTrang) != -1)
+                        {
+                            error += i + ". CMND/CCCD nhân viên không đúng định dạng.#";
+                            i++;
+                        }
+
+                        // 3 Validation Quốc tịch
+                        if (data[3].ToString().Trim().Length < 1)
+                        {
+                            error += i + ". Không tìm thấy Quốc tịch Nhân viên.#";
+                            i++;
+                        }
+                        else if (data[3].ToString().LastIndexOfAny(kytudacbiet) != -1 || data[3].ToString().LastIndexOfAny(so) != -1)
+                        {
+                            error += i + ". Quốc tịch nhân viên có chứa ký tự đặc biệt hoặc ký tự số.#";
+                            i++;
+                        }
+
+                        // 4 Validation ngày sinh
+                        if (data[4].ToString().Trim().Length < 1)
+                        {
+                            error += i + ". Không tìm thấy ngày sinh Nhân viên.#";
+                            i++;
+                        }
+                        else if (data[4].ToString().Trim().LastIndexOfAny(chuViet) != -1 || data[4].ToString().Trim().LastIndexOfAny(chuAnh) != -1
+                            || data[4].ToString().Trim().LastIndexOfAny(khoangTrang) != -1 || data[4].ToString().Trim().LastIndexOfAny(checkDate) != -1
+                            || data[4].ToString().Trim().Split('-').Count() != 3)
+                        {
+                            error += i + ". Ngày sinh nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                            i++;
+                        }
+                        else if (data[4].ToString().Trim().Split('-')[0].Length != 4 || data[4].ToString().Trim().Split('-')[1].Length != 2
+                            || data[4].ToString().Trim().Split('-')[2].Length != 2)
+                        {
+                            error += i + ". Ngày sinh nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                            i++;
+                        }
+                        else if (Int32.Parse(data[4].ToString().Trim().Split('-')[0]) > DateTime.Now.Year || Int32.Parse(data[4].ToString().Trim().Split('-')[1]) > 12
+                            || Int32.Parse(data[4].ToString().Trim().Split('-')[2]) > 31)
+                        {
+                            error += i + ". Ngày sinh nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                            i++;
+                        }
+                        else if (Int32.Parse(data[4].ToString().Trim().Split('-')[0]) > DateTime.Now.Year || Int32.Parse(data[4].ToString().Trim().Split('-')[1]) > 12
+                            || Int32.Parse(data[4].ToString().Trim().Split('-')[2]) > 31)
+                        {
+                            error += i + ". Ngày sinh nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                            i++;
+                        }
+                        else if (Convert.ToDateTime(data[4].ToString().Trim()) > DateTime.Now)
+                        {
+                            error += i + ". Ngày sinh nhân viên không đúng, đã vượt quá ngày của hiện tại.#";
+                            i++;
+                        }
+
+                        // 5 Validation điện thoại
+                        if (data[5].ToString().Trim().Length < 1)
+                        {
+                            error += i + ". Không tìm thấy số điện thoại Nhân viên.#";
+                            i++;
+                        }
+                        else if (data[5].ToString().Trim().LastIndexOfAny(chuViet) != -1 || data[5].ToString().Trim().LastIndexOfAny(chuAnh) != -1
+                            || data[5].ToString().Trim().LastIndexOfAny(khoangTrang) != -1 || data[5].ToString().Trim().LastIndexOfAny(kytudacbiet) != -1 
+                            || data[5].ToString().Trim().Length != 10)
+                        {
+                            error += i + ". Số điện thoại nhân viên không đúng định dạng.#";
+                            i++;
+                        }
+
+                        // 6 Validation giới tính
+                        if (data[6].ToString().Trim().Length < 1)
+                        {
+                            error += i + ". Không tìm thấy giới tính Nhân viên.#";
+                            i++;
+                        }
+                        else if (!data[6].ToString().Trim().Equals("Nam") && !data[6].ToString().Trim().Equals("Nữ"))
+                        {
+                            error += i + ". Giới tính nhân viên không đúng (Nam hoặc Nữ).#";
+                            i++;
+                        }
+
+                        // 7 Validation Email
+                        bool checkEmail;
+                        if (data[7].ToString().Trim().Length < 1)
+                        {
+                            error += i + ". Không tìm thấy địa chỉ Email Nhân viên.#";
+                            i++;
+                        }
+                        else
+                        {
+                            try
+                            {
+                                MailAddress m = new MailAddress(data[7].ToString().Trim());
+                                checkEmail = true;
+                            }
+                            catch (FormatException)
+                            {
+                                checkEmail = false;
+                            }
+
+                            if (checkEmail == false)
+                            {
+                                error += i + ". Địa chỉ Email nhân viên chưa đúng định dạng.#";
+                                i++;
+                            }
+                        }
+
+                        // 8 Validation hôn nhân
+                        if (data[8].ToString().Trim().Length < 1)
+                        {
+                            error += i + ". Không tìm thấy thông tin hôn nhân của Nhân viên.#";
+                            i++;
+                        }
+                        else if (!data[8].ToString().Trim().Equals("Độc thân") && !data[8].ToString().Trim().Equals("Đã kết hôn") && !data[8].ToString().Trim().Equals("Khác"))
+                        {
+                            error += i + ". Thông tin hôn nhân nhân viên không đúng.#";
+                            i++;
+                        }
+
+                        // 9 Validation mức lương
+                        if (data[9].ToString().Trim().Replace(".","").Replace(",","").Length < 1)
+                        {
+                            error += i + ". Không tìm thấy mức lương của Nhân viên.#";
+                            i++;
+                        }
+                        else
+                        {
+                            bool checkluong;
+                            try
+                            {
+                                decimal tienluong = Convert.ToDecimal(data[9].ToString().Trim().Replace(".", "").Replace(",", ""));
+                                checkluong = true;
+                            }
+                            catch (FormatException)
+                            {
+                                checkluong = false;
+                            }
+
+                            if (checkluong == false)
+                            {
+                                error += i + ". Mức lương nhân viên không hợp lệ.#";
+                                i++;
+                            }
+                        }
+
+                        // 10 Validation ngày vào làm
+                        if (data[10].ToString().Trim().Length < 1)
+                        {
+                            error += i + ". Không tìm thấy ngày vào làm của Nhân viên.#";
+                            i++;
+                        }
+                        else if (data[10].ToString().Trim().LastIndexOfAny(chuViet) != -1 || data[10].ToString().Trim().LastIndexOfAny(chuAnh) != -1
+                            || data[10].ToString().Trim().LastIndexOfAny(khoangTrang) != -1 || data[10].ToString().Trim().LastIndexOfAny(checkDate) != -1
+                            || data[10].ToString().Trim().Split('-').Count() != 3)
+                        {
+                            error += i + ". Ngày vào làm của nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                            i++;
+                        }
+                        else if (data[10].ToString().Trim().Split('-')[0].Length != 4 || data[10].ToString().Trim().Split('-')[1].Length != 2
+                            || data[10].ToString().Trim().Split('-')[2].Length != 2)
+                        {
+                            error += i + ". Ngày vào làm của nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                            i++;
+                        }
+                        else if (Int32.Parse(data[10].ToString().Trim().Split('-')[0]) > DateTime.Now.Year || Int32.Parse(data[10].ToString().Trim().Split('-')[1]) > 12
+                            || Int32.Parse(data[10].ToString().Trim().Split('-')[2]) > 31)
+                        {
+                            error += i + ". Ngày vào làm của nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                            i++;
+                        }
+                        else if (Int32.Parse(data[10].ToString().Trim().Split('-')[1]) > 12 || Int32.Parse(data[10].ToString().Trim().Split('-')[2]) > 31)
+                        {
+                            error += i + ". Ngày vào làm của nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                            i++;
+                        }
+
+                        // 11 Validation chức danh
+                        string tenchucdanh = data[11].ToString().Trim();
+                        var chucdanh = model.Position.FirstOrDefault(c => c.Name.Equals(tenchucdanh));
+                        if(chucdanh == null)
+                        {
+                            error += i + ". Không tìm thấy chức danh tương ứng.#";
+                            i++;
+                        }
+
+                        // 12 Validation chức danh
+                        if (data[12].ToString().Trim().Length < 1)
+                        {
+                            error += i + ". Không tìm thấy hình thức làm việc của Nhân viên.#";
+                            i++;
+                        }
+                        else if (!data[12].ToString().Trim().Equals("Thực tập sinh") 
+                            && !data[12].ToString().Trim().Equals("Thử việc") 
+                            && !data[12].ToString().Trim().Equals("Nhân viên chính thức"))
+                        {
+                            error += i + ". Hình thước làm việc của nhân viên không hợp lệ.#";
+                            i++;
+                        }
+
+                        //Kiểm tra và thêm nhân viên vào hệ thống.
+                        if(string.IsNullOrEmpty(error)) //Khong có lỗi, có thể thêm nv
+                        {
+                            emp.Name = data[1].ToString().Trim();
+                            emp.IdentityCard = data[2].ToString().Trim();
+                            emp.Nationality = data[3].ToString().Trim();
+                            emp.Birthday = Convert.ToDateTime(data[4].ToString().Trim());
+                            emp.TelephoneMobile = data[5].ToString().Trim();
+                            emp.Sex = data[6].ToString().Trim();
+                            emp.WorkEmail = data[7].ToString().Trim();
+                            emp.MaritalStatus = data[8].ToString().Trim();
+                            emp.Wage = Convert.ToDecimal(data[9].ToString().Trim().Replace(",","").Replace(".",""));
+                            emp.JoinedDate = Convert.ToDateTime(data[10].ToString().Trim());
+                            emp.ID_Position = chucdanh.ID;
+                            emp.EmploymentStatus = data[12].ToString().Trim();
+
+                            //Tạo mật khẩu ngẫu nhiên 10 ký tự
+                            const string srcs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                            int lengths = 10;
+                            var pass = new StringBuilder();
+                            Random Ran = new Random();
+                            for (var j = 0; j < lengths; j++)
+                            {
+                                var c = srcs[Ran.Next(0, srcs.Length)];
+                                pass.Append(c);
+                            }
+                            emp.Password = pass.ToString();
+                            emp.Lock = false;
+                            emp.AccountSatus = false;
+
+                            model.Employees.Add(emp);
+                            model.SaveChanges();
+
+                            emp.ID_Employee = "NV" + emp.ID.ToString("D8");
+                            model.Entry(emp).State = EntityState.Modified;
+                            model.SaveChanges();
+
+                            lstTemp.Add(new List<string>());
+                            lstTemp[index].Add(data[1].ToString().Trim());
+                            lstTemp[index].Add(data[2].ToString().Trim());
+                            lstTemp[index].Add(data[3].ToString().Trim());
+                            lstTemp[index].Add(data[4].ToString().Trim());
+                            lstTemp[index].Add(data[5].ToString().Trim());
+                            lstTemp[index].Add(data[6].ToString().Trim());
+                            lstTemp[index].Add(data[7].ToString().Trim());
+                            lstTemp[index].Add(data[8].ToString().Trim());
+                            lstTemp[index].Add(data[9].ToString().Trim());
+                            lstTemp[index].Add(data[10].ToString().Trim());
+                            lstTemp[index].Add(data[11].ToString().Trim());
+                            lstTemp[index].Add(data[12].ToString().Trim());
+                            lstTemp[index].Add(error);
+                        }
+                        else
+                        {
+                            lstTemp.Add(new List<string>());
+                            lstTemp[index].Add(data[1].ToString().Trim());
+                            lstTemp[index].Add(data[2].ToString().Trim());
+                            lstTemp[index].Add(data[3].ToString().Trim());
+                            lstTemp[index].Add(data[4].ToString().Trim());
+                            lstTemp[index].Add(data[5].ToString().Trim());
+                            lstTemp[index].Add(data[6].ToString().Trim());
+                            lstTemp[index].Add(data[7].ToString().Trim());
+                            lstTemp[index].Add(data[8].ToString().Trim());
+                            lstTemp[index].Add(data[9].ToString().Trim());
+                            lstTemp[index].Add(data[10].ToString().Trim());
+                            lstTemp[index].Add(data[11].ToString().Trim());
+                            lstTemp[index].Add(data[12].ToString().Trim());
+                            lstTemp[index].Add(error);
+                        }
+                        index++;
+                    }
+                    return PartialView("_DanhSachNhanVienImport", lstTemp);
+                }
+                return Content("INCORRECT");
+            }
+            return Content("DANHSACH");
+        }
         public async Task<ActionResult> themNhanVien(HttpPostedFileBase anhHopDong, string hoten,
         string cmnd, string quoctich, string honnhan, string ngaysinh, string gioitinh,
         string sodienthoaididong, string sodienthoaikhac, string diachiemailcongty, string diachiemailkhac,
