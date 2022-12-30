@@ -211,6 +211,9 @@
                 else if (ketqua == "DANHSACH") {
                     window.location.href = $('#requestPath').val() + "Admins/QuanLyNhanSu/danhSachNhanVien";
                 }
+                else if (ketqua == "EXITS") {
+                    $("#diachiemailcongtyvalidation").text("Địa chỉ Email đang được sử dụng bởi một tài khoản khác.").show();
+                }
                 else {
                     $('#contentPartial').replaceWith(ketqua);
                     $.when(

@@ -188,222 +188,234 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
                         char[] khoangTrang = { ' ' };
 
-                        // 1 Validation tên
-                        if (data[1].ToString().Trim().Length < 1)
-                        {
-                            error += i + ". Không tìm thấy tên Nhân viên.#";
-                            i++;
-                        }
-                        else if (data[1].ToString().Trim().LastIndexOfAny(kytudacbiet) != -1 || data[1].ToString().Trim().LastIndexOfAny(so) != -1)
-                        {
-                            error += i + ". Tên nhân viên không đúng định dạng.#";
-                            i++;
-                        }
+                        string mailss = data[7].ToString().Trim();
+                        var checktaikhoan = model.Employees.FirstOrDefault(e => e.WorkEmail.ToLower().Equals(mailss));
 
-                        // 2 Validation cmnd
-                        if (data[2].ToString().Trim().Length < 1)
+                        //Email Chưa tồn tại
+                        if (checktaikhoan == null)
                         {
-                            error += i + ". Không tìm thấy CMND/CCCD Nhân viên.#";
-                            i++;
-                        }
-                        else if ((data[2].ToString().Trim().Length != 12 && data[2].ToString().Trim().Length != 9)
-                            || data[2].ToString().Trim().LastIndexOfAny(kytudacbiet) != -1 || data[2].ToString().Trim().LastIndexOfAny(chuViet) != -1
-                            || data[2].ToString().Trim().LastIndexOfAny(chuAnh) != -1 || data[2].ToString().Trim().LastIndexOfAny(khoangTrang) != -1)
-                        {
-                            error += i + ". CMND/CCCD nhân viên không đúng định dạng.#";
-                            i++;
-                        }
-
-                        // 3 Validation Quốc tịch
-                        if (data[3].ToString().Trim().Length < 1)
-                        {
-                            error += i + ". Không tìm thấy Quốc tịch Nhân viên.#";
-                            i++;
-                        }
-                        else if (data[3].ToString().LastIndexOfAny(kytudacbiet) != -1 || data[3].ToString().LastIndexOfAny(so) != -1)
-                        {
-                            error += i + ". Quốc tịch nhân viên có chứa ký tự đặc biệt hoặc ký tự số.#";
-                            i++;
-                        }
-
-                        // 4 Validation ngày sinh
-                        if (data[4].ToString().Trim().Length < 1)
-                        {
-                            error += i + ". Không tìm thấy ngày sinh Nhân viên.#";
-                            i++;
-                        }
-                        else if (data[4].ToString().Trim().LastIndexOfAny(chuViet) != -1 || data[4].ToString().Trim().LastIndexOfAny(chuAnh) != -1
-                            || data[4].ToString().Trim().LastIndexOfAny(khoangTrang) != -1 || data[4].ToString().Trim().LastIndexOfAny(checkDate) != -1
-                            || data[4].ToString().Trim().Split('-').Count() != 3)
-                        {
-                            error += i + ". Ngày sinh nhân viên không đúng định dạng (yyyy-MM-dd).#";
-                            i++;
-                        }
-                        else if (data[4].ToString().Trim().Split('-')[0].Length != 4 || data[4].ToString().Trim().Split('-')[1].Length != 2
-                            || data[4].ToString().Trim().Split('-')[2].Length != 2)
-                        {
-                            error += i + ". Ngày sinh nhân viên không đúng định dạng (yyyy-MM-dd).#";
-                            i++;
-                        }
-                        else if (Int32.Parse(data[4].ToString().Trim().Split('-')[0]) > DateTime.Now.Year || Int32.Parse(data[4].ToString().Trim().Split('-')[1]) > 12
-                            || Int32.Parse(data[4].ToString().Trim().Split('-')[2]) > 31)
-                        {
-                            error += i + ". Ngày sinh nhân viên không đúng định dạng (yyyy-MM-dd).#";
-                            i++;
-                        }
-                        else if (Int32.Parse(data[4].ToString().Trim().Split('-')[0]) > DateTime.Now.Year || Int32.Parse(data[4].ToString().Trim().Split('-')[1]) > 12
-                            || Int32.Parse(data[4].ToString().Trim().Split('-')[2]) > 31)
-                        {
-                            error += i + ". Ngày sinh nhân viên không đúng định dạng (yyyy-MM-dd).#";
-                            i++;
-                        }
-                        else if (Convert.ToDateTime(data[4].ToString().Trim()) > DateTime.Now)
-                        {
-                            error += i + ". Ngày sinh nhân viên không đúng, đã vượt quá ngày của hiện tại.#";
-                            i++;
-                        }
-
-                        // 5 Validation điện thoại
-                        if (data[5].ToString().Trim().Length < 1)
-                        {
-                            error += i + ". Không tìm thấy số điện thoại Nhân viên.#";
-                            i++;
-                        }
-                        else if (data[5].ToString().Trim().LastIndexOfAny(chuViet) != -1 || data[5].ToString().Trim().LastIndexOfAny(chuAnh) != -1
-                            || data[5].ToString().Trim().LastIndexOfAny(khoangTrang) != -1 || data[5].ToString().Trim().LastIndexOfAny(kytudacbiet) != -1
-                            || data[5].ToString().Trim().Length != 10)
-                        {
-                            error += i + ". Số điện thoại nhân viên không đúng định dạng.#";
-                            i++;
-                        }
-
-                        // 6 Validation giới tính
-                        if (data[6].ToString().Trim().Length < 1)
-                        {
-                            error += i + ". Không tìm thấy giới tính Nhân viên.#";
-                            i++;
-                        }
-                        else if (!data[6].ToString().Trim().Equals("Nam") && !data[6].ToString().Trim().Equals("Nữ"))
-                        {
-                            error += i + ". Giới tính nhân viên không đúng (Nam hoặc Nữ).#";
-                            i++;
-                        }
-
-                        // 7 Validation Email
-                        bool checkEmail;
-                        if (data[7].ToString().Trim().Length < 1)
-                        {
-                            error += i + ". Không tìm thấy địa chỉ Email Nhân viên.#";
-                            i++;
-                        }
-                        else
-                        {
-                            try
+                            // 1 Validation tên
+                            if (data[1].ToString().Trim().Length < 1)
                             {
-                                MailAddress m = new MailAddress(data[7].ToString().Trim());
-                                checkEmail = true;
+                                error += i + ". Không tìm thấy tên Nhân viên.#";
+                                i++;
                             }
-                            catch (FormatException)
+                            else if (data[1].ToString().Trim().LastIndexOfAny(kytudacbiet) != -1 || data[1].ToString().Trim().LastIndexOfAny(so) != -1)
                             {
-                                checkEmail = false;
+                                error += i + ". Tên nhân viên không đúng định dạng.#";
+                                i++;
                             }
 
-                            if (checkEmail == false)
+                            // 2 Validation cmnd
+                            if (data[2].ToString().Trim().Length < 1)
                             {
-                                error += i + ". Địa chỉ Email nhân viên chưa đúng định dạng.#";
+                                error += i + ". Không tìm thấy CMND/CCCD Nhân viên.#";
+                                i++;
+                            }
+                            else if ((data[2].ToString().Trim().Length != 12 && data[2].ToString().Trim().Length != 9)
+                                || data[2].ToString().Trim().LastIndexOfAny(kytudacbiet) != -1 || data[2].ToString().Trim().LastIndexOfAny(chuViet) != -1
+                                || data[2].ToString().Trim().LastIndexOfAny(chuAnh) != -1 || data[2].ToString().Trim().LastIndexOfAny(khoangTrang) != -1)
+                            {
+                                error += i + ". CMND/CCCD nhân viên không đúng định dạng.#";
+                                i++;
+                            }
+
+                            // 3 Validation Quốc tịch
+                            if (data[3].ToString().Trim().Length < 1)
+                            {
+                                error += i + ". Không tìm thấy Quốc tịch Nhân viên.#";
+                                i++;
+                            }
+                            else if (data[3].ToString().LastIndexOfAny(kytudacbiet) != -1 || data[3].ToString().LastIndexOfAny(so) != -1)
+                            {
+                                error += i + ". Quốc tịch nhân viên có chứa ký tự đặc biệt hoặc ký tự số.#";
+                                i++;
+                            }
+
+                            // 4 Validation ngày sinh
+                            if (data[4].ToString().Trim().Length < 1)
+                            {
+                                error += i + ". Không tìm thấy ngày sinh Nhân viên.#";
+                                i++;
+                            }
+                            else if (data[4].ToString().Trim().LastIndexOfAny(chuViet) != -1 || data[4].ToString().Trim().LastIndexOfAny(chuAnh) != -1
+                                || data[4].ToString().Trim().LastIndexOfAny(khoangTrang) != -1 || data[4].ToString().Trim().LastIndexOfAny(checkDate) != -1
+                                || data[4].ToString().Trim().Split('-').Count() != 3)
+                            {
+                                error += i + ". Ngày sinh nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                                i++;
+                            }
+                            else if (data[4].ToString().Trim().Split('-')[0].Length != 4 || data[4].ToString().Trim().Split('-')[1].Length != 2
+                                || data[4].ToString().Trim().Split('-')[2].Length != 2)
+                            {
+                                error += i + ". Ngày sinh nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                                i++;
+                            }
+                            else if (Int32.Parse(data[4].ToString().Trim().Split('-')[0]) > DateTime.Now.Year || Int32.Parse(data[4].ToString().Trim().Split('-')[1]) > 12
+                                || Int32.Parse(data[4].ToString().Trim().Split('-')[2]) > 31)
+                            {
+                                error += i + ". Ngày sinh nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                                i++;
+                            }
+                            else if (Int32.Parse(data[4].ToString().Trim().Split('-')[0]) > DateTime.Now.Year || Int32.Parse(data[4].ToString().Trim().Split('-')[1]) > 12
+                                || Int32.Parse(data[4].ToString().Trim().Split('-')[2]) > 31)
+                            {
+                                error += i + ". Ngày sinh nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                                i++;
+                            }
+                            else if (Convert.ToDateTime(data[4].ToString().Trim()) > DateTime.Now)
+                            {
+                                error += i + ". Ngày sinh nhân viên không đúng, đã vượt quá ngày của hiện tại.#";
+                                i++;
+                            }
+
+                            // 5 Validation điện thoại
+                            if (data[5].ToString().Trim().Length < 1)
+                            {
+                                error += i + ". Không tìm thấy số điện thoại Nhân viên.#";
+                                i++;
+                            }
+                            else if (data[5].ToString().Trim().LastIndexOfAny(chuViet) != -1 || data[5].ToString().Trim().LastIndexOfAny(chuAnh) != -1
+                                || data[5].ToString().Trim().LastIndexOfAny(khoangTrang) != -1 || data[5].ToString().Trim().LastIndexOfAny(kytudacbiet) != -1
+                                || data[5].ToString().Trim().Length != 10)
+                            {
+                                error += i + ". Số điện thoại nhân viên không đúng định dạng.#";
+                                i++;
+                            }
+
+                            // 6 Validation giới tính
+                            if (data[6].ToString().Trim().Length < 1)
+                            {
+                                error += i + ". Không tìm thấy giới tính Nhân viên.#";
+                                i++;
+                            }
+                            else if (!data[6].ToString().Trim().Equals("Nam") && !data[6].ToString().Trim().Equals("Nữ"))
+                            {
+                                error += i + ". Giới tính nhân viên không đúng (Nam hoặc Nữ).#";
+                                i++;
+                            }
+
+                            // 7 Validation Email
+                            bool checkEmail;
+                            if (data[7].ToString().Trim().Length < 1)
+                            {
+                                error += i + ". Không tìm thấy địa chỉ Email Nhân viên.#";
+                                i++;
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    MailAddress m = new MailAddress(data[7].ToString().Trim());
+                                    checkEmail = true;
+                                }
+                                catch (FormatException)
+                                {
+                                    checkEmail = false;
+                                }
+
+                                if (checkEmail == false)
+                                {
+                                    error += i + ". Địa chỉ Email nhân viên chưa đúng định dạng.#";
+                                    i++;
+                                }
+                            }
+
+                            // 8 Validation hôn nhân
+                            if (data[8].ToString().Trim().Length < 1)
+                            {
+                                error += i + ". Không tìm thấy thông tin hôn nhân của Nhân viên.#";
+                                i++;
+                            }
+                            else if (!data[8].ToString().Trim().Equals("Độc thân") && !data[8].ToString().Trim().Equals("Đã kết hôn") && !data[8].ToString().Trim().Equals("Khác"))
+                            {
+                                error += i + ". Thông tin hôn nhân nhân viên không đúng.#";
+                                i++;
+                            }
+
+                            // 9 Validation mức lương
+                            if (data[9].ToString().Trim().Replace(".", "").Replace(",", "").Length < 1)
+                            {
+                                error += i + ". Không tìm thấy mức lương của Nhân viên.#";
+                                i++;
+                            }
+                            else
+                            {
+                                bool checkluong;
+                                try
+                                {
+                                    decimal tienluong = Convert.ToDecimal(data[9].ToString().Trim().Replace(".", "").Replace(",", ""));
+                                    checkluong = true;
+                                }
+                                catch (FormatException)
+                                {
+                                    checkluong = false;
+                                }
+
+                                if (checkluong == false)
+                                {
+                                    error += i + ". Mức lương nhân viên không hợp lệ.#";
+                                    i++;
+                                }
+                            }
+
+                            // 10 Validation ngày vào làm
+                            if (data[10].ToString().Trim().Length < 1)
+                            {
+                                error += i + ". Không tìm thấy ngày vào làm của Nhân viên.#";
+                                i++;
+                            }
+                            else if (data[10].ToString().Trim().LastIndexOfAny(chuViet) != -1 || data[10].ToString().Trim().LastIndexOfAny(chuAnh) != -1
+                                || data[10].ToString().Trim().LastIndexOfAny(khoangTrang) != -1 || data[10].ToString().Trim().LastIndexOfAny(checkDate) != -1
+                                || data[10].ToString().Trim().Split('-').Count() != 3)
+                            {
+                                error += i + ". Ngày vào làm của nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                                i++;
+                            }
+                            else if (data[10].ToString().Trim().Split('-')[0].Length != 4 || data[10].ToString().Trim().Split('-')[1].Length != 2
+                                || data[10].ToString().Trim().Split('-')[2].Length != 2)
+                            {
+                                error += i + ". Ngày vào làm của nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                                i++;
+                            }
+                            else if (Int32.Parse(data[10].ToString().Trim().Split('-')[0]) > DateTime.Now.Year || Int32.Parse(data[10].ToString().Trim().Split('-')[1]) > 12
+                                || Int32.Parse(data[10].ToString().Trim().Split('-')[2]) > 31)
+                            {
+                                error += i + ". Ngày vào làm của nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                                i++;
+                            }
+                            else if (Int32.Parse(data[10].ToString().Trim().Split('-')[1]) > 12 || Int32.Parse(data[10].ToString().Trim().Split('-')[2]) > 31)
+                            {
+                                error += i + ". Ngày vào làm của nhân viên không đúng định dạng (yyyy-MM-dd).#";
+                                i++;
+                            }
+
+                            // 11 Validation chức danh
+                            string tenchucdanh = data[11].ToString().Trim();
+                            var chucdanh = model.Position.FirstOrDefault(c => c.Name.Equals(tenchucdanh));
+                            if (chucdanh == null)
+                            {
+                                error += i + ". Không tìm thấy chức danh tương ứng.#";
+                                i++;
+                            }
+
+                            // 12 Validation chức danh
+                            if (data[12].ToString().Trim().Length < 1)
+                            {
+                                error += i + ". Không tìm thấy hình thức làm việc của Nhân viên.#";
+                                i++;
+                            }
+                            else if (!data[12].ToString().Trim().Equals("Thực tập sinh")
+                                && !data[12].ToString().Trim().Equals("Thử việc")
+                                && !data[12].ToString().Trim().Equals("Nhân viên chính thức"))
+                            {
+                                error += i + ". Hình thước làm việc của nhân viên không hợp lệ.#";
                                 i++;
                             }
                         }
-
-                        // 8 Validation hôn nhân
-                        if (data[8].ToString().Trim().Length < 1)
-                        {
-                            error += i + ". Không tìm thấy thông tin hôn nhân của Nhân viên.#";
-                            i++;
-                        }
-                        else if (!data[8].ToString().Trim().Equals("Độc thân") && !data[8].ToString().Trim().Equals("Đã kết hôn") && !data[8].ToString().Trim().Equals("Khác"))
-                        {
-                            error += i + ". Thông tin hôn nhân nhân viên không đúng.#";
-                            i++;
-                        }
-
-                        // 9 Validation mức lương
-                        if (data[9].ToString().Trim().Replace(".", "").Replace(",", "").Length < 1)
-                        {
-                            error += i + ". Không tìm thấy mức lương của Nhân viên.#";
-                            i++;
-                        }
                         else
                         {
-                            bool checkluong;
-                            try
-                            {
-                                decimal tienluong = Convert.ToDecimal(data[9].ToString().Trim().Replace(".", "").Replace(",", ""));
-                                checkluong = true;
-                            }
-                            catch (FormatException)
-                            {
-                                checkluong = false;
-                            }
-
-                            if (checkluong == false)
-                            {
-                                error += i + ". Mức lương nhân viên không hợp lệ.#";
-                                i++;
-                            }
-                        }
-
-                        // 10 Validation ngày vào làm
-                        if (data[10].ToString().Trim().Length < 1)
-                        {
-                            error += i + ". Không tìm thấy ngày vào làm của Nhân viên.#";
-                            i++;
-                        }
-                        else if (data[10].ToString().Trim().LastIndexOfAny(chuViet) != -1 || data[10].ToString().Trim().LastIndexOfAny(chuAnh) != -1
-                            || data[10].ToString().Trim().LastIndexOfAny(khoangTrang) != -1 || data[10].ToString().Trim().LastIndexOfAny(checkDate) != -1
-                            || data[10].ToString().Trim().Split('-').Count() != 3)
-                        {
-                            error += i + ". Ngày vào làm của nhân viên không đúng định dạng (yyyy-MM-dd).#";
-                            i++;
-                        }
-                        else if (data[10].ToString().Trim().Split('-')[0].Length != 4 || data[10].ToString().Trim().Split('-')[1].Length != 2
-                            || data[10].ToString().Trim().Split('-')[2].Length != 2)
-                        {
-                            error += i + ". Ngày vào làm của nhân viên không đúng định dạng (yyyy-MM-dd).#";
-                            i++;
-                        }
-                        else if (Int32.Parse(data[10].ToString().Trim().Split('-')[0]) > DateTime.Now.Year || Int32.Parse(data[10].ToString().Trim().Split('-')[1]) > 12
-                            || Int32.Parse(data[10].ToString().Trim().Split('-')[2]) > 31)
-                        {
-                            error += i + ". Ngày vào làm của nhân viên không đúng định dạng (yyyy-MM-dd).#";
-                            i++;
-                        }
-                        else if (Int32.Parse(data[10].ToString().Trim().Split('-')[1]) > 12 || Int32.Parse(data[10].ToString().Trim().Split('-')[2]) > 31)
-                        {
-                            error += i + ". Ngày vào làm của nhân viên không đúng định dạng (yyyy-MM-dd).#";
-                            i++;
-                        }
-
-                        // 11 Validation chức danh
-                        string tenchucdanh = data[11].ToString().Trim();
-                        var chucdanh = model.Position.FirstOrDefault(c => c.Name.Equals(tenchucdanh));
-                        if (chucdanh == null)
-                        {
-                            error += i + ". Không tìm thấy chức danh tương ứng.#";
-                            i++;
-                        }
-
-                        // 12 Validation chức danh
-                        if (data[12].ToString().Trim().Length < 1)
-                        {
-                            error += i + ". Không tìm thấy hình thức làm việc của Nhân viên.#";
-                            i++;
-                        }
-                        else if (!data[12].ToString().Trim().Equals("Thực tập sinh")
-                            && !data[12].ToString().Trim().Equals("Thử việc")
-                            && !data[12].ToString().Trim().Equals("Nhân viên chính thức"))
-                        {
-                            error += i + ". Hình thước làm việc của nhân viên không hợp lệ.#";
+                            error += i + ". Email đang được sử dụng bởi: " + checktaikhoan.ID_Employee + ".#";
                             i++;
                         }
 
@@ -420,6 +432,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             emp.MaritalStatus = data[8].ToString().Trim();
                             emp.Wage = Convert.ToDecimal(data[9].ToString().Trim().Replace(",", "").Replace(".", ""));
                             emp.JoinedDate = Convert.ToDateTime(data[10].ToString().Trim());
+
+                            string tenchucdanh = data[11].ToString().Trim();
+                            var chucdanh = model.Position.FirstOrDefault(c => c.Name.Equals(tenchucdanh));
                             emp.ID_Position = chucdanh.ID;
                             emp.EmploymentStatus = data[12].ToString().Trim();
 
@@ -510,6 +525,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             lstTemp[index].Add(data[12].ToString().Trim());
                             lstTemp[index].Add(error);
                         }
+
                         index++;
                     }
                     return PartialView("_DanhSachNhanVienImport", lstTemp);
@@ -527,6 +543,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         {
             try
             {
+                var checkExits = model.Employees.FirstOrDefault(e => e.WorkEmail.ToLower().Equals(diachiemailcongty.ToLower().Trim()));
+                if (checkExits != null)
+                    return Content("EXITS");
+
                 Employees emp = new Employees();
                 emp.ID_Position = vaitro;
                 emp.Name = hoten;
@@ -871,6 +891,13 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (id == null || user == null)
                 return Content("DANHSACH");
+
+            if (!user.WorkEmail.ToLower().Equals(diachiemailcongty.ToLower().Trim()))
+            {
+                var checkExits = model.Employees.FirstOrDefault(e => e.WorkEmail.ToLower().Equals(diachiemailcongty.ToLower().Trim()));
+                if (checkExits != null)
+                    return Content("EXITS");
+            }
 
             try
             {

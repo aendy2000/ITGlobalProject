@@ -1028,8 +1028,16 @@
                 data: formData
             }).done(function (ketqua) {
                 $('#AjaxLoader').hide();
-                if (ketqua === "Đã có xảy ra lỗi, vui lòng thử lại") {
+                if (ketqua == "Đã có xảy ra lỗi, vui lòng thử lại") {
                     alert("Đã có xảy ra lỗi, vui lòng thử lại");
+                }
+                else if (ketqua == "EXITS") {
+                    $("#diachiemailcongtyvalidation").text("Địa chỉ Email đang được sử dụng bởi một tài khoản khác.").show();
+                    $('#collapseOne').collapse('show');
+                    $('#hoantatttcanhan').addClass('fe-x-circle');
+                    $('#hoantatttcanhan').addClass('text-danger');
+                    $('#hoantatttcanhan').removeClass('fe-check-circle');
+                    $('#hoantatttcanhan').removeClass('text-success');
                 }
                 else {
                     $('#tatcanvas').click();

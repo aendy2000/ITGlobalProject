@@ -89,9 +89,12 @@
                         @item[11]
                     </td>
                     <td class="align-middle">
-                        @foreach (var error in item[12].Substring(0, item[12].Length - 1).Split('#'))
+                        @if (!string.IsNullOrEmpty(item[12]))
                         {
-                            <label class="text-nowrap">@error</label>
+                            foreach (var error in item[12].Substring(0, item[12].Length - 1).Split('#'))
+                            {
+                                <label class="text-nowrap">@error</label>
+                            }
                         }
                     </td>
                 </tr>
@@ -185,9 +188,12 @@
                         @item[11]
                     </td>
                     <td>
-                        @foreach (var error in item[12].Substring(0, item[12].Length - 1).Split('#'))
+                        @if (!string.IsNullOrEmpty(item[12]))
                         {
-                            @error<br />
+                            foreach (var error in item[12].Substring(0, item[12].Length - 1).Split('#'))
+                            {
+                                @error<br />
+                            }
                         }
                     </td>
                 </tr>
@@ -268,9 +274,12 @@
                         @item[11]
                     </td>
                     <td>
-                        @foreach (var error in item[12].Substring(0, item[12].Length - 1).Split('#'))
+                        @if (!string.IsNullOrEmpty(item[12]))
                         {
-                            @error<br />
+                            foreach (var error in item[12].Substring(0, item[12].Length - 1).Split('#'))
+                            {
+                                @error<br />
+                            }
                         }
                     </td>
                 </tr>
@@ -350,9 +359,12 @@
                         @item[11]
                     </td>
                     <td>
-                        @foreach (var error in item[12].Substring(0, item[12].Length - 1).Split('#'))
+                        @if (!string.IsNullOrEmpty(item[12]))
                         {
-                            @error<br />
+                            foreach (var error in item[12].Substring(0, item[12].Length - 1).Split('#'))
+                            {
+                                @error<br />
+                            }
                         }
                     </td>
                 </tr>
