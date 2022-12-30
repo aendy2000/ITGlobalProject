@@ -22,18 +22,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         // GET: Admins/LienHeTuVan
         public ActionResult thongTinLienHeTuVan()
         {
-            var lstCons = model.Consultation.Where(c => c.State == false).ToList();
+            var lstCons = model.Consultation.Where(c => c.State == false).OrderByDescending(o => o.ID).ToList();
             ViewBag.ShowActive = "thongTinLienHeTuVan";
             return View("thongTinLienHeTuVan", lstCons);
         }
         public ActionResult thongTinLienHeTuVanPartial()
         {
-            var lstCons = model.Consultation.Where(c => c.State == false).ToList();
+            var lstCons = model.Consultation.Where(c => c.State == false).OrderByDescending(o => o.ID).ToList();
             return PartialView("_thongTinLienHeTuVanPartial", lstCons);
         }
         public ActionResult thongTinDaLienHeTuVanPartial()
         {
-            var lstCons = model.Consultation.Where(c => c.State == true).ToList();
+            var lstCons = model.Consultation.Where(c => c.State == true).OrderByDescending(o => o.ID).ToList();
             return PartialView("_thongTinDaLienHeTuVanPartial", lstCons);
         }
 
@@ -51,12 +51,12 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
             if (state == true)
             {
-                var lstCons = model.Consultation.Where(c => c.State == true).ToList();
+                var lstCons = model.Consultation.Where(c => c.State == true).OrderByDescending(o => o.ID).ToList();
                 return PartialView("_thongTinDaLienHeTuVanPartial", lstCons);
             }
             else
             {
-                var lstCons = model.Consultation.Where(c => c.State == false).ToList();
+                var lstCons = model.Consultation.Where(c => c.State == false).OrderByDescending(o => o.ID).ToList();
                 return PartialView("_thongTinLienHeTuVanPartial", lstCons);
             }
 
@@ -75,7 +75,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             model.SaveChanges();
             model = new CP25Team06Entities();
 
-            var lstCons = model.Consultation.Where(c => c.State == false).ToList();
+            var lstCons = model.Consultation.Where(c => c.State == false).OrderByDescending(o => o.ID).ToList();
             return PartialView("_thongTinLienHeTuVanPartial", lstCons);
         }
     }

@@ -30,9 +30,13 @@
 
         //Hình thức
         let thucTapSinh = 0;
+        let banThoiGian = 0;
         let toanThoiGian = 0;
         if ($('#thucTapSinh').prop('checked')) {
             thucTapSinh = 1;
+        }
+        if ($('#banThoiGian').prop('checked')) {
+            banThoiGian = 1;
         }
         if ($('#toanThoiGian').prop('checked')) {
             toanThoiGian = 1;
@@ -85,7 +89,7 @@
             $("#soluongvalidation").text("Vui lòng nhập lại một số nguyên.").show();
         }
         // Vali hình thức làm việc
-        if (thucTapSinh == 0 && toanThoiGian == 0) {
+        if (thucTapSinh == 0 && toanThoiGian == 0 && banThoiGian == 0) {
             checktintuyendung = false;
             $("#hinhthucvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
@@ -165,6 +169,7 @@
             formData.append('soluong', soluong);
             formData.append('thucTapSinh', thucTapSinh);
             formData.append('toanThoiGian', toanThoiGian);
+            formData.append('banThoiGian', banThoiGian);
             formData.append('gioitinh', gioitinh);
             formData.append('kinhnghiem', kinhnghiem);
             formData.append('hannopcv', hannopcv);
@@ -280,8 +285,12 @@
         //Hình thức
         let thucTapSinh = 0;
         let toanThoiGian = 0;
+        let banThoiGian = 0;
         if ($('#thucTapSinh').prop('checked')) {
             thucTapSinh = 1;
+        }
+        if ($('#banThoiGian').prop('checked')) {
+            banThoiGian = 1;
         }
         if ($('#toanThoiGian').prop('checked')) {
             toanThoiGian = 1;
@@ -333,7 +342,7 @@
             $("#soluongvalidation").text("Vui lòng nhập lại một số nguyên.").show();
         }
         // Vali hình thức làm việc
-        if (thucTapSinh == 0 && toanThoiGian == 0) {
+        if (thucTapSinh == 0 && toanThoiGian == 0 && banThoiGian == 0) {
             checktintuyendung = false;
             $("#hinhthucvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         }
@@ -414,6 +423,7 @@
             formData.append('soluong', soluong);
             formData.append('thucTapSinh', thucTapSinh);
             formData.append('toanThoiGian', toanThoiGian);
+            formData.append('banThoiGian', banThoiGian);
             formData.append('gioitinh', gioitinh);
             formData.append('kinhnghiem', kinhnghiem);
             formData.append('hannopcv', hannopcv);

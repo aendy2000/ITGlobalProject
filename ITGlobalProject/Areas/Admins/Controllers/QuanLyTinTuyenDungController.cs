@@ -27,7 +27,17 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         // GET: Admins/QuanLyTinTuyenDung
         public ActionResult danhSachTinTuyenDung()
         {
-            var lstTinTuyenDung = model.Recruitment.OrderByDescending(O => O.ID).ToList();
+            DateTime currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+            var lstTinTuyenDungHetHan = model.Recruitment.Where(t => t.CVSubmissionDeadline < currentDate).ToList();
+            foreach (var item in lstTinTuyenDungHetHan)
+            {
+                item.Status = false;
+                model.Entry(item).State = EntityState.Modified;
+            }
+            model.SaveChanges();
+            model = new CP25Team06Entities();
+
+            var lstTinTuyenDung = model.Recruitment.OrderByDescending(t => t.ID).ToList();
             ViewBag.ShowActive = "danhSachTinTuyenDung";
             return View("danhSachTinTuyenDung", lstTinTuyenDung);
         }
@@ -44,7 +54,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         [HttpPost]
         public ActionResult themTinTuyenDung(string tieude, int chucdanh, int soluong,
-        int thucTapSinh, int toanThoiGian, string gioitinh, string kinhnghiem, string hannopcv,
+        int thucTapSinh, int toanThoiGian, int banThoiGian, string gioitinh, string kinhnghiem, string hannopcv,
         string mucluongtoithieu, string mucluongtoida, string kynangchuyenmon, string motacongviec,
         string yeucauungvien, string quyenloiungvien, string action)
         {
@@ -58,14 +68,13 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                 string hinhthuclamviec = "";
                 if (thucTapSinh == 1)
-                    hinhthuclamviec += "Thực tập sinh";
+                    hinhthuclamviec += "Thực tập sinh,";
+                if (banThoiGian == 1)
+                    hinhthuclamviec += "Bán thời gian,";
+                if (toanThoiGian == 1)
+                    hinhthuclamviec += "Toàn thời gian,";
 
-                if (string.IsNullOrEmpty(hinhthuclamviec) && toanThoiGian == 1)
-                    hinhthuclamviec += "Toàn thời gian";
-                else if (!string.IsNullOrEmpty(hinhthuclamviec) && toanThoiGian == 1)
-                    hinhthuclamviec += ", Toàn thời gian";
-
-                tintuyendungmoi.Form = hinhthuclamviec;
+                tintuyendungmoi.Form = hinhthuclamviec.Substring(0, hinhthuclamviec.Length - 1);
                 tintuyendungmoi.Sex = gioitinh;
                 tintuyendungmoi.Experience = kinhnghiem;
                 tintuyendungmoi.CVSubmissionDeadline = Convert.ToDateTime(hannopcv);
@@ -135,7 +144,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         [HttpPost]
         public ActionResult chinhSuaTinTuyenDung(int id, string tieude, int chucdanh, int soluong,
-        int thucTapSinh, int toanThoiGian, string gioitinh, string kinhnghiem, string hannopcv,
+        int thucTapSinh, int toanThoiGian, int banThoiGian, string gioitinh, string kinhnghiem, string hannopcv,
         string mucluongtoithieu, string mucluongtoida, string kynangchuyenmon, string motacongviec,
         string yeucauungvien, string quyenloiungvien)
         {
@@ -152,14 +161,13 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                 string hinhthuclamviec = "";
                 if (thucTapSinh == 1)
-                    hinhthuclamviec += "Thực tập sinh";
+                    hinhthuclamviec += "Thực tập sinh,";
+                if (banThoiGian == 1)
+                    hinhthuclamviec += "Bán thời gian,";
+                if (toanThoiGian == 1)
+                    hinhthuclamviec += "Toàn thời gian,";
 
-                if (string.IsNullOrEmpty(hinhthuclamviec) && toanThoiGian == 1)
-                    hinhthuclamviec += "Toàn thời gian";
-                else if (!string.IsNullOrEmpty(hinhthuclamviec) && toanThoiGian == 1)
-                    hinhthuclamviec += ", Toàn thời gian";
-
-                tintuyendungmoi.Form = hinhthuclamviec;
+                tintuyendungmoi.Form = hinhthuclamviec.Substring(0, hinhthuclamviec.Length - 1);
                 tintuyendungmoi.Sex = gioitinh;
                 tintuyendungmoi.Experience = kinhnghiem;
                 tintuyendungmoi.CVSubmissionDeadline = Convert.ToDateTime(hannopcv);

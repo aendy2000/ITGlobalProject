@@ -99,50 +99,45 @@
                                 <label style="font-weight:bold" class="form-label">Hình Thức Làm Việc<span class="text-danger">*</span></label>
                                 <div class="form-control">
                                     <div class="input-group">
-                                        @if (Model.Form.IndexOf(",") != -1)
-                                        {
-                                            <div class="form-check col-md-4 col-12" aria-label="thucTap">
+                                        <div class="form-check col-md-4 col-12" aria-label="thucTap">
+                                            @if (Model.Form.IndexOf("Thực tập sinh") != -1)
+                                            {
                                                 <input checked type="checkbox" class="form-check-input" id="thucTapSinh" value="0">
-                                                <label class="form-check-label" for="thucTapSinh">
-                                                    Thực Tập Sinh
-                                                </label>
-                                            </div>
-                                            <div class="form-check col-md-4 col-12" aria-label="fulltime">
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" class="form-check-input" id="thucTapSinh" value="0">
+                                            }
+                                            <label class="form-check-label" for="thucTapSinh">
+                                                Thực Tập Sinh
+                                            </label>
+                                        </div>
+                                        <div class="form-check col-md-4 col-12" aria-label="parttime">
+                                            @if (Model.Form.IndexOf("Bán thời gian") != -1)
+                                            {
+                                                <input checked type="checkbox" class="form-check-input" id="banThoiGian" value="0">
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" class="form-check-input" id="banThoiGian" value="0">
+                                            }
+                                            <label class="form-check-label" for="banThoiGian">
+                                                Bán Thời Gian
+                                            </label>
+                                        </div>
+                                        <div class="form-check col-md-4 col-12" aria-label="fulltime">
+                                            @if (Model.Form.IndexOf("Toàn thời gian") != -1)
+                                            {
                                                 <input checked type="checkbox" class="form-check-input" id="toanThoiGian" value="0">
-                                                <label class="form-check-label" for="toanThoiGian">
-                                                    Toàn Thời Gian
-                                                </label>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="form-check col-md-4 col-12" aria-label="thucTap">
-                                                @if (Model.Form.IndexOf("Thực tập sinh") != -1)
-                                                {
-                                                    <input checked type="checkbox" class="form-check-input" id="thucTapSinh" value="0">
-                                                }
-                                                else
-                                                {
-                                                    <input type="checkbox" class="form-check-input" id="thucTapSinh" value="0">
-                                                }
-                                                <label class="form-check-label" for="thucTapSinh">
-                                                    Thực Tập Sinh
-                                                </label>
-                                            </div>
-                                            <div class="form-check col-md-4 col-12" aria-label="fulltime">
-                                                @if (Model.Form.IndexOf("Toàn thời gian") != -1)
-                                                {
-                                                    <input checked type="checkbox" class="form-check-input" id="toanThoiGian" value="0">
-                                                }
-                                                else
-                                                {
-                                                    <input type="checkbox" class="form-check-input" id="toanThoiGian" value="0">
-                                                }
-                                                <label class="form-check-label" for="toanThoiGian">
-                                                    Toàn Thời Gian
-                                                </label>
-                                            </div>
-                                        }
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" class="form-check-input" id="toanThoiGian" value="0">
+                                            }
+                                            <label class="form-check-label" for="toanThoiGian">
+                                                Toàn Thời Gian
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                                 <p style="font-size: 13px; color:red;" id="hinhthucvalidation"></p>
