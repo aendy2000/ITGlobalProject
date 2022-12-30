@@ -524,6 +524,7 @@
     <Content Include="Content\Admin\js\bootstrap-notify.min.js" />
     <Content Include="Content\Admin\js\main.js" />
     <Content Include="Content\Admin\js\SweetsAlerts.js" />
+    <Content Include="Content\Admin\js\table2excel.js" />
     <Content Include="Content\Admin\vendor\animate\animate.css" />
     <Content Include="Content\Admin\vendor\bootstrap\css\bootstrap-grid.css" />
     <Content Include="Content\Admin\vendor\bootstrap\css\bootstrap-grid.min.css" />

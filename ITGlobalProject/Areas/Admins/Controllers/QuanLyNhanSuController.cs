@@ -270,7 +270,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             i++;
                         }
                         else if (data[5].ToString().Trim().LastIndexOfAny(chuViet) != -1 || data[5].ToString().Trim().LastIndexOfAny(chuAnh) != -1
-                            || data[5].ToString().Trim().LastIndexOfAny(khoangTrang) != -1 || data[5].ToString().Trim().LastIndexOfAny(kytudacbiet) != -1 
+                            || data[5].ToString().Trim().LastIndexOfAny(khoangTrang) != -1 || data[5].ToString().Trim().LastIndexOfAny(kytudacbiet) != -1
                             || data[5].ToString().Trim().Length != 10)
                         {
                             error += i + ". Số điện thoại nhân viên không đúng định dạng.#";
@@ -328,7 +328,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                         }
 
                         // 9 Validation mức lương
-                        if (data[9].ToString().Trim().Replace(".","").Replace(",","").Length < 1)
+                        if (data[9].ToString().Trim().Replace(".", "").Replace(",", "").Length < 1)
                         {
                             error += i + ". Không tìm thấy mức lương của Nhân viên.#";
                             i++;
@@ -387,7 +387,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                         // 11 Validation chức danh
                         string tenchucdanh = data[11].ToString().Trim();
                         var chucdanh = model.Position.FirstOrDefault(c => c.Name.Equals(tenchucdanh));
-                        if(chucdanh == null)
+                        if (chucdanh == null)
                         {
                             error += i + ". Không tìm thấy chức danh tương ứng.#";
                             i++;
@@ -399,8 +399,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             error += i + ". Không tìm thấy hình thức làm việc của Nhân viên.#";
                             i++;
                         }
-                        else if (!data[12].ToString().Trim().Equals("Thực tập sinh") 
-                            && !data[12].ToString().Trim().Equals("Thử việc") 
+                        else if (!data[12].ToString().Trim().Equals("Thực tập sinh")
+                            && !data[12].ToString().Trim().Equals("Thử việc")
                             && !data[12].ToString().Trim().Equals("Nhân viên chính thức"))
                         {
                             error += i + ". Hình thước làm việc của nhân viên không hợp lệ.#";
@@ -408,7 +408,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                         }
 
                         //Kiểm tra và thêm nhân viên vào hệ thống.
-                        if(string.IsNullOrEmpty(error)) //Khong có lỗi, có thể thêm nv
+                        if (string.IsNullOrEmpty(error)) //Khong có lỗi, có thể thêm nv
                         {
                             emp.Name = data[1].ToString().Trim();
                             emp.IdentityCard = data[2].ToString().Trim();
@@ -418,7 +418,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             emp.Sex = data[6].ToString().Trim();
                             emp.WorkEmail = data[7].ToString().Trim();
                             emp.MaritalStatus = data[8].ToString().Trim();
-                            emp.Wage = Convert.ToDecimal(data[9].ToString().Trim().Replace(",","").Replace(".",""));
+                            emp.Wage = Convert.ToDecimal(data[9].ToString().Trim().Replace(",", "").Replace(".", ""));
                             emp.JoinedDate = Convert.ToDateTime(data[10].ToString().Trim());
                             emp.ID_Position = chucdanh.ID;
                             emp.EmploymentStatus = data[12].ToString().Trim();
@@ -443,6 +443,40 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             emp.ID_Employee = "NV" + emp.ID.ToString("D8");
                             model.Entry(emp).State = EntityState.Modified;
                             model.SaveChanges();
+
+                            try
+                            {
+                                //Gửi mật khẩu đến email
+                                using (MailMessage mailMessage = new MailMessage("noreply.itglobal@gmail.com", data[7].ToString().Trim()))
+                                {
+                                    mailMessage.Subject = "Cấp tài khoản - IT-Global.Net";
+                                    mailMessage.IsBodyHtml = true;
+                                    mailMessage.Body = "<font size=4><b>Xin chào " + data[1].ToString().Trim() + ",</b><br/><br/></font>" +
+                                        "<font size=4>Chúng tôi đã thiết lập một tài khoản truy cập vào hệ thống IT-Global.net.<br/>" +
+                                        "Sau khi đăng nhập lần đầu, hệ thống sẽ yêu cầu thay đổi mật khẩu cho bạn.<br/>" +
+                                        "Thông tin tài khoản của bạn là:<br/><br/>" +
+                                        "<b>Tài khoản:</b> " + data[7].ToString().Trim() + "<br/>" +
+                                        "<b>Mật khẩu:</b> " + pass.ToString() + "<br/><br/></font>" +
+                                        "<font size=4 color=red><i><u>Thông tin này là bảo mật. Vui lòng không cung cấp thông tin này cho bất kỳ ai.</u></i></font>";
+
+                                    using (SmtpClient smtp = new SmtpClient())
+                                    {
+                                        smtp.Host = "smtp.gmail.com";
+                                        smtp.EnableSsl = true;
+                                        NetworkCredential cred = new NetworkCredential("noreply.itglobal@gmail.com", "dagpayhjihvgdfym");
+                                        smtp.UseDefaultCredentials = true;
+                                        smtp.Credentials = cred;
+                                        smtp.Port = 587;
+
+                                        smtp.Send(mailMessage);
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                error += i + ". Không thể gửi thông tin tài khoản đến Email.#";
+                                i++;
+                            }
 
                             lstTemp.Add(new List<string>());
                             lstTemp[index].Add(data[1].ToString().Trim());

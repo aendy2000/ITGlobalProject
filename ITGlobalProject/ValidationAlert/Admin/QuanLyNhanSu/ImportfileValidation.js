@@ -71,13 +71,142 @@
         }
     });
     //Hủy
+
     $('#reserImport').on('click', function () {
         $('#fileimport').val(null);
         $('#importfilevalidation').hide();
     });
 
-    //Đóng ds import
-    $('#dongDSImport').on('click', function () {
-        $('#lstTempDataEmployee').replaceWith('<div id="lstTempDataEmployee" class="card" data-simplebar></div>');
+    //Tải xuống toàn danh sách
+    $('#taixuongtoanbo').on('click', function () {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        var SweetAlert2Demo = function () {
+            var initDemos = function () {
+                swal({
+                    title: 'Tải xuống danh sách?',
+                    text: "Bạn có muốn tải xuống toàn bộ danh sách,\nbao gồm nhân viên đã được thêm và nhân viên chưa được thêm?",
+                    type: 'warning',
+                    buttons: {
+                        cancel: {
+                            visible: true,
+                            text: ' Hủy Bỏ ',
+                            className: 'btn btn-danger'
+                        },
+                        confirm: {
+                            text: 'Xác Nhận',
+                            className: 'btn btn-success'
+                        }
+                    }
+                }).then((taixuong) => {
+                    if (taixuong) {
+                        $("#tblToanBoDS").table2excel({
+                            filename: 'danh-sach-nhan-vien-duoc-nhap-' + yyyy + '-' + mm + '-' + dd +'.xls'
+                        });
+                    }
+                });
+            };
+            return {
+                init: function () {
+                    initDemos();
+                },
+            };
+        }();
+
+        jQuery(document).ready(function () {
+            SweetAlert2Demo.init();
+        });
     });
+
+    //Tải xuống danh sách đã thêm
+    $('#taixuongdsduocthem').on('click', function () {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        var SweetAlert2Demo = function () {
+            var initDemos = function () {
+                swal({
+                    title: 'Tải xuống danh sách đã thêm?',
+                    text: "Bạn có muốn tải xuống danh sách các nhân viên đã được thêm thành công?",
+                    type: 'warning',
+                    buttons: {
+                        cancel: {
+                            visible: true,
+                            text: ' Hủy Bỏ ',
+                            className: 'btn btn-danger'
+                        },
+                        confirm: {
+                            text: 'Xác Nhận',
+                            className: 'btn btn-success'
+                        }
+                    }
+                }).then((taixuong) => {
+                    if (taixuong) {
+                        $("#tblDSDaThem").table2excel({
+                            filename: 'danh-sach-nhan-vien-duoc-nhap-thanh-cong-' + yyyy + '-' + mm + '-' + dd + '.xls'
+                        });
+                    }
+                });
+            };
+            return {
+                init: function () {
+                    initDemos();
+                },
+            };
+        }();
+
+        jQuery(document).ready(function () {
+            SweetAlert2Demo.init();
+        });
+    });
+
+    //Tải xuống danh sách chưa thêm
+    $('#taixuongdschuathem').on('click', function () {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        var SweetAlert2Demo = function () {
+            var initDemos = function () {
+                swal({
+                    title: 'Tải xuống danh sách chưa thêm?',
+                    text: "Bạn có muốn tải xuống danh sách các nhân viên chưa được thêm thành công?",
+                    type: 'warning',
+                    buttons: {
+                        cancel: {
+                            visible: true,
+                            text: ' Hủy Bỏ ',
+                            className: 'btn btn-danger'
+                        },
+                        confirm: {
+                            text: 'Xác Nhận',
+                            className: 'btn btn-success'
+                        }
+                    }
+                }).then((taixuong) => {
+                    if (taixuong) {
+                        $("#tblDSChuaThem").table2excel({
+                            filename: 'danh-sach-nhan-vien-chua-duoc-them-' + yyyy + '-' + mm + '-' + dd + '.xls'
+                        });
+                    }
+                });
+            };
+            return {
+                init: function () {
+                    initDemos();
+                },
+            };
+        }();
+
+        jQuery(document).ready(function () {
+            SweetAlert2Demo.init();
+        });
+    });
+    
 });

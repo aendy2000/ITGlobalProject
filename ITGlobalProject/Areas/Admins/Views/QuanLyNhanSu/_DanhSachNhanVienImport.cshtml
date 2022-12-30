@@ -1,6 +1,10 @@
 ﻿@model List<List<string>>
 @{
     int i = 0;
+    int iToanDS = 0;
+    int iDSDaThem = 0;
+    int iDSChuaThem = 0;
+
 }
 <div id="lstTempDataEmployee" class="card table-responsive" data-simplebar>
     <table id="dataTableBasic" class="table table-hover" style="width:100%" cellspacing="0">
@@ -28,7 +32,7 @@
             {
                 i++;
                 string color = "";
-                if (!string.IsNullOrEmpty(item[12]))
+                if (!string.IsNullOrEmpty(item[12]) && item[12].IndexOf("Không thể gửi thông tin tài khoản đến Email") == -1)
                 {
                     color = "bg-light-danger";
                 }
@@ -98,5 +102,263 @@
     <script src="~/Content/Admin/assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
     <script src="~/Content/Admin/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="~/Content/Admin/assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+    <script src="~/Content/Admin/js/table2excel.js"></script>
+
+    <!-- Toàn bộ DS -->
+    <table hidden id="tblToanBoDS">
+        <thead>
+            <tr>
+                <th colspan="15" align="center"><b>DANH SÁCH NHÂN VIÊN ĐƯỢC NHẬP @DateTime.Now.Year-@DateTime.Now.Month.ToString("D2")-@DateTime.Now.Day.ToString("D2")</b></th>
+            </tr>
+            <tr>
+                <th align="center">STT</th>
+                <th align="center">Trạng thái</th>
+                <th align="center">Họ và Tên</th>
+                <th align="center">CMND/CCCD</th>
+                <th align="center">Quốc tịch</th>
+                <th align="center">Ngày sinh</th>
+                <th align="center">Số điện thoại</th>
+                <th align="center">Giới tính</th>
+                <th align="center">Địa chỉ email</th>
+                <th align="center">Hôn nhân</th>
+                <th align="center">Mức lương (VND)</th>
+                <th align="center">Ngày vào làm</th>
+                <th align="center">Chức danh</th>
+                <th align="center">Hình thức</th>
+                <th align="center">Ghi chú</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                iToanDS++;
+                <tr>
+                    <td>
+                        @iToanDS
+                    </td>
+                    @if (string.IsNullOrEmpty(item[12]) || item[12].IndexOf("Không thể gửi thông tin tài khoản đến Email") != -1)
+                    {
+                        <td>
+                            <i class="fe fe-check-circle"> </i> Đã thêm
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <i style="font-size: 15px" class="fe fe-x-circle"> </i> Chưa thêm
+                        </td>
+                    }
+                    <td>
+                        @item[0]
+                    </td>
+                    <td>
+                        '@item[1]
+                    </td>
+                    <td>
+                        @item[2]
+                    </td>
+                    <td>
+                        '@item[3]
+                    </td>
+                    <td>
+                        '@item[4]
+                    </td>
+                    <td>
+                        @item[5]
+                    </td>
+                    <td>
+                        @item[6]
+                    </td>
+                    <td>
+                        @item[7]
+                    </td>
+                    <td>
+                        @Convert.ToDecimal(item[8]).ToString("0,0")
+                    </td>
+                    <td>
+                        '@item[9]
+                    </td>
+                    <td>
+                        @item[10]
+                    </td>
+                    <td>
+                        @item[11]
+                    </td>
+                    <td>
+                        @foreach (var error in item[12].Substring(0, item[12].Length - 1).Split('#'))
+                        {
+                            @error<br />
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- DS đã thêm -->
+    <table hidden id="tblDSDaThem">
+        <thead>
+            <tr>
+                <th colspan="15" align="center"><b>DANH SÁCH NHÂN VIÊN ĐƯỢC NHẬP THÀNH CÔNG @DateTime.Now.Year-@DateTime.Now.Month.ToString("D2")-@DateTime.Now.Day.ToString("D2")</b></th>
+            </tr>
+            <tr>
+                <th align="center">STT</th>
+                <th align="center">Trạng thái</th>
+                <th align="center">Họ và Tên</th>
+                <th align="center">CMND/CCCD</th>
+                <th align="center">Quốc tịch</th>
+                <th align="center">Ngày sinh</th>
+                <th align="center">Số điện thoại</th>
+                <th align="center">Giới tính</th>
+                <th align="center">Địa chỉ email</th>
+                <th align="center">Hôn nhân</th>
+                <th align="center">Mức lương (VND)</th>
+                <th align="center">Ngày vào làm</th>
+                <th align="center">Chức danh</th>
+                <th align="center">Hình thức</th>
+                <th align="center">Ghi chú</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Where(I => string.IsNullOrEmpty(I[12]) || I[12].IndexOf("Không thể gửi thông tin tài khoản đến Email") != -1))
+            {
+                iDSDaThem++;
+                <tr>
+                    <td>
+                        @iDSDaThem
+                    </td>
+                    <td>
+                        Đã thêm
+                    </td>
+                    <td>
+                        @item[0]
+                    </td>
+                    <td>
+                        '@item[1]
+                    </td>
+                    <td>
+                        @item[2]
+                    </td>
+                    <td>
+                        '@item[3]
+                    </td>
+                    <td>
+                        '@item[4]
+                    </td>
+                    <td>
+                        @item[5]
+                    </td>
+                    <td>
+                        @item[6]
+                    </td>
+                    <td>
+                        @item[7]
+                    </td>
+                    <td>
+                        @Convert.ToDecimal(item[8]).ToString("0,0")
+                    </td>
+                    <td>
+                        '@item[9]
+                    </td>
+                    <td>
+                        @item[10]
+                    </td>
+                    <td>
+                        @item[11]
+                    </td>
+                    <td>
+                        @foreach (var error in item[12].Substring(0, item[12].Length - 1).Split('#'))
+                        {
+                            @error<br />
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- DS chưa thêm -->
+    <table hidden id="tblDSChuaThem">
+        <thead>
+            <tr>
+                <th colspan="15" align="center"><b>DANH SÁCH NHÂN VIÊN ĐƯỢC NHẬP KHÔNG THÀNH CÔNG @DateTime.Now.Year-@DateTime.Now.Month.ToString("D2")-@DateTime.Now.Day.ToString("D2")</b></th>
+            </tr>
+            <tr>
+                <th align="center">STT</th>
+                <th align="center">Trạng thái</th>
+                <th align="center">Họ và Tên</th>
+                <th align="center">CMND/CCCD</th>
+                <th align="center">Quốc tịch</th>
+                <th align="center">Ngày sinh</th>
+                <th align="center">Số điện thoại</th>
+                <th align="center">Giới tính</th>
+                <th align="center">Địa chỉ email</th>
+                <th align="center">Hôn nhân</th>
+                <th align="center">Mức lương (VND)</th>
+                <th align="center">Ngày vào làm</th>
+                <th align="center">Chức danh</th>
+                <th align="center">Hình thức</th>
+                <th align="center">Ghi chú</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Where(I => !string.IsNullOrEmpty(I[12]) && I[12].IndexOf("Không thể gửi thông tin tài khoản đến Email") == -1))
+            {
+                iDSChuaThem++;
+                <tr>
+                    <td>
+                        @iDSChuaThem
+                    </td>
+                    <td>
+                        Chưa thêm
+                    </td>
+                    <td>
+                        @item[0]
+                    </td>
+                    <td>
+                        '@item[1]
+                    </td>
+                    <td>
+                        @item[2]
+                    </td>
+                    <td>
+                        '@item[3]
+                    </td>
+                    <td>
+                        '@item[4]
+                    </td>
+                    <td>
+                        @item[5]
+                    </td>
+                    <td>
+                        @item[6]
+                    </td>
+                    <td>
+                        @item[7]
+                    </td>
+                    <td>
+                        @Convert.ToDecimal(item[8]).ToString("0,0")
+                    </td>
+                    <td>
+                        '@item[9]
+                    </td>
+                    <td>
+                        @item[10]
+                    </td>
+                    <td>
+                        @item[11]
+                    </td>
+                    <td>
+                        @foreach (var error in item[12].Substring(0, item[12].Length - 1).Split('#'))
+                        {
+                            @error<br />
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
 </div>
 
