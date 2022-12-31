@@ -38,27 +38,25 @@
             </div>
             <div class="col-xxl-3 col-xl-2 col-lg-3 col-md-12 pe-lg-2">
                 <!-- select -->
-                <select style="color: dimgray;font-weight:bold;" class="form-select mb-2 mb-lg-0" data-width="100%">
-                    <option selected>Tất cả</option>
-                    <option value="None">Hạn hôm nay</option>
-                    <option value="Due Date">Đã quá hạn</option>
+                <select id="taskDeadline" data-width="100%">
+                    <option selected value="tatca">Tất cả</option>
+                    <option value="hanhomnay">Hạn hôm nay</option>
+                    <option value="quahan">Đã quá hạn</option>
                 </select>
             </div>
             <div class="col-xxl-3 col-xl-2 col-lg-3 col-md-12 pe-lg-2">
                 <!-- select -->
-                <select style="color: dimgray; font-weight: bold;" class="form-select mb-2 mb-lg-0" data-width="100%">
-                    <option selected>Được giao (6)</option>
-                    <option value="None">Đặng Văn Tuấn</option>
-                    <option value="Due Date">Lê Thị Lợi</option>
-                    <option value="Assignee">Nguyễn Hiếu Nhân</option>
-                    <option value="Likes">Bùi Công Danh</option>
-                    <option value="Alphabetical">Nguyễn Thanh Thiện</option>
-                    <option value="Priority">Nguyễn Huy Hoàng</option>
+                <select id="assignTo" data-width="100%">
+                    <option selected value="0">Được giao (@Model.Teams.Count())</option>
+                    @foreach (var item in Model.Teams.ToList())
+                    {
+                        <option value="@item.ID_Employee">@item.Employees.Name</option>
+                    }
                 </select>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div id="taskPartialContent" class="row">
         <div class="col-12">
             <div class="task-kanban-container">
                 <div style="width: 22.7%" class="card bg-gray-300 shadow-none rounded-3 d-inline-block me-4 align-top mb-4 task-card">
@@ -193,6 +191,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <input hidden id="nguoilam-@item.Employees.Name" />
                                         }
                                     }
                                 </div>
@@ -841,31 +840,36 @@
                         <div class="mb-2 col-8">
                             <div class="mb-2 col-12">
                                 <label style="font-weight:bold" for="assign" class="col-form-label-sm">Người thực hiện  <span class="text-danger">*</span></label>
-                                <select id="nguoithuchien" class="form-select form-select-sm text-dark">
+                                <select id="nguoithuchien" data-width="100%">
+                                    <option value="">Chọn người thực hiện</option>
                                     @foreach (var item in Model.Teams.ToList())
                                     {
-                                        <option value="@item.Employees.ID">@(item.Employees.ID.ToString("D3"))&emsp;|&emsp;@(item.Employees.Name)&emsp;|&emsp;@(item.Employees.Position.Name)</option>
+                                        <option value="@item.ID_Employee">@(item.Employees.ID_Employee)&emsp;|&emsp;@(item.Employees.Name)&emsp;|&emsp;@(item.Employees.Position.Name)</option>
                                     }
                                 </select>
+                                <p hidden="hidden" style="font-size: 13px; color:red;" id="nguoithuchienvalidation"></p>
                             </div>
                             <div class="mb-2 col-12">
                                 <label style="font-weight:bold" for="taskTitle" class="col-form-label-sm">Tên công việc  <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control form-control-sm" id="taskName" name="taskName" placeholder="Nhập vào tên của công việc" required>
+                                <input type="text" class="form-control form-control-sm" id="taskName" name="taskName" placeholder="Nhập vào tên của công việc">
+                                <p hidden="hidden" style="font-size: 13px; color:red;" id="taskNamevalidation"></p>
                             </div>
                             <div class="mb-3 col-12">
                                 <label style="font-weight:bold" for="taskTitle" class="col-form-label-sm">Mô tả công việc</label>
                                 <textarea rows="7" class="form-control form-control-sm" id="motatask" name="motatask" placeholder="Nhập vào mô tả chi tiết công việc"></textarea>
+                                <p hidden="hidden" style="font-size: 13px; color:red;" id="motataskvalidation"></p>
                             </div>
-
                         </div>
                         <div class="mb-2 col-4">
                             <div class="mb-2 col-12">
                                 <label style="font-weight:bold" for="date" class="col-form-label-sm">Hạn chót <span class="text-danger">*</span></label>
                                 <input id="deadline" name="deadline" class="form-control form-control-sm flatpickr" type="text" placeholder="Chọn ngày hoàn thành">
+                                <p hidden="hidden" style="font-size: 13px; color:red;" id="deadlinevalidation"></p>
                             </div>
                             <div class="mb-2 col-12">
                                 <label style="font-weight:bold" for="date" class="col-form-label-sm">Giờ ước lượng  <span class="text-danger">*</span></label>
-                                <input id="estimate" name="estimate" class="form-control form-control-sm" type="text" placeholder="Số giờ sẽ hoàn thành công việc">
+                                <input id="estimate" name="estimate" class="form-control form-control-sm" type="number" placeholder="Số giờ sẽ hoàn thành công việc">
+                                <p hidden="hidden" style="font-size: 13px; color:red;" id="estimatevalidation"></p>
                             </div>
                             <div class="mb-2 col-12">
                                 <label style="font-weight:bold" for="date" class="col-form-label-sm">Tài liệu </label>
@@ -878,9 +882,11 @@
                                         <option value="txt">.txt</option>
                                     </select>
                                 </div>
+                                <p hidden="hidden" style="font-size: 13px; color:red;" id="tentailieuvalidation"></p>
                             </div>
                             <div class="col-12">
                                 <input id="duongdantailieu" name="duongdantailieu" class="form-control form-control-sm text-primary" type="text" placeholder="Đường dẫn đến tài liệu (https://duongdantailieu...)">
+                                <p hidden="hidden" style="font-size: 13px; color:red;" id="duongdantailieuvalidation"></p>
                             </div>
                             <hr class="my-3" />
                             <div class="mb-3 col-12">

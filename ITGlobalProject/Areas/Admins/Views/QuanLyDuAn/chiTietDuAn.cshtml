@@ -14,7 +14,7 @@
     else
     {
         heights = 400;
-        ViewBag.TongTheDuAn = Model.Tasks.Where(t => t.State.Equals("done")).ToList().Sum(t => t.OriginalEstimate) / Model.Tasks.ToList().Sum(t => t.OriginalEstimate);
+        ViewBag.TongTheDuAn = Convert.ToDecimal((Model.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0");
     }
 }
 <input hidden value="@ViewBag.TongTheDuAn" id="tienDoTongTheDuAn" />
@@ -221,7 +221,7 @@
                             <div>
                                 <div>
                                     <p class="text-danger mb-0
-                                  fw-semi-bold">$ @Model.Debts.Sum(P => P.Price).ToString("0,0").Replace(".", ",") đ</p>
+                                  fw-semi-bold">$ @Model.Debts.Sum(P => P.Price).ToString("0,0").Replace(".", ",") VND</p>
                             </div>
                         </div>
                     </div>
@@ -327,7 +327,7 @@
                                 @item.Employees.Position.Name
                             </td>
                             <td class="align-middle ">
-                                @Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee).ToList().Count
+                                Còn @Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee && !t.State.Equals("done")).ToList().Count/@Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee).ToList().Count
                             </td>
                             <td class="align-middle ">
                                 @if (Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee).ToList().Count < 1)
@@ -345,11 +345,11 @@
                                 {
                                     <div class="d-flex align-items-center">
                                         <div class="progress flex-auto" style="height: 6px;">
-                                            <div class="progress-bar bg-success " role="progressbar" style="width: @(Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate))%;" aria-valuenow="@(Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate))" aria-valuemin="0" aria-valuemax="100">
+                                            <div class="progress-bar bg-success " role="progressbar" style="width: @(Convert.ToDecimal((Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%;" aria-valuenow="@(Convert.ToDecimal((Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate)) * 100).ToString("0"))" aria-valuemin="0" aria-valuemax="100">
 
                                             </div>
                                         </div>
-                                        <div class="ms-2"> <span>@(Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate))% </span> </div>
+                                        <div class="ms-2"> <span>@(Convert.ToDecimal((Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate)) * 100).ToString("0"))% </span> </div>
                                     </div>
                                 }
                             </td>
@@ -378,7 +378,14 @@
             <div class="d-flex justify-content-between align-items-center mt-8">
                 <div>
                     <h1 class="display-4 text-white mb-1">
-                        @((Model.EndDate - Model.StartDate).TotalDays + 1) Ngày
+                        @if (Model.EndDate < Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd")))
+                        {
+                            <span>0 Ngày</span>
+                        }
+                        else
+                        {
+                            @((Model.EndDate - Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"))).TotalDays + 1) <span>Ngày</span>
+                        }
                     </h1>
                     <p class="mb-0 text-white">
                         @Model.EndDate.ToString("dddd"), @Model.EndDate.ToString("dd") Tháng @Model.EndDate.ToString("MM"), @Model.EndDate.ToString("yyyy")
@@ -939,6 +946,11 @@ $(document).on('click', '#congViecID', function(e) {
                 })
             ).done(function() {
                 //place your code here, the scripts are all loaded
+            });
+            $('#taskDeadline').selectpicker();
+            $('#assignTo').selectpicker();
+            $('#nguoithuchien').selectpicker({
+                style: "text-dark btn-sm"
             });
         }
     });

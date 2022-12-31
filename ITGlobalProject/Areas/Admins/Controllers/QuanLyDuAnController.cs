@@ -184,8 +184,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             string giaidoan, string chiphi, string namedn, string hoten, string cmnd, string phone,
             string email, string ngaysinh, string gioitinh, string diahchinha, int idduan, int idkh)
         {
-            var khachHang = model.Partners.FirstOrDefault(p => p.ID == idkh);
-            var duAn = model.Projects.FirstOrDefault(p => p.ID == idduan);
+            var khachHang = model.Partners.Find(idkh);
+            var duAn = model.Projects.Find(idduan);
             if (khachHang == null || duAn == null)
                 return Content("DANHSACH");
 
@@ -316,7 +316,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
         public ActionResult chiTietDuAn(int? id)
         {
-            var pro = model.Projects.FirstOrDefault(p => p.ID == id);
+            var pro = model.Projects.Find(id);
             if (id == null || pro == null)
                 return RedirectToAction("danhSachDuAn");
 
@@ -327,7 +327,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         public ActionResult tongQuanPartial(int? id)
         {
-            var pro = model.Projects.FirstOrDefault(p => p.ID == id);
+            var pro = model.Projects.Find(id);
             if (id == null || pro == null)
                 return RedirectToAction("danhSachDuAn");
 
@@ -338,19 +338,19 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         public ActionResult congViecPartial(int? id)
         {
-            var pro = model.Projects.FirstOrDefault(p => p.ID == id);
+            var pro = model.Projects.Find(id);
             if (id == null || pro == null)
                 return Content("DANHSACH");
 
-            Session["lst-Task"] = model.Tasks.Where(t => t.ID_Project == id).OrderBy(t => t.OrdinalNumbers).ToList();
+            Session["lst-Task"] = pro.Tasks.OrderBy(t => t.OrdinalNumbers).ToList();
             return PartialView("_congViecPartial", pro);
         }
         [HttpPost]
         public ActionResult themCongViec(int? idpro, int? idassign, string taskname, string mota,
             string deadline, decimal estimate, string tentailieu, string loaitailieu, string duongdantailieu)
         {
-            var pro = model.Projects.FirstOrDefault(p => p.ID == idpro);
-            var emp = model.Employees.FirstOrDefault(e => e.ID == idassign);
+            var pro = model.Projects.Find(idpro);
+            var emp = model.Employees.Find(idassign);
             if (pro == null || emp == null)
                 return Content("DANHSACH");
 
@@ -388,7 +388,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         {
             try
             {
-                int idPro = 0;
+                int idPro;
                 //Task cũ
                 if (lstTaskFirst.IndexOf("~") != -1)
                 {
@@ -504,7 +504,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         public ActionResult doiNguPartial(int? id)
         {
-            var pro = model.Projects.FirstOrDefault(t => t.ID == id);
+            var pro = model.Projects.Find(id);
             if (pro == null || id == null)
                 return Content("DANHSACH");
 
@@ -521,8 +521,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult themThanhVien(int? idemp, int? idpro)
         {
-            var emp = model.Employees.FirstOrDefault(e => e.ID == idemp);
-            var pro = model.Projects.FirstOrDefault(t => t.ID == idpro);
+            var emp = model.Employees.Find(idemp);
+            var pro = model.Projects.Find(idpro);
             if (emp == null || pro == null || idemp == null || idpro == null)
                 return Content("DANHSACH");
 
@@ -545,8 +545,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult xoaThanhVien(int? idemp, int? idpro)
         {
-            var emp = model.Employees.FirstOrDefault(e => e.ID == idemp);
-            var pro = model.Projects.FirstOrDefault(t => t.ID == idpro);
+            var emp = model.Employees.Find(idemp);
+            var pro = model.Projects.Find(idpro);
             if (emp == null || pro == null || idemp == null || idpro == null)
                 return Content("DANHSACH");
 
@@ -563,6 +563,49 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
             Session["lst-DoiNguEmployee"] = emps;
             return PartialView("_doiNguPartial", pro);
+        }
+        [HttpPost]
+        public ActionResult LoaiCongViec(int? assign, string deadlineType, int? id)
+        {
+            var pro = model.Projects.Find(id);
+            if (pro == null || id == null || assign == null || string.IsNullOrEmpty(deadlineType))
+                return Content("DANHSACH");
+
+            if (assign == 0)
+            {
+                if (deadlineType.Equals("tatca"))
+                {
+                    Session["lst-Task"] = pro.Tasks.OrderBy(t => t.OrdinalNumbers).ToList();
+                }
+                else if (deadlineType.Equals("hanhomnay"))
+                {
+                    DateTime currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+                    Session["lst-Task"] = pro.Tasks.Where(t => t.Deadline == currentDate).OrderBy(t => t.OrdinalNumbers).ToList();
+                }
+                else
+                {
+                    DateTime currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+                    Session["lst-Task"] = pro.Tasks.Where(t => t.Deadline < currentDate).OrderBy(t => t.OrdinalNumbers).ToList();
+                }
+            }
+            else
+            {
+                if (deadlineType.Equals("tatca"))
+                {
+                    Session["lst-Task"] = pro.Tasks.Where(t => t.ID_Employee == assign).OrderBy(t => t.OrdinalNumbers).ToList();
+                }
+                else if (deadlineType.Equals("hanhomnay"))
+                {
+                    DateTime currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+                    Session["lst-Task"] = pro.Tasks.Where(t => t.ID_Employee == assign && t.Deadline == currentDate).OrderBy(t => t.OrdinalNumbers).ToList();
+                }
+                else
+                {
+                    DateTime currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+                    Session["lst-Task"] = pro.Tasks.Where(t => t.ID_Employee == assign && t.Deadline < currentDate).OrderBy(t => t.OrdinalNumbers).ToList();
+                }
+            }
+            return PartialView("_congViecPartial", pro);
         }
     }
 }
