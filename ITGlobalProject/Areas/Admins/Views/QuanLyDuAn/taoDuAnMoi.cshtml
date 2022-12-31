@@ -66,95 +66,65 @@
                                                     <div class="mb-3 col-12">
                                                         <label style="font-weight:bold" class="form-label">Tên dự án <span class="text-danger">*</span></label>
                                                         <input id="name" name="name" type="text" class="form-control" placeholder="Nhập vào tên của dự án (VD: Website ABC)">
+                                                        <p hidden style="font-size: 13px; color:red;" id="namevalidation"></p>
                                                     </div>
                                                     <!-- form group -->
                                                     <div class="mb-3 col-12">
                                                         <label style="font-weight:bold" class="form-label">Mô tả tổng quan</label>
                                                         <textarea id="mota" name="mota" class="form-control" placeholder="Nhập vào mô tả của dự án..." rows="10"></textarea>
+                                                        <p hidden style="font-size: 13px; color:red;" id="motavalidation"></p>
                                                     </div>
                                                     <!-- form group -->
                                                     <div class="mb-3 col-md-6 col-12">
                                                         <label style="font-weight:bold" class="form-label">Ngày bắt đầu <span class="text-danger">*</span></label>
                                                         <div class="input-group me-3">
-                                                            <input id="batdau" name="batdau" class="form-control flatpickr" type="text" placeholder="Ngày bắt đầu dự án"
-                                                                   aria-describedby="basic-addon2">
-
+                                                            <input id="batdau" name="batdau" class="form-control flatpickr" type="text" placeholder="Ngày bắt đầu dự án" aria-describedby="basic-addon2">
                                                             <span class="input-group-text text-muted" id="basic-addon2">
                                                                 <i class="fe fe-calendar"></i>
                                                             </span>
-
                                                         </div>
+                                                        <p hidden style="font-size: 13px; color:red;" id="batdauvalidation"></p>
                                                     </div>
                                                     <!-- form group -->
                                                     <div class="mb-3 col-md-6 col-12">
                                                         <label style="font-weight:bold" class="form-label">Ngày kết thúc <span class="text-danger">*</span></label>
                                                         <div class="input-group me-3">
-                                                            <input id="ketthuc" name="ketthuc" class="form-control flatpickr" type="text" placeholder="Ngày kết thúc dự án"
-                                                                   aria-describedby="basic-addon3">
-
+                                                            <input id="ketthuc" name="ketthuc" class="form-control flatpickr" type="text" placeholder="Ngày kết thúc dự án" aria-describedby="basic-addon3">
                                                             <span class="input-group-text text-muted" id="basic-addon3">
                                                                 <i class="fe fe-calendar"></i>
                                                             </span>
-
                                                         </div>
+                                                        <p hidden style="font-size: 13px; color:red;" id="ketthucvalidation"></p>
                                                     </div>
-                                                    <input id="dem" value="3" hidden />
+                                                    <input id="dem" value="1" hidden />
 
                                                     <label style="font-weight:bold" for="ipcpgd1" class="form-label">Giai đoạn 1 </label>
                                                     <div id="ipcpgd1" class="mb-3 col-md-6 col-12">
                                                         <input id="gd1" name="gd1" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Chi phí giai đoạn 1" required />
+                                                        <p hidden style="font-size: 13px; color:red;" id="gd1validation"></p>
                                                     </div>
                                                     <div id="ipdgd1" class="mb-3 col-md-6 col-12">
                                                         <div class="input-group me-3">
-                                                            <input id="ngaygd1" name="ngaygd1" class="form-control flatpickr" type="text"
-                                                                   placeholder="Ngày kết thúc giai đoạn 1" aria-describedby="basic-addon-gd1" required>
-
+                                                            <input id="ngaygd1" name="ngaygd1" class="form-control flatpickr" type="text" placeholder="Ngày kết thúc giai đoạn 1" aria-describedby="basic-addon-gd1" required>
                                                             <span class="input-group-text text-muted" id="basic-addon-gd1">
                                                                 <i class="fe fe-calendar"></i>
                                                             </span>
                                                         </div>
-                                                    </div>
-                                                    <label style="font-weight:bold" for="ipcpgd2" class="form-label">Giai đoạn 2 </label>
-                                                    <div id="ipcpgd2" class="mb-3 col-md-6 col-12">
-                                                        <input id="gd2" name="gd2" type="text" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" placeholder="Chi phí giai đoạn 2" required />
-                                                    </div>
-                                                    <div id="ipdgd2" class="mb-3 col-md-6 col-12">
-                                                        <div class="input-group me-3">
-                                                            <input id="ngaygd2" name="ngaygd2" class="form-control flatpickr" type="text"
-                                                                   placeholder="Ngày kết thúc giai đoạn 2" aria-describedby="basic-addon-gd2" required>
-
-                                                            <span class="input-group-text text-muted" id="basic-addon-gd2">
-                                                                <i class="fe fe-calendar"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-
-                                                    <label style="font-weight:bold" for="ipcpgd3" class="form-label">Giai đoạn 3 </label>
-                                                    <div id="ipcpgd3" class="mb-3 col-md-6 col-12">
-                                                        <input id="gd3" name="gd3" type="text" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" placeholder="Chi phí giai đoạn 3" required />
-                                                    </div>
-                                                    <div id="ipdgd3" class="mb-3 col-md-6 col-12">
-                                                        <div class="input-group me-3">
-
-                                                            <input id="ngaygd3" name="ngaygd3" class="form-control flatpickr" type="text"
-                                                                   placeholder="Ngày kết thúc giai đoạn 3" aria-describedby="basic-addon-gd3" required>
-
-                                                            <span class="input-group-text text-muted" id="basic-addon-gd3">
-                                                                <i class="fe fe-calendar"></i>
-                                                            </span>
-                                                        </div>
+                                                        <p hidden style="font-size: 13px; color:red;" id="ngaygd1validation"></p>
                                                     </div>
                                                     <div id="appenddayne" class="col-12"></div>
-                                                    <div style="text-align: center; padding-bottom: 15px;" class="mb-2 col-md-6 col-12">
-                                                        <a style="width: 100%;" id="xoabot" class="btn text-danger border-danger btn-xs">
-                                                            <i class="fe fe-minus-circle"> </i> Xóa giai đoạn
-                                                        </a>
-                                                    </div>
+
                                                     <div style="text-align:center; padding-bottom: 15px" class="mb-2 col-md-6 col-12">
                                                         <a style="width: 100%" id="addthem" class="btn text-primary border-primary btn-xs">
                                                             <i class="fe fe-plus-circle"> </i> Thêm giai đoạn
                                                         </a>
                                                     </div>
+                                                    <div style="text-align: center; padding-bottom: 15px;" class="mb-2 col-md-6 col-12">
+                                                        <a style="width: 100%;" id="xoabot" class="btn text-danger border-danger btn-xs">
+                                                            <i class="fe fe-minus-circle"> </i> Xóa giai đoạn
+                                                        </a>
+                                                    </div>
+
 
                                                     <div style="margin-bottom: 20px" class="col-12">
                                                         <label style="font-weight:bold" for="priority" class="form-label">Tổng chi phí </label>
@@ -217,30 +187,36 @@
                                             <div class="mb-3 col-12">
                                                 <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp</label>
                                                 <input id="namedn" name="namedn" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng (nếu có)" required>
+                                                <p hidden style="font-size: 13px; color:red;" id="namednvalidation"></p>
                                             </div>
                                             <!-- form group -->
                                             <div class="mb-3 col-12  col-md-6">
                                                 <label style="font-weight:bold" class="form-label">Họ và Tên <span class="text-danger">*</span></label>
                                                 <input id="hoten" name="hoten" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
+                                                <p hidden style="font-size: 13px; color:red;" id="hotenvalidation"></p>
                                             </div>
 
                                             <div class="mb-3 col-12 col-md-6">
                                                 <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD <span class="text-danger">*</span></label>
                                                 <input id="cmnd" name="cmnd" value="" type="text" class="form-control" placeholder="Nhập vào số CMND/CCCD của khách hàng" data-inputmask="'mask': '9999 9999 9999'" inputmode="numeric" />
+                                                <p hidden style="font-size: 13px; color:red;" id="cmndvalidation"></p>
                                             </div>
                                             <!-- Phone -->
                                             <div class="mb-3 col-12 col-md-6">
                                                 <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
                                                 <input id="phone" name="phone" value="" type="tel" class="form-control" placeholder="Nhập vào số điện thoại khách hàng" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" />
+                                                <p hidden style="font-size: 13px; color:red;" id="phonevalidation"></p>
                                             </div>
                                             <div class="mb-3 col-12 col-md-6">
                                                 <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
-                                                <input value="" type="text" id="email" name="email" class="form-control" placeholder="example@itglobal.net" data-inputmask="'alias': 'email'" inputmode="numeric"  />
+                                                <input value="" type="text" id="email" name="email" class="form-control" placeholder="example@itglobal.net" data-inputmask="'alias': 'email'" inputmode="numeric" />
+                                                <p hidden style="font-size: 13px; color:red;" id="emailvalidation"></p>
                                             </div>
                                             <!-- Birthday -->
                                             <div class="mb-3 col-12 col-md-6">
                                                 <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh <span class="text-danger">*</span></label>
                                                 <input id="ngaysinh" name="ngaysinh" value="" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
+                                                <p hidden style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
                                             </div>
                                             <!-- Birthday -->
                                             <div class="mb-3 col-12 col-md-6">
@@ -250,22 +226,24 @@
                                                     <option value="Nam">Nam</option>
                                                     <option value="Nữ">Nữ</option>
                                                 </select>
+                                                <p hidden style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
                                             </div>
 
                                             <!-- Address -->
                                             <div class="mb-3 col-12 col-md-12">
-                                                <label style="font-weight:bold" class="form-label" for="address">ĐC Doanh nghiệp / Nhà riêng <span class="text-danger">*</span></label>
+                                                <label style="font-weight:bold" class="form-label" for="address">ĐC Doanh nghiệp / Nhà riêng</label>
                                                 <textarea id="diahchinha" name="diachinha" rows="5" class="form-control" placeholder="Số 0/0 đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla..."></textarea>
+                                                <p hidden style="font-size: 13px; color:red;" id="diachinhavalidation"></p>
                                             </div>
 
                                             <div style="text-align: right; padding-top: 25px" class="mb-2 col-12 col-md-6">
                                                 <button id="resetdata" style="width: 230px" class="btn btn-outline-danger" type="reset" onclick="document.documentElement.scrollTop = 0;">
-                                                    Hủy bỏ (Reset)
+                                                    Hủy
                                                 </button>
                                             </div>
                                             <div style=" padding-top: 25px" class="mb-2 col-12 col-md-6">
                                                 <a role="button" id="luuThongTin" style="width: 230px" class="btn btn-success">
-                                                    Thêm dự án
+                                                    Lưu
                                                 </a>
                                             </div>
                                         </div>
@@ -352,13 +330,13 @@
                                             </div>
 
                                             <div style="text-align: right; padding-top: 25px" class="mb-2 col-12 col-md-6">
-                                                <button id="nhapKhachHangMoi" style="width: 230px" class="btn btn-outline-danger">
-                                                    Nhập khách hàng mới
+                                                <button id="nhapKhachHangMoi" style="width: 260px" class="btn btn-outline-primary">
+                                                    Nhập thông tin khách hàng mới
                                                 </button>
                                             </div>
                                             <div style=" padding-top: 25px" class="mb-2 col-12 col-md-6">
-                                                <a role="button" id="luuThongTinKHCu" style="width: 230px" class="btn btn-success">
-                                                    Thêm dự án
+                                                <a role="button" id="luuThongTinKHCu" style="width: 260px" class="btn btn-success">
+                                                    Lưu
                                                 </a>
                                             </div>
                                         </div>

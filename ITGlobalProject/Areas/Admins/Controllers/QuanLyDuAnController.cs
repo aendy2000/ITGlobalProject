@@ -46,9 +46,23 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             string giaidoan, string chiphi, string namedn, string hoten, string cmnd, string phone,
             string email, string ngaysinh, string gioitinh, string diahchinha, int? id)
         {
-            var khachHangCu = model.Partners.Where(p => p.ID == id).ToList();
-            if (id == null || khachHangCu.Count == 0)
+            var khachHangCu = model.Partners.Find(id);
+            if (id == null || khachHangCu == null)
             {
+                var checkExits = model.Partners.FirstOrDefault(p => p.Email.ToLower().Equals(email.ToLower()) || p.IdentityCard.Equals(cmnd.Replace(" ", "").Trim()));
+                if (checkExits != null)
+                {
+                    string text = "";
+                    if (checkExits.Email.ToLower().Equals(email.ToLower()))
+                        text += "Địa chỉ Email và";
+                    if (checkExits.IdentityCard.Equals(cmnd.Replace(" ", "").Trim()))
+                        text += "số CMND/CCCD";
+                    else
+                        text = "Địa chỉ Email";
+
+                    return Content(text + " đang được sử dụng bởi một khách hàng khác.");
+                }
+
                 Partners kh = new Partners();
                 kh.Company = namedn.Trim();
                 kh.Name = hoten.Trim();
@@ -132,7 +146,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     model.Debts.Add(deb);
                     model.SaveChanges();
                 }
-
                 return Content(pro.ID.ToString());
             }
             else

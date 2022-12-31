@@ -50,6 +50,7 @@
                             <th hidden></th>
                             <th scope="col" class=" border-top-0">Tên dự án</th>
                             <th scope="col" class=" border-top-0">Bàn giao</th>
+                            <th hidden scope="col" class=" border-top-0"></th>
                             <th scope="col" class=" border-top-0">Ngân sách</th>
                             <th scope="col" class=" border-top-0">Hoàn thành</th>
                             <th scope="col" class=" border-top-0">Trạng thái</th>
@@ -75,6 +76,9 @@
                                 </td>
                                 <td class="align-middle text-nowrap">
                                     @item.EndDate.ToString("dd") Thg @item.EndDate.ToString("MM, yyyy")
+                                </td>
+                                <td hidden class="align-middle text-nowrap">
+                                    @item.EndDate.ToString("dd/MM/yyyy")
                                 </td>
                                 <td style="font-weight: bold; color: brown " class="align-middle ">
                                     @item.Debts.Sum(d => d.Price).ToString("0,0").Replace(".", ",")
