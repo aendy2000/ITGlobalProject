@@ -1,7 +1,5 @@
 ﻿$(document).ready(function () {
 
-    $('#frm-Captcha').hide();
-
     //Check captcha
     //let submitButton = document.getElementById("submit-button");
     let userInput = document.getElementById("user-input");
@@ -153,7 +151,7 @@
         //Check mã captcha
         var checkcaptcha = false;
         if ($('#correct-number').val() == 4) {
-            $('#frm-Captcha').show();
+            $('#frm-Captcha').show().prop("hidden", false);
         }
         if ($('#correct-number').val() > 4) {
             if (userInput.value == text) {

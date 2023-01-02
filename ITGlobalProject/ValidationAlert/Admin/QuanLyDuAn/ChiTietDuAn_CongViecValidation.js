@@ -92,6 +92,7 @@
             check = false;
             $('#estimatevalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
         } else if (estimate.indexOf("-") != -1 || Number(estimate) <= 0) {
+            check = false;
             $('#estimatevalidation').text("Số giờ ước lượng phải lớn hơn 0.").show().prop("hidden", false);
         }
 

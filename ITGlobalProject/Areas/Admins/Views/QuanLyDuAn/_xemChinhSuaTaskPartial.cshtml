@@ -18,7 +18,6 @@
                     }
                 }
             </select>
-            <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuanguoithuchienvalidation"></p>
         </div>
         <div class="mb-2 col-12">
             <label style="font-weight:bold" for="taskTitle" class="col-form-label-sm">Tên công việc  <span class="text-danger">*</span></label>
@@ -144,8 +143,7 @@
                                                 }
                                             </div>
                                             <div class="col-auto">
-                                                <span class="text-muted fs-6">@item.Date.ToString("HH:mm, dd/MM/yyyy")</span>
-
+                                                <span class="text-muted fs-6">@item.Date.ToString("HH:mm, dd") Thg @item.Date.ToString("MM/yyyy")</span>
                                             </div>
                                         </div>
                                     </li>
@@ -155,7 +153,8 @@
                         </div>
 
                     }
-                </div>            </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="mb-2 col-4">
@@ -191,27 +190,26 @@
                     <option selected value="done">Hoàn thành</option>
                 }
             </select>
-            <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuatrangthaicongviecvalidation"></p>
         </div>
         <div class="mb-2 col-12">
             <label style="font-weight:bold" for="date" class="col-form-label-sm">Hạn chót <span class="text-danger">*</span></label>
-            <input id="chinhsuadeadline" value="@Model.Deadline.ToString("yyyy-MM-dd")" name="chinhsuadeadline" class="form-control form-control-sm flatpickr" type="text" placeholder="Chọn ngày hoàn thành">
+            <input id="chinhsuadeadline" value="@Model.Deadline.ToString("yyyy-MM-dd")" name="chinhsuadeadline" class="form-control flatpickr form-control-sm" type="text" placeholder="Chọn ngày hoàn thành">
             <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuadeadlinevalidation"></p>
         </div>
         <div class="mb-2 col-12">
             <label style="font-weight:bold" for="date" class="col-form-label-sm">Giờ ước lượng  <span class="text-danger">*</span></label>
-            <input id="chinhsuaestimate" value="@Convert.ToDecimal(Model.OriginalEstimate).ToString("0.00").Replace(",", ".")" data-inputmask="'alias': 'decimal'" inputmode="numeric" name="chinhsuaestimate" class="form-control form-control-sm text-start" type="text" placeholder="Số giờ sẽ hoàn thành công việc">
+            <input id="chinhsuaestimate" value="@Convert.ToDecimal(Model.OriginalEstimate).ToString("0.00").Replace(",", ".")" data-inputmask="'alias': 'decimal'" name="chinhsuaestimate" class="form-control form-control-sm text-start" type="text" placeholder="Số giờ sẽ hoàn thành công việc">
             <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuaestimatevalidation"></p>
         </div>
         <div class="mb-2 col-12">
             <label style="font-weight:bold" for="date" class="col-form-label-sm">Đã thực hiện </label>
             @if (Model.CompletedWork == null || Model.CompletedWork == 0)
             {
-                <input id="chinhsuacompleted" value="" class="form-control form-control-sm" type="text" placeholder="Số giờ đã thực hiện công việc">
+                <input id="chinhsuacompleted" value="" data-inputmask="'alias': 'decimal'" inputmode="numeric" class="form-control form-control-sm text-start" placeholder="Số giờ đã thực hiện công việc">
             }
             else
             {
-                <input id="chinhsuacompleted" value="@Convert.ToDecimal(Model.CompletedWork).ToString("0.00").Replace(",", ".")" class="form-control form-control-sm" type="text" placeholder="Số giờ đã thực hiện công việc">
+                <input id="chinhsuacompleted" value="@Convert.ToDecimal(Model.CompletedWork).ToString("0.00").Replace(",", ".")" data-inputmask="'alias': 'decimal'" class="form-control form-control-sm text-start" type="text" placeholder="Số giờ đã thực hiện công việc">
             }
             <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuacompletedvalidation"></p>
         </div>
@@ -264,4 +262,43 @@
         </div>
     </div>
     <script src="~/ValidationAlert/Admin/QuanLyDuAn/ChiTietDuAn_ChinhSuaCongViecValidation.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".flatpickr").length && flatpickr(".flatpickr", {
+                disableMobile: !0
+            });
+
+            if ($("input").length && Inputmask().mask(document.querySelectorAll("input")), $("#editor").length) new Quill("#editor", {
+                modules: {
+                    toolbar: [
+                        [{
+                            header: [1, 2, !1]
+                        }],
+                        [{
+                            font: []
+                        }],
+                        ["bold", "italic", "underline", "strike"],
+                        [{
+                            size: ["small", !1, "large", "huge"]
+                        }],
+                        [{
+                            list: "ordered"
+                        }, {
+                            list: "bullet"
+                        }],
+                        [{
+                            color: []
+                        }, {
+                            background: []
+                        }, {
+                            align: []
+                        }],
+                        ["link", "image", "code-block", "video"]
+                    ]
+                },
+                theme: "snow"
+            });
+
+        });
+    </script>
 </div>

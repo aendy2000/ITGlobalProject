@@ -366,8 +366,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             task.DocumentName = tentailieu;
             task.DocumentType = loaitailieu;
             task.DocumentURL = duongdantailieu;
-
             model.Tasks.Add(task);
+
+            if (pro.Tasks.Where(t => t.ID_Project == idpro && t.State.Equals("do")).OrderByDescending(o => o.OrdinalNumbers).First() != null)
+            {
+                task.OrdinalNumbers = pro.Tasks.Where(t => t.ID_Project == idpro && t.State.Equals("do")).OrderByDescending(o => o.OrdinalNumbers).First().OrdinalNumbers + 1;
+                model.Entry(task).State = EntityState.Modified;
+            }
+            else
+            {
+                task.OrdinalNumbers = 1;
+            }
+
             model.SaveChanges();
 
             Histories his = new Histories();
@@ -380,7 +390,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             model.SaveChanges();
             model = new CP25Team06Entities();
 
-            Session["lst-Task"] = model.Tasks.Where(t => t.ID_Project == idpro).OrderBy(t => t.ID).ToList();
+            Session["lst-Task"] = model.Tasks.Where(t => t.ID_Project == idpro).OrderBy(o => o.OrdinalNumbers).ToList();
             return PartialView("_congViecPartial", pro);
         }
         [HttpPost]
@@ -406,6 +416,11 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                 taskIndex.StartDate = DateTime.Now;
                             else if (stateStr.Equals("done"))
                                 taskIndex.EndDate = DateTime.Now;
+                            else if (stateStr.Equals("do"))
+                            {
+                                taskIndex.EndDate = null;
+                                taskIndex.StartDate = null;
+                            }
 
                             model.Entry(taskIndex).State = EntityState.Modified;
                         }
@@ -424,7 +439,11 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             taskIndex.StartDate = DateTime.Now;
                         else if (stateStr.Equals("done"))
                             taskIndex.EndDate = DateTime.Now;
-
+                        else if (stateStr.Equals("do"))
+                        {
+                            taskIndex.EndDate = null;
+                            taskIndex.StartDate = null;
+                        }
                         model.Entry(taskIndex).State = EntityState.Modified;
                         idPro = taskIndex.ID_Project;
                     }
@@ -445,6 +464,11 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             taskIndex.StartDate = DateTime.Now;
                         else if (stateStrCr.Equals("done"))
                             taskIndex.EndDate = DateTime.Now;
+                        else if (stateStrCr.Equals("do"))
+                        {
+                            taskIndex.EndDate = null;
+                            taskIndex.StartDate = null;
+                        }
 
                         model.Entry(taskIndex).State = EntityState.Modified;
                     }
@@ -462,6 +486,11 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                         taskIndex.StartDate = DateTime.Now;
                     else if (stateStrCr.Equals("done"))
                         taskIndex.EndDate = DateTime.Now;
+                    else if (stateStrCr.Equals("do"))
+                    {
+                        taskIndex.EndDate = null;
+                        taskIndex.StartDate = null;
+                    }
 
                     model.Entry(taskIndex).State = EntityState.Modified;
 
@@ -615,6 +644,102 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 return Content("DANHSACH");
 
             return PartialView("_xemChinhSuaTaskPartial", task);
+        }
+        [HttpPost]
+        public ActionResult chinhSuaCongViec(int? id, int? idpro, int? idassign, string taskname, string mota, string state,
+            string deadline, decimal? estimates, decimal? completed, string tentailieu, string loaitailieu, string duongdantailieu)
+        {
+            try
+            {
+                var task = model.Tasks.Find(id);
+                var pro = model.Projects.Find(idpro);
+                if (task == null || pro == null || id == null || idpro == null)
+                    return Content("DANHSACH");
+
+                // Trạng thái, vị trí cũ
+                string firstState = task.State;
+                int vitricu = task.OrdinalNumbers;
+
+                // Thêm task mới vào cuối
+                task.ID_Employee = (int)idassign;
+                task.Name = taskname;
+                task.Description = mota;
+                task.Deadline = Convert.ToDateTime(deadline);
+                task.OriginalEstimate = estimates;
+                task.CompletedWork = completed;
+                task.DocumentName = tentailieu;
+                task.DocumentType = loaitailieu;
+                task.DocumentURL = duongdantailieu;
+
+                if (state.Equals("progress"))
+                    task.StartDate = DateTime.Now;
+                else if (state.Equals("done"))
+                    task.EndDate = DateTime.Now;
+
+                if (!firstState.Equals(state)) //trạng thái thay đổi
+                {
+                    task.State = state;
+
+                    if (pro.Tasks.Where(t => t.State.Equals(state)).OrderByDescending(o => o.OrdinalNumbers).First() != null)
+                    {
+                        task.OrdinalNumbers = pro.Tasks.Where(t => t.State.Equals(state)).OrderByDescending(o => o.OrdinalNumbers).First().OrdinalNumbers + 1;
+                        model.Entry(task).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        task.OrdinalNumbers = 1;
+                    }
+
+                    //Xếp lại list task cũ
+                    var lstFirstTask = pro.Tasks.Where(t => t.State.Equals(firstState) && t.OrdinalNumbers > vitricu).ToList();
+                    foreach (var item in lstFirstTask)
+                    {
+                        item.OrdinalNumbers = item.OrdinalNumbers - 1;
+                        model.Entry(item).State = EntityState.Modified;
+                    }
+
+                    //Add history
+                    Histories his = new Histories();
+                    his.ID_Employee = Int32.Parse(Session["user-id"].ToString());
+                    his.ID_Task = id;
+                    his.Name = "Cập Nhập Thông Tin Công Việc";
+                    his.Date = DateTime.Now;
+
+                    if (state.Equals("do"))
+                        his.Contents = "đã cập nhật thông tin và đặt trạng thái Công việc | thành \"Chưa Thực Hiện\"";
+                    else if (state.Equals("progress"))
+                        his.Contents = "đã cập nhật thông tin và bắt đầu thực hiện Công việc";
+                    else if (state.Equals("review"))
+                        his.Contents = "đã cập nhật thông tin và hoàn thành Công việc | và chờ xác nhận";
+                    else
+                        his.Contents = "đã cập nhật thông tin và xác nhận Công việc được hoàn thành";
+
+                    model.Histories.Add(his);
+                }
+                else //giữ nguyên trạng thái
+                {
+                    model.Entry(task).State = EntityState.Modified;
+
+                    //Add history
+                    Histories his = new Histories();
+                    his.ID_Employee = Int32.Parse(Session["user-id"].ToString());
+                    his.ID_Task = id;
+                    his.Name = "Cập Nhập Thông Tin Công Việc";
+                    his.Date = DateTime.Now;
+                    his.Contents = "đã cập nhật thông tin Công việc";
+
+                    model.Histories.Add(his);
+                }
+                model.SaveChanges();
+                model = new CP25Team06Entities();
+
+                Session["lst-Task"] = model.Tasks.Where(t => t.ID_Project == idpro).OrderBy(o => o.OrdinalNumbers).ToList();
+                return PartialView("_congViecPartial", model.Projects.Find(idpro));
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
+            }
         }
 
         [HttpPost]
