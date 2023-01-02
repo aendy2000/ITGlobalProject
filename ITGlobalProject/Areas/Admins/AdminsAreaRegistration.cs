@@ -2,22 +2,22 @@
 
 namespace ITGlobalProject.Areas.Admins
 {
-    public class AdminsAreaRegistration : AreaRegistration 
+    public class AdminsAreaRegistration : AreaRegistration
     {
-        public override string AreaName 
+        public override string AreaName
         {
-            get 
+            get
             {
                 return "Admins";
             }
         }
 
-        public override void RegisterArea(AreaRegistrationContext context) 
+        public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
                 "Admins_default",
                 "Admins/{controller}/{action}/{id}",
-                new {controller = "QuanLyTaiKhoan", action = "DangNhap", id = UrlParameter.Optional }
+                new { controller = "QuanLyTaiKhoan", action = "DangNhap", id = UrlParameter.Optional }
             );
         }
     }

@@ -1,4 +1,40 @@
 ﻿$(document).ready(function () {
+  
+    //Chi tiết task
+    $('[id^="editTaskID"]').on('click', function () {
+        id = $(this).attr("name");
+        var formData = new FormData();
+        formData.append('id', id);
+        $('#AjaxLoader').show();
+        $.ajax({
+            url: $('#requestPath').val() + 'Admins/QuanLyDuAn/xemChinhSuaTask',
+            type: 'POST',
+            dataType: 'html',
+            contentType: false,
+            processData: false,
+            data: formData
+        }).done(function (ketqua) {
+            if (ketqua == "DANHSACH") {
+                $('#AjaxLoader').hide();
+                window.location.href = $('#requestPath').val() + 'Admins/QuanLyDuAn/danhSachDuAn';
+            }
+            else {
+                $('#ChinhSuaTaskPartialContent').replaceWith(ketqua);
+
+                $('#chinhsuaassignTo').selectpicker();
+                $('#chinhsuataskDeadline').selectpicker();
+                $('#chinhsuanguoithuchien').selectpicker({
+                    style: "text-dark btn-sm"
+                });
+                $('#chinhsuatrangthaicongviec').selectpicker({
+                    style: "text-dark btn-sm"
+                });
+
+                $('#AjaxLoader').hide();
+                $('#edittaskModal').modal('toggle');
+            }
+        });
+    });
 
     //Thêm task mới
     $('#luuThemTask').on('click', function () {

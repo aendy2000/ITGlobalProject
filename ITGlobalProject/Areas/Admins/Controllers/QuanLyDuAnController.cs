@@ -607,5 +607,43 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
             return PartialView("_congViecPartial", pro);
         }
+        [HttpPost]
+        public ActionResult xemChinhSuaTask(int? id)
+        {
+            var task = model.Tasks.Find(id);
+            if (task == null || id == null)
+                return Content("DANHSACH");
+
+            return PartialView("_xemChinhSuaTaskPartial", task);
+        }
+
+        [HttpPost]
+        public ActionResult binhLuanTask(int? id, string cmt)
+        {
+            var task = model.Tasks.Find(id);
+            if (task == null || id == null || string.IsNullOrEmpty(cmt) || Session["user-id"] == null)
+                return Content("DANHSACH");
+
+            Comment comment = new Comment();
+            comment.ID_Employee = Convert.ToInt32(Session["user-id"]);
+            comment.ID_Task = (int)id;
+            comment.Contents = cmt;
+            comment.Date = DateTime.Now;
+            model.Comment.Add(comment);
+            model.SaveChanges();
+
+            Histories his = new Histories();
+            his.ID_Employee = Convert.ToInt32(Session["user-id"]);
+            his.ID_Task = (int)id;
+            his.Name = "Bình Luận Công Việc";
+            his.Contents = "đã viết một bình luận Công việc";
+            his.Date = DateTime.Now;
+            model.Histories.Add(his);
+            model.SaveChanges();
+
+            model = new CP25Team06Entities();
+
+            return PartialView("_commentTaskPartial", model.Tasks.Find(id));
+        }
     }
 }

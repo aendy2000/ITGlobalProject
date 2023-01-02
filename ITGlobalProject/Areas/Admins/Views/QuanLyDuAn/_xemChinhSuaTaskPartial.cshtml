@@ -1,0 +1,267 @@
+﻿@model ITGlobalProject.Models.Tasks
+
+<div id="ChinhSuaTaskPartialContent" style="margin-top: -10px" class="row">
+    <input hidden id="idt" value="@Model.ID" />
+    <div class="mb-2 col-8">
+        <div class="mb-2 col-12">
+            <label style="font-weight:bold" for="assign" class="col-form-label-sm">Người thực hiện  <span class="text-danger">*</span></label>
+            <select id="chinhsuanguoithuchien" data-width="100%">
+                @foreach (var item in Model.Projects.Teams.ToList())
+                {
+                    if (item.ID_Employee == Model.ID_Employee)
+                    {
+                        <option selected value="@item.ID_Employee">@(item.Employees.ID_Employee)&emsp;|&emsp;@(item.Employees.Name)&emsp;|&emsp;@(item.Employees.Position.Name)</option>
+                    }
+                    else
+                    {
+                        <option value="@item.ID_Employee">@(item.Employees.ID_Employee)&emsp;|&emsp;@(item.Employees.Name)&emsp;|&emsp;@(item.Employees.Position.Name)</option>
+                    }
+                }
+            </select>
+            <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuanguoithuchienvalidation"></p>
+        </div>
+        <div class="mb-2 col-12">
+            <label style="font-weight:bold" for="taskTitle" class="col-form-label-sm">Tên công việc  <span class="text-danger">*</span></label>
+            <input type="text" value="@Model.Name" class="form-control form-control-sm" id="chinhsuataskName" name="chinhsuataskName" placeholder="Nhập vào tên của công việc">
+            <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuataskNamevalidation"></p>
+        </div>
+        <div class="mb-3 col-12">
+            <label style="font-weight:bold" for="taskTitle" class="col-form-label-sm">Mô tả công việc</label>
+            <textarea rows="7" class="form-control form-control-sm" id="chinhsuamotatask" name="chinhsuamotatask" placeholder="Nhập vào mô tả chi tiết công việc">@Model.Description</textarea>
+            <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuamotataskvalidation"></p>
+        </div>
+
+        <div class="mb-2 col-12">
+            <div class="nav btn-group" role="tablist">
+                <a class="btn btn-outline-white btn-xs active" data-bs-toggle="tab"
+                   data-bs-target="#tabPanelBinhLuan" role="tab" aria-controls="tabPanelBinhLuan"
+                   aria-selected="true">
+                    <span class="fe fe-message-square"> </span> <span>Bình luận</span>
+                </a>
+                <a class="btn btn-outline-white btn-xs" data-bs-toggle="tab"
+                   data-bs-target="#tabPanelLichSu" role="tab" aria-controls="tabPanelLichSu"
+                   aria-selected="false">
+                    <span class="fe fe-clock"> </span> <span>Lịch sử</span>
+                </a>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div id="tabPanelBinhLuan" role="tabpanel" aria-labelledby="tabPanelBinhLuan" style="min-height: 277px ; max-height: 350px; position: relative; " class="mb-3 col-12 form-control form-control-sm tab-pane fade show active">
+                <labe style="font-weight:bold" for="taskTitle" class="col-form-label-sm"><u>Bình luận:</u></labe>
+                <div id="contentBinhLuans">
+                    @if (Model.Comment.Count() < 1)
+                    {
+                        <p class="fs-6" style="padding-top: 70px; text-align: center; font-style:italic">Chưa có bình luận nào!</p>
+                    }
+                    else
+                    {
+                        <div id="pageComment" class="mb-3 col-12" style=" height:250px; margin-bottom:5px" data-simplebar>
+                            @foreach (var item in Model.Comment.OrderBy(o => o.ID).ToList())
+                            {
+                                <div class="col-12 border-bottom">
+                                    @if (string.IsNullOrEmpty(item.Employees.Avatar))
+                                    {
+                                        <span class="avatar-initials rounded-circle ">
+                                            @item.Employees.Name.Substring(0, 1)
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <img style="margin-top: 15px; margin-right:5px" src="@item.Employees.Avatar" alt="" class="avatar avatar-sm rounded-circle">
+                                    }
+                                    <b>@item.Employees.Name </b><br />
+                                    <p style="margin:-15px 0px 0px 40.5px; font-size:11px">@item.Date</p>
+                                    <p style="margin-top:-10px"></p>
+                                    <span style="display:inline;">@item.Contents</span>
+                                    <p style="margin-top:-5px"></p>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+                <p style="margin-bottom: 60px"></p>
+                <div class="mb-3 col-12" style="white-space: nowrap;">
+                    <div style="position: absolute; bottom: 3px; left: 15px " class="mb-3 col-1">
+                        @if (Session["user-vatatar"] == null)
+                        {
+                            <span class="avatar-initials rounded-circle ">
+                                @Session["user-fullname"].ToString().Substring(0, 1)
+                            </span>
+                        }
+                        else
+                        {
+                            <img src="@Session["user-vatatar"]" alt="" class="avatar avatar-sm rounded-circle">
+                        }
+                    </div>
+                    <div style="position: absolute; bottom: 0px; left: 60px;" class="mb-3 col-9">
+                        <p hidden="hidden" style="font-size: 13px; color:red; margin-bottom: -57px" id="chinhsuabinhluantaskvalidation"></p>
+                        <input id="textComment" class="form-control form-control-sm" type="text" placeholder="Nhập vào bình luận của bạn" />
+                    </div>
+                    <div style="position: absolute; bottom: 0px; right: -10px;" class="mb-3 col-2">
+                        <button id="SubmitComment" style="width: 70%" class="btn btn-primary btn-sm"><i class="fe fe-send"> </i> GỬI</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tabPanelLichSu" role="tabpanel" aria-labelledby="tabPanelLichSu" style="min-height: 277px ; max-height: 348px; position: relative; " class="mb-3 col-12 form-control form-control-sm tab-pane fade">
+                <labe style="font-weight:bold;" for="taskTitle" class="col-form-label-sm"><u>Lịch sử:</u></labe>
+                <div id="contentHistorys">
+                    @if (Model.Histories.Count() < 1)
+                    {
+                        <p class="fs-6" style="padding-top: 70px; text-align: center; font-style:italic">Chưa có hoạt động nào!</p>
+                    }
+                    else
+                    {
+                        int i = Model.Histories.Count();
+                        <div class="mb-3 col-12" style="height:300px ;margin-bottom:5px; margin-top: 10px" data-simplebar>
+                            <ul style="width: 96%; margin-left: 10px" class="list-group list-group-flush list-timeline-activity">
+                                @foreach (var item in Model.Histories.OrderByDescending(o => o.ID).ToList())
+                                {
+                                    <li class="list-group-item px-0 pt-0 border-0 pb-5">
+                                        <div class="row position-relative">
+                                            <div class="col-auto">
+                                                <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
+                                                    @i
+                                                </div>
+                                            </div>
+                                            <div class="col ms-n3">
+                                                <h4 class="mb-0 h5">@item.Name</h4>
+                                                @if (item.Contents.IndexOf("|") != -1)
+                                                {
+                                                    <p class="mb-0 text-body">@item.Employees.Name @item.Contents.Split('|')[0] <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> @(item.Contents.Split('|')[1]).</p>
+                                                }
+                                                else if (item.Contents.IndexOf("thêm") != -1)
+                                                {
+                                                    <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> và được giao cho <a>@item.Tasks.Employees.Name.</a></p>
+                                                }
+                                                else if (item.Contents.IndexOf("thêm") != -1)
+                                                {
+                                                    <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> và được giao cho <a>@item.Tasks.Employees.Name.</a></p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a>.</p>
+                                                }
+                                            </div>
+                                            <div class="col-auto">
+                                                <span class="text-muted fs-6">@item.Date.ToString("HH:mm, dd/MM/yyyy")</span>
+
+                                            </div>
+                                        </div>
+                                    </li>
+                                    i--;
+                                }
+                            </ul>
+                        </div>
+
+                    }
+                </div>            </div>
+        </div>
+    </div>
+    <div class="mb-2 col-4">
+        <div class="mb-2 col-12">
+            <label style="font-weight:bold" for="date" class="col-form-label-sm">Trạng thái <span class="text-danger">*</span></label>
+            <select id="chinhsuatrangthaicongviec" data-width="100%">
+                @if (Model.State.Equals("do"))
+                {
+                    <option selected value="do">Chưa thực hiện</option>
+                    <option value="progress">Đang thực hiện</option>
+                    <option value="review">Phê duyệt</option>
+                    <option value="done">Hoàn thành</option>
+                }
+                else if (Model.State.Equals("progress"))
+                {
+                    <option value="do">Chưa thực hiện</option>
+                    <option selected value="progress">Đang thực hiện</option>
+                    <option value="review">Phê duyệt</option>
+                    <option value="done">Hoàn thành</option>
+                }
+                else if (Model.State.Equals("review"))
+                {
+                    <option value="do">Chưa thực hiện</option>
+                    <option value="progress">Đang thực hiện</option>
+                    <option selected value="review">Phê duyệt</option>
+                    <option value="done">Hoàn thành</option>
+                }
+                else if (Model.State.Equals("done"))
+                {
+                    <option value="do">Chưa thực hiện</option>
+                    <option value="progress">Đang thực hiện</option>
+                    <option value="review">Phê duyệt</option>
+                    <option selected value="done">Hoàn thành</option>
+                }
+            </select>
+            <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuatrangthaicongviecvalidation"></p>
+        </div>
+        <div class="mb-2 col-12">
+            <label style="font-weight:bold" for="date" class="col-form-label-sm">Hạn chót <span class="text-danger">*</span></label>
+            <input id="chinhsuadeadline" value="@Model.Deadline.ToString("yyyy-MM-dd")" name="chinhsuadeadline" class="form-control form-control-sm flatpickr" type="text" placeholder="Chọn ngày hoàn thành">
+            <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuadeadlinevalidation"></p>
+        </div>
+        <div class="mb-2 col-12">
+            <label style="font-weight:bold" for="date" class="col-form-label-sm">Giờ ước lượng  <span class="text-danger">*</span></label>
+            <input id="chinhsuaestimate" value="@Convert.ToDecimal(Model.OriginalEstimate).ToString("0.00").Replace(",", ".")" data-inputmask="'alias': 'decimal'" inputmode="numeric" name="chinhsuaestimate" class="form-control form-control-sm text-start" type="text" placeholder="Số giờ sẽ hoàn thành công việc">
+            <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuaestimatevalidation"></p>
+        </div>
+        <div class="mb-2 col-12">
+            <label style="font-weight:bold" for="date" class="col-form-label-sm">Đã thực hiện </label>
+            @if (Model.CompletedWork == null || Model.CompletedWork == 0)
+            {
+                <input id="chinhsuacompleted" value="" class="form-control form-control-sm" type="text" placeholder="Số giờ đã thực hiện công việc">
+            }
+            else
+            {
+                <input id="chinhsuacompleted" value="@Convert.ToDecimal(Model.CompletedWork).ToString("0.00").Replace(",", ".")" class="form-control form-control-sm" type="text" placeholder="Số giờ đã thực hiện công việc">
+            }
+            <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuacompletedvalidation"></p>
+        </div>
+        <div class="mb-2 col-12">
+            <label style="font-weight:bold" for="date" class="col-form-label-sm">Tài liệu </label>
+            <div class="input-group me-3">
+                <input id="chinhsuatentailieu" value="@Model.DocumentName" name="chinhsuatentailieu" class="form-control form-control-sm" type="text" placeholder="Nhập tên tài liệu" aria-describedby="basic-addon-gd2">
+                <select id="chinhsualoaitailieu" name="chinhsualoaitailieu" style="color: black; width: 100px; font-size: 12px; " class="input-group-text form-select-sm" data-width="100%">
+                    @if (Model.DocumentType.Equals("xlsx"))
+                    {
+                        <option selected value="xlsx">.xlsx</option>
+                        <option value="doct">.docx</option>
+                        <option value="pptx">.pptx</option>
+                        <option value="txt">.txt</option>
+                    }
+                    else if (Model.DocumentType.Equals("doct"))
+                    {
+                        <option value="xlsx">.xlsx</option>
+                        <option selected value="doct">.docx</option>
+                        <option value="pptx">.pptx</option>
+                        <option value="txt">.txt</option>
+                    }
+                    else if (Model.DocumentType.Equals("pptx"))
+                    {
+                        <option value="xlsx">.xlsx</option>
+                        <option value="doct">.docx</option>
+                        <option selected value="pptx">.pptx</option>
+                        <option value="txt">.txt</option>
+                    }
+                    else if (Model.DocumentType.Equals("txt"))
+                    {
+                        <option value="xlsx">.xlsx</option>
+                        <option value="doct">.docx</option>
+                        <option value="pptx">.pptx</option>
+                        <option selected value="txt">.txt</option>
+                    }
+                </select>
+            </div>
+            <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuatentailieuvalidation"></p>
+        </div>
+        <div class="col-12">
+            <input id="chinhsuaduongdantailieu" value="@Model.DocumentURL" name="duongdantailieu" class="form-control form-control-sm text-primary" type="text" placeholder="Đường dẫn đến tài liệu (https://duongdantailieu...)">
+            <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuaduongdantailieuvalidation"></p>
+        </div>
+        <hr class="my-3" />
+        <div class="mb-3 col-12">
+            <a role="button" id="luuChinhSuaTask" style="width: 100%" class="btn btn-success btn-sm">
+                <i class="fe fe-save"> </i> Lưu và Đóng
+            </a>
+        </div>
+    </div>
+    <script src="~/ValidationAlert/Admin/QuanLyDuAn/ChiTietDuAn_ChinhSuaCongViecValidation.js"></script>
+</div>
