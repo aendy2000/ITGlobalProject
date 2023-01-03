@@ -377,7 +377,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             task.DocumentType = loaitailieu;
             task.DocumentURL = duongdantailieu;
 
-            if (pro.Tasks.Where(t => t.ID_Project == idpro && t.State.Equals("do")).OrderByDescending(o => o.OrdinalNumbers).First() != null)
+            if (pro.Tasks.Where(t => t.ID_Project == idpro && t.State.Equals("do")).OrderByDescending(o => o.OrdinalNumbers).Count() > 0)
             {
                 task.OrdinalNumbers = pro.Tasks.Where(t => t.ID_Project == idpro && t.State.Equals("do")).OrderByDescending(o => o.OrdinalNumbers).First().OrdinalNumbers + 1;
             }
@@ -722,7 +722,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 {
                     task.State = state;
 
-                    if (pro.Tasks.Where(t => t.State.Equals(state)).OrderByDescending(o => o.OrdinalNumbers).First() != null)
+                    if (pro.Tasks.Where(t => t.State.Equals(state)).OrderByDescending(o => o.OrdinalNumbers).Count() > 0)
                     {
                         task.OrdinalNumbers = pro.Tasks.Where(t => t.State.Equals(state)).OrderByDescending(o => o.OrdinalNumbers).First().OrdinalNumbers + 1;
                         model.Entry(task).State = EntityState.Modified;

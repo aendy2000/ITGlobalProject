@@ -84,6 +84,20 @@
                                     })
                                 ).done(function () { });
                                 $('#AjaxLoader').hide();
+                                var content = {};
+                                content.message = 'Đã xóa một công việc';
+                                content.title = 'Thành công!';
+                                content.icon = 'nav-icon fe fe-bell me-2';
+
+                                $.notify(content, {
+                                    type: "success",
+                                    placement: {
+                                        from: "bottom",
+                                        align: "right"
+                                    },
+                                    time: 1000,
+                                    delay: 1000,
+                                });
                             }
                         });
                     }
@@ -284,27 +298,20 @@
                         })
                     ).done(function () { });
                     $('#AjaxLoader').hide();
-                    var SweetAlert2Demo = function () {
-                        var initDemos = function () {
-                            swal("Thành Công!", "Đã thêm một công việc mới!", {
-                                icon: "success",
-                                buttons: {
-                                    confirm: {
-                                        className: 'btn btn-success'
-                                    }
-                                },
-                            });
-                        };
-                        return {
-                            init: function () {
-                                initDemos();
-                            },
-                        };
-                    }();
+                    var content = {};
+                    content.message = 'Đã thêm một công việc mới!';
+                    content.title = 'Thành công!';
+                    content.icon = 'nav-icon fe fe-bell me-2';
 
-                    jQuery(document).ready(function () {
-                        SweetAlert2Demo.init();
-                    });
+                    $.notify(content, {
+                        type: "success",
+                        placement: {
+                            from: "bottom",
+                            align: "right"
+                        },
+                        time: 1000,
+                        delay: 1000,
+                    });                    
                 }
             });
         }

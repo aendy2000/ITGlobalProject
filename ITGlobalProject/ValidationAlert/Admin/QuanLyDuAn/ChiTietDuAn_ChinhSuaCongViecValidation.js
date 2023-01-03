@@ -34,6 +34,20 @@
 
                     $('#textComment').val("");
                     $('#AjaxLoader').hide();
+                    var content = {};
+                    content.message = 'Đã thêm một bình luận.';
+                    content.title = 'Thành công!';
+                    content.icon = 'nav-icon fe fe-bell me-2';
+
+                    $.notify(content, {
+                        type: "success",
+                        placement: {
+                            from: "bottom",
+                            align: "right"
+                        },
+                        time: 1000,
+                        delay: 1000,
+                    });
                 }
             });
         }
@@ -185,7 +199,21 @@
                             })
                         ).done(function () { });
                         $('#AjaxLoader').hide();
-                    }, 50);
+                        var content = {};
+                        content.message = 'Đã lưu chỉnh sửa công việc.';
+                        content.title = 'Thành công!';
+                        content.icon = 'nav-icon fe fe-bell me-2';
+
+                        $.notify(content, {
+                            type: "success",
+                            placement: {
+                                from: "bottom",
+                                align: "right"
+                            },
+                            time: 1000,
+                            delay: 1000,
+                        });
+                    }, 100);
 
                 }
             });
