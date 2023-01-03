@@ -34,58 +34,66 @@
             <button data-bs-toggle="modal" data-bs-target="#lstDanhSachNhanViens" id="themThanhViens" class="btn btn-outline-primary" style="width: 100%; height: 46px"><i class="fe fe-user-plus"> </i> Thêm Thành Viên</button>
         </div>
         <div class="col-xxl-9 col-lg-3 col-md-12 col-12 mb-4">
-            <form>
-                <input id="timKiemThanhViens" type="search" class="form-control" placeholder="Nhập tìm kiếm với Tên hoặc địa chỉ Email">
-            </form>
+            <input id="timKiemThanhViens" type="search" class="form-control" placeholder="Tìm kiếm với Mã, Tên, Email hoặc CMND/CCCD của Nhân viên">
         </div>
     </div>
-    <div class="row">
-        @foreach (var item in Model.Teams.OrderByDescending(t => t.ID))
+    <div id="ContentSearchTeams" class="row">
+        @if (Model.Teams.Count() > 0)
         {
-            <div class="col-xl-3 col-lg-6 col-12">
-                <!-- card  -->
-                <div class="card mb-4">
-                    <!-- card body  -->
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="avatar avatar-lg avatar-danger">
-                                @if (string.IsNullOrEmpty(item.Employees.Avatar))
-                                {
-                                    <b>
-                                        <span class="avatar-initials rounded-circle fs-4">
-                                            @item.Employees.Name.Substring(0, 1)
-                                        </span>
-                                    </b>
-                                }
-                                else
-                                {
-                                    <img src="@item.Employees.Avatar" alt="" class="rounded-circle">
-                                }
+            foreach (var item in Model.Teams.OrderByDescending(t => t.ID))
+            {
+                <div class="col-xl-3 col-lg-6 col-12">
+                    <!-- card  -->
+                    <div class="card mb-4">
+                        <!-- card body  -->
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar avatar-lg avatar-danger">
+                                    @if (string.IsNullOrEmpty(item.Employees.Avatar))
+                                    {
+                                        <b>
+                                            <span class="avatar-initials rounded-circle fs-4">
+                                                @item.Employees.Name.Substring(0, 1)
+                                            </span>
+                                        </b>
+                                    }
+                                    else
+                                    {
+                                        <img src="@item.Employees.Avatar" alt="" class="rounded-circle">
+                                    }
 
-                            </div>
-                            <div class="ms-3">
-                                <h4 class="mb-0"><a href="#" class="text-inherit"> @item.Employees.Name</a></h4>
-                                <p class="mb-0 text-muted"> @item.Employees.Position.Name</p>
-                            </div>
-                        </div>
-                        <div class="mt-4 lh-1 d-flex align-items-center">
-                            <p class="mb-0 text-muted" style="font-size: 14px">
-                                @item.Employees.WorkEmail
-                            </p>
-
-                            <a id="xoaThanhViens@(item.Employees.ID)" name="@item.Employees.ID" class="text-muted ms-auto texttooltip text-end" data-template="xoa">
-                                <i class="fe fe-trash-2 fs-4 text-danger"></i>
-                                <!-- text -->
-                                <div id="xoa" class="d-none">
-                                    <span>Loại bỏ thành viên </span>
                                 </div>
-                            </a>
+                                <div class="ms-3">
+                                    <h4 class="mb-0"><a href="@Url.Action("thongtinchitiet", "quanlynhansu", new { id = item.ID_Employee})" target="_blank" class="text-inherit"> @item.Employees.Name</a></h4>
+                                    <p class="mb-0 text-muted"> @item.Employees.Position.Name</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 lh-1 d-flex align-items-center">
+                                <p class="mb-0 text-muted" style="font-size: 14px">
+                                    @item.Employees.WorkEmail
+                                </p>
+                                @if (Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee).Count() < 1)
+                                {
+                                    <a id="xoaThanhViens@(item.Employees.ID)" name="@item.Employees.ID" class="text-muted ms-auto texttooltip text-end" data-template="xoa">
+                                        <i class="fe fe-trash-2 fs-4 text-danger"></i>
+                                        <!-- text -->
+                                        <div id="xoa" class="d-none">
+                                            <span>Loại bỏ thành viên </span>
+                                        </div>
+                                    </a>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 col-md-12 text-center mb-4">
+                Không có dữ liệu để hiển thị!
             </div>
         }
-
     </div>
 
     <div class="modal fade modal-xl" id="lstDanhSachNhanViens" tabindex="-1" role="dialog"
@@ -101,7 +109,7 @@
                 <div class="card">
                     <!-- form -->
                     <!-- table -->
-                    <table id="dataTableBasic" class="table table-hover"  style="width:100%">
+                    <table id="dataTableBasic" class="table table-hover" style="width:100%">
                         <thead class="table-light">
                             <tr>
                                 <th hidden scope="col" class=" border-top-0"></th>

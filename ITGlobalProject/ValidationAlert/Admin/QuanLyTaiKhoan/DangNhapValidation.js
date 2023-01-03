@@ -203,12 +203,9 @@
                     $('#frm-Captcha').hide();
                     if (ketqua === "admin") {
                         window.location.href = $('#actionAdminSuccess').data('request-url');
-                        $('#AjaxLoader').hide();
-
                     }
                     else if (ketqua === "employee") {
                         window.location.href = $('#actionEmployeeSuccess').data('request-url');
-                        $('#AjaxLoader').hide();
                     }
                     else {
                         $('#AjaxLoader').hide();

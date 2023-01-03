@@ -16,10 +16,10 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                                <a href="@Url.Action("Overview", "Dashboard")" onclick="$('#AjaxLoader').show();">Trang Chủ</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("danhSachDuAn", "QuanLyDuAn")">Quản Lý Dự Án</a>
+                                <a href="@Url.Action("danhSachDuAn", "QuanLyDuAn")" onclick="$('#AjaxLoader').show();">Quản Lý Dự Án</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 Danh Sách Dự Án
@@ -29,7 +29,7 @@
                 </div>
                 <!-- button -->
                 <div>
-                    <a href="@Url.Action("taoDuAnMoi", "QuanLyDuAn")" class="btn btn-primary me-2" style="width:230px" type="button">
+                    <a href="@Url.Action("taoDuAnMoi", "QuanLyDuAn")" onclick="$('#AjaxLoader').show();" class="btn btn-primary me-2" style="width:230px" type="button">
                         <i class="fe fe-book"> </i> Thêm Dự Án Mới
                     </a>
                 </div>
@@ -70,7 +70,7 @@
                                             @i
                                         </div>
                                         <div class="ms-3">
-                                            <h4 class="mb-0"><a href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" class="text-inherit">@item.Name</a></h4>
+                                            <h4 class="mb-0"><a href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();" class="text-inherit">@item.Name</a></h4>
                                         </div>
                                     </div>
                                 </td>
@@ -287,7 +287,7 @@
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="Dropdown1">
                                             <span class="dropdown-header">Hành động</span>
-                                            <a class="dropdown-item" href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})">
+                                            <a class="dropdown-item" href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();">
                                                 <i class="fe fe-info dropdown-item-icon"></i>Xem chi tiết
                                             </a>
                                             <a class="dropdown-item" href="#">

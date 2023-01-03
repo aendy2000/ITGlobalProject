@@ -813,6 +813,7 @@
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_DanhSachNhanVienImport.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDuAn\_xemChinhSuaTaskPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDuAn\_commentTaskPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyDuAn\_doiNgu_timKiemThanhVienPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

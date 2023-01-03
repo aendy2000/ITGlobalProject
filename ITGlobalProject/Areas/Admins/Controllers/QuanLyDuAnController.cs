@@ -525,11 +525,20 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         public ActionResult nganSachPartial(int? id)
         {
-            return PartialView("_nganSachPartial");
+            var pro = model.Projects.Find(id);
+            if (id == null || pro == null)
+                return Content("DANHSACH");
+
+            Session["lst-congno"] = pro.Debts.ToList();
+            return PartialView("_nganSachPartial", pro);
         }
         public ActionResult taiLieuPartial(int? id)
         {
-            return PartialView("_taiLieuPartial");
+            var pro = model.Projects.Find(id);
+            if (pro == null || id == null)
+                return Content("DANHSACH");
+
+            return PartialView("_taiLieuPartial", pro.Tasks.Where(t => t.DocumentName.Length > 0).OrderByDescending(o => o.ID).ToList());
         }
         public ActionResult doiNguPartial(int? id)
         {
@@ -547,6 +556,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             Session["lst-DoiNguEmployee"] = emp;
             return PartialView("_doiNguPartial", pro);
         }
+        public ActionResult timKiemThanhVien(int? id, string noidungs)
+        {
+            var pro = model.Projects.Find(id);
+            if (pro == null || id == null)
+                return Content("DANHSACH");
+
+            noidungs = noidungs.ToLower().Trim();
+            if (string.IsNullOrEmpty(noidungs))
+            {
+                var emp = pro.Teams.OrderByDescending(o => o.ID).ToList();
+                return PartialView("_doiNgu_timKiemThanhVienPartial", emp);
+            }
+            else
+            {
+                var emp = pro.Teams.Where(t => t.Employees.ID_Employee.ToLower().Contains(noidungs)
+                || t.Employees.Name.ToLower().Contains(noidungs)
+                || t.Employees.WorkEmail.ToLower().Contains(noidungs)
+                || t.Employees.IdentityCard.ToLower().Contains(noidungs)).OrderByDescending(o => o.ID).ToList();
+                return PartialView("_doiNgu_timKiemThanhVienPartial", emp);
+            }
+        }
+
         [HttpPost]
         public ActionResult themThanhVien(int? idemp, int? idpro)
         {

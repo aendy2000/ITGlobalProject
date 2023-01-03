@@ -389,7 +389,7 @@
                     }).then((roikhoitrang) => {
                         if (roikhoitrang) {
                             somethingChanged = false;
-
+                            $('#AjaxLoader').show();
                             $.ajax({
                             url: '@Url.Action("thongTinChiTietPartial", "QuanLyNhanSu", new {id = Model.ID })',
                             type: 'GET',
@@ -408,8 +408,10 @@
                                     ).done(function () {
                                         //place your code here, the scripts are all loaded
                                     });
+                                    $('#AjaxLoader').hide();
                                 }
                                 else {
+                                    $('#AjaxLoader').hide();
                                     window.location.href = $('#actionDanhsach').data('request-url');
                                 }
                             });
@@ -430,6 +432,7 @@
             });
 
         } else {
+            $('#AjaxLoader').show();
             $.ajax({
             url: '@Url.Action("thongTinChiTietPartial", "QuanLyNhanSu", new {id = Model.ID })',
             type: 'GET',
@@ -448,8 +451,10 @@
                     ).done(function () {
                         //place your code here, the scripts are all loaded
                     });
+                    $('#AjaxLoader').hide();
                 }
                 else {
+                    $('#AjaxLoader').hide();
                     window.location.href = $('#actionDanhsach').data('request-url');
                 }
             });
@@ -479,7 +484,7 @@
                     }).then((roikhoitrang) => {
                         if (roikhoitrang) {
                             somethingChanged = false;
-
+                            $('#AjaxLoader').show();
                             $.ajax({
                                 url: '@Url.Action("lienHeVaThanhToanPartial", "QuanLyNhanSu", new {id = Model.ID })',
                                 type: 'GET',
@@ -498,8 +503,10 @@
                                     ).done(function () {
                                         //place your code here, the scripts are all loaded
                                     });
+                                    $('#AjaxLoader').hide();
                                 }
                                 else {
+                                    $('#AjaxLoader').hide();
                                     window.location.href = $('#actionDanhsach').data('request-url');
                                 }
                             });
@@ -519,7 +526,7 @@
             });
 
         } else {
-
+            $('#AjaxLoader').show();
             $.ajax({
                 url: '@Url.Action("lienHeVaThanhToanPartial", "QuanLyNhanSu", new {id = Model.ID })',
                 type: 'GET',
@@ -539,8 +546,10 @@
                     ).done(function () {
                         //place your code here, the scripts are all loaded
                     });
+                    $('#AjaxLoader').hide();
                 }
                 else {
+                    $('#AjaxLoader').hide();
                     window.location.href = $('#actionDanhsach').data('request-url');
                 }
             });
@@ -571,7 +580,7 @@
                     }).then((roikhoitrang) => {
                         if (roikhoitrang) {
                             somethingChanged = false;
-
+                            $('#AjaxLoader').show();
                             $.ajax({
                                 url: '@Url.Action("kyNangChuyenMonPartial", "QuanLyNhanSu", new {id = Model.ID })',
                                 type: 'GET',
@@ -590,8 +599,10 @@
                                     ).done(function () {
                                         //place your code here, the scripts are all loaded
                                     });
+                                    $('#AjaxLoader').hide();
                                 }
                                 else {
+                                    $('#AjaxLoader').hide();
                                     window.location.href = $('#actionDanhsach').data('request-url');
                                 }
                             });
@@ -611,6 +622,7 @@
             });
 
         } else {
+            $('#AjaxLoader').show();
             $.ajax({
             url: '@Url.Action("kyNangChuyenMonPartial", "QuanLyNhanSu", new {id = Model.ID })',
             type: 'GET',
@@ -629,8 +641,10 @@
                     ).done(function () {
                         //place your code here, the scripts are all loaded
                     });
+                    $('#AjaxLoader').hide();
                 }
                 else {
+                    $('#AjaxLoader').hide();
                     window.location.href = $('#actionDanhsach').data('request-url');
                 }
             });
@@ -660,7 +674,7 @@
                     }).then((roikhoitrang) => {
                         if (roikhoitrang) {
                             somethingChanged = false;
-
+                            $('#AjaxLoader').show();
                             $.ajax({
                                 url: '@Url.Action("trinhDoNgoaiNguPartial", "QuanLyNhanSu", new {id = Model.ID })',
                                 type: 'GET',
@@ -679,8 +693,10 @@
                                     ).done(function () {
                                         //place your code here, the scripts are all loaded
                                     });
+                                     $('#AjaxLoader').hide();
                                 }
-                                else {
+                                 else {
+                                     $('#AjaxLoader').hide();
                                     window.location.href = $('#actionDanhsach').data('request-url');
                                 }
                             });
@@ -700,6 +716,7 @@
             });
 
         } else {
+            $('#AjaxLoader').show();
             $.ajax({
                 url: '@Url.Action("trinhDoNgoaiNguPartial", "QuanLyNhanSu", new {id = Model.ID })',
                 type: 'GET',
@@ -718,8 +735,10 @@
                     ).done(function () {
                         //place your code here, the scripts are all loaded
                     });
+                     $('#AjaxLoader').hide();
                 }
-                else {
+                 else {
+                     $('#AjaxLoader').hide();
                     window.location.href = $('#actionDanhsach').data('request-url');
                 }
             });
@@ -749,7 +768,7 @@
                     }).then((roikhoitrang) => {
                         if (roikhoitrang) {
                             somethingChanged = false;
-
+                            $('#AjaxLoader').show();
                             $.ajax({
                                 url: '@Url.Action("phuThuocNhanThanPartial", "QuanLyNhanSu", new {id = Model.ID })',
                                 type: 'GET',
@@ -768,8 +787,10 @@
                                     ).done(function () {
                                         //place your code here, the scripts are all loaded
                                     });
+                                     $('#AjaxLoader').hide();
                                 }
-                                else {
+                                 else {
+                                     $('#AjaxLoader').hide();
                                     window.location.href = $('#actionDanhsach').data('request-url');
                                 }
                             });
@@ -789,6 +810,7 @@
             });
 
         } else {
+            $('#AjaxLoader').show();
             $.ajax({
                 url: '@Url.Action("phuThuocNhanThanPartial", "QuanLyNhanSu", new {id = Model.ID })',
                 type: 'GET',
@@ -807,8 +829,10 @@
                     ).done(function () {
                         //place your code here, the scripts are all loaded
                     });
+                     $('#AjaxLoader').hide();
                 }
-                else {
+                 else {
+                     $('#AjaxLoader').hide();
                     window.location.href = $('#actionDanhsach').data('request-url');
                 }
             });
@@ -838,7 +862,7 @@
                     }).then((roikhoitrang) => {
                         if (roikhoitrang) {
                             somethingChanged = false;
-
+                            $('#AjaxLoader').show();
                             $.ajax({
                                 url: '@Url.Action("troCapPartial", "QuanLyNhanSu", new {id = Model.ID })',
                                 type: 'GET',
@@ -857,8 +881,10 @@
                                     ).done(function () {
                                         //place your code here, the scripts are all loaded
                                     });
+                                     $('#AjaxLoader').hide();
                                 }
-                                else {
+                                 else {
+                                     $('#AjaxLoader').hide();
                                     window.location.href = $('#actionDanhsach').data('request-url');
                                 }
                             });
@@ -878,6 +904,7 @@
             });
 
         } else {
+            $('#AjaxLoader').show();
             $.ajax({
                 url: '@Url.Action("troCapPartial", "QuanLyNhanSu", new {id = Model.ID })',
                 type: 'GET',
@@ -896,8 +923,10 @@
                     ).done(function () {
                         //place your code here, the scripts are all loaded
                     });
+                     $('#AjaxLoader').hide();
                 }
-                else {
+                 else {
+                     $('#AjaxLoader').hide();
                     window.location.href = $('#actionDanhsach').data('request-url');
                 }
             });
@@ -928,7 +957,7 @@
                     }).then((roikhoitrang) => {
                         if (roikhoitrang) {
                             somethingChanged = false;
-
+                            $('#AjaxLoader').show();
                             $.ajax({
                                 url: '@Url.Action("hopDongPartial", "QuanLyNhanSu", new {id = Model.ID })',
                                 type: 'GET',
@@ -947,8 +976,10 @@
                                     ).done(function () {
                                         //place your code here, the scripts are all loaded
                                     });
+                                     $('#AjaxLoader').hide();
                                 }
-                                else {
+                                 else {
+                                     $('#AjaxLoader').hide();
                                     window.location.href = $('#actionDanhsach').data('request-url');
                                 }
                             });
@@ -968,6 +999,7 @@
             });
 
         } else {
+            $('#AjaxLoader').show();
             $.ajax({
                 url: '@Url.Action("hopDongPartial", "QuanLyNhanSu", new {id = Model.ID })',
                 type: 'GET',
@@ -986,8 +1018,10 @@
                     ).done(function () {
                         //place your code here, the scripts are all loaded
                     });
+                     $('#AjaxLoader').hide();
                 }
-                else {
+                 else {
+                     $('#AjaxLoader').hide();
                     window.location.href = $('#actionDanhsach').data('request-url');
                 }
             });
@@ -1017,7 +1051,7 @@
                     }).then((roikhoitrang) => {
                         if (roikhoitrang) {
                             somethingChanged = false;
-
+                            $('#AjaxLoader').show();
                             $.ajax({
                                 url: '@Url.Action("duAnThamGiaPartial", "QuanLyNhanSu", new {id = Model.ID })',
                                 type: 'GET',
@@ -1036,8 +1070,10 @@
                                     ).done(function () {
                                         //place your code here, the scripts are all loaded
                                     });
+                                    $('#AjaxLoader').hide();
                                 }
                                 else {
+                                    $('#AjaxLoader').hide();
                                     window.location.href = $('#actionDanhsach').data('request-url');
                                 }
                             });
@@ -1057,6 +1093,7 @@
             });
 
         } else {
+            $('#AjaxLoader').show();
             $.ajax({
                 url: '@Url.Action("duAnThamGiaPartial", "QuanLyNhanSu", new {id = Model.ID })',
                 type: 'GET',
@@ -1075,8 +1112,10 @@
                     ).done(function () {
                         //place your code here, the scripts are all loaded
                     });
+                    $('#AjaxLoader').hide();
                 }
                 else {
+                    $('#AjaxLoader').hide();
                     window.location.href = $('#actionDanhsach').data('request-url');
                 }
             });
@@ -1106,7 +1145,7 @@
                     }).then((roikhoitrang) => {
                         if (roikhoitrang) {
                             somethingChanged = false;
-
+                            $('#AjaxLoader').show();
                             $.ajax({
                                 url: '@Url.Action("lichSuHoatDongPartial", "QuanLyNhanSu", new {id = Model.ID })',
                                 type: 'GET',
@@ -1125,8 +1164,10 @@
                                     ).done(function () {
                                         //place your code here, the scripts are all loaded
                                     });
+                                    $('#AjaxLoader').hide();
                                 }
                                 else {
+                                    $('#AjaxLoader').hide();
                                     window.location.href = $('#actionDanhsach').data('request-url');
                                 }
 
@@ -1147,6 +1188,7 @@
             });
 
         } else {
+            $('#AjaxLoader').show();
             $.ajax({
                 url: '@Url.Action("lichSuHoatDongPartial", "QuanLyNhanSu", new {id = Model.ID })',
                 type: 'GET',
@@ -1165,8 +1207,10 @@
                     ).done(function () {
                         //place your code here, the scripts are all loaded
                     });
+                    $('#AjaxLoader').hide();
                 }
                 else {
+                    $('#AjaxLoader').hide();
                     window.location.href = $('#actionDanhsach').data('request-url');
                 }
 
@@ -1197,7 +1241,7 @@
                     }).then((roikhoitrang) => {
                         if (roikhoitrang) {
                             somethingChanged = false;
-
+                            $('#AjaxLoader').show();
                             $.ajax({
                                 url: '@Url.Action("bangLuongPartial", "QuanLyNhanSu", new {id = Model.ID })',
                                 type: 'GET',
@@ -1216,8 +1260,10 @@
                                     ).done(function () {
                                         //place your code here, the scripts are all loaded
                                     });
+                                     $('#AjaxLoader').hide();
                                 }
-                                else {
+                                 else {
+                                     $('#AjaxLoader').hide();
                                     window.location.href = $('#actionDanhsach').data('request-url');
                                 }
                             });
@@ -1237,6 +1283,7 @@
             });
 
         } else {
+            $('#AjaxLoader').show();
             $.ajax({
                 url: '@Url.Action("bangLuongPartial", "QuanLyNhanSu", new {id = Model.ID })',
                 type: 'GET',
@@ -1255,8 +1302,10 @@
                     ).done(function () {
                         //place your code here, the scripts are all loaded
                     });
+                     $('#AjaxLoader').hide();
                 }
-                else {
+                 else {
+                     $('#AjaxLoader').hide();
                     window.location.href = $('#actionDanhsach').data('request-url');
                 }
             });
@@ -1286,7 +1335,7 @@
                     }).then((roikhoitrang) => {
                         if (roikhoitrang) {
                             somethingChanged = false;
-
+                            $('#AjaxLoader').show();
                             $.ajax({
                                 url: '@Url.Action("lichBieuPartial", "QuanLyNhanSu", new {id = Model.ID })',
                                 type: 'GET',
@@ -1305,8 +1354,10 @@
                                     ).done(function () {
                                         //place your code here, the scripts are all loaded
                                     });
+                                     $('#AjaxLoader').hide();
                                 }
-                                else {
+                                 else {
+                                     $('#AjaxLoader').hide();
                                     window.location.href = $('#actionDanhsach').data('request-url');
                                 }
                             });
@@ -1326,6 +1377,7 @@
             });
 
         } else {
+            $('#AjaxLoader').show();
             $.ajax({
                 url: '@Url.Action("lichBieuPartial", "QuanLyNhanSu", new {id = Model.ID })',
                 type: 'GET',
@@ -1344,8 +1396,10 @@
                     ).done(function () {
                         //place your code here, the scripts are all loaded
                     });
+                     $('#AjaxLoader').hide();
                 }
-                else {
+                 else {
+                     $('#AjaxLoader').hide();
                     window.location.href = $('#actionDanhsach').data('request-url');
                 }
             });
@@ -1375,6 +1429,7 @@
                     }).then((roikhoitrang) => {
                         if (roikhoitrang) {
                             somethingChanged = false;
+                            $('#AjaxLoader').show();
                             $.ajax({
                                 url: '@Url.Action("baoCaoThongKePartial", "QuanLyNhanSu", new {id = Model.ID })',
                                 type: 'GET',
@@ -1458,8 +1513,10 @@
                                          };
                                          new ApexCharts(document.querySelector("#taskSummary"), e).render()
                                      }
+                                     $('#AjaxLoader').hide();
                                 }
-                                else {
+                                 else {
+                                     $('#AjaxLoader').hide();
                                     window.location.href = $('#actionDanhsach').data('request-url');
                                 }
                             });
@@ -1478,6 +1535,7 @@
             });
 
         } else {
+            $('#AjaxLoader').show();
             $.ajax({
                 url: '@Url.Action("baoCaoThongKePartial", "QuanLyNhanSu", new {id = Model.ID })',
                 type: 'GET',
@@ -1561,8 +1619,10 @@
                          };
                          new ApexCharts(document.querySelector("#taskSummary"), e).render()
                      }
+                     $('#AjaxLoader').hide();
                 }
-                else {
+                 else {
+                     $('#AjaxLoader').hide();
                     window.location.href = $('#actionDanhsach').data('request-url');
                 }
             });

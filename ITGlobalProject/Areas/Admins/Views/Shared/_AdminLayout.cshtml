@@ -43,6 +43,9 @@
 
 <body>
     <div class="loader" id="AjaxLoader" style="display:none;"></div>
+    <script>
+        $('#AjaxLoader').show();
+    </script>
     <!-- Wrapper -->
     <div id="db-wrapper">
         <nav class="navbar-vertical navbar navbar-dark bg-dark">
@@ -65,12 +68,12 @@
                                     @if (ViewBag.ShowActive == "Overview")
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link active" href="@Url.Action("Overview", "Dashboard")">
+                                            <a class="nav-link active" href="@Url.Action("Overview", "Dashboard")" onclick="$('#AjaxLoader').show();">
                                                 Tổng Quan
                                             </a>
                                         </li>
                                         <li class="nav-item ">
-                                            <a class="nav-link " href="@Url.Action("Analystics", "Dashboard")">
+                                            <a class="nav-link " href="@Url.Action("Analystics", "Dashboard")" onclick="$('#AjaxLoader').show();">
                                                 Phân Tích
                                             </a>
                                         </li>
@@ -78,12 +81,12 @@
                                     else
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link " href="@Url.Action("Overview", "Dashboard")">
+                                            <a class="nav-link " href="@Url.Action("Overview", "Dashboard")" onclick="$('#AjaxLoader').show();">
                                                 Tổng Quan
                                             </a>
                                         </li>
                                         <li class="nav-item ">
-                                            <a class="nav-link active" href="@Url.Action("Analystics", "Dashboard")">
+                                            <a class="nav-link active" href="@Url.Action("Analystics", "Dashboard")" onclick="$('#AjaxLoader').show();">
                                                 Phân Tích
                                             </a>
                                         </li>
@@ -96,13 +99,13 @@
                             <div id="navDashboard" class="collapse" data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
                                     <li class="nav-item ">
-                                        <a class="nav-link" href="@Url.Action("Overview", "Dashboard")">
+                                        <a class="nav-link" href="@Url.Action("Overview", "Dashboard")" onclick="$('#AjaxLoader').show();">
                                             Tổng Quan
                                         </a>
                                     </li>
                                     <!-- Nav item -->
                                     <li class="nav-item ">
-                                        <a class="nav-link " href="@Url.Action("Analystics", "Dashboard")">
+                                        <a class="nav-link " href="@Url.Action("Analystics", "Dashboard")" onclick="$('#AjaxLoader').show();">
                                             Phân Tích
                                         </a>
                                     </li>
@@ -123,17 +126,17 @@
                                     @if (ViewBag.ShowActive == "danhSachNhanVien" || ViewBag.ShowActive == "TTChiTiet")
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link active" href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">
+                                            <a class="nav-link active" href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")" onclick="$('#AjaxLoader').show();">
                                                 Nhân viên
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")">
+                                            <a class="nav-link " href="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")" onclick="$('#AjaxLoader').show();">
                                                 Chức danh
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")">
+                                            <a class="nav-link " href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")" onclick="$('#AjaxLoader').show();">
                                                 Bộ phận
                                             </a>
                                         </li>
@@ -141,17 +144,17 @@
                                     else if (ViewBag.ShowActive == "danhSachVaiTro")
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link " href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">
+                                            <a class="nav-link " href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")" onclick="$('#AjaxLoader').show();">
                                                 Nhân viên
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")">
+                                            <a class="nav-link active" href="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")" onclick="$('#AjaxLoader').show();">
                                                 Chức danh
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")">
+                                            <a class="nav-link " href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")" onclick="$('#AjaxLoader').show();">
                                                 Bộ phận
                                             </a>
                                         </li>
@@ -159,17 +162,17 @@
                                     else
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link " href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">
+                                            <a class="nav-link " href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")" onclick="$('#AjaxLoader').show();">
                                                 Nhân viên
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")">
+                                            <a class="nav-link " href="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")" onclick="$('#AjaxLoader').show();">
                                                 Chức danh
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")">
+                                            <a class="nav-link active" href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")" onclick="$('#AjaxLoader').show();">
                                                 Bộ phận
                                             </a>
                                         </li>
@@ -182,17 +185,17 @@
                             <div id="navProfile" class="collapse " data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">
+                                        <a class="nav-link " href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")" onclick="$('#AjaxLoader').show();">
                                             Nhân viên
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")">
+                                        <a class="nav-link " href="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")" onclick="$('#AjaxLoader').show();">
                                             Chức danh
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")">
+                                        <a class="nav-link " href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")" onclick="$('#AjaxLoader').show();">
                                             Bộ phận
                                         </a>
                                     </li>
@@ -215,12 +218,12 @@
                                     @if (ViewBag.ShowActive == "danhSachKyNang")
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link active" href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")">
+                                            <a class="nav-link active" href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').show();">
                                                 Kỹ năng
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")">
+                                            <a class="nav-link " href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').show();">
                                                 Danh mục kỹ năng
                                             </a>
                                         </li>
@@ -228,12 +231,12 @@
                                     else
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link " href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")">
+                                            <a class="nav-link " href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').show();">
                                                 Kỹ năng
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")">
+                                            <a class="nav-link active" href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').show();">
                                                 Danh mục kỹ năng
                                             </a>
                                         </li>
@@ -247,12 +250,12 @@
                             <div id="navKyNangChuyenMon" class="collapse " data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")">
+                                        <a class="nav-link " href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').show();">
                                             Kỹ năng
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")">
+                                        <a class="nav-link " href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').show();">
                                             Danh mục kỹ năng
                                         </a>
                                     </li>
@@ -277,12 +280,12 @@
                                     @if (ViewBag.ShowActive == "bangLuong")
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link active" href="@Url.Action("bangLuong", "QuanLyLuong")">
+                                            <a class="nav-link active" href="@Url.Action("bangLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
                                                 Bảng Lương
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("tinhLuong", "QuanLyLuong")">
+                                            <a class="nav-link " href="@Url.Action("tinhLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
                                                 Tính Lương
                                             </a>
                                         </li>
@@ -290,12 +293,12 @@
                                     else
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link " href="@Url.Action("bangLuong", "QuanLyLuong")">
+                                            <a class="nav-link " href="@Url.Action("bangLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
                                                 Bảng Lương
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="@Url.Action("tinhLuong", "QuanLyLuong")">
+                                            <a class="nav-link active" href="@Url.Action("tinhLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
                                                 Tính Lương
                                             </a>
                                         </li>
@@ -308,12 +311,12 @@
                             <div id="navluong" class="collapse " data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
                                     <li class="nav-item ">
-                                        <a class="nav-link " href="@Url.Action("bangLuong", "QuanLyLuong")">
+                                        <a class="nav-link " href="@Url.Action("bangLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
                                             Bảng Lương
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("tinhLuong", "QuanLyLuong")">
+                                        <a class="nav-link " href="@Url.Action("tinhLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
                                             Tính Lương
                                         </a>
                                     </li>
@@ -324,7 +327,7 @@
                     @if (ViewBag.ShowActive == "danhSachKhoanTroCapVaPhuCap")
                     {
                         <li class="nav-item ">
-                            <a class="nav-link  active" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")">
+                            <a class="nav-link  active" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').show();">
                                 <i class="nav-icon fe fe-dollar-sign me-2"></i> Trợ cấp & Phụ cấp
                             </a>
                         </li>
@@ -332,7 +335,7 @@
                     else
                     {
                         <li class="nav-item ">
-                            <a class="nav-link " href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")">
+                            <a class="nav-link " href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').show();">
                                 <i class="nav-icon fe fe-dollar-sign me-2"></i> Trợ cấp & Phụ cấp
                             </a>
                         </li>
@@ -350,12 +353,12 @@
                                     @if (ViewBag.ShowActive == "danhSachDuAn")
                                     {
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="@Url.Action("danhSachDuAn", "QuanLyDuAn")">
+                                            <a class="nav-link active" href="@Url.Action("danhSachDuAn", "QuanLyDuAn")" onclick="$('#AjaxLoader').show();">
                                                 Danh Sách Dự án
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("taoDuAnMoi", "QuanLyDuAn")">
+                                            <a class="nav-link " href="@Url.Action("taoDuAnMoi", "QuanLyDuAn")" onclick="$('#AjaxLoader').show();">
                                                 Thêm Dự Án Mới
                                             </a>
                                         </li>
@@ -363,12 +366,12 @@
                                     else
                                     {
                                         <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("danhSachDuAn", "QuanLyDuAn")">
+                                            <a class="nav-link " href="@Url.Action("danhSachDuAn", "QuanLyDuAn")" onclick="$('#AjaxLoader').show();">
                                                 Danh Sách Dự án
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="@Url.Action("taoDuAnMoi", "QuanLyDuAn")">
+                                            <a class="nav-link active" href="@Url.Action("taoDuAnMoi", "QuanLyDuAn")" onclick="$('#AjaxLoader').show();">
                                                 Thêm Dự Án Mới
                                             </a>
                                         </li>
@@ -381,12 +384,12 @@
                             <div id="navProject" class="collapse " data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("danhSachDuAn", "QuanLyDuAn")">
+                                        <a class="nav-link " href="@Url.Action("danhSachDuAn", "QuanLyDuAn")" onclick="$('#AjaxLoader').show();">
                                             Danh Sách Dự án
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("taoDuAnMoi", "QuanLyDuAn")">
+                                        <a class="nav-link " href="@Url.Action("taoDuAnMoi", "QuanLyDuAn")" onclick="$('#AjaxLoader').show();">
                                             Thêm Dự Án Mới
                                         </a>
                                     </li>
@@ -409,12 +412,12 @@
                                     @if (ViewBag.ShowActive == "danhSachTinTuyenDung" || ViewBag.ShowActive == "chinhSuaTinTuyenDung")
                                     {
                                         <li class="nav-item">
-                                            <a class="nav-link  active " href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")">
+                                            <a class="nav-link  active " href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")" onclick="$('#AjaxLoader').show();">
                                                 Danh Sách Bài Viết
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link  " href="@Url.Action("themTinTuyenDung", "QuanLyTinTuyenDung")">
+                                            <a class="nav-link  " href="@Url.Action("themTinTuyenDung", "QuanLyTinTuyenDung")" onclick="$('#AjaxLoader').show();">
                                                 Thêm Bài Viết Mới
                                             </a>
                                         </li>
@@ -422,12 +425,12 @@
                                     else
                                     {
                                         <li class="nav-item">
-                                            <a class="nav-link  " href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")">
+                                            <a class="nav-link  " href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")" onclick="$('#AjaxLoader').show();">
                                                 Danh Sách Bài Viết
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link  active" href="@Url.Action("themTinTuyenDung", "QuanLyTinTuyenDung")">
+                                            <a class="nav-link  active" href="@Url.Action("themTinTuyenDung", "QuanLyTinTuyenDung")" onclick="$('#AjaxLoader').show();">
                                                 Thêm Bài Viết Mới
                                             </a>
                                         </li>
@@ -440,13 +443,13 @@
                             <div id="navCMS" class="collapse  " data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")">
+                                        <a class="nav-link " href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")" onclick="$('#AjaxLoader').show();">
                                             Danh Sách Bài Viết
                                         </a>
                                     </li>
 
                                     <li class="nav-item">
-                                        <a class="nav-link  " href="@Url.Action("themTinTuyenDung", "QuanLyTinTuyenDung")">
+                                        <a class="nav-link  " href="@Url.Action("themTinTuyenDung", "QuanLyTinTuyenDung")" onclick="$('#AjaxLoader').show();">
                                             Thêm Bài Viết Mới
                                         </a>
                                     </li>
@@ -458,7 +461,7 @@
                     @if (ViewBag.ShowActive == "danhSachDoiTac")
                     {
                         <li class="nav-item ">
-                            <a class="nav-link  active" href="@Url.Action("danhSachDoiTac", "ThongTinDoiTac")">
+                            <a class="nav-link  active" href="@Url.Action("danhSachDoiTac", "ThongTinDoiTac")" onclick="$('#AjaxLoader').show();">
                                 <i class="nav-icon fe fe-user-check me-2"></i> Thông Tin Đối Tác
                             </a>
                         </li>
@@ -466,7 +469,7 @@
                     else
                     {
                         <li class="nav-item ">
-                            <a class="nav-link " href="@Url.Action("danhSachDoiTac", "ThongTinDoiTac")">
+                            <a class="nav-link " href="@Url.Action("danhSachDoiTac", "ThongTinDoiTac")" onclick="$('#AjaxLoader').show();">
                                 <i class="nav-icon fe fe-user-check me-2"></i> Thông Tin Đối Tác
                             </a>
                         </li>
@@ -475,7 +478,7 @@
                     @if (ViewBag.ShowActive == "thongTinLienHeTuVan")
                     {
                         <li class="nav-item ">
-                            <a class="nav-link  active" href="@Url.Action("thongTinLienHeTuVan", "LienHeTuVan")">
+                            <a class="nav-link  active" href="@Url.Action("thongTinLienHeTuVan", "LienHeTuVan")" onclick="$('#AjaxLoader').show();">
                                 <i class="nav-icon fe fe-phone-outgoing me-2"></i> Thông Tin Tư Vấn
                             </a>
                         </li>
@@ -483,7 +486,7 @@
                     else
                     {
                         <li class="nav-item ">
-                            <a class="nav-link " href="@Url.Action("thongTinLienHeTuVan", "LienHeTuVan")">
+                            <a class="nav-link " href="@Url.Action("thongTinLienHeTuVan", "LienHeTuVan")" onclick="$('#AjaxLoader').show();">
                                 <i class="nav-icon fe fe-phone-outgoing me-2"></i> Thông Tin Tư Vấn
                             </a>
                         </li>
@@ -684,7 +687,7 @@
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
-                                <a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new {id = Session["user-id"]})" class="dropdown-item">
+                                <a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new {id = Session["user-id"]})" class="dropdown-item" onclick="$('#AjaxLoader').show();">
                                     <div class="d-flex">
                                         <div class="avatar avatar-md avatar-indicators avatar-online">
                                             @if (Session["user-vatatar"] == null)
@@ -707,7 +710,7 @@
                                 <div class="dropdown-divider"></div>
                                 <ul class="list-unstyled">
                                     <li class="dropdown-submenu dropstart-lg">
-                                        <a class="dropdown-item" href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new {id = Session["user-id"]})">
+                                        <a class="dropdown-item" href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new {id = Session["user-id"]})" onclick="$('#AjaxLoader').show();">
                                             <i class="fe fe-user me-2"></i> Trang cá nhân
                                         </a>
                                     </li>
@@ -716,7 +719,7 @@
                                 <div class="dropdown-divider"></div>
                                 <ul class="list-unstyled">
                                     <li>
-                                        <a class="dropdown-item" href="@Url.Action("DangXuat", "QuanLyTaiKhoan")">
+                                        <a class="dropdown-item" href="@Url.Action("DangXuat", "QuanLyTaiKhoan")" onclick="$('#AjaxLoader').show();">
                                             <i class="fe fe-power me-2"></i> Đăng Xuất
                                         </a>
                                     </li>
@@ -872,6 +875,10 @@
         <link href="~/Content/Admin/css/Select2.css" rel="stylesheet" />
     }
 
-
+    <script>
+        $(window).on('load', function () {
+            $('#AjaxLoader').hide();
+        });
+    </script>
 </body>
 </html>

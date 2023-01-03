@@ -303,60 +303,70 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.Teams)
+                    @if (Model.Teams.Count() > 0)
+                    {
+                        foreach (var item in Model.Teams)
+                        {
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-sm avatar-danger">
+                                            @if (string.IsNullOrEmpty(item.Employees.Avatar))
+                                            {
+                                                <span class="avatar-initials rounded-circle "> @item.Employees.Name.Substring(0, 1) </span>
+                                            }
+                                            else
+                                            {
+                                                <img src="@item.Employees.Avatar" alt="" class="avatar-initials rounded-circle">
+                                            }
+                                        </div>
+                                        <div class="ms-2">
+                                            <h5 class="mb-0">@item.Employees.Name </h5>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle ">
+                                    @item.Employees.Position.Name
+                                </td>
+                                <td class="align-middle ">
+                                    Còn @Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee && !t.State.Equals("done")).ToList().Count/@Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee).ToList().Count
+                                </td>
+                                <td class="align-middle ">
+                                    @if (Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee).ToList().Count < 1)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="progress flex-auto" style="height: 6px;">
+                                                <div class="progress-bar bg-success " role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+
+                                                </div>
+                                            </div>
+                                            <div class="ms-2"> <span>0% </span> </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="progress flex-auto" style="height: 6px;">
+                                                <div class="progress-bar bg-success " role="progressbar" style="width: @(Convert.ToDecimal((Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%;" aria-valuenow="@(Convert.ToDecimal((Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate)) * 100).ToString("0"))" aria-valuemin="0" aria-valuemax="100">
+
+                                                </div>
+                                            </div>
+                                            <div class="ms-2"> <span>@(Convert.ToDecimal((Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate)) * 100).ToString("0"))% </span> </div>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+
+                        }
+                    }
+                    else
                     {
                         <tr>
-                            <td class="align-middle">
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar avatar-sm avatar-danger">
-                                        @if (string.IsNullOrEmpty(item.Employees.Avatar))
-                                        {
-                                            <span class="avatar-initials rounded-circle "> @item.Employees.Name.Substring(0, 1) </span>
-                                        }
-                                        else
-                                        {
-                                            <img src="@item.Employees.Avatar" alt="" class="avatar-initials rounded-circle">
-                                        }
-                                    </div>
-                                    <div class="ms-2">
-                                        <h5 class="mb-0">@item.Employees.Name </h5>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle ">
-                                @item.Employees.Position.Name
-                            </td>
-                            <td class="align-middle ">
-                                Còn @Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee && !t.State.Equals("done")).ToList().Count/@Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee).ToList().Count
-                            </td>
-                            <td class="align-middle ">
-                                @if (Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee).ToList().Count < 1)
-                                {
-                                    <div class="d-flex align-items-center">
-                                        <div class="progress flex-auto" style="height: 6px;">
-                                            <div class="progress-bar bg-success " role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-
-                                            </div>
-                                        </div>
-                                        <div class="ms-2"> <span>0% </span> </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="d-flex align-items-center">
-                                        <div class="progress flex-auto" style="height: 6px;">
-                                            <div class="progress-bar bg-success " role="progressbar" style="width: @(Convert.ToDecimal((Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%;" aria-valuenow="@(Convert.ToDecimal((Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate)) * 100).ToString("0"))" aria-valuemin="0" aria-valuemax="100">
-
-                                            </div>
-                                        </div>
-                                        <div class="ms-2"> <span>@(Convert.ToDecimal((Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate)) * 100).ToString("0"))% </span> </div>
-                                    </div>
-                                }
+                            <td colspan="4" class="text-center md-4">
+                                Không có dữ liệu để hiển thị!
                             </td>
                         </tr>
-
                     }
-
                 </tbody>
             </table>
         </div>
@@ -821,16 +831,17 @@
 <script src="~/Content/Admin/assets/js/reviewImage.js"></script>
 
 <script>
-$(document).on('click', '#tongQuanID', function(e) {
+    $(document).on('click', '#tongQuanID', function (e) {
+        $('#AjaxLoader').show();
     $.ajax({
         url: '@Url.Action("tongQuanPartial", "QuanLyDuAn", new {id = Model.ID})',
         type: 'GET',
         dataType: 'html'
     }).done(function(ketqua) {
-        if (ketqua === "DANHSACH") {
+        if (ketqua == "DANHSACH") {
+            $('#AjaxLoader').hide();
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {
-
             $('#chiTietDuAnPartialID').replaceWith(ketqua);
             $.when(
                 $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
@@ -922,17 +933,20 @@ $(document).on('click', '#tongQuanID', function(e) {
                 };
                 new ApexCharts(document.querySelector("#progressChart"), e).render()
             }
+            $('#AjaxLoader').hide();
         }
     });
 });
 
-$(document).on('click', '#congViecID', function(e) {
+    $(document).on('click', '#congViecID', function (e) {
+        $('#AjaxLoader').show();
     $.ajax({
         url: '@Url.Action("congViecPartial", "QuanLyDuAn", new {id = Model.ID })',
         type: 'GET',
         dataType: 'html'
     }).done(function(ketqua) {
-        if (ketqua === "DANHSACH") {
+        if (ketqua == "DANHSACH") {
+            $('#AjaxLoader').hide();
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {
             $('#chiTietDuAnPartialID').replaceWith(ketqua);
@@ -952,17 +966,20 @@ $(document).on('click', '#congViecID', function(e) {
             $('#nguoithuchien').selectpicker({
                 style: "text-dark btn-sm"
             });
+            $('#AjaxLoader').hide();
         }
     });
 });
 
-$(document).on('click', '#nganSachID', function(e) {
+    $(document).on('click', '#nganSachID', function (e) {
+        $('#AjaxLoader').show();
     $.ajax({
         url: '@Url.Action("nganSachPartial", "QuanLyDuAn", new {id = Model.ID })',
         type: 'GET',
         dataType: 'html'
     }).done(function(ketqua) {
-        if (ketqua === "DANHSACH") {
+        if (ketqua == "DANHSACH") {
+            $('#AjaxLoader').hide();
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {
             $('#chiTietDuAnPartialID').replaceWith(ketqua);
@@ -1038,17 +1055,20 @@ $(document).on('click', '#nganSachID', function(e) {
                 };
                 new ApexCharts(document.querySelector("#traffic"), e).render()
             }
+            $('#AjaxLoader').hide();
         }
     });
 });
 
-$(document).on('click', '#taiLieuID', function(e) {
+    $(document).on('click', '#taiLieuID', function (e) {
+        $('#AjaxLoader').show();
     $.ajax({
         url: '@Url.Action("taiLieuPartial", "QuanLyDuAn", new {id = Model.ID })',
         type: 'GET',
         dataType: 'html'
     }).done(function(ketqua) {
-        if (ketqua === "DANHSACH") {
+        if (ketqua == "DANHSACH") {
+            $('#AjaxLoader').hide();
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {
             $('#chiTietDuAnPartialID').replaceWith(ketqua);
@@ -1063,17 +1083,20 @@ $(document).on('click', '#taiLieuID', function(e) {
             ).done(function() {
                 //place your code here, the scripts are all loaded
             });
+            $('#AjaxLoader').hide();
         }
     });
 });
 
-$(document).on('click', '#doiNguID', function(e) {
+    $(document).on('click', '#doiNguID', function (e) {
+        $('#AjaxLoader').show();
     $.ajax({
         url: '@Url.Action("doiNguPartial", "QuanLyDuAn", new {id = Model.ID })',
         type: 'GET',
         dataType: 'html'
     }).done(function(ketqua) {
-        if (ketqua === "DANHSACH") {
+        if (ketqua == "DANHSACH") {
+            $('#AjaxLoader').hide();
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {
             $('#chiTietDuAnPartialID').replaceWith(ketqua);
@@ -1088,6 +1111,7 @@ $(document).on('click', '#doiNguID', function(e) {
             ).done(function() {
                 //place your code here, the scripts are all loaded
             });
+            $('#AjaxLoader').hide();
         }
     });
 });

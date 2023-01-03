@@ -1,4 +1,26 @@
 ﻿$(document).ready(function () {
+    //Nhập tìm kiếm
+    $('#timKiemThanhViens').on('input', function (e) {
+        let contents = $('#timKiemThanhViens').val();
+        let idpro = $('#idpro').val();
+        $.ajax({
+            url: $('#requestPath').val() + "Admins/QuanLyDuAn/timKiemThanhVien",
+            type: 'POST',
+            dataType: 'html',
+            data: {
+                id: idpro,
+                noidungs: contents,
+            }
+        }).done(function (ketqua) {
+            if (ketqua !== "DANHSACH") {
+                $('#ContentSearchTeams').replaceWith(ketqua);
+            } else {
+                window.location.href($('#requestPath').val() + "admins/quanlyduan/danhsachduan");
+            }
+        });
+    });
+
+    //Thêm thành viên mới
     $('[id^="selectThanhVienMoiss"]').on('click', function (e) {
         var idemp = $(this).attr("name");
         var idpro = $('#idpro').val();

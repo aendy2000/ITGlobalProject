@@ -30,9 +30,9 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                                <a href="@Url.Action("Overview", "Dashboard")" onclick="$('#AjaxLoader').show();">Trang Chủ</a>
                             </li>
-                            <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">Quản Lý Nhân Sự</a></li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")" onclick="$('#AjaxLoader').show();">Quản Lý Nhân Sự</a></li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 Nhân viên
                             </li>
@@ -155,7 +155,7 @@
                                         <div class="card mb-4">
                                             <div class="card-body">
                                                 <div class="text-center">
-                                                    <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
+                                                    <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" onclick="$('#AjaxLoader').show();">
                                                         @if (string.IsNullOrEmpty(item.Avatar))
                                                         {
                                                             <img src="~/Content/Admin/assets/images/avatar/default-avatar.png"
@@ -167,7 +167,7 @@
                                                                  class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
                                                         }
                                                     </a>
-                                                    <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
+                                                    <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" onclick="$('#AjaxLoader').show();">
                                                         <h4 class="mb-0" title="Xem trang cá nhân">
                                                             @item.Name
                                                             @if (item.Lock == false)
@@ -354,7 +354,7 @@
                                                     </td>
                                                     <td class="align-middle border-top-0">
                                                         <div class="d-flex align-items-center">
-                                                            <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
+                                                            <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" onclick="$('#AjaxLoader').show();">
                                                                 @if (string.IsNullOrEmpty(item.Avatar))
                                                                 {
                                                                     <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt=""
@@ -367,7 +367,7 @@
                                                                 }
 
                                                             </a>
-                                                            <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
+                                                            <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" onclick="$('#AjaxLoader').show();">
                                                                 <h5 class="mb-0">@item.Name</h5>
                                                             </a>
                                                         </div>
@@ -397,7 +397,7 @@
                                                         </td>
                                                     }
                                                     <td class="align-middle border-top-0">
-                                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" class="text-muted" data-bs-toggle="tooltip"
+                                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" onclick="$('#AjaxLoader').show();" class="text-muted" data-bs-toggle="tooltip"
                                                            data-placement="top" title="Chi tiết">
                                                             <i class="fe fe-info"></i>
                                                         </a>
@@ -502,7 +502,7 @@
                                         <div class="card mb-4">
                                             <div class="card-body">
                                                 <div class="text-center">
-                                                    <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
+                                                    <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" onclick="$('#AjaxLoader').show();">
                                                         @if (string.IsNullOrEmpty(item.Avatar))
                                                         {
                                                             <img src="~/Content/Admin/assets/images/avatar/default-avatar.png"
@@ -514,7 +514,7 @@
                                                                  class="rounded-circle avatar-xl mb-3" title="Xem trang cá nhân" />
                                                         }
                                                     </a>
-                                                    <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
+                                                    <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" onclick="$('#AjaxLoader').show();">
                                                         <h4 class="mb-0" title="Xem trang cá nhân">
                                                             @item.Name
                                                             @if (item.Lock == false)
@@ -701,7 +701,7 @@
                                                     </td>
                                                     <td class="align-middle border-top-0">
                                                         <div class="d-flex align-items-center">
-                                                            <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
+                                                            <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" onclick="$('#AjaxLoader').show();">
                                                                 @if (string.IsNullOrEmpty(item.Avatar))
                                                                 {
                                                                     <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt=""
@@ -714,7 +714,7 @@
                                                                 }
 
                                                             </a>
-                                                            <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })">
+                                                            <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" onclick="$('#AjaxLoader').show();">
                                                                 <h5 class="mb-0">@item.Name</h5>
                                                             </a>
                                                         </div>
@@ -744,7 +744,7 @@
                                                         </td>
                                                     }
                                                     <td class="align-middle border-top-0">
-                                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" class="text-muted" data-bs-toggle="tooltip"
+                                                        <a href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = item.ID })" onclick="$('#AjaxLoader').show();" class="text-muted" data-bs-toggle="tooltip"
                                                            data-placement="top" title="Chi tiết">
                                                             <i class="fe fe-info"></i>
                                                         </a>

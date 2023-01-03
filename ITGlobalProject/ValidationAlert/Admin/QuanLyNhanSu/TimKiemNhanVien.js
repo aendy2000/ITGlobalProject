@@ -5,7 +5,6 @@
         let types = $('#valueTypes').val();
         let urls = $('#actionTimKiems').data('request-url');
         let listCount = $('#valueListCount').val();
-
         $.ajax({
             url: urls,
             type: 'POST',
@@ -38,7 +37,6 @@
         let types = $('#valueTypes').val();
         let listCount = $('#hienthiphantrang :selected').val();
         $('#valueListCount').val(listCount);
-
         $.ajax({
             url: $('#requestPath').val() + "Admins/QuanLyNhanSu/SoLuongPhanTrang",
             type: 'POST',
