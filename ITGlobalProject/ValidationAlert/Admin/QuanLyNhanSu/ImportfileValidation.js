@@ -51,6 +51,8 @@
                 else if (ketqua == "DANHSACH") {
                     $('#AjaxLoader').hide();
                     window.location.href = $('#requestPath').val() + "admins/quanlynhansu/danhsachnhanvien";
+                } else if (ketqua == "DANGNHAP") {
+                    window.location.href = $('#requestPath').val() + "admins/quanlytaikhoan/dangnhap";
                 }
                 else {
                     $('#lstTempDataEmployee').replaceWith(ketqua);
@@ -104,7 +106,7 @@
                 }).then((taixuong) => {
                     if (taixuong) {
                         $("#tblToanBoDS").table2excel({
-                            filename: 'danh-sach-nhan-vien-duoc-nhap-' + yyyy + '-' + mm + '-' + dd +'.xls'
+                            filename: 'danh-sach-nhan-vien-duoc-nhap-' + yyyy + '-' + mm + '-' + dd + '.xls'
                         });
                     }
                 });
@@ -208,5 +210,5 @@
             SweetAlert2Demo.init();
         });
     });
-    
+
 });

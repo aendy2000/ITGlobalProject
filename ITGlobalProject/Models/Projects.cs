@@ -20,6 +20,7 @@ namespace ITGlobalProject.Models
             this.Debts = new HashSet<Debts>();
             this.Tasks = new HashSet<Tasks>();
             this.Teams = new HashSet<Teams>();
+            this.Histories = new HashSet<Histories>();
         }
     
         public int ID { get; set; }
@@ -36,5 +37,7 @@ namespace ITGlobalProject.Models
         public virtual ICollection<Tasks> Tasks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Teams> Teams { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Histories> Histories { get; set; }
     }
 }

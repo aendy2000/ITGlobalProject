@@ -71,7 +71,7 @@
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thông Báo!", "Đã có xảy ra lỗi, vui lòng thử lại", {
-                                icon: "danger",
+                                icon: "erorr",
                                 buttons: {
                                     confirm: {
                                         className: 'btn btn-danger'

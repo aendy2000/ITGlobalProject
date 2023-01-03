@@ -120,6 +120,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Contents" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="ID_Projects" Type="int" />
         </EntityType>
         <EntityType Name="Insurance">
           <Key>
@@ -466,6 +467,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Histories_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="0..1" />
+          <End Role="Histories" Type="Self.Histories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Histories">
+              <PropertyRef Name="ID_Projects" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Histories_Tasks">
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="0..1" />
           <End Role="Histories" Type="Self.Histories" Multiplicity="*" />
@@ -794,6 +807,10 @@
             <End Role="Payroll" EntitySet="Payroll" />
             <End Role="Histories" EntitySet="Histories" />
           </AssociationSet>
+          <AssociationSet Name="FK_Histories_Projects" Association="Self.FK_Histories_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Histories" EntitySet="Histories" />
+          </AssociationSet>
           <AssociationSet Name="FK_Histories_Tasks" Association="Self.FK_Histories_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="Histories" EntitySet="Histories" />
@@ -1026,6 +1043,8 @@
           <NavigationProperty Name="Employees" Relationship="Self.FK_Histories_Employees" FromRole="Histories" ToRole="Employees" />
           <NavigationProperty Name="Payroll" Relationship="Self.FK_Histories_Payroll" FromRole="Histories" ToRole="Payroll" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Histories_Tasks" FromRole="Histories" ToRole="Tasks" />
+          <Property Name="ID_Projects" Type="Int32" />
+          <NavigationProperty Name="Projects" Relationship="CP25Team06Model.FK_Histories_Projects" FromRole="Histories" ToRole="Projects" />
         </EntityType>
         <EntityType Name="Insurance">
           <Key>
@@ -1181,6 +1200,7 @@
           <NavigationProperty Name="Partners" Relationship="Self.FK_Projects_Partners" FromRole="Projects" ToRole="Partners" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Projects" FromRole="Projects" ToRole="Tasks" />
           <NavigationProperty Name="Teams" Relationship="Self.FK_Teams_Projects" FromRole="Projects" ToRole="Teams" />
+          <NavigationProperty Name="Histories" Relationship="CP25Team06Model.FK_Histories_Projects" FromRole="Projects" ToRole="Histories" />
         </EntityType>
         <EntityType Name="Recruitment">
           <Key>
@@ -1824,7 +1844,23 @@
             <End Role="SubsidiesCategory" EntitySet="SubsidiesCategory" />
             <End Role="Subsidies" EntitySet="Subsidies" />
           </AssociationSet>
+          <AssociationSet Name="FK_Histories_Projects" Association="CP25Team06Model.FK_Histories_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Histories" EntitySet="Histories" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Histories_Projects">
+          <End Type="CP25Team06Model.Projects" Role="Projects" Multiplicity="0..1" />
+          <End Type="CP25Team06Model.Histories" Role="Histories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Histories">
+              <PropertyRef Name="ID_Projects" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1946,6 +1982,7 @@
           <EntitySetMapping Name="Histories">
             <EntityTypeMapping TypeName="CP25Team06Model.Histories">
               <MappingFragment StoreEntitySet="Histories">
+                <ScalarProperty Name="ID_Projects" ColumnName="ID_Projects" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
                 <ScalarProperty Name="ID_Task" ColumnName="ID_Task" />

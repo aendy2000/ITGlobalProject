@@ -135,17 +135,14 @@
                 contentType: false,
                 processData: false,
                 cache: false,
-                data: formData,
-                error: function (data) {
-                    console.log(data);
-                },
+                data: formData
             }).done(function (ketqua) {
                 if (ketqua === "Đã có lỗi xảy ra, vui lòng thử lại") {
                     $('#AjaxLoader').hide();
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thông Báo!", "Đã có xảy ra lỗi, vui lòng thử lại sau", {
-                                icon: "danger",
+                                icon: "erorr",
                                 buttons: {
                                     confirm: {
                                         className: 'btn btn-danger'

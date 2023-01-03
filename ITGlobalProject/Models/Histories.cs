@@ -21,9 +21,11 @@ namespace ITGlobalProject.Models
         public string Name { get; set; }
         public string Contents { get; set; }
         public System.DateTime Date { get; set; }
+        public Nullable<int> ID_Projects { get; set; }
     
         public virtual Employees Employees { get; set; }
         public virtual Payroll Payroll { get; set; }
         public virtual Tasks Tasks { get; set; }
+        public virtual Projects Projects { get; set; }
     }
 }

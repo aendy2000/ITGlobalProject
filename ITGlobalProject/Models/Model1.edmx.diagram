@@ -60,12 +60,23 @@
         <AssociationConnector Association="CP25Team06Model.FK_Projects_Partners" ManuallyRouted="false" />
         <AssociationConnector Association="CP25Team06Model.FK_PersonalSkills_SkillsCategory" ManuallyRouted="false" />
         <AssociationConnector Association="CP25Team06Model.FK_Recruitment_Position" ManuallyRouted="false" />
-        <AssociationConnector Association="CP25Team06Model.FK_Tasks_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="CP25Team06Model.FK_Tasks_Projects" ManuallyRouted="true" >
+          <ConnectorPoint PointX="9.40625" PointY="16.509095052083335" />
+          <ConnectorPoint PointX="9.40625" PointY="23.075747741391368" />
+          <ConnectorPoint PointX="9.7916666666666661" PointY="23.075747741391368" />
+          <ConnectorPoint PointX="9.9583333333333339" PointY="23.075747741391368" />
+          <ConnectorPoint PointX="10.010416666666666" PointY="23.075747741391368" />
+          <ConnectorPoint PointX="10.177083333333334" PointY="23.075747741391368" />
+          <ConnectorPoint PointX="13.35288290625" PointY="23.075747741391368" />
+          <ConnectorPoint PointX="13.35288290625" PointY="22.898422761368661" />
+          <ConnectorPoint PointX="13.5" PointY="22.898422761368661" />
+        </AssociationConnector>
         <AssociationConnector Association="CP25Team06Model.FK_Teams_Projects" ManuallyRouted="false" />
         <AssociationConnector Association="CP25Team06Model.FK_SkillOfRecruitment_Recruitment" ManuallyRouted="false" />
         <AssociationConnector Association="CP25Team06Model.FK_SkillOfRecruitment_SkillsCategory" ManuallyRouted="false" />
         <AssociationConnector Association="CP25Team06Model.FK_Skills_SkillsCategory" ManuallyRouted="false" />
         <AssociationConnector Association="CP25Team06Model.FK_Subsidies_SubsidiesCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="CP25Team06Model.FK_Histories_Projects" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

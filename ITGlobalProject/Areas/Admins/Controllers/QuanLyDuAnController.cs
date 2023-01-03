@@ -20,6 +20,7 @@ using ITGlobalProject.Middleware;
 
 namespace ITGlobalProject.Areas.Admins.Controllers
 {
+    [AdminLoginVerification]
     public class QuanLyDuAnController : Controller
     {
         CP25Team06Entities model = new CP25Team06Entities();
@@ -47,7 +48,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             string email, string ngaysinh, string gioitinh, string diahchinha, int? id)
         {
             var khachHangCu = model.Partners.Find(id);
-            if (id == null || khachHangCu == null)
+            if (id == null || khachHangCu == null || Session["user-id"] == null)
             {
                 var checkExits = model.Partners.FirstOrDefault(p => p.Email.ToLower().Equals(email.ToLower()) || p.IdentityCard.Equals(cmnd.Replace(" ", "").Trim()));
                 if (checkExits != null)
@@ -131,6 +132,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 model.Projects.Add(pro);
                 model.SaveChanges();
 
+                Histories his = new Histories();
+                his.ID_Employee = Convert.ToInt32(Session["user-id"]);
+                his.ID_Projects = pro.ID;
+                his.Name = "Tạo Dự Án";
+                his.Contents = "đã khởi tạo dự án: " + name + ".";
+                his.Date = DateTime.Now;
+                model.Histories.Add(his);
+                model.SaveChanges();
+
                 model = new CP25Team06Entities();
                 int sogiaidoan = giaidoan.Split('_').ToList().Count;
 
@@ -186,7 +196,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         {
             var khachHang = model.Partners.Find(idkh);
             var duAn = model.Projects.Find(idduan);
-            if (khachHang == null || duAn == null)
+            if (khachHang == null || duAn == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             khachHang.Company = namedn.Trim();
@@ -317,10 +327,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult chiTietDuAn(int? id)
         {
             var pro = model.Projects.Find(id);
-            if (id == null || pro == null)
+            if (id == null || pro == null || Session["user-id"] == null)
                 return RedirectToAction("danhSachDuAn");
 
-            var lichsu = model.Histories.Where(l => l.Tasks.ID_Project == id).OrderByDescending(o => o.Date).ToList();
+            var lichsu = model.Histories.Where(l => l.Tasks.ID_Project == id || l.ID_Projects == id).OrderByDescending(o => o.Date).ToList();
             Session["lst-lichSuDuAn"] = lichsu;
             ViewBag.ShowActive = "danhSachDuAn";
             return View(pro);
@@ -328,10 +338,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult tongQuanPartial(int? id)
         {
             var pro = model.Projects.Find(id);
-            if (id == null || pro == null)
+            if (id == null || pro == null || Session["user-id"] == null)
                 return RedirectToAction("danhSachDuAn");
 
-            var lichsu = model.Histories.Where(l => l.Tasks.ID_Project == id).OrderByDescending(o => o.Date).ToList();
+            var lichsu = model.Histories.Where(l => l.Tasks.ID_Project == id || l.ID_Projects == id).OrderByDescending(o => o.Date).ToList();
             Session["lst-lichSuDuAn"] = lichsu;
             ViewBag.ShowActive = "danhSachDuAn";
             return PartialView("_tongQuanPartial", pro);
@@ -339,7 +349,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult congViecPartial(int? id)
         {
             var pro = model.Projects.Find(id);
-            if (id == null || pro == null)
+            if (id == null || pro == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             Session["lst-Task"] = pro.Tasks.OrderBy(t => t.OrdinalNumbers).ToList();
@@ -351,7 +361,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         {
             var pro = model.Projects.Find(idpro);
             var emp = model.Employees.Find(idassign);
-            if (pro == null || emp == null)
+            if (pro == null || emp == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             Tasks task = new Tasks();
@@ -366,18 +376,16 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             task.DocumentName = tentailieu;
             task.DocumentType = loaitailieu;
             task.DocumentURL = duongdantailieu;
-            model.Tasks.Add(task);
 
             if (pro.Tasks.Where(t => t.ID_Project == idpro && t.State.Equals("do")).OrderByDescending(o => o.OrdinalNumbers).First() != null)
             {
                 task.OrdinalNumbers = pro.Tasks.Where(t => t.ID_Project == idpro && t.State.Equals("do")).OrderByDescending(o => o.OrdinalNumbers).First().OrdinalNumbers + 1;
-                model.Entry(task).State = EntityState.Modified;
             }
             else
             {
                 task.OrdinalNumbers = 1;
             }
-
+            model.Tasks.Add(task);
             model.SaveChanges();
 
             Histories his = new Histories();
@@ -398,6 +406,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         {
             try
             {
+                if (Session["user-id"] == null)
+                    return Content("DANGNHAP");
+
                 int idPro;
                 //Task cũ
                 if (lstTaskFirst.IndexOf("~") != -1)
@@ -526,7 +537,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult nganSachPartial(int? id)
         {
             var pro = model.Projects.Find(id);
-            if (id == null || pro == null)
+            if (id == null || pro == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             Session["lst-congno"] = pro.Debts.ToList();
@@ -535,7 +546,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult taiLieuPartial(int? id)
         {
             var pro = model.Projects.Find(id);
-            if (pro == null || id == null)
+            if (pro == null || id == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             return PartialView("_taiLieuPartial", pro.Tasks.Where(t => t.DocumentName.Length > 0).OrderByDescending(o => o.ID).ToList());
@@ -543,7 +554,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult doiNguPartial(int? id)
         {
             var pro = model.Projects.Find(id);
-            if (pro == null || id == null)
+            if (pro == null || id == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             var exitsEmp = model.Teams.Where(t => t.ID_Project == id).ToList();
@@ -559,7 +570,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult timKiemThanhVien(int? id, string noidungs)
         {
             var pro = model.Projects.Find(id);
-            if (pro == null || id == null)
+            if (pro == null || id == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             noidungs = noidungs.ToLower().Trim();
@@ -583,7 +594,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         {
             var emp = model.Employees.Find(idemp);
             var pro = model.Projects.Find(idpro);
-            if (emp == null || pro == null || idemp == null || idpro == null)
+            if (emp == null || pro == null || idemp == null || idpro == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             Teams teams = new Teams();
@@ -607,7 +618,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         {
             var emp = model.Employees.Find(idemp);
             var pro = model.Projects.Find(idpro);
-            if (emp == null || pro == null || idemp == null || idpro == null)
+            if (emp == null || pro == null || idemp == null || idpro == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             var teams = model.Teams.FirstOrDefault(t => t.ID_Project == idpro && t.ID_Employee == idemp);
@@ -628,7 +639,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult LoaiCongViec(int? assign, string deadlineType, int? id)
         {
             var pro = model.Projects.Find(id);
-            if (pro == null || id == null || assign == null || string.IsNullOrEmpty(deadlineType))
+            if (pro == null || id == null || assign == null || string.IsNullOrEmpty(deadlineType) || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             if (assign == 0)
@@ -671,7 +682,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult xemChinhSuaTask(int? id)
         {
             var task = model.Tasks.Find(id);
-            if (task == null || id == null)
+            if (task == null || id == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             return PartialView("_xemChinhSuaTaskPartial", task);
@@ -684,7 +695,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             {
                 var task = model.Tasks.Find(id);
                 var pro = model.Projects.Find(idpro);
-                if (task == null || pro == null || id == null || idpro == null)
+                if (task == null || pro == null || id == null || idpro == null || Session["user-id"] == null)
                     return Content("DANHSACH");
 
                 // Trạng thái, vị trí cũ
@@ -800,6 +811,50 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             model = new CP25Team06Entities();
 
             return PartialView("_commentTaskPartial", model.Tasks.Find(id));
+        }
+
+        [HttpPost]
+        public ActionResult xoaTask(int? id, int? idpro)
+        {
+            try
+            {
+                var task = model.Tasks.Find(id);
+                var pro = model.Projects.Find(idpro);
+                if (task == null || id == null || pro == null || idpro == null || Session["user-id"] == null)
+                    return Content("DANHSACH");
+
+                int index = task.OrdinalNumbers;
+                string state = task.State;
+
+                //Sắp xếp lại danh sách task
+                var sortTask = model.Tasks.Where(t => t.ID_Project == idpro && t.State.Equals(state) && t.OrdinalNumbers > index).ToList();
+                foreach (var item in sortTask)
+                {
+                    item.OrdinalNumbers = item.OrdinalNumbers - 1;
+                    model.Entry(item).State = EntityState.Modified;
+                }
+
+                Histories his = new Histories();
+                his.ID_Employee = Convert.ToInt32(Session["user-id"]);
+                his.ID_Projects = task.ID_Project;
+                his.Name = "Loại Bỏ Công Việc";
+                his.Contents = "đã loại bỏ Công việc: " + task.Name;
+                his.Date = DateTime.Now;
+                model.Histories.Add(his);
+
+                model.Histories.RemoveRange(task.Histories);
+                model.Comment.RemoveRange(task.Comment);
+                model.Tasks.Remove(task);
+                model.SaveChanges();
+                model = new CP25Team06Entities();
+
+                Session["lst-Task"] = pro.Tasks.OrderBy(t => t.OrdinalNumbers).ToList();
+                return PartialView("_congViecPartial", pro);
+            }
+            catch
+            {
+                return Content("Đã có lỗi xảy ra, vui lòng thử lại");
+            }
         }
     }
 }

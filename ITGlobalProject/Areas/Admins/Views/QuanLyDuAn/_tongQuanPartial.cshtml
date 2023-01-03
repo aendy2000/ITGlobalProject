@@ -410,17 +410,24 @@
                                 </div>
                                 <div class="col ms-n3">
                                     <h4 class="mb-0 h5">@item.Name</h4>
-                                    @if (item.Contents.IndexOf("|") != -1)
+                                    @if (item.ID_Projects != null)
                                     {
-                                        <p class="mb-0 text-body">@item.Employees.Name @item.Contents.Split('|')[0] <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> @(item.Contents.Split('|')[1]).</p>
-                                    }
-                                    else if (item.Contents.IndexOf("thêm") != -1)
-                                    {
-                                        <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> và được giao cho <a>@item.Tasks.Employees.Name.</a></p>
+                                        <p class="mb-0 text-body"><a>@item.Employees.Name</a> @(item.Contents).</p>
                                     }
                                     else
                                     {
-                                        <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a>.</p>
+                                        if (item.Contents.IndexOf("|") != -1)
+                                        {
+                                            <p class="mb-0 text-body">@item.Employees.Name @item.Contents.Split('|')[0] <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> @(item.Contents.Split('|')[1]).</p>
+                                        }
+                                        else if (item.Contents.IndexOf("thêm") != -1)
+                                        {
+                                            <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> và được giao cho <a>@item.Tasks.Employees.Name.</a></p>
+                                        }
+                                        else
+                                        {
+                                            <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a>.</p>
+                                        }
                                     }
                                 </div>
                                 <div class="col-auto">

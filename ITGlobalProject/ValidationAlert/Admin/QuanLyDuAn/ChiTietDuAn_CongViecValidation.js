@@ -1,5 +1,112 @@
 ﻿$(document).ready(function () {
-  
+
+    //Xóa task
+    $('[id^="xoaBoTask"]').on('click', function () {
+        let id = $(this).attr("name");
+        let idpro = $('#idpro').val();
+
+        var SweetAlert2Demo = function () {
+            var initDemos = function () {
+                swal({
+                    title: 'Xóa Công Việc?',
+                    text: "Chắc chắn muốn xóa chứ?",
+                    type: 'warning',
+                    buttons: {
+                        cancel: {
+                            visible: true,
+                            text: ' Hủy Bỏ ',
+                            className: 'btn btn-danger'
+                        },
+                        confirm: {
+                            text: 'Xác Nhận',
+                            className: 'btn btn-success'
+                        }
+                    }
+                }).then((xoacongviec) => {
+                    if (xoacongviec) {
+                        var formData = new FormData();
+                        formData.append('id', id);
+                        formData.append('idpro', idpro);
+
+                        $('#AjaxLoader').show();
+                        $.ajax({
+                            url: $('#requestPath').val() + 'Admins/QuanLyDuAn/xoaTask',
+                            type: 'POST',
+                            dataType: 'html',
+                            contentType: false,
+                            processData: false,
+                            cache: false,
+                            data: formData
+                        }).done(function (ketqua) {
+                            if (ketqua == "Đã có lỗi xảy ra, vui lòng thử lại") {
+                                $('#AjaxLoader').hide();
+                                var SweetAlert2Demo = function () {
+                                    var initDemos = function () {
+                                        swal("Thông Báo!", "Đã có xảy ra lỗi, vui lòng thử lại sau", {
+                                            icon: "erorr",
+                                            buttons: {
+                                                confirm: {
+                                                    className: 'btn btn-danger'
+                                                }
+                                            },
+                                        });
+                                    };
+                                    return {
+                                        init: function () {
+                                            initDemos();
+                                        },
+                                    };
+                                }();
+
+                                jQuery(document).ready(function () {
+                                    SweetAlert2Demo.init();
+                                });
+                            }
+                            else if (ketqua === "DANHSACH") {
+                                $('#AjaxLoader').hide();
+                                window.location.href = $('#requestPath').val() + 'Admins/QuanLyDuAn/danhSachDuAn';
+                            }
+                            else {
+                                $('#chiTietDuAnPartialID').replaceWith(ketqua);
+                                $('#assignTo').selectpicker();
+                                $('#taskDeadline').selectpicker();
+                                $('#nguoithuchien').selectpicker({
+                                    style: "text-dark btn-sm"
+                                });
+
+                                $.when(
+                                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js'),
+                                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/theme.min.js'),
+                                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js'),
+                                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js'),
+                                    $.Deferred(function (deferred) {
+                                        $(deferred.resolve);
+                                    })
+                                ).done(function () { });
+                                $('#AjaxLoader').hide();
+                            }
+                        });
+                    }
+                });
+            };
+            return {
+                init: function () {
+                    initDemos();
+                },
+            };
+        }();
+
+        jQuery(document).ready(function () {
+            SweetAlert2Demo.init();
+        });
+    });
+
+    //Click chi tiết task
+    $('[id^="clickEditTask"]').on('click', function () {
+        let id = $(this).attr("name");
+        $('#editTaskID' + id).click();
+    });
+
     //Chi tiết task
     $('[id^="editTaskID"]').on('click', function () {
         id = $(this).attr("name");
@@ -134,7 +241,7 @@
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thông Báo!", "Đã có xảy ra lỗi, vui lòng thử lại sau", {
-                                icon: "danger",
+                                icon: "erorr",
                                 buttons: {
                                     confirm: {
                                         className: 'btn btn-danger'
@@ -308,15 +415,12 @@
                 'idTask': idTask
             }
         }).done(function (ketqua) {
-            if (ketqua !== "FAILED") {
-                $('#AjaxLoader').hide();
-            }
-            else {
+            if (ketqua == "FAILED") {
                 $('#AjaxLoader').hide();
                 var SweetAlert2Demo = function () {
                     var initDemos = function () {
                         swal("Thông Báo!", "Đã có lỗi xảy ra, thử tải lại trang và thực hiện lại!", {
-                            icon: "danger",
+                            icon: "erorr",
                             buttons: {
                                 confirm: {
                                     className: 'btn btn-danger'
@@ -334,6 +438,11 @@
                 jQuery(document).ready(function () {
                     SweetAlert2Demo.init();
                 });
+            } else if (ketqua == "DANGNHAP") {
+                window.location.href = $('#requestPath').val() + "admins/quanlytaikhoan/dangnhap";
+            }
+            else {
+                $('#AjaxLoader').hide();
             }
         });
 

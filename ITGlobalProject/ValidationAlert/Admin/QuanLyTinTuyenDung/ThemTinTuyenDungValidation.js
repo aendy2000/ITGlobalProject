@@ -229,7 +229,7 @@
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Đã có lỗi xảy ra!", ketqua, {
-                                icon: "danger",
+                                icon: "erorr",
                                 buttons: {
                                     confirm: {
                                         className: 'btn btn-danger'
@@ -471,7 +471,7 @@
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Đã có lỗi xảy ra!", ketqua, {
-                                icon: "danger",
+                                icon: "erorr",
                                 buttons: {
                                     confirm: {
                                         className: 'btn btn-danger'

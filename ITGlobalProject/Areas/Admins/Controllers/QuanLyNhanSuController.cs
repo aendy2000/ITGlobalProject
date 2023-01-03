@@ -69,6 +69,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
         public ActionResult danhSachNhanVienGridPartial(int? page, int? pageSize, int? type)
         {
+            if (Session["user-id"] == null)
+                return Content("DANGNHAP");
+
             if (type == null)
                 type = 1;
             if (page == null)
@@ -85,7 +88,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult SoLuongPhanTrang(int? typestr, int? listCount)
         {
-            if (Session["lstEmployees"] == null)
+            if (Session["lstEmployees"] == null || Session["user-id"] == null)
                 return Content("DANGNHAP");
 
             if (typestr == null)
@@ -103,6 +106,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult imPortNhanVien(HttpPostedFileBase lstNhanVien)
         {
+            if (Session["user-id"] == null)
+                return Content("DANGNHAP");
+
             string filePath = string.Empty;
             if (lstNhanVien != null)
             {
@@ -543,6 +549,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         {
             try
             {
+                if (Session["user-id"] == null)
+                    return Content("DANGNHAP");
                 var checkExits = model.Employees.FirstOrDefault(e => e.WorkEmail.ToLower().Equals(diachiemailcongty.ToLower().Trim()));
                 if (checkExits != null)
                     return Content("EXITS");
@@ -817,7 +825,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult luaChonBoPhan(int? id)
         {
-            if (id == null)
+            if (id == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             var bophan = model.Department.Find(id);
@@ -828,7 +836,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult timKiemNhanVien(string noidungs, int? typestr, int? listCount)
         {
-            if (Session["lstEmployees"] == null)
+            if (Session["lstEmployees"] == null || Session["user-id"] == null)
                 return Content("DANGNHAP");
 
             noidungs = noidungs.ToLower().Trim();
@@ -860,7 +868,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         public ActionResult thongTinChiTiet(int? id)
         {
-            if (id == null)
+            if (id == null || Session["user-id"] == null)
                 return RedirectToAction("danhSachNhanVien", "QuanLyNhanSu");
 
             ViewBag.ShowActive = "TTChiTiet";
@@ -873,7 +881,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         public ActionResult thongTinChiTietPartial(int? id)
         {
-            if (id == null)
+            if (id == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             ViewBag.ShowActive = "TTChiTiet"; var user = model.Employees.FirstOrDefault(u => u.ID == id);
@@ -889,7 +897,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         string sodienthoaikhac, string diachiemailcongty, string diachiemailkhac)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
-            if (id == null || user == null)
+            if (id == null || user == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             if (!user.WorkEmail.ToLower().Equals(diachiemailcongty.ToLower().Trim()))
@@ -975,7 +983,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
         public ActionResult lienHeVaThanhToanPartial(int? id)
         {
-            if (id == null)
+            if (id == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             ViewBag.ShowActive = "danhSachNhanVien";
@@ -991,7 +999,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         string mucluong, string dsNganHang, string sotaikhoan, string chutaikhoan)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
-            if (id == null || user == null)
+            if (id == null || user == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
 
@@ -1007,7 +1015,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
         public ActionResult kyNangChuyenMonPartial(int? id)
         {
-            if (id == null)
+            if (id == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             ViewBag.ShowActive = "TTChiTiet";
@@ -1025,7 +1033,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult chinhSuaKyNangChuyenMon(int? id, string kynang)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
-            if (id == null || user == null)
+            if (id == null || user == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             model.PersonalSkills.RemoveRange(user.PersonalSkills);
@@ -1064,7 +1072,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
         public ActionResult trinhDoNgoaiNguPartial(int? id)
         {
-            if (id == null)
+            if (id == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             ViewBag.ShowActive = "TTChiTiet";
@@ -1081,7 +1089,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult chinhSuatrinhDoNgoaiNgu(int? id, string trinhdongoaingu)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
-            if (id == null || user == null)
+            if (id == null || user == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             //Ngoại ngữ
@@ -1128,7 +1136,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
         public ActionResult phuThuocNhanThanPartial(int? id)
         {
-            if (id == null)
+            if (id == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             ViewBag.ShowActive = "TTChiTiet";
@@ -1146,7 +1154,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult chinhSuaPhuThuocNhanThan(int? id, string phuthuocnhanthan)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
-            if (id == null || user == null)
+            if (id == null || user == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             //Nhân Thân
@@ -1192,7 +1200,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         public ActionResult troCapPartial(int? id)
         {
-            if (id == null)
+            if (id == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             ViewBag.ShowActive = "TTChiTiet";
@@ -1210,7 +1218,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult chinhSuaTroCap(int? id, string trocap)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
-            if (id == null || user == null)
+            if (id == null || user == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             model.Subsidies.RemoveRange(user.Subsidies);
@@ -1244,7 +1252,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         public ActionResult hopDongPartial(int? id)
         {
-            if (id == null)
+            if (id == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             ViewBag.ShowActive = "TTChiTiet";
@@ -1260,7 +1268,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult chinhSuaViecLamHopDong(int? id, string ngayvaolam, int? vaitro, string hinhthuc)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
-            if (id == null || user == null)
+            if (id == null || user == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             if (!string.IsNullOrEmpty(ngayvaolam) && vaitro != null && !string.IsNullOrEmpty(hinhthuc))
@@ -1280,7 +1288,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public async Task<ActionResult> themHopDongMoi(HttpPostedFileBase anhHopDong, string ngaykyhopdong, string ngaygiahanhopdong, int id, string loaihopdong)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
-            if (user != null)
+            if (user != null && Session["user-id"] != null)
             {
                 EmploymentContracts emp = new EmploymentContracts();
                 emp.ID_Employee = user.ID;
@@ -1346,7 +1354,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult xoaHopDong(int? id, int? idus)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == idus);
-            if (idus == null || user == null || idus == null)
+            if (idus == null || user == null || idus == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             model.EmploymentContracts.Remove(user.EmploymentContracts.FirstOrDefault(h => h.ID == id));
@@ -1359,7 +1367,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public async Task<ActionResult> suaHopDong(HttpPostedFileBase anhHopDong, string ngaykyhopdong, string ngaygiahanhopdong, int id, int idus, string loaihopdong)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == idus);
-            if (user != null)
+            if (user != null && Session["user-id"] != null)
             {
                 var emp = user.EmploymentContracts.FirstOrDefault(h => h.ID == id);
                 emp.StartDate = Convert.ToDateTime(ngaykyhopdong);
@@ -1428,7 +1436,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult khoaTaiKhoan(int? id)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
-            if (id != null && user != null)
+            if (id != null && user != null && Session["user-id"] != null)
             {
                 if (user.Lock == false)
                 {
@@ -1454,7 +1462,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult duAnThamGiaPartial(int? id)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
-            if (user == null)
+            if (user == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             Session["lst-duanthamgia-detailemployee"] = model.Projects.Where(p => p.Teams.FirstOrDefault(t => t.ID_Employee == user.ID).ID_Employee == user.ID).ToList();
@@ -1463,7 +1471,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         [HttpPost]
         public ActionResult timKiemDuAnThamGia(string contents, int? idus)
         {
-            if (idus == null)
+            if (idus == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             if (string.IsNullOrEmpty(contents.Trim()))
@@ -1476,7 +1484,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult lichSuHoatDongPartial(int? id)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
-            if (user == null)
+            if (user == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             string date = DateTime.Now.Year + "-W" + (new CultureInfo("vi-VN").Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay, DayOfWeek.Monday) - 1);
@@ -1502,7 +1510,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         public ActionResult timKiemLichSuHoatDong(int? idus, string date)
         {
-            if (idus == null || string.IsNullOrEmpty(date))
+            if (idus == null || string.IsNullOrEmpty(date) || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             DateTime jan1 = new DateTime(Int32.Parse(date.Split('-')[0]), 1, 1);
@@ -1526,6 +1534,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult bangLuongPartial(int? id)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user == null || id == null || Session["user-id"] == null)
+                return Content("DANHSACH");
 
             return PartialView("_bangLuongPartial", user);
         }
@@ -1542,7 +1552,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult timKiemLichBieu(string state, int? idus)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == idus);
-            if (user == null || string.IsNullOrEmpty(state))
+            if (user == null || string.IsNullOrEmpty(state) || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             if (state.Equals("all"))
@@ -1565,7 +1575,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult baoCaoThongKePartial(int? id)
         {
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
-            if (user == null)
+            if (user == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
             Session["thongke-Task"] = model.Tasks.Where(t => t.ID_Employee == id).ToList();
