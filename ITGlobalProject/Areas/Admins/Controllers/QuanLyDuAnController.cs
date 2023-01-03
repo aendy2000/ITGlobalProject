@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Text;
 using ITGlobalProject.Models;
 using ITGlobalProject.Middleware;
+using System.Security.Cryptography;
 
 namespace ITGlobalProject.Areas.Admins.Controllers
 {
@@ -155,6 +156,17 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                     model.Debts.Add(deb);
                     model.SaveChanges();
+
+                    PaymentHistory payHis = new PaymentHistory();
+                    payHis.ID_Debts = deb.ID;
+                    payHis.Date = DateTime.Now;
+                    payHis.Price = deb.Price;
+                    payHis.Contents = "Thêm khoản thanh toán cho giai đoạn " + i;
+                    payHis.Type = true; //True = khoản dương
+                    payHis.OnUpdate = true; //Chỉnh sửa chi phí tổng. Không dùng để tính số tiền khách hàng thanh toán
+
+                    model.PaymentHistory.Add(payHis);
+                    model.SaveChanges();
                 }
                 return Content(pro.ID.ToString());
             }
@@ -183,6 +195,17 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     deb.ID_Project = pro.ID;
 
                     model.Debts.Add(deb);
+                    model.SaveChanges();
+
+                    PaymentHistory payHis = new PaymentHistory();
+                    payHis.ID_Debts = deb.ID;
+                    payHis.Date = DateTime.Now;
+                    payHis.Price = deb.Price;
+                    payHis.Contents = "Thêm khoản thanh toán cho giai đoạn " + i;
+                    payHis.Type = true; //True = khoản dương
+                    payHis.OnUpdate = true; //Chỉnh sửa chi phí tổng. Không dùng để tính số tiền khách hàng thanh toán
+
+                    model.PaymentHistory.Add(payHis);
                     model.SaveChanges();
                 }
                 return Content(pro.ID.ToString());
@@ -540,8 +563,43 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (id == null || pro == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
-            Session["lst-congno"] = pro.Debts.ToList();
-            return PartialView("_nganSachPartial", pro);
+            return PartialView("_nganSachPartial", pro.Debts.ToList());
+        }
+        [HttpPost]
+        public ActionResult thanhToanCongNo(int? id, decimal? price)
+        {
+            var debt = model.Debts.Find(id);
+            if (id == null || debt == null || Session["user-id"] == null)
+                return Content("DANHSACH");
+
+            PaymentHistory payHis = new PaymentHistory();
+            payHis.ID_Debts = (int)id;
+            payHis.Date = DateTime.Now;
+            payHis.Contents = "Thanh toán " + Convert.ToDecimal(price).ToString("0,0") + " VND cho " + debt.Stage;
+
+            if (price < 0)
+                payHis.Type = false; //false = khoản âm
+            else
+                payHis.Type = true; //True = khoản dương
+
+            payHis.Price = (decimal)price;
+            payHis.OnUpdate = false; //Dùng để tính số tiền khách hàng thanh toán = false
+
+            model.PaymentHistory.Add(payHis);
+            model.SaveChanges();
+
+            if (debt.Price <= model.PaymentHistory.Where(p => p.OnUpdate == false && p.ID_Debts == id).Sum(s => s.Price))
+                debt.State = true;
+            else
+                debt.State = false;
+
+            model.Entry(debt).State = EntityState.Modified;
+            model.SaveChanges();
+
+            model = new CP25Team06Entities();
+            int idpro = debt.ID_Project;
+            var pro = model.Projects.Find(idpro);
+            return PartialView("_nganSachPartial", pro.Debts.ToList());
         }
         public ActionResult taiLieuPartial(int? id)
         {

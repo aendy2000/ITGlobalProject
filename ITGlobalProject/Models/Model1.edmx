@@ -213,6 +213,7 @@
           <Property Name="Price" Type="money" Nullable="false" />
           <Property Name="Contents" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Type" Type="bit" />
+          <Property Name="OnUpdate" Type="bit" />
         </EntityType>
         <EntityType Name="Payroll">
           <Key>
@@ -1145,6 +1146,7 @@
           <Property Name="Contents" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Type" Type="Boolean" />
           <NavigationProperty Name="Debts" Relationship="Self.FK_PaymentHistory_Debts" FromRole="PaymentHistory" ToRole="Debts" />
+          <Property Name="OnUpdate" Type="Boolean" />
         </EntityType>
         <EntityType Name="Payroll">
           <Key>
@@ -2084,6 +2086,7 @@
           <EntitySetMapping Name="PaymentHistory">
             <EntityTypeMapping TypeName="CP25Team06Model.PaymentHistory">
               <MappingFragment StoreEntitySet="PaymentHistory">
+                <ScalarProperty Name="OnUpdate" ColumnName="OnUpdate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Debts" ColumnName="ID_Debts" />
                 <ScalarProperty Name="Date" ColumnName="Date" />

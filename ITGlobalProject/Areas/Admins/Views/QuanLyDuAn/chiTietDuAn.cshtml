@@ -1001,67 +1001,6 @@
             ).done(function() {
                 //place your code here, the scripts are all loaded
             });
-            if ($("#traffic").length) {
-                e = {
-                    dataLabels: {
-                        enabled: !1
-                    },
-                    series: [2000000, 3000000, 4000000, 5000000],
-                    labels: ["Giai đoạn 1", "Giai đoạn 2", "Giai đoạn 3", "Giai đoạn 4"],
-                    colors: [window.theme.success, window.theme.primary, window.theme.danger, window.theme.warning],
-                    chart: {
-                        width: 392,
-                        type: "donut"
-                    },
-                    plotOptions: {
-                        pie: {
-                            expandOnClick: !1,
-                            donut: {
-                                size: "50%"
-                            }
-                        }
-                    },
-                    legend: {
-                        position: "bottom",
-                        fontFamily: "inter",
-                        fontWeight: 500,
-                        fontSize: "14px",
-                        markers: {
-                            width: 8,
-                            height: 8,
-                            strokeWidth: 0,
-                            strokeColor: "#ffffff",
-                            fillColors: void 0,
-                            radius: 12,
-                            customHTML: void 0,
-                            onClick: void 0,
-                            offsetX: 0,
-                            offsetY: 0
-                        },
-                        itemMargin: {
-                            horizontal: 8,
-                            vertical: 0
-                        }
-                    },
-                    tooltip: {
-                        theme: "light",
-                        marker: {
-                            show: !0
-                        },
-                        x: {
-                            show: !1
-                        }
-                    },
-                    states: {
-                        hover: {
-                            filter: {
-                                type: "none"
-                            }
-                        }
-                    }
-                };
-                new ApexCharts(document.querySelector("#traffic"), e).render()
-            }
             $('#AjaxLoader').hide();
         }
     });

@@ -1,4 +1,16 @@
-﻿<div id="chiTietDuAnPartialID">
+﻿@model IEnumerable<ITGlobalProject.Models.Debts>
+@{
+    int i = 0;
+    string giaiDoanDebt = "";
+    string chiPhiDebt = "";
+
+    decimal tongThanhToan = 0;
+    foreach (var item in Model)
+    {
+        tongThanhToan += item.PaymentHistory.Where(p => p.OnUpdate == false).Sum(s => s.Price);
+    }
+}
+<div id="chiTietDuAnPartialID">
     <div class="row">
         <div class="col-12 mb-4">
             <!-- nav  -->
@@ -41,17 +53,33 @@
                                 <hr class="my-2" />
                                 <div style="height: 70px; margin-top: -10px" class="card-body">
                                     <!-- progress bar -->
-                                    <h5>Đã thanh toán</h5>
-                                    <div class="progress progress-tooltip"
-                                         style="height: 15px;">
-                                        <div class="progress-bar bg-primary" role="progressbar"
-                                             style="width: 50%;"
-                                             aria-valuenow="50"
-                                             aria-valuemin="0"
-                                             aria-valuemax="100">
-                                            <span>50%</span>
+                                    <h5 style="margin-bottom: 20px">Đã thanh toán:</h5>
+                                    @if (tongThanhToan <= 0)
+                                    {
+                                        <div class="progress progress-tooltip"
+                                             style="height: 15px;">
+                                            <div class="progress-bar bg-primary" role="progressbar"
+                                                 style="width: 0%;"
+                                                 aria-valuenow="0"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100">
+                                                <span>0%</span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="progress progress-tooltip"
+                                             style="height: 15px;">
+                                            <div class="progress-bar bg-primary" role="progressbar"
+                                                 style="width: @(((tongThanhToan / Model.Sum(s => s.Price)) * 100).ToString("0"))%;"
+                                                 aria-valuenow="@(((tongThanhToan / Model.Sum(s => s.Price)) * 100).ToString("0"))"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100">
+                                                <span>@(((tongThanhToan / Model.Sum(s => s.Price)) * 100).ToString("0"))%</span>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -59,8 +87,8 @@
                         <div class="col-lg-4 col-md-12 col-12">
                             <div class="d-flex align-items-center justify-content-between p-4">
                                 <div class="mb-4 mb-lg-0">
-                                    <h2 class="h1 fw-bold mb-0">$ 52,000</h2>
-                                    <p class="mb-0 "> Tổng chi phí</p>
+                                    <h2 class="h1 fw-bold mb-0">$ @(Model.Sum(s => s.Price) != 0 ? Model.Sum(s => s.Price).ToString("0,0").Replace(".", ",") : "0") </h2>
+                                    <p class="mb-0 "> Tổng chi phí (VND)</p>
 
                                 </div>
                                 <div class="ms-3">
@@ -75,8 +103,8 @@
                         <div class="col-lg-4 col-md-12 col-12 border-start">
                             <div class="d-flex align-items-center justify-content-between p-4">
                                 <div class="mb-4 mb-lg-0">
-                                    <h2 class="h1 fw-bold mb-0">$ 34,666</h2>
-                                    <p class="mb-0 ">Đã thanh toán</p>
+                                    <h2 class="h1 fw-bold mb-0">$ @(((Model.Sum(s => s.Price) - tongThanhToan) != 0) ? (Model.Sum(s => s.Price) - tongThanhToan).ToString("0,0").Replace(".", ",") : "0")</h2>
+                                    <p class="mb-0 ">Đã thanh toán (VND)</p>
 
                                 </div>
                                 <div class="ms-3">
@@ -93,9 +121,9 @@
                             <div class="d-flex align-items-center justify-content-between p-4">
                                 <div class="mb-4 mb-lg-0">
                                     <h2 class="h1 fw-bold mb-0">
-                                        $ 17,333
+                                        $ @((tongThanhToan != 0) ? tongThanhToan.ToString("0,0").Replace(".", ",") : "0")
                                     </h2>
-                                    <p class="mb-0 ">Còn lại</p>
+                                    <p class="mb-0 ">Còn lại (VND)</p>
 
                                 </div>
                                 <div class="ms-3">
@@ -125,164 +153,105 @@
                     <table class="table mb-0 text-nowrap">
                         <thead class="table-light">
                             <tr>
-                                <th scope="col" class=" border-top-0">Giai đoạn</th>
+                                <th style="padding-left: 20px" scope="col" class=" border-top-0">Giai đoạn</th>
                                 <th scope="col" class=" border-top-0">kết thúc</th>
-                                <th scope="col" class=" border-top-0">chi phí</th>
+                                <th scope="col" class=" border-top-0">chi phí (VND)</th>
                                 <th scope="col" class=" border-top-0">Trạng thái</th>
                                 <th scope="col" class=" border-top-0">Khách hàng</th>
-                                <th scope="col" class=" border-top-0">Trả</th>
+                                <th scope="col" class=" border-top-0">Đã trả (VND)</th>
+                                <th scope="col" class=" border-top-0 text-center"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div style="width: 120px" class="icon-shape icon-x rounded-3 border p-2 bg-success text-white">
-                                            <b>GIAI ĐOẠN 1</b>
+                            @foreach (var item in Model)
+                            {
+                                giaiDoanDebt += item.Stage + "~";
+                                chiPhiDebt += (item.Price != 0 ? ((item.Price / Model.Sum(s => s.Price)) * 100).ToString("0,0") : "0") + "~";
+                                <tr>
+                                    @if (item.State == true)
+                                    {
+                                        <td style="padding-left: 20px" class="align-middle ">
+                                            <div class="d-flex align-items-center">
+                                                <div style="width: 120px" class="icon-shape icon-x rounded-3 border p-2 bg-success text-white">
+                                                    <b>@item.Stage.ToUpper()</b>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        if (item.Date < DateTime.Now)
+                                        {
+                                            <td style="padding-left: 20px" class="align-middle ">
+                                                <div class="d-flex align-items-center">
+                                                    <div style="width: 120px" class="icon-shape icon-x rounded-3 border p-2 bg-danger text-white">
+                                                        <b>@item.Stage.ToUpper()</b>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="padding-left: 20px" class="align-middle ">
+                                                <div class="d-flex align-items-center">
+                                                    <div style="width: 120px" class="icon-shape icon-x rounded-3 border p-2 bg-warning text-white">
+                                                        <b>@item.Stage.ToUpper()</b>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        }
+                                    }
+
+                                    <td class="align-middle ">
+                                        @item.Date.ToString("dd") Thg @item.Date.ToString("MM, yyyy")
+                                    </td>
+                                    <td style="font-weight:bold; color: salmon" class="align-middle ">
+                                        $ @(item.Price > 0 ? item.Price.ToString("0,0").Replace(".", ",") : "0")
+                                    </td>
+
+                                    <td class="align-middle ">
+                                        @if (item.State == true)
+                                        {
+                                            <span style="width:110px" class="badge bg-success text-white p-2">Đã thanh toán</span>
+                                        }
+                                        else
+                                        {
+                                            if (item.Date < DateTime.Now)
+                                            {
+                                                <span style="width:110px" class="badge bg-danger text-white p-2">Đã quá hạn</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="width:110px" class="badge bg-warning text-white p-2">Chưa thanh toán</span>
+                                            }
+                                        }
+                                    </td>
+                                    <td class="align-middle ">
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar avatar-sm avatar-danger">
+                                                @if (string.IsNullOrEmpty(item.Projects.Partners.Avatar))
+                                                {
+                                                    <span class="avatar-initials rounded-circle "> @item.Projects.Partners.Name.Substring(0, 1) </span>
+                                                }
+                                                else
+                                                {
+                                                    <img src="@item.Projects.Partners.Avatar" alt="" class="avatar-initials rounded-circle">
+                                                }
+                                            </div>
+                                            <div class="ms-2">
+                                                <h5 class="mb-0">@item.Projects.Partners.Name </h5>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-
-                                <td class="align-middle ">
-                                    12 Thg 4, 2022
-                                </td>
-                                <td style="font-weight:bold; color: salmon" class="align-middle ">
-                                    $ 22,000
-                                </td>
-
-                                <td class="align-middle ">
-                                    <span style="width:110px" class="badge bg-success text-white p-2">Đã thanh toán</span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            &emsp;
-                                            <a href="#">
-                                                <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
-                                                     class="rounded-circle imgtooltip" data-template="one">
-                                            </a>
-                                            <span id="one" class="d-none">
-                                                <span class="mb-0 h6">Nguyễn Minh Tân</span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    <input checked style="height: 20px; width:20px;" class="form-check-input" type="checkbox" />
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div style="width: 120px" class="icon-shape icon-x rounded-3 border p-2 bg-success text-white">
-                                            <b>GIAI ĐOẠN 2</b>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td class="align-middle ">
-                                    12 Thg 4, 2022
-                                </td>
-                                <td style="font-weight:bold; color: salmon" class="align-middle ">
-                                    $ 22,000
-                                </td>
-
-                                <td class="align-middle ">
-                                    <span style="width:110px" class="badge bg-success text-white p-2">Đã thanh toán</span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            &emsp;
-                                            <a href="#">
-                                                <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
-                                                     class="rounded-circle imgtooltip" data-template="one">
-                                            </a>
-                                            <span id="one" class="d-none">
-                                                <span class="mb-0 h6">Nguyễn Minh Tân</span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    <input checked style="height: 20px; width:20px;" class="form-check-input" type="checkbox" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div style="width: 120px" class="icon-shape icon-x rounded-3 border p-2 bg-warning text-white">
-                                            <b>GIAI ĐOẠN 3</b>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td class="align-middle ">
-                                    12 Thg 4, 2022
-                                </td>
-                                <td style="font-weight:bold; color: salmon" class="align-middle ">
-                                    $ 22,000
-                                </td>
-
-                                <td class="align-middle ">
-                                    <span style="width:110px" class="badge bg-warning text-white p-2">Chưa thanh toán</span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            &emsp;
-                                            <a href="#">
-                                                <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
-                                                     class="rounded-circle imgtooltip" data-template="one">
-                                            </a>
-                                            <span id="one" class="d-none">
-                                                <span class="mb-0 h6">Nguyễn Minh Tân</span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    <input style="height: 20px; width:20px;" class="form-check-input" type="checkbox" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div style="width: 120px" class="icon-shape icon-x rounded-3 border p-2 bg-danger text-white">
-                                            <b>GIAI ĐOẠN 4</b>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td class="align-middle ">
-                                    12 Thg 4, 2022
-                                </td>
-                                <td style="font-weight:bold; color: salmon" class="align-middle ">
-                                    $ 22,000
-                                </td>
-
-                                <td class="align-middle ">
-                                    <span style="width:110px" class="badge bg-danger text-white p-2">Đã quá hạn</span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            &emsp;
-                                            <a href="#">
-                                                <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
-                                                     class="rounded-circle imgtooltip" data-template="one">
-                                            </a>
-                                            <span id="one" class="d-none">
-                                                <span class="mb-0 h6">Nguyễn Minh Tân</span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    <input style="height: 20px; width:20px;" class="form-check-input" type="checkbox" />
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td style="font-weight:bold; color: salmon" class="align-middle ">
+                                        $ @(item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price) == 0 ? "0" : item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price).ToString("0,0").Replace(".", ","))
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <input hidden id="tongTien@(item.ID)" name="@item.Stage" value="@((item.Price - item.PaymentHistory.Where(p => p.OnUpdate == false).Sum(s => s.Price)) == 0 ? "0 VND" : (item.Price - item.PaymentHistory.Where(p => p.OnUpdate == false).Sum(s => s.Price)).ToString("0,0").Replace(".", ",") + " VND")" />
+                                        <button id="btnThanhToan@(item.ID)" name="@item.ID" class="btn btn-outline-primary btn-xs">THANH TOÁN</button>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -299,30 +268,12 @@
                     <div>
                         <h4 class="mb-0">Chi phí các giai đoạn</h4>
                     </div>
-                    <div>
-                        <div class="dropdown dropstart">
-                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="courseDropdown2" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fe fe-more-vertical"></i>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="courseDropdown2">
-                                <span class="dropdown-header">Settings</span>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fe fe-external-link dropdown-item-icon "></i>Export
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fe fe-mail dropdown-item-icon "></i>Email
-                                    Report
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fe fe-download dropdown-item-icon "></i>Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <!-- Card body -->
                 <div class="card-body">
                     <div name="trafficCongNo" id="traffic" class="apex-charts d-flex justify-content-center"></div>
+                    <input hidden id="giaiDoanDebt" value="@giaiDoanDebt.Substring(0, giaiDoanDebt.Length - 1)" />
+                    <input hidden id="chiPhiDebt" value="@chiPhiDebt.Substring(0, chiPhiDebt.Length - 1)" />
                 </div>
             </div>
         </div>
@@ -335,154 +286,88 @@
                 <div class="card-header">
                     <h4 class="mb-0">Lịch sử thanh toán</h4>
                 </div>
-                <!-- row -->
-                <!-- table -->
-                <div style="height:345px;" class="table-responsive" data-simplebar>
-                    <table class="table text-nowrap mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>STT</th>
-                                <th>Giai đoạn</th>
-                                <th>Ngày</th>
-                                <th>Số tiền</th>
-                                <th>Ghi chú</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    Giai đoạn 1
-                                </td>
-                                <td>
-                                    17/01/2022
-                                </td>
-                                <td>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor"
-                                         class="bi bi-square-fill text-success me-2" viewBox="0 0 16 16">
-                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z" />
-                                    </svg>$ 7,000
-                                </td>
-                                <td>
-                                    Thanh toán chi phí giai đoạn 1
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    Giai đoạn 1
-                                </td>
-                                <td>
-                                    18/01/2022
-                                </td>
-                                <td>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor"
-                                         class="bi bi-square-fill text-success me-2" viewBox="0 0 16 16">
-                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z" />
-                                    </svg>$ 10,333
-                                </td>
-                                <td>
-                                    Thanh toán chi phí giai đoạn 1
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>
-                                    Giai đoạn 1
-                                </td>
-                                <td>
-                                    18/01/2022
-                                </td>
-                                <td>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor"
-                                         class="bi bi-square-fill text-danger me-2" viewBox="0 0 16 16">
-                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z" />
-                                    </svg>$ 3,000
-                                </td>
-                                <td>
-                                    Hoàn lại chi phí được giảm
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>
-                                    Giai đoạn 2
-                                </td>
-                                <td>
-                                    21/03/2022
-                                </td>
-                                <td>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor"
-                                         class="bi bi-square-fill text-success me-2" viewBox="0 0 16 16">
-                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z" />
-                                    </svg>$ 17,333
-                                </td>
-                                <td>
-                                    Thanh toán chi phí gđ 2
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>
-                                    Giai đoạn 2
-                                </td>
-                                <td>
-                                    23/03/2022
-                                </td>
-                                <td>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor"
-                                         class="bi bi-square-fill text-success me-2" viewBox="0 0 16 16">
-                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z" />
-                                    </svg>$ 3,000
-                                </td>
-                                <td>
-                                    Hoàn tất thanh toán gđ 2
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>
-                                    Giai đoạn 3
-                                </td>
-                                <td>
-                                    04/04/2022
-                                </td>
-                                <td>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor"
-                                         class="bi bi-square-fill text-success me-2" viewBox="0 0 16 16">
-                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z" />
-                                    </svg>$ 18,000
-                                </td>
-                                <td>
-                                    Thanh toán gđ 3
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>
-                                    Giai đoạn 3
-                                </td>
-                                <td>
-                                    04/04/2022
-                                </td>
-                                <td>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor"
-                                         class="bi bi-square-fill text-danger me-2" viewBox="0 0 16 16">
-                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z" />
-                                    </svg>$ 666
-                                </td>
-                                <td>
-                                    Hoàn trả chi phí thừa
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
+                <table id="dataTableBasic" class="table text-nowrap mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="padding-left: 20px">STT</th>
+                            <th>Giai đoạn</th>
+                            <th>Ngày</th>
+                            <th>Số tiền (VND)</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            foreach (var items in item.PaymentHistory.OrderByDescending(o => o.ID))
+                            {
+                                i++;
+                                <tr>
+                                    <td class="align-middle " style="padding-left: 20px"><b>@i</b></td>
+                                    <td class="align-middle ">
+                                        <b class="align-items-center ">@item.Stage.ToUpper()</b>
+                                    </td>
+                                    <td class="align-middle ">
+                                        @items.Date.ToString("dd") Thg @items.Date.ToString("MM, yyyy")
+                                    </td>
+                                    <td class="align-middle ">
+                                        @if (items.Type == false)
+                                        {
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor"
+                                                 class="bi bi-square-fill text-danger me-2" viewBox="0 0 16 16">
+                                                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z" />
+                                            </svg><span>$ @(items.Price != 0 ? items.Price.ToString("0,0").Replace(".", ",") : "0")</span>
+                                        }
+                                        else
+                                        {
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor"
+                                                 class="bi bi-square-fill text-success me-2" viewBox="0 0 16 16">
+                                                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z" />
+                                            </svg><span>$ @(items.Price != 0 ? items.Price.ToString("0,0").Replace(".", ",") : "0")</span>
+                                        }
+                                    </td>
+                                    <td class="align-middle ">
+                                        @items.Contents
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Form thanh toán giai đoạn -->
+    <div class="modal fade" id="ThanhToanModal" tabindex="-1" role="dialog" aria-labelledby="ThanhToanModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ThanhToanModalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input hidden id="idThanhToan" />
+                    <p id="ghiChuThanhToan"></p>
+                    <input id="soTienThanhToan" placeholder="Nhập số tiền muốn thanh toán" class="form-control text-start text-danger" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" />
+                    <p hidden style="font-size: 13px; color:red;" id="soTienThanhToanvalidation"></p>
+                </div>
+                <div class="row">
+                    <div style="text-align: right; padding-bottom: 20px" class="mb-2 col-12 col-md-6">
+                        <button style="width: 150px" class="btn btn-outline-danger" data-bs-dismiss="modal">
+                            Hủy
+                        </button>
+                    </div>
+                    <div style="padding-bottom: 20px; width: 150px" class="mb-2 col-12 col-md-6">
+                        <a style="width: 150px" role="button" id="btnLuuThanhToan" class="btn btn-success">
+                            Lưu
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="~/ValidationAlert/Admin/QuanLyDuAn/ChiTietDuAn_CongNoValidation.js"></script>
 </div>
 
-<!-- row -->

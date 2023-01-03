@@ -20,6 +20,7 @@ namespace ITGlobalProject.Models
         public decimal Price { get; set; }
         public string Contents { get; set; }
         public Nullable<bool> Type { get; set; }
+        public Nullable<bool> OnUpdate { get; set; }
     
         public virtual Debts Debts { get; set; }
     }
