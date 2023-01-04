@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="ID" />
@@ -208,12 +208,13 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ID_Debts" Type="int" Nullable="false" />
+          <Property Name="ID_Debts" Type="int" />
           <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="Price" Type="money" />
           <Property Name="Contents" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Type" Type="bit" />
           <Property Name="OnUpdate" Type="bit" />
+          <Property Name="ID_Projects" Type="int" />
         </EntityType>
         <EntityType Name="Payroll">
           <Key>
@@ -553,7 +554,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PaymentHistory_Debts">
-          <End Role="Debts" Type="Self.Debts" Multiplicity="1" />
+          <End Role="Debts" Type="Self.Debts" Multiplicity="0..1" />
           <End Role="PaymentHistory" Type="Self.PaymentHistory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Debts">
@@ -561,6 +562,18 @@
             </Principal>
             <Dependent Role="PaymentHistory">
               <PropertyRef Name="ID_Debts" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentHistory_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="0..1" />
+          <End Role="PaymentHistory" Type="Self.PaymentHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PaymentHistory">
+              <PropertyRef Name="ID_Projects" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -840,6 +853,10 @@
             <End Role="Debts" EntitySet="Debts" />
             <End Role="PaymentHistory" EntitySet="PaymentHistory" />
           </AssociationSet>
+          <AssociationSet Name="FK_PaymentHistory_Projects" Association="Self.FK_PaymentHistory_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="PaymentHistory" EntitySet="PaymentHistory" />
+          </AssociationSet>
           <AssociationSet Name="FK_Payroll_Employees" Association="Self.FK_Payroll_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Payroll" EntitySet="Payroll" />
@@ -901,7 +918,8 @@
             <End Role="Teams" EntitySet="Teams" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CP25Team06Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1002,6 +1020,7 @@
           <Property Name="AccessHistory" Type="DateTime" Precision="3" />
           <Property Name="AccountSatus" Type="Boolean" Nullable="false" />
           <Property Name="DayOff" Type="DateTime" Precision="3" />
+          <Property Name="ID_Employee" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Comment" Relationship="Self.FK_Comment_Employees" FromRole="Employees" ToRole="Comment" />
           <NavigationProperty Name="DependentsInformation" Relationship="Self.FK_DependentsInformation_Employees" FromRole="Employees" ToRole="DependentsInformation" />
           <NavigationProperty Name="Position" Relationship="Self.FK_Employees_Position" FromRole="Employees" ToRole="Position" />
@@ -1016,7 +1035,6 @@
           <NavigationProperty Name="Subsidies" Relationship="Self.FK_Subsidies_Employees" FromRole="Employees" ToRole="Subsidies" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Employees" FromRole="Employees" ToRole="Tasks" />
           <NavigationProperty Name="Teams" Relationship="Self.FK_Teams_Employees" FromRole="Employees" ToRole="Teams" />
-          <Property Name="ID_Employee" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="EmploymentContracts">
           <Key>
@@ -1041,11 +1059,11 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Contents" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ID_Projects" Type="Int32" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_Histories_Employees" FromRole="Histories" ToRole="Employees" />
           <NavigationProperty Name="Payroll" Relationship="Self.FK_Histories_Payroll" FromRole="Histories" ToRole="Payroll" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_Histories_Projects" FromRole="Histories" ToRole="Projects" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Histories_Tasks" FromRole="Histories" ToRole="Tasks" />
-          <Property Name="ID_Projects" Type="Int32" />
-          <NavigationProperty Name="Projects" Relationship="CP25Team06Model.FK_Histories_Projects" FromRole="Histories" ToRole="Projects" />
         </EntityType>
         <EntityType Name="Insurance">
           <Key>
@@ -1140,13 +1158,15 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_Debts" Type="Int32" Nullable="false" />
+          <Property Name="ID_Debts" Type="Int32" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Contents" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Type" Type="Boolean" />
-          <NavigationProperty Name="Debts" Relationship="Self.FK_PaymentHistory_Debts" FromRole="PaymentHistory" ToRole="Debts" />
           <Property Name="OnUpdate" Type="Boolean" />
+          <Property Name="ID_Projects" Type="Int32" />
+          <NavigationProperty Name="Debts" Relationship="Self.FK_PaymentHistory_Debts" FromRole="PaymentHistory" ToRole="Debts" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_PaymentHistory_Projects" FromRole="PaymentHistory" ToRole="Projects" />
         </EntityType>
         <EntityType Name="Payroll">
           <Key>
@@ -1199,10 +1219,11 @@
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Debts" Relationship="Self.FK_Debts_Projects" FromRole="Projects" ToRole="Debts" />
+          <NavigationProperty Name="Histories" Relationship="Self.FK_Histories_Projects" FromRole="Projects" ToRole="Histories" />
           <NavigationProperty Name="Partners" Relationship="Self.FK_Projects_Partners" FromRole="Projects" ToRole="Partners" />
+          <NavigationProperty Name="PaymentHistory" Relationship="Self.FK_PaymentHistory_Projects" FromRole="Projects" ToRole="PaymentHistory" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Projects" FromRole="Projects" ToRole="Tasks" />
           <NavigationProperty Name="Teams" Relationship="Self.FK_Teams_Projects" FromRole="Projects" ToRole="Teams" />
-          <NavigationProperty Name="Histories" Relationship="CP25Team06Model.FK_Histories_Projects" FromRole="Projects" ToRole="Histories" />
         </EntityType>
         <EntityType Name="Recruitment">
           <Key>
@@ -1371,7 +1392,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PaymentHistory_Debts">
-          <End Role="Debts" Type="Self.Debts" Multiplicity="1" />
+          <End Role="Debts" Type="Self.Debts" Multiplicity="0..1" />
           <End Role="PaymentHistory" Type="Self.PaymentHistory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Debts">
@@ -1562,6 +1583,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Histories_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="0..1" />
+          <End Role="Histories" Type="Self.Histories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Histories">
+              <PropertyRef Name="ID_Projects" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Histories_Tasks">
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="0..1" />
           <End Role="Histories" Type="Self.Histories" Multiplicity="*" />
@@ -1595,6 +1628,18 @@
             </Principal>
             <Dependent Role="Projects">
               <PropertyRef Name="ID_Partner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentHistory_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="0..1" />
+          <End Role="PaymentHistory" Type="Self.PaymentHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PaymentHistory">
+              <PropertyRef Name="ID_Projects" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1802,6 +1847,10 @@
             <End Role="Payroll" EntitySet="Payroll" />
             <End Role="Histories" EntitySet="Histories" />
           </AssociationSet>
+          <AssociationSet Name="FK_Histories_Projects" Association="Self.FK_Histories_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="Histories" EntitySet="Histories" />
+          </AssociationSet>
           <AssociationSet Name="FK_Histories_Tasks" Association="Self.FK_Histories_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="Histories" EntitySet="Histories" />
@@ -1813,6 +1862,10 @@
           <AssociationSet Name="FK_Projects_Partners" Association="Self.FK_Projects_Partners">
             <End Role="Partners" EntitySet="Partners" />
             <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentHistory_Projects" Association="Self.FK_PaymentHistory_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="PaymentHistory" EntitySet="PaymentHistory" />
           </AssociationSet>
           <AssociationSet Name="FK_PersonalSkills_SkillsCategory" Association="Self.FK_PersonalSkills_SkillsCategory">
             <End Role="Skills" EntitySet="Skills" />
@@ -1846,23 +1899,7 @@
             <End Role="SubsidiesCategory" EntitySet="SubsidiesCategory" />
             <End Role="Subsidies" EntitySet="Subsidies" />
           </AssociationSet>
-          <AssociationSet Name="FK_Histories_Projects" Association="CP25Team06Model.FK_Histories_Projects">
-            <End Role="Projects" EntitySet="Projects" />
-            <End Role="Histories" EntitySet="Histories" />
-          </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_Histories_Projects">
-          <End Type="CP25Team06Model.Projects" Role="Projects" Multiplicity="0..1" />
-          <End Type="CP25Team06Model.Histories" Role="Histories" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Projects">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Histories">
-              <PropertyRef Name="ID_Projects" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1938,7 +1975,6 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="CP25Team06Model.Employees">
               <MappingFragment StoreEntitySet="Employees">
-                <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Position" ColumnName="ID_Position" />
                 <ScalarProperty Name="Avatar" ColumnName="Avatar" />
@@ -1966,6 +2002,7 @@
                 <ScalarProperty Name="AccessHistory" ColumnName="AccessHistory" />
                 <ScalarProperty Name="AccountSatus" ColumnName="AccountSatus" />
                 <ScalarProperty Name="DayOff" ColumnName="DayOff" />
+                <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1984,7 +2021,6 @@
           <EntitySetMapping Name="Histories">
             <EntityTypeMapping TypeName="CP25Team06Model.Histories">
               <MappingFragment StoreEntitySet="Histories">
-                <ScalarProperty Name="ID_Projects" ColumnName="ID_Projects" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
                 <ScalarProperty Name="ID_Task" ColumnName="ID_Task" />
@@ -1992,6 +2028,7 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Contents" ColumnName="Contents" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ID_Projects" ColumnName="ID_Projects" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2086,13 +2123,14 @@
           <EntitySetMapping Name="PaymentHistory">
             <EntityTypeMapping TypeName="CP25Team06Model.PaymentHistory">
               <MappingFragment StoreEntitySet="PaymentHistory">
-                <ScalarProperty Name="OnUpdate" ColumnName="OnUpdate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Debts" ColumnName="ID_Debts" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Contents" ColumnName="Contents" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="OnUpdate" ColumnName="OnUpdate" />
+                <ScalarProperty Name="ID_Projects" ColumnName="ID_Projects" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

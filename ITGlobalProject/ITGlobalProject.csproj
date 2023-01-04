@@ -803,6 +803,10 @@
     <Content Include="Areas\Admins\Views\QuanLyTroCapVaPhuCap\danhSachKhoanTroCapVaPhuCap.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyTroCapVaPhuCap\_danhSachKhoanTroCapVaPhuCapPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDanhMucNgayNghiPhep\danhSachDanhMucNgayNghiPhep.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_DanhSachNhanVienImport.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyDuAn\_xemChinhSuaTaskPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyDuAn\_commentTaskPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyDuAn\_doiNgu_timKiemThanhVienPartial.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -810,10 +814,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_DanhSachNhanVienImport.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyDuAn\_xemChinhSuaTaskPartial.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyDuAn\_commentTaskPartial.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyDuAn\_doiNgu_timKiemThanhVienPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyDuAn\_formChinhSuaChiPhi.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -838,6 +839,7 @@
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_ChinhSuaCongViecValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_CongNoValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_CongViecValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_ConNo_ChinhSuaGiaiDoanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_DoiNguValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ThemDuAnValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyKhoanTroCapValidation\SuaTroCapValidation.js" />

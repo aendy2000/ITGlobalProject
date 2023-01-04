@@ -18,6 +18,7 @@ using System.Text;
 using ITGlobalProject.Models;
 using ITGlobalProject.Middleware;
 using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace ITGlobalProject.Areas.Admins.Controllers
 {
@@ -575,7 +576,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             PaymentHistory payHis = new PaymentHistory();
             payHis.ID_Debts = (int)id;
             payHis.Date = DateTime.Now;
-            payHis.Contents = "Thanh toán " + Convert.ToDecimal(price).ToString("0,0") + " VND cho " + debt.Stage;
+            payHis.Contents = "Thanh toán " + Convert.ToDecimal(price).ToString("0,0").Replace(".", ",") + " VND cho " + debt.Stage;
 
             if (price < 0)
                 payHis.Type = false; //false = khoản âm
@@ -600,6 +601,150 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             int idpro = debt.ID_Project;
             var pro = model.Projects.Find(idpro);
             return PartialView("_nganSachPartial", pro.Debts.ToList());
+        }
+        [HttpPost]
+        public ActionResult chinhSuaChiPhi(int? id)
+        {
+            var pro = model.Projects.Find(id);
+            if (id == null || pro == null || Session["user-id"] == null)
+                return Content("DANHSACH");
+
+            return PartialView("_formChinhSuaChiPhi", pro.Debts.ToList());
+        }
+        [HttpPost]
+        public ActionResult luuchinhsuachiphi(int? idpro, string giaidoan, string chiphi)
+        {
+            var pro = model.Projects.Find(idpro);
+            if (idpro == null || pro == null || Session["user-id"] == null || giaidoan == null || chiphi == null)
+                return Content("DANHSACH");
+
+            var chiPhiBanDau = pro.Debts.Sum(s => s.Price);
+
+            if (giaidoan.IndexOf("_") != -1)
+            {
+                var itemGiaiDoan = giaidoan.Split('_');
+                var itemChiPhi = chiphi.Split('_');
+
+                int totalDebtinDB = pro.Debts.Count();
+                int totalDebNew = itemGiaiDoan.Count();
+
+                if (totalDebtinDB <= totalDebNew) //thêm hoặc giữ nguyên thì chỉ sửa cũ và thêm mới nếu có
+                {
+                    for (int i = 0; i < totalDebNew; i++)
+                    {
+                        if (totalDebtinDB > i)
+                        {
+                            string nameGD = "giai đoạn " + (i + 1);
+                            var debt = pro.Debts.FirstOrDefault(d => d.Stage.ToLower().Trim().Equals(nameGD));
+                            debt.Price = Convert.ToDecimal(itemChiPhi[i]);
+                            debt.Date = Convert.ToDateTime(itemGiaiDoan[i]);
+                            model.Entry(debt).State = EntityState.Modified;
+                            model.SaveChanges();
+                        }
+                        else
+                        {
+                            Debts newDebts = new Debts();
+                            newDebts.ID_Project = (int)idpro;
+                            newDebts.Stage = "Giai đoạn " + (i + 1);
+                            newDebts.Price = Convert.ToDecimal(itemChiPhi[i]);
+                            newDebts.Date = Convert.ToDateTime(itemGiaiDoan[i]);
+                            newDebts.State = false;
+                            model.Debts.Add(newDebts);
+                            model.SaveChanges();
+                        }
+                    }
+                }
+                else //Bớt thì sửa cái cũ và xóa cái được xóa
+                {
+                    for (int i = 0; i < totalDebtinDB; i++)
+                    {
+                        if (totalDebNew > i)
+                        {
+                            string nameGD = "giai đoạn " + (i + 1);
+                            var debt = pro.Debts.FirstOrDefault(d => d.Stage.ToLower().Trim().Equals(nameGD));
+                            debt.Price = Convert.ToDecimal(itemChiPhi[i]);
+                            debt.Date = Convert.ToDateTime(itemGiaiDoan[i]);
+                            model.Entry(debt).State = EntityState.Modified;
+                            model.SaveChanges();
+                        }
+                        else
+                        {
+                            string nameGD = "giai đoạn " + (i + 1);
+                            var debt = pro.Debts.FirstOrDefault(d => d.Stage.ToLower().Trim().Equals(nameGD));
+
+                            model.PaymentHistory.RemoveRange(debt.PaymentHistory);
+                            model.Debts.Remove(debt);
+                            model.SaveChanges();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                int totalDebtinDB = pro.Debts.Count();
+                if (totalDebtinDB > 1)
+                {
+                    for (int i = 0; i < totalDebtinDB; i++)
+                    {
+                        if (i == 0)
+                        {
+                            string nameGD = "giai đoạn " + (i + 1);
+                            var debt = pro.Debts.FirstOrDefault(d => d.Stage.ToLower().Trim().Equals(nameGD));
+                            debt.Price = Convert.ToDecimal(chiphi);
+                            debt.Date = Convert.ToDateTime(giaidoan);
+                            model.Entry(debt).State = EntityState.Modified;
+                            model.SaveChanges();
+                        }
+                        else
+                        {
+                            string nameGD = "giai đoạn " + (i + 1);
+                            var debt = pro.Debts.FirstOrDefault(d => d.Stage.ToLower().Trim().Equals(nameGD));
+
+                            model.PaymentHistory.RemoveRange(debt.PaymentHistory);
+                            model.Debts.Remove(debt);
+                            model.SaveChanges();
+                        }
+                    }
+                }
+                else
+                {
+                    string nameGD = "giai đoạn 1";
+                    var debt = pro.Debts.FirstOrDefault(d => d.Stage.ToLower().Trim().Equals(nameGD));
+                    debt.Price = Convert.ToDecimal(chiphi);
+                    debt.Date = Convert.ToDateTime(giaidoan);
+                    model.Entry(debt).State = EntityState.Modified;
+                    model.SaveChanges();
+                }
+            }
+
+            model = new CP25Team06Entities();
+            var chiPhiHienTai = model.Debts.Where(d => d.ID_Project == idpro).Sum(s => s.Price);
+
+            PaymentHistory payHis = new PaymentHistory();
+            payHis.ID_Projects = (int)idpro;
+            payHis.Date = DateTime.Now;
+            payHis.Contents = "Thay đổi thông tin giai đoạn của dự án. Từ tổng: " + chiPhiBanDau.ToString("0,0") + " VND -> " + chiPhiHienTai.ToString("0,0") + " VND.";
+            if (chiPhiBanDau == chiPhiHienTai)
+            {
+                payHis.Type = true; //True = khoản dương
+                payHis.Price = 0;
+            }
+            else if (chiPhiBanDau > chiPhiHienTai)
+            {
+                payHis.Type = false; //false = khoản âm
+                payHis.Price = chiPhiBanDau - chiPhiHienTai;
+            }
+            else
+            {
+                payHis.Type = true; //True = khoản dương
+                payHis.Price = chiPhiHienTai - chiPhiBanDau;
+            }
+
+            payHis.OnUpdate = true; //Dùng để tính số tiền khách hàng thanh toán = false
+            model.PaymentHistory.Add(payHis);
+            model.SaveChanges();
+
+            return PartialView("_nganSachPartial", model.Projects.Find(idpro).Debts.ToList());
         }
         public ActionResult taiLieuPartial(int? id)
         {

@@ -181,6 +181,7 @@
                 }
                 else {
                     $('#edittaskModal').modal('toggle');
+
                     window.setTimeout(function () {
                         $('#chiTietDuAnPartialID').replaceWith(ketqua);
                         $('#assignTo').selectpicker();
@@ -213,8 +214,7 @@
                             time: 1000,
                             delay: 1000,
                         });
-                    }, 100);
-
+                    }, 300);
                 }
             });
         }

@@ -25,7 +25,7 @@ namespace ITGlobalProject.Models
     
         public virtual Employees Employees { get; set; }
         public virtual Payroll Payroll { get; set; }
-        public virtual Tasks Tasks { get; set; }
         public virtual Projects Projects { get; set; }
+        public virtual Tasks Tasks { get; set; }
     }
 }

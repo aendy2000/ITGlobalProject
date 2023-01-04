@@ -554,62 +554,6 @@
 
                                                 </div>
                                             </div>
-                                            <input id="dem" value="@Model.Debts.Count" hidden />
-                                            @foreach (var debts in Model.Debts)
-                                            {
-                                                i++;
-                                                if (debts.State == true)
-                                                {
-                                                    <label style="font-weight:bold" for="ipcpgd@(i)" class="form-label">Giai đoạn @(i) (đã thanh toán  <i class="fe fe-check-square"></i>)</label>
-                                                    <div id="ipcpgd@(i)" class="mb-3 col-md-6 col-12">
-                                                        <input readonly value="@debts.Price.ToString("0,0").Replace(".",",")" id="gd@(i)" name="gd@(i)" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Chi phí giai đoạn @(i)" />
-                                                    </div>
-                                                    <div id="ipdgd@(i)" class="mb-3 col-md-6 col-12">
-                                                        <div class="input-group me-3">
-                                                            <input disabled id="ngaygd@(i)" name="ngaygd@(i)" value="@debts.Date.ToString("yyyy-MM-dd")" class="form-control" type="text"
-                                                                   placeholder="Ngày kết thúc giai đoạn @(i)" aria-describedby="basic-addon-gd@(i)" required>
-
-                                                            <span class="input-group-text text-muted" id="basic-addon-gd@(i)">
-                                                                <i class="fe fe-calendar"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <label style="font-weight:bold" for="ipcpgd@(i)" class="form-label">Giai đoạn @(i)</label>
-                                                    <div id="ipcpgd@(i)" class="mb-3 col-md-6 col-12">
-                                                        <input value="@debts.Price.ToString("0,0").Replace(".",",")" id="gd@(i)" name="gd@(i)" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Chi phí giai đoạn @(i)" />
-                                                    </div>
-                                                    <div id="ipdgd@(i)" class="mb-3 col-md-6 col-12">
-                                                        <div class="input-group me-3">
-                                                            <input id="ngaygd@(i)" name="ngaygd@(i)" value="@debts.Date.ToString("yyyy-MM-dd")" class="form-control" type="text"
-                                                                   placeholder="Ngày kết thúc giai đoạn @(i)" aria-describedby="basic-addon-gd@(i)" required>
-
-                                                            <span class="input-group-text text-muted" id="basic-addon-gd@(i)">
-                                                                <i class="fe fe-calendar"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                }
-
-                                            }
-                                            <div id="appenddayne" class="col-12"></div>
-                                            <div style="text-align: center; padding-bottom: 15px;" class="mb-2 col-md-6 col-12">
-                                                <a style="width: 100%;" id="xoabot" class="btn text-danger border-danger btn-xs">
-                                                    <i class="fe fe-minus-circle"> </i> Xóa giai đoạn
-                                                </a>
-                                            </div>
-                                            <div style="text-align:center; padding-bottom: 15px" class="mb-2 col-md-6 col-12">
-                                                <a style="width: 100%" id="addthem" class="btn text-primary border-primary btn-xs">
-                                                    <i class="fe fe-plus-circle"> </i> Thêm giai đoạn
-                                                </a>
-                                            </div>
-
-                                            <div style="margin-bottom: 20px" class="col-12">
-                                                <label style="font-weight:bold" for="priority" class="form-label">Tổng chi phí </label>
-                                                <input value="@Model.Debts.Sum(b => b.Price).ToString("0,0").Replace(".", ",")" placeholder="HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" readonly style="text-align: center; font-weight: bold;" id="sums" name="sums" type="text" class="form-control text-center text-danger">
-                                            </div>
                                         </div>
                                     </div>
 
@@ -742,97 +686,6 @@
     </div>
 </div>
 
-<!-- Chỉnh sửa Công nợ -->
-<div class="modal fade modal-lg" id="chinhSuaChiPhi" tabindex="-1" role="dialog"
-     aria-labelledby="chinhSuaChiPhiLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="chinhSuaChiPhi">Cập Nhật Chi Phí</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="cnfrm" class="row">
-                    <input id="cndem" value="3" hidden />
-
-                    <label style="font-weight:bold" for="cnipcpgd1" class="form-label">Giai đoạn 1 </label>
-                    <div id="cnipcpgd1" class="mb-3 col-md-6 col-12">
-                        <input id="cngd1" name="cngd1" type="text" class="form-control" placeholder="Chi phí giai đoạn 1" required />
-                    </div>
-                    <div id="cnipdgd1" class="mb-3 col-md-6 col-12">
-                        <div class="input-group me-3">
-                            <input class="form-control flatpickr" type="text"
-                                   placeholder="Ngày kết thúc giai đoạn 1" aria-describedby="basic-addon-gd1" required>
-
-                            <span class="input-group-text text-muted" id="basic-addon-gd1">
-                                <i class="fe fe-calendar"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <label style="font-weight:bold" for="cnipcpgd2" class="form-label">Giai đoạn 2 </label>
-                    <div id="cnipcpgd2" class="mb-3 col-md-6 col-12">
-                        <input id="cngd2" name="cngd2" type="text" class="form-control" placeholder="Chi phí giai đoạn 2" required />
-                    </div>
-                    <div id="cnipdgd2" class="mb-3 col-md-6 col-12">
-                        <div class="input-group me-3">
-                            <input class="form-control flatpickr" type="text"
-                                   placeholder="Ngày kết thúc giai đoạn 2" id="date" aria-describedby="basic-addon-gd2" required>
-
-                            <span class="input-group-text text-muted" id="basic-addon-gd2">
-                                <i class="fe fe-calendar"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <label style="font-weight:bold" for="cnipcpgd3" class="form-label">Giai đoạn 3 </label>
-                    <div id="cnipcpgd3" class="mb-3 col-md-6 col-12">
-                        <input id="cngd3" name="cngd3" type="text" class="form-control" placeholder="Chi phí giai đoạn 3" required />
-                    </div>
-                    <div id="cnipdgd3" class="mb-3 col-md-6 col-12">
-                        <div class="input-group me-3">
-
-                            <input class="form-control flatpickr" type="text"
-                                   placeholder="Ngày kết thúc giai đoạn 3" id="date" aria-describedby="basic-addon-gd3" required>
-
-                            <span class="input-group-text text-muted" id="basic-addon-gd3">
-                                <i class="fe fe-calendar"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div id="cnappenddayne" class="col-12"></div>
-                    <div style="text-align: center; padding-bottom: 15px;" class="mb-2 col-md-6 col-12">
-                        <a style="width: 100%;" id="cnxoabot" class="btn text-danger border-danger btn-xs">
-                            <i class="fe fe-minus-circle"> </i> Xóa giai đoạn
-                        </a>
-                    </div>
-                    <div style="text-align:center; padding-bottom: 15px" class="mb-2 col-md-6 col-12">
-                        <a style="width: 100%" id="cnaddthem" class="btn text-primary border-primary btn-xs">
-                            <i class="fe fe-plus-circle"> </i> Thêm giai đoạn
-                        </a>
-                    </div>
-
-                    <div style="margin-bottom: 20px" class="col-12">
-                        <label style="font-weight:bold" for="priority" class="form-label">Tổng chi phí </label>
-                        <div readonly style="text-align: center; font-weight: bold; color: brown" id="cnsums" name="cnsums" type="text" class="form-control">HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN</div>
-                    </div>
-                    <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
-                        <a role="button" style="width: 230px" class="btn btn-outline-danger" data-bs-dismiss="modal">
-                            Hủy
-                        </a>
-                    </div>
-                    <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
-                        <button style="width: 230px" class="btn btn-success" type="submit">
-                            Lưu
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script src="~/ValidationAlert/Admin/QuanLyDuAn/ChinhSuaDuAnValidation.js"></script>
 <script src="~/ValidationAlert/Admin/QuanLyDuAn/ChiTietDuAnValidation.js"></script>
 <script src="~/Content/Admin/assets/js/reviewImage.js"></script>
@@ -845,7 +698,7 @@
         type: 'GET',
         dataType: 'html'
     }).done(function(ketqua) {
-        if (ketqua == "DANHSACH") {
+        if (ketqua == "DANHSACH" || ketqua == "DANGNHAP") {
             $('#AjaxLoader').hide();
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {
@@ -952,7 +805,7 @@
         type: 'GET',
         dataType: 'html'
     }).done(function(ketqua) {
-        if (ketqua == "DANHSACH") {
+        if (ketqua == "DANHSACH" || ketqua == "DANGNHAP") {
             $('#AjaxLoader').hide();
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {
@@ -984,8 +837,8 @@
         url: '@Url.Action("nganSachPartial", "QuanLyDuAn", new {id = Model.ID })',
         type: 'GET',
         dataType: 'html'
-    }).done(function(ketqua) {
-        if (ketqua == "DANHSACH") {
+    }).done(function (ketqua) {
+        if (ketqua == "DANHSACH" || ketqua == "DANGNHAP" || ketqua == "DANGNHAP") {
             $('#AjaxLoader').hide();
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {
@@ -1013,7 +866,7 @@
         type: 'GET',
         dataType: 'html'
     }).done(function(ketqua) {
-        if (ketqua == "DANHSACH") {
+        if (ketqua == "DANHSACH" || ketqua == "DANGNHAP") {
             $('#AjaxLoader').hide();
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {
@@ -1041,7 +894,7 @@
         type: 'GET',
         dataType: 'html'
     }).done(function(ketqua) {
-        if (ketqua == "DANHSACH") {
+        if (ketqua == "DANHSACH" || ketqua == "DANGNHAP") {
             $('#AjaxLoader').hide();
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {

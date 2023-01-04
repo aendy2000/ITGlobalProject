@@ -267,6 +267,10 @@
                 checkduan = false;
                 $('#gd' + i + 'validation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
                 $('#gd' + i).focus();
+            } else if (Number(chiphigd.replace(/,/g, '').trim()) == 0) {
+                checkduan = false;
+                $('#gd' + i + 'validation').text("Chi phí giai đoạn không thể bằng 0.").show().prop("hidden", false);
+                $('#gd' + i).focus();
             } else if (chiphigd.indexOf("-") != -1) {
                 checkduan = false;
                 $('#gd' + i + 'validation').text("Số tiền không thể âm.").show().prop("hidden", false);

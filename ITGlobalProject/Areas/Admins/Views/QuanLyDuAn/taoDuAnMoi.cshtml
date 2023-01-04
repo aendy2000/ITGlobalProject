@@ -98,7 +98,7 @@
                                                     </div>
                                                     <input id="dem" value="1" hidden />
 
-                                                    <label style="font-weight:bold" for="ipcpgd1" class="form-label">Giai đoạn 1 </label>
+                                                    <label style="font-weight:bold" for="ipcpgd1" class="form-label">Giai đoạn 1 <span class="text-danger">*</span></label>
                                                     <div id="ipcpgd1" class="mb-3 col-md-6 col-12">
                                                         <input id="gd1" name="gd1" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Chi phí giai đoạn 1" required />
                                                         <p hidden style="font-size: 13px; color:red;" id="gd1validation"></p>
@@ -114,20 +114,20 @@
                                                     </div>
                                                     <div id="appenddayne" class="col-12"></div>
 
-                                                    <div style="text-align:center; padding-bottom: 15px" class="mb-2 col-md-6 col-12">
-                                                        <a style="width: 100%" id="addthem" class="btn text-primary border-primary btn-xs">
-                                                            <i class="fe fe-plus-circle"> </i> Thêm giai đoạn
-                                                        </a>
-                                                    </div>
                                                     <div style="text-align: center; padding-bottom: 15px;" class="mb-2 col-md-6 col-12">
                                                         <a style="width: 100%;" id="xoabot" class="btn text-danger border-danger btn-xs">
                                                             <i class="fe fe-minus-circle"> </i> Xóa giai đoạn
                                                         </a>
                                                     </div>
+                                                    <div style="text-align:center; padding-bottom: 15px" class="mb-2 col-md-6 col-12">
+                                                        <a style="width: 100%" id="addthem" class="btn text-primary border-primary btn-xs">
+                                                            <i class="fe fe-plus-circle"> </i> Thêm giai đoạn
+                                                        </a>
+                                                    </div>
 
 
                                                     <div style="margin-bottom: 20px" class="col-12">
-                                                        <label style="font-weight:bold" for="priority" class="form-label">Tổng chi phí </label>
+                                                        <label style="font-weight:bold" for="priority" class="form-label">Tổng chi phí (VND)</label>
                                                         <input value="" placeholder="HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" readonly style="text-align: center; font-weight: bold;" id="sums" name="sums" type="text" class="form-control text-center text-danger">
                                                     </div>
                                                 </div>

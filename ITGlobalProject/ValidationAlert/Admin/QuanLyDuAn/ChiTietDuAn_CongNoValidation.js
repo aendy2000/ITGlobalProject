@@ -1,4 +1,73 @@
 ﻿$(document).ready(function () {
+    //Mở form sửa giai đoạn
+    $('#OpenchinhSuaChiPhi').on('click', function () {
+        var id = $('#idpro').val();
+        var formData = new FormData();
+        formData.append("id", id);
+        $('#AjaxLoader').show();
+        $.ajax({
+            url: $('#requestPath').val() + "Admins/quanlyduan/chinhsuachiphi",
+            type: 'POST',
+            dataType: 'html',
+            contentType: false,
+            processData: false,
+            data: formData
+        }).done(function (ketqua) {
+            if (ketqua == "DANHSACH") {
+                $('#AjaxLoader').hide();
+                window.location.href = $('#requestPath').val() + "Admins/quanlyduan/danhsachduan";
+            } else {
+                $('#cnfrm').replaceWith(ketqua);
+                let sott = Number($('#cndem').val());
+                let totals = 0;
+                for (var i = 1; i <= sott; i++) {
+                    totals += Number($('#cngd' + i).val().replace(/,/g, ''));
+                }
+                if (totals == 0) {
+                    $('#cnsums').val("HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN");
+                } else {
+                    $('#cnsums').val(totals);
+                }
+                $('#AjaxLoader').hide();
+
+                if ($("input").length && Inputmask().mask(document.querySelectorAll("input")), $("#editor").length) new Quill("#editor", {
+                    modules: {
+                        toolbar: [
+                            [{
+                                header: [1, 2, !1]
+                            }],
+                            [{
+                                font: []
+                            }],
+                            ["bold", "italic", "underline", "strike"],
+                            [{
+                                size: ["small", !1, "large", "huge"]
+                            }],
+                            [{
+                                list: "ordered"
+                            }, {
+                                list: "bullet"
+                            }],
+                            [{
+                                color: []
+                            }, {
+                                background: []
+                            }, {
+                                align: []
+                            }],
+                            ["link", "image", "code-block", "video"]
+                        ]
+                    },
+                    theme: "snow"
+                });
+                $(".flatpickr").length && flatpickr(".flatpickr", {
+                    disableMobile: !0
+                });
+                $('#chinhSuaChiPhi').modal('toggle');
+            }
+        });
+    });
+
     //Chart
     var options = {
         series: [],
@@ -106,6 +175,7 @@
                                 } else {
                                     $('#ThanhToanModal').modal('toggle');
                                     window.setTimeout(function () {
+
                                         $('#chiTietDuAnPartialID').replaceWith(ketqua);
                                         $.when(
                                             $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js'),
@@ -132,7 +202,7 @@
                                             time: 1000,
                                             delay: 1000,
                                         });
-                                    }, 100);
+                                    }, 300);
                                 }
                             });
                         }
