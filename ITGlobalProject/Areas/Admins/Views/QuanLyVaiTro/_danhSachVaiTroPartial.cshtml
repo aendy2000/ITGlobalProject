@@ -10,13 +10,14 @@
         <!-- card -->
         <div class="card">
             <!-- table -->
-            <table id="dataTableBasic" class="table table-hover"  style="width:100%">
+            <table id="dataTableBasic" class="table table-hover" style="width:100%">
                 <thead class="table-light">
                     <tr>
                         <th scope="col" class=" border-top-0">#</th>
                         <th scope="col" class=" border-top-0">Tên chức danh</th>
                         <th scope="col" class=" border-top-0">Mô tả </th>
                         <th scope="col" class=" border-top-0">Bộ phận</th>
+                        <th scope="col" class=" border-top-0">Bài viết </th>
                         <th scope="col" class=" border-top-0">Được áp dụng </th>
                         <th scope="col" class=" border-top-0"></th>
                     </tr>
@@ -47,6 +48,9 @@
                                 </td>
                                 <td class="align-middle h4">
                                     @item.Department.Name
+                                </td>
+                                <td class="align-middle h4">
+                                    @item.Recruitment.Count() Bài viết
                                 </td>
                                 <td class="align-middle ">
                                     <div class="avatar-group">
