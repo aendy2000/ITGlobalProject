@@ -1477,7 +1477,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (string.IsNullOrEmpty(contents.Trim()))
                 Session["lst-duanthamgia-detailemployee"] = model.Projects.Where(p => p.Teams.FirstOrDefault(t => t.ID_Employee == idus).ID_Employee == idus).ToList();
             else
-                Session["lst-duanthamgia-detailemployee"] = model.Projects.Where(p => p.Teams.FirstOrDefault(t => t.ID_Employee == idus).ID_Employee == idus && p.Name.ToLower().Trim().Equals(contents.ToLower().Trim())).ToList();
+                Session["lst-duanthamgia-detailemployee"] = model.Projects.Where(p => p.Teams.FirstOrDefault(t => t.ID_Employee == idus).ID_Employee == idus && p.Name.ToLower().Trim().Contains(contents.ToLower().Trim())).ToList();
 
             return PartialView("_duAnThamGiaSearch");
         }
