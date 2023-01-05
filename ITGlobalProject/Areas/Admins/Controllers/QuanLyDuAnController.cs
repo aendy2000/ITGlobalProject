@@ -212,72 +212,94 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 return Content(pro.ID.ToString());
             }
         }
-
         [HttpPost]
-        public async Task<ActionResult> chinhSuaDuAn(HttpPostedFileBase avatar, string name, string mota, string batdau, string ketthuc,
-            string giaidoan, string chiphi, string namedn, string hoten, string cmnd, string phone,
-            string email, string ngaysinh, string gioitinh, string diahchinha, int idduan, int idkh)
+        public ActionResult openChinhSuaDuAn(int? id)
         {
-            var khachHang = model.Partners.Find(idkh);
-            var duAn = model.Projects.Find(idduan);
-            if (khachHang == null || duAn == null || Session["user-id"] == null)
+            var pro = model.Projects.Find(id);
+            if (pro == null || id == null)
                 return Content("DANHSACH");
 
-            khachHang.Company = namedn.Trim();
-            khachHang.Name = hoten.Trim();
-            khachHang.IdentityCard = cmnd.Trim();
-            khachHang.Phone = phone.Trim();
-            khachHang.Email = email.Trim();
-            khachHang.Birthday = Convert.ToDateTime(ngaysinh);
-            khachHang.Sex = gioitinh.Trim();
-            khachHang.Address = diahchinha.Trim();
-            FileStream stream;
-            if (avatar != null)
+            var lstPartner = model.Partners.OrderByDescending(o => o.ID).ToList();
+            lstPartner.Remove(pro.Partners);
+            Session["lst-partner-DuAn"] = lstPartner.ToList();
+            return PartialView("_chinhSuaDuAnPartial", pro);
+        }
+        [HttpPost]
+        public async Task<ActionResult> chinhSuaDuAn(int? idpro, int? idpart, HttpPostedFileBase avatar,
+            string name, string mota, string batdau, string ketthuc, string namedn, string hoten, string cmnd,
+            string phone, string email, string ngaysinh, string gioitinh, string diahchinha, int? id)
+        {
+            var duAn = model.Projects.Find(idpro);
+            if (duAn == null || Session["user-id"] == null)
+                return Content("DANHSACH");
+
+            if (idpart != null)
             {
-                if (avatar.ContentLength > 0)
+                var khachHang = model.Partners.Find(idpart);
+                if (!khachHang.Email.ToLower().Equals(email.ToLower()) && model.Partners.Where(p => p.Email.ToLower().Equals(email.ToLower().Trim()) || p.IdentityCard.Equals(cmnd)).Count() > 0)
+                    return Content("Email hoặc CMND/CCCD đang được sử dụng bởi một khách hàng khác");
+
+                khachHang.Company = namedn.Trim();
+                khachHang.Name = hoten.Trim();
+                khachHang.IdentityCard = cmnd.Replace(" ", "").Trim();
+                khachHang.Phone = phone.Trim();
+                khachHang.Email = email.Trim();
+                khachHang.Birthday = Convert.ToDateTime(ngaysinh);
+                khachHang.Sex = gioitinh.Trim();
+                khachHang.Address = diahchinha.Trim();
+
+                FileStream stream;
+                if (avatar != null)
                 {
-                    const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
-                    int length = 30;
-                    var sb = new StringBuilder();
-                    Random RNG = new Random();
-                    for (var i = 0; i < length; i++)
+                    if (avatar.ContentLength > 0)
                     {
-                        var c = src[RNG.Next(0, src.Length)];
-                        sb.Append(c);
-                    }
-
-                    string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + avatar.FileName); ;
-                    avatar.SaveAs(path);
-                    stream = new FileStream(Path.Combine(path), FileMode.Open);
-                    var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
-                    var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
-                    var cancellation = new CancellationTokenSource();
-
-                    var task = new FirebaseStorage(
-                        Bucket,
-                        new FirebaseStorageOptions
+                        const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
+                        int length = 30;
+                        var sb = new StringBuilder();
+                        Random RNG = new Random();
+                        for (var i = 0; i < length; i++)
                         {
-                            AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
-                            ThrowOnCancel = true
-                        })
-                        .Child("images")
-                        .Child(sb.ToString().Trim() + avatar.FileName)
-                        .PutAsync(stream, cancellation.Token);
-                    try
-                    {
-                        string link = await task;
-                        khachHang.Avatar = link;
-                        System.IO.File.Delete(path);
-                    }
-                    catch
-                    {
-                        return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                            var c = src[RNG.Next(0, src.Length)];
+                            sb.Append(c);
+                        }
+
+                        string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + avatar.FileName); ;
+                        avatar.SaveAs(path);
+                        stream = new FileStream(Path.Combine(path), FileMode.Open);
+                        var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                        var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+                        var cancellation = new CancellationTokenSource();
+
+                        var task = new FirebaseStorage(
+                            Bucket,
+                            new FirebaseStorageOptions
+                            {
+                                AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                                ThrowOnCancel = true
+                            })
+                            .Child("images")
+                            .Child(sb.ToString().Trim() + avatar.FileName)
+                            .PutAsync(stream, cancellation.Token);
+                        try
+                        {
+                            string link = await task;
+                            khachHang.Avatar = link;
+                            System.IO.File.Delete(path);
+                        }
+                        catch
+                        {
+                            return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                        }
                     }
                 }
-            }
 
-            model.Entry(khachHang).State = EntityState.Modified;
-            model.SaveChanges();
+                model.Entry(khachHang).State = EntityState.Modified;
+                model.SaveChanges();
+            }
+            if (id != null)
+            {
+                duAn.ID_Partner = (int)id;
+            }
 
             duAn.Name = name;
             duAn.Description = mota;
@@ -286,66 +308,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             model.Entry(duAn).State = EntityState.Modified;
             model.SaveChanges();
 
-            //giai đoạn hiện tại
-            int sogiaidoan = giaidoan.Split('_').ToList().Count;
-
-            //giai đoạn trước đó
-            var lstgiaidoan = model.Debts.Where(d => d.ID_Project == idduan).OrderBy(d => d.ID).ToList();
-
-            //Giai đoạn hiện tại bé hơn giai đoạn trước đó
-            if (sogiaidoan < lstgiaidoan.Count)
-            {
-                for (int i = 0; i < lstgiaidoan.Count; i++)
-                {
-                    if (i < sogiaidoan)
-                    {
-                        lstgiaidoan[i].Price = Convert.ToDecimal(chiphi.Split('_')[i].Replace(",", ""));
-                        lstgiaidoan[i].Date = Convert.ToDateTime(giaidoan.Split('_')[i]);
-                        model.Entry(lstgiaidoan[i]).State = EntityState.Modified;
-                    }
-                    else
-                    {
-                        model.Debts.Remove(lstgiaidoan[i]);
-                    }
-                }
-            }
-            //Giai đoạn hiện tại bằng giai đoạn trước đó
-            else if (sogiaidoan == lstgiaidoan.Count)
-            {
-                for (int i = 0; i < lstgiaidoan.Count; i++)
-                {
-                    lstgiaidoan[i].Price = Convert.ToDecimal(chiphi.Split('_')[i].Replace(",", ""));
-                    lstgiaidoan[i].Date = Convert.ToDateTime(giaidoan.Split('_')[i]);
-                    model.Entry(lstgiaidoan[i]).State = EntityState.Modified;
-                }
-            }
-            //Giai đoạn hiện tại lớn hơn giai đoạn trước đó
-            else if (sogiaidoan > lstgiaidoan.Count)
-            {
-                for (int i = 0; i < sogiaidoan; i++)
-                {
-                    if (i < lstgiaidoan.Count)
-                    {
-                        lstgiaidoan[i].Price = Convert.ToDecimal(chiphi.Split('_')[i].Replace(",", ""));
-                        lstgiaidoan[i].Date = Convert.ToDateTime(giaidoan.Split('_')[i]);
-                        model.Entry(lstgiaidoan[i]).State = EntityState.Modified;
-                    }
-                    else
-                    {
-                        Debts debt = new Debts();
-                        debt.ID_Project = idduan;
-                        debt.Stage = "Giai đoạn " + (i + 1);
-                        debt.Price = Convert.ToDecimal(chiphi.Split('_')[i].Replace(",", ""));
-                        debt.Date = Convert.ToDateTime(giaidoan.Split('_')[i]);
-                        debt.State = false;
-                        model.Debts.Add(debt);
-                        model.SaveChanges();
-                    }
-                }
-            }
-            model.SaveChanges();
             model = new CP25Team06Entities();
-            return PartialView("_tongQuanPartial", duAn);
+            return PartialView("_tongQuanPartial", model.Projects.Find(idpro));
         }
 
         public ActionResult chiTietDuAn(int? id)
@@ -1053,6 +1017,45 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                 Session["lst-Task"] = pro.Tasks.OrderBy(t => t.OrdinalNumbers).ToList();
                 return PartialView("_congViecPartial", pro);
+            }
+            catch
+            {
+                return Content("Đã có lỗi xảy ra, vui lòng thử lại");
+            }
+        }
+        [HttpPost]
+        public ActionResult xoaDuAn(int? id)
+        {
+            try
+            {
+                var pro = model.Projects.Find(id);
+                if (id == null || pro == null || Session["user-id"] == null)
+                    return Content("DANHSACH");
+
+                //remove Historypayment + Debt
+                foreach (var item in pro.Debts.ToList())
+                    model.PaymentHistory.RemoveRange(item.PaymentHistory);
+                model.Debts.RemoveRange(pro.Debts);
+                model.PaymentHistory.RemoveRange(pro.PaymentHistory);
+
+                //remove History + task
+                foreach (var item in pro.Tasks.ToList())
+                {
+                    model.Histories.RemoveRange(item.Histories);
+                    model.Comment.RemoveRange(item.Comment);
+                }
+                model.Tasks.RemoveRange(pro.Tasks);
+                model.Histories.RemoveRange(pro.Histories);
+
+                //remove Team
+                model.Teams.RemoveRange(pro.Teams);
+
+                //remove Project
+                model.Projects.Remove(pro);
+                model.SaveChanges();
+
+                model = new CP25Team06Entities();
+                return Content("SUCCESS");
             }
             catch
             {

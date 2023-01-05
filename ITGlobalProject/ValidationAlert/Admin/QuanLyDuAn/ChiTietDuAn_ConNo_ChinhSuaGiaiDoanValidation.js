@@ -45,10 +45,6 @@
                 check = false;
                 $('#ngaygd' + i + 'validation').text("Ngày kết thúc giai đoạn " + i + " phải lớn hơn giai đoạn " + (i - 1) + ".").show().prop("hidden", false);
                 $('#ngaygd' + i).focus();
-            } else if (Number(ngaygd.replace(/-/g, '')) > Number(ketthuc.replace(/-/g, ''))) {
-                check = false;
-                $('#ngaygd' + i + 'validation').text("Ngày kết thúc giai đoạn không thể lớn hơn ngày kết thúc dự án.").show().prop("hidden", false);
-                $('#ngaygd' + i).focus();
             }
 
             //Gía tiền

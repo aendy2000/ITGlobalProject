@@ -1,0 +1,385 @@
+﻿@using ITGlobalProject.Models;
+@model ITGlobalProject.Models.Projects
+@{
+    var lstPartner = Session["lst-partner-DuAn"] as IEnumerable<Partners>;
+    int i = 0;
+}
+
+<div id="chinhSuaOffcanvas">
+    <!-- Chỉnh sửa Dự án -->
+    <div class="offcanvas offcanvas-end" id="offcanvasRight" tabindex="-1" style="width: 1100px;" data-simplebar>
+
+        <div class="offcanvas-body">
+            <div class="offcanvas-header px-2 pt-0">
+                <h3 class="offcanvas-title" id="offcanvasExampleLabel">Cập Nhật Dự Án</h3>
+                <button id="resetdata_1" data-bs-dismiss="offcanvas" aria-label="Close" type="button" class="btn-close text-reset"></button>
+            </div>
+            <form id="frm">
+                <!-- card body -->
+                <div class="container">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <div style="color: white; background-color:rebeccapurple; height: 120px" class="card-header p-lg-6" data-bs-toggle="collapse" data-bs-target="#NavthongTinDuAn" aria-expanded="false" aria-controls="NavthongTinDuAn">
+                                <div style="margin-top: -15px" class="row">
+                                    <!-- form group -->
+                                    <div class="mb-3 col-6">
+                                        <p style="font-weight:bold; font-size: 20px">A. Thông Tin Dự Án</p>
+                                        <span>Thông tin chi tiết về dự án, tên dự án, ngày thực hiện, ...</span>
+                                    </div>
+                                    <div style="text-align: right; font-weight: bold; font-size: 50px " class="mb-3 col-6">
+                                        <i class="fe fe-book-open"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="NavthongTinDuAn" class="collapse show" data-bs-parent="#navMenuLevel" style="">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <div class="card-body p-lg-6">
+                                            <!-- form -->
+                                            <div class="row">
+                                                <!-- form group -->
+                                                <div class="mb-3 col-12">
+                                                    <label style="font-weight:bold" class="form-label">Tên dự án <span class="text-danger">*</span></label>
+                                                    <input value="@Model.Name" id="name" name="name" type="text" class="form-control" placeholder="Nhập vào tên của dự án (VD: Website ABC)">
+                                                    <p hidden style="font-size: 13px; color:red;" id="namevalidation"></p>
+                                                </div>
+                                                <!-- form group -->
+                                                <div class="mb-3 col-12">
+                                                    <label style="font-weight:bold" class="form-label">Mô tả tổng quan</label>
+                                                    <textarea id="mota" name="mota" class="form-control" placeholder="Nhập vào mô tả của dự án..." rows="10">@Model.Description</textarea>
+                                                    <p hidden style="font-size: 13px; color:red;" id="motavalidation"></p>
+                                                </div>
+                                                <!-- form group -->
+                                                <div class="mb-3 col-md-6 col-12">
+                                                    <label style="font-weight:bold" class="form-label">Ngày bắt đầu <span class="text-danger">*</span></label>
+                                                    <div class="input-group me-3">
+                                                        <input value="@Model.StartDate.ToString("yyyy-MM-dd")" id="batdau" name="batdau" class="form-control flatpickr" type="text" placeholder="Ngày bắt đầu dự án" aria-describedby="basic-addon2">
+                                                        <span class="input-group-text text-muted" id="basic-addon2">
+                                                            <i class="fe fe-calendar"></i>
+                                                        </span>
+                                                    </div>
+                                                    <p hidden style="font-size: 13px; color:red;" id="batdauvalidation"></p>
+                                                </div>
+                                                <!-- form group -->
+                                                <div class="mb-3 col-md-6 col-12">
+                                                    <label style="font-weight:bold" class="form-label">Ngày kết thúc <span class="text-danger">*</span></label>
+                                                    <div class="input-group me-3">
+                                                        <input value="@Model.EndDate.ToString("yyyy-MM-dd")" id="ketthuc" name="ketthuc" class="form-control flatpickr" type="text" placeholder="Ngày kết thúc dự án" aria-describedby="basic-addon3">
+                                                        <span class="input-group-text text-muted" id="basic-addon3">
+                                                            <i class="fe fe-calendar"></i>
+                                                        </span>
+                                                    </div>
+                                                    <p hidden style="font-size: 13px; color:red;" id="ketthucvalidation"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- card body -->
+                    <!--///////////////////////////////////////////////////////////////////////////////////////////-->
+
+                    <div id="luKhachHang" style="color: white; background-color:crimson; height: 120px" class="card-header p-lg-6" data-bs-toggle="collapse" data-bs-target="#NavthongTinKhachHang" aria-expanded="false" aria-controls="NavthongTinKhachHang">
+                        <div style="margin-top: -15px" class="row">
+                            <!-- form group -->
+                            <div class="mb-3 col-6">
+                                <p style="font-weight:bold; font-size: 20px">B. Thông Tin Khách Hàng</p>
+                                <span>Thông tin liên hệ khách hàng, địa chỉ liên lạc, ...</span>
+                            </div>
+                            <div style="text-align: right; font-weight: bold; font-size: 50px " class="mb-3 col-6">
+                                <i class="fe fe-user-check"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Khách hàng Mới-->
+                    <div id="NavthongTinKhachHang" class="collapse" data-bs-parent="#navMenuLevel" style="">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <div class="card-body p-lg-6">
+                                    <!-- form -->
+                                    <div class="row">
+                                        <!-- form group -->
+                                        <div style="text-align: center; margin-top: -10px" class="mb-2 col-12">
+                                            <a data-bs-toggle="modal" data-bs-target="#lstKhachHangCu" style="width:100%" role="button" class="btn btn-outline-primary"> <i class="fe fe-user-plus"> </i> Lấy Thông Tin Khách Hàng Cũ</a>
+                                        </div>
+                                        <hr class="my-4" />
+                                        <div class="d-lg-flex align-items-center justify-content-between">
+                                            <div class="d-flex align-items-center mb-3 mb-lg-0">
+                                                @if (string.IsNullOrEmpty(Model.Partners.Avatar))
+                                                {
+                                                    <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xxl rounded-circle" alt="" id="previewImage" />
+                                                }
+                                                else
+                                                {
+                                                    <img src="@Model.Partners.Avatar" class="avatar-xxl rounded-circle" alt="" id="previewImage" />
+                                                }
+                                                <div class="ms-3">
+                                                    <h4 class="mb-0">Hình đại diện (nếu có)</h4>
+                                                    <p class="mb-0">
+                                                        PNG hoặc JPG hình vuông không lớn hơn 800px.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <input hidden id="selectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewImage'))" />
+                                                <a id="clickFiles" style="width: 150px" role="button" class="btn btn-outline-primary btn-sm">Tải lên</a>
+                                                <a id="reloadButton" style="width: 150px" role="button" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
+                                            </div>
+                                        </div>
+                                        <hr class="my-4" />
+                                        <div class="mb-3 col-12">
+                                            <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp</label>
+                                            <input value="@Model.Partners.Company" id="namedn" name="namedn" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng (nếu có)" required>
+                                            <input hidden="hidden" value="@Model.ID_Partner" id="idPartnerCurrent"/>
+                                            <p hidden style="font-size: 13px; color:red;" id="namednvalidation"></p>
+                                        </div>
+                                        <!-- form group -->
+                                        <div class="mb-3 col-12  col-md-6">
+                                            <label style="font-weight:bold" class="form-label">Họ và Tên <span class="text-danger">*</span></label>
+                                            <input value="@Model.Partners.Name" id="hoten" name="hoten" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
+                                            <p hidden style="font-size: 13px; color:red;" id="hotenvalidation"></p>
+                                        </div>
+
+                                        <div class="mb-3 col-12 col-md-6">
+                                            <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD <span class="text-danger">*</span></label>
+                                            <input value="@Model.Partners.IdentityCard" id="cmnd" name="cmnd" type="text" class="form-control" placeholder="Nhập vào số CMND/CCCD của khách hàng" data-inputmask="'mask': '9999 9999 9999'" inputmode="numeric" />
+                                            <p hidden style="font-size: 13px; color:red;" id="cmndvalidation"></p>
+                                        </div>
+                                        <!-- Phone -->
+                                        <div class="mb-3 col-12 col-md-6">
+                                            <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                                            <input value="@Model.Partners.Phone" id="phone" name="phone" type="tel" class="form-control" placeholder="Nhập vào số điện thoại khách hàng" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" />
+                                            <p hidden style="font-size: 13px; color:red;" id="phonevalidation"></p>
+                                        </div>
+                                        <div class="mb-3 col-12 col-md-6">
+                                            <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
+                                            <input value="@Model.Partners.Email" type="text" id="email" name="email" class="form-control" placeholder="example@itglobal.net" data-inputmask="'alias': 'email'" inputmode="numeric" />
+                                            <p hidden style="font-size: 13px; color:red;" id="emailvalidation"></p>
+                                        </div>
+                                        <!-- Birthday -->
+                                        <div class="mb-3 col-12 col-md-6">
+                                            <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh <span class="text-danger">*</span></label>
+                                            <input value="@Model.Partners.Birthday.ToString("yyyy-MM-dd")" id="ngaysinh" name="ngaysinh" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
+                                            <p hidden style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
+                                        </div>
+                                        <!-- Birthday -->
+                                        <div class="mb-3 col-12 col-md-6">
+                                            <label style="font-weight:bold" class="form-label">Giới tính <span class="text-danger">*</span></label>
+                                            <select id="gioitinh" name="gioitinh" style="color:black" data-width="100%">
+                                                @if (Model.Partners.Sex.Equals("Nam"))
+                                                {
+                                                    <option selected value="Nam">Nam</option>
+                                                    <option value="Nữ">Nữ</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="Nam">Nam</option>
+                                                    <option selected value="Nữ">Nữ</option>
+                                                }
+                                            </select>
+                                            <p hidden style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
+                                        </div>
+
+                                        <!-- Address -->
+                                        <div class="mb-3 col-12 col-md-12">
+                                            <label style="font-weight:bold" class="form-label" for="address">ĐC Doanh nghiệp / Nhà riêng</label>
+                                            <textarea id="diahchinha" name="diachinha" rows="5" class="form-control" placeholder="Nhập địa chỉ doanh nghiệp / nhà riêng khách hàng">@Model.Partners.Address</textarea>
+                                            <p hidden style="font-size: 13px; color:red;" id="diachinhavalidation"></p>
+                                        </div>
+
+                                        <div style="text-align: right; padding-top: 25px" class="mb-2 col-12 col-md-6">
+                                            <button id="resetdata_2" style="width: 230px" class="btn btn-outline-danger" data-bs-dismiss="offcanvas" aria-label="Close" type="reset">
+                                                Hủy
+                                            </button>
+                                        </div>
+                                        <div style=" padding-top: 25px" class="mb-2 col-12 col-md-6">
+                                            <a role="button" id="luuThongTin" style="width: 230px" class="btn btn-success">
+                                                Lưu
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div hidden="hidden" id="luKhachHangCu" style="color: white; background-color:crimson; height: 120px" class="card-header p-lg-6" data-bs-toggle="collapse" data-bs-target="#NavthongTinKhachHangCu" aria-expanded="false" aria-controls="NavthongTinKhachHangCu">
+                        <div style="margin-top: -15px" class="row">
+                            <!-- form group -->
+                            <div class="mb-3 col-6">
+                                <p style="font-weight:bold; font-size: 20px">B. Thông Tin Khách Hàng</p>
+                                <span>Thông tin liên hệ khách hàng, địa chỉ liên lạc, ...</span>
+                            </div>
+                            <div style="text-align: right; font-weight: bold; font-size: 50px " class="mb-3 col-6">
+                                <i class="fe fe-user-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Khách hàng cũ-->
+                    <div hidden="hidden" id="NavthongTinKhachHangCu" class="collapse" data-bs-parent="#navMenuLevel" style="">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <div class="card-body p-lg-6">
+                                    <!-- form -->
+                                    <div class="row">
+                                        <!-- form group -->
+                                        <div style="text-align: center; margin-top: -10px" class="mb-2 col-12">
+                                            <a data-bs-toggle="modal" data-bs-target="#lstKhachHangCu" style="width:100%" role="button" class="btn btn-outline-primary"> <i class="fe fe-user-plus"> </i> Lấy Thông Tin Khách Hàng Cũ</a>
+                                        </div>
+                                        <hr class="my-4" />
+                                        <div class="d-lg-flex align-items-center justify-content-between">
+                                            <div class="d-flex align-items-center mb-3 mb-lg-0">
+                                                <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xxl rounded-circle" alt="" id="previewImageCu" />
+                                                <div class="ms-3">
+                                                    <h4 class="mb-0">Hình đại diện (nếu có)</h4>
+                                                    <p class="mb-0">
+                                                        PNG hoặc JPG hình vuông không lớn hơn 800px.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="my-4" />
+                                        <div class="mb-3 col-12">
+                                            <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp</label>
+                                            <input readonly id="namedncu" name="namedncu" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng (nếu có)" required>
+                                            <input hidden id="idKhachHang" />
+                                        </div>
+                                        <!-- form group -->
+                                        <div class="mb-3 col-12  col-md-6">
+                                            <label style="font-weight:bold" class="form-label">Họ và Tên <span class="text-danger">*</span></label>
+                                            <input readonly id="hotencu" name="hotencu" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
+                                        </div>
+
+                                        <div class="mb-3 col-12 col-md-6">
+                                            <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD <span class="text-danger">*</span></label>
+                                            <input readonly id="cmndcu" name="cmndcu" value="" type="text" class="form-control" placeholder="07020000xxxx..." required />
+                                        </div>
+                                        <!-- Phone -->
+                                        <div class="mb-3 col-12 col-md-6">
+                                            <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                                            <input readonly id="phonecu" name="phonecu" value="" type="tel" class="form-control" placeholder="0999888777..." required />
+                                        </div>
+                                        <div class="mb-3 col-12 col-md-6">
+                                            <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
+                                            <input readonly value="" type="text" id="emailcu" name="emailcu" class="form-control" placeholder="example@itglobal.net..." required />
+                                        </div>
+                                        <!-- Birthday -->
+                                        <div class="mb-3 col-12 col-md-6">
+                                            <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh <span class="text-danger">*</span></label>
+                                            <input readonly id="ngaysinhcu" name="ngaysinhcu" value="" class="form-control" type="text" placeholder="Chọn ngày sinh" />
+                                        </div>
+                                        <!-- Birthday -->
+                                        <div class="mb-3 col-12 col-md-6">
+                                            <label style="font-weight:bold" class="form-label">Giới tính <span class="text-danger">*</span></label>
+                                            <input readonly id="gioitinhcu" name="gioitinhcu" value="" class="form-control" type="text" placeholder="Chọn giới tính" />
+                                        </div>
+
+                                        <!-- Address -->
+                                        <div class="mb-3 col-12 col-md-12">
+                                            <label style="font-weight:bold" class="form-label" for="address">ĐC Doanh nghiệp / Nhà riêng <span class="text-danger">*</span></label>
+                                            <textarea readonly id="diahchinhacu" name="diachinhacu" rows="5" class="form-control" placeholder="Số 0/0 đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla..."></textarea>
+                                        </div>
+
+                                        <div style="text-align: right; padding-top: 25px" class="mb-2 col-12 col-md-6">
+                                            <a role="button" id="nhapKhachHangMoi" style="width: 260px" class="btn btn-outline-primary">
+                                                Quay lại thông tin cũ
+                                            </a>
+                                        </div>
+                                        <div style=" padding-top: 25px" class="mb-2 col-12 col-md-6">
+                                            <a role="button" id="luuThongTinKHCu" style="width: 260px" class="btn btn-success">
+                                                Lưu
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade modal-xl" id="lstKhachHangCu" tabindex="-1" role="dialog"
+         aria-labelledby="themVaiTroModalLabel" aria-hidden="true" data-simplebar>
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="themVaiTroModal"><i class="fe fe-user-check"> </i> Danh Sách Đối Tác</h4>
+                    <button id="tatDanhSachKHCu" type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                    </button>
+                </div>
+                <div class="card">
+                    <!-- form -->
+                    <!-- table -->
+                    <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                        <thead class="table-light">
+                            <tr>
+                                <th hidden scope="col" class=" border-top-0"></th>
+                                <th style="padding-left: 30px" scope="col" class=" border-top-0">Tên</th>
+                                <th scope="col" class=" border-top-0">Email</th>
+                                <th scope="col" class=" border-top-0">CMND/CCCD</th>
+                                <th scope="col" class=" border-top-0">Số điện thoại</th>
+                                <th scope="col" class=" border-top-0"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in lstPartner)
+                            {
+                                i++;
+                                <input hidden value="@item.ID" id="ids@(item.ID)" />
+                                <input hidden value="@item.Company" id="companys@(item.ID)" />
+                                <input hidden value="@item.Name" id="names@(item.ID)" />
+                                <input hidden value="@item.IdentityCard" id="cmnds@(item.ID)" />
+                                <input hidden value="@item.Phone" id="sdts@(item.ID)" />
+                                <input hidden value="@item.Email" id="emails@(item.ID)" />
+                                <input hidden value="@item.Birthday.ToString("yyyy-MM-dd")" id="sns@(item.ID)" />
+                                <input hidden value="@item.Sex" id="gioitinhs@(item.ID)" />
+                                <input hidden value="@item.Address" id="dcs@(item.ID)" />
+                                <input hidden value="@item.Avatar" id="avts@(item.ID)" />
+
+                                <tr>
+                                    <td hidden class="align-middle">
+                                        @i
+                                    </td>
+                                    <td style="padding-left: 30px" class="align-middle ">
+                                        <div class="d-flex align-items-center text-nowrap">
+                                            @if (string.IsNullOrEmpty(item.Avatar))
+                                            {
+                                                <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt=""
+                                                     class="rounded-circle avatar-md me-2" />
+                                            }
+                                            else
+                                            {
+                                                <img src="@item.Avatar" alt=""
+                                                     class="rounded-circle avatar-md me-2" />
+                                            }
+                                            <h5 class="mb-0">@item.Name</h5>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle ">
+                                        @item.Email
+                                    </td>
+                                    <td class="align-middle ">
+                                        @item.IdentityCard
+                                    </td>
+                                    <td class="align-middle ">
+                                        @item.Phone
+                                    </td>
+                                    <td class="align-middle ">
+                                        <button id="selectKhachHangCu@(item.ID)" name="@item.ID" class="btn btn-outline-primary btn-xs">CHỌN&ensp;<i class="fe fe-check-square"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/ValidationAlert/Admin/QuanLyDuAn/ChinhSuaDuAnValidation.js"></script>
+</div>

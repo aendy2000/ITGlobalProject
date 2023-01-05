@@ -74,7 +74,7 @@
                                 </p>
                                 @if (Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee).Count() < 1)
                                 {
-                                    <a id="xoaThanhViens@(item.Employees.ID)" name="@item.Employees.ID" class="text-muted ms-auto texttooltip text-end" data-template="xoa">
+                                    <a role="button" id="xoaThanhViens@(item.Employees.ID)" name="@item.Employees.ID" class="text-muted ms-auto texttooltip text-end" data-template="xoa">
                                         <i class="fe fe-trash-2 fs-4 text-danger"></i>
                                         <!-- text -->
                                         <div id="xoa" class="d-none">

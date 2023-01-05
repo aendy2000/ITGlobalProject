@@ -1,271 +1,502 @@
 ﻿$(document).ready(function () {
-    
+    //Chọn khách hàng có sẵn
+    $('[id^="selectKhachHangCu"]').on('click', function () {
+        var id = $(this).attr("name");
+
+        $('#tatDanhSachKHCu').click();
+
+        $('#luKhachHang').hide();
+        $('#NavthongTinKhachHang').hide();
+
+        $('#luKhachHangCu').show().prop("hidden", false);
+        $('#NavthongTinKhachHangCu').show().prop("hidden", false);
+
+        $('#idKhachHang').val(id);
+        $('#namedncu').val(
+            $('#companys' + id).val()
+        );
+        $('#hotencu').val(
+            $('#names' + id).val()
+        );
+        $('#cmndcu').val(
+            $('#cmnds' + id).val()
+        );
+        $('#phonecu').val(
+            $('#sdts' + id).val()
+        );
+        $('#emailcu').val(
+            $('#emails' + id).val()
+        );
+        $('#ngaysinhcu').val(
+            $('#sns' + id).val()
+        );
+        $('#gioitinhcu').val(
+            $('#gioitinhs' + id).val()
+        );
+        $('#diahchinhacu').val(
+            $('#dcs' + id).val()
+        );
+
+        var avt = $('#avts' + id).val();
+        if (avt.length < 1) {
+            $('#previewImageCu').replaceWith('<img src="' + $('#requestPath').val() + 'Content/Admin/assets/images/avatar/default-avatar.png")" class="avatar-xxl rounded-circle" alt="" id="previewImage" />');
+        } else {
+            $('#previewImageCu').replaceWith('<img src="' + avt + '" class="avatar-xxl rounded-circle" alt="" id="previewImageCu" />');
+        }
+
+    });
+
+    //Chọn nhập khách hàng mới
+    $('#nhapKhachHangMoi').on('click', function () {
+        $('#luKhachHang').show();
+        $('#NavthongTinKhachHang').show();
+
+        $('#luKhachHangCu').hide();
+        $('#NavthongTinKhachHangCu').hide();
+    });
+
     //Chọn ảnh
     $('#clickFiles').on('click', function (e) {
         $('#selectFiles').click();
     })
+
     //Xóa ảnh
     $('#reloadButton').on('click', function (e) {
         $('#selectFiles').val('');
         $('#previewImage').replaceWith('<img src="' + $('#requestPath').val() + 'Content/Admin/assets/images/avatar/default-avatar.png")" class="avatar-xxl rounded-circle" alt="" id="previewImage" />');
     })
-    
-    //Click Thêm mới
+
+    //Click lưu chỉnh sửa - khách hàng hiện tại
     $('#luuThongTin').on('click', function () {
+        
+        //tag Dự án
+        $('#namevalidation').hide();
+        $('#motavalidation').hide();
+        $('#batdauvalidation').hide();
+        $('#ketthucvalidation').hide();
 
-        var SweetAlert2Demo = function () {
-            var initDemos = function () {
-                swal({
-                    title: 'Lưu Chỉnh Sửa?',
-                    text: "Bạn có chắc chắn muốn thay đổi thông tin dự án?",
-                    type: 'warning',
-                    buttons: {
-                        cancel: {
-                            visible: true,
-                            text: ' Hủy Bỏ ',
-                            className: 'btn btn-danger'
-                        },
-                        confirm: {
-                            text: 'Xác Nhận',
-                            className: 'btn btn-success'
-                        }
-                    }
-                }).then((luuchinhsua) => {
-                    if (luuchinhsua) {
-                        $('#AjaxLoader').show();
-                        //Du án
-                        var idduan = $('#idduan').val();
-                        var name = $('#name').val();
-                        var mota = $('#mota').val();
-                        var batdau = $('#batdau').val();
-                        var ketthuc = $('#ketthuc').val();
+        //tag Khách hàng
+        $('#namednvalidation').hide();
+        $('#hotenvalidation').hide();
+        $('#cmndvalidation').hide();
+        $('#phonevalidation').hide();
+        $('#emailvalidation').hide();
+        $('#ngaysinhvalidation').hide();
+        $('#gioitinhvalidation').hide();
+        $('#diahchinhavalidation').hide();
 
-                        var dem = $('#dem').val();
-                        let giaidoan = "";
-                        let chiphi = "";
-                        for (var i = 1; i <= dem; i++) {
-                            if ($('#ngaygd' + i).val().length == 0) {
-                                //Thông báo lỗi lên
-                                continue;
-                            }
+        var formatss = /[`!*()\=\[\]{}#;'%:"\\|,^@&.+-_<>\/?~]/;
+        var formatTextVN = /[ àÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬđĐèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆìÌỉỈĩĨíÍịỊòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰỳỲỷỶỹỸýÝỵỴ]/;
+        var formatLower = /[abcdefghiklmnopqrstuvwxyz]/;
+        var formatUpper = /[ABCDEFGHIKLMNOPQRSTUVWXYZ]/;
+        var formatnumber = /[1234567890]/;
+        var formatEmail = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 
-                            if ($('#gd' + i).val().length == 0) {
-                                //Thông báo lỗi lên
-                                continue;
-                            }
-                            //Chuẩn r thì làm
-                            if (i == dem) {
-                                giaidoan += $('#ngaygd' + i).val();
-                                chiphi += $('#gd' + i).val();
-                            }
-                            else {
-                                giaidoan += $('#ngaygd' + i).val() + "_";
-                                chiphi += $('#gd' + i).val() + "_";
-                            }
-                        }
-                        //Khách hàng
-                        var idkh = $('#idkh').val();
-                        var avatar = $("#selectFiles")[0].files[0];
-                        var namedn = $('#namedn').val();
-                        var hoten = $('#hoten').val();
-                        var cmnd = $('#cmnd').val();
-                        var phone = $('#phone').val();
-                        var email = $('#email').val();
-                        var ngaysinh = $('#ngaysinh').val();
-                        var gioitinh = $('#gioitinh :selected').val();
-                        var diahchinha = $('#diahchinha').val();
+        // value Dự án
+        var idpro = $('#idpro').val();
+        var idpart = $('#idPartnerCurrent').val();
 
-                        //Check gì đó
+        var name = $('#name').val().trim();
+        var mota = $('#mota').val().trim();
+        var batdau = $('#batdau').val().trim();
+        var ketthuc = $('#ketthuc').val().trim();
 
+        //validation name
+        var checkduan = true;
 
+        if (name.length < 1) {
+            checkduan = false;
+            $('#namevalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $('#name').focus();
+        } else if (name.length > 100) {
+            checkduan = false;
+            $('#namevalidation').text("Tên dự án chỉ tối đa 100 ký tự.").show().prop("hidden", false);
+            $('#name').focus();
+        }
 
-                        //Check đúng hết thì làm
-                        var formData = new FormData();
-                        formData.append('avatar', avatar);
-                        formData.append('name', name);
-                        formData.append('mota', mota);
-                        formData.append('batdau', batdau);
-                        formData.append('ketthuc', ketthuc);
-                        formData.append('giaidoan', giaidoan);
-                        formData.append('chiphi', chiphi);
-                        formData.append('namedn', namedn);
-                        formData.append('hoten', hoten);
-                        formData.append('cmnd', cmnd);
-                        formData.append('phone', phone);
-                        formData.append('email', email);
-                        formData.append('ngaysinh', ngaysinh);
-                        formData.append('gioitinh', gioitinh);
-                        formData.append('diahchinha', diahchinha);
-                        formData.append('idduan', idduan);
-                        formData.append('idkh', idkh);
+        //validation mô tả
+        if (mota.length > 0) {
+            if (mota.length > 1000) {
+                checkduan = false;
+                $('#motavalidation').text("Mô tả dự án chỉ tối đa 1000 ký tự.").show().prop("hidden", false);
+                $('#mota').focus();
+            }
+        }
 
-                        $.ajax({
-                            url: $('#requestPath').val() + 'Admins/QuanLyDuAn/chinhSuaDuAn',
-                            type: 'POST',
-                            dataType: 'html',
-                            contentType: false,
-                            processData: false,
-                            data: formData
-                        }).done(function (ketqua) {
-                            if (ketqua === "Đã có xảy ra lỗi, vui lòng thử lại") {
-                                $('#AjaxLoader').hide();
+        //validation ngày bắt đầu
+        if (batdau.length < 1) {
+            checkduan = false;
+            $('#batdauvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $('#batdau').focus();
+        }
 
-                                var SweetAlert2Demo = function () {
-                                    var initDemos = function () {
-                                        swal("Thông Báo!", "Đã có xảy ra lỗi, vui lòng thử lại sau", {
-                                            icon: "danger",
-                                            buttons: {
-                                                confirm: {
-                                                    className: 'btn btn-danger'
-                                                }
-                                            },
-                                        });
-                                    };
-                                    return {
-                                        init: function () {
-                                            initDemos();
-                                        },
-                                    };
-                                }();
+        //validation ngày kết thúc
+        if (ketthuc.length < 1) {
+            checkduan = false;
+            $('#ketthucvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+        } else if (Number(ketthuc.replace(/-/g, '')) < Number(batdau.replace(/-/g, ''))) {
+            checkduan = false;
+            $('#ketthucvalidation').text("Ngày kết thúc không thể nhỏ hơn ngày bắt đầu dự án.").show().prop("hidden", false);
+        }
 
-                                jQuery(document).ready(function () {
-                                    SweetAlert2Demo.init();
-                                });
-                            }
-                            else if (ketqua === "DANHSACH") {
-                                $('#AjaxLoader').hide();
+        // value Khách hàng
+        var avatar = $("#selectFiles")[0].files[0];
+        var namedn = $('#namedn').val().trim();
+        var hoten = $('#hoten').val().trim();
+        var cmnd = $('#cmnd').val().replace(/_/g, '').trim();
+        var phone = $('#phone').val().replace(/_/g, '').trim();
+        var email = $('#email').val().trim();
+        var ngaysinh = $('#ngaysinh').val().trim();
+        var gioitinh = $('#gioitinh :selected').val().trim();
+        var diahchinha = $('#diahchinha').val().trim();
 
-                                window.location.href = $('#requestPath').val() + 'Admins/QuanLyDuAn/danhSachDuAn';
-                            }
-                            else {
-                                $('#chiTietDuAnPartialID').replaceWith(ketqua);
-                                $('#selectFiles').val(null);
-                                $('#dongChinhSuaDuAn').click();
-                                $.when(
-                                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js'),
-                                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/theme.min.js'),
-                                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js'),
-                                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js'),
-                                    $.Deferred(function (deferred) {
-                                        $(deferred.resolve);
-                                    })
-                                ).done(function () { });
-                                if ($("#progressChart").length) {
-                                    e = {
-                                        series: [$('#tienDoTongTheDuAn').val()],
-                                        chart: {
-                                            height: 350,
-                                            type: "radialBar",
-                                            toolbar: {
-                                                show: !1
-                                            }
-                                        },
-                                        colors: [window.theme.primary, window.theme.warning],
-                                        plotOptions: {
-                                            radialBar: {
-                                                startAngle: -135,
-                                                endAngle: 225,
-                                                hollow: {
-                                                    margin: 0,
-                                                    size: "70%",
-                                                    background: window.theme.white,
-                                                    image: void 0,
-                                                    imageOffsetX: 0,
-                                                    imageOffsetY: 0,
-                                                    position: "front",
-                                                    dropShadow: {
-                                                        enabled: !0,
-                                                        top: 3,
-                                                        left: 0,
-                                                        blur: 4,
-                                                        opacity: .24
-                                                    }
-                                                },
-                                                track: {
-                                                    background: window.theme.white,
-                                                    strokeWidth: "67%",
-                                                    margin: 0,
-                                                    dropShadow: {
-                                                        enabled: !0,
-                                                        top: -3,
-                                                        left: 0,
-                                                        blur: 4,
-                                                        opacity: .35
-                                                    }
-                                                },
-                                                dataLabels: {
-                                                    showOn: "always",
-                                                    name: {
-                                                        show: !1
-                                                    },
-                                                    value: {
-                                                        formatter: function (e) {
-                                                            return parseInt(e) + "%"
-                                                        },
-                                                        color: window.theme.dark,
-                                                        fontSize: "48px",
-                                                        fontWeight: "700",
-                                                        show: !0
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        fill: {
-                                            type: "gradient",
-                                            gradient: {
-                                                shade: "dark",
-                                                type: "horizontal",
-                                                shadeIntensity: .5,
-                                                gradientToColors: [window.theme.warning],
-                                                inverseColors: !1,
-                                                opacityFrom: 1,
-                                                opacityTo: 1,
-                                                stops: [0, 100]
-                                            }
-                                        },
-                                        stroke: {
-                                            lineCap: "round"
-                                        }
-                                    };
-                                    new ApexCharts(document.querySelector("#progressChart"), e).render()
-                                }
+        var checkkhachhang = true;
 
-                                $('#AjaxLoader').hide();
-                                var SweetAlert2Demo = function () {
-                                    var initDemos = function () {
-                                        swal("Thành Công!", "Đã lưu thông tin chỉnh sửa!", {
-                                            icon: "success",
-                                            buttons: {
-                                                confirm: {
-                                                    className: 'btn btn-success'
-                                                }
-                                            },
-                                        });
-                                    };
-                                    return {
-                                        init: function () {
-                                            initDemos();
-                                        },
-                                    };
-                                }();
+        //Validation tên doanh nghiệp
+        if (namedn.length > 100) {
+            checkkhachhang = false;
+            $('#namednvalidation').text("Tên doanh nghiệp chỉ tối đa 100 ký tự.").show().prop("hidden", false);
+            $('#namedn').focus();
+        }
 
-                                jQuery(document).ready(function () {
-                                    SweetAlert2Demo.init();
-                                });
-                            }
-                        });
-                    }
-                });
-            };
-            return {
-                init: function () {
-                    initDemos();
-                },
-            };
-        }();
+        //Validation tên khach hàng
+        if (hoten.length < 1) {
+            checkkhachhang = false;
+            $('#hotenvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $('#hoten').focus();
+        } else if (formatnumber.test(hoten) == true || formatss.test(hoten.toLowerCase().replace(/\d+/g, '')) == true) {
+            checkkhachhang = false;
+            $('#hotenvalidation').text("Họ và Tên chưa đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
+            $('#hoten').focus();
+        } else if (hoten.length > 50) {
+            checkkhachhang = false;
+            $('#hotenvalidation').text("Họ và Tên chỉ tối đa 50 ký tự.").show().prop("hidden", false);
+            $('#hoten').focus();
+        }
 
-        jQuery(document).ready(function () {
-            SweetAlert2Demo.init();
-        });
+        //Validation cmnd
+        if (cmnd.length < 1) {
+            checkkhachhang = false;
+            $("#cmndvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $('#cmnd').focus();
+
+        } else if (cmnd.length != 14 && cmnd.length != 11) {
+            checkkhachhang = false;
+            $("#cmndvalidation").text("Vui lòng nhập đầy đủ thông tin này!").show().prop("hidden", false);
+            $('#cmnd').focus();
+        }
+
+        //Validation sđt
+        if (phone.length < 1) {
+            checkkhachhang = false;
+            $("#phonevalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $('#phone').focus();
+
+        } else if (phone.length != 12) {
+            checkkhachhang = false;
+            $("#phonevalidation").text("Vui lòng nhập đầy đủ thông tin này!").show().prop("hidden", false);
+            $('#phone').focus();
+        }
+
+        //Validation email
+        if (email.length < 1) {
+            checkkhachhang = false;
+            $("#emailvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $('#email').focus();
+
+        } else if (formatEmail.test(email) == false) {
+            checkkhachhang = false;
+            $("#emailvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show().prop("hidden", false);
+            $('#email').focus();
+        }
+        else if (email.length > 50) {
+            checkkhachhang = false;
+            $("#emailvalidation").text("Email chỉ tối đa 50 ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
+            $('#email').focus();
+        }
+
+        //Validation ngày sinh
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+        if (ngaysinh.length < 1) {
+            checkkhachhang = false;
+            $("#ngaysinhvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $('#ngaysinh').focus();
+
+        }
+        else if (Number(ngaysinh.replace(/-/g, '')) >= Number(yyyy + mm + dd)) {
+            checkkhachhang = false;
+            $("#ngaysinhvalidation").text("Ngày sinh không thể lớn hơn ngày hiện tại").show().prop("hidden", false);
+            $('#ngaysinh').focus();
+        }
+
+        //Validation giới tính
+        if (gioitinh.length < 1) {
+            checkkhachhang = false;
+            $("#gioitinhvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $('#gioitinh').focus();
+        }
+        else if (diahchinha.length > 250) {
+            checkkhachhang = false;
+            $("#diachinhavalidation").text("Địa chỉ, chỉ tối đa 250 ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
+            $('#gioitinh').focus();
+        }
+
+        //Check đúng hết thì làm
+        if (checkduan == true && checkkhachhang == true) {
+            var formData = new FormData();
+            formData.append('idpro', idpro);
+            formData.append('idpart', idpart);
+            formData.append('avatar', avatar);
+            //Dự án
+            formData.append('name', name);
+            formData.append('mota', mota);
+            formData.append('batdau', batdau);
+            formData.append('ketthuc', ketthuc);
+            //Khách hàng
+            formData.append('namedn', namedn);
+            formData.append('hoten', hoten);
+            formData.append('cmnd', cmnd);
+            formData.append('phone', phone);
+            formData.append('email', email);
+            formData.append('ngaysinh', ngaysinh);
+            formData.append('gioitinh', gioitinh);
+            formData.append('diahchinha', diahchinha);
+
+            $('#AjaxLoader').show();
+            $.ajax({
+                url: $('#requestPath').val() + 'Admins/QuanLyDuAn/chinhSuaDuAn',
+                type: 'POST',
+                dataType: 'html',
+                contentType: false,
+                processData: false,
+                data: formData
+            }).done(function (ketqua) {
+                $('#AjaxLoader').hide();
+                if (ketqua === "Đã có xảy ra lỗi, vui lòng thử lại") {
+                    var SweetAlert2Demo = function () {
+                        var initDemos = function () {
+                            swal("Thông Báo!", "Đã có xảy ra lỗi, vui lòng thử lại", {
+                                icon: "erorr",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-danger'
+                                    }
+                                },
+                            });
+                        };
+                        return {
+                            init: function () {
+                                initDemos();
+                            },
+                        };
+                    }();
+
+                    jQuery(document).ready(function () {
+                        SweetAlert2Demo.init();
+                    });
+                } else if (ketqua.indexOf("đang được sử dụng") != -1) {
+                    var SweetAlert2Demo = function () {
+                        var initDemos = function () {
+                            swal("Thông Báo!", ketqua, {
+                                icon: "erorr",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-danger'
+                                    }
+                                },
+                            });
+                        };
+                        return {
+                            init: function () {
+                                initDemos();
+                            },
+                        };
+                    }();
+
+                    jQuery(document).ready(function () {
+                        SweetAlert2Demo.init();
+                    });
+                }
+                else {
+                    $('#chiTietDuAnPartialID').replaceWith(ketqua);
+                    $('#resetdata_1').click();
+                    var SweetAlert2Demo = function () {
+                        var initDemos = function () {
+                            swal("Thành Công!", "Đã lưu thông tin cập nhật dự án.", {
+                                icon: "success",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-success'
+                                    }
+                                },
+                            });
+                        };
+                        return {
+                            init: function () {
+                                initDemos();
+                            },
+                        };
+                    }();
+
+                    jQuery(document).ready(function () {
+                        SweetAlert2Demo.init();
+                    });
+
+                }
+            });
+        }
     });
+
+    $('#luuThongTinKHCu').on('click', function () {
+        //tag Dự án
+        $('#namevalidation').hide();
+        $('#motavalidation').hide();
+        $('#batdauvalidation').hide();
+        $('#ketthucvalidation').hide();
+
+        // value Dự án
+        var name = $('#name').val().trim();
+        var mota = $('#mota').val().trim();
+        var batdau = $('#batdau').val().trim();
+        var ketthuc = $('#ketthuc').val().trim();
+
+        //validation name
+        var checkduan = true;
+        if (name.length < 1) {
+            checkduan = false;
+            $('#namevalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $('#name').focus();
+        } else if (name.length > 100) {
+            checkduan = false;
+            $('#namevalidation').text("Tên dự án chỉ tối đa 100 ký tự.").show().prop("hidden", false);
+            $('#name').focus();
+        }
+
+        //validation mô tả
+        if (mota.length > 0) {
+            if (mota.length > 1000) {
+                checkduan = false;
+                $('#motavalidation').text("Mô tả dự án chỉ tối đa 1000 ký tự.").show().prop("hidden", false);
+                $('#mota').focus();
+            }
+        }
+
+        //validation ngày bắt đầu
+        if (batdau.length < 1) {
+            checkduan = false;
+            $('#batdauvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $('#batdau').focus();
+        }
+
+        //validation ngày kết thúc
+        if (ketthuc.length < 1) {
+            checkduan = false;
+            $('#ketthucvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+        } else if (Number(ketthuc.replace(/-/g, '')) < Number(batdau.replace(/-/g, ''))) {
+            checkduan = false;
+            $('#ketthucvalidation').text("Ngày kết thúc không thể nhỏ hơn ngày bắt đầu dự án.").show().prop("hidden", false);
+        }
+
+        if (checkduan == true) {
+            //Khách hàng
+            var idpro = $('#idpro').val();
+            var id = $('#idKhachHang').val();
+
+            var formData = new FormData();
+            //Dự án
+            formData.append('idpro', idpro);
+            formData.append('name', name);
+            formData.append('mota', mota);
+            formData.append('batdau', batdau);
+            formData.append('ketthuc', ketthuc);
+            formData.append('id', id);
+
+            $('#AjaxLoader').show();
+            $.ajax({
+                url: $('#requestPath').val() + 'Admins/QuanLyDuAn/chinhSuaDuAn',
+                type: 'POST',
+                dataType: 'html',
+                contentType: false,
+                processData: false,
+                data: formData
+            }).done(function (ketqua) {
+                $('#AjaxLoader').hide();
+                if (ketqua == "Đã có xảy ra lỗi, vui lòng thử lại") {
+                    var SweetAlert2Demo = function () {
+                        var initDemos = function () {
+                            swal("Thông Báo!", "Đã có xảy ra lỗi, vui lòng thử lại", {
+                                icon: "erorr",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-danger'
+                                    }
+                                },
+                            });
+                        };
+                        return {
+                            init: function () {
+                                initDemos();
+                            },
+                        };
+                    }();
+
+                    jQuery(document).ready(function () {
+                        SweetAlert2Demo.init();
+                    });
+                } else if (ketqua.indexOf("đang được sử dụng") != -1) {
+                    var SweetAlert2Demo = function () {
+                        var initDemos = function () {
+                            swal("Thông Báo!", ketqua, {
+                                icon: "erorr",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-danger'
+                                    }
+                                },
+                            });
+                        };
+                        return {
+                            init: function () {
+                                initDemos();
+                            },
+                        };
+                    }();
+
+                    jQuery(document).ready(function () {
+                        SweetAlert2Demo.init();
+                    });
+                }
+                else {
+                    $('#chiTietDuAnPartialID').replaceWith(ketqua);
+                    $('#resetdata_1').click();
+                    var SweetAlert2Demo = function () {
+                        var initDemos = function () {
+                            swal("Thành Công!", "Đã lưu thông tin cập nhật dự án.", {
+                                icon: "success",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-success'
+                                    }
+                                },
+                            });
+                        };
+                        return {
+                            init: function () {
+                                initDemos();
+                            },
+                        };
+                    }();
+
+                    jQuery(document).ready(function () {
+                        SweetAlert2Demo.init();
+                    });
+
+                }
+            });
+        }
+    });
+
 });

@@ -767,17 +767,17 @@
     <script src='https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min.js'></script>
 
     <!-- Theme JS -->
-
     <script src="~/Content/Admin/js/bootstrap-notify.min.js"></script>
     <script src="~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
     <script src="~/Content/Admin/assets/js/theme.min.js"></script>
+
     @if (ViewBag.Title == "Chi Tiết Dự Án")
     {
         <script>
             $(document).ready(function () {
-                if ($("#progressChart").length) {
+                if ($("#chartTongTheDuAn").length) {
                     e = {
-                        series: [@ViewBag.TongTheDuAn],
+                        series: [@ViewBag.TienDoTongTheDuAn],
                         chart: {
                             height: 350,
                             type: "radialBar",
@@ -852,12 +852,12 @@
                             lineCap: "round"
                         }
                     };
-                    new ApexCharts(document.querySelector("#progressChart"), e).render()
+                    new ApexCharts(document.querySelector("#chartTongTheDuAn"), e).render()
                 }
             });
-
         </script>
     }
+
     @if (ViewBag.ShowActive == "themTinTuyenDung" || ViewBag.ShowActive == "chinhSuaTinTuyenDung" || ViewBag.ShowActive == "danhSachNhanVien")
     {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

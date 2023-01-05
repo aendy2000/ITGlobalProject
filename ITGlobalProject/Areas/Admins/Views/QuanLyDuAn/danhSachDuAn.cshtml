@@ -51,11 +51,11 @@
                             <th scope="col" class=" border-top-0">Tên dự án</th>
                             <th scope="col" class=" border-top-0">Bàn giao</th>
                             <th hidden scope="col" class=" border-top-0"></th>
-                            <th scope="col" class=" border-top-0">Ngân sách</th>
+                            <th scope="col" class=" border-top-0">Chi phí (VND)</th>
+                            <th scope="col" class=" border-top-0">Công việc</th>
                             <th scope="col" class=" border-top-0">Hoàn thành</th>
                             <th scope="col" class=" border-top-0">Trạng thái</th>
                             <th scope="col" class=" border-top-0">Đội ngũ</th>
-                            <th scope="col" class=" border-top-0"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,7 +83,9 @@
                                 <td style="font-weight: bold; color: brown " class="align-middle ">
                                     @item.Debts.Sum(d => d.Price).ToString("0,0").Replace(".", ",")
                                 </td>
-
+                                <td style="font-weight: bold; " class="align-middle ">
+                                    @item.Tasks.Count() công việc
+                                </td>
                                 <td class="align-middle ">
                                     <!--Chưa giao việc, còn hạn => đang thực hiện-->
                                     @if (item.Tasks.ToList().Count < 1
@@ -277,27 +279,6 @@
                                             </span>
                                         }
 
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Hành động</span>
-                                            <a class="dropdown-item" href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();">
-                                                <i class="fe fe-info dropdown-item-icon"></i>Xem chi tiết
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Xóa dự án
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-printer dropdown-item-icon"></i>Xuất file Excel
-                                            </a>
-                                        </div>
                                     </div>
                                 </td>
                             </tr>

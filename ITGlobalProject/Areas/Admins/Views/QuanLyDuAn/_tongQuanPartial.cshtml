@@ -3,14 +3,9 @@
 @{
     IEnumerable<Histories> lichSu = Session["lst-lichSuDuAn"] as IEnumerable<Histories>;
     int heights = 0;
-    if (Model.Tasks.Count < 1)
-    {
-        ViewBag.TongTheDuAn = 0;
-    }
-    else
+    if (Model.Tasks.Count > 0)
     {
         heights = 400;
-        ViewBag.TongTheDuAn = Model.Tasks.Where(t => t.State.Equals("Đã hoàn thành")).ToList().Sum(t => t.OriginalEstimate) / Model.Tasks.ToList().Sum(t => t.OriginalEstimate);
     }
 }
 
@@ -374,7 +369,8 @@
         <!-- card body  -->
         <div class="card-body">
             <h4 class=" card-title ">Tiến Độ Tổng Thể </h4>
-            <div id="progressChart"></div>
+            <input hidden id="valueTongTheDuAn" value="@((Model.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Sum(t => t.OriginalEstimate)) != 0 ? Convert.ToDecimal((Model.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0") : "0")" />
+            <div id="chartTongTheDuAn"></div>
         </div>
     </div>
     <div class="card">
@@ -443,5 +439,89 @@
     </div>
 </div>
 </div>
+<script>
+        var options = {
+            series: [],
+            chart: {
+                height: 350,
+                type: "radialBar",
+                toolbar: {
+                    show: !1
+                }
+            },
+            colors: [window.theme.primary, window.theme.warning],
+            plotOptions: {
+                radialBar: {
+                    startAngle: -135,
+                    endAngle: 225,
+                    hollow: {
+                        margin: 0,
+                        size: "70%",
+                        background: window.theme.white,
+                        image: void 0,
+                        imageOffsetX: 0,
+                        imageOffsetY: 0,
+                        position: "front",
+                        dropShadow: {
+                            enabled: !0,
+                            top: 3,
+                            left: 0,
+                            blur: 4,
+                            opacity: .24
+                        }
+                    },
+                    track: {
+                        background: window.theme.white,
+                        strokeWidth: "67%",
+                        margin: 0,
+                        dropShadow: {
+                            enabled: !0,
+                            top: -3,
+                            left: 0,
+                            blur: 4,
+                            opacity: .35
+                        }
+                    },
+                    dataLabels: {
+                        showOn: "always",
+                        name: {
+                            show: !1
+                        },
+                        value: {
+                            formatter: function (e) {
+                                return parseInt(e) + "%"
+                            },
+                            color: window.theme.dark,
+                            fontSize: "48px",
+                            fontWeight: "700",
+                            show: !0
+                        }
+                    }
+                }
+            },
+            fill: {
+                type: "gradient",
+                gradient: {
+                    shade: "dark",
+                    type: "horizontal",
+                    shadeIntensity: .5,
+                    gradientToColors: [window.theme.warning],
+                    inverseColors: !1,
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 100]
+                }
+            },
+            stroke: {
+                lineCap: "round"
+            }
+        };
+
+        options.series.push($('#valueTongTheDuAn').val());
+
+        var chart = new ApexCharts(document.querySelector("#chartTongTheDuAn"), options);
+        chart.render();
+</script>
 </div>
+
 

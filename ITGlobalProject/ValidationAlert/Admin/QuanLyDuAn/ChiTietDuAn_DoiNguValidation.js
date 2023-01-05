@@ -60,28 +60,21 @@
                             } else {
                                 $('#tatBangThemThanhVien').click();
                                 $('#chiTietDuAnPartialID').replaceWith(ketqua);
-                                var SweetAlert2Demo = function () {
-                                    var initDemos = function () {
-                                        swal("Thành Công!", "Đã thêm một thành viên vào dự án!", {
-                                            icon: "success",
-                                            buttons: {
-                                                confirm: {
-                                                    className: 'btn btn-success'
-                                                }
-                                            },
-                                        });
-                                    };
-                                    return {
-                                        init: function () {
-                                            initDemos();
-                                        },
-                                    };
-                                }();
 
-                                jQuery(document).ready(function () {
-                                    SweetAlert2Demo.init();
+                                var content = {};
+                                content.message = 'Đã thêm một thành viên vào dự án';
+                                content.title = 'Thành công!';
+                                content.icon = 'nav-icon fe fe-bell me-2';
+                                $.notify(content, {
+                                    type: "success",
+                                    placement: {
+                                        from: "bottom",
+                                        align: "right"
+                                    },
+                                    time: 1000,
+                                    delay: 1000,
                                 });
-
+                                
                                 $.when(
                                     $.getScript($('#requestPath').val() + "Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"),
                                     $.getScript($('#requestPath').val() + "Content/Admin/assets/js/theme.min.js"),
@@ -149,26 +142,19 @@
                                 window.location.href = $('#requestPath').val() + 'Admins/QuanLyDuAn/danhSachDuAn';
                             } else {
                                 $('#chiTietDuAnPartialID').replaceWith(ketqua);
-                                var SweetAlert2Demo = function () {
-                                    var initDemos = function () {
-                                        swal("Thành Công!", "Đã thêm một thành viên vào dự án!", {
-                                            icon: "success",
-                                            buttons: {
-                                                confirm: {
-                                                    className: 'btn btn-success'
-                                                }
-                                            },
-                                        });
-                                    };
-                                    return {
-                                        init: function () {
-                                            initDemos();
-                                        },
-                                    };
-                                }();
 
-                                jQuery(document).ready(function () {
-                                    SweetAlert2Demo.init();
+                                var content = {};
+                                content.message = 'Đã loại bỏ thành viên khỏi dự án';
+                                content.title = 'Thành công!';
+                                content.icon = 'nav-icon fe fe-bell me-2';
+                                $.notify(content, {
+                                    type: "success",
+                                    placement: {
+                                        from: "bottom",
+                                        align: "right"
+                                    },
+                                    time: 1000,
+                                    delay: 1000,
                                 });
 
                                 $.when(
