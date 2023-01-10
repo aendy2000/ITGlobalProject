@@ -7,12 +7,7 @@
 
     var lstPartner = Session["lst-partner-DuAn"] as IEnumerable<Partners>;
     IEnumerable<Histories> lichSu = Session["lst-lichSuDuAn"] as IEnumerable<Histories>;
-    int i = 0;
-    int heights = 0;
-    if (Model.Tasks.Count > 0)
-    {
-        heights = 400;
-    }
+    int heights = 400;
     ViewBag.TienDoTongTheDuAn = ((Model.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) != 0 && Model.Tasks.Sum(t => t.OriginalEstimate) != 0) ? Convert.ToDecimal((Model.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0") : "0");
 }
 <input hidden value="@ViewBag.TongTheDuAn" id="tienDoTongTheDuAn" />
