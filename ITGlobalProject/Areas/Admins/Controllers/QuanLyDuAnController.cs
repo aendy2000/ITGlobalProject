@@ -138,7 +138,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 his.ID_Employee = Convert.ToInt32(Session["user-id"]);
                 his.ID_Projects = pro.ID;
                 his.Name = "Tạo Dự Án";
-                his.Contents = "đã khởi tạo dự án: " + name + ".";
+                his.Contents = "đã khởi tạo dự án: " + name;
                 his.Date = DateTime.Now;
                 model.Histories.Add(his);
                 model.SaveChanges();
