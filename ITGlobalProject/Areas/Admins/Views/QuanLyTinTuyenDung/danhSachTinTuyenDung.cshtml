@@ -65,8 +65,16 @@
                         <span class="fs-6 text-uppercase fw-semi-bold">Xem nhiều nhất</span>
                         <div class="mt-2 d-flex justify-content-between align-items-center">
                             <div class="lh-1">
-                                <h2 class="h1 fw-bold mb-1">@Convert.ToDecimal(Model.OrderByDescending(o => o.Views).First().Views).ToString("0,0").Replace(".", ",")</h2>
-                                <span>Lượt xem - <a target="_blank" href="@Url.Action("thongTinTuyenDung", "TinTuyenDung", new {area = "", id = Model.OrderByDescending(o => o.Views).First().ID})">Tin số @Model.OrderByDescending(o => o.Views).First().ID</a></span>
+                                @if (Model.Count() > 0)
+                                {
+                                    <h2 class="h1 fw-bold mb-1">@(Convert.ToDecimal(Model.OrderByDescending(o => o.Views).First().Views).ToString("0,0").Replace(".", ","))</h2>
+                                    <span>Lượt xem - <a target="_blank" href="@Url.Action("thongTinTuyenDung", "TinTuyenDung", new {area = "", id = Model.OrderByDescending(o => o.Views).First().ID})">Tin số @Model.OrderByDescending(o => o.Views).First().ID</a></span>
+                                }
+                                else
+                                {
+                                    <h2 class="h1 fw-bold mb-1">0</h2>
+                                    <span>Lượt xem - <a>Chưa có tin nào</a></span>
+                                }
                             </div>
                             <div>
                                 <span class="bg-light-warning icon-shape icon-xl rounded-3 text-dark-warning">
@@ -85,7 +93,7 @@
                         <span class="fs-6 text-uppercase fw-semi-bold">lượng truy cập</span>
                         <div class="mt-2 d-flex justify-content-between align-items-center">
                             <div class="lh-1">
-                                <h2 class="h1 fw-bold mb-1">@Convert.ToDecimal(Model.Sum(s => s.Views)).ToString("0,0").Replace(".", ",")</h2>
+                                <h2 class="h1 fw-bold mb-1">@(Model.Count() > 0 ? Convert.ToDecimal(Model.Sum(s => s.Views)).ToString("0,0").Replace(".", ",") : "0")</h2>
                                 <span>Lượt xem tin tuyển dụng</span>
                             </div>
                             <div>
@@ -105,7 +113,7 @@
                         <span class="fs-6 text-uppercase fw-semi-bold">Vị Trí Tuyển Dụng</span>
                         <div class="mt-2 d-flex justify-content-between align-items-center">
                             <div class="lh-1">
-                                <h2 class="h1 fw-bold mb-1">@Convert.ToDecimal(Model.GroupBy(s => s.ID_Position).Count()).ToString("0,0").Replace(".", ",")</h2>
+                                <h2 class="h1 fw-bold mb-1">@(Model.Count() > 0 ? Convert.ToDecimal(Model.GroupBy(s => s.ID_Position).Count()).ToString("0,0").Replace(".", ",") : "0")</h2>
                                 <span>Được đăng tin</span>
                             </div>
                             <div>
@@ -123,7 +131,7 @@
                 <!-- Card -->
                 <div class="card">
                     <!-- table -->
-                    <table id="dataTableBasic" class="table table-hover"  style="width:100%">
+                    <table id="dataTableBasic" class="table table-hover" style="width:100%">
                         <thead class="table-light">
                             <tr>
                                 <th hidden scope="col" class="border-0"></th>
@@ -213,8 +221,8 @@
                             }
                             else
                             {
-                                <tr>
-                                    <td colspan="7" class="align-middle">Không có dữ liệu để hiển thị.</td>
+                                <tr class="text-center">
+                                    <td colspan="7">Không có dữ liệu để hiển thị.</td>
                                 </tr>
                             }
 
