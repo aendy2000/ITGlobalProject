@@ -884,7 +884,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (id == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
-            ViewBag.ShowActive = "TTChiTiet"; var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            ViewBag.ShowActive = "TTChiTiet";
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (user != null)
             {
                 return PartialView("_thongTinChiTietPartial", user);
