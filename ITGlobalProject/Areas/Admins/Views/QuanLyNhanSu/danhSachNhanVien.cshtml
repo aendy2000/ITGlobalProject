@@ -205,14 +205,14 @@
                                                 <div class="d-flex justify-content-between border-bottom py-2 mt-3">
                                                     <span>Tổng công việc</span>
                                                     <b>
-                                                        <span class="text-success">Coming Soon <i class="mdi mdi-check-all"></i></span>
+                                                        <span class="text-success">@item.Tasks.Count() <i class="mdi mdi-check-all"></i></span>
                                                     </b>
                                                 </div>
                                                 <div class="d-flex justify-content-between border-bottom py-2">
                                                     <span>Công việc đang làm</span>
                                                     <b>
                                                         <span class="text-danger">
-                                                            Coming Soon <i class="mdi mdi-progress-clock"></i>
+                                                            @item.Tasks.Where(t => t.State.Equals("progress") || t.State.Equals("review")).Count() <i class="mdi mdi-progress-clock"></i>
                                                         </span>
                                                     </b>
                                                 </div>
@@ -220,7 +220,7 @@
                                                     <span>Dự án tham gia</span>
                                                     <b>
                                                         <span class="text-warning">
-                                                            Coming Soon <i class="mdi mdi-bookmark"></i>
+                                                            @item.Teams.Count() <i class="mdi mdi-bookmark"></i>
                                                         </span>
                                                     </b>
                                                 </div>
@@ -552,14 +552,14 @@
                                                 <div class="d-flex justify-content-between border-bottom py-2 mt-3">
                                                     <span>Tổng công việc</span>
                                                     <b>
-                                                        <span class="text-success">Coming Soon <i class="mdi mdi-check-all"></i></span>
+                                                        <span class="text-success">@item.Tasks.Count() <i class="mdi mdi-check-all"></i></span>
                                                     </b>
                                                 </div>
                                                 <div class="d-flex justify-content-between border-bottom py-2">
                                                     <span>Công việc đang làm</span>
                                                     <b>
                                                         <span class="text-danger">
-                                                            Coming Soon <i class="mdi mdi-progress-clock"></i>
+                                                            @item.Tasks.Where(t => t.State.Equals("progress") || t.State.Equals("review")).Count() <i class="mdi mdi-progress-clock"></i>
                                                         </span>
                                                     </b>
                                                 </div>
@@ -567,7 +567,7 @@
                                                     <span>Dự án tham gia</span>
                                                     <b>
                                                         <span class="text-warning">
-                                                            Coming Soon <i class="mdi mdi-bookmark"></i>
+                                                            @item.Teams.Count() <i class="mdi mdi-bookmark"></i>
                                                         </span>
                                                     </b>
                                                 </div>
