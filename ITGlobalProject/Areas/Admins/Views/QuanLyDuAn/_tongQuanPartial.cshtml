@@ -349,7 +349,7 @@
                         }
                         else
                         {
-                            @((Model.EndDate - Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"))).TotalDays + 1) <span>Ngày</span>
+                            @(((Model.EndDate - Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"))).TotalDays + 1) > ((Model.EndDate - Model.StartDate).TotalDays + 1) ? ((Model.EndDate - Model.StartDate).TotalDays + 1) : ((Model.EndDate - Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"))).TotalDays + 1)) <span>Ngày</span>
                         }
                     </h1>
                     <p class="mb-0 text-white">
