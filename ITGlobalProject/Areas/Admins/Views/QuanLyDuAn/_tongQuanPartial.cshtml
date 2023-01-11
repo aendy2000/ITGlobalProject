@@ -3,9 +3,12 @@
 @{
     IEnumerable<Histories> lichSu = Session["lst-lichSuDuAn"] as IEnumerable<Histories>;
     int heights = 400;
+    ViewBag.TienDoTongTheDuAn = ((Model.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) != 0 && Model.Tasks.Sum(t => t.OriginalEstimate) != 0) ? Convert.ToDecimal((Model.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0") : "0");
+
 }
 
 <div id="chiTietDuAnPartialID">
+    <input hidden value="@ViewBag.TienDoTongTheDuAn" id="tienDoTongTheDuAns" />
     <div class="row">
         <div class="col-12 mb-4">
             <!-- nav  -->
@@ -513,10 +516,10 @@
         }
     };
 
-    if (Number($('#tienDoTongTheDuAn').val()) <= 0)
+    if (Number($('#tienDoTongTheDuAns').val()) <= 0)
         options.series.push(0);
     else
-        options.series.push($('#tienDoTongTheDuAn').val());
+        options.series.push($('#tienDoTongTheDuAns').val());
 
     var chart = new ApexCharts(document.querySelector("#chartTongTheDuAn"), options);
     chart.render();
