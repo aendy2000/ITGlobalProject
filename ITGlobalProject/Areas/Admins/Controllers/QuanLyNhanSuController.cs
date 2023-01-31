@@ -81,6 +81,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
             var employee = Session["lstEmployees"] as List<Employees>;
 
+            ViewBag.countListNhanSu = pageSize;
             ViewBag.typeListNhanSu = type;
             return PartialView("_nhanVienListPartialView", employee.ToPagedList((int)page, (int)pageSize));
         }
