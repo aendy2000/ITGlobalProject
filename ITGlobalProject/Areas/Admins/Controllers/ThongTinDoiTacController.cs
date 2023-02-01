@@ -217,7 +217,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
             return PartialView("_thongTinChiTietPartial", partner);
         }
-       
+
         public ActionResult duAnThamGiaPartial(int? id)
         {
             var partner = model.Partners.Find(id);
@@ -226,6 +226,53 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
             return PartialView("_duAnThamGiaPartial", partner);
         }
+        [HttpPost]
+        public ActionResult timKiemDuAn(int? id, string noidung, string trangthai)
+        {
+            ViewBag.IDPartnerSearchProject = id;
+            var partner = model.Partners.Find(id);
+            if (id == null || partner == null)
+                return Content("DANHNHAP");
 
+            if (string.IsNullOrEmpty(noidung.Trim()))
+            {
+                if (string.IsNullOrEmpty(trangthai))
+                {
+                    return PartialView("_duAnThamGiaSearch", partner.Projects.ToList());
+                }
+                else if (trangthai.Equals("dangthuchien"))
+                {
+                    DateTime currentDate = new DateTime();
+                    var result = partner.Projects.Where(p => p.EndDate >= currentDate).ToList();
+                    return PartialView("_duAnThamGiaSearch", result);
+                }
+                else
+                {
+                    var result = partner.Projects.Where(p => p.Debts.Where(d => d.State == false).Count() > 0).ToList();
+                    return PartialView("_duAnThamGiaSearch", result);
+                }
+            }
+            else
+            {
+                noidung = noidung.Trim().ToLower();
+                var search = partner.Projects.Where(p => p.Name.ToLower().Contains(noidung)).ToList();
+
+                if (string.IsNullOrEmpty(trangthai))
+                {
+                    return PartialView("_duAnThamGiaSearch", search);
+                }
+                else if (trangthai.Equals("dangthuchien"))
+                {
+                    DateTime currentDate = new DateTime();
+                    var result = search.Where(p => p.EndDate >= currentDate).ToList();
+                    return PartialView("_duAnThamGiaSearch", result);
+                }
+                else
+                {
+                    var result = search.Where(p => p.Debts.Where(d => d.State == false).Count() > 0).ToList();
+                    return PartialView("_duAnThamGiaSearch", result);
+                }
+            }
+        }
     }
 }

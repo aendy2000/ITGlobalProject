@@ -111,22 +111,22 @@
                                 <i class="fe fe-search"></i>
                             </span>
                             <!-- input -->
-                            <input type="search" class="form-control ps-6"
+                            <input type="search" id="timkiemDuAn" class="form-control ps-6"
                                    placeholder="Tìm kiếm với tên dự án" />
                         </form>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-2 col-md-6 col-12 ">
                     <!-- Custom select -->
-                    <select class="form-select" data-width="100%">
+                    <select id="trangthaiduan" class="selectpicker" data-width="100%">
                         <option value="">Tất cả</option>
-                        <option value="In Progress">Đang thực hiện</option>
-                        <option value="Pending">Còn công nợ</option>
+                        <option value="dangthuchien">Đang thực hiện</option>
+                        <option value="congno">Còn công nợ</option>
                     </select>
                 </div>
             </div>
-            <div class="row">
-
+            <div id="lstContentProject" class="row">
+                <input hidden value="@Model.ID" id="idpart" />
                 @if (Model.Projects.Count() > 0)
                 {
                     foreach (var item in Model.Projects)
@@ -142,9 +142,7 @@
                                         <div>
                                             <h4 class="mb-0"><a href="#" class="text-inherit">@item.Name</a></h4>
                                             <span class="text-muted fs-6">@item.Tasks.Count() Công việc</span>
-
                                         </div>
-
                                     </div>
                                     <!-- para-->
                                     <div class="mt-3 mb-4">
@@ -378,4 +376,5 @@
 
         </div>
     </div>
+    <script src="~/ValidationAlert/Admin/ThongTinDoiTac/DuAnThamGiaValidation.js"></script>
 </div>
