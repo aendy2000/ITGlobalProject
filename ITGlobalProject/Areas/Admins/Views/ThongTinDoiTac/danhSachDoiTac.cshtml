@@ -17,7 +17,7 @@
                 <div class="mb-2 mb-lg-0">
                     <h1 class="mb-1 h2 fw-bold">
                         Danh Sách Đối Tác
-                        <span class="fs-5 text-muted">(@Model.TotalItemCount)</span>
+                        <b id="tongSoLuong" name="@Model.TotalItemCount" class="fs-5 text-muted">(@Model.TotalItemCount)</b>
                     </h1>
                     <!-- Breadcrumb  -->
                     <nav aria-label="breadcrumb">
@@ -31,6 +31,12 @@
                             </li>
                         </ol>
                     </nav>
+                </div>
+                <!-- button -->
+                <div>
+                    <a class="btn btn-primary me-2" style="width:230px" role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <i class="fe fe-user-plus"> </i> Thêm Đối Tác
+                    </a>
                 </div>
             </div>
         </div>
@@ -197,4 +203,102 @@
         </div>
     </div>
 </div>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 65%; height:100%" data-simplebar>
+    <div class="offcanvas-body">
+        <div class="offcanvas-header px-2 pt-0">
+            <div style="height:30px" class="row">
+                <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-user-plus"> </i> Thêm Đối Tác</h4>
+                <br />
+                <p>Nhập vào đầy đủ các thông tin bắt buộc của đối tác.</p>
+            </div>
+            <button id="tatcanvas" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form class="row">
+                <div class="d-lg-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center mb-3 mb-lg-0">
+                        <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xxl rounded-circle" alt="" id="previewImage" />
+                        <div class="ms-3">
+                            <h4 class="mb-0">Hình đại diện (nếu có)</h4>
+                            <p class="mb-0">
+                                PNG hoặc JPG hình vuông không lớn hơn 800px.
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <input hidden id="selectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewImage'))" />
+                        <a id="clickFiles" style="width: 150px" role="button" class="btn btn-outline-primary btn-sm">Tải lên</a>
+                        <a id="reloadButton" style="width: 150px" role="button" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
+                    </div>
+                </div>
+                <hr class="my-4" />
+                <div class="mb-3 col-12">
+                    <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp</label>
+                    <input hidden id="idpart" />
+                    <input id="namedn" name="namedn" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng (nếu có)" required>
+                    <p hidden style="font-size: 13px; color:red;" id="namednvalidation"></p>
+                </div>
+                <!-- form group -->
+                <div class="mb-3 col-12  col-md-6">
+                    <label style="font-weight:bold" class="form-label">Họ và Tên <span class="text-danger">*</span></label>
+                    <input id="hoten" name="hoten" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
+                    <p hidden style="font-size: 13px; color:red;" id="hotenvalidation"></p>
+                </div>
+
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD <span class="text-danger">*</span></label>
+                    <input id="cmnd" name="cmnd" type="text" class="form-control" placeholder="Nhập vào số CMND/CCCD của khách hàng" data-inputmask="'mask': '9999 9999 9999'" inputmode="numeric" />
+                    <p hidden style="font-size: 13px; color:red;" id="cmndvalidation"></p>
+                </div>
+                <!-- Phone -->
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                    <input id="phone" name="phone" type="tel" class="form-control" placeholder="Nhập vào số điện thoại khách hàng" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" />
+                    <p hidden style="font-size: 13px; color:red;" id="phonevalidation"></p>
+                </div>
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
+                    <input type="text" id="email" name="email" class="form-control" placeholder="example@itglobal.net" data-inputmask="'alias': 'email'" inputmode="numeric" />
+                    <p hidden style="font-size: 13px; color:red;" id="emailvalidation"></p>
+                </div>
+                <!-- Birthday -->
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh <span class="text-danger">*</span></label>
+                    <input id="ngaysinh" name="ngaysinh" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
+                    <p hidden style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
+                </div>
+                <!-- Birthday -->
+                <div class="mb-3 col-12 col-md-6">
+                    <label style="font-weight:bold" class="form-label">Giới tính <span class="text-danger">*</span></label>
+                    <select id="gioitinh" name="gioitinh" style="color:black" class="selectpicker" data-width="100%">
+                        <option selected value="">Chọn giới tính</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                    </select>
+                    <p hidden style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
+                </div>
+
+                <!-- Address -->
+                <div class="mb-3 col-12 col-md-12">
+                    <label style="font-weight:bold" class="form-label" for="address">ĐC Doanh nghiệp / Nhà riêng</label>
+                    <textarea id="diahchinha" name="diachinha" rows="5" class="form-control" placeholder="Nhập địa chỉ doanh nghiệp / nhà riêng khách hàng"></textarea>
+                    <p hidden style="font-size: 13px; color:red;" id="diachinhavalidation"></p>
+                </div>
+
+                <div style="text-align: right; padding-top: 25px" class="mb-2 col-12 col-md-6">
+                    <button id="resetdata" style="width: 230px" class="btn btn-outline-danger" data-bs-dismiss="offcanvas" aria-label="Close" type="reset">
+                        Hủy
+                    </button>
+                </div>
+                <div style=" padding-top: 25px" class="mb-2 col-12 col-md-6">
+                    <a role="button" id="luuThongTin" style="width: 230px" class="btn btn-success">
+                        Lưu
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/ValidationAlert/Admin/ThongTinDoiTac/ThemDoiTacValidation.js"></script>
 <script src="~/ValidationAlert/Admin/ThongTinDoiTac/DanhSachDoiTac.js"></script>
+<script src="~/Content/Admin/assets/js/reviewImage.js"></script>

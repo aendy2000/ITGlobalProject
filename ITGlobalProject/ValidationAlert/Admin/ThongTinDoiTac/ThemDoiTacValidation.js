@@ -1,89 +1,4 @@
 ﻿$(document).ready(function () {
-    //Xóa đối tác
-    $('#xoadoitac').on('click', function () {
-        var SweetAlert2Demo = function () {
-            var initDemos = function () {
-                swal({
-                    title: 'Xóa Bỏ Đối Tác?',
-                    text: "Chắc chắn muốn xóa chứ?",
-                    type: 'warning',
-                    buttons: {
-                        cancel: {
-                            visible: true,
-                            text: ' Hủy Bỏ ',
-                            className: 'btn btn-danger'
-                        },
-                        confirm: {
-                            text: 'Xác Nhận',
-                            className: 'btn btn-success'
-                        }
-                    }
-                }).then((xoadoitac) => {
-                    if (xoadoitac) {
-                        var id = $('#idpart').val();
-                        var formData = new FormData();
-                        formData.append('id', id);
-                        $.ajax({
-                            url: $('#requestPath').val() + "admins/thongtindoitac/xoadoitac",
-                            type: 'POST',
-                            dataType: 'html',
-                            contentType: false,
-                            processData: false,
-                            data: formData
-                        }).done(function (ketqua) {
-                            if (ketqua === "DANGNHAP") {
-                                window.location.href = $('#requestPath').val() + "admins/quanlytaikhoan/dangnhap";
-                            } else {
-                                var SweetAlert2Demo = function () {
-                                    var initDemos = function () {
-                                        swal("Thành Công!", "Tuyệt quá! Đối đã được xóa thành công.\nChọn xác nhận để quay về trang danh sách!", {
-                                            icon: "success",
-                                            buttons: {
-                                                confirm: {
-                                                    className: 'btn btn-success'
-                                                }
-                                            },
-                                        }).then((xacnhan) => {
-                                            window.location.href = $('#requestPath').val() + "admins/thongtindoitac/danhSachDoiTac";
-                                        });
-                                    };
-                                    return {
-                                        init: function () {
-                                            initDemos();
-                                        },
-                                    };
-                                }();
-
-                                jQuery(document).ready(function () {
-                                    SweetAlert2Demo.init();
-                                });
-
-                                $.when(
-                                    $.getScript($('#requestPath').val() + "Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"),
-                                    $.getScript($('#requestPath').val() + "Content/Admin/assets/js/theme.min.js"),
-
-                                    $.Deferred(function (deferred) {
-                                        $(deferred.resolve);
-                                    })
-                                ).done(function () {
-                                });
-                            }
-                        });
-                    }
-                });
-            };
-            return {
-                init: function () {
-                    initDemos();
-                },
-            };
-        }();
-
-        jQuery(document).ready(function () {
-            SweetAlert2Demo.init();
-        });
-    });
-
     //Chọn ảnh
     $('#clickFiles').on('click', function (e) {
         $('#selectFiles').click();
@@ -92,7 +7,7 @@
     //Xóa ảnh
     $('#reloadButton').on('click', function (e) {
         $('#selectFiles').val('');
-        $('#previewImage').replaceWith('<img src="' + $('#avaCu').val() + '" class="avatar-xxl rounded-circle" alt="" id="previewImage" />');
+        $('#previewImage').replaceWith('<img src="' + $('#requestPath').val() + 'Content/Admin/assets/images/avatar/default-avatar.png")" class="avatar-xxl rounded-circle" alt="" id="previewImage" />');
     })
 
     $('#luuThongTin').on('click', function () {
@@ -125,6 +40,7 @@
         var diahchinha = $('#diahchinha').val().trim();
 
         var checkkhachhang = true;
+
         //Validation tên doanh nghiệp
         if (namedn.length > 100) {
             checkkhachhang = false;
@@ -220,7 +136,6 @@
         //Check đúng hết thì làm
         if (checkkhachhang == true) {
             var formData = new FormData();
-            formData.append('id', $('#idpart').val());
             formData.append('avatar', avatar);
             formData.append('namedn', namedn);
             formData.append('hoten', hoten);
@@ -230,10 +145,11 @@
             formData.append('ngaysinh', ngaysinh);
             formData.append('gioitinh', gioitinh);
             formData.append('diahchinha', diahchinha);
+            formData.append('pageSize', $('#hienthiPartner').val());
 
             $('#AjaxLoader').show();
             $.ajax({
-                url: $('#requestPath').val() + 'Admins/ThongTinDoiTac/CapNhatThongTin',
+                url: $('#requestPath').val() + 'Admins/ThongTinDoiTac/themDoiTac',
                 type: 'POST',
                 dataType: 'html',
                 contentType: false,
@@ -290,7 +206,7 @@
                     window.location.href = $('#requestPath').val() + "admins/quanlytaikhoan/dangnhap";
                 }
                 else {
-                    $('#contentPartial').replaceWith(ketqua);
+                    $('#pagess2').replaceWith('<div id="pagess2" class="row">' + ketqua + '</div>');
 
                     $.when(
                         $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js'),
@@ -302,11 +218,16 @@
                         })
                     );
 
-                    $('#gioitinh').selectpicker();
+                    $('#trangthaiPartner').selectpicker('val', '');
+                    $('#searchPartner').val("");
+                    $('#resetdata').click();
+
+                    var sl = Number($('#tongSoLuong').attr('name')) + 1;
+                    $('#tongSoLuong').replaceWith('<b id="tongSoLuong" name="' + sl + '" class="fs-5 text-muted">(' + sl + ')</b>');
 
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Thông tin đối tác đã được thay đổi!", {
+                            swal("Thành Công!", "Đã thêm một đối tác mới!", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {
@@ -328,20 +249,5 @@
                 }
             });
         }
-    });
-
-    $('#resetdata').on('click', function () {
-        $('#namednvalidation').hide();
-        $('#hotenvalidation').hide();
-        $('#cmndvalidation').hide();
-        $('#phonevalidation').hide();
-        $('#emailvalidation').hide();
-        $('#ngaysinhvalidation').hide();
-        $('#gioitinhvalidation').hide();
-        $('#diahchinhavalidation').hide();
-
-        $('#selectFiles').val('');
-        $('#previewImage').replaceWith('<img src="' + $('#avaCu').val() + '" class="avatar-xxl rounded-circle" alt="" id="previewImage" />');
-
     });
 });

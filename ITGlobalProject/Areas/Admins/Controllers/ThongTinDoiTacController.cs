@@ -45,7 +45,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             Session["DefaultlstPartners"] = lstDoiTac;
 
             ViewBag.ShowActive = "danhSachDoiTac";
-            return View("danhSachDoiTac", lstDoiTac.ToPagedList(1, 8));
+            return View("danhSachDoiTac", lstDoiTac.OrderByDescending(o => o.ID).ToPagedList(1, 8));
         }
 
         public ActionResult danhSachDoiTacPartial(int? page, int? pageSize)
@@ -61,7 +61,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             ViewBag.countListPartner = pageSize;
             var partner = Session["lstPartners"] as List<Partners>;
 
-            return PartialView("_danhSachDoiTacPartial", partner.ToPagedList((int)page, (int)pageSize));
+            return PartialView("_danhSachDoiTacPartial", partner.OrderByDescending(o => o.ID).ToPagedList((int)page, (int)pageSize));
         }
 
         public ActionResult timKiemDoiTac(string noidung, int? soluong, string trangthai)
@@ -76,19 +76,19 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 Session["lstPartners"] = Session["DefaultlstPartners"];
                 if (string.IsNullOrEmpty(trangthai))
                 {
-                    return PartialView("_danhSachDoiTacPartial", partner.ToPagedList(1, (int)soluong));
+                    return PartialView("_danhSachDoiTacPartial", partner.OrderByDescending(o => o.ID).ToPagedList(1, (int)soluong));
                 }
                 else if (trangthai.Equals("congno"))
                 {
                     var result = partner.Where(p => p.Projects.Sum(s => s.Debts.Where(d => d.State == false).Sum(ss => ss.Price)) > 0);
                     Session["lstPartners"] = result;
-                    return PartialView("_danhSachDoiTacPartial", result.ToPagedList(1, (int)soluong));
+                    return PartialView("_danhSachDoiTacPartial", result.OrderByDescending(o => o.ID).ToPagedList(1, (int)soluong));
                 }
                 else
                 {
                     DateTime currentDate = DateTime.Now;
                     var result = partner.Where(p => p.Projects.Where(pro => pro.EndDate >= currentDate).Count() > 0);
-                    return PartialView("_danhSachDoiTacPartial", result.ToPagedList(1, (int)soluong));
+                    return PartialView("_danhSachDoiTacPartial", result.OrderByDescending(o => o.ID).ToPagedList(1, (int)soluong));
                 }
             }
             else
@@ -101,20 +101,20 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                 if (string.IsNullOrEmpty(trangthai))
                 {
-                    return PartialView("_danhSachDoiTacPartial", searchPartner.ToPagedList(1, (int)soluong));
+                    return PartialView("_danhSachDoiTacPartial", searchPartner.OrderByDescending(o => o.ID).ToPagedList(1, (int)soluong));
                 }
                 else if (trangthai.Equals("congno"))
                 {
                     var result = searchPartner.Where(p => p.Projects.Sum(s => s.Debts.Where(d => d.State == false).Sum(ss => ss.Price)) > 0);
                     Session["lstPartners"] = result;
-                    return PartialView("_danhSachDoiTacPartial", result.ToPagedList(1, (int)soluong));
+                    return PartialView("_danhSachDoiTacPartial", result.OrderByDescending(o => o.ID).ToPagedList(1, (int)soluong));
                 }
                 else
                 {
                     DateTime currentDate = DateTime.Now;
                     var result = searchPartner.Where(p => p.Projects.Where(pro => pro.EndDate >= currentDate).Count() > 0);
                     Session["lstPartners"] = result;
-                    return PartialView("_danhSachDoiTacPartial", result.ToPagedList(1, (int)soluong));
+                    return PartialView("_danhSachDoiTacPartial", result.OrderByDescending(o => o.ID).ToPagedList(1, (int)soluong));
                 }
             }
         }
@@ -273,6 +273,93 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     return PartialView("_duAnThamGiaSearch", result);
                 }
             }
+        }
+        [HttpPost]
+        public ActionResult xoaDoiTac(int? id)
+        {
+            var partner = model.Partners.Find(id);
+            if (id == null || partner == null)
+                return Content("DANHNHAP");
+            model.Partners.Remove(partner);
+            model.SaveChanges();
+            return Content("SUCCESS");
+        }
+        [HttpPost]
+        public async Task<ActionResult> themDoiTac(HttpPostedFileBase avatar, string namedn, string hoten, string cmnd, string phone,
+           string email, string ngaysinh, string gioitinh, string diahchinha, int? pageSize)
+        {
+            var checkExits = model.Partners.FirstOrDefault(p => p.Email.ToLower().Equals(email.ToLower()) || p.IdentityCard.Equals(cmnd.Replace(" ", "").Trim()));
+            if (checkExits != null)
+            {
+                string text = "";
+                if (checkExits.Email.ToLower().Equals(email.ToLower()))
+                    text += "Địa chỉ Email và";
+                if (checkExits.IdentityCard.Equals(cmnd.Replace(" ", "").Trim()))
+                    text += "số CMND/CCCD";
+                else
+                    text = "Địa chỉ Email";
+
+                return Content(text + " đang được sử dụng bởi một khách hàng khác.");
+            }
+
+            Partners kh = new Partners();
+            kh.Company = namedn.Trim();
+            kh.Name = hoten.Trim();
+            kh.IdentityCard = cmnd.Replace(" ", "").Trim();
+            kh.Phone = phone.Trim();
+            kh.Email = email.Trim();
+            kh.Birthday = Convert.ToDateTime(ngaysinh);
+            kh.Sex = gioitinh.Trim();
+            kh.Address = diahchinha.Trim();
+
+            FileStream stream;
+            if (avatar != null)
+            {
+                if (avatar.ContentLength > 0)
+                {
+                    const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
+                    int length = 30;
+                    var sb = new StringBuilder();
+                    Random RNG = new Random();
+                    for (var i = 0; i < length; i++)
+                    {
+                        var c = src[RNG.Next(0, src.Length)];
+                        sb.Append(c);
+                    }
+
+                    string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + avatar.FileName); ;
+                    avatar.SaveAs(path);
+                    stream = new FileStream(Path.Combine(path), FileMode.Open);
+                    var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                    var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+                    var cancellation = new CancellationTokenSource();
+
+                    var task = new FirebaseStorage(
+                        Bucket,
+                        new FirebaseStorageOptions
+                        {
+                            AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                            ThrowOnCancel = true
+                        })
+                        .Child("images")
+                        .Child(sb.ToString().Trim() + avatar.FileName)
+                        .PutAsync(stream, cancellation.Token);
+                    try
+                    {
+                        string link = await task;
+                        kh.Avatar = link;
+                        System.IO.File.Delete(path);
+                    }
+                    catch
+                    {
+                        return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                    }
+                }
+            }
+
+            model.Partners.Add(kh);
+            model.SaveChanges();
+            return PartialView("_danhSachDoiTacPartial", model.Partners.OrderByDescending(o => o.ID).ToPagedList(1, (int)pageSize));
         }
     }
 }

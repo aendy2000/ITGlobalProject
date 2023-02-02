@@ -764,7 +764,6 @@
     <Content Include="Areas\Admins\Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Areas\Admins\Views\ThongTinDoiTac\danhSachDoiTac.cshtml" />
     <Content Include="Areas\Admins\Views\ThongTinDoiTac\thongTinChiTiet.cshtml" />
-    <Content Include="Areas\Admins\Views\ThongTinDoiTac\_chinhSuaThongTinPartial.cshtml" />
     <Content Include="Areas\Admins\Views\ThongTinDoiTac\_duAnThamGiaPartial.cshtml" />
     <Content Include="Areas\Admins\Views\ThongTinDoiTac\_thongTinChiTietPartial.cshtml" />
     <Content Include="Areas\Admins\Views\web.config" />
@@ -885,6 +884,7 @@
     <Content Include="ValidationAlert\Admin\QuanLyVaiTro\XoaVaiTroValidation.js" />
     <Content Include="ValidationAlert\Admin\ThongTinDoiTac\DanhSachDoiTac.js" />
     <Content Include="ValidationAlert\Admin\ThongTinDoiTac\DuAnThamGiaValidation.js" />
+    <Content Include="ValidationAlert\Admin\ThongTinDoiTac\ThemDoiTacValidation.js" />
     <Content Include="ValidationAlert\Admin\ThongTinDoiTac\UpdateInfoPartnerValidation.js" />
     <Content Include="ValidationAlert\Employee\QuanLyTaiKhoan\ChinhSuaThongTinCaNhanValidation.js" />
     <Content Include="ValidationAlert\Employee\QuanLyTaiKhoan\DoiMatKhauValidation.js" />

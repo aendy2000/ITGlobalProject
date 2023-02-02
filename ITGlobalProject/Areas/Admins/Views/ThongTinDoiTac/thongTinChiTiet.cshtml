@@ -99,6 +99,15 @@
                                     <i class="fe fe-bookmark nav-icon"></i>Dự án đang có
                                 </a>
                             </li>
+                            @if (Model.Projects.Count() < 1)
+                            {
+                                <hr />
+                                <li style="text-align:center; margin-top:20px">
+                                    <a id="xoadoitac" style="width:100%" class="btn btn-outline-danger btn-sm">
+                                        XÓA BỎ ĐỐI TÁC <i class="fe fe-trash-2"></i>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -220,6 +229,7 @@
     <script src="~/ValidationAlert/Admin/ThongTinDoiTac/UpdateInfoPartnerValidation.js"></script>
 </div>
 <script src="~/Content/Admin/assets/js/reviewImage.js"></script>
+
 <script>
 
     $(document).on('click', '#ttchiTiet', function (e) {
