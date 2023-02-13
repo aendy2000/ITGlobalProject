@@ -40,7 +40,7 @@
                     <td class="align-middle text-nowrap">
                         @i
                     </td>
-                    @if (string.IsNullOrEmpty(item[12]))
+                    @if (string.IsNullOrEmpty(item[12]) || item[12].IndexOf("tài khoản đến Email.") != -1)
                     {
                         <td class="align-middle text-success text-nowrap">
                             <i class="fe fe-check-circle"> </i> Đã thêm
@@ -139,7 +139,7 @@
                     <td>
                         @iToanDS
                     </td>
-                    @if (string.IsNullOrEmpty(item[12]) || item[12].IndexOf("Không thể gửi thông tin tài khoản đến Email") != -1)
+                    @if (string.IsNullOrEmpty(item[12]) || item[12].IndexOf("tài khoản đến Email") != -1)
                     {
                         <td>
                             <i class="fe fe-check-circle"> </i> Đã thêm
@@ -227,7 +227,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Where(I => string.IsNullOrEmpty(I[12]) || I[12].IndexOf("Không thể gửi thông tin tài khoản đến Email") != -1))
+            @foreach (var item in Model.Where(I => string.IsNullOrEmpty(I[12]) || I[12].IndexOf("tài khoản đến Email") != -1))
             {
                 iDSDaThem++;
                 <tr>
@@ -312,7 +312,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Where(I => !string.IsNullOrEmpty(I[12]) && I[12].IndexOf("Không thể gửi thông tin tài khoản đến Email") == -1))
+            @foreach (var item in Model.Where(I => !string.IsNullOrEmpty(I[12]) && I[12].IndexOf("tài khoản đến Email") == -1))
             {
                 iDSChuaThem++;
                 <tr>
