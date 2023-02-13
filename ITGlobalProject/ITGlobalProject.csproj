@@ -817,6 +817,7 @@
     <Content Include="Areas\Admins\Views\QuanLyDuAn\_chinhSuaDuAnPartial.cshtml" />
     <Content Include="Areas\Admins\Views\ThongTinDoiTac\_danhSachDoiTacPartial.cshtml" />
     <Content Include="Areas\Admins\Views\ThongTinDoiTac\_duAnThamGiaSearch.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyDanhMucNgayNghiPhep\_danhSachDanhMucNgayNghiPhepPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -836,6 +837,9 @@
     <Content Include="ValidationAlert\Admin\QuanLyDanhMucKyNang\SuaDanhMucKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDanhMucKyNang\ThemDanhMucKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDanhMucKyNang\XoaDanhMucKyNangValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyDanhMucNghiPhep\XoaDanhMucNgayNghiPhep.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyDanhMucNghiPhep\ThemDanhMucNgayNghiPhep.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyDanhMucNghiPhep\SuaDanhMucNgayNghiPhep.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChinhSuaDuAn.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChinhSuaDuAnValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAnValidation.js" />

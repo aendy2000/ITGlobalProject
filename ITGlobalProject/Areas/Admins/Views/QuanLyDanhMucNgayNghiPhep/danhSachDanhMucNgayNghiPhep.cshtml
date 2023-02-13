@@ -50,7 +50,7 @@
                             <th scope="col" class=" border-top-0">#</th>
                             <th scope="col" class=" border-top-0">Tên</th>
                             <th scope="col" class=" border-top-0">Ngày bắt đầu</th>
-                            <th scope="col" class=" border-top-0">Ngày kế thúc</th>
+                            <th scope="col" class=" border-top-0">Ngày kết thúc</th>
                             <th scope="col" class=" border-top-0">Nhân viên</th>
                             <th scope="col" class=" border-top-0"></th>
                         </tr>
@@ -81,6 +81,10 @@
                                         </div>
                                     </td>
                                     <td class="align-middle">
+                                        @item.StartDay Tháng @item.StartMonth
+                                    </td>
+                                    <td class="align-middle">
+                                        @item.EndDay Tháng @item.EndMonth
                                     </td>
                                     <td class="align-middle ">
                                         <div class="avatar-group">
@@ -138,13 +142,13 @@
                                             <div class="dropdown-menu" aria-labelledby="Dropdown1">
                                                 <span class="dropdown-header">Hành động</span>
                                                 <a role="button" name="@item.ID" id="chinhsua@(item.ID)" class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
-                                                    <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa bộ phận
+                                                    <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa danh mục ngày nghỉ phép
                                                 </a>
                                                 @if (appends.Count < 1)
                                                 {
                                                     <div class="dropdown-divider"></div>
                                                     <a role="button" name="@item.ID" id="xoa@(item.ID)" class="dropdown-item" href="#">
-                                                        <i class="fe fe-trash dropdown-item-icon"></i>Xóa bộ phận
+                                                        <i class="fe fe-trash dropdown-item-icon"></i>Xóa danh mục ngày nghỉ phép
                                                     </a>
                                                 }
                                             </div>
@@ -155,29 +159,29 @@
                         }
                         else
                         {
-                    <tr>
-                        <td hidden></td>
-                        <td hidden></td>
-                        <td hidden></td>
+                            <tr>
+                                <td hidden></td>
+                                <td hidden></td>
+                                <td hidden></td>
 
-                        <td colspan="6" class="align-middle text-center">
-                            Không có dữ liệu để hiển thị.
-                        </td>
+                                <td colspan="6" class="align-middle text-center">
+                                    Không có dữ liệu để hiển thị.
+                                </td>
 
-                        <td hidden></td>
-                        <td hidden></td>
-                    </tr>
+                                <td hidden></td>
+                                <td hidden></td>
+                            </tr>
                         }
                     </tbody>
                 </table>
             </div>
         </div>
-        <!-- Chỉnh sửa bộ phận -->
+        <!-- Chỉnh sửa danh mục ngày nghỉ phép -->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 800px;">
 
             <div class="offcanvas-body" data-simplebar>
                 <div style="margin-bottom: -20px" class="offcanvas-header px-2 pt-0">
-                    <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Bộ Phận</h4>
+                    <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Danh Mục Ngày Nghỉ Phép</h4>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <hr class="my-4" />
@@ -187,19 +191,63 @@
                     <form class="row">
                         <!-- form group -->
                         <div class="mb-3 col-md-12">
-                            <label style="font-weight: bold;" class="form-label">Tên bộ phận <span class="text-danger">*</span></label>
-                            <input id="name" name="name" type="text" class="form-control" placeholder="Nhập tên bộ phận">
+                            <label style="font-weight: bold;" class="form-label">Tên Ngày Nghỉ <span class="text-danger">*</span></label>
+                            <input id="name" name="name" type="text" class="form-control" placeholder="Nhập tên ngày nghỉ phép">
                             <input id="id" name="id" hidden>
-                            <p style="color: red; font-size: 13px" id="EditBoPhanValidateResul"></p>
+                            <p style="color: red; font-size: 13px" id="EdittenNgayNghiValidation"></p>
                         </div>
                         <!-- form group -->
-                        <div class="mb-3 col-md-12">
-                            <label style="font-weight: bold;" class="form-label">Mô tả </label>
-                            <textarea class="form-control" id="descript" name="descript" placeholder="Mô tả bộ phận..." rows="5"></textarea>
-                            <p style="color: red; font-size: 13px" id="MoTaEditBoPhanValidateResul"></p>
+                        <div class="mb-3 col-md-6">
+                            <label style="font-weight: bold;" class="form-label">Tháng Bắt Đầu <span class="text-danger">*</span></label>
+                            <select name="startmonth" id="startmonth" class="selectpicker" data-width="100%">
+                                <option value="">Chọn tháng bắt đầu</option>
+                                <option value="1">Tháng 1</option>
+                                <option value="2">Tháng 2</option>
+                                <option value="3">Tháng 3</option>
+                                <option value="4">Tháng 4</option>
+                                <option value="5">Tháng 5</option>
+                                <option value="6">Tháng 6</option>
+                                <option value="7">Tháng 7</option>
+                                <option value="8">Tháng 8</option>
+                                <option value="9">Tháng 9</option>
+                                <option value="10">Tháng 10</option>
+                                <option value="11">Tháng 11</option>
+                                <option value="12">Tháng 12</option>
+                            </select>
+                            <p style="font-size: 13px; color:red;" id="EditthangBatdauValidation"></p>
                         </div>
+                        <div class="mb-3 col-md-6">
+                            <label style="font-weight: bold;" class="form-label">Ngày Bắt Đầu <span class="text-danger">*</span></label>
+                            <input id="startday" type="text" class="form-control" placeholder="Chọn ngày bắt đầu">
+                            <p style="font-size: 13px; color:red;" id="EditngayBatdauValidation"></p>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label style="font-weight: bold;" class="form-label">Tháng Kết Thúc <span class="text-danger">*</span></label>
+                            <select name="endmonth" id="endmonth" class="selectpicker" data-width="100%">
+                                <option value="">Chọn tháng kết thúc</option>
+                                <option value="1">Tháng 1</option>
+                                <option value="2">Tháng 2</option>
+                                <option value="3">Tháng 3</option>
+                                <option value="4">Tháng 4</option>
+                                <option value="5">Tháng 5</option>
+                                <option value="6">Tháng 6</option>
+                                <option value="7">Tháng 7</option>
+                                <option value="8">Tháng 8</option>
+                                <option value="9">Tháng 9</option>
+                                <option value="10">Tháng 10</option>
+                                <option value="11">Tháng 11</option>
+                                <option value="12">Tháng 12</option>
+                            </select>
+                            <p style="font-size: 13px; color:red;" id="EditthangKetThucValidation"></p>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label style="font-weight: bold;" class="form-label">Ngày Kết Thúc <span class="text-danger">*</span></label>
+                            <input id="endday" type="text" class="form-control" placeholder="Chọn ngày kết thúc">
+                            <p style="color: red; font-size: 13px" id="EditngayKetThucValidation"></p>
+                        </div>
+
                         <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
-                            <button id="dongChinhSua" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="offcanvas" aria-label="Close">
+                            <button id="dongChinhSua" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="modal" aria-label="Close">
                                 Hủy
                             </button>
                         </div>
@@ -215,13 +263,13 @@
     </div>
 
 </div>
-<!-- Thêm bộ phận -->
-<div class="modal fade modal-lg" id="themBoPhanModal" tabindex="-1" role="dialog"
-     aria-labelledby="themVaiTroModalLabel" aria-hidden="true">
+<!-- Thêm danh mục ngày nghỉ phép -->
+<div class="modal fade modal-lg" id="themNgayNghiPhepModal" tabindex="-1" role="dialog"
+     aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="themVaiTroModal"><i class="fe fe-briefcase"> </i> Thêm Ngày Nghỉ Phép</h4>
+                <h4 class="modal-title" id="themNgayNghiPhepModal"><i class="fe fe-briefcase"> </i> Thêm Ngày Nghỉ Phép</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close">
                 </button>
@@ -232,23 +280,67 @@
 
                     <div class="mb-3 col-md-12">
                         <label style="font-weight: bold;" class="form-label">Tên Ngày Nghỉ <span class="text-danger">*</span></label>
-                        <input id="tenbophan" type="text" class="form-control" placeholder="Nhập tên bộ phận">
-                        <p style="color: red; font-size: 13px" id="BoPhanValidateResul"></p>
+                        <input id="tenngaynghi" type="text" class="form-control" placeholder="Nhập tên ngày nghỉ phép">
+                        <p style="font-size: 13px; color:red;" id="tenNgayNghiValidation"></p>
                     </div>
 
                     <!-- form group -->
-                    <div class="mb-3 col-md-12">
-                        <label style="font-weight: bold;" class="form-label">Mô tả </label>
-                        <textarea id="motabophan" class="form-control" placeholder="Nhập mô tả bộ phận" rows="5"></textarea>
-                        <p style="color: red; font-size: 13px" id="MoTaBoPhanValidateResul"></p>
+                    <div class="mb-3 col-md-6">
+                        <label style="font-weight: bold;" class="form-label">Tháng Bắt Đầu <span class="text-danger">*</span></label>
+                        <select name="thangbatdau" id="thangbatdau" class="selectpicker" data-width="100%">
+                            <option value="">Chọn tháng bắt đầu</option>
+                            <option value="1">Tháng 1</option>
+                            <option value="2">Tháng 2</option>
+                            <option value="3">Tháng 3</option>
+                            <option value="4">Tháng 4</option>
+                            <option value="5">Tháng 5</option>
+                            <option value="6">Tháng 6</option>
+                            <option value="7">Tháng 7</option>
+                            <option value="8">Tháng 8</option>
+                            <option value="9">Tháng 9</option>
+                            <option value="10">Tháng 10</option>
+                            <option value="11">Tháng 11</option>
+                            <option value="12">Tháng 12</option>
+                        </select>
+                        <p style="font-size: 13px; color:red;" id="thangBatdauValidation"></p>
                     </div>
+                    <div class="mb-3 col-md-6">
+                        <label style="font-weight: bold;" class="form-label">Ngày Bắt Đầu <span class="text-danger">*</span></label>
+                        <input id="ngaybatdau" type="text" class="form-control" placeholder="Chọn ngày bắt đầu">
+                        <p style="font-size: 13px; color:red;" id="ngayBatdauValidation"></p>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label style="font-weight: bold;" class="form-label">Tháng Kết Thúc <span class="text-danger">*</span></label>
+                        <select name="thangketthuc" id="thangketthuc" class="selectpicker" data-width="100%">
+                            <option value="">Chọn tháng kết thúc</option>
+                            <option value="1">Tháng 1</option>
+                            <option value="2">Tháng 2</option>
+                            <option value="3">Tháng 3</option>
+                            <option value="4">Tháng 4</option>
+                            <option value="5">Tháng 5</option>
+                            <option value="6">Tháng 6</option>
+                            <option value="7">Tháng 7</option>
+                            <option value="8">Tháng 8</option>
+                            <option value="9">Tháng 9</option>
+                            <option value="10">Tháng 10</option>
+                            <option value="11">Tháng 11</option>
+                            <option value="12">Tháng 12</option>
+                        </select>
+                        <p style="font-size: 13px; color:red;" id="thangKetThucValidation"></p>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                        <label style="font-weight: bold;" class="form-label">Ngày Kết Thúc <span class="text-danger">*</span></label>
+                        <input id="ngayketthuc" type="text" class="form-control" placeholder="Chọn ngày kết thúc">
+                        <p style="color: red; font-size: 13px" id="ngayKetThucValidation"></p>
+                    </div>
+
                     <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
-                        <button id="dongthembophan" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="modal" aria-label="Close">
+                        <button id="dongthemdanhmuc" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="modal" aria-label="Close">
                             Hủy
                         </button>
                     </div>
                     <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
-                        <a role="button" id="thembophan" style="width: 230px" class="btn btn-success">
+                        <a role="button" id="themdanhmucngaynghiphep" style="width: 230px" class="btn btn-success">
                             Lưu
                         </a>
                     </div>
@@ -257,18 +349,8 @@
         </div>
     </div>
 </div>
-<script src="~/ValidationAlert/Admin/QuanLyBoPhan/ThemBoPhanValidation.js"></script>
-<script src="~/ValidationAlert/Admin/QuanLyBoPhan/XoaBoPhanValidation.js"></script>
-<script src="~/ValidationAlert/Admin/QuanLyBoPhan/SuaBoPhanValidation.js"></script>
-<script>
-    $(document).ready(function () {
-        $('[id^=tendaiqua]').each(function () {
-            text = $(this).text();
-            if (text.length > 50) {
-                $(this).html(text.substr(0, 50) + '...');
-            }
-        });
-    });
-</script>
+<script src="~/ValidationAlert/Admin/QuanLyDanhMucNghiPhep/ThemDanhMucNgayNghiPhep.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyDanhMucNghiPhep/XoaDanhMucNgayNghiPhep.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyDanhMucNghiPhep/SuaDanhMucNgayNghiPhep.js"></script>
 
 

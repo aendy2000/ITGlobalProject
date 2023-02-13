@@ -30,52 +30,58 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             return View("danhSachDanhMucNgayNghiPhep", model.LeaveDate.ToList());
         }
         [HttpPost]
-        public ActionResult themDanhMucNgayNghiPhep(string name, string description)
+        public ActionResult themDanhMucNgayNghiPhep(string name, string thangbatdau, string ngaybatdau, string thangketthuc, string ngayketthuc)
         {
             if (string.IsNullOrEmpty(name))
                 return Content("DANHSACH");
 
-            Department depart = new Department();
+            LeaveDate depart = new LeaveDate();
             depart.Name = name;
-            depart.Description = description;
-            model.Department.Add(depart);
+            depart.StartMonth = Convert.ToInt32(thangbatdau);
+            depart.StartDay = Convert.ToInt32(ngaybatdau);
+            depart.EndMonth = Convert.ToInt32(thangketthuc);
+            depart.EndDay = Convert.ToInt32(ngayketthuc);
+            model.LeaveDate.Add(depart);
             model.SaveChanges();
             model = new CP25Team06Entities();
 
-            var lstBoPhan = model.Department.OrderByDescending(o => o.ID).ToList();
-            return PartialView("_danhSachBoPhanPartial", lstBoPhan);
+            var lstDanhMucNgayNghiPhep = model.LeaveDate.OrderByDescending(o => o.ID).ToList();
+            return PartialView("_danhsachDanhMucNgayNghiPhepPartial", lstDanhMucNgayNghiPhep);
         }
 
         [HttpPost]
-        public ActionResult chinhSuaDanhMucNgayNghiPhep(int? id, string name, string description)
+        public ActionResult chinhSuaDanhMucNgayNghiPhep(int? id, string name, string thangbatdau, string ngaybatdau, string thangketthuc, string ngayketthuc)
         {
-            var depart = model.Department.Find(id);
+            var depart = model.LeaveDate.Find(id);
             if (depart == null || id == null || string.IsNullOrEmpty(name))
                 return Content("DANHSACH");
 
             depart.Name = name;
-            depart.Description = description;
+            depart.StartMonth = Convert.ToInt32(thangbatdau);
+            depart.StartDay = Convert.ToInt32(ngaybatdau);
+            depart.EndMonth = Convert.ToInt32(thangketthuc);
+            depart.EndDay = Convert.ToInt32(ngayketthuc);
             model.Entry(depart).State = EntityState.Modified;
             model.SaveChanges();
             model = new CP25Team06Entities();
 
-            var department = model.Department.OrderByDescending(d => d.ID).ToList();
-            return PartialView("_danhSachBoPhanPartial", department);
+            var leavedate = model.LeaveDate.OrderByDescending(d => d.ID).ToList();
+            return PartialView("_danhsachDanhMucNgayNghiPhepPartial", leavedate);
         }
 
         [HttpPost]
         public ActionResult xoaDanhMucNgayNghiPhep(int? id)
         {
-            var depart = model.Department.Find(id);
+            var depart = model.LeaveDate.Find(id);
             if (id == null || depart == null)
                 return Content("DANHSACH");
 
-            model.Department.Remove(depart);
+            model.LeaveDate.Remove(depart);
             model.SaveChanges();
             model = new CP25Team06Entities();
 
-            var department = model.Department.OrderByDescending(d => d.ID).ToList();
-            return PartialView("_danhSachBoPhanPartial", department);
+            var leavedate = model.LeaveDate.OrderByDescending(d => d.ID).ToList();
+            return PartialView("_danhsachDanhMucNgayNghiPhepPartial", leavedate);
         }
     }
 }
