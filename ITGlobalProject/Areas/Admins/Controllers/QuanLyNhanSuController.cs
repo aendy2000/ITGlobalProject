@@ -170,7 +170,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     DataRow dr = dtExcel.Rows[0];
 
                     if (dr[1].ToString().ToLower().IndexOf("họ") == -1 
-                        || dr[2].ToString().ToLower().IndexOf("CMND/CCCD") == -1
+                        || dr[2].ToString().ToLower().IndexOf("cmnd/cccd") == -1
                         || dr[3].ToString().ToLower().IndexOf("quốc tịch") == -1
                         || dr[4].ToString().ToLower().IndexOf("ngày sinh") == -1
                         || dr[5].ToString().ToLower().IndexOf("số điện thoại") == -1
