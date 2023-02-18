@@ -46,8 +46,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
         [HttpPost]
         public async Task<ActionResult> taoDuAnMoi(HttpPostedFileBase avatar, string name, string mota, string batdau, string ketthuc,
-            string giaidoan, string chiphi, string namedn, string hoten, string cmnd, string phone,
-            string email, string ngaysinh, string gioitinh, string diahchinha, int? id)
+            string giaidoan, string chiphi, string namedn, string hotennguoidaidien, string hoten, string cmnd, string phone,
+            string email, string ngaysinh, string gioitinh, string diahchinha, bool loaidoitac,
+            string masothue, string website, int? id)
         {
             var khachHangCu = model.Partners.Find(id);
             if (id == null || khachHangCu == null || Session["user-id"] == null)
@@ -67,14 +68,24 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 }
 
                 Partners kh = new Partners();
-                kh.Company = namedn.Trim();
-                kh.Name = hoten.Trim();
+                if (loaidoitac == true)
+                {
+                    kh.Company = namedn.Trim();
+                    kh.Name = hotennguoidaidien.Trim();
+                }
+                else
+                {
+                    kh.Name = hoten.Trim();
+                }
                 kh.IdentityCard = cmnd.Replace(" ", "").Trim();
                 kh.Phone = phone.Trim();
                 kh.Email = email.Trim();
                 kh.Birthday = Convert.ToDateTime(ngaysinh);
                 kh.Sex = gioitinh.Trim();
                 kh.Address = diahchinha.Trim();
+                kh.TaxCode = masothue.Trim();
+                kh.WebUrl = website.Trim();
+                kh.CompanyOrPersonal = loaidoitac;
 
                 FileStream stream;
                 if (avatar != null)

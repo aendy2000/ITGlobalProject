@@ -2,6 +2,17 @@
     $('#luKhachHangCu').hide();
     $('#NavthongTinKhachHangCu').hide();
 
+    //Chọn loại đối tác
+    $('#canhandoanhnghiep').on('change', function () {
+        if ($(this).prop("checked")) {
+            $('[id^="doanhnghieps"]').prop("hidden", false);
+            $('#canhans').prop("hidden", true);
+        } else {
+            $('[id^="doanhnghieps"]').prop("hidden", true);
+            $('#canhans').prop("hidden", false);
+        }
+    });
+
     //Chọn khách hàng có sẵn
     $('[id^="selectKhachHangCu"]').on('click', function () {
         var id = $(this).attr("name");
@@ -15,12 +26,28 @@
         $('#NavthongTinKhachHangCu').show();
 
         $('#idKhachHang').val(id);
-        $('#namedncu').val(
-            $('#companys' + id).val()
-        );
-        $('#hotencu').val(
-            $('#names' + id).val()
-        );
+        alert($('#type' + id).val().toLowerCase());
+        if ($('#type' + id).val().toLowerCase() === "true") {
+            $('#namedncu').val(
+                $('#companys' + id).val()
+            ).prop("hidden", false);
+            $('#hotennguoidaidiencu').val(
+                $('#names' + id).val()
+            );
+            $('#canhanss').prop("hidden", true);
+            $('#doanhnghieps1s').prop("hidden", false);
+            $('#doanhnghieps2s').prop("hidden", false);
+
+        }
+        else {
+            $('#canhanss').prop("hidden", false);
+            $('#doanhnghieps1s').prop("hidden", true);
+            $('#doanhnghieps2s').prop("hidden", true);
+            $('#hotencu').val(
+                $('#names' + id).val()
+            );
+        } 
+        
         $('#cmndcu').val(
             $('#cmnds' + id).val()
         );
@@ -39,7 +66,12 @@
         $('#diahchinhacu').val(
             $('#dcs' + id).val()
         );
-
+        $('#masothuecu').val(
+            $('#mathue' + id).val()
+        );
+        $('#urlwebcu').val(
+            $('#web' + id).val()
+        );
         var avt = $('#avts' + id).val();
         if (avt.length < 1) {
             $('#previewImageCu').replaceWith('<img src="' + $('#requestPath').val() + 'Content/Admin/assets/images/avatar/default-avatar.png")" class="avatar-xxl rounded-circle" alt="" id="previewImage" />');
@@ -176,11 +208,14 @@
         //tag Khách hàng
         $('#namednvalidation').hide();
         $('#hotenvalidation').hide();
+        $('#hotennguoidaidienvalidation').hide();
         $('#cmndvalidation').hide();
         $('#phonevalidation').hide();
         $('#emailvalidation').hide();
         $('#ngaysinhvalidation').hide();
         $('#gioitinhvalidation').hide();
+        $('#masothuevalidation').hide();
+        $('#urlwebvalidation').hide();
         $('#diahchinhavalidation').hide();
 
         var formatss = /[`!*()\=\[\]{}#;'%:"\\|,^@&.+-_<>\/?~]/;
@@ -285,39 +320,67 @@
                 }
             }
         }
+
         // value Khách hàng
         var avatar = $("#selectFiles")[0].files[0];
         var namedn = $('#namedn').val().trim();
+        var hotendaidien = $('#hotennguoidaidien').val().trim();
         var hoten = $('#hoten').val().trim();
         var cmnd = $('#cmnd').val().replace(/_/g, '').trim();
         var phone = $('#phone').val().replace(/_/g, '').trim();
         var email = $('#email').val().trim();
         var ngaysinh = $('#ngaysinh').val().trim();
         var gioitinh = $('#gioitinh :selected').val().trim();
+        var masothue = $('#masothue').val().replace(/_/g, '').trim();
+        var website = $('#urlweb').val().trim();
+
         var diahchinha = $('#diahchinha').val().trim();
 
         var checkkhachhang = true;
 
-        //Validation tên doanh nghiệp
-        if (namedn.length > 100) {
-            checkkhachhang = false;
-            $('#namednvalidation').text("Tên doanh nghiệp chỉ tối đa 100 ký tự.").show().prop("hidden", false);
-            $('#namedn').focus();
-        }
+        if ($('#canhandoanhnghiep').prop("checked")) {
+            //Validation tên doanh nghiệp
+            if (namedn.length < 1) {
+                checkkhachhang = false;
+                $('#namednvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+                $('#namedn').focus();
+            }
+            else if (namedn.length > 100) {
+                checkkhachhang = false;
+                $('#namednvalidation').text("Tên doanh nghiệp chỉ tối đa 100 ký tự.").show().prop("hidden", false);
+                $('#namedn').focus();
+            }
 
-        //Validation tên khach hàng
-        if (hoten.length < 1) {
-            checkkhachhang = false;
-            $('#hotenvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
-            $('#hoten').focus();
-        } else if (formatnumber.test(hoten) == true || formatss.test(hoten.toLowerCase().replace(/\d+/g, '')) == true) {
-            checkkhachhang = false;
-            $('#hotenvalidation').text("Họ và Tên chưa đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
-            $('#hoten').focus();
-        } else if (hoten.length > 50) {
-            checkkhachhang = false;
-            $('#hotenvalidation').text("Họ và Tên chỉ tối đa 50 ký tự.").show().prop("hidden", false);
-            $('#hoten').focus();
+            //Validation tên người đại diện
+            if (hotendaidien.length < 1) {
+                checkkhachhang = false;
+                $('#hotennguoidaidienvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+                $('#hotennguoidaidien').focus();
+            } else if (formatnumber.test(hotendaidien) == true || formatss.test(hotendaidien.toLowerCase().replace(/\d+/g, '')) == true) {
+                checkkhachhang = false;
+                $('#hotennguoidaidienvalidation').text("Họ và Tên chưa đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
+                $('#hotennguoidaidien').focus();
+            } else if (hotendaidien.length > 50) {
+                checkkhachhang = false;
+                $('#hotennguoidaidienvalidation').text("Họ và Tên chỉ tối đa 50 ký tự.").show().prop("hidden", false);
+                $('#hotennguoidaidien').focus();
+            }
+        }
+        else {
+            //Validation tên khach hàng
+            if (hoten.length < 1) {
+                checkkhachhang = false;
+                $('#hotenvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+                $('#hoten').focus();
+            } else if (formatnumber.test(hoten) == true || formatss.test(hoten.toLowerCase().replace(/\d+/g, '')) == true) {
+                checkkhachhang = false;
+                $('#hotenvalidation').text("Họ và Tên chưa đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
+                $('#hoten').focus();
+            } else if (hoten.length > 50) {
+                checkkhachhang = false;
+                $('#hotenvalidation').text("Họ và Tên chỉ tối đa 50 ký tự.").show().prop("hidden", false);
+                $('#hoten').focus();
+            }
         }
 
         //Validation cmnd
@@ -389,7 +452,14 @@
             $("#diachinhavalidation").text("Địa chỉ, chỉ tối đa 250 ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
             $('#gioitinh').focus();
         }
+        //validation mã số thuế
+        if (masothue.length != 10) {
+            checkkhachhang = false;
+            $("#masothuevalidation").text("Vui lòng nhập đầy đủ thông tin này.").show().prop("hidden", false);
+            $('#masothue').focus();
+        }
 
+        alert(checkduan + " - " + checkkhachhang);
         //Check đúng hết thì làm
         if (checkduan == true && checkkhachhang == true) {
             var formData = new FormData();
@@ -403,6 +473,7 @@
             formData.append('chiphi', chiphi);
             //Khách hàng
             formData.append('namedn', namedn);
+            formData.append('hotennguoidaidien', hotendaidien);
             formData.append('hoten', hoten);
             formData.append('cmnd', cmnd);
             formData.append('phone', phone);
@@ -410,6 +481,14 @@
             formData.append('ngaysinh', ngaysinh);
             formData.append('gioitinh', gioitinh);
             formData.append('diahchinha', diahchinha);
+
+            if ($('#canhandoanhnghiep').prop("checked")) {
+                formData.append('loaidoitac', true);
+            } else {
+                formData.append('loaidoitac', false);
+            }
+            formData.append('masothue', masothue);
+            formData.append('website', website);
 
             $('#AjaxLoader').show();
             $.ajax({

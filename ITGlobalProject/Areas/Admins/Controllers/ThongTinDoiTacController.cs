@@ -127,8 +127,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             return View("thongTinChiTiet", model.Partners.Find(id));
         }
         public async Task<ActionResult> CapNhatThongTin(int? id, HttpPostedFileBase avatar,
-            string namedn, string hoten, string cmnd, string phone,
-            string email, string ngaysinh, string gioitinh, string diahchinha)
+            string namedn, string hotennguoidaidien, string hoten, string cmnd, string phone,
+            string email, string ngaysinh, string gioitinh, string diahchinha,
+            bool loaidoitac, string masothue, string website)
         {
             var partner = model.Partners.Find(id);
             string currentMail = partner.Email;
@@ -149,15 +150,25 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                 return Content(text + " đang được sử dụng bởi một khách hàng khác.");
             }
-
-            partner.Company = namedn.Trim();
-            partner.Name = hoten.Trim();
+            if (loaidoitac == true)
+            {
+                partner.Company = namedn.Trim();
+                partner.Name = hotennguoidaidien.Trim();
+            }
+            else
+            {
+                partner.Company = "";
+                partner.Name = hoten.Trim();
+            }
             partner.IdentityCard = cmnd.Replace(" ", "").Trim();
             partner.Phone = phone.Trim();
             partner.Email = email.Trim();
             partner.Birthday = Convert.ToDateTime(ngaysinh);
             partner.Sex = gioitinh.Trim();
             partner.Address = diahchinha.Trim();
+            partner.TaxCode = masothue.Trim();
+            partner.WebUrl = website.Trim();
+            partner.CompanyOrPersonal = loaidoitac;
 
             FileStream stream;
             if (avatar != null)
@@ -285,8 +296,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             return Content("SUCCESS");
         }
         [HttpPost]
-        public async Task<ActionResult> themDoiTac(HttpPostedFileBase avatar, string namedn, string hoten, string cmnd, string phone,
-           string email, string ngaysinh, string gioitinh, string diahchinha, int? pageSize)
+        public async Task<ActionResult> themDoiTac(HttpPostedFileBase avatar, string namedn, string hotennguoidaidien,
+            string hoten, string cmnd, string phone, string email, string ngaysinh, string gioitinh, string diahchinha,
+            int? pageSize, bool loaidoitac, string masothue, string website)
         {
             var checkExits = model.Partners.FirstOrDefault(p => p.Email.ToLower().Equals(email.ToLower()) || p.IdentityCard.Equals(cmnd.Replace(" ", "").Trim()));
             if (checkExits != null)
@@ -303,14 +315,24 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
 
             Partners kh = new Partners();
-            kh.Company = namedn.Trim();
-            kh.Name = hoten.Trim();
+            if (loaidoitac == true)
+            {
+                kh.Company = namedn.Trim();
+                kh.Name = hotennguoidaidien.Trim();
+            }
+            else
+            {
+                kh.Name = hoten.Trim();
+            }
             kh.IdentityCard = cmnd.Replace(" ", "").Trim();
             kh.Phone = phone.Trim();
             kh.Email = email.Trim();
             kh.Birthday = Convert.ToDateTime(ngaysinh);
             kh.Sex = gioitinh.Trim();
             kh.Address = diahchinha.Trim();
+            kh.TaxCode = masothue.Trim();
+            kh.WebUrl = website.Trim();
+            kh.CompanyOrPersonal = loaidoitac;
 
             FileStream stream;
             if (avatar != null)
