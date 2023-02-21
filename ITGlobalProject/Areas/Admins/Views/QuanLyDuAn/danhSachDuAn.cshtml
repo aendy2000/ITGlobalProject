@@ -170,7 +170,12 @@
                                 </td>
                                 <td class="align-middle ">
                                     <!--Chưa giao việc, còn hạn => đang thực hiện-->
-                                    @if (item.Tasks.ToList().Count < 1
+
+                                    @if (item.StartDate > DateTime.Now)
+                                    {
+                                        <span style="width: 100px" class="badge bg-gray-100 text-gray-700">Mới</span>
+                                    }
+                                    else if (item.Tasks.ToList().Count < 1
                                         && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
                                     {
                                         <span style="width: 100px" class="badge bg-light-primary text-dark-primary">Đang thực hiện</span>

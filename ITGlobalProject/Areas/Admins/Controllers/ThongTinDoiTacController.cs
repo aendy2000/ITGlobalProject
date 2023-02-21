@@ -97,7 +97,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 var partner = Session["DefaultlstPartners"] as List<Partners>;
                 var searchPartner = partner.Where(p => p.Email.ToLower().Contains(noidung)
                 || p.Phone.Contains(noidung) || p.Name.ToLower().Contains(noidung)
-                || p.Company.ToLower().Contains(noidung)).ToList();
+                || p.Company != null ? p.Company.ToLower().Contains(noidung) : p.Company != null).ToList();
 
                 if (string.IsNullOrEmpty(trangthai))
                 {
@@ -382,6 +382,48 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             model.Partners.Add(kh);
             model.SaveChanges();
             return PartialView("_danhSachDoiTacPartial", model.Partners.OrderByDescending(o => o.ID).ToPagedList(1, (int)pageSize));
+        }
+        public ActionResult guiMail()
+        {
+            DateTime currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+            DateTime currentDate2 = currentDate.AddDays(3);
+            var partner = model.Partners.Where(p => p.Projects.Where(d => d.Debts.Where(deb => deb.Date <= currentDate2 && deb.Date >= currentDate && deb.Send_Email_State == false).Count() > 0).Count() > 0).ToList();
+            if (partner.Count > 1)
+            {
+                //Gửi mật khẩu đến email
+                foreach (var partners in partner)
+                {
+                    foreach (var projects in partners.Projects.Where(d => d.Debts.Where(deb => deb.Date <= currentDate2 && deb.Date >= currentDate && deb.Send_Email_State == false).Count() > 0).ToList())
+                    {
+                        foreach (var debts in projects.Debts.Where(deb => deb.Date <= currentDate2 && deb.Date >= currentDate && deb.Send_Email_State == false).ToList())
+                        {
+                            using (MailMessage mailMessage = new MailMessage("noreply.itglobal@gmail.com", partners.Email.Trim()))
+                            {
+                                mailMessage.Subject = "Thông Báo Hạn Thanh Toán Chi Phí Dự Án " + projects.Name.Trim();
+                                mailMessage.IsBodyHtml = true;
+                                mailMessage.Body = "<font size=4><b>Xin chào " + partners.Name.Trim() + ",</b><br/><br/></font>" +
+                                    "<font size=4>Chi Phí phát triển dự án: <b>" + projects.Name.Trim() + "</b><br/>" +
+                                    "Giai đoạn: <b>" + debts.Stage.Trim() + ".<br/>" +
+                                    "Số tiền: <b>" + debts.Price.ToString("0,0") + " VND</b>.<br/>" +
+                                    "Sẽ đến hạn thanh toán vào ngày:" + debts.Date.ToString("dd/MM/yyyy") + ". Xin vui lòng thanh toán đúng hạn.<br/>" +
+                                    "<font size=4><i><u>Đây là email tự động vui lòng không trả lời lại email này.</u></i></font>";
+                                using (SmtpClient smtp = new SmtpClient())
+                                {
+                                    smtp.Host = "smtp.gmail.com";
+                                    smtp.EnableSsl = true;
+                                    NetworkCredential cred = new NetworkCredential("noreply.itglobal@gmail.com", "dagpayhjihvgdfym");
+                                    smtp.UseDefaultCredentials = true;
+                                    smtp.Credentials = cred;
+                                    smtp.Port = 587;
+                                    smtp.Send(mailMessage);
+                                }
+                            }
+                        }
+                    }
+                }
+                return Content("Ok");
+            }
+            return Content("No");
         }
     }
 }

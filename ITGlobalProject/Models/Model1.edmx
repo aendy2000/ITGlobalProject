@@ -38,6 +38,7 @@
           <Property Name="Price" Type="money" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="State" Type="bit" Nullable="false" />
+          <Property Name="Send_Email_State" Type="bit" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -262,6 +263,7 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="EndDate" Type="date" Nullable="false" />
+          <Property Name="ContractUrl" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Recruitment">
           <Key>
@@ -962,6 +964,7 @@
           <Property Name="State" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Projects" Relationship="Self.FK_Debts_Projects" FromRole="Debts" ToRole="Projects" />
           <NavigationProperty Name="PaymentHistory" Relationship="Self.FK_PaymentHistory_Debts" FromRole="Debts" ToRole="PaymentHistory" />
+          <Property Name="Send_Email_State" Type="Boolean" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -1229,6 +1232,7 @@
           <NavigationProperty Name="PaymentHistory" Relationship="Self.FK_PaymentHistory_Projects" FromRole="Projects" ToRole="PaymentHistory" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Projects" FromRole="Projects" ToRole="Tasks" />
           <NavigationProperty Name="Teams" Relationship="Self.FK_Teams_Projects" FromRole="Projects" ToRole="Teams" />
+          <Property Name="ContractUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Recruitment">
           <Key>
@@ -1939,6 +1943,7 @@
           <EntitySetMapping Name="Debts">
             <EntityTypeMapping TypeName="CP25Team06Model.Debts">
               <MappingFragment StoreEntitySet="Debts">
+                <ScalarProperty Name="Send_Email_State" ColumnName="Send_Email_State" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Project" ColumnName="ID_Project" />
                 <ScalarProperty Name="Stage" ColumnName="Stage" />
@@ -2181,6 +2186,7 @@
           <EntitySetMapping Name="Projects">
             <EntityTypeMapping TypeName="CP25Team06Model.Projects">
               <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="ContractUrl" ColumnName="ContractUrl" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Partner" ColumnName="ID_Partner" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

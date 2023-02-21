@@ -194,7 +194,7 @@
 
         } else if (cmnd.length != 14 && cmnd.length != 11) {
             checkkhachhang = false;
-            $("#cmndvalidation").text("Vui lòng nhập đầy đủ thông tin này!").show().prop("hidden", false);
+            $("#cmndvalidation").text("VKhông được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
             $('#cmnd').focus();
         }
 
@@ -206,7 +206,7 @@
 
         } else if (phone.length != 12) {
             checkkhachhang = false;
-            $("#phonevalidation").text("Vui lòng nhập đầy đủ thông tin này!").show().prop("hidden", false);
+            $("#phonevalidation").text("VKhông được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
             $('#phone').focus();
         }
 
@@ -254,6 +254,12 @@
             checkkhachhang = false;
             $("#diachinhavalidation").text("Địa chỉ, chỉ tối đa 250 ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
             $('#gioitinh').focus();
+        }
+        //validation mã số thuế
+        if (masothue.length != 10) {
+            checkkhachhang = false;
+            $("#masothuevalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $('#masothue').focus();
         }
 
         //Check đúng hết thì làm

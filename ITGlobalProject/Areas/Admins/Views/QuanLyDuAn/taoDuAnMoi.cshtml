@@ -124,11 +124,26 @@
                                                             <i class="fe fe-plus-circle"> </i> Thêm giai đoạn
                                                         </a>
                                                     </div>
-
-
                                                     <div style="margin-bottom: 20px" class="col-12">
                                                         <label style="font-weight:bold" for="priority" class="form-label">Tổng chi phí (VND)</label>
                                                         <input value="" placeholder="HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" readonly style="text-align: center; font-weight: bold;" id="sums" name="sums" type="text" class="form-control text-center text-danger">
+                                                    </div>
+
+                                                    <div id="taiAnhHopDong" class="mb-3 col-12 col-md-12">
+                                                        <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Hợp đồng</label>
+                                                        <a role="button" id="chonanhhopdong" class="btn btn-outline-primary" style="width:100%">
+                                                            <i class="fe fe-upload me-1"></i>
+                                                            Tải Lên Hình Ảnh
+                                                        </a>
+                                                    </div>
+                                                    <div style="margin-left: 13px ;width: 98%" class="form-control bg-gray-200 mb-4 col-12 col-md-12 text-center ">
+                                                        <input hidden id="selectFileshopdong" type="file" name="file" accept="image/*" onchange="ShowImageUploadshopdong(this, document.getElementById('previewImageshopdong'))" />
+                                                        <div class="py-3"></div>
+                                                        <figure class="gallery__item gallery__item--1 mb-0">
+                                                            <img style="max-width: 700px;" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImageshopdong">
+                                                        </figure>
+                                                        <button hidden style="margin-top: 37px" id="xoahinhanhhopdong" class="btn btn-danger btn-sm">XÓA BỎ</button>
+                                                        <div class="py-3"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -253,7 +268,7 @@
                                             </div>
                                             <!-- Address -->
                                             <div class="mb-3 col-12 col-md-12">
-                                                <label style="font-weight:bold" class="form-label" for="address">ĐC Doanh nghiệp / Nhà riêng</label>
+                                                <label style="font-weight:bold" class="form-label" for="address">Địa chỉ Doanh nghiệp / Nhà riêng</label>
                                                 <textarea id="diahchinha" name="diachinha" rows="5" class="form-control" placeholder="Nhập địa chỉ doanh nghiệp / nhà riêng khách hàng"></textarea>
                                                 <p hidden style="font-size: 13px; color:red;" id="diachinhavalidation"></p>
                                             </div>
@@ -308,6 +323,7 @@
                                                 </div>
                                             </div>
                                             <hr class="my-4" />
+                                            <input hidden id="idKhachHang" />
                                             <div hidden id="doanhnghieps1s" class="mb-3 col-12">
                                                 <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp <span class="text-danger">*</span></label>
                                                 <input readonly id="namedncu" name="namedncu" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng" required>
@@ -356,8 +372,8 @@
                                             </div>
                                             <!-- Address -->
                                             <div class="mb-3 col-12 col-md-12">
-                                                <label style="font-weight:bold" class="form-label" for="address">ĐC Doanh nghiệp / Nhà riêng <span class="text-danger">*</span></label>
-                                                <textarea readonly id="diahchinhacu" name="diachinhacu" rows="5" class="form-control" placeholder="Số 0/0 đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla..."></textarea>
+                                                <label style="font-weight:bold" class="form-label" for="address">Địa chỉ Doanh nghiệp / Nhà riêng <span class="text-danger">*</span></label>
+                                                <textarea readonly id="diahchinhacu" name="diachinhacu" rows="5" class="form-control" placeholder="Số 01 đường Nguyễn Minh Châu, Phường 12, Quận 1, Thành Phố Hồ Chí Minh..."></textarea>
                                             </div>
 
                                             <div style="text-align: right; padding-top: 25px" class="mb-2 col-12 col-md-6">
@@ -463,7 +479,17 @@
         </div>
     </div>
 </div>
-
+<script>
+    function ShowImageUploadshopdong(imageUploads, previewImageshopdong) {
+        if (imageUploads.files && imageUploads.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $(previewImageshopdong).attr('src', e.target.result);
+            }
+            reader.readAsDataURL(imageUploads.files[0]);
+        }
+    }
+</script>
 
 <script src="~/Content/Admin/assets/js/reviewImage.js"></script>
 <script src="~/ValidationAlert/Admin/QuanLyDuAn/ThemDuAnValidation.js"></script>

@@ -2,6 +2,23 @@
     $('#luKhachHangCu').hide();
     $('#NavthongTinKhachHangCu').hide();
 
+    //Chọn ảnh hợp đồng
+    $('#chonanhhopdong').on('click', function () {
+        $('#selectFileshopdong').click();
+    });
+
+    $('#selectFileshopdong').on('change', function () {
+        if ($('#selectFileshopdong').val().length > 0) {
+            $('#xoahinhanhhopdong').prop("hidden", false);
+        }
+    });
+
+    $('#xoahinhanhhopdong').on('click', function () {
+        $('#selectFileshopdong').val('');
+        $(previewImageshopdong).attr('src', $('#requestPath').val() + 'Content/Admin/assets/images/png/hopdong-default.png');
+        $('#xoahinhanhhopdong').prop("hidden", true);
+    });
+
     //Chọn loại đối tác
     $('#canhandoanhnghiep').on('change', function () {
         if ($(this).prop("checked")) {
@@ -26,7 +43,6 @@
         $('#NavthongTinKhachHangCu').show();
 
         $('#idKhachHang').val(id);
-        alert($('#type' + id).val().toLowerCase());
         if ($('#type' + id).val().toLowerCase() === "true") {
             $('#namedncu').val(
                 $('#companys' + id).val()
@@ -455,16 +471,16 @@
         //validation mã số thuế
         if (masothue.length != 10) {
             checkkhachhang = false;
-            $("#masothuevalidation").text("Vui lòng nhập đầy đủ thông tin này.").show().prop("hidden", false);
+            $("#masothuevalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
             $('#masothue').focus();
         }
 
-        alert(checkduan + " - " + checkkhachhang);
         //Check đúng hết thì làm
         if (checkduan == true && checkkhachhang == true) {
             var formData = new FormData();
             formData.append('avatar', avatar);
             //Dự án
+            formData.append('hopdong', $("#selectFileshopdong")[0].files[0]);
             formData.append('name', name);
             formData.append('mota', mota);
             formData.append('batdau', batdau);
@@ -667,6 +683,7 @@
 
             var formData = new FormData();
             //Dự án
+            formData.append('hopdong', $("#selectFileshopdong")[0].files[0]);
             formData.append('name', name);
             formData.append('mota', mota);
             formData.append('batdau', batdau);

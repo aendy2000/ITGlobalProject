@@ -26,6 +26,7 @@ namespace ITGlobalProject.Models
         public decimal Price { get; set; }
         public System.DateTime Date { get; set; }
         public bool State { get; set; }
+        public Nullable<bool> Send_Email_State { get; set; }
     
         public virtual Projects Projects { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
