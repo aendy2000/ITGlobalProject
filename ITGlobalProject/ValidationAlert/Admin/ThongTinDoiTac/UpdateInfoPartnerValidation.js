@@ -194,7 +194,7 @@
 
         } else if (cmnd.length != 14 && cmnd.length != 11) {
             checkkhachhang = false;
-            $("#cmndvalidation").text("VKhông được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $("#cmndvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
             $('#cmnd').focus();
         }
 
@@ -206,7 +206,7 @@
 
         } else if (phone.length != 12) {
             checkkhachhang = false;
-            $("#phonevalidation").text("VKhông được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $("#phonevalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
             $('#phone').focus();
         }
 

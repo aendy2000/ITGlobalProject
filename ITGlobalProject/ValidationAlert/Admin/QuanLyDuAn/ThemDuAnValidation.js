@@ -751,7 +751,7 @@
                     $('#contentPartial').replaceWith(ketqua);
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Đã thêm một dự án mới!\nChọn Xác nhận để đi đến trang thôn tin của dự án!", {
+                            swal("Thành Công!", "Đã thêm một dự án mới!\nChọn Xác nhận để đi đến trang thông tin của dự án!", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

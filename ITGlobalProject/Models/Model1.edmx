@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="ID" />
@@ -130,6 +130,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Percentage" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="Ceiling_Level" Type="money" />
         </EntityType>
         <EntityType Name="LanguagesSkills">
           <Key>
@@ -226,7 +227,6 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ID_Employee" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Salary" Type="money" Nullable="false" />
           <Property Name="SocialInsurance" Type="decimal" Precision="5" Scale="2" Nullable="false" />
           <Property Name="HealthInsurance" Type="decimal" Precision="5" Scale="2" Nullable="false" />
@@ -235,6 +235,17 @@
           <Property Name="TaxDeductions" Type="money" Nullable="false" />
           <Property Name="FamilyAllowances" Type="money" Nullable="false" />
           <Property Name="DependenceDeduction" Type="money" Nullable="false" />
+          <Property Name="ID_PayrollCategory" Type="int" />
+          <Property Name="Total_Price" Type="money" />
+          <Property Name="State" Type="bit" />
+        </EntityType>
+        <EntityType Name="PayrollCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="PersonalSkills">
           <Key>
@@ -594,6 +605,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Payroll_PayrollCategory">
+          <End Role="PayrollCategory" Type="Self.PayrollCategory" Multiplicity="0..1" />
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PayrollCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Payroll">
+              <PropertyRef Name="ID_PayrollCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PersonalSkills_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="PersonalSkills" Type="Self.PersonalSkills" Multiplicity="*" />
@@ -781,6 +804,7 @@
           <EntitySet Name="Partners" EntityType="Self.Partners" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentHistory" EntityType="Self.PaymentHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payroll" EntityType="Self.Payroll" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PayrollCategory" EntityType="Self.PayrollCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonalSkills" EntityType="Self.PersonalSkills" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
@@ -866,6 +890,10 @@
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Payroll" EntitySet="Payroll" />
           </AssociationSet>
+          <AssociationSet Name="FK_Payroll_PayrollCategory" Association="Self.FK_Payroll_PayrollCategory">
+            <End Role="PayrollCategory" EntitySet="PayrollCategory" />
+            <End Role="Payroll" EntitySet="Payroll" />
+          </AssociationSet>
           <AssociationSet Name="FK_PersonalSkills_Employees" Association="Self.FK_PersonalSkills_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="PersonalSkills" EntitySet="PersonalSkills" />
@@ -923,7 +951,8 @@
             <End Role="Teams" EntitySet="Teams" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CP25Team06Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -962,9 +991,9 @@
           <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="State" Type="Boolean" Nullable="false" />
+          <Property Name="Send_Email_State" Type="Boolean" />
           <NavigationProperty Name="Projects" Relationship="Self.FK_Debts_Projects" FromRole="Debts" ToRole="Projects" />
           <NavigationProperty Name="PaymentHistory" Relationship="Self.FK_PaymentHistory_Debts" FromRole="Debts" ToRole="PaymentHistory" />
-          <Property Name="Send_Email_State" Type="Boolean" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -1077,6 +1106,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Percentage" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="Ceiling_Level" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="LanguagesSkills">
           <Key>
@@ -1156,10 +1186,10 @@
           <Property Name="Sex" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Projects" Relationship="Self.FK_Projects_Partners" FromRole="Partners" ToRole="Projects" />
           <Property Name="TaxCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WebUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CompanyOrPersonal" Type="Boolean" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_Projects_Partners" FromRole="Partners" ToRole="Projects" />
         </EntityType>
         <EntityType Name="PaymentHistory">
           <Key>
@@ -1182,7 +1212,6 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID_Employee" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Salary" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="SocialInsurance" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
           <Property Name="HealthInsurance" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
@@ -1191,8 +1220,21 @@
           <Property Name="TaxDeductions" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="FamilyAllowances" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="DependenceDeduction" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="ID_PayrollCategory" Type="Int32" />
+          <Property Name="Total_Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="State" Type="Boolean" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_Payroll_Employees" FromRole="Payroll" ToRole="Employees" />
           <NavigationProperty Name="Histories" Relationship="Self.FK_Histories_Payroll" FromRole="Payroll" ToRole="Histories" />
+          <NavigationProperty Name="PayrollCategory" Relationship="Self.FK_Payroll_PayrollCategory" FromRole="Payroll" ToRole="PayrollCategory" />
+        </EntityType>
+        <EntityType Name="PayrollCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Payroll" Relationship="Self.FK_Payroll_PayrollCategory" FromRole="PayrollCategory" ToRole="Payroll" />
         </EntityType>
         <EntityType Name="PersonalSkills">
           <Key>
@@ -1226,13 +1268,13 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ContractUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Debts" Relationship="Self.FK_Debts_Projects" FromRole="Projects" ToRole="Debts" />
           <NavigationProperty Name="Histories" Relationship="Self.FK_Histories_Projects" FromRole="Projects" ToRole="Histories" />
           <NavigationProperty Name="Partners" Relationship="Self.FK_Projects_Partners" FromRole="Projects" ToRole="Partners" />
           <NavigationProperty Name="PaymentHistory" Relationship="Self.FK_PaymentHistory_Projects" FromRole="Projects" ToRole="PaymentHistory" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Projects" FromRole="Projects" ToRole="Tasks" />
           <NavigationProperty Name="Teams" Relationship="Self.FK_Teams_Projects" FromRole="Projects" ToRole="Teams" />
-          <Property Name="ContractUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Recruitment">
           <Key>
@@ -1652,6 +1694,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Payroll_PayrollCategory">
+          <End Role="PayrollCategory" Type="Self.PayrollCategory" Multiplicity="0..1" />
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PayrollCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Payroll">
+              <PropertyRef Name="ID_PayrollCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PersonalSkills_SkillsCategory">
           <End Role="Skills" Type="Self.Skills" Multiplicity="1" />
           <End Role="PersonalSkills" Type="Self.PersonalSkills" Multiplicity="*" />
@@ -1767,6 +1821,7 @@
           <EntitySet Name="Partners" EntityType="Self.Partners" />
           <EntitySet Name="PaymentHistory" EntityType="Self.PaymentHistory" />
           <EntitySet Name="Payroll" EntityType="Self.Payroll" />
+          <EntitySet Name="PayrollCategory" EntityType="Self.PayrollCategory" />
           <EntitySet Name="PersonalSkills" EntityType="Self.PersonalSkills" />
           <EntitySet Name="Position" EntityType="Self.Position" />
           <EntitySet Name="Projects" EntityType="Self.Projects" />
@@ -1876,6 +1931,10 @@
             <End Role="Projects" EntitySet="Projects" />
             <End Role="PaymentHistory" EntitySet="PaymentHistory" />
           </AssociationSet>
+          <AssociationSet Name="FK_Payroll_PayrollCategory" Association="Self.FK_Payroll_PayrollCategory">
+            <End Role="PayrollCategory" EntitySet="PayrollCategory" />
+            <End Role="Payroll" EntitySet="Payroll" />
+          </AssociationSet>
           <AssociationSet Name="FK_PersonalSkills_SkillsCategory" Association="Self.FK_PersonalSkills_SkillsCategory">
             <End Role="Skills" EntitySet="Skills" />
             <End Role="PersonalSkills" EntitySet="PersonalSkills" />
@@ -1943,13 +2002,13 @@
           <EntitySetMapping Name="Debts">
             <EntityTypeMapping TypeName="CP25Team06Model.Debts">
               <MappingFragment StoreEntitySet="Debts">
-                <ScalarProperty Name="Send_Email_State" ColumnName="Send_Email_State" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Project" ColumnName="ID_Project" />
                 <ScalarProperty Name="Stage" ColumnName="Stage" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Send_Email_State" ColumnName="Send_Email_State" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2048,6 +2107,7 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="Ceiling_Level" ColumnName="Ceiling_Level" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2117,9 +2177,6 @@
           <EntitySetMapping Name="Partners">
             <EntityTypeMapping TypeName="CP25Team06Model.Partners">
               <MappingFragment StoreEntitySet="Partners">
-                <ScalarProperty Name="CompanyOrPersonal" ColumnName="CompanyOrPersonal" />
-                <ScalarProperty Name="WebUrl" ColumnName="WebUrl" />
-                <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Company" ColumnName="Company" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2130,6 +2187,9 @@
                 <ScalarProperty Name="Sex" ColumnName="Sex" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
+                <ScalarProperty Name="WebUrl" ColumnName="WebUrl" />
+                <ScalarProperty Name="CompanyOrPersonal" ColumnName="CompanyOrPersonal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2152,7 +2212,6 @@
               <MappingFragment StoreEntitySet="Payroll">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Salary" ColumnName="Salary" />
                 <ScalarProperty Name="SocialInsurance" ColumnName="SocialInsurance" />
                 <ScalarProperty Name="HealthInsurance" ColumnName="HealthInsurance" />
@@ -2161,6 +2220,18 @@
                 <ScalarProperty Name="TaxDeductions" ColumnName="TaxDeductions" />
                 <ScalarProperty Name="FamilyAllowances" ColumnName="FamilyAllowances" />
                 <ScalarProperty Name="DependenceDeduction" ColumnName="DependenceDeduction" />
+                <ScalarProperty Name="ID_PayrollCategory" ColumnName="ID_PayrollCategory" />
+                <ScalarProperty Name="Total_Price" ColumnName="Total_Price" />
+                <ScalarProperty Name="State" ColumnName="State" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PayrollCategory">
+            <EntityTypeMapping TypeName="CP25Team06Model.PayrollCategory">
+              <MappingFragment StoreEntitySet="PayrollCategory">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2186,13 +2257,13 @@
           <EntitySetMapping Name="Projects">
             <EntityTypeMapping TypeName="CP25Team06Model.Projects">
               <MappingFragment StoreEntitySet="Projects">
-                <ScalarProperty Name="ContractUrl" ColumnName="ContractUrl" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Partner" ColumnName="ID_Partner" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="ContractUrl" ColumnName="ContractUrl" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

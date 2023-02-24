@@ -175,7 +175,7 @@
         //validation mã số thuế
         if (masothue.length != 10) {
             checkkhachhang = false;
-            $("#masothuevalidation").text("VKhông được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $("#masothuevalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
             $('#masothue').focus();
         }
 

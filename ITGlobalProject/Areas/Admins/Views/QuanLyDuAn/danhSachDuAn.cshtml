@@ -209,7 +209,7 @@
                                     else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 == 100
                                         && item.Debts.Where(d => d.State == true).ToList().Count == item.Debts.Count)
                                     {
-                                        <span style="width: 100px" class="badge bg-light-success text-dark-success">Hòa thành</span>
+                                        <span style="width: 100px" class="badge bg-light-success text-dark-success">Hòan thành</span>
                                     }
                                 </td>
                                 <td class="align-middle text-nowrap">

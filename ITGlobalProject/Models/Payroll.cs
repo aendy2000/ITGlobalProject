@@ -22,7 +22,6 @@ namespace ITGlobalProject.Models
     
         public int ID { get; set; }
         public int ID_Employee { get; set; }
-        public string Name { get; set; }
         public decimal Salary { get; set; }
         public decimal SocialInsurance { get; set; }
         public decimal HealthInsurance { get; set; }
@@ -31,9 +30,13 @@ namespace ITGlobalProject.Models
         public decimal TaxDeductions { get; set; }
         public decimal FamilyAllowances { get; set; }
         public decimal DependenceDeduction { get; set; }
+        public Nullable<int> ID_PayrollCategory { get; set; }
+        public Nullable<decimal> Total_Price { get; set; }
+        public Nullable<bool> State { get; set; }
     
         public virtual Employees Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Histories> Histories { get; set; }
+        public virtual PayrollCategory PayrollCategory { get; set; }
     }
 }

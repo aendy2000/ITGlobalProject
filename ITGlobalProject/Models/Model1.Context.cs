@@ -43,6 +43,7 @@ namespace ITGlobalProject.Models
         public virtual DbSet<Partners> Partners { get; set; }
         public virtual DbSet<PaymentHistory> PaymentHistory { get; set; }
         public virtual DbSet<Payroll> Payroll { get; set; }
+        public virtual DbSet<PayrollCategory> PayrollCategory { get; set; }
         public virtual DbSet<PersonalSkills> PersonalSkills { get; set; }
         public virtual DbSet<Position> Position { get; set; }
         public virtual DbSet<Projects> Projects { get; set; }
