@@ -18,25 +18,37 @@ namespace ITGlobalProject.Models
         public Payroll()
         {
             this.Histories = new HashSet<Histories>();
+            this.SubsidiesApply = new HashSet<SubsidiesApply>();
         }
     
         public int ID { get; set; }
+        public int ID_PayrollCategory { get; set; }
         public int ID_Employee { get; set; }
         public decimal Salary { get; set; }
         public decimal SocialInsurance { get; set; }
         public decimal HealthInsurance { get; set; }
         public decimal UnemploymentInsurance { get; set; }
-        public decimal Tax { get; set; }
-        public decimal TaxDeductions { get; set; }
-        public decimal FamilyAllowances { get; set; }
-        public decimal DependenceDeduction { get; set; }
-        public Nullable<int> ID_PayrollCategory { get; set; }
+        public decimal InsuranceCeiling { get; set; }
+        public decimal TotalPriceInsurance { get; set; }
+        public Nullable<decimal> Tax { get; set; }
+        public Nullable<decimal> TaxDeductions { get; set; }
+        public Nullable<int> NumberOfDependents { get; set; }
+        public Nullable<decimal> DependencyDeduction { get; set; }
+        public Nullable<decimal> FamilyAllowances { get; set; }
+        public Nullable<decimal> TaxableSalary { get; set; }
+        public Nullable<decimal> TotalPriceTax { get; set; }
+        public Nullable<int> NumberDaysLeave { get; set; }
+        public Nullable<int> PriceForOneDayOff { get; set; }
         public Nullable<decimal> Total_Price { get; set; }
         public Nullable<bool> State { get; set; }
+        public Nullable<decimal> SalaryTaxable { get; set; }
+        public Nullable<decimal> SalaryInsurance { get; set; }
     
         public virtual Employees Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Histories> Histories { get; set; }
         public virtual PayrollCategory PayrollCategory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubsidiesApply> SubsidiesApply { get; set; }
     }
 }

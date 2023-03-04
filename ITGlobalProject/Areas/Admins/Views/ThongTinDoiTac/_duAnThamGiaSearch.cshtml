@@ -112,7 +112,7 @@
                                     <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã quá hạn</span>
                                 }
                                 //Còn hạn và còn việc => đang thực hiện
-                                else if (item.Tasks.ToList().Count > 1
+                                else if (item.Tasks.ToList().Count > 0
                                     && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
                                     && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
                                 {
@@ -166,7 +166,7 @@
                                 </div>
                             }
                             //Còn hạn và còn việc => đang thực hiện
-                            else if (item.Tasks.ToList().Count > 1
+                            else if (item.Tasks.ToList().Count > 0
                                 && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
                                 && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
                             {

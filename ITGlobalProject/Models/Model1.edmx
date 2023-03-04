@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="ID" />
@@ -226,18 +226,27 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_PayrollCategory" Type="int" Nullable="false" />
           <Property Name="ID_Employee" Type="int" Nullable="false" />
           <Property Name="Salary" Type="money" Nullable="false" />
           <Property Name="SocialInsurance" Type="decimal" Precision="5" Scale="2" Nullable="false" />
           <Property Name="HealthInsurance" Type="decimal" Precision="5" Scale="2" Nullable="false" />
           <Property Name="UnemploymentInsurance" Type="decimal" Precision="5" Scale="2" Nullable="false" />
-          <Property Name="Tax" Type="decimal" Precision="5" Scale="2" Nullable="false" />
-          <Property Name="TaxDeductions" Type="money" Nullable="false" />
-          <Property Name="FamilyAllowances" Type="money" Nullable="false" />
-          <Property Name="DependenceDeduction" Type="money" Nullable="false" />
-          <Property Name="ID_PayrollCategory" Type="int" />
+          <Property Name="InsuranceCeiling" Type="money" Nullable="false" />
+          <Property Name="TotalPriceInsurance" Type="money" Nullable="false" />
+          <Property Name="Tax" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="TaxDeductions" Type="money" />
+          <Property Name="NumberOfDependents" Type="int" />
+          <Property Name="DependencyDeduction" Type="money" />
+          <Property Name="FamilyAllowances" Type="money" />
+          <Property Name="TaxableSalary" Type="money" />
+          <Property Name="TotalPriceTax" Type="money" />
+          <Property Name="NumberDaysLeave" Type="int" />
+          <Property Name="PriceForOneDayOff" Type="int" />
           <Property Name="Total_Price" Type="money" />
           <Property Name="State" Type="bit" />
+          <Property Name="SalaryTaxable" Type="money" />
+          <Property Name="SalaryInsurance" Type="money" />
         </EntityType>
         <EntityType Name="PayrollCategory">
           <Key>
@@ -327,6 +336,21 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ID_Employee" Type="int" Nullable="false" />
           <Property Name="ID_SubsidiesCategory" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubsidiesApply">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Payroll" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="Percentage" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="OnBasicSalary" Type="bit" />
+          <Property Name="Date_Apply" Type="int" Nullable="false" />
+          <Property Name="Tax" Type="bit" />
+          <Property Name="Insurance" Type="bit" />
+          <Property Name="Total_Price" Type="money" />
         </EntityType>
         <EntityType Name="SubsidiesCategory">
           <Key>
@@ -606,7 +630,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Payroll_PayrollCategory">
-          <End Role="PayrollCategory" Type="Self.PayrollCategory" Multiplicity="0..1" />
+          <End Role="PayrollCategory" Type="Self.PayrollCategory" Multiplicity="1" />
           <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PayrollCategory">
@@ -737,6 +761,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SubsidiesApply_Payroll">
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="1" />
+          <End Role="SubsidiesApply" Type="Self.SubsidiesApply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payroll">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubsidiesApply">
+              <PropertyRef Name="ID_Payroll" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tasks_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
@@ -813,6 +849,7 @@
           <EntitySet Name="Skills" EntityType="Self.Skills" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SkillsCategory" EntityType="Self.SkillsCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subsidies" EntityType="Self.Subsidies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubsidiesApply" EntityType="Self.SubsidiesApply" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubsidiesCategory" EntityType="Self.SubsidiesCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
@@ -934,6 +971,10 @@
             <End Role="SubsidiesCategory" EntitySet="SubsidiesCategory" />
             <End Role="Subsidies" EntitySet="Subsidies" />
           </AssociationSet>
+          <AssociationSet Name="FK_SubsidiesApply_Payroll" Association="Self.FK_SubsidiesApply_Payroll">
+            <End Role="Payroll" EntitySet="Payroll" />
+            <End Role="SubsidiesApply" EntitySet="SubsidiesApply" />
+          </AssociationSet>
           <AssociationSet Name="FK_Tasks_Employees" Association="Self.FK_Tasks_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Tasks" EntitySet="Tasks" />
@@ -951,8 +992,7 @@
             <End Role="Teams" EntitySet="Teams" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CP25Team06Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1211,21 +1251,31 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_PayrollCategory" Type="Int32" Nullable="false" />
           <Property Name="ID_Employee" Type="Int32" Nullable="false" />
           <Property Name="Salary" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="SocialInsurance" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
           <Property Name="HealthInsurance" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
           <Property Name="UnemploymentInsurance" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
-          <Property Name="Tax" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
-          <Property Name="TaxDeductions" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="FamilyAllowances" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="DependenceDeduction" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="ID_PayrollCategory" Type="Int32" />
+          <Property Name="InsuranceCeiling" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="TotalPriceInsurance" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Tax" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="TaxDeductions" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="NumberOfDependents" Type="Int32" />
+          <Property Name="DependencyDeduction" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="FamilyAllowances" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TaxableSalary" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TotalPriceTax" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="NumberDaysLeave" Type="Int32" />
+          <Property Name="PriceForOneDayOff" Type="Int32" />
           <Property Name="Total_Price" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="State" Type="Boolean" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_Payroll_Employees" FromRole="Payroll" ToRole="Employees" />
           <NavigationProperty Name="Histories" Relationship="Self.FK_Histories_Payroll" FromRole="Payroll" ToRole="Histories" />
           <NavigationProperty Name="PayrollCategory" Relationship="Self.FK_Payroll_PayrollCategory" FromRole="Payroll" ToRole="PayrollCategory" />
+          <NavigationProperty Name="SubsidiesApply" Relationship="Self.FK_SubsidiesApply_Payroll" FromRole="Payroll" ToRole="SubsidiesApply" />
+          <Property Name="SalaryTaxable" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="SalaryInsurance" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="PayrollCategory">
           <Key>
@@ -1337,6 +1387,22 @@
           <Property Name="ID_SubsidiesCategory" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_Subsidies_Employees" FromRole="Subsidies" ToRole="Employees" />
           <NavigationProperty Name="SubsidiesCategory" Relationship="Self.FK_Subsidies_SubsidiesCategory" FromRole="Subsidies" ToRole="SubsidiesCategory" />
+        </EntityType>
+        <EntityType Name="SubsidiesApply">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Payroll" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Percentage" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="OnBasicSalary" Type="Boolean" />
+          <Property Name="Date_Apply" Type="Int32" Nullable="false" />
+          <Property Name="Tax" Type="Boolean" />
+          <Property Name="Insurance" Type="Boolean" />
+          <Property Name="Total_Price" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Payroll" Relationship="Self.FK_SubsidiesApply_Payroll" FromRole="SubsidiesApply" ToRole="Payroll" />
         </EntityType>
         <EntityType Name="SubsidiesCategory">
           <Key>
@@ -1695,7 +1761,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Payroll_PayrollCategory">
-          <End Role="PayrollCategory" Type="Self.PayrollCategory" Multiplicity="0..1" />
+          <End Role="PayrollCategory" Type="Self.PayrollCategory" Multiplicity="1" />
           <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PayrollCategory">
@@ -1703,6 +1769,18 @@
             </Principal>
             <Dependent Role="Payroll">
               <PropertyRef Name="ID_PayrollCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubsidiesApply_Payroll">
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="1" />
+          <End Role="SubsidiesApply" Type="Self.SubsidiesApply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payroll">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubsidiesApply">
+              <PropertyRef Name="ID_Payroll" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1830,6 +1908,7 @@
           <EntitySet Name="Skills" EntityType="Self.Skills" />
           <EntitySet Name="SkillsCategory" EntityType="Self.SkillsCategory" />
           <EntitySet Name="Subsidies" EntityType="Self.Subsidies" />
+          <EntitySet Name="SubsidiesApply" EntityType="Self.SubsidiesApply" />
           <EntitySet Name="SubsidiesCategory" EntityType="Self.SubsidiesCategory" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" />
@@ -1934,6 +2013,10 @@
           <AssociationSet Name="FK_Payroll_PayrollCategory" Association="Self.FK_Payroll_PayrollCategory">
             <End Role="PayrollCategory" EntitySet="PayrollCategory" />
             <End Role="Payroll" EntitySet="Payroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubsidiesApply_Payroll" Association="Self.FK_SubsidiesApply_Payroll">
+            <End Role="Payroll" EntitySet="Payroll" />
+            <End Role="SubsidiesApply" EntitySet="SubsidiesApply" />
           </AssociationSet>
           <AssociationSet Name="FK_PersonalSkills_SkillsCategory" Association="Self.FK_PersonalSkills_SkillsCategory">
             <End Role="Skills" EntitySet="Skills" />
@@ -2210,17 +2293,26 @@
           <EntitySetMapping Name="Payroll">
             <EntityTypeMapping TypeName="CP25Team06Model.Payroll">
               <MappingFragment StoreEntitySet="Payroll">
+                <ScalarProperty Name="SalaryInsurance" ColumnName="SalaryInsurance" />
+                <ScalarProperty Name="SalaryTaxable" ColumnName="SalaryTaxable" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_PayrollCategory" ColumnName="ID_PayrollCategory" />
                 <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
                 <ScalarProperty Name="Salary" ColumnName="Salary" />
                 <ScalarProperty Name="SocialInsurance" ColumnName="SocialInsurance" />
                 <ScalarProperty Name="HealthInsurance" ColumnName="HealthInsurance" />
                 <ScalarProperty Name="UnemploymentInsurance" ColumnName="UnemploymentInsurance" />
+                <ScalarProperty Name="InsuranceCeiling" ColumnName="InsuranceCeiling" />
+                <ScalarProperty Name="TotalPriceInsurance" ColumnName="TotalPriceInsurance" />
                 <ScalarProperty Name="Tax" ColumnName="Tax" />
                 <ScalarProperty Name="TaxDeductions" ColumnName="TaxDeductions" />
+                <ScalarProperty Name="NumberOfDependents" ColumnName="NumberOfDependents" />
+                <ScalarProperty Name="DependencyDeduction" ColumnName="DependencyDeduction" />
                 <ScalarProperty Name="FamilyAllowances" ColumnName="FamilyAllowances" />
-                <ScalarProperty Name="DependenceDeduction" ColumnName="DependenceDeduction" />
-                <ScalarProperty Name="ID_PayrollCategory" ColumnName="ID_PayrollCategory" />
+                <ScalarProperty Name="TaxableSalary" ColumnName="TaxableSalary" />
+                <ScalarProperty Name="TotalPriceTax" ColumnName="TotalPriceTax" />
+                <ScalarProperty Name="NumberDaysLeave" ColumnName="NumberDaysLeave" />
+                <ScalarProperty Name="PriceForOneDayOff" ColumnName="PriceForOneDayOff" />
                 <ScalarProperty Name="Total_Price" ColumnName="Total_Price" />
                 <ScalarProperty Name="State" ColumnName="State" />
               </MappingFragment>
@@ -2321,6 +2413,22 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
                 <ScalarProperty Name="ID_SubsidiesCategory" ColumnName="ID_SubsidiesCategory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubsidiesApply">
+            <EntityTypeMapping TypeName="CP25Team06Model.SubsidiesApply">
+              <MappingFragment StoreEntitySet="SubsidiesApply">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Payroll" ColumnName="ID_Payroll" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="OnBasicSalary" ColumnName="OnBasicSalary" />
+                <ScalarProperty Name="Date_Apply" ColumnName="Date_Apply" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="Insurance" ColumnName="Insurance" />
+                <ScalarProperty Name="Total_Price" ColumnName="Total_Price" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -396,6 +396,9 @@
     <Compile Include="Models\Subsidies.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SubsidiesApply.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SubsidiesCategory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -857,6 +860,7 @@
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\ThemKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\XoaKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyLuong\CauHinhKhoanTru.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyLuong\tinhLuong.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_TienDoValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_LichSuHoatDongGiaValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_HopDongValidation.js" />

@@ -130,87 +130,105 @@
     </div>
     <div class="row">
         <!-- basic table -->
-        <div class="col-md-12 col-12 mb-5">
+        <div class="col-md-12 col-12">
             <div class="card">
                 <!-- table  -->
-                <div class="card-body pt-3">
-                    <div id="dataTableBasic_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <table id="dataTableBasic" class="table dataTable no-footer dtr-inline" style="width: 100%;" aria-describedby="dataTableBasic_info">
-                                    <thead class="table-light">
+                <div id="dataTableBasic_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="dataTableBasic" class="table dataTable no-footer dtr-inline" style="width: 100%;" aria-describedby="dataTableBasic_info">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Nhân viên</th>
+                                        <th>Ngày nhận</th>
+                                        <th>Lương cơ bản (VND)</th>
+                                        <th>Khoản khác (VND)</th>
+                                        <th>Thực lãnh (VND)</th>
+                                        <th>trạng thái</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
                                         <tr>
-                                            <th>Nhân viên</th>
-                                            <th>Ngày nhận</th>
-                                            <th>Lương cơ bản (VND)</th>
-                                            <th>Khoản khác (VND)</th>
-                                            <th>Thực lãnh (VND)</th>
-                                            <th>trạng thái</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td class="fw-semi-bold text-primary align-middle">
-                                                    <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID_Employee})" class="d-flex align-items-center">
+                                            <td class="fw-semi-bold text-primary align-middle">
+                                                <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID_Employee})" class="d-flex align-items-center">
 
-                                                        @if (string.IsNullOrEmpty(item.Employees.Avatar))
-                                                        {
-                                                            <span class="avatar-xs me-2 rounded-circle ">
-                                                                @item.Employees.Name.Substring(0, 1)
-                                                            </span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <img src="@item.Employees.Avatar" alt="" class="rounded-circle avatar-xs me-2" />
-                                                        }
-
-                                                        <h5 class="mb-0">@item.Employees.Name</h5>
-                                                    </a>
-                                                </td>
-                                                <td class="align-middle ">
-                                                    @(item.Histories.Where(h => h.Name.IndexOf("Thanh Toán") != -1).Count() > 0 ? item.Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("dd") + "Thg" + item.Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("MM ,yyyy") : "Chờ thanh toán")
-                                                </td>
-                                                <td class=" fw-bold mb-0 text-primary  align-middle">@item.Salary.ToString("0,0").Replace(".", ",") đ </td>
-                                                <td class=" fw-bold mb-0 text-danger  align-middle">@(item.Salary - item.Total_Price.Value != 0 ? (item.Salary - item.Total_Price.Value).ToString("0,0").Replace(".", ",") : "0") đ </td>
-                                                <td class=" fw-bold mb-0 text-warning  align-middle">@(item.Total_Price.Value != 0 ? item.Total_Price.Value.ToString("0,0").Replace(".", ",") : "0") đ </td>
-                                                <td class="border-top-0  align-middle">
-                                                    @if (item.State == true)
+                                                    @if (string.IsNullOrEmpty(item.Employees.Avatar))
                                                     {
-                                                        <span style="width:110px" class="badge text-success bg-light-success ">Đã thanh toán</span>
+                                                        <span class="avatar-xs me-2 rounded-circle ">
+                                                            @item.Employees.Name.Substring(0, 1)
+                                                        </span>
                                                     }
                                                     else
                                                     {
-                                                        <span style="width:110px" class="badge text-danger bg-light-danger ">Chưa thanh toán</span>
+                                                        <img src="@item.Employees.Avatar" alt="" class="rounded-circle avatar-xs me-2" />
                                                     }
-                                                </td>
-                                                <td class="text-muted align-middle text-end">
-                                                    <div class="dropdown dropstart">
-                                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            <i class="fe fe-more-vertical"></i>
+
+                                                    <h5 class="mb-0">@item.Employees.Name</h5>
+                                                </a>
+                                            </td>
+                                            <td class="align-middle ">
+                                                @(item.Histories.Where(h => h.Name.IndexOf("Thanh Toán") != -1).Count() > 0 ? item.Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("dd") + "Thg" + item.Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("MM ,yyyy") : "Chờ thanh toán")
+                                            </td>
+                                            <td class=" fw-bold mb-0 text-primary  align-middle">@item.Salary.ToString("0,0").Replace(".", ",") đ </td>
+                                            <td class=" fw-bold mb-0 text-danger  align-middle">@(item.Salary - item.Total_Price.Value != 0 ? (item.Salary - item.Total_Price.Value).ToString("0,0").Replace(".", ",") : "0") đ </td>
+                                            <td class=" fw-bold mb-0 text-warning  align-middle">@(item.Total_Price.Value != 0 ? item.Total_Price.Value.ToString("0,0").Replace(".", ",") : "0") đ </td>
+                                            <td class="border-top-0  align-middle">
+                                                @if (item.State == true)
+                                                {
+                                                    <span style="width:110px" class="badge text-success bg-light-success ">Đã thanh toán</span>
+                                                }
+                                                else
+                                                {
+                                                    <span style="width:110px" class="badge text-danger bg-light-danger ">Chưa thanh toán</span>
+                                                }
+                                            </td>
+                                            <td class="text-muted align-middle text-end">
+                                                <div class="dropdown dropstart">
+                                                    <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
+                                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fe fe-more-vertical"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="Dropdown1">
+                                                        <span class="dropdown-header">Settings</span>
+                                                        <a class="dropdown-item" role="button" data-bs-toggle="modal" data-bs-target="#xemChiTietLuong">
+                                                            <i class="fe fe-info dropdown-item-icon"></i>Xem Chi Tiết
                                                         </a>
-                                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                                            <span class="dropdown-header">Settings</span>
-                                                            <a class="dropdown-item" role="button" data-bs-toggle="modal" data-bs-target="#xemChiTietLuong">
-                                                                <i class="fe fe-info dropdown-item-icon"></i>Xem Chi Tiết
-                                                            </a>
 
-                                                            <a class="dropdown-item" target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID_Employee})">
-                                                                <i class="fe fe-user dropdown-item-icon"></i>Thông Tin Nhân Viên
+                                                        <a class="dropdown-item" target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID_Employee})">
+                                                            <i class="fe fe-user dropdown-item-icon"></i>Thông Tin Nhân Viên
 
-                                                            </a>
-                                                        </div>
+                                                        </a>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                        }
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                <tr>
+                                    <td colspan="7" class="text-muted align-middle text-end">
+                                        <div class="dropdown dropstart">
+                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
+                                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fe fe-more-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="Dropdown1">
+                                                <span class="dropdown-header">Settings</span>
+                                                <a class="dropdown-item" id="opent" role="button" data-bs-toggle="modal" data-bs-target="#xemChiTietLuong">
+                                                    <i class="fe fe-info dropdown-item-icon"></i>Xem Chi Tiết
+                                                </a>
 
-                                    </tbody>
-                                </table>
-                            </div>
+                                                <a class="dropdown-item" >
+                                                    <i class="fe fe-user dropdown-item-icon"></i>Thông Tin Nhân Viên
+
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

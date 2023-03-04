@@ -52,6 +52,7 @@ namespace ITGlobalProject.Models
         public virtual DbSet<Skills> Skills { get; set; }
         public virtual DbSet<SkillsCategory> SkillsCategory { get; set; }
         public virtual DbSet<Subsidies> Subsidies { get; set; }
+        public virtual DbSet<SubsidiesApply> SubsidiesApply { get; set; }
         public virtual DbSet<SubsidiesCategory> SubsidiesCategory { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Tasks> Tasks { get; set; }
