@@ -110,12 +110,12 @@
                                                     <div class="row">
                                                         <div class="mb-3 col-12 col-md-12">
                                                             <label style="font-weight:bold" class="form-label">Giảm trừ phụ thuộc (VND) <span class="text-danger">*</span></label>
-                                                            <input value="@depend[0].Price.ToString("0,0").Replace(".", ",")" id="giamtruphuthuoc" name="@depend[0].ID"  style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập vào số tiền giảm trừ phụ thuộc" required>
+                                                            <input value="@depend[0].Price.ToString("0,0").Replace(".", ",")" id="giamtruphuthuoc" name="@depend[0].ID" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập vào số tiền giảm trừ phụ thuộc" required>
                                                             <p hidden style="font-size: 13px; color:red;" id="giamtruphuthuoc-validation"></p>
                                                         </div>
                                                         <div class="mb-3 col-12 col-md-12">
                                                             <label style="font-weight:bold" class="form-label">Giảm trừ giả cảnh (VND) <span class="text-danger">*</span></label>
-                                                            <input value="@depend[1].Price.ToString("0,0").Replace(".", ",")" id="giamtrugiacanh"  style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập vào số tiền giảm trừ gia cảnh" required>
+                                                            <input value="@depend[1].Price.ToString("0,0").Replace(".", ",")" id="giamtrugiacanh" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập vào số tiền giảm trừ gia cảnh" required>
                                                             <p hidden style="font-size: 13px; color:red;" id="giamtrugiacanh-validation"></p>
                                                         </div>
                                                     </div>
@@ -146,18 +146,26 @@
     <br />
     <div class="row justify-content-md-between mb-4 mb-xl-4 ">
         <div class="col-xl-8 col-lg-8 col-md-8 col-12 ">
-            <select class="selectpicker" data-width="100%">
+            <select id="namluong" class="selectpicker" data-width="100%">
+                <option value="2022">Lương của năm 2022</option>
                 @foreach (var item in Model.ToList())
                 {
-                    <option value="@item.Date.Year">Lương của năm @item.Date.Year</option>
+                    if (item.Date.Year == DateTime.Now.Year)
+                    {
+                        <option selected value="@item.Date.Year">Lương của năm @item.Date.Year</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Date.Year">Lương của năm @item.Date.Year</option>
+                    }
                 }
             </select>
         </div>
         <div class="col-xl-4 col-lg-4 col-md-4 col-12 ">
-            <select class="selectpicker" data-width="100%">
-                <option value="">Trạng thái</option>
-                <option value="In Progress">Đã thanh toán</option>
-                <option value="Pending">Chưa thanh toán xong</option>
+            <select id="trangthailuong" class="selectpicker" data-width="100%">
+                <option value="tatca">Trạng thái</option>
+                <option value="dathanhtoan">Đã thanh toán</option>
+                <option value="chuathanhtoan">Chưa thanh toán xong</option>
             </select>
         </div>
     </div>
@@ -166,7 +174,7 @@
         <!-- col -->
         <div class="col-12">
             <!-- card -->
-            <div class="card">
+            <div id="BangLuongPartial" class="card">
                 <!-- table -->
                 <div class="table-responsive overflow-y-hidden">
                     <table class="table mb-0 text-nowrap">
@@ -182,142 +190,153 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
+                            @if (Model.Count() < 1)
                             {
                                 <tr>
-                                    <td class="align-middle ">
-                                        <div class="d-flex align-items-center">
-                                            <div class="icon-shape icon-lg rounded-3 border p-4">
-                                                <i class="fe fe-calendar  fs-3 text-muted"></i>
-                                            </div>
-                                            <div class="ms-3">
-                                                <h4 class="mb-0"><a href="@Url.Action("danhsachluongthang", "quanlyluong", new {id = item.ID})" class="text-inherit">Tháng @item.Date.ToString("MM, yyyy")</a></h4>
-                                            </div>
-                                        </div>
+                                    <td colspan="7" class="align-middle text-center">
+                                        Không có dữ liệu để hiển thị.
                                     </td>
-                                    <td class="align-middle ">
-                                        @item.Date.ToString("dd") Thg @item.Date.ToString("MM, yyyy")
-                                    </td>
-                                    <td class="align-middle text-warning">
-                                        <b><b>@item.Payroll.Sum(s => s.Total_Price).Value.ToString("0,0").Replace(".", ",") đ</b></b>
-                                    </td>
-                                    @if (item.Payroll.Where(p => p.State == true).Count() < 1)
-                                    {
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
                                         <td class="align-middle ">
                                             <div class="d-flex align-items-center">
-                                                <div class="me-2"> <span>0%</span></div>
-                                                <div class="progress flex-auto" style="height: 6px;">
-                                                    <div class="progress-bar bg-primary " role="progressbar" style="width: 0%;"
-                                                         aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-
-                                                    </div>
+                                                <div class="icon-shape icon-lg rounded-3 border p-4">
+                                                    <i class="fe fe-calendar  fs-3 text-muted"></i>
+                                                </div>
+                                                <div class="ms-3">
+                                                    <h4 class="mb-0"><a href="@Url.Action("danhsachluongthang", "quanlyluong", new {id = item.ID})" class="text-inherit">Tháng @item.Date.ToString("MM, yyyy")</a></h4>
                                                 </div>
                                             </div>
                                         </td>
-                                    }
-                                    else
-                                    {
                                         <td class="align-middle ">
-                                            <div class="d-flex align-items-center">
-                                                <div class="me-2"> <span>@((item.Payroll.Where(p => p.State == true).Count()/item.Payroll.Count()) * 100)%</span></div>
-                                                <div class="progress flex-auto" style="height: 6px;">
-                                                    <div class="progress-bar bg-primary " role="progressbar" style="width: @((item.Payroll.Where(p => p.State == true).Count()/item.Payroll.Count()) * 100)%;"
-                                                         aria-valuenow="@((item.Payroll.Where(p => p.State == true).Count()/item.Payroll.Count()) * 100)" aria-valuemin="0" aria-valuemax="100">
-
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @item.Date.ToString("dd") Thg @item.Date.ToString("MM, yyyy")
                                         </td>
-                                    }
-                                    <td class="align-middle ">
-                                        @if (item.Payroll.Where(p => p.State == false).Count() > 0)
+                                        <td class="align-middle text-warning">
+                                            <b><b>@item.Payroll.Sum(s => s.Total_Price).Value.ToString("0,0").Replace(".", ",") đ</b></b>
+                                        </td>
+                                        @if (item.Payroll.Where(p => p.State == true).Count() < 1)
                                         {
-                                            <span style="width: 110px" class="badge bg-light-danger text-dark-danger">Còn @item.Payroll.Where(p => p.State == false).Count() nhân viên</span>
+                                            <td class="align-middle ">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-2"> <span>0%</span></div>
+                                                    <div class="progress flex-auto" style="height: 6px;">
+                                                        <div class="progress-bar bg-primary " role="progressbar" style="width: 0%;"
+                                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         }
                                         else
                                         {
-                                            <span style="width: 110px" class="badge bg-light-success text-dark-success">Đã thanh toán</span>
+                                            <td class="align-middle ">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-2"> <span>@(item.Payroll.Where(p => p.State == true).Count() * 100 / item.Payroll.Count())%</span></div>
+                                                    <div class="progress flex-auto" style="height: 6px;">
+                                                        <div class="progress-bar bg-primary " role="progressbar" style="width: @Convert.ToInt32((item.Payroll.Where(p => p.State == true).Count() * 100/item.Payroll.Count()))%;"
+                                                             aria-valuenow="@((item.Payroll.Where(p => p.State == true).Count() * 100/item.Payroll.Count()))" aria-valuemin="0" aria-valuemax="100">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         }
-                                    </td>
-                                    <td class="align-middle ">
-                                        <div class="avatar-group">
-                                            @if (item.Payroll.Count < 1)
+                                        <td class="align-middle ">
+                                            @if (item.Payroll.Where(p => p.State == false).Count() > 0)
                                             {
-                                                <span>Chưa tính</span>
+                                                <span style="width: 110px" class="badge bg-light-danger text-dark-danger">Còn @item.Payroll.Where(p => p.State == false).Count() nhân viên</span>
                                             }
-                                            //Đội ngũ ít hơn 4 người
-                                            else if (item.Payroll.Count <= 3)
-                                            {
-                                                foreach (var iteam in item.Payroll)
-                                                {
-                                                    if (string.IsNullOrEmpty(iteam.Employees.Avatar))
-                                                    {
-                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@iteam.Employees.ID">
-                                                            <span class="avatar-initials rounded-circle ">
-                                                                @iteam.Employees.Name.Substring(0, 1).ToUpper()
-                                                            </span>
-                                                            <span id="@iteam.Employees.ID" class="d-none">
-                                                                <span class="mb-0 h6">@iteam.Employees.Name</span>
-
-                                                            </span>
-                                                        </span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="avatar avatar-md">
-                                                            <img alt="avatar" src="@iteam.Employees.Avatar"
-                                                                 class="rounded-circle imgtooltip" data-template="@iteam.Employees.ID">
-
-                                                            <span id="@iteam.Employees.ID" class="d-none">
-                                                                <span class="mb-0 h6">@iteam.Employees.Name</span>
-                                                            </span>
-                                                        </span>
-                                                    }
-                                                }
-                                            }
-                                            //Đội ngũ nhiều hơn 3 người
                                             else
                                             {
-                                                for (int t = 0; t < 3; t++)
+                                                <span style="width: 110px" class="badge bg-light-success text-dark-success">Đã thanh toán</span>
+                                            }
+                                        </td>
+                                        <td class="align-middle ">
+                                            <div class="avatar-group">
+                                                @if (item.Payroll.Count < 1)
                                                 {
-                                                    if (string.IsNullOrEmpty(item.Payroll.ToList()[t].Employees.Avatar))
+                                                    <span>Chưa tính</span>
+                                                }
+                                                //Đội ngũ ít hơn 4 người
+                                                else if (item.Payroll.Count <= 3)
+                                                {
+                                                    foreach (var iteam in item.Payroll)
                                                     {
-                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@item.Payroll.ToList()[t].Employees.ID">
-                                                            <span class="avatar-initials rounded-circle ">
-                                                                @item.Payroll.ToList()[t].Employees.Name.Substring(0, 1).ToUpper()
-                                                            </span>
-                                                            <span id="@item.Payroll.ToList()[t].Employees.ID" class="d-none">
-                                                                <span class="mb-0 h6">@item.Payroll.ToList()[t].Employees.Name</span>
+                                                        if (string.IsNullOrEmpty(iteam.Employees.Avatar))
+                                                        {
+                                                            <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@iteam.Employees.ID">
+                                                                <span class="avatar-initials rounded-circle ">
+                                                                    @iteam.Employees.Name.Substring(0, 1).ToUpper()
+                                                                </span>
+                                                                <span id="@iteam.Employees.ID" class="d-none">
+                                                                    <span class="mb-0 h6">@iteam.Employees.Name</span>
 
+                                                                </span>
                                                             </span>
-                                                        </span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="avatar avatar-md">
-                                                            <img alt="avatar" src="@item.Payroll.ToList()[t].Employees.Avatar"
-                                                                 class="rounded-circle imgtooltip" data-template="@item.Payroll.ToList()[t].Employees.ID">
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="avatar avatar-md">
+                                                                <img alt="avatar" src="@iteam.Employees.Avatar"
+                                                                     class="rounded-circle imgtooltip" data-template="@iteam.Employees.ID">
 
-                                                            <span id="@item.Payroll.ToList()[t].Employees.ID" class="d-none">
-                                                                <span class="mb-0 h6">@item.Payroll.ToList()[t].Employees.Name</span>
+                                                                <span id="@iteam.Employees.ID" class="d-none">
+                                                                    <span class="mb-0 h6">@iteam.Employees.Name</span>
+                                                                </span>
                                                             </span>
-                                                        </span>
+                                                        }
                                                     }
                                                 }
-                                                <span class="avatar avatar-md">
-                                                    <span class="avatar-initials rounded-circle bg-light text-dark">@(item.Payroll.Count - 3)+</span>
-                                                </span>
-                                            }
-                                        </div>
-                                    </td>
-                                    <td class="text-muted align-middle text-end">
-                                        <div class="dropdown dropstart">
-                                            <a href="@Url.Action("danhsachluongthang", "quanlyluong", new {id = item.ID})" data-bs-toggle="tooltip" data-placement="top" title="Xem chi tiết" class="btn-icon btn btn-ghost rounded-circle text-primary" role="button">
-                                                <i class="fe fe-info"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                                //Đội ngũ nhiều hơn 3 người
+                                                else
+                                                {
+                                                    for (int t = 0; t < 3; t++)
+                                                    {
+                                                        if (string.IsNullOrEmpty(item.Payroll.ToList()[t].Employees.Avatar))
+                                                        {
+                                                            <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@item.Payroll.ToList()[t].Employees.ID">
+                                                                <span class="avatar-initials rounded-circle ">
+                                                                    @item.Payroll.ToList()[t].Employees.Name.Substring(0, 1).ToUpper()
+                                                                </span>
+                                                                <span id="@item.Payroll.ToList()[t].Employees.ID" class="d-none">
+                                                                    <span class="mb-0 h6">@item.Payroll.ToList()[t].Employees.Name</span>
+
+                                                                </span>
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="avatar avatar-md">
+                                                                <img alt="avatar" src="@item.Payroll.ToList()[t].Employees.Avatar"
+                                                                     class="rounded-circle imgtooltip" data-template="@item.Payroll.ToList()[t].Employees.ID">
+
+                                                                <span id="@item.Payroll.ToList()[t].Employees.ID" class="d-none">
+                                                                    <span class="mb-0 h6">@item.Payroll.ToList()[t].Employees.Name</span>
+                                                                </span>
+                                                            </span>
+                                                        }
+                                                    }
+                                                    <span class="avatar avatar-md">
+                                                        <span class="avatar-initials rounded-circle bg-light text-dark">@(item.Payroll.Count - 3)+</span>
+                                                    </span>
+                                                }
+                                            </div>
+                                        </td>
+                                        <td class="text-muted align-middle text-end">
+                                            <div class="dropdown dropstart">
+                                                <a href="@Url.Action("danhsachluongthang", "quanlyluong", new {id = item.ID})" data-bs-toggle="tooltip" data-placement="top" title="Xem chi tiết" class="btn-icon btn btn-ghost rounded-circle text-primary" role="button">
+                                                    <i class="fe fe-info"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+
                             }
                         </tbody>
                     </table>
@@ -327,3 +346,4 @@
     </div>
 </div>
 <script src="~/ValidationAlert/Admin/QuanLyLuong/CauHinhKhoanTru.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyLuong/BangLuongValidation.js"></script>

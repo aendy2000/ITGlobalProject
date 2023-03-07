@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<ITGlobalProject.Models.Payroll>
 @{
-    ViewBag.Title = "danhSachLuongThang";
+    ViewBag.Title = "Lương Tháng " + Model.First().PayrollCategory.Date.ToString("MM, yyyy");
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
 }
 

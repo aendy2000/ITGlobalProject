@@ -3,7 +3,7 @@
     CP25Team06Entities model = new CP25Team06Entities();
     var emp = model.Employees.ToList();
     emp.Remove(model.Employees.Find(1));
-    ViewBag.Title = "tinhLuong";
+    ViewBag.Title = "Tính Lương";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
 
     var lstThang = model.PayrollCategory.ToList();

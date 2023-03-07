@@ -33,7 +33,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             Session["Insurance"] = model.Insurance.ToList();
             Session["Tax"] = model.Tax.ToList();
             Session["Dependency"] = model.DependencyDeduction.ToList();
-            return View("bangLuong", model.PayrollCategory.ToList());
+            int currentYear = DateTime.Now.Year;
+            return View("bangLuong", model.PayrollCategory.Where(b => b.Date.Year == currentYear).ToList());
         }
         [HttpPost]
         public ActionResult cauhinhkhoangiamtru(string baohiem, string thue, string phuthuoc, string giacanh)
@@ -1036,6 +1037,29 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 model.SaveChanges();
 
                 return PartialView("_chiTietLuongPartial", chiTiet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult timKiemBangLuong(int? nam, string trangthai)
+        {
+            if (nam == null || string.IsNullOrEmpty(trangthai))
+                return Content("DANGNHAP");
+
+            if (trangthai.Equals("tatca"))
+            {
+                var luongnam = model.PayrollCategory.Where(p => p.Date.Year == nam).ToList();
+                return PartialView("_bangLuongPartial", luongnam);
+            }
+            else if (trangthai.Equals("dathanhtoan"))
+            {
+                var luongnam = model.PayrollCategory.Where(p => p.Date.Year == nam && p.Payroll.Where(s => s.State == false).Count() < 1).ToList();
+                return PartialView("_bangLuongPartial", luongnam);
+            }
+            else
+            {
+                var luongnam = model.PayrollCategory.Where(p => p.Date.Year == nam && p.Payroll.Where(s => s.State == false).Count() > 0).ToList();
+                return PartialView("_bangLuongPartial", luongnam);
             }
         }
     }
