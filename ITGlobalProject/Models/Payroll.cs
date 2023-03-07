@@ -38,11 +38,13 @@ namespace ITGlobalProject.Models
         public Nullable<decimal> TaxableSalary { get; set; }
         public Nullable<decimal> TotalPriceTax { get; set; }
         public Nullable<int> NumberDaysLeave { get; set; }
-        public Nullable<int> PriceForOneDayOff { get; set; }
+        public Nullable<decimal> PriceForOneDayOff { get; set; }
         public Nullable<decimal> Total_Price { get; set; }
         public Nullable<bool> State { get; set; }
         public Nullable<decimal> SalaryTaxable { get; set; }
         public Nullable<decimal> SalaryInsurance { get; set; }
+        public Nullable<decimal> MissingAmount { get; set; }
+        public Nullable<decimal> TotalAllowance { get; set; }
     
         public virtual Employees Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

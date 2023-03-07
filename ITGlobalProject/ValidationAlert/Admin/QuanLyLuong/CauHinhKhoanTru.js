@@ -2,6 +2,10 @@
     $('#btnLuuThongTinKhoanTru').on('click', function () {
         var check = true;
         var databaohiem = "";
+
+        $('#giamtruphuthuoc-validation').hide();
+        $('#giamtrugiacanh-validation').hide();
+
         $('[id^="baohiem-data-"]').each(function () {
             var id = $(this).attr("name");
 
@@ -53,10 +57,27 @@
             datathue += id + "-" + thunhaptoithieu + "-" + thunhaptoida + "-" + thuesuat + "-" + khoangiamtru + "_";
         });
 
+        var dataphuthuoc = $('#giamtruphuthuoc').val();
+        if (dataphuthuoc.length < 1) {
+            check = false;
+            $('#giamtruphuthuoc-validation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $('#giamtruphuthuoc').focus();
+        }
+
+        var datagiacanh = $('#giamtrugiacanh').val();
+        if (datagiacanh.length < 1) {
+            check = false;
+            $('#giamtrugiacanh-validation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+            $('#giamtrugiacanh').focus();
+        }
+
         if (check == true) {
             var formData = new FormData();
             formData.append("baohiem", databaohiem.substring(0, databaohiem.length - 1));
             formData.append("thue", datathue.substring(0, datathue.length - 1));
+            formData.append("phuthuoc", dataphuthuoc);
+            formData.append("giacanh", datagiacanh);
+
             $('#AjaxLoader').show();
             $.ajax({
                 url: $('#requestPath').val() + 'Admins/quanlyluong/cauhinhkhoangiamtru',

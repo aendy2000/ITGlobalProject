@@ -1,6 +1,9 @@
 ﻿@model ITGlobalProject.Models.Employees
 @using System.Globalization;
-@{ string date = DateTime.Now.Year + "-W" + (new CultureInfo("vi-VN").Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay, DayOfWeek.Monday) - 1);
+@using ITGlobalProject.Models;
+@{ 
+    CP25Team06Entities models = new CP25Team06Entities();
+    string date = DateTime.Now.Year + "-W" + (new CultureInfo("vi-VN").Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstDay, DayOfWeek.Monday) - 1);
 
     string imagesUrl = "";
 
@@ -12,6 +15,7 @@
     {
         imagesUrl = Model.Avatar;
     }
+    var luongdautien = Model.JoinedDate.AddMonths(1).Year;
 }
 <div id="contentPartial" class="container-fluid p-4">
 
@@ -208,7 +212,10 @@
             <div class="row justify-content-md-between mb-4 mb-xl-4 ">
                 <div class="col-xl-6 col-lg-4 col-md-4 col-12 ">
                     <select class="form-select" data-width="100%">
-                        <option value="2022">Năm 2022</option>
+                        @for (int i = luongdautien; i <= DateTime.Now.Year; i++)
+                        {
+                            <option value="2022">Năm @luongdautien</option>
+                        }
                     </select>
 
                 </div>

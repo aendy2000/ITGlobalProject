@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="ID" />
@@ -242,11 +242,13 @@
           <Property Name="TaxableSalary" Type="money" />
           <Property Name="TotalPriceTax" Type="money" />
           <Property Name="NumberDaysLeave" Type="int" />
-          <Property Name="PriceForOneDayOff" Type="int" />
+          <Property Name="PriceForOneDayOff" Type="money" />
           <Property Name="Total_Price" Type="money" />
           <Property Name="State" Type="bit" />
           <Property Name="SalaryTaxable" Type="money" />
           <Property Name="SalaryInsurance" Type="money" />
+          <Property Name="MissingAmount" Type="money" />
+          <Property Name="TotalAllowance" Type="money" />
         </EntityType>
         <EntityType Name="PayrollCategory">
           <Key>
@@ -992,7 +994,8 @@
             <End Role="Teams" EntitySet="Teams" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CP25Team06Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1267,15 +1270,17 @@
           <Property Name="TaxableSalary" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="TotalPriceTax" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="NumberDaysLeave" Type="Int32" />
-          <Property Name="PriceForOneDayOff" Type="Int32" />
+          <Property Name="PriceForOneDayOff" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Total_Price" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="State" Type="Boolean" />
+          <Property Name="SalaryTaxable" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="SalaryInsurance" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="MissingAmount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TotalAllowance" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_Payroll_Employees" FromRole="Payroll" ToRole="Employees" />
           <NavigationProperty Name="Histories" Relationship="Self.FK_Histories_Payroll" FromRole="Payroll" ToRole="Histories" />
           <NavigationProperty Name="PayrollCategory" Relationship="Self.FK_Payroll_PayrollCategory" FromRole="Payroll" ToRole="PayrollCategory" />
           <NavigationProperty Name="SubsidiesApply" Relationship="Self.FK_SubsidiesApply_Payroll" FromRole="Payroll" ToRole="SubsidiesApply" />
-          <Property Name="SalaryTaxable" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="SalaryInsurance" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="PayrollCategory">
           <Key>
@@ -2293,8 +2298,6 @@
           <EntitySetMapping Name="Payroll">
             <EntityTypeMapping TypeName="CP25Team06Model.Payroll">
               <MappingFragment StoreEntitySet="Payroll">
-                <ScalarProperty Name="SalaryInsurance" ColumnName="SalaryInsurance" />
-                <ScalarProperty Name="SalaryTaxable" ColumnName="SalaryTaxable" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_PayrollCategory" ColumnName="ID_PayrollCategory" />
                 <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
@@ -2315,6 +2318,10 @@
                 <ScalarProperty Name="PriceForOneDayOff" ColumnName="PriceForOneDayOff" />
                 <ScalarProperty Name="Total_Price" ColumnName="Total_Price" />
                 <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="SalaryTaxable" ColumnName="SalaryTaxable" />
+                <ScalarProperty Name="SalaryInsurance" ColumnName="SalaryInsurance" />
+                <ScalarProperty Name="MissingAmount" ColumnName="MissingAmount" />
+                <ScalarProperty Name="TotalAllowance" ColumnName="TotalAllowance" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

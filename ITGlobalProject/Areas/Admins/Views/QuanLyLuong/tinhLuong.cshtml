@@ -7,7 +7,14 @@
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
 
     var lstThang = model.PayrollCategory.ToList();
-    var currentDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+    int currentYear = DateTime.Now.Year;
+    int currentMonth = DateTime.Now.Month;
+    var currentDate = DateTime.Now;
+
+    var insurance = Session["Insurance"] as IEnumerable<Insurance>;
+    var tax = Session["Tax"] as IEnumerable<Tax>;
+    var depend = Session["Dependency"] as List<DependencyDeduction>;
+    int i = 1;
 }
 
 <div class="container-fluid p-4">
@@ -39,7 +46,7 @@
                     <select id="tinhluongthangs" class="selectpicker">
                         @if (lstThang.Count > 0)
                         {
-                            if (lstThang.Where(w => w.Date == currentDate).Count() < 1)
+                            if (lstThang.Where(t => t.Date.Month == currentMonth && t.Date.Year == currentYear).Count() < 1)
                             {
                                 <option value="@currentDate">Tháng @currentDate.ToString("MM, yyyy")</option>
                                 foreach (var item in lstThang.OrderByDescending(g => g.Date).ToList())
@@ -103,12 +110,32 @@
                         }
                     </select>
                     &ensp;
-                    <a href="@Url.Action("bangLuong", "quanLyLuong")" class="btn btn-primary me-2" style="width:230px;"><i class="fe fe-grid"> </i> Xem Bảng Lương</a>
+                    <button data-bs-toggle="modal" data-bs-target="#cauhinhkhoantru" class="btn btn-primary me-2" style="width:230px;"><i class="fe fe-settings"> </i> Cấu Hình Khoản Trừ</button>
                 </div>
             </div>
         </div>
     </div>
     <br />
+    @if (lstThang.Where(t => t.Date.Month == currentMonth && t.Date.Year == currentYear).Count() > 0)
+    {
+        <input hidden id="datinhluong" value="datinh" />
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-12">
+                <div class="shadow p-3 mb-4 bg-light-success border-100 rounded text-middle text-center">
+                    <span class="text-dark-success">
+                        Lương tháng @currentDate.ToString("MM, yyyy") đã được tính!
+                        <a target="_blank" href="@Url.Action("danhsachluongthang", "quanlyluong", new { id = lstThang.FirstOrDefault(t => t.Date.Month == currentMonth && t.Date.Year == currentYear).ID})"><u>Xem tháng lương</u></a>
+                    </span>
+
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <input hidden id="datinhluong" value="chuatinh" />
+    }
+
     <div class="row">
         <div class="col-lg-12 col-md-12 col-12">
             <!-- Card -->
@@ -133,9 +160,10 @@
                                 <th class="border-0">Mã Nhân viên</th>
                                 <th class="border-0">Tên nhân viên</th>
                                 <th class="border-0">Chức danh</th>
+                                <th class="border-0">Ngày vào làm</th>
                                 <th class="border-0">Ngày nghỉ</th>
-                                <th class="border-0">Ngày công</th>
                                 <th class="border-0">Lương cơ bản</th>
+                                <th class="border-0">Trạng thái</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -167,14 +195,22 @@
                                         </a>
                                     </td>
                                     <td class="align-middle">@item.Position.Name</td>
+                                    <td class="align-middle">@item.JoinedDate.ToString("dd/MM/yyyy")</td>
                                     <td class="align-middle">
-                                        4 Phép, 1 Không
-                                    </td>
-                                    <td class="align-middle">
-                                        29 ngày
+                                        @item.LeaveApplication.Where(l => l.State == true).Count() ngày
                                     </td>
                                     <td style="font-weight:bold" class="align-middle text-danger">
-                                        @item.Wage.ToString("0,0").Replace("0.0", "0,0") đ
+                                        @item.Wage.ToString("0,0").Replace(".", ",") đ
+                                    </td>
+                                    <td class="align-middle">
+                                        @if (item.Payroll == null)
+                                        {
+                                            <span style="width:110px" class="badge bg-gray-100 text-gray-700">Sẵn sàng</span>
+                                        }
+                                        else
+                                        {
+                                            <span style="width:110px" class="badge text-success bg-light-success ">Đã được tính</span>
+                                        }
                                     </td>
                                 </tr>
                             }
@@ -194,4 +230,110 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="cauhinhkhoantru" tabindex="-1" role="dialog" aria-labelledby="cauhinhkhoantru" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Cấu Hình Khoản Trừ</h5>
+                <button id="dongmodaltinhthue" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-2">
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link active" id="v-pills-baohiem-tab" data-bs-toggle="pill" href="#v-pills-baohiem" role="tab" aria-controls="v-pills-baohiem" aria-selected="true">Bảo Hiểm XH</a>
+                            <a class="nav-link" id="v-pills-thue-tab" data-bs-toggle="pill" href="#v-pills-thue" role="tab" aria-controls="v-pills-thue" aria-selected="false">Thuế Thu Nhập</a>
+                            <a class="nav-link" id="v-pills-phuthuoc-tab" data-bs-toggle="pill" href="#v-pills-phuthuoc" role="tab" aria-controls="v-pills-phuthuoc" aria-selected="false">Phụ Thuộc</a>
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-baohiem" role="tabpanel" aria-labelledby="v-pills-baohiem-tab">
+                                <div class="row">
+                                    @foreach (var item in insurance)
+                                    {
+                                        <div class="mb-3 col-6 col-md-6">
+                                            <label style="font-weight:bold" class="form-label">@item.Name (%) <span class="text-danger">*</span></label>
+                                            <input value="@item.Percentage.ToString("0.0")" id="baohiem-data-@item.ID" name="@item.ID" data-inputmask="'alias': 'decimal'" type="text" class="text-start form-control" placeholder="Nhập vào số % khoản thu @item.Name" required>
+                                            <p hidden style="font-size: 13px; color:red;" id="baohiem-validation-@item.ID"></p>
+                                        </div>
+                                        <div class="mb-3 col-6 col-md-6">
+                                            <label style="font-weight:bold" class="form-label">Mức trần (VND)</label>
+                                            <label class="text-muted fs-6"> - Bỏ trống nếu không áp dụng.</label>
+                                            <input id="muctran-data-@item.ID" name="@item.ID" value="@(item.Ceiling_Level.Value > 0 ? item.Ceiling_Level.Value.ToString("0,0").Replace(".", ",") : "")" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập số tiền làm mức trần" required />
+                                            <p hidden style="font-size: 13px; color:red;" id="muctran-validation-@item.ID"></p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-thue" role="tabpanel" aria-labelledby="v-pills-thue-tab">
+                                <div class="row">
+                                    @foreach (var item in tax)
+                                    {
+                                        <div class="mb-3 col-12 col-md-5">
+                                            <label style="font-weight:bold" class="form-label">@i. Thu Nhập Tối Thiểu - Thu Nhập Tối Đa (VND)</label>
+                                            <div class="input-group">
+                                                <input id="thunhaptoithieu-data-@item.ID" name="@item.ID" value="@item.MinPrice.ToString("0,0").Replace(".", ",")" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Thu nhập tối thiểu" />
+                                                <span class="input-group-text"> - </span>
+                                                @if (item.MaxPrice < 1000000000)
+                                                {
+                                                    <input data-bs-toggle="tooltip" data-placement="top" id="thunhaptoida-data-@item.ID" name="@item.ID" value="@item.MaxPrice.ToString("0,0").Replace(".", ",")" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Thu nhập tối đa" />
+                                                }
+                                                else
+                                                {
+                                                    <input id="thunhaptoida-data-@item.ID" name="@item.ID" readonly value="Không xác định" class="form-control text-start text-danger" type="text" />
+                                                }
+                                            </div>
+                                            <p hidden style="font-size: 13px; color:red;" id="thunhap-validation-@item.ID"></p>
+                                        </div>
+                                        <div class="mb-3 col-12 col-md-3">
+                                            <label style="font-weight:bold" class="form-label">Thuế Suất (%) <span class="text-danger">*</span></label>
+                                            <input value="@item.Percentage.ToString("0.0")" id="thuesuat-data-@item.ID" name="@item.ID" data-inputmask="'alias': 'decimal'" type="text" class="text-start form-control" placeholder="Nhập vào số % thuế suất">
+                                            <p hidden style="font-size: 13px; color:red;" id="thuesuat-validation-@item.ID"></p>
+                                        </div>
+                                        <div class="mb-3 col-12 col-md-3">
+                                            <label style="font-weight:bold" class="form-label">Khoản giảm trừ (VND) <span class="text-danger">*</span></label>
+                                            <input id="giamtru-data-@item.ID" name="@item.ID" value="@item.Deductible.ToString("0,0").Replace(".", ",")" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập khoản giảm trừ" />
+                                            <p hidden style="font-size: 13px; color:red;" id="giamtru-validation-@item.ID"></p>
+                                        </div>
+                                        i++;
+                                    }
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-phuthuoc" role="tabpanel" aria-labelledby="v-pills-phuthuoc-tab">
+                                <div class="row">
+                                    <div class="mb-3 col-12 col-md-12">
+                                        <label style="font-weight:bold" class="form-label">Giảm trừ phụ thuộc (VND) <span class="text-danger">*</span></label>
+                                        <input value="@depend[0].Price.ToString("0,0").Replace(".", ",")" id="giamtruphuthuoc" name="@depend[0].ID" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập vào số tiền giảm trừ phụ thuộc" required>
+                                        <p hidden style="font-size: 13px; color:red;" id="giamtruphuthuoc-validation"></p>
+                                    </div>
+                                    <div class="mb-3 col-12 col-md-12">
+                                        <label style="font-weight:bold" class="form-label">Giảm trừ giả cảnh (VND) <span class="text-danger">*</span></label>
+                                        <input value="@depend[1].Price.ToString("0,0").Replace(".", ",")" id="giamtrugiacanh" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập vào số tiền giảm trừ gia cảnh" required>
+                                        <p hidden style="font-size: 13px; color:red;" id="giamtrugiacanh-validation"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div style="text-align: right; padding-bottom: 20px" class="mb-2 col-12 col-md-6">
+                    <button style="width: 150px" class="btn btn-outline-danger" data-bs-dismiss="modal">
+                        Hủy
+                    </button>
+                </div>
+                <div style="padding-bottom: 20px; width: 150px" class="mb-2 col-12 col-md-6">
+                    <a style="width: 150px" role="button" id="btnLuuThongTinKhoanTru" class="btn btn-success">
+                        Lưu
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="~/ValidationAlert/Admin/QuanLyLuong/tinhLuong.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyLuong/CauHinhKhoanTru.js"></script>

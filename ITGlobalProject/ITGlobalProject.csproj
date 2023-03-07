@@ -823,6 +823,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admins\Views\QuanLyLuong\_chiTietLuongPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -860,6 +861,8 @@
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\ThemKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\XoaKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyLuong\CauHinhKhoanTru.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyLuong\chiTietLuongValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyLuong\thanhToanLuong.js" />
     <Content Include="ValidationAlert\Admin\QuanLyLuong\tinhLuong.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_TienDoValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_LichSuHoatDongGiaValidation.js" />

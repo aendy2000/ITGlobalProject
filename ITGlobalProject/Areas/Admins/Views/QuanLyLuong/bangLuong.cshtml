@@ -5,7 +5,7 @@
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
     var insurance = Session["Insurance"] as IEnumerable<Insurance>;
     var tax = Session["Tax"] as IEnumerable<Tax>;
-
+    var depend = Session["Dependency"] as List<DependencyDeduction>;
     int i = 1;
 }
 
@@ -49,6 +49,7 @@
                                             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                                 <a class="nav-link active" id="v-pills-baohiem-tab" data-bs-toggle="pill" href="#v-pills-baohiem" role="tab" aria-controls="v-pills-baohiem" aria-selected="true">Bảo Hiểm XH</a>
                                                 <a class="nav-link" id="v-pills-thue-tab" data-bs-toggle="pill" href="#v-pills-thue" role="tab" aria-controls="v-pills-thue" aria-selected="false">Thuế Thu Nhập</a>
+                                                <a class="nav-link" id="v-pills-phuthuoc-tab" data-bs-toggle="pill" href="#v-pills-phuthuoc" role="tab" aria-controls="v-pills-phuthuoc" aria-selected="false">Phụ Thuộc</a>
                                             </div>
                                         </div>
                                         <div class="col-10">
@@ -103,6 +104,20 @@
                                                             </div>
                                                             i++;
                                                         }
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="v-pills-phuthuoc" role="tabpanel" aria-labelledby="v-pills-phuthuoc-tab">
+                                                    <div class="row">
+                                                        <div class="mb-3 col-12 col-md-12">
+                                                            <label style="font-weight:bold" class="form-label">Giảm trừ phụ thuộc (VND) <span class="text-danger">*</span></label>
+                                                            <input value="@depend[0].Price.ToString("0,0").Replace(".", ",")" id="giamtruphuthuoc" name="@depend[0].ID"  style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập vào số tiền giảm trừ phụ thuộc" required>
+                                                            <p hidden style="font-size: 13px; color:red;" id="giamtruphuthuoc-validation"></p>
+                                                        </div>
+                                                        <div class="mb-3 col-12 col-md-12">
+                                                            <label style="font-weight:bold" class="form-label">Giảm trừ giả cảnh (VND) <span class="text-danger">*</span></label>
+                                                            <input value="@depend[1].Price.ToString("0,0").Replace(".", ",")" id="giamtrugiacanh"  style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập vào số tiền giảm trừ gia cảnh" required>
+                                                            <p hidden style="font-size: 13px; color:red;" id="giamtrugiacanh-validation"></p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -297,49 +312,9 @@
                                     </td>
                                     <td class="text-muted align-middle text-end">
                                         <div class="dropdown dropstart">
-                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fe fe-more-vertical"></i>
+                                            <a href="@Url.Action("danhsachluongthang", "quanlyluong", new {id = item.ID})" data-bs-toggle="tooltip" data-placement="top" title="Xem chi tiết" class="btn-icon btn btn-ghost rounded-circle text-primary" role="button">
+                                                <i class="fe fe-info"></i>
                                             </a>
-                                            <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                                <span class="dropdown-header">Settings</span>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="fe fe-edit dropdown-item-icon"></i>Edit Details
-                                                </a>
-
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="fe fe-link dropdown-item-icon"></i>Copy project link
-
-                                                </a>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="fe fe-save dropdown-item-icon"></i>Save as Default
-                                                </a>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="fe fe-copy dropdown-item-icon"></i>Duplicate
-                                                </a>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="fe fe-layout dropdown-item-icon"></i>Convert to Template
-                                                </a>
-
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="fe fe-upload dropdown-item-icon"></i>Import
-                                                </a>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="fe fe-printer dropdown-item-icon"></i>Export / Print
-                                                </a>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="fe fe-users dropdown-item-icon"></i>Move to another team
-                                                </a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="fe fe-archive dropdown-item-icon"></i>Archive
-                                                </a>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="fe fe-trash dropdown-item-icon"></i>Delete Project
-                                                </a>
-
-                                            </div>
                                         </div>
                                     </td>
                                 </tr>
