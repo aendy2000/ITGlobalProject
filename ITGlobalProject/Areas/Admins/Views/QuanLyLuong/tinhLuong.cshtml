@@ -1,7 +1,7 @@
 ﻿@using ITGlobalProject.Models
 @{
     CP25Team06Entities model = new CP25Team06Entities();
-    var emp = model.Employees.ToList();
+    var emp = model.Employees.Where(e => e.Lock == false && e.Wage > 0).ToList();
     emp.Remove(model.Employees.Find(1));
     ViewBag.Title = "Tính Lương";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";

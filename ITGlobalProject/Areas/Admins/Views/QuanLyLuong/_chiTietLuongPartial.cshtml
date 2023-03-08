@@ -117,72 +117,100 @@
 
                             @if (Model.TaxableSalary.Value != 0)
                             {
-                                <tr>
-                                    <td class="align-middle border-top-0">
-                                        <h4 class="mb-0">
-                                            Thuế Thu Nhập Cá Nhân
-                                        </h4>
-                                    </td>
-                                    <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")% (Lương Tính Thuế)</td>
-                                    <td class="text-dark fw-bold  border-top-0 text-end">
-                                        -@Model.TotalPriceTax.Value.ToString("0,0").Replace(".", ",") đ
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="border-bottom-0 pb-0"></td>
-                                    <td colspan="1" class="fw-medium border-bottom-0 pb-0">
-                                        <!-- text -->
-                                        Tổng Lương Đóng Thuế :
-                                    </td>
-                                    <td class="fw-medium border-bottom-0 pb-0 text-end">
-                                        <!-- text -->
-                                        @Model.SalaryTaxable.Value.ToString("0,0").Replace(".", ",") đ
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="border-bottom-0 pb-0"></td>
-                                    <td colspan="1" class="fw-medium border-bottom-0 pb-0">
-                                        <!-- text -->
-                                        Giảm Trừ Bảo Hiểm :
-                                    </td>
-                                    <td class="fw-medium border-bottom-0 pb-0 text-end">
-                                        <!-- text -->
-                                        @Model.TotalPriceInsurance.ToString("0,0").Replace(".", ",") đ
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="border-bottom-0 pb-0"></td>
-                                    <td colspan="1" class="fw-medium border-bottom-0 pb-0">
-                                        <!-- text -->
-                                        Giảm Trừ Gia Cảnh :
-                                    </td>
-                                    <td class="fw-medium border-bottom-0 pb-0 text-end">
-                                        <!-- text -->
-                                        @Model.FamilyAllowances.Value.ToString("0,0").Replace(".", ",") đ
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="border-bottom-0 pb-0"></td>
-                                    <td colspan="1" class="fw-medium border-bottom-0 pb-0">
-                                        <!-- text -->
-                                        Giảm Trừ Phụ Thuộc :
-                                    </td>
-                                    <td class="fw-medium border-bottom-0 pb-0 text-end">
-                                        <!-- text -->
-                                        @Model.NumberOfDependents x @(Model.NumberOfDependents != null && Model.NumberOfDependents.Value != 0 ? (Model.DependencyDeduction.Value * Model.NumberOfDependents.Value).ToString("0,0").Replace(".", ",") : "0") đ
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-medium text-dark "></td>
-                                    <td colspan="1" class="fw-medium">
-                                        <!-- text -->
-                                        Lương Tính Thuế :
-                                    </td>
-                                    <td class="fw-medium text-end">
-                                        <!-- text -->
-                                        @Model.TaxableSalary.Value.ToString("0,0").Replace(".", ",") đ
-                                    </td>
-                                </tr>
+                                if (Model.TaxableSalary.Value >= 20000000 && Model.Tax.Value == 10)
+                                {
+                                    <tr>
+                                        <td class="align-middle border-top-0">
+                                            <h4 class="mb-0">
+                                                Thuế Thu Nhập Cá Nhân
+                                            </h4>
+                                        </td>
+                                        <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")% (Lương Tính Thuế)</td>
+                                        <td class="text-dark fw-bold  border-top-0 text-end">
+                                            -@Model.TotalPriceTax.Value.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-medium text-dark "></td>
+                                        <td colspan="1" class="fw-medium">
+                                            <!-- text -->
+                                            Lương Tính Thuế :
+                                        </td>
+                                        <td class="fw-medium text-end">
+                                            <!-- text -->
+                                            @Model.TaxableSalary.Value.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td class="align-middle border-top-0">
+                                            <h4 class="mb-0">
+                                                Thuế Thu Nhập Cá Nhân
+                                            </h4>
+                                        </td>
+                                        <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")% (Lương Tính Thuế)</td>
+                                        <td class="text-dark fw-bold  border-top-0 text-end">
+                                            -@Model.TotalPriceTax.Value.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-bottom-0 pb-0"></td>
+                                        <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                            <!-- text -->
+                                            Tổng Lương Đóng Thuế :
+                                        </td>
+                                        <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                            <!-- text -->
+                                            @Model.SalaryTaxable.Value.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-bottom-0 pb-0"></td>
+                                        <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                            <!-- text -->
+                                            Giảm Trừ Bảo Hiểm :
+                                        </td>
+                                        <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                            <!-- text -->
+                                            @Model.TotalPriceInsurance.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-bottom-0 pb-0"></td>
+                                        <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                            <!-- text -->
+                                            Giảm Trừ Gia Cảnh :
+                                        </td>
+                                        <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                            <!-- text -->
+                                            @Model.FamilyAllowances.Value.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-bottom-0 pb-0"></td>
+                                        <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                            <!-- text -->
+                                            Giảm Trừ Phụ Thuộc :
+                                        </td>
+                                        <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                            <!-- text -->
+                                            @Model.NumberOfDependents x @(Model.NumberOfDependents != null && Model.NumberOfDependents.Value != 0 ? (Model.DependencyDeduction.Value * Model.NumberOfDependents.Value).ToString("0,0").Replace(".", ",") : "0") đ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-medium text-dark "></td>
+                                        <td colspan="1" class="fw-medium">
+                                            <!-- text -->
+                                            Lương Tính Thuế :
+                                        </td>
+                                        <td class="fw-medium text-end">
+                                            <!-- text -->
+                                            @Model.TaxableSalary.Value.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                    </tr>
+                                }
                             }
                             @if (Model.SubsidiesApply.Count() > 0)
                             {
