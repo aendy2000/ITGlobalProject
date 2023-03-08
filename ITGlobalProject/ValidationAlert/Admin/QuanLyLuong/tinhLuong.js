@@ -1,4 +1,33 @@
 ﻿$(document).ready(function () {
+    //select Tháng
+    $('#tinhluongthangs').on('change', function () {
+        var thoigian = $(this).val();
+        var formData = new FormData();
+        formData.append('thoigian', thoigian);
+
+        $('#AjaxLoader').show();
+        $.ajax({
+            url: $('#requestPath').val() + 'Admins/quanlyluong/tinhLuongPartial',
+            type: 'POST',
+            dataType: 'html',
+            contentType: false,
+            processData: false,
+            data: formData
+        }).done(function (ketqua) {
+            if (ketqua == "DANGNHAP") {
+                $('#AjaxLoader').hide();
+                window.location.href = $('#AjaxLoader').val() + 'admins/quanlytaikhoan/dangnhap';
+            }
+            else {
+                $('#tinhLuongThangPartial').replaceWith(ketqua);
+                $("#dataTableBasic").DataTable({
+                    responsive: !0
+                });
+                $('#AjaxLoader').hide();
+            }
+        });
+    });
+
     //check all
     $('#checkAlls').on('click', function () {
         $('#dataTableBasic').DataTable()

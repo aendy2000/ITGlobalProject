@@ -825,6 +825,7 @@
     </Content>
     <Content Include="Areas\Admins\Views\QuanLyLuong\_chiTietLuongPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyLuong\_bangLuongPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyLuong\_tinhLuongPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

@@ -10,6 +10,7 @@
             <!-- Page header -->
             <div class="border-bottom pb-4 d-lg-flex align-items-center justify-content-between">
                 <div class="mb-2 mb-lg-0">
+                    <input hidden id="tieudethangluong" value="thang-@Model.First().PayrollCategory.Date.ToString("MM-yyyy")" />
                     <h1 class="mb-0 h2 fw-bold">Lương Tháng @Model.First().PayrollCategory.Date.ToString("MM, yyyy")</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
@@ -31,7 +32,7 @@
                 </div>
                 <!-- button -->
                 <div style="margin-right:-5px">
-                    <a href="@Url.Action("bangLuong", "quanLyLuong")" class="btn btn-primary me-2" style="width:230px;"><i class="fe bi-file-earmark-excel"> </i> Xuất Danh Sách Lương</a>
+                    <a id="xuatbangluong" class="btn btn-primary me-2" style="width:230px;"><i class="fe bi-file-earmark-excel"> </i> Xuất Danh Sách Lương</a>
 
                     <a href="@Url.Action("bangLuong", "quanLyLuong")" class="btn btn-primary me-2" style="width:230px;"><i class="fe fe-grid"> </i> Xem Bảng Lương</a>
                 </div>
@@ -73,7 +74,7 @@
                     <span class="fs-6 text-uppercase fw-semi-bold"> Cần thanh toán (VND)</span>
                     <div class="mt-2 d-flex justify-content-between align-items-center">
                         <div class="lh-1">
-                            <input hidden id="DataCanthanhtoan" value="@(Model.Where(m => m.State == false).Sum(s => s.Total_Price).Value > 0 ? Model.Where(m => m.State == false).Sum(s => s.Total_Price).Value.ToString("0,0").Replace(".","") : "0")" />
+                            <input hidden id="DataCanthanhtoan" value="@(Model.Where(m => m.State == false).Sum(s => s.Total_Price).Value > 0 ? Model.Where(m => m.State == false).Sum(s => s.Total_Price).Value.ToString("0").Replace(".","") : "0")" />
                             <h2 id="IDCanthanhtoan" class="h2 fw-bold mb-1 text-danger">@(Model.Where(m => m.State == false).Sum(s => s.Total_Price).Value > 0 ? Model.Where(m => m.State == false).Sum(s => s.Total_Price).Value.ToString("0,0").Replace(".",",") : "0")</h2>
                             <h5 style="margin-top: 32px"></h5>
                         </div>
@@ -185,7 +186,7 @@
                                             <td class=" fw-bold mb-0 text-primary  align-middle">@item.Salary.ToString("0,0").Replace(".", ",") đ </td>
                                             <td class=" fw-bold mb-0 text-danger  align-middle">@(Convert.ToDecimal(item.TotalPriceTax.Value + item.TotalPriceInsurance + 0).ToString("0,0").Replace(".", ",")) đ </td>
                                             <td class=" fw-bold mb-0 text-warning  align-middle">
-                                                <input hidden id="mucthanhtoan-@item.ID" value="@(item.Total_Price.Value != 0 ? item.Total_Price.Value.ToString("0,0").Replace(".", "") : "0")" />
+                                                <input hidden id="mucthanhtoan-@item.ID" value="@(item.Total_Price.Value != 0 ? item.Total_Price.Value.ToString("0").Replace(".", "") : "0")" />
                                                 @(item.Total_Price.Value != 0 ? item.Total_Price.Value.ToString("0,0").Replace(".", ",") : "0") đ
                                             </td>
                                             <td id="tdTrangThai-@item.ID" class="border-top-0  align-middle">
@@ -216,7 +217,6 @@
         </div>
     </div>
 </div>
-<script src="~/ValidationAlert/Admin/QuanLyLuong/chiTietLuongValidation.js"></script>
 <div class="modal fade modal-xl" id="xemChiTietLuong" tabindex="-1" role="dialog" aria-labelledby="xemChiTietLuongLabel"
      aria-hidden="true" data-simplebar>
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -231,3 +231,94 @@
         </div>
     </div>
 </div>
+
+<table hidden id="downloadTables">
+    <thead>
+        <tr>
+            <th>
+                BẢNG LƯƠNG THÁNG @Model.First().PayrollCategory.Date.ToString("MM, yyyy")
+            </th>
+        </tr>
+        <tr>
+            <th>Mã nhân viên</th>
+            <th>Họ và Tên</th>
+            <th>Ngày nhận</th>
+            <th>Lương CB (VND)</th>
+            <th>Thuế - BH (VND)</th>
+            <th>Thực lãnh (VND)</th>
+            <th>tên ngân hàng</th>
+            <th>Số tài khoản</th>
+            <th>Tên người thụ hưởng</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Employees.ID_Employee
+                </td>
+                <td>
+                    @item.Employees.Name
+                </td>
+                <td class="align-middle ">
+                    @if (item.State == true)
+                    {
+                        @(item.Histories.Where(h => h.Name.IndexOf("Thanh Toán") != -1).Count() > 0 ? item.Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("dd") + " Thg " + item.Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("MM ,yyyy") : "Chờ thanh toán")
+                    }
+                    else
+                    {
+                        <span>Chờ thanh toán</span>
+                    }
+                </td>
+                <td>@item.Salary.ToString("0,0").Replace(".", ",") đ </td>
+                <td>@(Convert.ToDecimal(item.TotalPriceTax.Value + item.TotalPriceInsurance + 0).ToString("0,0").Replace(".", ",")) đ </td>
+                <td>
+                    @(item.Total_Price.Value != 0 ? item.Total_Price.Value.ToString("0,0").Replace(".", ",") : "0") đ
+                </td>
+                <td>
+                    @if (string.IsNullOrEmpty(item.Employees.BankName))
+                    {
+                        <span>Chưa cập nhật</span>
+                    }
+                    else
+                    {
+                        @item.Employees.BankName
+                    }
+                </td>
+                <td>
+                    @if (string.IsNullOrEmpty(item.Employees.BankAccountNumber))
+                    {
+                        <span>Chưa cập nhật</span>
+                    }
+                    else
+                    {
+                        <span>'</span>@item.Employees.BankAccountNumber
+                    }
+                </td>
+                <td>
+                    @if (string.IsNullOrEmpty(item.Employees.BankAccountHolderName))
+                    {
+                        <span>Chưa cập nhật</span>
+                    }
+                    else
+                    {
+                        @item.Employees.BankAccountHolderName
+                    }
+                </td>
+                <td>
+                    @if (item.State == true)
+                    {
+                        <span style="width:110px" class="badge text-success bg-light-success ">Đã thanh toán</span>
+                    }
+                    else
+                    {
+                        <span style="width:110px" class="badge text-danger bg-light-danger ">Chưa thanh toán</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="~/ValidationAlert/Admin/QuanLyLuong/chiTietLuongValidation.js"></script>

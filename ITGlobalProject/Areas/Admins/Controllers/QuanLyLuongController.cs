@@ -88,6 +88,17 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             ViewBag.ShowActive = "bangLuong";
             return View(data);
         }
+        [HttpPost]
+        public ActionResult tinhLuongPartial(DateTime? thoigian)
+        {
+            if (thoigian == null)
+                return Content("DANHNHAP");
+            int thang = thoigian.Value.Month;
+            int nam = thoigian.Value.Year;
+
+            var payrollMonth = model.PayrollCategory.Where(p => p.Date.Month == thang && p.Date.Year == nam).ToList();
+            return PartialView("_tinhLuongPartial", payrollMonth);
+        }
         public ActionResult tinhLuong()
         {
             Session["Insurance"] = model.Insurance.ToList();
@@ -255,7 +266,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             //Có thể Tính thuế
                                             if (luongcobantinhthue >= 20000000)
                                             {
-                                                var thuephaidong = luongcobantinhthue/100 * 10;
+                                                var thuephaidong = luongcobantinhthue / 100 * 10;
                                                 currentPayroll.Tax = 10;
                                                 currentPayroll.TaxDeductions = 0;
                                                 currentPayroll.TaxableSalary = luongcobantinhthue;

@@ -44,69 +44,35 @@
                 </div>
                 <div class="text-end text-nowrap col-12 col-md-6">
                     <select id="tinhluongthangs" class="selectpicker">
+                        <option value="2023-02-01">Tháng 02, 2023</option>
                         @if (lstThang.Count > 0)
                         {
                             if (lstThang.Where(t => t.Date.Month == currentMonth && t.Date.Year == currentYear).Count() < 1)
                             {
-                                <option value="@currentDate">Tháng @currentDate.ToString("MM, yyyy")</option>
+                                <option selected value="@currentDate">Tháng @currentDate.ToString("MM, yyyy")</option>
                                 foreach (var item in lstThang.OrderByDescending(g => g.Date).ToList())
                                 {
-                                    if (Session["tinhLuongThang"] == null)
-                                    {
-                                        if (currentDate == item.Date)
-                                        {
-                                            <option selected value="@item.Date">Tháng @item.Date.ToString("MM, yyyy")</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Date">Tháng @item.Date.ToString("MM, yyyy")</option>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (Convert.ToDateTime(Session["tinhLuongThang"]) == item.Date)
-                                        {
-                                            <option selected value="@item.Date">Tháng @item.Date.ToString("MM, yyyy")</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Date">Tháng @item.Date.ToString("MM, yyyy")</option>
-                                        }
-                                    }
+                                    <option value="@item.Date">Tháng @item.Date.ToString("MM, yyyy")</option>
                                 }
                             }
                             else
                             {
                                 foreach (var item in lstThang.OrderByDescending(g => g.Date).ToList())
                                 {
-                                    if (Session["tinhLuongThang"] == null)
+                                    if (currentMonth == item.Date.Month && currentYear == item.Date.Year)
                                     {
-                                        if (currentDate == item.Date)
-                                        {
-                                            <option selected value="@item.Date">Tháng @item.Date.ToString("MM, yyyy")</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Date">Tháng @item.Date.ToString("MM, yyyy")</option>
-                                        }
+                                        <option selected value="@item.Date">Tháng @item.Date.ToString("MM, yyyy")</option>
                                     }
                                     else
                                     {
-                                        if (Convert.ToDateTime(Session["tinhLuongThang"]) == item.Date)
-                                        {
-                                            <option selected value="@item.Date">Tháng @item.Date.ToString("MM, yyyy")</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Date">Tháng @item.Date.ToString("MM, yyyy")</option>
-                                        }
+                                        <option value="@item.Date">Tháng @item.Date.ToString("MM, yyyy")</option>
                                     }
                                 }
                             }
                         }
                         else
                         {
-                            <option value="@currentDate">Tháng @currentDate.ToString("MM, yyyy")</option>
+                            <option selected value="@currentDate">Tháng @currentDate.ToString("MM, yyyy")</option>
                         }
                     </select>
                     &ensp;
@@ -116,114 +82,116 @@
         </div>
     </div>
     <br />
-    @if (lstThang.Where(t => t.Date.Month == currentMonth && t.Date.Year == currentYear).Count() > 0)
-    {
-        <input hidden id="datinhluong" value="datinh" />
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-12">
-                <div class="shadow p-3 mb-4 bg-light-success border-100 rounded text-middle text-center">
-                    <span class="text-dark-success">
-                        Lương tháng @currentDate.ToString("MM, yyyy") đã được tính!
-                        <a target="_blank" href="@Url.Action("danhsachluongthang", "quanlyluong", new { id = lstThang.FirstOrDefault(t => t.Date.Month == currentMonth && t.Date.Year == currentYear).ID})"><u>Xem tháng lương</u></a>
-                    </span>
+    <div id="tinhLuongThangPartial">
+        @if (lstThang.Where(t => t.Date.Month == currentMonth && t.Date.Year == currentYear).Count() > 0)
+        {
+            <input hidden id="datinhluong" value="datinh" />
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="shadow p-3 mb-4 bg-light-success border-100 rounded text-middle text-center">
+                        <span class="text-dark-success">
+                            Lương tháng @currentDate.ToString("MM, yyyy") đã được tính!
+                            <a target="_blank" href="@Url.Action("danhsachluongthang", "quanlyluong", new { id = lstThang.FirstOrDefault(t => t.Date.Month == currentMonth && t.Date.Year == currentYear).ID})"><u>Xem tháng lương</u></a>
+                        </span>
 
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-    else
-    {
-        <input hidden id="datinhluong" value="chuatinh" />
-    }
+        }
+        else
+        {
+            <input hidden id="datinhluong" value="chuatinh" />
+        }
 
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-12">
-            <!-- Card -->
-            <div class="card">
-                <div style="margin-bottom: -30px" class="card-header border-bottom-0">
-                    <h4 class="mb-2">DANH SÁCH NHÂN VIÊN CÓ THỂ TÍNH LƯƠNG.</h4>
-                    <p class="mb-0">
-                        Đây là danh sách những Nhân viên hiện đang còn làm việc tại Công Ty.
-                        Tích chọn vào ô select trước tên Nhân để chọn những Nhân viên sẽ được tính lương hoặc chọn select đầu tiên trên hàng tiêu đề để chọn tất cả.
-                    </p>
-                </div>
-                <div class="table-responsive border-0 overflow-y-hidden pt-2">
-                    <table class="table text-nowrap" id="dataTableBasic" style="width:100%">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="border-0 font-size-inherit">
-                                    <div class="form-check">
-                                        <input checked type="checkbox" class="form-check-input p-2" id="checkAlls" />
-                                        <label class="form-check-label" for="checkAlls"></label>
-                                    </div>
-                                </th>
-                                <th class="border-0">Mã Nhân viên</th>
-                                <th class="border-0">Tên nhân viên</th>
-                                <th class="border-0">Chức danh</th>
-                                <th class="border-0">Ngày vào làm</th>
-                                <th class="border-0">Ngày nghỉ</th>
-                                <th class="border-0">Lương cơ bản</th>
-                                <th class="border-0">Trạng thái</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in emp.Where(e => e.Lock == false).ToList())
-                            {
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-12">
+                <!-- Card -->
+                <div class="card">
+                    <div style="margin-bottom: -30px" class="card-header border-bottom-0">
+                        <h4 class="mb-2">DANH SÁCH NHÂN VIÊN CÓ THỂ TÍNH LƯƠNG.</h4>
+                        <p class="mb-0">
+                            Đây là danh sách những Nhân viên hiện đang còn làm việc tại Công Ty.
+                            Tích chọn vào ô select trước tên Nhân để chọn những Nhân viên sẽ được tính lương hoặc chọn select đầu tiên trên hàng tiêu đề để chọn tất cả.
+                        </p>
+                    </div>
+                    <div class="table-responsive border-0 overflow-y-hidden pt-2">
+                        <table class="table text-nowrap" id="dataTableBasic" style="width:100%">
+                            <thead class="table-light">
                                 <tr>
-                                    <td class="align-middle">
+                                    <th class="border-0 font-size-inherit">
                                         <div class="form-check">
-                                            <input checked type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
+                                            <input checked type="checkbox" class="form-check-input p-2" id="checkAlls" />
+                                            <label class="form-check-label" for="checkAlls"></label>
                                         </div>
-                                    </td>
-                                    <td class="align-middle">
-                                        <label class="form-check-label" for="@item.ID">@item.ID_Employee</label>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID})" class="d-flex align-items-center">
+                                    </th>
+                                    <th class="border-0">Mã Nhân viên</th>
+                                    <th class="border-0">Tên nhân viên</th>
+                                    <th class="border-0">Chức danh</th>
+                                    <th class="border-0">Ngày vào làm</th>
+                                    <th class="border-0">Ngày nghỉ</th>
+                                    <th class="border-0">Lương cơ bản</th>
+                                    <th class="border-0">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in emp.Where(e => e.Lock == false).ToList())
+                                {
+                                    <tr>
+                                        <td class="align-middle">
+                                            <div class="form-check">
+                                                <input checked type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">
+                                            <label class="form-check-label" for="@item.ID">@item.ID_Employee</label>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID})" class="d-flex align-items-center">
 
-                                            @if (string.IsNullOrEmpty(item.Avatar))
+                                                @if (string.IsNullOrEmpty(item.Avatar))
+                                                {
+                                                    <div class="avatar avatar-xs avatar-danger me-2">
+                                                        <span class="avatar-initials rounded-circle ">@item.Name.Substring(0, 1)</span>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <img src="@item.Avatar" alt="" class="rounded-circle avatar-xs me-2" />
+                                                }
+                                                <h5 class="mb-0">@item.Name</h5>
+                                            </a>
+                                        </td>
+                                        <td class="align-middle">@item.Position.Name</td>
+                                        <td class="align-middle">@item.JoinedDate.ToString("dd/MM/yyyy")</td>
+                                        <td class="align-middle">
+                                            @item.LeaveApplication.Where(l => l.State == true).Count() ngày
+                                        </td>
+                                        <td style="font-weight:bold" class="align-middle text-danger">
+                                            @item.Wage.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                        <td class="align-middle">
+                                            @if (lstThang.Where(l => l.Payroll.Where(e => e.ID_Employee == item.ID).Count() > 0).Count() < 1)
                                             {
-                                                <div class="avatar avatar-xs avatar-danger me-2">
-                                                    <span class="avatar-initials rounded-circle ">@item.Name.Substring(0, 1)</span>
-                                                </div>
+                                                <span style="width:110px" class="badge bg-gray-100 text-gray-700">Sẵn sàng</span>
                                             }
                                             else
                                             {
-                                                <img src="@item.Avatar" alt="" class="rounded-circle avatar-xs me-2" />
+                                                <span style="width:110px" class="badge text-success bg-light-success ">Đã được tính</span>
                                             }
-                                            <h5 class="mb-0">@item.Name</h5>
-                                        </a>
-                                    </td>
-                                    <td class="align-middle">@item.Position.Name</td>
-                                    <td class="align-middle">@item.JoinedDate.ToString("dd/MM/yyyy")</td>
-                                    <td class="align-middle">
-                                        @item.LeaveApplication.Where(l => l.State == true).Count() ngày
-                                    </td>
-                                    <td style="font-weight:bold" class="align-middle text-danger">
-                                        @item.Wage.ToString("0,0").Replace(".", ",") đ
-                                    </td>
-                                    <td class="align-middle">
-                                        @if (item.Payroll == null)
-                                        {
-                                            <span style="width:110px" class="badge bg-gray-100 text-gray-700">Sẵn sàng</span>
-                                        }
-                                        else
-                                        {
-                                            <span style="width:110px" class="badge text-success bg-light-success ">Đã được tính</span>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    <div style="text-align: center; padding-bottom: 20px" class="col-12 col-md-12">
-                        <button style="width: 230px" class="btn btn-outline-danger" type="reset">
-                            Hủy Bỏ
-                        </button>
-                        &emsp;
-                        <button style="width: 230px" class="btn btn-success" id="btntinhluong">
-                            Tính Lương
-                        </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <div style="text-align: center; padding-bottom: 20px" class="col-12 col-md-12">
+                            <button style="width: 230px" class="btn btn-outline-danger" type="reset">
+                                Hủy Bỏ
+                            </button>
+                            &emsp;
+                            <button style="width: 230px" class="btn btn-success" id="btntinhluong">
+                                Tính Lương
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

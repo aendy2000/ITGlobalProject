@@ -10,7 +10,7 @@
             var initDemos = function () {
                 swal({
                     title: 'Hoàn Tất Thanh Toán?',
-                    text: "Xác lương đã được thanh toán cho Nhân viên?",
+                    text: "Xác nhận lương đã được thanh toán cho Nhân viên?",
                     type: 'info',
                     icon: 'info',
                     buttons: {
@@ -48,7 +48,7 @@
                             $('#IDchuaNhanLuong').val(soluongchuanhanluong);
 
                             var canthanhtoan = Number($('#DataCanthanhtoan').val()) - Number($('#mucthanhtoan-' + id).val());
-                            $('#IDCanthanhtoan').empty().append(canthanhtoan.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
+                            $('#IDCanthanhtoan').empty().append(canthanhtoan.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
                             $('#DataCanthanhtoan').val(canthanhtoan);
 
                             var SweetAlert2Demo = function () {
@@ -140,7 +140,7 @@
                                 $('#IDchuaNhanLuong').val(soluongchuanhanluong);
 
                                 var canthanhtoan = Number($('#DataCanthanhtoan').val()) + Number($('#mucthanhtoan-' + id).val());
-                                $('#IDCanthanhtoan').empty().append(canthanhtoan.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
+                                $('#IDCanthanhtoan').empty().append(canthanhtoan.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
                                 $('#DataCanthanhtoan').val(canthanhtoan);
 
                                 var SweetAlert2Demo = function () {
