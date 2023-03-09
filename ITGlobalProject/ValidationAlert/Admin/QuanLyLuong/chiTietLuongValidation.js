@@ -16,9 +16,16 @@
         }).done(function (ketqua) {
             $('#AjaxLoader').hide();
             $('#modalchitietluong').replaceWith(ketqua);
+            $.when(
+                $.getScript($('#requestPath').val() + 'Content/jspdf.debug.js', integrity = "sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs", crossorigin = "anonymous"),
+                $.getScript($('#requestPath').val() + 'Content/html2canvas.js'),
+
+                $.Deferred(function (deferred) {
+                    $(deferred.resolve);
+                })
+            ).done(function () { });
             $('#xemChiTietLuong').modal('toggle');
         });
-
     });
 
     //Download danh sách lương tháng

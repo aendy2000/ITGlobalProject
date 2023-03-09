@@ -181,7 +181,14 @@
                                                 </a>
                                             </td>
                                             <td class="align-middle ">
-                                                @(item.Histories.Where(h => h.Name.IndexOf("Thanh Toán") != -1).Count() > 0 ? item.Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("dd") + " Thg " + item.Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("MM ,yyyy") : "Chờ thanh toán")
+                                                @if (item.State == true)
+                                                {
+                                                    @(item.Histories.Where(h => h.Name.IndexOf("Thanh Toán") != -1).Count() > 0 ? item.Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("dd") + " Thg " + item.Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("MM ,yyyy") : "Chờ thanh toán")
+                                                }
+                                                else
+                                                {
+                                                    <span>Chờ thanh toán</span>
+                                                }
                                             </td>
                                             <td class=" fw-bold mb-0 text-primary  align-middle">@item.Salary.ToString("0,0").Replace(".", ",") đ </td>
                                             <td class=" fw-bold mb-0 text-danger  align-middle">@(Convert.ToDecimal(item.TotalPriceTax.Value + item.TotalPriceInsurance + 0).ToString("0,0").Replace(".", ",")) đ </td>

@@ -1,5 +1,30 @@
 ﻿$(document).ready(function () {
+    $("#xuatPDF").on('click', function () {
+        $('#contnet').prop("hidden", false).show();
 
+        html2canvas(document.getElementById("contnet"), {
+            allowTaint: true,
+            useCORS: true
+        }).then(function (canvas) {
+            let width = canvas.width;
+            let height = canvas.height;
+
+            //set the orientation
+            if (width > height) {
+                pdf = new jsPDF('l', 'px', [width, height]);
+            }
+            else {
+                pdf = new jsPDF('p', 'px', [height, width]);
+            }
+            //then we get the dimensions from the 'pdf' file itself
+            width = pdf.internal.pageSize.getWidth();
+            height = pdf.internal.pageSize.getHeight();
+            pdf.addImage(canvas, 'JPEG', 0, 0, width, height);
+            pdf.save($('#filenames').val() + ".pdf");
+
+            $('#contnet').prop("hidden", true).hide();
+        });
+    });
     //Thanh toán
     $('#btnthanhtoan').on('click', function () {
         var id = $(this).attr("name");
