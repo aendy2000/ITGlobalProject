@@ -137,11 +137,23 @@
                                 @foreach (var item in emp.Where(e => e.Lock == false).ToList())
                                 {
                                     <tr>
-                                        <td class="align-middle">
-                                            <div class="form-check">
-                                                <input checked type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
-                                            </div>
-                                        </td>
+                                        @if (lstThang.Where(l => l.Payroll.Where(e => e.ID_Employee == item.ID).Count() > 0).Count() > 0 && lstThang.Where(l => l.Payroll.Where(p => p.ID_Employee == item.ID).Count() > 0).First().Payroll.Where(p => p.ID_Employee == item.ID).First().State == true)
+                                        {
+                                            <td class="align-middle">
+                                                <div class="form-check">
+                                                    <span class="form-check-input p-2" style="border-radius: 20%"></span>
+                                                </div>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle">
+                                                <div class="form-check">
+                                                    <input checked type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
+                                                </div>
+                                            </td>
+                                        }
+
                                         <td class="align-middle">
                                             <label class="form-check-label" for="@item.ID">@item.ID_Employee</label>
                                         </td>
@@ -173,6 +185,10 @@
                                             @if (lstThang.Where(l => l.Payroll.Where(e => e.ID_Employee == item.ID).Count() > 0).Count() < 1)
                                             {
                                                 <span style="width:110px" class="badge bg-gray-100 text-gray-700">Sẵn sàng</span>
+                                            }
+                                            else if (lstThang.Where(l => l.Payroll.Where(e => e.ID_Employee == item.ID).Count() > 0).Count() > 0 && lstThang.Where(l => l.Payroll.Where(p => p.ID_Employee == item.ID).Count() > 0).First().Payroll.Where(p => p.ID_Employee == item.ID).First().State == true)
+                                            {
+                                                <span style="width:110px" class="badge text-danger bg-light-danger ">Đã thanh toán<br />không thể tính lại</span>
                                             }
                                             else
                                             {

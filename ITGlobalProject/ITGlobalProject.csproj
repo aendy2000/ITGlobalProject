@@ -747,7 +747,6 @@
     <Content Include="Areas\Admins\Views\QuanLyLuong\bangLuong.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyLuong\danhSachLuongThang.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyLuong\tinhLuong.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyLuong\tinhLuongThuong.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\danhSachNhanVien.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\thongTinChiTiet.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_bangLuongPartial.cshtml" />

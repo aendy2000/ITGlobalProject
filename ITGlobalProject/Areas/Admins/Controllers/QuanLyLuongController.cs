@@ -120,11 +120,17 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 {
                     foreach (var item in lstId.Split('-').ToList())
                     {
+
                         int id = Convert.ToInt32(item);
                         var emp = model.Employees.Find(id);
 
+                        if (payrollcu.Payroll.FirstOrDefault(p => p.ID_Employee == id).State == true)
+                            continue;
+
                         if (emp.EmploymentContracts.Count() > 0)
                         {
+
+
                             if (emp.EmploymentContracts.OrderByDescending(o => o.ID).First().EmploymentCategory.Equals("Hợp đồng có thời hạn"))
                             {
                                 var ngayhopdong = Convert.ToDateTime(emp.EmploymentContracts.OrderByDescending(o => o.ID).First().EndDate.Value) - Convert.ToDateTime(emp.EmploymentContracts.OrderByDescending(o => o.ID).First().StartDate.Value);
@@ -357,12 +363,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     currentPayroll.PriceForOneDayOff = sotienmotngay;
                                                     tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
-                                                }
-
-                                                if (currentPayroll.Total_Price != tongthanhtoan)
-                                                {
-                                                    currentPayroll.MissingAmount = tongthanhtoan - currentPayroll.Total_Price;
-                                                    currentPayroll.State = false;
                                                 }
 
                                                 currentPayroll.Total_Price = tongthanhtoan;
@@ -899,12 +899,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     currentPayroll.PriceForOneDayOff = sotienmotngay;
                                                     tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
-                                                }
-
-                                                if (currentPayroll.Total_Price != tongthanhtoan)
-                                                {
-                                                    currentPayroll.MissingAmount = tongthanhtoan - currentPayroll.Total_Price;
-                                                    currentPayroll.State = false;
                                                 }
 
                                                 currentPayroll.Total_Price = tongthanhtoan;
@@ -1471,12 +1465,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                             }
 
-                                            if (currentPayroll.Total_Price != tongthanhtoan)
-                                            {
-                                                currentPayroll.MissingAmount = tongthanhtoan - currentPayroll.Total_Price;
-                                                currentPayroll.State = false;
-                                            }
-
                                             currentPayroll.Total_Price = tongthanhtoan;
                                             currentPayroll.TotalAllowance = tongtrocap;
 
@@ -2039,12 +2027,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             currentPayroll.PriceForOneDayOff = sotienmotngay;
                                             tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
-                                        }
-
-                                        if (currentPayroll.Total_Price != tongthanhtoan)
-                                        {
-                                            currentPayroll.MissingAmount = tongthanhtoan - currentPayroll.Total_Price;
-                                            currentPayroll.State = false;
                                         }
 
                                         currentPayroll.Total_Price = tongthanhtoan;
