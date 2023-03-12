@@ -2637,6 +2637,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 return Content("Erorr");
             }
         }
+
         [HttpPost]
         public ActionResult chitietluong(int? id)
         {

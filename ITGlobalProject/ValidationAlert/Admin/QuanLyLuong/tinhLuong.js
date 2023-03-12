@@ -156,9 +156,8 @@
                     var initDemos = function () {
                         swal({
                             title: 'Tính Lại Lương?',
-                            text: "Xác nhận tính lại lương cho nhân viên tháng này." +
-                                "\nTháng lương mới sẽ được ghi đè lên tháng lương cũ, toàn bộ dữ liệu cũ sẽ không thể hoàn tác! Vẫn tiếp tục?"
-                                + "\n\n(Hãy xuất tháng lương cũ trước khi thực hiện tính lại lương mới!)",
+                            text: "Bảng lương mới sẽ được ghi đè lên bảng lương cũ, toàn bộ dữ liệu cũ sẽ không thể hoàn tác! Vẫn tiếp tục?"
+                                + "\n\n(Hãy xuất bảng lương cũ trước khi thực hiện tính lại lương mới!)",
                             type: 'info',
                             icon: 'info',
                             buttons: {
