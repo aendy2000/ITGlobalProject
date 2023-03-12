@@ -1,0 +1,761 @@
+﻿@model ITGlobalProject.Models.Payroll
+@{int dem = 1;}
+<div id="modalchitietluong" class="modal-body" style="background-color: #F5F4F8">
+    <div class="row">
+        <div class="col-xl-8 col-lg-7 col-12">
+            <!-- card -->
+            <div class="card">
+                <!-- card header -->
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <!-- heading -->
+                            <h4 class="mb-1">LƯƠNG THÁNG @Model.PayrollCategory.Date.ToString("MM, yyyy")</h4>
+                            @if (Model.State == true)
+                            {
+                                <span>
+                                    @Model.Histories.Where(h => h.Name.IndexOf("Thanh Toán Lương") != -1).OrderByDescending(o => o.ID).First().Date.ToString("HH:mm - dd")
+                                    Thg @Model.Histories.Where(h => h.Name.IndexOf("Thanh Toán Lương") != -1).OrderByDescending(o => o.ID).First().Date.ToString("MM, yyyy")
+                                    <span class="badge bg-light-success text-dark-success ms-2">Đã thanh toán</span>
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-light-danger text-dark-danger">Chưa thanh toán</span>
+                            }
+                        </div>
+                        <div>
+
+                            @if (Model.State == true)
+                            {
+                                <a id="btnhuythanhtoan" name="@Model.ID" role="button" style="width: 150px" class="btn btn-outline-danger btn-sm">Hủy Thanh Toán</a>
+                            }
+                            else
+                            {
+                                <a id="btnthanhtoan" name="@Model.ID" role="button" style="width: 150px" class="btn btn-outline-danger btn-sm">Thanh toán</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive border-0">
+                    <!-- Table -->
+                    <table class="table mb-0 text-nowrap">
+                        <!-- Table Head -->
+                        <thead class="table-light">
+                            <tr>
+                                <th class="border-0">Khoản</th>
+                                <th class="border-0">Chi tiết</th>
+                                <th class="border-0 text-end">Tổng</th>
+                            </tr>
+                        </thead>
+                        <!-- tbody -->
+                        <tbody>
+                            <tr>
+                                <td colspan="3" class="align-middle border-top-0">
+                                    <h4 class="mb-0">
+                                        1. Thu Nhập Trong Tháng
+                                    </h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border-top-0 text-dark fw-medium">Lương Hợp Đồng</td>
+                                <td class="align-middle border-top-0 fw-medium ">
+                                    100%
+                                </td>
+                                <td class="text-dark fw-bold border-top-0 text-end">@Model.Salary.ToString("0,0").Replace(".", ",") đ</td>
+                            </tr>
+                            <tr>
+                                <td class="border-top-0 text-dark fw-medium">Lương Chịu Bảo Hiểm</td>
+                                <td class="align-middle border-top-0 fw-medium ">
+                                    100%
+                                </td>
+                                <td class="text-dark fw-bold border-top-0 text-end">@Model.SalaryInsurance.Value.ToString("0,0").Replace(".", ",") đ</td>
+                            </tr>
+                            @if (Model.TaxableSalary.Value != 0)
+                            {
+                                <tr>
+                                    <td class="border-top-0 text-dark fw-medium">Lương Chịu Thuế</td>
+                                    <td class="align-middle border-top-0 fw-medium ">
+                                        100%
+                                    </td>
+                                    <td class="text-dark fw-bold border-top-0 text-end">@Model.SalaryTaxable.Value.ToString("0,0").Replace(".", ",") đ</td>
+                                </tr>
+                            }
+                            @if (Model.SubsidiesApply.Count() > 0)
+                            {
+
+                                if (Model.SubsidiesApply.Count() > 1)
+                                {
+                                    <tr>
+                                        <td class="border-top-0 text-dark fw-medium">
+                                            Khoản Phụ Cấp, Thưởng
+                                        </td>
+                                        <td class="border-top-0 fw-medium">
+                                            @Model.SubsidiesApply.Count() Khoản
+                                        </td>
+                                        <td class="border-top-0 text-dark text-end fw-bold">
+                                            @Model.SubsidiesApply.Sum(s => s.Total_Price).Value.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                    </tr>
+                                    for (int i = 0; i < Model.SubsidiesApply.Count(); i++)
+                                    {
+                                        if (Model.SubsidiesApply.Count() == (i + 1))
+                                        {
+                                            <tr>
+                                                <td class="fw-medium"></td>
+                                                <td class="fw-medium">
+                                                    <span>@(Model.SubsidiesApply.ToList()[i].Name) :</span>
+                                                </td>
+                                                <td class="fw-medium text-end">
+                                                    <span>@(Model.SubsidiesApply.ToList()[i].Total_Price.Value.ToString("0,0").Replace(".", ",")) đ</span>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td class="fw-medium pb-0 border-bottom-0"></td>
+                                                <td class="fw-medium pb-0 border-bottom-0">
+                                                    <span>@(Model.SubsidiesApply.ToList()[i].Name) :</span>
+                                                </td>
+                                                <td class="fw-medium pb-0 text-end border-bottom-0">
+                                                    <span>@(Model.SubsidiesApply.ToList()[i].Total_Price.Value.ToString("0,0").Replace(".", ",")) đ</span>
+                                                </td>
+                                            </tr>
+                                        }
+
+
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td class="border-top-0 text-dark fw-medium">
+                                            Khoản Phụ Cấp, Thưởng
+                                        </td>
+                                        <td class="border-top-0 fw-medium">
+                                            @(Model.SubsidiesApply.First().Name) :
+                                        </td>
+                                        <td class="border-top-0 text-dark text-end fw-bold">
+                                            @Model.SubsidiesApply.Sum(s => s.Total_Price).Value.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                            <tr>
+                                <td colspan="3" class="border-1">
+                                    <h4 class="mb-0">
+                                        2. Các Khoản Giảm Trừ
+                                    </h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border-top-0 text-dark fw-medium">Bảo Hiểm Xã Hội</td>
+                                <td class="align-middle border-top-0 fw-medium ">
+                                    @((Model.SocialInsurance + Model.HealthInsurance + Model.UnemploymentInsurance).ToString("0.0")) %
+                                </td>
+                                <td class="text-dark fw-bold border-top-0 text-end">
+                                    -@Model.TotalPriceInsurance.ToString("0,0").Replace(".", ",") đ
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border-bottom-0 pb-0"></td>
+                                <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                    <!-- text -->
+                                    Bảo Hiểm Xã Hội (@Model.SocialInsurance.ToString("0.0")%) :
+                                </td>
+                                <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                    <!-- text -->
+                                    @(((decimal)(Model.TotalPriceInsurance / ((Model.SocialInsurance + Model.HealthInsurance + Model.UnemploymentInsurance) / 100)) * (Model.SocialInsurance / 100)).ToString("0,0").Replace(".",",")) đ
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border-bottom-0 pb-0"></td>
+                                <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                    <!-- text -->
+                                    Bảo Hiểm Y Tế (@Model.HealthInsurance.ToString("0.0")%) :
+                                </td>
+                                <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                    <!-- text -->
+                                    @(((decimal)(Model.TotalPriceInsurance / ((Model.SocialInsurance + Model.HealthInsurance + Model.UnemploymentInsurance) / 100)) * (Model.HealthInsurance / 100)).ToString("0,0").Replace(".",",")) đ
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-semi-bold text-dark "></td>
+                                <td colspan="1" class="fw-medium ">
+                                    <!-- text -->
+                                    Bảo Hiểm Thất Nghiệp (@Model.UnemploymentInsurance.ToString("0.0")%) :
+                                </td>
+                                <td class="fw-medium text-end">
+                                    <!-- text -->
+                                    @(((decimal)(Model.TotalPriceInsurance / ((Model.SocialInsurance + Model.HealthInsurance + Model.UnemploymentInsurance) / 100)) * (Model.UnemploymentInsurance / 100)).ToString("0,0").Replace(".",",")) đ
+                                </td>
+                            </tr>
+
+                            @if (Model.TaxableSalary.Value != 0)
+                            {
+                                if (Model.TaxableSalary.Value >= 20000000 && Model.Tax.Value == 10)
+                                {
+                                    <tr>
+                                        <td class="border-top-0 text-dark fw-medium">Thuế Thu Nhập Cá Nhân</td>
+                                        <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")% (Lương Tính Thuế)</td>
+                                        <td class="text-dark fw-bold  border-top-0 text-end">
+                                            -@Model.TotalPriceTax.Value.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td class="border-top-0 text-dark fw-medium">Thuế Thu Nhập Cá Nhân</td>
+                                        <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")% (Lương Tính Thuế)</td>
+                                        <td class="text-dark fw-bold  border-top-0 text-end">
+                                            -@Model.TotalPriceTax.Value.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-bottom-0 pb-0"></td>
+                                        <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                            <!-- text -->
+                                            Giảm Trừ Bảo Hiểm :
+                                        </td>
+                                        <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                            <!-- text -->
+                                            @Model.TotalPriceInsurance.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-bottom-0 pb-0"></td>
+                                        <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                            <!-- text -->
+                                            Giảm Trừ Gia Cảnh :
+                                        </td>
+                                        <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                            <!-- text -->
+                                            @Model.FamilyAllowances.Value.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-bottom-0 pb-0"></td>
+                                        <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                            <!-- text -->
+                                            Giảm Trừ Phụ Thuộc :
+                                        </td>
+                                        <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                            <!-- text -->
+                                            @Model.NumberOfDependents x @(Model.NumberOfDependents != null && Model.NumberOfDependents.Value != 0 ? (Model.DependencyDeduction.Value * Model.NumberOfDependents.Value).ToString("0,0").Replace(".", ",") : "0") đ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-medium text-dark "></td>
+                                        <td colspan="1" class="fw-medium">
+                                            <!-- text -->
+                                            Lương Tính Thuế :
+                                        </td>
+                                        <td class="fw-medium text-end">
+                                            <!-- text -->
+                                            @Model.TaxableSalary.Value.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            @if (Model.NumberDaysLeave.Value > 0)
+                            {
+                                <tr>
+                                    <td class="border-top-0 text-dark fw-medium">Nghỉ Phép</td>
+                                    <td class="border-top-0 text-dark">
+                                        @Model.NumberDaysLeave Ngày x @Model.PriceForOneDayOff.Value.ToString("0,0").Replace(".", ",")
+                                    </td>
+                                    <td class="text-dark fw-bold  border-top-0 text-end">
+                                        -@((Model.NumberDaysLeave * Model.PriceForOneDayOff.Value).Value.ToString("0,0").Replace(".", ",")) đ
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>
+                                    <h4 class="mb-0">
+                                        3. Lương Thực Lãnh
+                                    </h4>
+                                </td>
+                                <td class="fw-medium border-top-0 text-dark"></td>
+                                <td class="text-dark fw-bold  border-top-0 text-end">@Model.Total_Price.Value.ToString("0,0").Replace(".", ",") đ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- card -->
+            <div class="card mt-4">
+                <!-- card body -->
+                <div class="card-body">
+                    <div class="d-md-flex justify-content-between align-items-center mb-5">
+                        <div>
+                            <!-- text -->
+                            <h4 class="mb-3 mb-md-0">Lịch Sử Thay Đổi</h4>
+                        </div>
+                    </div>
+                    <div style="max-height: 230px" data-simplebar>
+                        <!-- List group -->
+                        <ul style="width:90%" class="list-group list-group-flush list-timeline-activity">
+                            @foreach (var item in Model.Histories.OrderByDescending(o => o.ID).ToList())
+                            {
+                                <li class="list-group-item px-0 pt-0 border-0 mb-4">
+                                    <div class="row">
+                                        <!-- col -->
+                                        <div class="col-auto">
+                                            <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
+                                                <i class="fe fe-clock"></i>
+                                            </div>
+                                        </div>
+                                        <!-- col -->
+                                        <div class="col ms-n2 mt-1">
+                                            <h4 class="mb-3">@item.Name</h4>
+                                            <h5 class="mb-0">@item.Contents</h5>
+                                            <span class="fs-6 text-muted">@item.Date.ToString("HH:mm dddd, dd") Thg @item.Date.ToString("MM, yyyy")</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-5  col-12">
+            <!-- card -->
+            <div class="card mb-4 mt-4 mt-lg-0">
+                <!-- card body -->
+                <div class="card-body">
+                    <!-- heading -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="mb-0">Nhân Viên</h4>
+                        <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = Model.ID_Employee})">Xem Thông Tin</a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <!-- img -->
+                        @if (string.IsNullOrEmpty(Model.Employees.Avatar))
+                        {
+                            <div class="avatar avatar-lg avatar-danger me-2">
+                                <h2 class="avatar-initials rounded-circle ">@Model.Employees.Name.Substring(0, 1)</h2>
+                            </div>
+                        }
+                        else
+                        {
+                            <img src="@Model.Employees.Avatar" class="avatar-lg rounded-circle" alt="">
+                        }
+                        <div class="ms-3">
+                            <!-- title -->
+                            <h4 class="mb-0">
+                                @Model.Employees.Name
+                                @if (Model.Employees.Lock == true)
+                                {
+                                    <i id="CheckorX" class="mdi mdi-check-x-outline text-danger" data-bs-toggle="tooltip" data-placement="top" title="Đã ngưng làm"></i>
+                                }
+                                else
+                                {
+                                    <i id="CheckorX" class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="Hoạt động"></i>
+                                }
+                            </h4>
+                            <div>
+                                <span>@Model.Employees.Position.Name</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- card body -->
+                <div class="card-body border-top">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <!-- text -->
+                        <h4 class="mb-0">Liên Hệ</h4>
+                    </div>
+                    <div>
+                        <!-- text -->
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fe fe-mail text-muted fs-4"></i><a class="ms-2">@Model.Employees.WorkEmail</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fe fe-phone text-muted fs-4"></i><span class="ms-2">@Model.Employees.TelephoneMobile</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- card -->
+            <div class="card mb-4 mt-4 mt-lg-0">
+                <!-- card body -->
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="mb-0">Thanh Toán</h4>
+                    </div>
+                    <!-- text -->
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span>Ngân Hàng :</span>
+                        <span class="text-dark">@Model.Employees.BankName</span>
+                    </div>
+                    <!-- text -->
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span>
+                            Số Tài Khoản :
+                        </span>
+                        <span class="text-dark">@Model.Employees.BankAccountNumber</span>
+                    </div>
+                    <!-- text -->
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span>
+                            Chủ Tài Khoản :
+                        </span>
+                        <span class="text-dark">@Model.Employees.BankAccountHolderName</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <!-- card body -->
+                <button id="xuatPDF" style="width:100%" class="btn btn-primary"><i class="fe fe-printer"> </i> Xuất Bảng Lương</button>
+            </div>
+        </div>
+    </div>
+
+    <div hidden id="contnet" class="row">
+        <div class="row">
+            <div class="col-xl-8 col-lg-7 col-12">
+                <!-- card -->
+                <div class="card">
+                    <!-- card header -->
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <!-- heading -->
+                                <h4 class="mb-1">LƯƠNG THÁNG @Model.PayrollCategory.Date.ToString("MM, yyyy")</h4>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="table-responsive border-0">
+                        <!-- Table -->
+                        <table class="table mb-0 text-nowrap">
+                            <!-- Table Head -->
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="border-0">Khoản</th>
+                                    <th class="border-0">Chi tiết</th>
+                                    <th class="border-0 text-end">Tổng</th>
+                                </tr>
+                            </thead>
+                            <!-- tbody -->
+                            <tbody>
+                                <tr>
+                                    <td colspan="3" class="align-middle border-top-0">
+                                        <h4 class="mb-0">
+                                            1. Thu Nhập Trong Tháng
+                                        </h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="border-top-0 text-dark fw-medium">Lương Hợp Đồng</td>
+                                    <td class="align-middle border-top-0 fw-medium ">
+                                        100%
+                                    </td>
+                                    <td class="text-dark fw-bold border-top-0 text-end">@Model.Salary.ToString("0,0").Replace(".", ",") đ</td>
+                                </tr>
+                                <tr>
+                                    <td class="border-top-0 text-dark fw-medium">Lương Chịu Bảo Hiểm</td>
+                                    <td class="align-middle border-top-0 fw-medium ">
+                                        100%
+                                    </td>
+                                    <td class="text-dark fw-bold border-top-0 text-end">@Model.SalaryInsurance.Value.ToString("0,0").Replace(".", ",") đ</td>
+                                </tr>
+                                @if (Model.TaxableSalary.Value != 0)
+                                {
+                                    <tr>
+                                        <td class="border-top-0 text-dark fw-medium">Lương Chịu Thuế</td>
+                                        <td class="align-middle border-top-0 fw-medium ">
+                                            100%
+                                        </td>
+                                        <td class="text-dark fw-bold border-top-0 text-end">@Model.SalaryTaxable.Value.ToString("0,0").Replace(".", ",") đ</td>
+                                    </tr>
+                                }
+                                @if (Model.SubsidiesApply.Count() > 0)
+                                {
+
+                                    if (Model.SubsidiesApply.Count() > 1)
+                                    {
+                                        <tr>
+                                            <td class="border-top-0 text-dark fw-medium">
+                                                Khoản Phụ Cấp, Thưởng
+                                            </td>
+                                            <td class="border-top-0 fw-medium">
+                                                @Model.SubsidiesApply.Count() Khoản
+                                            </td>
+                                            <td class="border-top-0 text-dark text-end fw-bold">
+                                                @Model.SubsidiesApply.Sum(s => s.Total_Price).Value.ToString("0,0").Replace(".", ",") đ
+                                            </td>
+                                        </tr>
+                                        for (int i = 0; i < Model.SubsidiesApply.Count(); i++)
+                                        {
+                                            if (Model.SubsidiesApply.Count() == (i + 1))
+                                            {
+                                                <tr>
+                                                    <td class="fw-medium"></td>
+                                                    <td class="fw-medium">
+                                                        <span>@(Model.SubsidiesApply.ToList()[i].Name) :</span>
+                                                    </td>
+                                                    <td class="fw-medium text-end">
+                                                        <span>@(Model.SubsidiesApply.ToList()[i].Total_Price.Value.ToString("0,0").Replace(".", ",")) đ</span>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td class="fw-medium pb-0 border-bottom-0"></td>
+                                                    <td class="fw-medium pb-0 border-bottom-0">
+                                                        <span>@(Model.SubsidiesApply.ToList()[i].Name) :</span>
+                                                    </td>
+                                                    <td class="fw-medium pb-0 text-end border-bottom-0">
+                                                        <span>@(Model.SubsidiesApply.ToList()[i].Total_Price.Value.ToString("0,0").Replace(".", ",")) đ</span>
+                                                    </td>
+                                                </tr>
+                                            }
+
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td class="border-top-0 text-dark fw-medium">
+                                                Khoản Phụ Cấp, Thưởng
+                                            </td>
+                                            <td class="border-top-0 fw-medium">
+                                                @(Model.SubsidiesApply.First().Name) :
+                                            </td>
+                                            <td class="border-top-0 text-dark text-end fw-bold">
+                                                @Model.SubsidiesApply.Sum(s => s.Total_Price).Value.ToString("0,0").Replace(".", ",") đ
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                                <tr>
+                                    <td colspan="3" class="border-1">
+                                        <h4 class="mb-0">
+                                            2. Các Khoản Giảm Trừ
+                                        </h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="border-top-0 text-dark fw-medium">Bảo Hiểm Xã Hội</td>
+                                    <td class="align-middle border-top-0 fw-medium ">
+                                        @((Model.SocialInsurance + Model.HealthInsurance + Model.UnemploymentInsurance).ToString("0.0")) %
+                                    </td>
+                                    <td class="text-dark fw-bold border-top-0 text-end">
+                                        -@Model.TotalPriceInsurance.ToString("0,0").Replace(".", ",") đ
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="border-bottom-0 pb-0"></td>
+                                    <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                        <!-- text -->
+                                        Bảo Hiểm Xã Hội (@Model.SocialInsurance.ToString("0.0")%) :
+                                    </td>
+                                    <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                        <!-- text -->
+                                        @(((decimal)(Model.TotalPriceInsurance / ((Model.SocialInsurance + Model.HealthInsurance + Model.UnemploymentInsurance) / 100)) * (Model.SocialInsurance / 100)).ToString("0,0").Replace(".",",")) đ
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="border-bottom-0 pb-0"></td>
+                                    <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                        <!-- text -->
+                                        Bảo Hiểm Y Tế (@Model.HealthInsurance.ToString("0.0")%) :
+                                    </td>
+                                    <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                        <!-- text -->
+                                        @(((decimal)(Model.TotalPriceInsurance / ((Model.SocialInsurance + Model.HealthInsurance + Model.UnemploymentInsurance) / 100)) * (Model.HealthInsurance / 100)).ToString("0,0").Replace(".",",")) đ
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-semi-bold text-dark "></td>
+                                    <td colspan="1" class="fw-medium ">
+                                        <!-- text -->
+                                        Bảo Hiểm Thất Nghiệp (@Model.UnemploymentInsurance.ToString("0.0")%) :
+                                    </td>
+                                    <td class="fw-medium text-end">
+                                        <!-- text -->
+                                        @(((decimal)(Model.TotalPriceInsurance / ((Model.SocialInsurance + Model.HealthInsurance + Model.UnemploymentInsurance) / 100)) * (Model.UnemploymentInsurance / 100)).ToString("0,0").Replace(".",",")) đ
+                                    </td>
+                                </tr>
+
+                                @if (Model.TaxableSalary.Value != 0)
+                                {
+                                    if (Model.TaxableSalary.Value >= 20000000 && Model.Tax.Value == 10)
+                                    {
+                                        <tr>
+                                            <td class="border-top-0 text-dark fw-medium">Thuế Thu Nhập Cá Nhân</td>
+                                            <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")% (Lương Tính Thuế)</td>
+                                            <td class="text-dark fw-bold  border-top-0 text-end">
+                                                -@Model.TotalPriceTax.Value.ToString("0,0").Replace(".", ",") đ
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td class="border-top-0 text-dark fw-medium">Thuế Thu Nhập Cá Nhân</td>
+                                            <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")% (Lương Tính Thuế)</td>
+                                            <td class="text-dark fw-bold  border-top-0 text-end">
+                                                -@Model.TotalPriceTax.Value.ToString("0,0").Replace(".", ",") đ
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-bottom-0 pb-0"></td>
+                                            <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                                <!-- text -->
+                                                Giảm Trừ Bảo Hiểm :
+                                            </td>
+                                            <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                                <!-- text -->
+                                                @Model.TotalPriceInsurance.ToString("0,0").Replace(".", ",") đ
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-bottom-0 pb-0"></td>
+                                            <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                                <!-- text -->
+                                                Giảm Trừ Gia Cảnh :
+                                            </td>
+                                            <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                                <!-- text -->
+                                                @Model.FamilyAllowances.Value.ToString("0,0").Replace(".", ",") đ
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border-bottom-0 pb-0"></td>
+                                            <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                                <!-- text -->
+                                                Giảm Trừ Phụ Thuộc :
+                                            </td>
+                                            <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                                <!-- text -->
+                                                @Model.NumberOfDependents x @(Model.NumberOfDependents != null && Model.NumberOfDependents.Value != 0 ? (Model.DependencyDeduction.Value * Model.NumberOfDependents.Value).ToString("0,0").Replace(".", ",") : "0") đ
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-medium text-dark "></td>
+                                            <td colspan="1" class="fw-medium">
+                                                <!-- text -->
+                                                Lương Tính Thuế :
+                                            </td>
+                                            <td class="fw-medium text-end">
+                                                <!-- text -->
+                                                @Model.TaxableSalary.Value.ToString("0,0").Replace(".", ",") đ
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                @if (Model.NumberDaysLeave.Value > 0)
+                                {
+                                    <tr>
+                                        <td class="border-top-0 text-dark fw-medium">Nghỉ Phép</td>
+                                        <td class="border-top-0 text-dark">
+                                            @Model.NumberDaysLeave Ngày x @Model.PriceForOneDayOff.Value.ToString("0,0").Replace(".", ",")
+                                        </td>
+                                        <td class="text-dark fw-bold  border-top-0 text-end">
+                                            -@((Model.NumberDaysLeave * Model.PriceForOneDayOff.Value).Value.ToString("0,0").Replace(".", ",")) đ
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td>
+                                        <h4 class="mb-0">
+                                            3. Lương Thực Lãnh
+                                        </h4>
+                                    </td>
+                                    <td class="fw-medium border-top-0 text-dark"></td>
+                                    <td class="text-dark fw-bold  border-top-0 text-end">@Model.Total_Price.Value.ToString("0,0").Replace(".", ",") đ</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- card -->
+            </div>
+            <div class="col-xl-4 col-lg-5  col-12">
+                <!-- card -->
+                <div class="card mb-4 mt-4 mt-lg-0">
+                    <!-- card body -->
+                    <div class="card-body">
+                        <!-- heading -->
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="mb-0">Nhân Viên</h4>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <!-- img -->
+                            <div>
+                                <!-- title -->
+                                <h4 class="mb-0">
+                                    Họ và Tên: &ensp;@Model.Employees.Name
+                                </h4>
+                                <div>
+                                    <span>Mã Nhân Viên: &ensp;@Model.Employees.ID_Employee</span>
+                                </div>
+                                <!-- title -->
+                                <div>
+                                    <span>Chức Danh: &ensp;@Model.Employees.Position.Name</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- card body -->
+                    <div class="card-body border-top">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <!-- text -->
+                            <h4 class="mb-0">Liên Hệ</h4>
+                        </div>
+                        <div>
+                            <!-- text -->
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fe fe-mail text-muted fs-4"></i><a class="ms-2">@Model.Employees.WorkEmail</a>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="fe fe-phone text-muted fs-4"></i><span class="ms-2">@Model.Employees.TelephoneMobile</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- card -->
+                <div class="card mb-4 mt-4 mt-lg-0">
+                    <!-- card body -->
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="mb-0">Thanh Toán</h4>
+                        </div>
+                        <!-- text -->
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span>Ngân Hàng :</span>
+                            <span class="text-dark">@Model.Employees.BankName</span>
+                        </div>
+                        <!-- text -->
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span>
+                                Số Tài Khoản :
+                            </span>
+                            <span class="text-dark">@Model.Employees.BankAccountNumber</span>
+                        </div>
+                        <!-- text -->
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span>
+                                Chủ Tài Khoản :
+                            </span>
+                            <span class="text-dark">@Model.Employees.BankAccountHolderName</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input hidden id="filenames" value="luong-thang-@Model.PayrollCategory.Date.ToString("MM-yyyy")-NV-@Model.Employees.ID_Employee" />
+    </div>
+
+    <script src="~/ValidationAlert/Admin/QuanLyLuong/thanhToanLuong.js"></script>
+</div>
+

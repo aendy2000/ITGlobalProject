@@ -1,7 +1,12 @@
-﻿
+﻿@model IEnumerable<ITGlobalProject.Models.PayrollCategory>
+@using ITGlobalProject.Models
 @{
     ViewBag.Title = "Bảng Lương";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+    var insurance = Session["Insurance"] as IEnumerable<Insurance>;
+    var tax = Session["Tax"] as IEnumerable<Tax>;
+    var depend = Session["Dependency"] as List<DependencyDeduction>;
+    int i = 1;
 }
 
 <div class="container-fluid p-4">
@@ -28,27 +33,139 @@
                 </div>
                 <!-- button -->
                 <div style="margin-right:-5px">
-                    <a href="#" class="btn btn-primary me-2" style="width:230px;"><i class="fe fe-dollar-sign"></i> Tính Lương</a>
+                    <a href="@Url.Action("tinhluong", "quanlyluong")" class="btn btn-primary me-2" style="width:230px;"><i class="fe fe-dollar-sign"></i> Tính Lương</a>
+                    <button data-bs-toggle="modal" data-bs-target="#cauhinhkhoantru" class="btn btn-primary me-2" style="width:230px;"><i class="fe fe-settings"> </i> Cấu Hình Khoản Trừ</button>
+                    <div class="modal fade" id="cauhinhkhoantru" tabindex="-1" role="dialog" aria-labelledby="cauhinhkhoantru" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle">Cấu Hình Khoản Trừ</h5>
+                                    <button id="dongmodaltinhthue" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                                <a class="nav-link active" id="v-pills-baohiem-tab" data-bs-toggle="pill" href="#v-pills-baohiem" role="tab" aria-controls="v-pills-baohiem" aria-selected="true">Bảo Hiểm XH</a>
+                                                <a class="nav-link" id="v-pills-thue-tab" data-bs-toggle="pill" href="#v-pills-thue" role="tab" aria-controls="v-pills-thue" aria-selected="false">Thuế Thu Nhập</a>
+                                                <a class="nav-link" id="v-pills-phuthuoc-tab" data-bs-toggle="pill" href="#v-pills-phuthuoc" role="tab" aria-controls="v-pills-phuthuoc" aria-selected="false">Phụ Thuộc</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="tab-content" id="v-pills-tabContent">
+                                                <div class="tab-pane fade show active" id="v-pills-baohiem" role="tabpanel" aria-labelledby="v-pills-baohiem-tab">
+                                                    <div class="row">
+                                                        @foreach (var item in insurance)
+                                                        {
+                                                            <div class="mb-3 col-6 col-md-6">
+                                                                <label style="font-weight:bold" class="form-label">@item.Name (%) <span class="text-danger">*</span></label>
+                                                                <input value="@item.Percentage.ToString("0.0")" id="baohiem-data-@item.ID" name="@item.ID" data-inputmask="'alias': 'decimal'" type="text" class="text-start form-control" placeholder="Nhập vào số % khoản thu @item.Name" required>
+                                                                <p hidden style="font-size: 13px; color:red;" id="baohiem-validation-@item.ID"></p>
+                                                            </div>
+                                                            <div class="mb-3 col-6 col-md-6">
+                                                                <label style="font-weight:bold" class="form-label">Mức trần (VND)</label>
+                                                                <label class="text-muted fs-6"> - Bỏ trống nếu không áp dụng.</label>
+                                                                <input id="muctran-data-@item.ID" name="@item.ID" value="@(item.Ceiling_Level.Value > 0 ? item.Ceiling_Level.Value.ToString("0,0").Replace(".", ",") : "")" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập số tiền làm mức trần" required />
+                                                                <p hidden style="font-size: 13px; color:red;" id="muctran-validation-@item.ID"></p>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="v-pills-thue" role="tabpanel" aria-labelledby="v-pills-thue-tab">
+                                                    <div class="row">
+                                                        @foreach (var item in tax)
+                                                        {
+                                                            <div class="mb-3 col-12 col-md-5">
+                                                                <label style="font-weight:bold" class="form-label">@i. Thu Nhập Tối Thiểu - Thu Nhập Tối Đa (VND)</label>
+                                                                <div class="input-group">
+                                                                    <input id="thunhaptoithieu-data-@item.ID" name="@item.ID" value="@item.MinPrice.ToString("0,0").Replace(".", ",")" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Thu nhập tối thiểu" />
+                                                                    <span class="input-group-text"> - </span>
+                                                                    @if (item.MaxPrice < 1000000000)
+                                                                    {
+                                                                        <input data-bs-toggle="tooltip" data-placement="top" id="thunhaptoida-data-@item.ID" name="@item.ID" value="@item.MaxPrice.ToString("0,0").Replace(".", ",")" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Thu nhập tối đa" />
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <input id="thunhaptoida-data-@item.ID" name="@item.ID" readonly value="Không xác định" class="form-control text-start text-danger" type="text" />
+                                                                    }
+                                                                </div>
+                                                                <p hidden style="font-size: 13px; color:red;" id="thunhap-validation-@item.ID"></p>
+                                                            </div>
+                                                            <div class="mb-3 col-12 col-md-3">
+                                                                <label style="font-weight:bold" class="form-label">Thuế Suất (%) <span class="text-danger">*</span></label>
+                                                                <input value="@item.Percentage.ToString("0.0")" id="thuesuat-data-@item.ID" name="@item.ID" data-inputmask="'alias': 'decimal'" type="text" class="text-start form-control" placeholder="Nhập vào số % thuế suất">
+                                                                <p hidden style="font-size: 13px; color:red;" id="thuesuat-validation-@item.ID"></p>
+                                                            </div>
+                                                            <div class="mb-3 col-12 col-md-3">
+                                                                <label style="font-weight:bold" class="form-label">Khoản giảm trừ (VND) <span class="text-danger">*</span></label>
+                                                                <input id="giamtru-data-@item.ID" name="@item.ID" value="@item.Deductible.ToString("0,0").Replace(".", ",")" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập khoản giảm trừ" />
+                                                                <p hidden style="font-size: 13px; color:red;" id="giamtru-validation-@item.ID"></p>
+                                                            </div>
+                                                            i++;
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="v-pills-phuthuoc" role="tabpanel" aria-labelledby="v-pills-phuthuoc-tab">
+                                                    <div class="row">
+                                                        <div class="mb-3 col-12 col-md-12">
+                                                            <label style="font-weight:bold" class="form-label">Giảm trừ phụ thuộc (VND) <span class="text-danger">*</span></label>
+                                                            <input value="@depend[0].Price.ToString("0,0").Replace(".", ",")" id="giamtruphuthuoc" name="@depend[0].ID" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập vào số tiền giảm trừ phụ thuộc" required>
+                                                            <p hidden style="font-size: 13px; color:red;" id="giamtruphuthuoc-validation"></p>
+                                                        </div>
+                                                        <div class="mb-3 col-12 col-md-12">
+                                                            <label style="font-weight:bold" class="form-label">Giảm trừ giả cảnh (VND) <span class="text-danger">*</span></label>
+                                                            <input value="@depend[1].Price.ToString("0,0").Replace(".", ",")" id="giamtrugiacanh" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập vào số tiền giảm trừ gia cảnh" required>
+                                                            <p hidden style="font-size: 13px; color:red;" id="giamtrugiacanh-validation"></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="text-align: right; padding-bottom: 20px" class="mb-2 col-12 col-md-6">
+                                        <button style="width: 150px" class="btn btn-outline-danger" data-bs-dismiss="modal">
+                                            Hủy
+                                        </button>
+                                    </div>
+                                    <div style="padding-bottom: 20px; width: 150px" class="mb-2 col-12 col-md-6">
+                                        <a style="width: 150px" role="button" id="btnLuuThongTinKhoanTru" class="btn btn-success">
+                                            Lưu
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <br />
     <div class="row justify-content-md-between mb-4 mb-xl-4 ">
-        <div class="col-xl-3 col-lg-4 col-md-4 col-12 ">
-            <select class="selectpicker" data-width="100%">
-                <option value="">Lương của Năm</option>
-                <option value="In Progress">Năm 2020</option>
-                <option value="Pending">Năm 2021</option>
-                <option value="Modified">Năm 2022</option>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-12 ">
+            <select id="namluong" class="selectpicker" data-width="100%">
+                <option value="2022">Lương của năm 2022</option>
+                @foreach (var item in Model.ToList())
+                {
+                    if (item.Date.Year == DateTime.Now.Year)
+                    {
+                        <option selected value="@item.Date.Year">Lương của năm @item.Date.Year</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Date.Year">Lương của năm @item.Date.Year</option>
+                    }
+                }
             </select>
-
         </div>
-        <div class="col-xl-3 col-lg-4 col-md-4 col-12 ">
-            <select class="selectpicker" data-width="100%">
-                <option value="">Trạng thái</option>
-                <option value="In Progress">Đã thanh toán</option>
-                <option value="Pending">Chưa thanh toán xong</option>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-12 ">
+            <select id="trangthailuong" class="selectpicker" data-width="100%">
+                <option value="tatca">Trạng thái</option>
+                <option value="dathanhtoan">Đã thanh toán</option>
+                <option value="chuathanhtoan">Chưa thanh toán xong</option>
             </select>
         </div>
     </div>
@@ -57,7 +174,7 @@
         <!-- col -->
         <div class="col-12">
             <!-- card -->
-            <div class="card">
+            <div id="BangLuongPartial" class="card">
                 <!-- table -->
                 <div class="table-responsive overflow-y-hidden">
                     <table class="table mb-0 text-nowrap">
@@ -65,7 +182,7 @@
                             <tr>
                                 <th scope="col" class=" border-top-0">Tháng lương</th>
                                 <th scope="col" class=" border-top-0">Ngày tạo</th>
-                                <th scope="col" class=" border-top-0">Tổng lương</th>
+                                <th scope="col" class=" border-top-0">Tổng lương (VND)</th>
                                 <th scope="col" class=" border-top-0">Thanh toán</th>
                                 <th scope="col" class=" border-top-0">Trạng thái</th>
                                 <th scope="col" class=" border-top-0">Nhân viên</th>
@@ -73,921 +190,154 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-shape icon-lg rounded-3 border p-4">
-                                            <i class="fe fe-calendar  fs-3 text-muted"></i>
-                                        </div>
-                                        <div class="ms-3">
-                                            <h4 class="mb-0"><a href="@Url.Action("danhSachLuongThang", "QuanLyLuong")" class="text-inherit">Tháng 01, 2022</a></h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    30 Thg 01, 2022
-                                </td>
-                                <td class="align-middle text-warning">
-                                    <b><b>$ 215,000,000 đ</b></b>
-                                </td>
-
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-2"> <span>93%</span></div>
-                                        <div class="progress flex-auto" style="height: 6px;">
-                                            <div class="progress-bar bg-primary " role="progressbar" style="width: 93%;"
-                                                 aria-valuenow="93" aria-valuemin="0" aria-valuemax="100">
-
+                            @if (Model.Count() < 1)
+                            {
+                                <tr>
+                                    <td colspan="7" class="align-middle text-center">
+                                        Không có dữ liệu để hiển thị.
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="align-middle ">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-shape icon-lg rounded-3 border p-4">
+                                                    <i class="fe fe-calendar  fs-3 text-muted"></i>
+                                                </div>
+                                                <div class="ms-3">
+                                                    <h4 class="mb-0"><a href="@Url.Action("danhsachluongthang", "quanlyluong", new {id = item.ID})" class="text-inherit">Tháng @item.Date.ToString("MM, yyyy")</a></h4>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    <span style="width: 110px" class="badge bg-light-danger text-dark-danger">Còn 2 nhân viên</span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="one">
-                                            <span id="one" class="d-none">
-                                                <span class="mb-0 h6">Paul Haney</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
+                                        </td>
+                                        <td class="align-middle ">
+                                            @item.Date.ToString("dd") Thg @item.Date.ToString("MM, yyyy")
+                                        </td>
+                                        <td class="align-middle text-warning">
+                                            <b><b>@item.Payroll.Sum(s => s.Total_Price).Value.ToString("0,0").Replace(".", ",") đ</b></b>
+                                        </td>
+                                        @if (item.Payroll.Where(p => p.State == true).Count() < 1)
+                                        {
+                                            <td class="align-middle ">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-2"> <span>0%</span></div>
+                                                    <div class="progress flex-auto" style="height: 6px;">
+                                                        <div class="progress-bar bg-primary " role="progressbar" style="width: 0%;"
+                                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle ">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-2"> <span>@(item.Payroll.Where(p => p.State == true).Count() * 100 / item.Payroll.Count())%</span></div>
+                                                    <div class="progress flex-auto" style="height: 6px;">
+                                                        <div class="progress-bar bg-primary " role="progressbar" style="width: @Convert.ToInt32((item.Payroll.Where(p => p.State == true).Count() * 100/item.Payroll.Count()))%;"
+                                                             aria-valuenow="@((item.Payroll.Where(p => p.State == true).Count() * 100/item.Payroll.Count()))" aria-valuemin="0" aria-valuemax="100">
 
-                                                GK
-                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        }
+                                        <td class="align-middle ">
+                                            @if (item.Payroll.Where(p => p.State == false).Count() > 0)
+                                            {
+                                                <span style="width: 110px" class="badge bg-light-danger text-dark-danger">Còn @item.Payroll.Where(p => p.State == false).Count() nhân viên</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="width: 110px" class="badge bg-light-success text-dark-success">Đã thanh toán</span>
+                                            }
+                                        </td>
+                                        <td class="align-middle ">
+                                            <div class="avatar-group">
+                                                @if (item.Payroll.Count < 1)
+                                                {
+                                                    <span>Chưa tính</span>
+                                                }
+                                                //Đội ngũ ít hơn 4 người
+                                                else if (item.Payroll.Count <= 3)
+                                                {
+                                                    foreach (var iteam in item.Payroll)
+                                                    {
+                                                        if (string.IsNullOrEmpty(iteam.Employees.Avatar))
+                                                        {
+                                                            <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@iteam.Employees.ID">
+                                                                <span class="avatar-initials rounded-circle ">
+                                                                    @iteam.Employees.Name.Substring(0, 1).ToUpper()
+                                                                </span>
+                                                                <span id="@iteam.Employees.ID" class="d-none">
+                                                                    <span class="mb-0 h6">@iteam.Employees.Name</span>
 
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
+                                                                </span>
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="avatar avatar-md">
+                                                                <img alt="avatar" src="@iteam.Employees.Avatar"
+                                                                     class="rounded-circle imgtooltip" data-template="@iteam.Employees.ID">
 
-                                            </span>
-                                        </span>
+                                                                <span id="@iteam.Employees.ID" class="d-none">
+                                                                    <span class="mb-0 h6">@iteam.Employees.Name</span>
+                                                                </span>
+                                                            </span>
+                                                        }
+                                                    }
+                                                }
+                                                //Đội ngũ nhiều hơn 3 người
+                                                else
+                                                {
+                                                    for (int t = 0; t < 3; t++)
+                                                    {
+                                                        if (string.IsNullOrEmpty(item.Payroll.ToList()[t].Employees.Avatar))
+                                                        {
+                                                            <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@item.Payroll.ToList()[t].Employees.ID">
+                                                                <span class="avatar-initials rounded-circle ">
+                                                                    @item.Payroll.ToList()[t].Employees.Name.Substring(0, 1).ToUpper()
+                                                                </span>
+                                                                <span id="@item.Payroll.ToList()[t].Employees.ID" class="d-none">
+                                                                    <span class="mb-0 h6">@item.Payroll.ToList()[t].Employees.Name</span>
 
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-3.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="two">
-                                            <span id="two" class="d-none">
-                                                <span class="mb-0 h6">Mary Holler</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">11+</span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Settings</span>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Edit Details
-                                            </a>
+                                                                </span>
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="avatar avatar-md">
+                                                                <img alt="avatar" src="@item.Payroll.ToList()[t].Employees.Avatar"
+                                                                     class="rounded-circle imgtooltip" data-template="@item.Payroll.ToList()[t].Employees.ID">
 
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-link dropdown-item-icon"></i>Copy project link
-
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-save dropdown-item-icon"></i>Save as Default
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-copy dropdown-item-icon"></i>Duplicate
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-layout dropdown-item-icon"></i>Convert to Template
-                                            </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-upload dropdown-item-icon"></i>Import
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-printer dropdown-item-icon"></i>Export / Print
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-users dropdown-item-icon"></i>Move to another team
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-archive dropdown-item-icon"></i>Archive
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Delete Project
-                                            </a>
-
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-shape icon-lg rounded-3 border p-4">
-                                            <i class="fe fe-calendar  fs-3 text-muted"></i>
-                                        </div>
-                                        <div class="ms-3">
-                                            <h4 class="mb-0"><a href="#" class="text-inherit">Tháng 02, 2022</a></h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    28 Thg 02, 2022
-                                </td>
-                                <td class="align-middle text-warning">
-                                    <b>$ 215,000,000 đ</b>
-                                </td>
-
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-2"> <span>100%</span></div>
-                                        <div class="progress flex-auto" style="height: 6px;">
-                                            <div class="progress-bar bg-success " role="progressbar" style="width: 100%;"
-                                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-
+                                                                <span id="@item.Payroll.ToList()[t].Employees.ID" class="d-none">
+                                                                    <span class="mb-0 h6">@item.Payroll.ToList()[t].Employees.Name</span>
+                                                                </span>
+                                                            </span>
+                                                        }
+                                                    }
+                                                    <span class="avatar avatar-md">
+                                                        <span class="avatar-initials rounded-circle bg-light text-dark">@(item.Payroll.Count - 3)+</span>
+                                                    </span>
+                                                }
                                             </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    <span style="width: 110px" class="badge bg-light-success text-dark-success">Đã thanh toán</span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="textFour">
-                                            <span class="avatar-initials rounded-circle ">
-
-                                                GK
-                                            </span>
-
-                                            <span id="textFour" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-
-                                            </span>
-                                        </span>
-
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-5.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="three">
-                                            <span id="three" class="d-none">
-                                                <span class="mb-0 h6">Gali Linear</span>
-
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-6.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="four">
-                                            <span id="four" class="d-none">
-                                                <span class="mb-0 h6">Mary Holler</span>
-
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">12+</span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown2"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown2">
-                                            <span class="dropdown-header">Settings</span>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Edit Details
-                                            </a>
-
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-link dropdown-item-icon"></i>Copy project link
-
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-save dropdown-item-icon"></i>Save as Default
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-copy dropdown-item-icon"></i>Duplicate
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-layout dropdown-item-icon"></i>Convert to Template
-                                            </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-upload dropdown-item-icon"></i>Import
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-printer dropdown-item-icon"></i>Export / Print
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-users dropdown-item-icon"></i>Move to another team
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-archive dropdown-item-icon"></i>Archive
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Delete Project
-                                            </a>
-
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-shape icon-lg rounded-3 border p-4">
-                                            <i class="fe fe-calendar  fs-3 text-muted"></i>
-                                        </div>
-                                        <div class="ms-3">
-                                            <h4 class="mb-0"><a href="#" class="text-inherit">Tháng 03, 2022</a></h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    30 Thg 03, 2022
-                                </td>
-                                <td class="align-middle text-warning">
-                                    <b>$ 217,000,000 đ</b>
-                                </td>
-
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-2"> <span>100%</span></div>
-                                        <div class="progress flex-auto" style="height: 6px;">
-                                            <div class="progress-bar bg-success " role="progressbar" style="width: 100%;"
-                                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-
+                                        </td>
+                                        <td class="text-muted align-middle text-end">
+                                            <div class="dropdown dropstart">
+                                                <a href="@Url.Action("danhsachluongthang", "quanlyluong", new {id = item.ID})" data-bs-toggle="tooltip" data-placement="top" title="Xem chi tiết" class="btn-icon btn btn-ghost rounded-circle text-primary" role="button">
+                                                    <i class="fe fe-info"></i>
+                                                </a>
                                             </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    <span style="width: 110px" class="badge bg-light-success text-dark-success">Đã thanh toán</span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="one">
-                                            <span id="one" class="d-none">
-                                                <span class="mb-0 h6">Paul Haney</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-
-                                                GK
-                                            </span>
-
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-
-                                            </span>
-                                        </span>
-
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-3.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="two">
-                                            <span id="two" class="d-none">
-                                                <span class="mb-0 h6">Mary Holler</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">11+</span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Settings</span>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Edit Details
-                                            </a>
-
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-link dropdown-item-icon"></i>Copy project link
-
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-save dropdown-item-icon"></i>Save as Default
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-copy dropdown-item-icon"></i>Duplicate
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-layout dropdown-item-icon"></i>Convert to Template
-                                            </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-upload dropdown-item-icon"></i>Import
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-printer dropdown-item-icon"></i>Export / Print
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-users dropdown-item-icon"></i>Move to another team
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-archive dropdown-item-icon"></i>Archive
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Delete Project
-                                            </a>
-
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-shape icon-lg rounded-3 border p-4">
-                                            <i class="fe fe-calendar  fs-3 text-muted"></i>
-                                        </div>
-                                        <div class="ms-3">
-                                            <h4 class="mb-0"><a href="#" class="text-inherit">Tháng 04, 2022</a></h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    29 Thg 04, 2022
-                                </td>
-                                <td class="align-middle text-warning">
-                                    <b>$ 175,000,000 đ</b>
-                                </td>
-
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-2"> <span>20%</span></div>
-                                        <div class="progress flex-auto" style="height: 6px;">
-                                            <div class="progress-bar bg-primary " role="progressbar" style="width: 20%;"
-                                                 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    <span style="width: 110px" class="badge bg-light-danger text-dark-danger">Còn 9 nhân viên</span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="one">
-                                            <span id="one" class="d-none">
-                                                <span class="mb-0 h6">Paul Haney</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-
-                                                GK
-                                            </span>
-
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-
-                                            </span>
-                                        </span>
-
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-3.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="two">
-                                            <span id="two" class="d-none">
-                                                <span class="mb-0 h6">Mary Holler</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">11+</span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Settings</span>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Edit Details
-                                            </a>
-
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-link dropdown-item-icon"></i>Copy project link
-
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-save dropdown-item-icon"></i>Save as Default
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-copy dropdown-item-icon"></i>Duplicate
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-layout dropdown-item-icon"></i>Convert to Template
-                                            </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-upload dropdown-item-icon"></i>Import
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-printer dropdown-item-icon"></i>Export / Print
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-users dropdown-item-icon"></i>Move to another team
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-archive dropdown-item-icon"></i>Archive
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Delete Project
-                                            </a>
-
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-shape icon-lg rounded-3 border p-4">
-                                            <i class="fe fe-calendar  fs-3 text-muted"></i>
-                                        </div>
-                                        <div class="ms-3">
-                                            <h4 class="mb-0"><a href="#" class="text-inherit">Tháng 05, 2022</a></h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    30 Thg 05, 2022
-                                </td>
-                                <td class="align-middle text-warning">
-                                    <b>$ 175,000,000 đ</b>
-                                </td>
-
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-2"> <span>93%</span></div>
-                                        <div class="progress flex-auto" style="height: 6px;">
-                                            <div class="progress-bar bg-primary " role="progressbar" style="width: 93%;"
-                                                 aria-valuenow="93" aria-valuemin="0" aria-valuemax="100">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    <span style="width: 110px" class="badge bg-light-danger text-dark-danger">Còn 2 nhân viên</span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="one">
-                                            <span id="one" class="d-none">
-                                                <span class="mb-0 h6">Paul Haney</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-
-                                                GK
-                                            </span>
-
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-
-                                            </span>
-                                        </span>
-
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-3.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="two">
-                                            <span id="two" class="d-none">
-                                                <span class="mb-0 h6">Mary Holler</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">11+</span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Settings</span>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Edit Details
-                                            </a>
-
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-link dropdown-item-icon"></i>Copy project link
-
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-save dropdown-item-icon"></i>Save as Default
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-copy dropdown-item-icon"></i>Duplicate
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-layout dropdown-item-icon"></i>Convert to Template
-                                            </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-upload dropdown-item-icon"></i>Import
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-printer dropdown-item-icon"></i>Export / Print
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-users dropdown-item-icon"></i>Move to another team
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-archive dropdown-item-icon"></i>Archive
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Delete Project
-                                            </a>
-
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-shape icon-lg rounded-3 border p-4">
-                                            <i class="fe fe-calendar  fs-3 text-muted"></i>
-                                        </div>
-                                        <div class="ms-3">
-                                            <h4 class="mb-0"><a href="#" class="text-inherit">Tháng 06, 2022</a></h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    29 Thg 06, 2022
-                                </td>
-                                <td class="align-middle text-warning">
-                                    <b>$ 215,000,000 đ</b>
-                                </td>
-
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-2"> <span>100%</span></div>
-                                        <div class="progress flex-auto" style="height: 6px;">
-                                            <div class="progress-bar bg-success " role="progressbar" style="width: 100%;"
-                                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    <span style="width: 110px" class="badge bg-light-success text-dark-success">Đã thanh toán</span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="textFour">
-                                            <span class="avatar-initials rounded-circle ">
-
-                                                GK
-                                            </span>
-
-                                            <span id="textFour" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-
-                                            </span>
-                                        </span>
-
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-5.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="three">
-                                            <span id="three" class="d-none">
-                                                <span class="mb-0 h6">Gali Linear</span>
-
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-6.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="four">
-                                            <span id="four" class="d-none">
-                                                <span class="mb-0 h6">Mary Holler</span>
-
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">12+</span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown2"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown2">
-                                            <span class="dropdown-header">Settings</span>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Edit Details
-                                            </a>
-
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-link dropdown-item-icon"></i>Copy project link
-
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-save dropdown-item-icon"></i>Save as Default
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-copy dropdown-item-icon"></i>Duplicate
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-layout dropdown-item-icon"></i>Convert to Template
-                                            </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-upload dropdown-item-icon"></i>Import
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-printer dropdown-item-icon"></i>Export / Print
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-users dropdown-item-icon"></i>Move to another team
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-archive dropdown-item-icon"></i>Archive
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Delete Project
-                                            </a>
-
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-shape icon-lg rounded-3 border p-4">
-                                            <i class="fe fe-calendar  fs-3 text-muted"></i>
-                                        </div>
-                                        <div class="ms-3">
-                                            <h4 class="mb-0"><a href="#" class="text-inherit">Tháng 07, 2022</a></h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    30 Thg 07, 2022
-                                </td>
-                                <td class="align-middle text-warning">
-                                    <b>$ 217,000,000 đ</b>
-                                </td>
-
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-2"> <span>100%</span></div>
-                                        <div class="progress flex-auto" style="height: 6px;">
-                                            <div class="progress-bar bg-success " role="progressbar" style="width: 100%;"
-                                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    <span style="width: 110px" class="badge bg-light-success text-dark-success">Đã thanh toán</span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="one">
-                                            <span id="one" class="d-none">
-                                                <span class="mb-0 h6">Paul Haney</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-
-                                                GK
-                                            </span>
-
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-
-                                            </span>
-                                        </span>
-
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-3.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="two">
-                                            <span id="two" class="d-none">
-                                                <span class="mb-0 h6">Mary Holler</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">11+</span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Settings</span>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Edit Details
-                                            </a>
-
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-link dropdown-item-icon"></i>Copy project link
-
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-save dropdown-item-icon"></i>Save as Default
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-copy dropdown-item-icon"></i>Duplicate
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-layout dropdown-item-icon"></i>Convert to Template
-                                            </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-upload dropdown-item-icon"></i>Import
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-printer dropdown-item-icon"></i>Export / Print
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-users dropdown-item-icon"></i>Move to another team
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-archive dropdown-item-icon"></i>Archive
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Delete Project
-                                            </a>
-
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-shape icon-lg rounded-3 border p-4">
-                                            <i class="fe fe-calendar  fs-3 text-muted"></i>
-                                        </div>
-                                        <div class="ms-3">
-                                            <h4 class="mb-0"><a href="#" class="text-inherit">Tháng 08, 2022</a></h4>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    29 Thg 08, 2022
-                                </td>
-                                <td class="align-middle text-warning">
-                                    <b>$ 175,000,000 đ</b>
-                                </td>
-
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-2"> <span>20%</span></div>
-                                        <div class="progress flex-auto" style="height: 6px;">
-                                            <div class="progress-bar bg-primary " role="progressbar" style="width: 20%;"
-                                                 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle ">
-                                    <span style="width: 110px" class="badge bg-light-danger text-dark-danger">Còn 9 nhân viên</span>
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-1.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="one">
-                                            <span id="one" class="d-none">
-                                                <span class="mb-0 h6">Paul Haney</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="textThree">
-                                            <span class="avatar-initials rounded-circle ">
-
-                                                GK
-                                            </span>
-
-                                            <span id="textThree" class="d-none">
-                                                <span class="mb-0 h6">Geeks Only</span>
-
-                                            </span>
-                                        </span>
-
-                                        <span class="avatar avatar-md">
-                                            <img alt="avatar" src="~/Content/Admin/assets/images/avatar/avatar-3.jpg"
-                                                 class="rounded-circle imgtooltip" data-template="two">
-                                            <span id="two" class="d-none">
-                                                <span class="mb-0 h6">Mary Holler</span>
-                                            </span>
-                                        </span>
-                                        <span class="avatar avatar-md ">
-                                            <span class="avatar-initials rounded-circle bg-light text-dark">11+</span>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="text-muted align-middle text-end">
-                                    <div class="dropdown dropstart">
-                                        <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
-                                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fe fe-more-vertical"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="Dropdown1">
-                                            <span class="dropdown-header">Settings</span>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Edit Details
-                                            </a>
-
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-link dropdown-item-icon"></i>Copy project link
-
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-save dropdown-item-icon"></i>Save as Default
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-copy dropdown-item-icon"></i>Duplicate
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-layout dropdown-item-icon"></i>Convert to Template
-                                            </a>
-
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-upload dropdown-item-icon"></i>Import
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-printer dropdown-item-icon"></i>Export / Print
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-users dropdown-item-icon"></i>Move to another team
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-archive dropdown-item-icon"></i>Archive
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fe fe-trash dropdown-item-icon"></i>Delete Project
-                                            </a>
-
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                        </td>
+                                    </tr>
+                                }
+
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -995,3 +345,5 @@
         </div>
     </div>
 </div>
+<script src="~/ValidationAlert/Admin/QuanLyLuong/CauHinhKhoanTru.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyLuong/BangLuongValidation.js"></script>

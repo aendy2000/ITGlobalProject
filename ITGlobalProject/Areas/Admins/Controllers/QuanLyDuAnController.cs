@@ -45,9 +45,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             return View(khachhang);
         }
         [HttpPost]
-        public async Task<ActionResult> taoDuAnMoi(HttpPostedFileBase avatar, string name, string mota, string batdau, string ketthuc,
-            string giaidoan, string chiphi, string namedn, string hoten, string cmnd, string phone,
-            string email, string ngaysinh, string gioitinh, string diahchinha, int? id)
+        public async Task<ActionResult> taoDuAnMoi(HttpPostedFileBase hopdong, HttpPostedFileBase avatar, string name, string mota, string batdau, string ketthuc,
+            string giaidoan, string chiphi, string namedn, string hotennguoidaidien, string hoten, string cmnd, string phone,
+            string email, string ngaysinh, string gioitinh, string diahchinha, bool? loaidoitac,
+            string masothue, string website, int? id)
         {
             var khachHangCu = model.Partners.Find(id);
             if (id == null || khachHangCu == null || Session["user-id"] == null)
@@ -67,14 +68,24 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 }
 
                 Partners kh = new Partners();
-                kh.Company = namedn.Trim();
-                kh.Name = hoten.Trim();
+                if (loaidoitac == true)
+                {
+                    kh.Company = namedn.Trim();
+                    kh.Name = hotennguoidaidien.Trim();
+                }
+                else
+                {
+                    kh.Name = hoten.Trim();
+                }
                 kh.IdentityCard = cmnd.Replace(" ", "").Trim();
                 kh.Phone = phone.Trim();
                 kh.Email = email.Trim();
                 kh.Birthday = Convert.ToDateTime(ngaysinh);
                 kh.Sex = gioitinh.Trim();
                 kh.Address = diahchinha.Trim();
+                kh.TaxCode = masothue.Trim();
+                kh.WebUrl = website.Trim();
+                kh.CompanyOrPersonal = loaidoitac;
 
                 FileStream stream;
                 if (avatar != null)
@@ -126,6 +137,50 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                 model = new CP25Team06Entities();
                 Projects pro = new Projects();
+                FileStream streams;
+                if (hopdong != null)
+                {
+                    if (hopdong.ContentLength > 0)
+                    {
+                        const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
+                        int length = 30;
+                        var sb = new StringBuilder();
+                        Random RNG = new Random();
+                        for (var i = 0; i < length; i++)
+                        {
+                            var c = src[RNG.Next(0, src.Length)];
+                            sb.Append(c);
+                        }
+
+                        string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + hopdong.FileName);
+                        hopdong.SaveAs(path);
+                        streams = new FileStream(Path.Combine(path), FileMode.Open);
+                        var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                        var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+                        var cancellation = new CancellationTokenSource();
+
+                        var task = new FirebaseStorage(
+                            Bucket,
+                            new FirebaseStorageOptions
+                            {
+                                AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                                ThrowOnCancel = true
+                            })
+                            .Child("images")
+                            .Child(sb.ToString().Trim() + hopdong.FileName)
+                            .PutAsync(streams, cancellation.Token);
+                        try
+                        {
+                            string link = await task;
+                            pro.ContractUrl = link;
+                            System.IO.File.Delete(path);
+                        }
+                        catch
+                        {
+                            return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                        }
+                    }
+                }
                 pro.Name = name;
                 pro.Description = mota;
                 pro.StartDate = Convert.ToDateTime(batdau);
@@ -153,6 +208,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     deb.Price = Convert.ToDecimal(chiphi.Split('_')[i - 1].Replace(",", ""));
                     deb.Date = Convert.ToDateTime(giaidoan.Split('_')[i - 1]);
                     deb.State = false;
+                    deb.Send_Email_State = false;
                     deb.ID_Project = pro.ID;
 
                     model.Debts.Add(deb);
@@ -180,6 +236,52 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 pro.StartDate = Convert.ToDateTime(batdau);
                 pro.EndDate = Convert.ToDateTime(ketthuc);
                 pro.ID_Partner = (int)id;
+
+                FileStream streams;
+                if (hopdong != null)
+                {
+                    if (hopdong.ContentLength > 0)
+                    {
+                        const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
+                        int length = 30;
+                        var sb = new StringBuilder();
+                        Random RNG = new Random();
+                        for (var i = 0; i < length; i++)
+                        {
+                            var c = src[RNG.Next(0, src.Length)];
+                            sb.Append(c);
+                        }
+
+                        string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + hopdong.FileName);
+                        hopdong.SaveAs(path);
+                        streams = new FileStream(Path.Combine(path), FileMode.Open);
+                        var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                        var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+                        var cancellation = new CancellationTokenSource();
+
+                        var task = new FirebaseStorage(
+                            Bucket,
+                            new FirebaseStorageOptions
+                            {
+                                AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                                ThrowOnCancel = true
+                            })
+                            .Child("images")
+                            .Child(sb.ToString().Trim() + hopdong.FileName)
+                            .PutAsync(streams, cancellation.Token);
+                        try
+                        {
+                            string link = await task;
+                            pro.ContractUrl = link;
+                            System.IO.File.Delete(path);
+                        }
+                        catch
+                        {
+                            return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                        }
+                    }
+                }
+
                 model.Projects.Add(pro);
                 model.SaveChanges();
 
@@ -193,6 +295,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     deb.Price = Convert.ToDecimal(chiphi.Split('_')[i - 1].Replace(",", ""));
                     deb.Date = Convert.ToDateTime(giaidoan.Split('_')[i - 1]);
                     deb.State = false;
+                    deb.Send_Email_State = false;
                     deb.ID_Project = pro.ID;
 
                     model.Debts.Add(deb);
@@ -225,9 +328,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             return PartialView("_chinhSuaDuAnPartial", pro);
         }
         [HttpPost]
-        public async Task<ActionResult> chinhSuaDuAn(int? idpro, int? idpart, HttpPostedFileBase avatar,
-            string name, string mota, string batdau, string ketthuc, string namedn, string hoten, string cmnd,
-            string phone, string email, string ngaysinh, string gioitinh, string diahchinha, int? id)
+        public async Task<ActionResult> chinhSuaDuAn(int? idpro, int? idpart, HttpPostedFileBase hopdong, HttpPostedFileBase avatar,
+            string name, string mota, string batdau, string ketthuc, string namedn, string hotennguoidaidien, string hoten, string cmnd,
+            string phone, string email, string ngaysinh, string gioitinh, string diahchinha, bool? loaidoitac,
+            string masothue, string website, int? id)
         {
             var duAn = model.Projects.Find(idpro);
             if (duAn == null || Session["user-id"] == null)
@@ -239,14 +343,25 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 if (!khachHang.Email.ToLower().Equals(email.ToLower()) && model.Partners.Where(p => p.Email.ToLower().Equals(email.ToLower().Trim()) || p.IdentityCard.Equals(cmnd)).Count() > 0)
                     return Content("Email hoặc CMND/CCCD đang được sử dụng bởi một khách hàng khác");
 
-                khachHang.Company = namedn.Trim();
-                khachHang.Name = hoten.Trim();
+                if (loaidoitac == true)
+                {
+                    khachHang.Company = namedn.Trim();
+                    khachHang.Name = hotennguoidaidien.Trim();
+                }
+                else
+                {
+                    khachHang.Company = "";
+                    khachHang.Name = hoten.Trim();
+                }
                 khachHang.IdentityCard = cmnd.Replace(" ", "").Trim();
                 khachHang.Phone = phone.Trim();
                 khachHang.Email = email.Trim();
                 khachHang.Birthday = Convert.ToDateTime(ngaysinh);
                 khachHang.Sex = gioitinh.Trim();
                 khachHang.Address = diahchinha.Trim();
+                khachHang.TaxCode = masothue.Trim();
+                khachHang.WebUrl = website.Trim();
+                khachHang.CompanyOrPersonal = loaidoitac;
 
                 FileStream stream;
                 if (avatar != null)
@@ -300,7 +415,50 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             {
                 duAn.ID_Partner = (int)id;
             }
+            FileStream streams;
+            if (hopdong != null)
+            {
+                if (hopdong.ContentLength > 0)
+                {
+                    const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
+                    int length = 30;
+                    var sb = new StringBuilder();
+                    Random RNG = new Random();
+                    for (var i = 0; i < length; i++)
+                    {
+                        var c = src[RNG.Next(0, src.Length)];
+                        sb.Append(c);
+                    }
 
+                    string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + hopdong.FileName);
+                    hopdong.SaveAs(path);
+                    streams = new FileStream(Path.Combine(path), FileMode.Open);
+                    var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                    var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
+                    var cancellation = new CancellationTokenSource();
+
+                    var task = new FirebaseStorage(
+                        Bucket,
+                        new FirebaseStorageOptions
+                        {
+                            AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                            ThrowOnCancel = true
+                        })
+                        .Child("images")
+                        .Child(sb.ToString().Trim() + hopdong.FileName)
+                        .PutAsync(streams, cancellation.Token);
+                    try
+                    {
+                        string link = await task;
+                        duAn.ContractUrl = link;
+                        System.IO.File.Delete(path);
+                    }
+                    catch
+                    {
+                        return Content("Đã có xảy ra lỗi, vui lòng thử lại");
+                    }
+                }
+            }
             duAn.Name = name;
             duAn.Description = mota;
             duAn.StartDate = Convert.ToDateTime(batdau);
@@ -602,6 +760,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             var debt = pro.Debts.FirstOrDefault(d => d.Stage.ToLower().Trim().Equals(nameGD));
                             debt.Price = Convert.ToDecimal(itemChiPhi[i]);
                             debt.Date = Convert.ToDateTime(itemGiaiDoan[i]);
+                            debt.Send_Email_State = false;
+
                             model.Entry(debt).State = EntityState.Modified;
                             model.SaveChanges();
                         }
@@ -613,6 +773,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             newDebts.Price = Convert.ToDecimal(itemChiPhi[i]);
                             newDebts.Date = Convert.ToDateTime(itemGiaiDoan[i]);
                             newDebts.State = false;
+                            newDebts.Send_Email_State = false;
                             model.Debts.Add(newDebts);
                             model.SaveChanges();
                         }
@@ -628,6 +789,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             var debt = pro.Debts.FirstOrDefault(d => d.Stage.ToLower().Trim().Equals(nameGD));
                             debt.Price = Convert.ToDecimal(itemChiPhi[i]);
                             debt.Date = Convert.ToDateTime(itemGiaiDoan[i]);
+                            debt.Send_Email_State = false;
                             model.Entry(debt).State = EntityState.Modified;
                             model.SaveChanges();
                         }
@@ -656,6 +818,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             var debt = pro.Debts.FirstOrDefault(d => d.Stage.ToLower().Trim().Equals(nameGD));
                             debt.Price = Convert.ToDecimal(chiphi);
                             debt.Date = Convert.ToDateTime(giaidoan);
+                            debt.Send_Email_State = false;
                             model.Entry(debt).State = EntityState.Modified;
                             model.SaveChanges();
                         }
@@ -676,6 +839,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     var debt = pro.Debts.FirstOrDefault(d => d.Stage.ToLower().Trim().Equals(nameGD));
                     debt.Price = Convert.ToDecimal(chiphi);
                     debt.Date = Convert.ToDateTime(giaidoan);
+                    debt.Send_Email_State = false;
                     model.Entry(debt).State = EntityState.Modified;
                     model.SaveChanges();
                 }

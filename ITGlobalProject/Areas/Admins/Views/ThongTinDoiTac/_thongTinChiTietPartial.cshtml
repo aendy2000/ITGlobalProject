@@ -147,19 +147,61 @@
                             </div>
                         </div>
                         <hr class="my-4" />
-                        <div class="mb-3 col-12">
-                            <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp</label>
-                            <input hidden value="@Model.ID" id="idpart" />
-                            <input value="@Model.Company" id="namedn" name="namedn" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng (nếu có)" required>
-                            <p hidden style="font-size: 13px; color:red;" id="namednvalidation"></p>
-                        </div>
-                        <!-- form group -->
-                        <div class="mb-3 col-12  col-md-6">
-                            <label style="font-weight:bold" class="form-label">Họ và Tên <span class="text-danger">*</span></label>
-                            <input value="@Model.Name" id="hoten" name="hoten" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
-                            <p hidden style="font-size: 13px; color:red;" id="hotenvalidation"></p>
-                        </div>
-
+                        <input hidden value="@Model.ID" id="idpart" />
+                        @if (Model.CompanyOrPersonal == true)
+                        {
+                            <div class="mb-3 col-12">
+                                <label style="font-weight:bold;" class="form-label" for="phone">Loại đối tác</label>
+                                <div class="form-check form-switch form-control">
+                                    <label style="margin-top: 1px; margin-left: -10px" class="form-check-label" for="canhandoanhnghiep">Cá Nhân / Doanh Nghiệp</label>
+                                    &emsp;&emsp;&ensp;&ensp;&ensp;
+                                    <input id="canhandoanhnghiep" style="margin-right: -20px" class="form-check-input" type="checkbox" role="switch" checked>
+                                </div>
+                            </div>
+                            <div id="doanhnghieps1" class="mb-3 col-12">
+                                <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp <span class="text-danger">*</span></label>
+                                <input id="namedn" name="namedn" value="@Model.Company" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng" required>
+                                <p hidden style="font-size: 13px; color:red;" id="namednvalidation"></p>
+                            </div>
+                            <!-- form group -->
+                            <div id="doanhnghieps2" class="mb-3 col-12  col-md-6">
+                                <label style="font-weight:bold" class="form-label">Tên người đại diện <span class="text-danger">*</span></label>
+                                <input id="hotennguoidaidien" value="@Model.Name" name="hotennguoidaidien" type="text" class="form-control" placeholder="Nhập vào họ và tên của người đại diện" required>
+                                <p hidden style="font-size: 13px; color:red;" id="hotennguoidaidienvalidation"></p>
+                            </div>
+                            <div hidden id="canhans" class="mb-3 col-12  col-md-6">
+                                <label style="font-weight:bold" class="form-label">Họ và Tên <span class="text-danger">*</span></label>
+                                <input value="@Model.Name" id="hoten" name="hoten" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
+                                <p hidden style="font-size: 13px; color:red;" id="hotenvalidation"></p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-3 col-12">
+                                <label style="font-weight:bold;" class="form-label" for="phone">Loại đối tác</label>
+                                <div class="form-check form-switch form-control">
+                                    <label style="margin-top: 1px; margin-left: -10px" class="form-check-label" for="canhandoanhnghiep">Cá Nhân / Doanh Nghiệp</label>
+                                    &emsp;&emsp;&ensp;&ensp;&ensp;
+                                    <input id="canhandoanhnghiep" style="margin-right: -20px" class="form-check-input" type="checkbox" role="switch">
+                                </div>
+                            </div>
+                            <div hidden id="doanhnghieps1" class="mb-3 col-12">
+                                <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp <span class="text-danger">*</span></label>
+                                <input id="namedn" name="namedn" value="" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng" required>
+                                <p hidden style="font-size: 13px; color:red;" id="namednvalidation"></p>
+                            </div>
+                            <!-- form group -->
+                            <div hidden id="doanhnghieps2" class="mb-3 col-12  col-md-6">
+                                <label style="font-weight:bold" class="form-label">Tên người đại diện <span class="text-danger">*</span></label>
+                                <input id="hotennguoidaidien" value="@Model.Name" name="hotennguoidaidien" type="text" class="form-control" placeholder="Nhập vào họ và tên của người đại diện" required>
+                                <p hidden style="font-size: 13px; color:red;" id="hotennguoidaidienvalidation"></p>
+                            </div>
+                            <div id="canhans" class="mb-3 col-12  col-md-6">
+                                <label style="font-weight:bold" class="form-label">Họ và Tên <span class="text-danger">*</span></label>
+                                <input value="@Model.Name" id="hoten" name="hoten" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
+                                <p hidden style="font-size: 13px; color:red;" id="hotenvalidation"></p>
+                            </div>
+                        }
                         <div class="mb-3 col-12 col-md-6">
                             <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD <span class="text-danger">*</span></label>
                             <input value="@Model.IdentityCard" id="cmnd" name="cmnd" type="text" class="form-control" placeholder="Nhập vào số CMND/CCCD của khách hàng" data-inputmask="'mask': '9999 9999 9999'" inputmode="numeric" />
@@ -199,10 +241,19 @@
                             </select>
                             <p hidden style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
                         </div>
-
+                        <div class="mb-3 col-12 col-md-6">
+                            <label style="font-weight:bold" class="form-label">Mã Số Thuế <span class="text-danger">*</span></label>
+                            <input value="@Model.TaxCode" id="masothue" name="masothue" type="text" class="form-control" placeholder="Nhập mã số thuế" data-inputmask="'mask': '9999999999'" inputmode="numeric" required>
+                            <p hidden style="font-size: 13px; color:red;" id="masothuevalidation"></p>
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <label style="font-weight:bold" class="form-label">Website</label>
+                            <input value="@Model.WebUrl" id="urlweb" name="urlweb" type="text" class="form-control" placeholder="Nhập vào đường dẫn website (nếu có)" required>
+                            <p hidden style="font-size: 13px; color:red;" id="urlwebvalidation"></p>
+                        </div>
                         <!-- Address -->
                         <div class="mb-3 col-12 col-md-12">
-                            <label style="font-weight:bold" class="form-label" for="address">ĐC Doanh nghiệp / Nhà riêng</label>
+                            <label style="font-weight:bold" class="form-label" for="address">Địa chỉ</label>
                             <textarea id="diahchinha" name="diachinha" rows="5" class="form-control" placeholder="Nhập địa chỉ doanh nghiệp / nhà riêng khách hàng">@Model.Address</textarea>
                             <p hidden style="font-size: 13px; color:red;" id="diachinhavalidation"></p>
                         </div>

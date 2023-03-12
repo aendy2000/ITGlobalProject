@@ -369,6 +369,9 @@
     <Compile Include="Models\Payroll.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PayrollCategory.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PersonalSkills.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -391,6 +394,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Subsidies.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SubsidiesApply.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SubsidiesCategory.cs">
@@ -546,6 +552,7 @@
     <Content Include="Content\Admin\vendor\select2\select2.min.js" />
     <Content Include="Content\Admin\vendor\tilt\tilt.jquery.min.js" />
     <Content Include="Content\bootstrap-btn.css" />
+    <Content Include="Content\html2canvas.js" />
     <Content Include="Content\images\bg-capcha.jpg" />
     <Content Include="Content\images\default-avatar.png" />
     <Content Include="Content\Loader\Loader.css" />
@@ -553,6 +560,7 @@
     <Content Include="Content\Loader\loadingpage.gif" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\jspdf.debug.js" />
     <Content Include="Content\User\public\css\app.css" />
     <Content Include="Content\User\public\images\hero-bottom.svg" />
     <Content Include="Content\User\public\js\app.js" />
@@ -739,7 +747,6 @@
     <Content Include="Areas\Admins\Views\QuanLyLuong\bangLuong.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyLuong\danhSachLuongThang.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyLuong\tinhLuong.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyLuong\tinhLuongThuong.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\danhSachNhanVien.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\thongTinChiTiet.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_bangLuongPartial.cshtml" />
@@ -806,6 +813,10 @@
     <Content Include="Areas\Admins\Views\QuanLyDuAn\_xemChinhSuaTaskPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDuAn\_commentTaskPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDuAn\_doiNgu_timKiemThanhVienPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyDuAn\_formChinhSuaChiPhi.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyDuAn\_chinhSuaDuAnPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\ThongTinDoiTac\_danhSachDoiTacPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\ThongTinDoiTac\_duAnThamGiaSearch.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -820,6 +831,9 @@
     <Content Include="Areas\Admins\Views\QuanLyDanhMucNgayNghiPhep\_danhSachDanhMucNgayNghiPhepPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDonNghiPhep\danhSachDonNghiPhep.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDonNghiPhep\_danhSachDonNghiPhepPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyLuong\_chiTietLuongPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyLuong\_bangLuongPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyLuong\_tinhLuongPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -861,6 +875,11 @@
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\SuaKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\ThemKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\XoaKyNangValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyLuong\BangLuongValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyLuong\CauHinhKhoanTru.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyLuong\chiTietLuongValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyLuong\thanhToanLuong.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyLuong\tinhLuong.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_TienDoValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_LichSuHoatDongGiaValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_HopDongValidation.js" />

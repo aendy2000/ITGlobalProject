@@ -43,6 +43,7 @@ namespace ITGlobalProject.Models
         public virtual DbSet<Partners> Partners { get; set; }
         public virtual DbSet<PaymentHistory> PaymentHistory { get; set; }
         public virtual DbSet<Payroll> Payroll { get; set; }
+        public virtual DbSet<PayrollCategory> PayrollCategory { get; set; }
         public virtual DbSet<PersonalSkills> PersonalSkills { get; set; }
         public virtual DbSet<Position> Position { get; set; }
         public virtual DbSet<Projects> Projects { get; set; }
@@ -51,6 +52,7 @@ namespace ITGlobalProject.Models
         public virtual DbSet<Skills> Skills { get; set; }
         public virtual DbSet<SkillsCategory> SkillsCategory { get; set; }
         public virtual DbSet<Subsidies> Subsidies { get; set; }
+        public virtual DbSet<SubsidiesApply> SubsidiesApply { get; set; }
         public virtual DbSet<SubsidiesCategory> SubsidiesCategory { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Tasks> Tasks { get; set; }

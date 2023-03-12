@@ -1,16 +1,29 @@
-﻿
+﻿@using ITGlobalProject.Models
 @{
-    ViewBag.Title = "tinhLuong";
+    CP25Team06Entities model = new CP25Team06Entities();
+    var emp = model.Employees.Where(e => e.Lock == false && e.Wage > 0).ToList();
+    emp.Remove(model.Employees.Find(1));
+    ViewBag.Title = "Tính Lương";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+
+    var lstThang = model.PayrollCategory.ToList();
+    int currentYear = DateTime.Now.Year;
+    int currentMonth = DateTime.Now.Month;
+    var currentDate = DateTime.Now;
+
+    var insurance = Session["Insurance"] as IEnumerable<Insurance>;
+    var tax = Session["Tax"] as IEnumerable<Tax>;
+    var depend = Session["Dependency"] as List<DependencyDeduction>;
+    int i = 1;
 }
 
 <div class="container-fluid p-4">
     <div class="row">
         <!-- Page Header -->
         <div class="col-lg-12 col-md-12 col-12">
-            <div class="border-bottom pb-4 d-lg-flex align-items-center justify-content-between">
-                <div class="mb-2 mb-lg-0">
-                    <h1 class="mb-0 h2 fw-bold">Lương Tháng 10, 2022</h1>
+            <div class="row border-bottom pb-4 d-lg-flex align-items-center justify-content-between">
+                <div class="mb-2 mb-lg-0 col-12 col-md-6">
+                    <h1 class="mb-0 h2 fw-bold">Tính Lương Nhân Viên</h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -21,358 +34,286 @@
                                 <a href="@Url.Action("bangLuong", "quanLyLuong")">Quản Lý Lương</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("tinhLuong", "quanLyLuong")">Tính Lương</a>
+                                <a href="@Url.Action("tinhLuong", "quanLyLuong")">Tính Lương Nhân Viên</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                Tính Lương Tháng 10, 2022
+                                <label>Tính Lương Nhân Viên</label>
                             </li>
                         </ol>
                     </nav>
                 </div>
-                <div style="margin-right:-5px">
-                    <a href="@Url.Action("bangLuong", "quanLyLuong")" class="btn btn-primary me-2" style="width:230px;"><i class="fe fe-grid"> </i> Xem Bảng Lương</a>
+                <div class="text-end text-nowrap col-12 col-md-6">
+                    <select id="tinhluongthangs" class="selectpicker">
+                        <option value="2023-02-01">Tháng 02, 2023</option>
+                        @if (lstThang.Count > 0)
+                        {
+                            if (lstThang.Where(t => t.Date.Month == currentMonth && t.Date.Year == currentYear).Count() < 1)
+                            {
+                                <option selected value="@currentDate">Tháng @currentDate.ToString("MM, yyyy")</option>
+                                foreach (var item in lstThang.OrderByDescending(g => g.Date).ToList())
+                                {
+                                    <option value="@item.Date">Tháng @item.Date.ToString("MM, yyyy")</option>
+                                }
+                            }
+                            else
+                            {
+                                foreach (var item in lstThang.OrderByDescending(g => g.Date).ToList())
+                                {
+                                    if (currentMonth == item.Date.Month && currentYear == item.Date.Year)
+                                    {
+                                        <option selected value="@item.Date">Tháng @item.Date.ToString("MM, yyyy")</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Date">Tháng @item.Date.ToString("MM, yyyy")</option>
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <option selected value="@currentDate">Tháng @currentDate.ToString("MM, yyyy")</option>
+                        }
+                    </select>
+                    &ensp;
+                    <button data-bs-toggle="modal" data-bs-target="#cauhinhkhoantru" class="btn btn-primary me-2" style="width:230px;"><i class="fe fe-settings"> </i> Cấu Hình Khoản Trừ</button>
                 </div>
             </div>
         </div>
     </div>
     <br />
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-12">
-            <!-- Card -->
-            <div class="card mb-4">
-                <div class="card-header border-bottom-0">
-                    <h4 class="mb-1">DANH SÁCH NHÂN VIÊN CÓ THỂ TÍNH LƯƠNG.</h4>
-                    <p class="mb-0">
-                        Đây là danh sách những Nhân viên hiện đang còn làm việc tại Công Ty.
-                        Tích chọn vào ô select trước tên Nhân để chọn những Nhân viên sẽ được tính lương hoặc chọn select đầu tiên trên hàng tiêu đề để chọn tất cả.
-                    </p>
-                </div>
-                <div class="table-responsive border-0 overflow-y-hidden pt-2">
-                    <table class="table mb-0 text-nowrap" style="width:100%">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="border-0 font-size-inherit">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="checkAll" />
-                                        <label class="form-check-label" for="checkAll"></label>
-                                    </div>
-                                </th>
-                                <th class="border-0">Tên</th>
-                                <th class="border-0">Vai trò</th>
-                                <th class="border-0">Thưởng (Nếu có)</th>
-                                <th class="border-0">Nội dung thưởng</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="align-middle">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck1" />
-                                        <label class="form-check-label" for="categoryCheck1"></label>
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#" class="d-flex align-items-center">
-                                        <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg" alt="" class="rounded-circle avatar-xs me-2" />
-                                        <h5 class="mb-0">Đặng Văn Tuấn</h5>
-                                    </a>
-                                </td>
-                                <td class="align-middle">Web Development</td>
-                                <td style="font-weight: bold" class="align-middle text-warning">
-                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng" inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
-                                </td>
-                                <td class="align-middle">
-                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck2" />
-                                        <label class="form-check-label" for="categoryCheck2"></label>
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#" class="d-flex align-items-center">
-                                        <img src="~/Content/Admin/assets/images/avatar/avatar-2.jpg" alt="" class="rounded-circle avatar-xs me-2" />
-                                        <h5 class="mb-0">Lê Thị Lợi</h5>
-                                    </a>
-                                </td>
-                                <td class="align-middle">Tester</td>
-                                <td style="font-weight: bold" class="align-middle text-warning">
-                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
-                                </td>
-                                <td class="align-middle">
-                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck3" />
-                                        <label class="form-check-label" for="categoryCheck3"></label>
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#" class="d-flex align-items-center">
-                                        <img src="~/Content/Admin/assets/images/avatar/avatar-3.jpg" alt="" class="rounded-circle avatar-xs me-2" />
-                                        <h5 class="mb-0">Nguyễn Hiếu Nhân</h5>
-                                    </a>
-                                </td>
-                                <td class="align-middle">Mobile Development</td>
-                                <td style="font-weight: bold" class="align-middle text-warning">
-                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
-                                </td>
-                                <td class="align-middle">
-                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck4" />
-                                        <label class="form-check-label" for="categoryCheck4"></label>
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#" class="d-flex align-items-center">
-                                        <img src="~/Content/Admin/assets/images/avatar/avatar-4.jpg" alt="" class="rounded-circle avatar-xs me-2" />
-                                        <h5 class="mb-0">Bùi Công Danh</h5>
-                                    </a>
-                                </td>
-                                <td class="align-middle">Tester</td>
-                                <td style="font-weight: bold" class="align-middle text-warning">
-                                    <input style="font-weight: bold; width: 150px " value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng" inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
-                                </td>
-                                <td class="align-middle">
-                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck5" />
-                                        <label class="form-check-label" for="categoryCheck5"></label>
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#" class="d-flex align-items-center">
-                                        <img src="~/Content/Admin/assets/images/avatar/avatar-5.jpg" alt="" class="rounded-circle avatar-xs me-2" />
-                                        <h5 class="mb-0">Nguyễn Thanh Thiện</h5>
-                                    </a>
-                                </td>
-                                <td class="align-middle">Business Analyst</td>
-                                <td style="font-weight: bold" class="align-middle text-warning">
-                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
-                                </td>
-                                <td class="align-middle">
-                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck5" />
-                                        <label class="form-check-label" for="categoryCheck5"></label>
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#" class="d-flex align-items-center">
-                                        <img src="~/Content/Admin/assets/images/avatar/avatar-7.jpg" alt="" class="rounded-circle avatar-xs me-2" />
-                                        <h5 class="mb-0">Nguyễn Huy Hoàng</h5>
-                                    </a>
-                                </td>
-                                <td class="align-middle">Front-end Developer</td>
-                                <td style="font-weight: bold" class="align-middle text-warning">
-                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
-                                </td>
-                                <td class="align-middle">
-                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck5" />
-                                        <label class="form-check-label" for="categoryCheck5"></label>
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#" class="d-flex align-items-center">
-                                        <img src="~/Content/Admin/assets/images/avatar/avatar-6.jpg" alt="" class="rounded-circle avatar-xs me-2" />
-                                        <h5 class="mb-0">Lê Thiện Minh</h5>
-                                    </a>
-                                </td>
-                                <td class="align-middle">Full Stack Developer</td>
-                                <td style="font-weight: bold" class="align-middle text-warning">
-                                    <input style="font-weight:bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
-                                </td>
-                                <td class="align-middle">
-                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
-                                </td>
-                            </tr>
+    <div id="tinhLuongThangPartial">
+        @if (lstThang.Where(t => t.Date.Month == currentMonth && t.Date.Year == currentYear).Count() > 0)
+        {
+            <input hidden id="datinhluong" value="datinh" />
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="shadow p-3 mb-4 bg-light-success border-100 rounded text-middle text-center">
+                        <span class="text-dark-success">
+                            Lương tháng @currentDate.ToString("MM, yyyy") đã được tính!
+                            <a target="_blank" href="@Url.Action("danhsachluongthang", "quanlyluong", new { id = lstThang.FirstOrDefault(t => t.Date.Month == currentMonth && t.Date.Year == currentYear).ID})"><u>Xem tháng lương</u></a>
+                        </span>
 
-                            <tr>
-                                <td class="align-middle">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck1" />
-                                        <label class="form-check-label" for="categoryCheck1"></label>
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#" class="d-flex align-items-center">
-                                        <img src="~/Content/Admin/assets/images/avatar/avatar-1.jpg" alt="" class="rounded-circle avatar-xs me-2" />
-                                        <h5 class="mb-0">Đặng Văn Tuấn</h5>
-                                    </a>
-                                </td>
-                                <td class="align-middle">Web Development</td>
-                                <td style="font-weight: bold" class="align-middle text-warning">
-                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
-                                </td>
-                                <td class="align-middle">
-                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck2" />
-                                        <label class="form-check-label" for="categoryCheck2"></label>
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#" class="d-flex align-items-center">
-                                        <img src="~/Content/Admin/assets/images/avatar/avatar-2.jpg" alt="" class="rounded-circle avatar-xs me-2" />
-                                        <h5 class="mb-0">Lê Thị Lợi</h5>
-                                    </a>
-                                </td>
-                                <td class="align-middle">Tester</td>
-                                <td style="font-weight: bold" class="align-middle text-warning">
-                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
-                                </td>
-                                <td class="align-middle">
-                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck3" />
-                                        <label class="form-check-label" for="categoryCheck3"></label>
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#" class="d-flex align-items-center">
-                                        <img src="~/Content/Admin/assets/images/avatar/avatar-3.jpg" alt="" class="rounded-circle avatar-xs me-2" />
-                                        <h5 class="mb-0">Nguyễn Hiếu Nhân</h5>
-                                    </a>
-                                </td>
-                                <td class="align-middle">Mobile Development</td>
-                                <td style="font-weight: bold" class="align-middle text-warning">
-                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
-                                </td>
-                                <td class="align-middle">
-                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck4" />
-                                        <label class="form-check-label" for="categoryCheck4"></label>
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#" class="d-flex align-items-center">
-                                        <img src="~/Content/Admin/assets/images/avatar/avatar-4.jpg" alt="" class="rounded-circle avatar-xs me-2" />
-                                        <h5 class="mb-0">Bùi Công Danh</h5>
-                                    </a>
-                                </td>
-                                <td class="align-middle">Tester</td>
-                                <td style="font-weight: bold" class="align-middle text-warning">
-                                    <input style="font-weight: bold; width: 150px " value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
-                                </td>
-                                <td class="align-middle">
-                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck5" />
-                                        <label class="form-check-label" for="categoryCheck5"></label>
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#" class="d-flex align-items-center">
-                                        <img src="~/Content/Admin/assets/images/avatar/avatar-5.jpg" alt="" class="rounded-circle avatar-xs me-2" />
-                                        <h5 class="mb-0">Nguyễn Thanh Thiện</h5>
-                                    </a>
-                                </td>
-                                <td class="align-middle">Business Analyst</td>
-                                <td style="font-weight: bold" class="align-middle text-warning">
-                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
-                                </td>
-                                <td class="align-middle">
-                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck5" />
-                                        <label class="form-check-label" for="categoryCheck5"></label>
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#" class="d-flex align-items-center">
-                                        <img src="~/Content/Admin/assets/images/avatar/avatar-7.jpg" alt="" class="rounded-circle avatar-xs me-2" />
-                                        <h5 class="mb-0">Nguyễn Huy Hoàng</h5>
-                                    </a>
-                                </td>
-                                <td class="align-middle">Front-end Developer</td>
-                                <td style="font-weight: bold" class="align-middle text-warning">
-                                    <input style="font-weight: bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
-                                </td>
-                                <td class="align-middle">
-                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="align-middle">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input p-2" id="categoryCheck5" />
-                                        <label class="form-check-label" for="categoryCheck5"></label>
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="#" class="d-flex align-items-center">
-                                        <img src="~/Content/Admin/assets/images/avatar/avatar-6.jpg" alt="" class="rounded-circle avatar-xs me-2" />
-                                        <h5 class="mb-0">Lê Thiện Minh</h5>
-                                    </a>
-                                </td>
-                                <td class="align-middle">Full Stack Developer</td>
-                                <td style="font-weight: bold" class="align-middle text-warning">
-                                    <input style="font-weight:bold; width: 150px" value="" data-inputmask="'alias': 'decimal', 'groupSeparator': ','"  placeholder="Nhập số tiền thưởng"  inputmode="numeric" id="tienthuong01" class="form-control  form-control-sm text-start text-danger" type="text" />
-                                </td>
-                                <td class="align-middle">
-                                    <input style="width: 450px" class="form-control form-control-sm" placeholder="Nhập nội dung thưởng" type="text" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div style="text-align: center; padding-top: 30px; padding-bottom: 20px" class="mb-3 col-12 col-md-12">
-                        <button style="width: 230px" class="btn btn-outline-danger" type="reset">
-                            Hủy Bỏ
-                        </button>
-                        &emsp;
-                        <button style="width: 230px" class="btn btn-success" type="submit">
-                            Tính Lương
-                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <input hidden id="datinhluong" value="chuatinh" />
+        }
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-12">
+                <!-- Card -->
+                <div class="card">
+                    <div style="margin-bottom: -30px" class="card-header border-bottom-0">
+                        <h4 class="mb-2">DANH SÁCH NHÂN VIÊN CÓ THỂ TÍNH LƯƠNG.</h4>
+                        <p class="mb-0">
+                            Đây là danh sách những Nhân viên hiện đang còn làm việc tại Công Ty.
+                            Tích chọn vào ô select trước tên Nhân viên để chọn những Nhân viên sẽ được tính lương hoặc chọn select đầu tiên trên hàng tiêu đề để chọn tất cả.
+                        </p>
+                    </div>
+                    <div class="table-responsive border-0 overflow-y-hidden pt-2">
+                        <table class="table text-nowrap" id="dataTableBasic" style="width:100%">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="border-0 font-size-inherit">
+                                        <div class="form-check">
+                                            <input checked type="checkbox" class="form-check-input p-2" id="checkAlls" />
+                                            <label class="form-check-label" for="checkAlls"></label>
+                                        </div>
+                                    </th>
+                                    <th class="border-0">Mã Nhân viên</th>
+                                    <th class="border-0">Tên nhân viên</th>
+                                    <th class="border-0">Chức danh</th>
+                                    <th class="border-0">Ngày vào làm</th>
+                                    <th class="border-0">Ngày nghỉ</th>
+                                    <th class="border-0">Lương hợp đồng</th>
+                                    <th class="border-0">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in emp.Where(e => e.Lock == false).ToList())
+                                {
+                                    <tr>
+                                        @if (lstThang.Where(l => l.Payroll.Where(e => e.ID_Employee == item.ID).Count() > 0).Count() > 0 && lstThang.Where(l => l.Payroll.Where(p => p.ID_Employee == item.ID).Count() > 0).First().Payroll.Where(p => p.ID_Employee == item.ID).First().State == true)
+                                        {
+                                            <td class="align-middle">
+                                                <div class="form-check">
+                                                    <span class="form-check-input p-2" style="border-radius: 20%"></span>
+                                                </div>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle">
+                                                <div class="form-check">
+                                                    <input checked type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
+                                                </div>
+                                            </td>
+                                        }
+
+                                        <td class="align-middle">
+                                            <label class="form-check-label" for="@item.ID">@item.ID_Employee</label>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID})" class="d-flex align-items-center">
+
+                                                @if (string.IsNullOrEmpty(item.Avatar))
+                                                {
+                                                    <div class="avatar avatar-xs avatar-danger me-2">
+                                                        <span class="avatar-initials rounded-circle ">@item.Name.Substring(0, 1)</span>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <img src="@item.Avatar" alt="" class="rounded-circle avatar-xs me-2" />
+                                                }
+                                                <h5 class="mb-0">@item.Name</h5>
+                                            </a>
+                                        </td>
+                                        <td class="align-middle">@item.Position.Name</td>
+                                        <td class="align-middle">@item.JoinedDate.ToString("dd/MM/yyyy")</td>
+                                        <td class="align-middle">
+                                            @item.LeaveApplication.Where(l => l.State == true).Count() ngày
+                                        </td>
+                                        <td style="font-weight:bold" class="align-middle text-danger">
+                                            @item.Wage.ToString("0,0").Replace(".", ",") đ
+                                        </td>
+                                        <td class="align-middle">
+                                            @if (lstThang.Where(l => l.Payroll.Where(e => e.ID_Employee == item.ID).Count() > 0).Count() < 1)
+                                            {
+                                                <span style="width:110px" class="badge bg-gray-100 text-gray-700">Sẵn sàng</span>
+                                            }
+                                            else if (lstThang.Where(l => l.Payroll.Where(e => e.ID_Employee == item.ID).Count() > 0).Count() > 0 && lstThang.Where(l => l.Payroll.Where(p => p.ID_Employee == item.ID).Count() > 0).First().Payroll.Where(p => p.ID_Employee == item.ID).First().State == true)
+                                            {
+                                                <span style="width:110px" class="badge text-danger bg-light-danger ">Đã thanh toán<br />không thể tính lại</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="width:110px" class="badge text-success bg-light-success ">Đã được tính</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <div style="text-align: center; padding-bottom: 20px" class="col-12 col-md-12">
+                            <button style="width: 230px" class="btn btn-success" id="btntinhluong">
+                                Tính Lương
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div class="modal fade" id="cauhinhkhoantru" tabindex="-1" role="dialog" aria-labelledby="cauhinhkhoantru" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Cấu Hình Khoản Trừ</h5>
+                <button id="dongmodaltinhthue" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-2">
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link active" id="v-pills-baohiem-tab" data-bs-toggle="pill" href="#v-pills-baohiem" role="tab" aria-controls="v-pills-baohiem" aria-selected="true">Bảo Hiểm XH</a>
+                            <a class="nav-link" id="v-pills-thue-tab" data-bs-toggle="pill" href="#v-pills-thue" role="tab" aria-controls="v-pills-thue" aria-selected="false">Thuế Thu Nhập</a>
+                            <a class="nav-link" id="v-pills-phuthuoc-tab" data-bs-toggle="pill" href="#v-pills-phuthuoc" role="tab" aria-controls="v-pills-phuthuoc" aria-selected="false">Phụ Thuộc</a>
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-baohiem" role="tabpanel" aria-labelledby="v-pills-baohiem-tab">
+                                <div class="row">
+                                    @foreach (var item in insurance)
+                                    {
+                                        <div class="mb-3 col-6 col-md-6">
+                                            <label style="font-weight:bold" class="form-label">@item.Name (%) <span class="text-danger">*</span></label>
+                                            <input value="@item.Percentage.ToString("0.0")" id="baohiem-data-@item.ID" name="@item.ID" data-inputmask="'alias': 'decimal'" type="text" class="text-start form-control" placeholder="Nhập vào số % khoản thu @item.Name" required>
+                                            <p hidden style="font-size: 13px; color:red;" id="baohiem-validation-@item.ID"></p>
+                                        </div>
+                                        <div class="mb-3 col-6 col-md-6">
+                                            <label style="font-weight:bold" class="form-label">Mức trần (VND)</label>
+                                            <label class="text-muted fs-6"> - Bỏ trống nếu không áp dụng.</label>
+                                            <input id="muctran-data-@item.ID" name="@item.ID" value="@(item.Ceiling_Level.Value > 0 ? item.Ceiling_Level.Value.ToString("0,0").Replace(".", ",") : "")" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập số tiền làm mức trần" required />
+                                            <p hidden style="font-size: 13px; color:red;" id="muctran-validation-@item.ID"></p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-thue" role="tabpanel" aria-labelledby="v-pills-thue-tab">
+                                <div class="row">
+                                    @foreach (var item in tax)
+                                    {
+                                        <div class="mb-3 col-12 col-md-5">
+                                            <label style="font-weight:bold" class="form-label">@i. Thu Nhập Tối Thiểu - Thu Nhập Tối Đa (VND)</label>
+                                            <div class="input-group">
+                                                <input id="thunhaptoithieu-data-@item.ID" name="@item.ID" value="@item.MinPrice.ToString("0,0").Replace(".", ",")" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Thu nhập tối thiểu" />
+                                                <span class="input-group-text"> - </span>
+                                                @if (item.MaxPrice < 1000000000)
+                                                {
+                                                    <input data-bs-toggle="tooltip" data-placement="top" id="thunhaptoida-data-@item.ID" name="@item.ID" value="@item.MaxPrice.ToString("0,0").Replace(".", ",")" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Thu nhập tối đa" />
+                                                }
+                                                else
+                                                {
+                                                    <input id="thunhaptoida-data-@item.ID" name="@item.ID" readonly value="Không xác định" class="form-control text-start text-danger" type="text" />
+                                                }
+                                            </div>
+                                            <p hidden style="font-size: 13px; color:red;" id="thunhap-validation-@item.ID"></p>
+                                        </div>
+                                        <div class="mb-3 col-12 col-md-3">
+                                            <label style="font-weight:bold" class="form-label">Thuế Suất (%) <span class="text-danger">*</span></label>
+                                            <input value="@item.Percentage.ToString("0.0")" id="thuesuat-data-@item.ID" name="@item.ID" data-inputmask="'alias': 'decimal'" type="text" class="text-start form-control" placeholder="Nhập vào số % thuế suất">
+                                            <p hidden style="font-size: 13px; color:red;" id="thuesuat-validation-@item.ID"></p>
+                                        </div>
+                                        <div class="mb-3 col-12 col-md-3">
+                                            <label style="font-weight:bold" class="form-label">Khoản giảm trừ (VND) <span class="text-danger">*</span></label>
+                                            <input id="giamtru-data-@item.ID" name="@item.ID" value="@item.Deductible.ToString("0,0").Replace(".", ",")" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập khoản giảm trừ" />
+                                            <p hidden style="font-size: 13px; color:red;" id="giamtru-validation-@item.ID"></p>
+                                        </div>
+                                        i++;
+                                    }
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-phuthuoc" role="tabpanel" aria-labelledby="v-pills-phuthuoc-tab">
+                                <div class="row">
+                                    <div class="mb-3 col-12 col-md-12">
+                                        <label style="font-weight:bold" class="form-label">Giảm trừ phụ thuộc (VND) <span class="text-danger">*</span></label>
+                                        <input value="@depend[0].Price.ToString("0,0").Replace(".", ",")" id="giamtruphuthuoc" name="@depend[0].ID" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập vào số tiền giảm trừ phụ thuộc" required>
+                                        <p hidden style="font-size: 13px; color:red;" id="giamtruphuthuoc-validation"></p>
+                                    </div>
+                                    <div class="mb-3 col-12 col-md-12">
+                                        <label style="font-weight:bold" class="form-label">Giảm trừ giả cảnh (VND) <span class="text-danger">*</span></label>
+                                        <input value="@depend[1].Price.ToString("0,0").Replace(".", ",")" id="giamtrugiacanh" style="font-weight:bold;" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" class="form-control text-start text-danger" type="text" placeholder="Nhập vào số tiền giảm trừ gia cảnh" required>
+                                        <p hidden style="font-size: 13px; color:red;" id="giamtrugiacanh-validation"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div style="text-align: right; padding-bottom: 20px" class="mb-2 col-12 col-md-6">
+                    <button style="width: 150px" class="btn btn-outline-danger" data-bs-dismiss="modal">
+                        Hủy
+                    </button>
+                </div>
+                <div style="padding-bottom: 20px; width: 150px" class="mb-2 col-12 col-md-6">
+                    <a style="width: 150px" role="button" id="btnLuuThongTinKhoanTru" class="btn btn-success">
+                        Lưu
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<script src="~/ValidationAlert/Admin/QuanLyLuong/tinhLuong.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyLuong/CauHinhKhoanTru.js"></script>

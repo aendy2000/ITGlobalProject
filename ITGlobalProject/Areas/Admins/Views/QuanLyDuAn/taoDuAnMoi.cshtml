@@ -124,11 +124,26 @@
                                                             <i class="fe fe-plus-circle"> </i> Thêm giai đoạn
                                                         </a>
                                                     </div>
-
-
                                                     <div style="margin-bottom: 20px" class="col-12">
                                                         <label style="font-weight:bold" for="priority" class="form-label">Tổng chi phí (VND)</label>
                                                         <input value="" placeholder="HÃY NHẬP CHI PHÍ Ở CÁC GIAI ĐOẠN" data-inputmask="'alias': 'decimal', 'groupSeparator': ','" inputmode="numeric" readonly style="text-align: center; font-weight: bold;" id="sums" name="sums" type="text" class="form-control text-center text-danger">
+                                                    </div>
+
+                                                    <div id="taiAnhHopDong" class="mb-3 col-12 col-md-12">
+                                                        <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Hợp đồng</label>
+                                                        <a role="button" id="chonanhhopdong" class="btn btn-outline-primary" style="width:100%">
+                                                            <i class="fe fe-upload me-1"></i>
+                                                            Tải Lên Hình Ảnh
+                                                        </a>
+                                                    </div>
+                                                    <div style="margin-left: 13px ;width: 98%" class="form-control bg-gray-200 mb-4 col-12 col-md-12 text-center ">
+                                                        <input hidden id="selectFileshopdong" type="file" name="file" accept="image/*" onchange="ShowImageUploadshopdong(this, document.getElementById('previewImageshopdong'))" />
+                                                        <div class="py-3"></div>
+                                                        <figure class="gallery__item gallery__item--1 mb-0">
+                                                            <img style="max-width: 700px;" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImageshopdong">
+                                                        </figure>
+                                                        <button hidden style="margin-top: 37px" id="xoahinhanhhopdong" class="btn btn-danger btn-sm">XÓA BỎ</button>
+                                                        <div class="py-3"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -185,17 +200,30 @@
                                             </div>
                                             <hr class="my-4" />
                                             <div class="mb-3 col-12">
-                                                <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp</label>
-                                                <input id="namedn" name="namedn" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng (nếu có)" required>
+                                                <label style="font-weight:bold;" class="form-label" for="phone">Loại đối tác</label>
+                                                <div class="form-check form-switch form-control">
+                                                    <label style="margin-top: 1px; margin-left: -10px" class="form-check-label" for="canhandoanhnghiep">Cá Nhân / Doanh Nghiệp</label>
+                                                    &emsp;&emsp;&ensp;&ensp;&ensp;
+                                                    <input id="canhandoanhnghiep" style="margin-right: -20px" class="form-check-input" type="checkbox" role="switch">
+                                                </div>
+                                            </div>
+                                            <div hidden id="doanhnghieps1" class="mb-3 col-12">
+                                                <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp <span class="text-danger">*</span></label>
+                                                <input id="namedn" name="namedn" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng" required>
                                                 <p hidden style="font-size: 13px; color:red;" id="namednvalidation"></p>
                                             </div>
                                             <!-- form group -->
-                                            <div class="mb-3 col-12  col-md-6">
+                                            <div hidden id="doanhnghieps2" class="mb-3 col-12  col-md-6">
+                                                <label style="font-weight:bold" class="form-label">Tên người đại diện <span class="text-danger">*</span></label>
+                                                <input id="hotennguoidaidien" name="hotennguoidaidien" type="text" class="form-control" placeholder="Nhập vào họ và tên của người đại diện" required>
+                                                <p hidden style="font-size: 13px; color:red;" id="hotennguoidaidienvalidation"></p>
+                                            </div>
+                                            <!-- form group -->
+                                            <div id="canhans" class="mb-3 col-12  col-md-6">
                                                 <label style="font-weight:bold" class="form-label">Họ và Tên <span class="text-danger">*</span></label>
                                                 <input id="hoten" name="hoten" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
                                                 <p hidden style="font-size: 13px; color:red;" id="hotenvalidation"></p>
                                             </div>
-
                                             <div class="mb-3 col-12 col-md-6">
                                                 <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD <span class="text-danger">*</span></label>
                                                 <input id="cmnd" name="cmnd" value="" type="text" class="form-control" placeholder="Nhập vào số CMND/CCCD của khách hàng" data-inputmask="'mask': '9999 9999 9999'" inputmode="numeric" />
@@ -228,10 +256,19 @@
                                                 </select>
                                                 <p hidden style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
                                             </div>
-
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <label style="font-weight:bold" class="form-label">Mã Số Thuế <span class="text-danger">*</span></label>
+                                                <input id="masothue" name="masothue" type="text" class="form-control" placeholder="Nhập mã số thuế" data-inputmask="'mask': '9999999999'" inputmode="numeric" required>
+                                                <p hidden style="font-size: 13px; color:red;" id="masothuevalidation"></p>
+                                            </div>
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <label style="font-weight:bold" class="form-label">Website</label>
+                                                <input id="urlweb" name="urlweb" type="text" class="form-control" placeholder="Nhập vào đường dẫn website (nếu có)" required>
+                                                <p hidden style="font-size: 13px; color:red;" id="urlwebvalidation"></p>
+                                            </div>
                                             <!-- Address -->
                                             <div class="mb-3 col-12 col-md-12">
-                                                <label style="font-weight:bold" class="form-label" for="address">ĐC Doanh nghiệp / Nhà riêng</label>
+                                                <label style="font-weight:bold" class="form-label" for="address">Địa chỉ</label>
                                                 <textarea id="diahchinha" name="diachinha" rows="5" class="form-control" placeholder="Nhập địa chỉ doanh nghiệp / nhà riêng khách hàng"></textarea>
                                                 <p hidden style="font-size: 13px; color:red;" id="diachinhavalidation"></p>
                                             </div>
@@ -269,9 +306,7 @@
                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <div class="card-body p-lg-6">
-                                        <!-- form -->
                                         <div class="row">
-                                            <!-- form group -->
                                             <div style="text-align: center; margin-top: -10px" class="mb-2 col-12">
                                                 <a data-bs-toggle="modal" data-bs-target="#lstKhachHangCu" style="width:100%" role="button" class="btn btn-outline-primary"> <i class="fe fe-user-plus"> </i> Lấy Thông Tin Khách Hàng Cũ</a>
                                             </div>
@@ -288,13 +323,18 @@
                                                 </div>
                                             </div>
                                             <hr class="my-4" />
-                                            <div class="mb-3 col-12">
-                                                <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp</label>
-                                                <input readonly id="namedncu" name="namedncu" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng (nếu có)" required>
-                                                <input hidden id="idKhachHang" />
+                                            <input hidden id="idKhachHang" />
+                                            <div hidden id="doanhnghieps1s" class="mb-3 col-12">
+                                                <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp <span class="text-danger">*</span></label>
+                                                <input readonly id="namedncu" name="namedncu" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng" required>
                                             </div>
                                             <!-- form group -->
-                                            <div class="mb-3 col-12  col-md-6">
+                                            <div hidden id="doanhnghieps2s" class="mb-3 col-12  col-md-6">
+                                                <label style="font-weight:bold" class="form-label">Tên người đại diện <span class="text-danger">*</span></label>
+                                                <input readonly id="hotennguoidaidiencu" name="hotennguoidaidiencu" type="text" class="form-control" placeholder="Nhập vào họ và tên của người đại diện" required>
+                                            </div>
+                                            <!-- form group -->
+                                            <div id="canhanss" class="mb-3 col-12  col-md-6">
                                                 <label style="font-weight:bold" class="form-label">Họ và Tên<span class="text-danger">*</span></label>
                                                 <input readonly id="hotencu" name="hotencu" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
                                             </div>
@@ -322,11 +362,18 @@
                                                 <label style="font-weight:bold" class="form-label">Giới tính <span class="text-danger">*</span></label>
                                                 <input readonly id="gioitinhcu" name="gioitinhcu" value="" class="form-control" type="text" placeholder="Chọn giới tính" />
                                             </div>
-
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <label style="font-weight:bold" class="form-label">Mã Số Thuế <span class="text-danger">*</span></label>
+                                                <input readonly id="masothuecu" name="masothuecu" type="text" class="form-control" placeholder="Nhập mã số thuế" data-inputmask="'mask': '9999999999'" inputmode="numeric" required>
+                                            </div>
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <label style="font-weight:bold" class="form-label">Website</label>
+                                                <input readonly id="urlwebcu" name="urlwebcu" type="text" class="form-control" placeholder="Nhập vào đường dẫn website (nếu có)" required>
+                                            </div>
                                             <!-- Address -->
                                             <div class="mb-3 col-12 col-md-12">
-                                                <label style="font-weight:bold" class="form-label" for="address">ĐC Doanh nghiệp / Nhà riêng <span class="text-danger">*</span></label>
-                                                <textarea readonly id="diahchinhacu" name="diachinhacu" rows="5" class="form-control" placeholder="Số 0/0 đường gì đó, Phường mấy, Quận gì, Thành Phố bla bla..."></textarea>
+                                                <label style="font-weight:bold" class="form-label" for="address">Địa chỉ</label>
+                                                <textarea readonly id="diahchinhacu" name="diachinhacu" rows="5" class="form-control" placeholder="Số 01 đường Nguyễn Minh Châu, Phường 12, Quận 1, Thành Phố Hồ Chí Minh..."></textarea>
                                             </div>
 
                                             <div style="text-align: right; padding-top: 25px" class="mb-2 col-12 col-md-6">
@@ -364,7 +411,7 @@
             <div class="card">
                 <!-- form -->
                 <!-- table -->
-                <table id="dataTableBasic" class="table table-hover"  style="width:100%">
+                <table id="dataTableBasic" class="table table-hover" style="width:100%">
                     <thead class="table-light">
                         <tr>
                             <th hidden scope="col" class=" border-top-0"></th>
@@ -389,6 +436,9 @@
                             <input hidden value="@item.Sex" id="gioitinhs@(item.ID)" />
                             <input hidden value="@item.Address" id="dcs@(item.ID)" />
                             <input hidden value="@item.Avatar" id="avts@(item.ID)" />
+                            <input hidden value="@item.CompanyOrPersonal.Value.ToString()" id="type@(item.ID)" />
+                            <input hidden value="@item.TaxCode" id="mathue@(item.ID)" />
+                            <input hidden value="@item.WebUrl" id="web@(item.ID)" />
 
                             <tr>
                                 <td hidden class="align-middle">
@@ -429,7 +479,17 @@
         </div>
     </div>
 </div>
-
+<script>
+    function ShowImageUploadshopdong(imageUploads, previewImageshopdong) {
+        if (imageUploads.files && imageUploads.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $(previewImageshopdong).attr('src', e.target.result);
+            }
+            reader.readAsDataURL(imageUploads.files[0]);
+        }
+    }
+</script>
 
 <script src="~/Content/Admin/assets/js/reviewImage.js"></script>
 <script src="~/ValidationAlert/Admin/QuanLyDuAn/ThemDuAnValidation.js"></script>

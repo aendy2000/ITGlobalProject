@@ -12,24 +12,19 @@ namespace ITGlobalProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Debts
+    public partial class PayrollCategory
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Debts()
+        public PayrollCategory()
         {
-            this.PaymentHistory = new HashSet<PaymentHistory>();
+            this.Payroll = new HashSet<Payroll>();
         }
     
         public int ID { get; set; }
-        public int ID_Project { get; set; }
-        public string Stage { get; set; }
-        public decimal Price { get; set; }
+        public string Name { get; set; }
         public System.DateTime Date { get; set; }
-        public bool State { get; set; }
-        public Nullable<bool> Send_Email_State { get; set; }
     
-        public virtual Projects Projects { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PaymentHistory> PaymentHistory { get; set; }
+        public virtual ICollection<Payroll> Payroll { get; set; }
     }
 }

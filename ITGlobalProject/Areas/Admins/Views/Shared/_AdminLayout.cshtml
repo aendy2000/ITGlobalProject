@@ -273,7 +273,7 @@
                            aria-expanded="false" aria-controls="navluong">
                             <i class="nav-icon fe fe-dollar-sign me-2"></i> Quản Lý Lương
                         </a>
-                        @if (ViewBag.ShowActive == "bangLuong" || ViewBag.ShowActive == "tinhLuong")
+                        @if (ViewBag.ShowActive == "bangLuong" || ViewBag.ShowActive == "tinhLuong" || ViewBag.ShowActive == "danhSachKhoanTroCapVaPhuCap")
                         {
                             <div id="navluong" class="collapse show" data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
@@ -289,6 +289,29 @@
                                                 Tính Lương
                                             </a>
                                         </li>
+                                        <li class="nav-item ">
+                                            <a class="nav-link " href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').show();">
+                                                Trợ cấp & Phụ cấp
+                                            </a>
+                                        </li>
+                                    }
+                                    else if (ViewBag.ShowActive == "danhSachKhoanTroCapVaPhuCap")
+                                    {
+                                        <li class="nav-item ">
+                                            <a class="nav-link " href="@Url.Action("bangLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
+                                                Bảng Lương
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="@Url.Action("tinhLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
+                                                Tính Lương
+                                            </a>
+                                        </li>
+                                        <li class="nav-item ">
+                                            <a class="nav-link active" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').show();">
+                                                Trợ cấp & Phụ cấp
+                                            </a>
+                                        </li>
                                     }
                                     else
                                     {
@@ -300,6 +323,11 @@
                                         <li class="nav-item">
                                             <a class="nav-link active" href="@Url.Action("tinhLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
                                                 Tính Lương
+                                            </a>
+                                        </li>
+                                        <li class="nav-item ">
+                                            <a class="nav-link" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').show();">
+                                                Trợ cấp & Phụ cấp
                                             </a>
                                         </li>
                                     }
@@ -320,27 +348,15 @@
                                             Tính Lương
                                         </a>
                                     </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').show();">
+                                            Trợ cấp & Phụ cấp
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         }
                     </li>
-                    @if (ViewBag.ShowActive == "danhSachKhoanTroCapVaPhuCap")
-                    {
-                        <li class="nav-item ">
-                            <a class="nav-link  active" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-dollar-sign me-2"></i> Trợ cấp & Phụ cấp
-                            </a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item ">
-                            <a class="nav-link " href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-dollar-sign me-2"></i> Trợ cấp & Phụ cấp
-                            </a>
-                        </li>
-                    }
-
                     <li class="nav-item ">
                         <a class="nav-link " href="#" data-bs-toggle="collapse"
                            data-bs-target="#navProject" aria-expanded="false" aria-controls="navProject">
@@ -868,8 +884,29 @@
     <script>
         $(window).on('load', function () {
             $('#AjaxLoader').hide();
+            $.ajax({
+                url: $('#requestPath').val() + 'Admins/ThongTinDoiTac/guiMail',
+                type: "GET",
+                success: function (result) {
+                    if (result == "Ok") {
+                        var content = {};
+                        content.message = 'Đã thay đổi trạng thái Tính Thuế';
+                        content.title = 'Thành công!';
+                        content.icon = 'nav-icon fe fe-bell me-2';
+
+                        $.notify(content, {
+                            type: "success",
+                            placement: {
+                                from: "bottom",
+                                align: "right"
+                            },
+                            time: 1000,
+                            delay: 1000,
+                        });
+                    }
+                }
+            });
         });
     </script>
-
 </body>
 </html>

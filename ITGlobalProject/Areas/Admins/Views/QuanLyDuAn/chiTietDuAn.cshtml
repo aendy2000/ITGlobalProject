@@ -179,7 +179,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="list-group-item px-0 pb-0">
+                    <li class="list-group-item px-0 ">
                         <div class="d-flex
                           justify-content-between
                           align-items-center">
@@ -215,6 +215,50 @@
                                 <div>
                                     <p class="text-danger mb-0
                                   fw-semi-bold">$ @Model.Debts.Sum(P => P.Price).ToString("0,0").Replace(".", ",") VND</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item px-0 pb-0">
+                    <div class="d-flex
+                          justify-content-between
+                          align-items-center">
+                        <div class="d-flex
+                            align-items-center">
+                         <svg xmlns="http://www.w3.org/2000/svg"  width="24" height="24"
+                                 fill="currentColor" class="bi bi-currency-dollar text-primary" viewBox="0 0 24 24"><title>image-outline</title><path d="M19,19H5V5H19M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M13.96,12.29L11.21,15.83L9.25,13.47L6.5,17H17.5L13.96,12.29Z" /></svg>
+                            <div class="ms-2">
+                                <h5 class="mb-0 text-body">Ảnh hợp đồng</h5>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <button class="btn btn-outline-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#ModalXemHinhAnh">Xem Hợp Đồng</button>
+                                <div class="modal fade modal-lg" id="ModalXemHinhAnh" tabindex="-1" role="dialog"
+                                     aria-labelledby="themVaiTroModalLabel" aria-hidden="true" data-simplebar>
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5>ẢNH HỢP ĐỒNG</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close">
+                                                </button>
+                                            </div>
+                                            <div class="row text-center">
+                                                <figure class="gallery__item gallery__item--1 mb-0">
+                                                    @if (string.IsNullOrEmpty(Model.ContractUrl))
+                                                    {
+                                                        <img style="margin: 30px 30px 30px 30px; max-width:720px" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img style="margin: 30px 30px 30px 30px; max-width:720px" src="@Model.ContractUrl" alt="Gallery image 1" class="gallery__img rounded-3">
+                                                    }
+                                                </figure>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -267,7 +311,7 @@
                 </div>
                 <div class="col border-start">
                     <div class="pe-1 ps-3 py-3">
-                        <a href="#" style="width: 90%; margin-top:5px" role="button" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
+                        <a target="_blank" href="@Url.Action("thongtinchitiet", "thongtindoitac", new { id = Model.ID_Partner})" style="width: 90%; margin-top:5px" role="button" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
                     </div>
                 </div>
             </div>

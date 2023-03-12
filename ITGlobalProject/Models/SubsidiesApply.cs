@@ -12,11 +12,19 @@ namespace ITGlobalProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Insurance
+    public partial class SubsidiesApply
     {
         public int ID { get; set; }
+        public int ID_Payroll { get; set; }
         public string Name { get; set; }
-        public decimal Percentage { get; set; }
-        public Nullable<decimal> Ceiling_Level { get; set; }
+        public decimal Price { get; set; }
+        public Nullable<decimal> Percentage { get; set; }
+        public Nullable<bool> OnBasicSalary { get; set; }
+        public int Date_Apply { get; set; }
+        public Nullable<bool> Tax { get; set; }
+        public Nullable<bool> Insurance { get; set; }
+        public Nullable<decimal> Total_Price { get; set; }
+    
+        public virtual Payroll Payroll { get; set; }
     }
 }
