@@ -818,6 +818,8 @@
     <Content Include="Areas\Admins\Views\ThongTinDoiTac\_danhSachDoiTacPartial.cshtml" />
     <Content Include="Areas\Admins\Views\ThongTinDoiTac\_duAnThamGiaSearch.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDanhMucNgayNghiPhep\_danhSachDanhMucNgayNghiPhepPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyDonNghiPhep\danhSachDonNghiPhep.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyDonNghiPhep\_danhSachDonNghiPhepPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -840,6 +842,8 @@
     <Content Include="ValidationAlert\Admin\QuanLyDanhMucNghiPhep\XoaDanhMucNgayNghiPhep.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDanhMucNghiPhep\ThemDanhMucNgayNghiPhep.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDanhMucNghiPhep\SuaDanhMucNgayNghiPhep.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyDonNghiPhep\DanhSachDonNghiPhepValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyDonNghiPhep\TuchoiOrChapnhanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChinhSuaDuAn.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChinhSuaDuAnValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAnValidation.js" />
@@ -918,7 +922,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admins\Views\QuanLyDonNghiPhep\" />
     <Folder Include="Content\FileUpload\" />
     <Folder Include="Views\Admin\" />
   </ItemGroup>

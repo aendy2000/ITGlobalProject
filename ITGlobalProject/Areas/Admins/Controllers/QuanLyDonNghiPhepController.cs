@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ITGlobalProject.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +9,12 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 {
     public class QuanLyDonNghiPhepController : Controller
     {
+        CP25Team06Entities model = new CP25Team06Entities();
         // GET: Admins/QuanLyDonNghiPhep
-        public ActionResult Index()
+        public ActionResult danhSachDonNghiPhep()
         {
-            return View();
+            ViewBag.ShowActive = "danhSachDonNghiPhep";
+            return View("danhSachDonNghiPhep", model.LeaveApplication.ToList());
         }
     }
 }

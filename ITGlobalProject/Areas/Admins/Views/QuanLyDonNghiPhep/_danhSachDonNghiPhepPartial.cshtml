@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ITGlobalProject.Models.LeaveApplication>
+@{
+    int i = 0;
+}
+<!-- Table -->
+<div class="tab-content" id="tabContent">
+    <!--Tab pane -->
+    <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="courses-tab">
+        <div class="card" data-simplebar>
+            <!-- table -->
+            <table id="dataTableBasic" class="table mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class=" border-top-0">ID Nhân viên</th>
+                        <th scope="col" class=" border-top-0">Ngày bắt đầu nghỉ</th>
+                        <th scope="col" class=" border-top-0">Ngày kết thúc</th>
+                        <th scope="col" class=" border-top-0">Nội dung nghỉ phép</th>
+                        <th scope="col" class=" border-top-0">Nội dung phản hồi</th>
+                        <th scope="col" class=" border-top-0">Trạng thái</th>
+                        <th scope="col" class=" border-top-0"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count() > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            i++;
+                            <tr>
+                                <td style="width: 120px" class="align-middle border-top-0">
+                                    @item.Employees.ID_Employee
+                                </td>
+                                <td style="width: 170px" class="align-middle border-top-0">
+                                    @item.StartDate.ToString("dd-MM-yyyy")
+                                </td>
+                                <td style="width: 130px" class="align-middle border-top-0">
+                                    @item.EndDate.ToString("dd-MM-yyyy")
+                                </td>
+                                <td style="max-width: 250px; word-break: break-word" class="align-middle border-top-0">
+                                    @item.Contents
+                                </td>
+                                <td class="align-middle border-top-0">
+                                    <input style="width: 250px" class="form-control form-control-sm" placeholder="Nhập nội dung phản hồi" type="text" />
+                                </td>
+                                <td class="align-middle border-top-0 text-nowrap">
+                                    <a id="tuchoi@(item.ID)" name="@item.ID" class="btn btn-outline-danger btn-sm">Từ chối</a>
+                                    <a id="xacnhan@(item.ID)" name="@item.ID" href="#" class="btn btn-success btn-sm">Xác nhận</a>
+                                </td>
+                                <td class="align-middle border-top-0">
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="align-middle border-top-0 text-center">
+                                Không có dữ liệu để hiển thị.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="~/ValidationAlert/Admin/QuanLyDonNghiPhep/TuchoiOrChapnhanValidation.js"></script>
