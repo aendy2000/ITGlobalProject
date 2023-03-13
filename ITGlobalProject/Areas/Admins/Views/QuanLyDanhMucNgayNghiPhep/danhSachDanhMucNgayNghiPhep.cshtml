@@ -90,7 +90,7 @@
                                         <div class="avatar-group">
                                             @if (appends.Count < 1)
                                             {
-                                                <span>Chưa được áp dụng cho tài khoản nào</span>
+                                                <span>Chưa được áp dụng cho Nhân viên nào</span>
                                             }
                                             else if (appends.Count < 4)
                                             {
@@ -142,13 +142,13 @@
                                             <div class="dropdown-menu" aria-labelledby="Dropdown1">
                                                 <span class="dropdown-header">Hành động</span>
                                                 <a role="button" name="@item.ID" id="chinhsua@(item.ID)" class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
-                                                    <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa danh mục ngày nghỉ phép
+                                                    <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa danh mục
                                                 </a>
                                                 @if (appends.Count < 1)
                                                 {
                                                     <div class="dropdown-divider"></div>
                                                     <a role="button" name="@item.ID" id="xoa@(item.ID)" class="dropdown-item" href="#">
-                                                        <i class="fe fe-trash dropdown-item-icon"></i>Xóa danh mục ngày nghỉ phép
+                                                        <i class="fe fe-trash dropdown-item-icon"></i>Xóa danh mục
                                                     </a>
                                                 }
                                             </div>
@@ -160,16 +160,9 @@
                         else
                         {
                             <tr>
-                                <td hidden></td>
-                                <td hidden></td>
-                                <td hidden></td>
-
                                 <td colspan="6" class="align-middle text-center">
                                     Không có dữ liệu để hiển thị.
                                 </td>
-
-                                <td hidden></td>
-                                <td hidden></td>
                             </tr>
                         }
                     </tbody>

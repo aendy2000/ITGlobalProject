@@ -26,7 +26,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         // GET: Admins/QuanLyDanhMucNgayNghiPhep
         public ActionResult danhSachDanhMucNgayNghiPhep()
         {
-            ViewBag.ShowActive = "danhSachDanhMuc";
+            ViewBag.ShowActive = "danhSachDanhMucNgayNghiPhep";
             return View("danhSachDanhMucNgayNghiPhep", model.LeaveDate.ToList());
         }
         [HttpPost]

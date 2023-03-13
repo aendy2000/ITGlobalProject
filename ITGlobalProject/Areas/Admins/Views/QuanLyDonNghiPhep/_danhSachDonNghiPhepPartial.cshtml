@@ -3,59 +3,139 @@
     int i = 0;
 }
 <!-- Table -->
-<div class="tab-content" id="tabContent">
+<div class="tab-content" id="tabContentsss">
     <!--Tab pane -->
     <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="courses-tab">
-        <div class="card" data-simplebar>
+        <div class="card">
             <!-- table -->
-            <table id="dataTableBasic" class="table mb-0">
+            <table id="dataTableBasic" class="table table-hover" style="width:100%">
                 <thead class="table-light">
                     <tr>
-                        <th scope="col" class=" border-top-0">ID Nhân viên</th>
-                        <th scope="col" class=" border-top-0">Ngày bắt đầu nghỉ</th>
-                        <th scope="col" class=" border-top-0">Ngày kết thúc</th>
-                        <th scope="col" class=" border-top-0">Nội dung nghỉ phép</th>
+                        <th hidden>STT</th>
+                        <th scope="col" class=" border-top-0">Ngày gửi</th>
+                        <th scope="col" class=" border-top-0">Nhân viên</th>
+                        <th scope="col" class=" border-top-0">Thời gian nghỉ</th>
+                        <th scope="col" class=" border-top-0">Nội dung</th>
                         <th scope="col" class=" border-top-0">Nội dung phản hồi</th>
-                        <th scope="col" class=" border-top-0">Trạng thái</th>
-                        <th scope="col" class=" border-top-0"></th>
+                        @if (Session["TuChoiTabDonNghiPhep"] != null)
+                        {
+                            <th hidden scope="col" class=" border-top-0">Trừ lương</th>
+                        }
+                        else
+                        {
+                            <th scope="col" class=" border-top-0">Trừ lương</th>
+                        }
+                        <th scope="col" class=" border-top-0">Xác nhận</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model.Count() > 0)
+
+                    @foreach (var item in Model)
                     {
-                        foreach (var item in Model)
-                        {
-                            i++;
-                            <tr>
-                                <td style="width: 120px" class="align-middle border-top-0">
-                                    @item.Employees.ID_Employee
-                                </td>
-                                <td style="width: 170px" class="align-middle border-top-0">
-                                    @item.StartDate.ToString("dd-MM-yyyy")
-                                </td>
-                                <td style="width: 130px" class="align-middle border-top-0">
-                                    @item.EndDate.ToString("dd-MM-yyyy")
-                                </td>
-                                <td style="max-width: 250px; word-break: break-word" class="align-middle border-top-0">
-                                    @item.Contents
-                                </td>
-                                <td class="align-middle border-top-0">
-                                    <input style="width: 250px" class="form-control form-control-sm" placeholder="Nhập nội dung phản hồi" type="text" />
-                                </td>
-                                <td class="align-middle border-top-0 text-nowrap">
-                                    <a id="tuchoi@(item.ID)" name="@item.ID" class="btn btn-outline-danger btn-sm">Từ chối</a>
-                                    <a id="xacnhan@(item.ID)" name="@item.ID" href="#" class="btn btn-success btn-sm">Xác nhận</a>
-                                </td>
-                                <td class="align-middle border-top-0">
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
+                        i++;
                         <tr>
-                            <td colspan="6" class="align-middle border-top-0 text-center">
-                                Không có dữ liệu để hiển thị.
+                            <td hidden>@i</td>
+                            <td class="align-middle border-top-0">
+                                @item.SendDate.ToString("HH:mm")
+                                <br />
+                                @item.SendDate.ToString("dd-MM-yyyy")
+                            </td>
+                            <td class="align-middle border-top-0">
+                                Tên:
+                                <b>
+                                    <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID})">
+                                        @item.Employees.Name
+                                    </a>
+                                </b>
+                                <br />
+                                Mã: <b>
+                                    <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID})">
+                                        @item.Employees.ID_Employee
+                                    </a>
+                                </b>
+                                <br />
+
+                            </td>
+                            <td class="align-middle border-top-0">
+                                <b>Từ:</b>  @item.StartDate.ToString("dd-MM-yyyy")
+                                <br />
+                                <b>Đến:</b> @item.EndDate.ToString("dd-MM-yyyy")
+                                <br />
+                                <b>Tổng:</b> @((Convert.ToDateTime(item.EndDate.ToString("yyyy-MM-dd")).AddDays(1) - Convert.ToDateTime(item.StartDate.ToString("yyyy-MM-dd"))).TotalDays) ngày
+                            </td>
+                            <td word-break: break-word" class="align-middle border-top-0">
+                                @item.Contents
+                            </td>
+
+                            <td class="align-middle border-top-0">
+                                <textarea rows="3" id="noidung-@item.ID" class="form-control form-control-sm" placeholder="Nhập nội dung phản hồi">@item.Reply</textarea>
+                            </td>
+                            @if (Session["TuChoiTabDonNghiPhep"] != null)
+                            {
+                                <td hidden class="align-middle text-center border-top-0">
+                                    <div class="form-check form-switch">
+                                        @if (item.OnWage == false)
+                                        {
+                                            <input id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
+                                        }
+                                        else
+                                        {
+                                            <input checked id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
+                                        }
+
+                                    </div>
+                                </td>
+                            }
+                            else
+                            {
+                                if (item.State == false && item.ResponsiveDate == null)
+                                {
+                                    <td class="align-middle text-center border-top-0">
+                                        <div class="form-check form-switch">
+                                            @if (item.OnWage == false)
+                                            {
+                                                <input id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
+                                            }
+                                            else
+                                            {
+                                                <input id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
+                                            }
+
+                                        </div>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="align-middle text-center border-top-0">
+                                        <div class="form-check form-switch">
+                                            @if (item.OnWage == false)
+                                            {
+                                                <input id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
+                                            }
+                                            else
+                                            {
+                                                <input checked id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
+                                            }
+                                        </div>
+                                    </td>
+                                }
+                            }
+                            <td class="align-middle border-top-0 text-nowrap">
+                                @if (item.State == true)
+                                {
+                                    <a id="tuchoi@(item.ID)" name="@item.ID" class="btn btn-outline-danger btn-sm">Từ chối</a>
+                                    <a id="thaydoi@(item.ID)" name="@item.ID" href="#" class="btn btn-success btn-sm">Lưu Thay Đổi</a>
+                                }
+                                else if (item.State == false && item.ResponsiveDate != null)
+                                {
+                                    <a id="xacnhan@(item.ID)" name="@item.ID" href="#" class="btn btn-success btn-sm">Được duyệt</a>
+                                    <a id="thaydoi@(item.ID)" name="@item.ID" class="btn btn-outline-success btn-sm">Lưu Thay Đổi</a>
+                                }
+                                else
+                                {
+                                    <a id="tuchoi@(item.ID)" name="@item.ID" class="btn btn-outline-danger btn-sm">Từ chối</a>
+                                    <a id="xacnhan@(item.ID)" name="@item.ID" href="#" class="btn btn-success btn-sm">Được duyệt</a>
+                                }
                             </td>
                         </tr>
                     }
@@ -63,5 +143,6 @@
             </table>
         </div>
     </div>
+    <script src="~/ValidationAlert/Admin/QuanLyDonNghiPhep/TuchoiOrChapnhanValidation.js"></script>
 </div>
-<script src="~/ValidationAlert/Admin/QuanLyDonNghiPhep/TuchoiOrChapnhanValidation.js"></script>
+

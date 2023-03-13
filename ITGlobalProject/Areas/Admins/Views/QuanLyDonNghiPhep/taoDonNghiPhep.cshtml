@@ -1,0 +1,124 @@
+﻿@using ITGlobalProject.Models
+@{
+    CP25Team06Entities model = new CP25Team06Entities();
+    var emp = model.Employees.Where(e => e.Lock == false).ToList();
+    emp.Remove(model.Employees.Find(1));
+    ViewBag.Title = "Tạo Đơn Nghỉ Phép";
+    Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid p-4">
+    <div class="row ">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Page header -->
+            <div class="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Tạo Đơn Nghỉ Phép </h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("danhsachdonnghiphep", "quanlydonnghiphep")">Quản Lý Đơn Nghỉ Phép</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Tạo Đơn Nghỉ Phép
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row -->
+    <div class="row">
+        <div class="offset-lg-2 col-lg-8 col-12">
+            <!-- card -->
+            <div class="card mb-4">
+                <!-- card body -->
+                <div class="card-body">
+                    <!-- row -->
+                    <div class="row">
+                        <div class="mb-3 col-md-12">
+                            <label style="font-weight:bold;" class="form-label" for="firstName">Nhân viên nghỉ phép <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <select data-width="100%" name="nhanvien" id="nhanvien">
+                                    <option selected value="">Chọn nhân viên nghỉ phép</option>
+                                    @foreach (var item in emp)
+                                    {
+                                        <option value="@item.ID">@item.ID_Employee - @item.Name - @item.WorkEmail</option>
+                                    }
+                                </select>
+                                <p style="font-size: 13px; color:red;" id="nhanvienValidation"></p>
+                            </div>
+                        </div>
+                        <!-- input -->
+                        <div class="mb-3 col-md-6">
+                            <label style="font-weight:bold;" class="form-label" for="firstName">Ngày bắt đầu nghỉ <span class="text-danger">*</span></label>
+                            <input type="text" class="flatpickr form-control" placeholder="Chọn ngày bắt đầu nghỉ" id="startDate">
+                            <p hidden style="font-size: 13px; color:red;" id="startDateValidation"></p>
+                        </div>
+                        <!-- input -->
+                        <div class="mb-3 col-md-6">
+                            <label style="font-weight:bold;" class="form-label" for="firstName">Đến hết ngày <span class="text-danger">*</span></label>
+                            <input type="text" class="flatpickr form-control" placeholder="Chọn ngày nghỉ cuối cùng" id="endDate">
+                            <p hidden style="font-size: 13px; color:red;" id="endDateValidation"></p>
+                        </div>
+                        <!-- input -->
+                        <div class="mb-3 col-md-12">
+                            <label style="font-weight:bold;" class="form-label" for="firstName">Nội dung ghi chú</label>
+                            <textarea rows="7" type="text" class="flatpickr form-control" placeholder="Nhập nội dung ghi chú" id="noidung"></textarea>
+                            <p hidden style="font-size: 13px; color:red;" id="noidungValidation"></p>
+                        </div>
+
+                        <div class="mb-3 col-12 col-md-6">
+                            <label style="font-weight:bold;" class="form-label" for="phone">Kỳ nghỉ được trả lương</label>
+                            <div class="form-check form-switch form-control">
+                                <label style="margin-top: 1px; margin-left: -10px" class="form-check-label" for="traluong">Không được trả lương / Được trả lương</label>
+                                &emsp;&emsp;&ensp;&ensp;&ensp;
+                                <input id="traluong" style="margin-right: -20px" class="form-check-input" type="checkbox" role="switch">
+                            </div>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label style="font-weight: bold;" class="form-label">Trạng thái đơn</label>
+                            <select id="trangthai" class="selectpicker" data-width="100%">
+                                <option value="false">Chờ duyệt</option>
+                                <option value="true">Được duyệt</option>
+                            </select>
+                        </div>
+                        <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
+                            <button id="dongChinhSua" style="width: 230px" class="btn btn-outline-danger" type="reset">
+                                Hủy
+                            </button>
+                        </div>
+                        <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
+                            <a role="button" id="luuThongTin" style="width: 230px" class="btn btn-success">
+                                Lưu
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/ValidationAlert/Admin/QuanLyDonNghiPhep/TaoDonNghiPhepValidation.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#nhanvien").select2();
+
+        //tìm kiếm Kỹ năng chuyên môn
+        $('.select2-search__field').addClass('form-control');
+        $(".select2-search__field").attr("placeholder", "Nhập Mã, Email hoặc Tên Nhân viên nghỉ phép");
+        $(".select2-search__field").css('width', '100%');
+    });
+
+</script>
+
+
+
+
