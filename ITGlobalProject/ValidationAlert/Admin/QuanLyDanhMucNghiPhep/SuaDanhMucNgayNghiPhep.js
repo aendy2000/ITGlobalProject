@@ -18,11 +18,10 @@
 
         $('#id').val(ids);
         $('#name').val(names);
-        $('#startmonth').val(stmonths);
-        $('#startday').val(stdays);
-        $('#endmonth').val(endmonths);
-        $('#endday').val(enddays);
-
+        $('#startmonth').selectpicker('val', stmonths);
+        $('#startday').selectpicker('val', stdays);
+        $('#endmonth').selectpicker('val', endmonths);
+        $('#endday').selectpicker('val', enddays);
     });
 
     //Click lưu
@@ -30,10 +29,10 @@
 
         var id = $('#id').val();
         var name = $('#name').val();
-        var stmonth = $('#startmonth').val();
-        var stday = $('#startday').val();
-        var endmonth = $('#endmonth').val();
-        var endday = $('#endday').val();
+        var stmonth = $('#startmonth :selected').val();
+        var stday = $('#startday :selected').val();
+        var endmonth = $('#endmonth :selected').val();
+        var endday = $('#endday :selected').val();
 
         var formats = /[`!#$%^&*()+\=\[\]{};':"\\|@_<>\/?~]/;
         var formatNumber = /[0123456789]/;

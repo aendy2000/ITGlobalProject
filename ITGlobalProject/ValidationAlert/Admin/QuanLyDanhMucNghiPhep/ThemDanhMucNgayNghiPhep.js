@@ -10,10 +10,10 @@
         $('#ngayKetThucValidation').text("");
 
         var name = $('#tenngaynghi').val().trim();
-        var monthbatdau = $('#thangbatdau').val().trim();
-        var daybatdau = $('#ngaybatdau').val().trim();
-        var monthketthuc = $('#thangketthuc').val().trim();
-        var dayketthuc = $('#ngayketthuc').val().trim();
+        var monthbatdau = $('#thangbatdau :selected').val().trim();
+        var daybatdau = $('#ngaybatdau :selected').val().trim();
+        var monthketthuc = $('#thangketthuc :selected').val().trim();
+        var dayketthuc = $('#ngayketthuc :selected').val().trim();
 
         var formats = /[`!#$%^&*()+\=\[\]{};':"\\|@_<>\/?~]/;
         var formatNumber = /[0123456789]/;

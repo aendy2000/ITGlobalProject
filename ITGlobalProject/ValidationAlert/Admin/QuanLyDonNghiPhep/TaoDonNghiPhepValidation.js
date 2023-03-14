@@ -94,6 +94,7 @@
                     });
                 }
                 else {
+                    $('#dongChinhSua').click();
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thành Công!", "Đã hoàn thành tạo một đơn nghỉ phép cho Nhân viên!", {
