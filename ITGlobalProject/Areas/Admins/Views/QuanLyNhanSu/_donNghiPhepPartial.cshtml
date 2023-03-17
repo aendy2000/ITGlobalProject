@@ -1,9 +1,8 @@
 ﻿@using ITGlobalProject.Models;
 @model ITGlobalProject.Models.Employees
 @{
-    string coll = "show";
-    var lstkynang = Session["lst-kynang"] as List<SkillsCategory>;
-    int j = 0;
+    var nghiphep = Session["dsdonnghiphep"] as IEnumerable<LeaveApplication>;
+    int i = 0;
     string imagesUrl = "";
     if (string.IsNullOrEmpty(Model.Avatar))
     {
@@ -33,7 +32,7 @@
                             <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">Nhân Viên</a></li>
 
                             <li class="breadcrumb-item active" aria-current="page">
-                                Kỹ Năng Chuyên Môn
+                                Đơn Nghỉ Phép
                             </li>
                         </ol>
                     </nav>
@@ -49,8 +48,7 @@
             <!-- Bg -->
             <div class="pt-16 rounded-top-md" style="
 								background: url(@Url.Content("~/Content/Admin/assets/images/background/profile-bg.jpg")) no-repeat;
-								background-size: cover;
-							"></div>
+								background-size: cover;"></div>
             <div class="d-flex align-items-end justify-content-between bg-white px-4 pt-2 pb-4 rounde
                      rounded-bottom-md shadow-sm">
                 <div class="d-flex align-items-center">
@@ -115,7 +113,7 @@
                                     <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
                                 </a>
                             </li>
-                            <li class="nav-item active">
+                            <li class="nav-item ">
                                 <a role="button" id="knchuyenmon" class="nav-link">
                                     <i class="fe fe-code nav-icon"></i>Kỹ năng chuyên môn
                                 </a>
@@ -160,7 +158,7 @@
                         <span class="navbar-header">quản lý nghỉ phép</span>
                         <ul class="list-unstyled ms-n2 mb-4">
                             <!-- Nav item -->
-                            <li class="nav-item ">
+                            <li class="nav-item active">
                                 <a role="button" id="donnghiphep" class="nav-link">
                                     <i class="fe fe-clock nav-icon"></i>Đơn nghỉ phép
                                 </a>
@@ -219,78 +217,100 @@
                 </div>
             </nav>
         </div>
-        <div class="col-lg-9 col-md-8 col-12">
-            <!-- Card -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="mb-0">Kỹ Năng Chuyên Môn</h3>
-                </div>
-                <div class="card-body">
-                    <div>
-                        <form id="noidungPage" class="row">
+        <div id="danhSachPartial" class="col-lg-9 col-md-8 col-12">
+            <!-- col -->
+            <div class="col-md-12 col-12 mb-5">
+                <!-- card -->
+                <div class="card rounded-3">
+                    <!-- Card header -->
+                    <div class="card-header border-bottom-0 p-0 bg-white">
+                        <div>
+                            <input hidden id="typeTab" value="choduyet" />
+                            <!-- Nav -->
+                            <ul class="nav nav-lb-tab" id="tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" name="@Model.ID" id="choduyetTab" data-bs-toggle="pill" href="#choduyetTab" role="tab" aria-controls="choduyetTab" aria-selected="false">
+                                        Chờ Duyệt
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" name="@Model.ID" id="duocduyetTab" data-bs-toggle="pill" href="#duocduyetTab" role="tab" aria-controls="choduyetTab" aria-selected="false">
+                                        Được Duyệt
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" name="@Model.ID" id="bituchoiTab" data-bs-toggle="pill" href="#bituchoiTab" role="tab" aria-controls="bituchoiTab" aria-selected="false">
+                                        Đã Từ Chối
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="tabContentsss">
+                        <!--Tab pane -->
+                        <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="courses-tab">
+                            <div class="card">
+                                <!-- table -->
+                                <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th hidden>STT</th>
+                                            <th scope="col" class=" border-top-0">Ngày gửi</th>
+                                            <th scope="col" class=" border-top-0">Thời gian nghỉ</th>
+                                            <th scope="col" class=" border-top-0">Nội dung</th>
+                                            <th scope="col" class=" border-top-0">Nội dung phản hồi</th>
+                                            <th scope="col" class=" border-top-0">Trừ lương</th>
+                                            <th scope="col" class=" border-top-0">Xác nhận</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                            <div class="accordion" id="accordionExample">
-                                @foreach (var item in lstkynang)
-                                {
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="Headingskillitem@(item.ID)">
-                                            <button style="font-weight: bold" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseskillitem@(item.ID)" aria-expanded="false" aria-controls="collapseskillitem@(item.ID)">
-                                                @item.Name
-                                            </button>
-                                        </h2>
-                                        <div id="collapseskillitem@(item.ID)" class="accordion-collapse collapse @coll" aria-labelledby="headingskillitem@(item.ID)" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body row">
-                                                @if (item.Skills.Count > 0)
-                                                {
-                                                    foreach (var items in item.Skills)
-                                                    {
-                                                        j++;
-                                                        <div class="form-check mb-2 col-12 col-md-4">
-                                                            @if (Model.PersonalSkills.FirstOrDefault(k => k.ID_Skills == items.ID) != null)
-                                                            {
-                                                                <input checked class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(items.ID)">
-                                                            }
-                                                            else
-                                                            {
-                                                                <input class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(items.ID)">
-                                                            }
-                                                            <label class="form-check-label" for="@items.ID">
-                                                                @items.Name
-                                                            </label>
-                                                        </div>
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    <div class="mb-2 col-12 col-md-12 text-center">
-                                                        Không có dữ liệu để hiển thị.
+                                        @foreach (var item in nghiphep)
+                                        {
+                                            i++;
+                                            <tr>
+                                                <td hidden>@i</td>
+                                                <td class="align-middle border-top-0">
+                                                    @item.SendDate.ToString("HH:mm")
+                                                    <br />
+                                                    @item.SendDate.ToString("dd-MM-yyyy")
+                                                </td>
+                                                <td class="align-middle border-top-0">
+                                                    <b>Từ:</b>  @item.StartDate.ToString("dd-MM-yyyy")
+                                                    <br />
+                                                    <b>Đến:</b> @item.EndDate.ToString("dd-MM-yyyy")
+                                                    <br />
+                                                    <b>Tổng:</b> @((Convert.ToDateTime(item.EndDate.ToString("yyyy-MM-dd")).AddDays(1) - Convert.ToDateTime(item.StartDate.ToString("yyyy-MM-dd"))).TotalDays) ngày
+                                                </td>
+                                                <td word-break: break-word" class="align-middle border-top-0">
+                                                    @item.Contents
+                                                </td>
+
+                                                <td class="align-middle border-top-0">
+                                                    <textarea rows="3" id="noidung-@item.ID" class="form-control form-control-sm" placeholder="Nhập nội dung phản hồi"></textarea>
+                                                </td>
+                                                <td class="align-middle text-center border-top-0">
+                                                    <div class="form-check form-switch">
+                                                        <input id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
                                                     </div>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                    coll = "";
-                                }
+                                                </td>
+                                                <td class="align-middle border-top-0 text-nowrap">
+                                                    <a id="tuchoi@(item.ID)" name="@item.ID" class="btn btn-outline-danger btn-sm">Từ chối</a>
+                                                    <a id="xacnhan@(item.ID)" name="@item.ID" href="#" class="btn btn-success btn-sm">Được duyệt</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
-
-                            <input hidden value="@j" id="slkn" />
-                            <div style="text-align: right; padding-top: 40px" class="mb-3 col-12 col-md-6">
-                                <button type="reset" style="width: 230px" class="btn btn-outline-danger">
-                                    Hủy
-                                </button>
-                            </div>
-                            <div style="padding-top: 40px" class="mb-3 col-12 col-md-6">
-                                <a role="button" id="btnLuuThongTin" style="width: 230px" class="btn btn-success">
-                                    Lưu
-                                </a>
-                            </div>
-                        </form>
+                        </div>
+                        <script src="~/ValidationAlert/Admin/QuanLyNhanSu/TuchoiOrChapnhanValidation.js"></script>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_KyNangChuyenMon.js"></script>
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_DonNghiPhep.js"></script>
     <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
     <script>
         $('#noidungPage').change(function () {

@@ -603,6 +603,14 @@
 
         // end validation
 
+        //Ngày nghỉ phép, lấy biến [nphep]
+        let snghiphep = "";
+        $('input[id^="checknghiphep"]:checked').each(function () {
+            snghiphep += $(this).attr("name") + "-";
+        });
+
+        // end validation
+
         //Trình độ ngoại ngữ, lấy biến [trinhdongoaingu]
         let trinhdongoaingu = "";
         let soluongngoaingu = $('#demngoaingu').val();
@@ -1015,7 +1023,7 @@
             formData.append('loaihopdong', loaihopdong);
             formData.append('ngaykyhopdong', ngaykyhopdong);
             formData.append('ngaygiahanhopdong', ngaygiahanhopdong);
-
+            formData.append('songaynghiphep', snghiphep.substring(0, snghiphep.length - 1));
             e.preventDefault();
             $('#AjaxLoader').show();
             let urls = $('#actionSubmit').data('request-url');

@@ -50,6 +50,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             Session["lst-kynang"] = kynang;
             var trocap = model.SubsidiesCategory.OrderBy(k => k.Name).ToList();
             Session["lst-trocap"] = trocap;
+            var ngaynghi = model.LeaveDate.OrderBy(k => k.Name).ToList();
+            Session["lst-ngaynghi"] = ngaynghi;
+
             if (type == null)
                 type = 1;
             if (page == null)
@@ -169,7 +172,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                     DataRow dr = dtExcel.Rows[0];
 
-                    if (dr[1].ToString().ToLower().IndexOf("họ") == -1 
+                    if (dr[1].ToString().ToLower().IndexOf("họ") == -1
                         || dr[2].ToString().ToLower().IndexOf("cmnd/cccd") == -1
                         || dr[3].ToString().ToLower().IndexOf("quốc tịch") == -1
                         || dr[4].ToString().ToLower().IndexOf("ngày sinh") == -1
@@ -571,7 +574,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         string sodienthoaididong, string sodienthoaikhac, string diachiemailcongty, string diachiemailkhac,
         string diachinha, string mucluong, string dsNganHang, string sotaikhoan, string chutaikhoan, string kynang,
         string trinhdongoaingu, string phuthuocnhanthan, string trocap, string ngayvaolam, int vaitro, string hinhthuc,
-         string loaihopdong, string ngaykyhopdong, string ngaygiahanhopdong)
+         string loaihopdong, string ngaykyhopdong, string ngaygiahanhopdong, string songaynghiphep)
         {
             try
             {
@@ -707,6 +710,20 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                         perSkill.ID_Employee = emp.ID;
                         perSkill.ID_Skills = Int32.Parse(kynang);
                         model.PersonalSkills.Add(perSkill);
+                        model.SaveChanges();
+                    }
+                }
+
+                //Nghỉ phép
+                if (!string.IsNullOrEmpty(songaynghiphep))
+                {
+                    foreach (var item in songaynghiphep.Split('-').ToList())
+                    {
+                        OnLeave onleave = new OnLeave();
+                        onleave.ID_LeaveDate = Int32.Parse(item);
+                        onleave.ID_Employee = emp.ID;
+
+                        model.OnLeave.Add(onleave);
                         model.SaveChanges();
                     }
                 }
@@ -1563,8 +1580,20 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             var user = model.Employees.FirstOrDefault(u => u.ID == id);
             if (user == null || id == null || Session["user-id"] == null)
                 return Content("DANHSACH");
+            var currentYear = DateTime.Now.Year;
 
+            Session["bang-luong-emp"] = model.PayrollCategory.Where(p => p.Date.Year == currentYear).ToList();
             return PartialView("_bangLuongPartial", user);
+        }
+        [HttpPost]
+        public ActionResult timKiemBangLuongPartial(int? id, int nam)
+        {
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user == null || id == null || Session["user-id"] == null)
+                return Content("DANHSACH");
+
+            Session["bang-luong-emp"] = model.PayrollCategory.Where(p => p.Date.Year == nam).ToList();
+            return PartialView("_timkiembangluong", user);
         }
         public ActionResult lichBieuPartial(int? id)
         {
@@ -1609,5 +1638,184 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             return PartialView("_baoCaoThongKePartial", user);
         }
 
+        public ActionResult donNghiPhep(int id)
+        {
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user == null || Session["user-id"] == null)
+                return Content("DANHSACH");
+
+            Session["dsdonnghiphep"] = user.LeaveApplication.Where(l => l.State == false && l.ResponsiveDate == null).OrderByDescending(o => o.ID).ToList();
+            Session["TuChoiTabDonNghiPhep"] = null;
+            return PartialView("_donNghiPhepPartial", user);
+        }
+        [HttpPost]
+
+        public ActionResult danhSachDonNghiPhepPartial(int id)
+        {
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user == null || Session["user-id"] == null)
+                return Content("DANHSACH");
+
+            Session["dsdonnghiphep"] = user.LeaveApplication.Where(l => l.State == false && l.ResponsiveDate == null).OrderByDescending(o => o.ID).ToList();
+            Session["TuChoiTabDonNghiPhep"] = null;
+            return PartialView("_donNghiPhepChangeTabPartial", user);
+        }
+
+        [HttpPost]
+        public ActionResult danhSachDonNghiPhepDaDuyet(int id)
+        {
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user == null || Session["user-id"] == null)
+                return Content("DANHSACH");
+
+            Session["dsdonnghiphep"] = user.LeaveApplication.Where(l => l.State == true).OrderByDescending(o => o.ID).ToList();
+            Session["TuChoiTabDonNghiPhep"] = null;
+            return PartialView("_donNghiPhepChangeTabPartial", user);
+        }
+
+        [HttpPost]
+        public ActionResult danhSachDonNghiPhepDaTuChoi(int id)
+        {
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user == null || Session["user-id"] == null)
+                return Content("DANHSACH");
+
+            Session["TuChoiTabDonNghiPhep"] = true;
+            Session["dsdonnghiphep"] = user.LeaveApplication.Where(l => l.State == false && l.ResponsiveDate != null).OrderByDescending(o => o.ID).ToList();
+            return PartialView("_donNghiPhepChangeTabPartial", user);
+        }
+
+        [HttpPost]
+        public ActionResult duyetDon(int? id, int idemp, string noidung, bool? truluong, string typeTab)
+        {
+            var don = model.LeaveApplication.Find(id);
+            if (id == null || truluong == null || don == null || string.IsNullOrEmpty(typeTab))
+                return Content("DANGNHAP");
+
+            don.State = true;
+            don.Reply = noidung.Trim();
+            don.OnWage = (bool)truluong;
+            don.ResponsiveDate = DateTime.Now;
+            model.Entry(don).State = EntityState.Modified;
+            model.SaveChanges();
+
+            model = new CP25Team06Entities();
+            var user = model.Employees.Find(idemp);
+            Session["TuChoiTabDonNghiPhep"] = null;
+
+            if (typeTab.Equals("choduyet"))
+                Session["dsdonnghiphep"] = user.LeaveApplication.Where(l => l.State == false && l.ResponsiveDate == null).OrderByDescending(o => o.ID).ToList();
+            else if (typeTab.Equals("duocduyet"))
+                Session["dsdonnghiphep"] = user.LeaveApplication.Where(l => l.State == true).OrderByDescending(o => o.ID).ToList();
+            else
+                Session["dsdonnghiphep"] = user.LeaveApplication.Where(l => l.State == false && l.ResponsiveDate != null).OrderByDescending(o => o.ID).ToList();
+
+            return PartialView("_donNghiPhepChangeTabPartial", user);
+        }
+
+        [HttpPost]
+        public ActionResult tuChoiDon(int? id, int idemp, string noidung, string typeTab)
+        {
+            var don = model.LeaveApplication.Find(id);
+            if (id == null || don == null || string.IsNullOrEmpty(typeTab))
+                return Content("DANGNHAP");
+
+            don.State = false;
+            don.Reply = noidung.Trim();
+            don.ResponsiveDate = DateTime.Now;
+            model.Entry(don).State = EntityState.Modified;
+            model.SaveChanges();
+
+            model = new CP25Team06Entities();
+            var user = model.Employees.Find(idemp);
+
+            if (typeTab.Equals("choduyet"))
+            {
+                Session["TuChoiTabDonNghiPhep"] = null;
+                Session["dsdonnghiphep"] = user.LeaveApplication.Where(l => l.State == false && l.ResponsiveDate == null).OrderByDescending(o => o.ID).ToList();
+            }
+            else if (typeTab.Equals("duocduyet"))
+            {
+                Session["TuChoiTabDonNghiPhep"] = null;
+                Session["dsdonnghiphep"] = user.LeaveApplication.Where(l => l.State == true && l.ID_Employee == user.ID).OrderByDescending(o => o.ID).ToList();
+            }
+            else
+            {
+                Session["TuChoiTabDonNghiPhep"] = true;
+                Session["dsdonnghiphep"] = user.LeaveApplication.Where(l => l.State == false && l.ResponsiveDate != null).OrderByDescending(o => o.ID).ToList();
+            }
+            return PartialView("_donNghiPhepChangeTabPartial", user);
+        }
+
+        [HttpPost]
+        public ActionResult thayDoi(int? id, int idemp, string noidung, bool? truluong, string typeTab)
+        {
+            var don = model.LeaveApplication.Find(id);
+            if (id == null || truluong == null || don == null || string.IsNullOrEmpty(typeTab))
+                return Content("DANGNHAP");
+
+            don.Reply = noidung.Trim();
+            don.OnWage = (bool)truluong;
+            don.ResponsiveDate = DateTime.Now;
+            model.Entry(don).State = EntityState.Modified;
+            model.SaveChanges();
+
+            model = new CP25Team06Entities();
+            var user = model.Employees.Find(idemp);
+
+            if (typeTab.Equals("choduyet"))
+            {
+                Session["TuChoiTabDonNghiPhep"] = null;
+                Session["dsdonnghiphep"] = user.LeaveApplication.Where(l => l.State == false && l.ResponsiveDate == null).OrderByDescending(o => o.ID).ToList();
+            }
+            else if (typeTab.Equals("duocduyet"))
+            {
+                Session["TuChoiTabDonNghiPhep"] = null;
+                Session["dsdonnghiphep"] = user.LeaveApplication.Where(l => l.State == true).OrderByDescending(o => o.ID).ToList();
+            }
+            else
+            {
+                Session["TuChoiTabDonNghiPhep"] = true;
+                Session["dsdonnghiphep"] = user.LeaveApplication.Where(l => l.State == false && l.ResponsiveDate != null).OrderByDescending(o => o.ID).ToList();
+            }
+            return PartialView("_donNghiPhepChangeTabPartial", user);
+
+        }
+
+        public ActionResult danhMucNgayPhep(int id)
+        {
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user == null || Session["user-id"] == null)
+                return Content("DANHSACH");
+
+            Session["lst-danhmucngayphep-all"] = model.LeaveDate.ToList();
+            Session["lst-danhmucngayphep"] = model.LeaveDate.Where(l => l.OnLeave.Where(onl => onl.ID_Employee == id).Count() > 0).ToList();
+            return PartialView("_danhMucNghiPhepPartial", user);
+        }
+
+        [HttpPost]
+        public ActionResult danhMucNgayPhep(int id, string lstngayphep)
+        {
+            var user = model.Employees.FirstOrDefault(u => u.ID == id);
+            if (user == null || Session["user-id"] == null)
+                return Content("DANHSACH");
+
+            model.OnLeave.RemoveRange(user.OnLeave);
+            model.SaveChanges();
+
+            if (!string.IsNullOrEmpty(lstngayphep))
+            {
+                foreach (var item in lstngayphep.Split('-').ToList())
+                {
+                    OnLeave onleave = new OnLeave();
+                    onleave.ID_LeaveDate = Int32.Parse(item);
+                    onleave.ID_Employee = user.ID;
+                    model.OnLeave.Add(onleave);
+                    model.SaveChanges();
+                }
+            }
+
+            return Content("success");
+        }
     }
 }

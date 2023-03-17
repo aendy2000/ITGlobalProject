@@ -1,8 +1,8 @@
 ﻿@using ITGlobalProject.Models;
 @model ITGlobalProject.Models.Employees
 @{
-    string coll = "show";
-    var lstkynang = Session["lst-kynang"] as List<SkillsCategory>;
+    var lstnghiphep = Session["lst-danhmucngayphep"] as List<LeaveDate>;
+    var lstnghiphepall = Session["lst-danhmucngayphep-all"] as List<LeaveDate>;
     int j = 0;
     string imagesUrl = "";
     if (string.IsNullOrEmpty(Model.Avatar))
@@ -33,7 +33,7 @@
                             <li class="breadcrumb-item"><a href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")">Nhân Viên</a></li>
 
                             <li class="breadcrumb-item active" aria-current="page">
-                                Kỹ Năng Chuyên Môn
+                                Danh Mục Ngày Phép
                             </li>
                         </ol>
                     </nav>
@@ -115,7 +115,7 @@
                                     <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
                                 </a>
                             </li>
-                            <li class="nav-item active">
+                            <li class="nav-item ">
                                 <a role="button" id="knchuyenmon" class="nav-link">
                                     <i class="fe fe-code nav-icon"></i>Kỹ năng chuyên môn
                                 </a>
@@ -165,7 +165,7 @@
                                     <i class="fe fe-clock nav-icon"></i>Đơn nghỉ phép
                                 </a>
                             </li>
-                            <li class="nav-item ">
+                            <li class="nav-item active">
                                 <a role="button" id="danhmucngayphep" class="nav-link">
                                     <i class="fe fe-calendar nav-icon"></i>Danh Mục Ngày Phép
                                 </a>
@@ -223,64 +223,36 @@
             <!-- Card -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="mb-0">Kỹ Năng Chuyên Môn</h3>
+                    <h3 class="mb-0">Danh Mục Ngày Phép</h3>
                 </div>
                 <div class="card-body">
                     <div>
                         <form id="noidungPage" class="row">
 
-                            <div class="accordion" id="accordionExample">
-                                @foreach (var item in lstkynang)
-                                {
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="Headingskillitem@(item.ID)">
-                                            <button style="font-weight: bold" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseskillitem@(item.ID)" aria-expanded="false" aria-controls="collapseskillitem@(item.ID)">
-                                                @item.Name
-                                            </button>
-                                        </h2>
-                                        <div id="collapseskillitem@(item.ID)" class="accordion-collapse collapse @coll" aria-labelledby="headingskillitem@(item.ID)" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body row">
-                                                @if (item.Skills.Count > 0)
-                                                {
-                                                    foreach (var items in item.Skills)
-                                                    {
-                                                        j++;
-                                                        <div class="form-check mb-2 col-12 col-md-4">
-                                                            @if (Model.PersonalSkills.FirstOrDefault(k => k.ID_Skills == items.ID) != null)
-                                                            {
-                                                                <input checked class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(items.ID)">
-                                                            }
-                                                            else
-                                                            {
-                                                                <input class="form-check-input" type="checkbox" name="checkkynang@(j)" id="@(items.ID)">
-                                                            }
-                                                            <label class="form-check-label" for="@items.ID">
-                                                                @items.Name
-                                                            </label>
-                                                        </div>
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    <div class="mb-2 col-12 col-md-12 text-center">
-                                                        Không có dữ liệu để hiển thị.
-                                                    </div>
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                    coll = "";
-                                }
-                            </div>
-
-                            <input hidden value="@j" id="slkn" />
+                            <div class="py-3"></div>
+                            @foreach (var item in lstnghiphepall)
+                            {
+                                <div class="form-check mb-2 col-12 col-md-6">
+                                    @if (lstnghiphep.Where(w => w.ID == item.ID).Count() > 0)
+                                    {
+                                        <input class="form-check-input" checked type="checkbox" name="@(item.ID)" id="checknghiphep@(item.ID)">
+                                    }
+                                    else
+                                    {
+                                        <input class="form-check-input" type="checkbox" name="@(item.ID)" id="checknghiphep@(item.ID)">
+                                    }
+                                    <label class="form-check-label" for="checknghiphep@(item.ID)">
+                                        @item.Name (@item.StartDay Tháng @item.StartMonth - @item.EndDay Tháng @item.EndMonth)
+                                    </label>
+                                </div>
+                            }
                             <div style="text-align: right; padding-top: 40px" class="mb-3 col-12 col-md-6">
                                 <button type="reset" style="width: 230px" class="btn btn-outline-danger">
                                     Hủy
                                 </button>
                             </div>
                             <div style="padding-top: 40px" class="mb-3 col-12 col-md-6">
-                                <a role="button" id="btnLuuThongTin" style="width: 230px" class="btn btn-success">
+                                <a role="button" id="btnLuuThongTin" name="@Model.ID" style="width: 230px" class="btn btn-success">
                                     Lưu
                                 </a>
                             </div>
@@ -290,7 +262,7 @@
             </div>
         </div>
     </div>
-    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_KyNangChuyenMon.js"></script>
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_NgayNghiPhep.js"></script>
     <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
     <script>
         $('#noidungPage').change(function () {

@@ -835,6 +835,10 @@
     <Content Include="Areas\Admins\Views\QuanLyLuong\_bangLuongPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyLuong\_tinhLuongPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDonNghiPhep\taoDonNghiPhep.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_timKiemBangLuong.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_donNghiPhepPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_donNghiPhepChangeTabPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyNhanSu\_danhMucNghiPhepPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -882,6 +886,9 @@
     <Content Include="ValidationAlert\Admin\QuanLyLuong\chiTietLuongValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyLuong\thanhToanLuong.js" />
     <Content Include="ValidationAlert\Admin\QuanLyLuong\tinhLuong.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_ChiTietBangLuong.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_DonNghiPhep.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_NgayNghiPhep.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_TienDoValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_LichSuHoatDongGiaValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ChiTiet_HopDongValidation.js" />
@@ -896,6 +903,7 @@
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\KhoaTaiKhoanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\ThemNhanVienValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyNhanSu\TimKiemNhanVien.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyNhanSu\TuchoiOrChapnhanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyTaiKhoan\ChinhSuaThongTinCaNhanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyTaiKhoan\DangNhapValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyTaiKhoan\DatLaiMatKhauValidation.js" />

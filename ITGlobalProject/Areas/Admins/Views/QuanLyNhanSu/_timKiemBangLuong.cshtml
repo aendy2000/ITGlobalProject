@@ -1,0 +1,86 @@
+﻿@model ITGlobalProject.Models.Employees
+@using ITGlobalProject.Models;
+@{
+    var luong = Session["bang-luong-emp"] as IEnumerable<PayrollCategory>;
+}
+
+<div id="appendTimKiemLuongNam" class="row">
+    <!-- col -->
+    <div class="col-12">
+        <!-- card -->
+        <div class="card">
+            <!-- table -->
+            <div class="table-responsive overflow-y-hidden" data-simplebar>
+                <table id="tblBangLuong" class="table mb-4 text-nowrap">
+                    <thead>
+                        <tr>
+                            <th scope="col" class=" border-top-0">Lương tháng</th>
+                            <th>Ngày nhận</th>
+                            <th>Lương Hợp đồng</th>
+                            <th>Thuế - BH</th>
+                            <th>Thực lãnh</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in luong)
+                        {
+                            if (item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID) != null)
+                            {
+                                <tr>
+                                    <td class="align-middle">
+                                        <b>@item.Name</b>
+                                    </td>
+                                    <td class="align-middle ">
+                                        @if (item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).State == true)
+                                        {
+                                            @(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Histories.Where(h => h.Name.IndexOf("Thanh Toán") != -1).Count() > 0 ? item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("dd") + " Thg " + item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("MM ,yyyy") : "Chờ thanh toán")
+                                        }
+                                        else
+                                        {
+                                            <span>Chờ thanh toán</span>
+                                        }
+                                    </td>
+                                    <td class=" fw-bold mb-0 text-primary  align-middle">@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Salary.ToString("0,0").Replace(".", ",") đ </td>
+                                    <td class=" fw-bold mb-0 text-danger  align-middle">@(Convert.ToDecimal(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).TotalPriceTax.Value + item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).TotalPriceInsurance + 0).ToString("0,0").Replace(".", ",")) đ </td>
+                                    <td class=" fw-bold mb-0 text-warning  align-middle">
+                                        <input hidden id="mucthanhtoan-@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID" value="@(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value != 0 ? item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value.ToString("0").Replace(".", "") : "0")" />
+                                        @(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value != 0 ? item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value.ToString("0,0").Replace(".", ",") : "0") đ
+                                    </td>
+                                    <td id="tdTrangThai-@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID" class="border-top-0  align-middle">
+                                        @if (item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).State == true)
+                                        {
+                                            <span style="width:110px" class="badge text-success bg-light-success ">Đã thanh toán</span>
+                                        }
+                                        else
+                                        {
+                                            <span style="width:110px" class="badge text-danger bg-light-danger ">Chưa thanh toán</span>
+                                        }
+                                    </td>
+                                    <td class="text-muted align-middle text-end">
+                                        <div class="dropdown dropstart">
+                                            <a data-bs-toggle="tooltip" data-placement="top" title="Xem chi tiết" class="btn-icon btn btn-ghost rounded-circle text-primary" role="button" id="xemchiTietLuong-@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID" name="@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID">
+                                                <i class="fe fe-info"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="align-middle text-center">
+                                        Không có dữ liệu để hiển thị.
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_ChiTietBangLuong.js"></script>
+</div>
+

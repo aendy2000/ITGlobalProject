@@ -13,6 +13,8 @@
     var lstPosition = Session["lst-role"] as List<Position>;
     var lstkynang = Session["lst-kynang"] as List<SkillsCategory>;
     var lsttrocap = Session["lst-trocap"] as List<SubsidiesCategory>;
+    var lstnghiphep = Session["lst-ngaynghi"] as List<LeaveDate>;
+
 }
 
 <div class="container-fluid p-4">
@@ -1202,6 +1204,34 @@
                         </div>
                     }
                     <input hidden value="@k" id="sltc" />
+                </div>
+            </div>
+            <br />
+            <div class="border-bottom py-3 bg-light-primary border-1" style="border-radius: 5px;" id="heading11">
+                <h4 class="mb-0 fw-bold">
+                    <a href="#" class="d-flex align-items-center text-inherit text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapse11" aria-expanded="true" aria-controls="collapse11">
+                        <span class="me-auto">
+                            &emsp;Ngày Nghỉ Phép&ensp;<i id="hoantatttngaynghiphep" class="fe fe-check-circle font-weight-bold text-success"></i>
+                        </span>
+                        <span class="collapse-toggle ms-4">
+                            &emsp;<i class="fe fe-plus text-primary"></i>&emsp;
+                        </span>
+                    </a>
+                </h4>
+            </div>
+            <div class="container">
+                <div id="collapse11" class="collapse" aria-labelledby="heading11" data-bs-parent="#accordionExample">
+                    <div class="py-3"></div>
+                    @foreach (var item in lstnghiphep)
+                    {
+                        <div class="form-check mb-2 col-4 col-md-4">
+                            <input class="form-check-input" type="checkbox" name="@(item.ID)" id="checknghiphep@(item.ID)">
+                            <label class="form-check-label" for="checknghiphep@(item.ID)">
+                                @item.Name (@item.StartDay Tháng @item.StartMonth - @item.EndDay Tháng @item.EndMonth)
+                            </label>
+                        </div>
+                    }
+                    <input hidden value="@j" id="slnghiphep" />
                 </div>
             </div>
             <br />

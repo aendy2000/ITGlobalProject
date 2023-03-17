@@ -68,16 +68,6 @@
         });
     });
 
-
-    /*
-*  jQuery table2excel - v1.1.1
-*  jQuery plugin to export an .xls file in browser from an HTML table
-*  https://github.com/rainabba/jquery-table2excel
-*
-*  Made by rainabba
-*  Under MIT License
-*/
-    //table2excel.js
     ; (function ($, window, document, undefined) {
         var pluginName = "table2excel",
 
