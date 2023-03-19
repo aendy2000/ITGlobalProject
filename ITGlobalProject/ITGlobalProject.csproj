@@ -873,7 +873,7 @@
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_ConNo_ChinhSuaGiaiDoanValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_DoiNgu_XoaThanhVien.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ChiTietDuAn_DoiNguValidation.js" />
-    <Content Include="ValidationAlert\Admin\QuanLyDuAn\XoaDuAnValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyDuAn\DongDuAnValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyDuAn\ThemDuAnValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyKhoanTroCapValidation\SuaTroCapValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyKhoanTroCapValidation\ThemTroCapValidation.js" />

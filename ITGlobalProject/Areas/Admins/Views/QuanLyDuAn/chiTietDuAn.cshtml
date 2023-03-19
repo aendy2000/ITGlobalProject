@@ -41,10 +41,16 @@
                 <!-- button -->
                 <div>
                     <a id="openCapNhatDuAn" class="btn btn-primary me-2" style="width:230px"><i class="fe fe-edit"></i>&ensp;Cập Nhật Dự Án</a>
-                    <a id="xoaDuAn" class="btn btn-danger me-2" style="width:230px"><i class="fe fe-trash"></i>&ensp;Xóa Dự Án</a>
+                    @if (Model.Lock == true)
+                    {
+                        <a id="dongDuAn" name="dangdong" class="btn btn-success me-2" style="width:230px"><i class="fe fe-unlock"></i>&ensp;Mở Dự Án</a>
+                    }
+                    else
+                    {
+                        <a id="dongDuAn" name="dangmo" class="btn btn-danger me-2" style="width:230px"><i class="fe fe-lock"></i>&ensp;Đóng Dự Án</a>
+                    }
                 </div>
             </div>
-
         </div>
     </div>
     <div id="chiTietDuAnPartialID">
@@ -225,15 +231,18 @@
                           align-items-center">
                         <div class="d-flex
                             align-items-center">
-                         <svg xmlns="http://www.w3.org/2000/svg"  width="24" height="24"
-                                 fill="currentColor" class="bi bi-currency-dollar text-primary" viewBox="0 0 24 24"><title>image-outline</title><path d="M19,19H5V5H19M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M13.96,12.29L11.21,15.83L9.25,13.47L6.5,17H17.5L13.96,12.29Z" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                 fill="currentColor" class="bi bi-currency-dollar text-primary" viewBox="0 0 24 24">
+                                <title>image-outline</title>
+                                <path d="M19,19H5V5H19M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M13.96,12.29L11.21,15.83L9.25,13.47L6.5,17H17.5L13.96,12.29Z" />
+                            </svg>
                             <div class="ms-2">
                                 <h5 class="mb-0 text-body">Ảnh hợp đồng</h5>
                             </div>
                         </div>
                         <div>
                             <div>
-                                <button class="btn btn-outline-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#ModalXemHinhAnh">Xem Hợp Đồng</button>
+                                <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ModalXemHinhAnh">Xem Hợp Đồng</button>
                                 <div class="modal fade modal-xl" id="ModalXemHinhAnh" tabindex="-1" role="dialog"
                                      aria-labelledby="themVaiTroModalLabel" aria-hidden="true" data-simplebar>
                                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -528,36 +537,7 @@
 <div id="chinhSuaOffcanvas">
 </div>
 
-<!-- Xóa Dự án -->
-<div class="modal fade" id="modalXoaDuAn" tabindex="-1" role="dialog" aria-labelledby="modalXoaDuAnTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalXoaDuAnTitle">Xóa Dự Án</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="ghiChuXoaProject"></p>
-                <input id="xacnhantenproject" style="font-weight:bold" placeholder="Nhập vào tên dự án" class="form-control" />
-                <p hidden style="font-size: 13px; color:red;" id="xacnhantenprojectvalidation"></p>
-            </div>
-            <div class="row">
-                <div style="text-align: right; padding-bottom: 20px" class="mb-2 col-12 col-md-6">
-                    <button style="width: 150px" class="btn btn-outline-success" data-bs-dismiss="modal">
-                        Hủy Bỏ
-                    </button>
-                </div>
-                <div style="padding-bottom: 20px; width: 150px" class="mb-2 col-12 col-md-6">
-                    <a style="width: 150px" role="button" id="btnLuuXoaDuAn" class="btn btn-danger">
-                        Xóa Ngay!
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="~/ValidationAlert/Admin/QuanLyDuAn/XoaDuAnValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyDuAn/DongDuAnValidation.js"></script>
 <script src="~/ValidationAlert/Admin/QuanLyDuAn/ChinhSuaDuAn.js"></script>
 <script src="~/ValidationAlert/Admin/QuanLyDuAn/ChiTietDuAnValidation.js"></script>
 <script src="~/Content/Admin/assets/js/reviewImage.js"></script>

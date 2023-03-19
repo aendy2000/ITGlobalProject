@@ -106,42 +106,48 @@
                             </div>
                             <!-- text -->
                             <div>
-                                @if (item.Tasks.ToList().Count < 1
-                                                       && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
+                                @if (item.Lock == true)
                                 {
-                                    <span style="width: 100px" class="badge bg-light-primary text-dark-primary">Đang thực hiện</span>
+                                    <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã đóng</span>
                                 }
-                                //Chưa giao việc, quá hạn => đã quá hạn
-                                else if (item.Tasks.ToList().Count < 1
-                                    && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0)
+                                else
                                 {
-                                    <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã quá hạn</span>
-                                }
-                                //Còn hạn và còn việc => đang thực hiện
-                                else if (item.Tasks.ToList().Count > 0
-                                    && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
-                                    && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
-                                {
-                                    <span style="width: 100px" class="badge bg-light-primary text-dark-primary">Đang thực hiện</span>
-                                }
-                                //Qúa hạn, còn việc hoặc chưa thanh toán xong => đã quá hạn
-                                else if ((item.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0
-                                    && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
-                                    || item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
-                                {
-                                    <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã quá hạn</span>
-                                }
-                                //hết việc, chưa thanh toán xong => chờ thanh toán
-                                else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 >= 100
-                                    && item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
-                                {
-                                    <span style="width: 100px" class="badge bg-light-warning text-dark-warning">Chờ thanh toán</span>
-                                }
-                                //hết việc, đã thanh toán xong => done
-                                else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 == 100
-                                    && item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
-                                {
-                                    <span style="width: 100px" class="badge bg-light-success text-dark-success">done</span>
+                                    if (item.Tasks.ToList().Count < 1 && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
+                                    {
+                                        <span style="width: 100px" class="badge bg-light-primary text-dark-primary">Đang thực hiện</span>
+                                    }
+                                    //Chưa giao việc, quá hạn => đã quá hạn
+                                    else if (item.Tasks.ToList().Count < 1
+                                        && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0)
+                                    {
+                                        <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã quá hạn</span>
+                                    }
+                                    //Còn hạn và còn việc => đang thực hiện
+                                    else if (item.Tasks.ToList().Count > 0
+                                        && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
+                                        && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
+                                    {
+                                        <span style="width: 100px" class="badge bg-light-primary text-dark-primary">Đang thực hiện</span>
+                                    }
+                                    //Qúa hạn, còn việc hoặc chưa thanh toán xong => đã quá hạn
+                                    else if ((item.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0
+                                        && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
+                                        || item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
+                                    {
+                                        <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã quá hạn</span>
+                                    }
+                                    //hết việc, chưa thanh toán xong => chờ thanh toán
+                                    else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 >= 100
+                                        && item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
+                                    {
+                                        <span style="width: 100px" class="badge bg-light-warning text-dark-warning">Chờ thanh toán</span>
+                                    }
+                                    //hết việc, đã thanh toán xong => done
+                                    else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 == 100
+                                        && item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
+                                    {
+                                        <span style="width: 100px" class="badge bg-light-success text-dark-success">done</span>
+                                    }
                                 }
                             </div>
                         </div>

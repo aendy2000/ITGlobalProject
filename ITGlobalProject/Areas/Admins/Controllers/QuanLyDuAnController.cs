@@ -1192,7 +1192,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
         }
         [HttpPost]
-        public ActionResult xoaDuAn(int? id)
+        public ActionResult khoaDuAn(int? id, bool locks)
         {
             try
             {
@@ -1200,34 +1200,14 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 if (id == null || pro == null || Session["user-id"] == null)
                     return Content("DANHSACH");
 
-                //remove Historypayment + Debt
-                foreach (var item in pro.Debts.ToList())
-                    model.PaymentHistory.RemoveRange(item.PaymentHistory);
-                model.Debts.RemoveRange(pro.Debts);
-                model.PaymentHistory.RemoveRange(pro.PaymentHistory);
-
-                //remove History + task
-                foreach (var item in pro.Tasks.ToList())
-                {
-                    model.Histories.RemoveRange(item.Histories);
-                    model.Comment.RemoveRange(item.Comment);
-                }
-                model.Tasks.RemoveRange(pro.Tasks);
-                model.Histories.RemoveRange(pro.Histories);
-
-                //remove Team
-                model.Teams.RemoveRange(pro.Teams);
-
-                //remove Project
-                model.Projects.Remove(pro);
+                pro.Lock = locks;
+                model.Entry(pro).State = EntityState.Modified;
                 model.SaveChanges();
-
-                model = new CP25Team06Entities();
                 return Content("SUCCESS");
             }
             catch
             {
-                return Content("Đã có lỗi xảy ra, vui lòng thử lại");
+                return Content("ERORR");
             }
         }
     }

@@ -66,12 +66,12 @@
                                 <td hidden>@i</td>
                                 <td class="align-middle ">
                                     <div class="d-flex align-items-center">
-                                            <a href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();">@item.ID_Project</a>
+                                        <a href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();">@item.ID_Project</a>
                                     </div>
                                 </td>
                                 <td class="align-middle ">
                                     <div class="d-flex align-items-center">
-                                            <h4 class="mb-0"><a href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();" class="text-inherit">@item.Name</a></h4>
+                                        <h4 class="mb-0"><a href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();" class="text-inherit">@item.Name</a></h4>
                                     </div>
                                 </td>
                                 <td class="align-middle text-nowrap">
@@ -166,48 +166,55 @@
                                     }
                                 </td>
                                 <td class="align-middle ">
-                                    <!--Chưa giao việc, còn hạn => đang thực hiện-->
+                                    @if (item.Lock == true)
+                                    {
+                                        <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã đóng</span>
+                                    }
+                                    else
+                                    {
+                                        <!--Chưa giao việc, còn hạn => đang thực hiện-->
+                                        if (item.StartDate > DateTime.Now)
+                                        {
+                                            <span style="width: 100px" class="badge bg-gray-100 text-gray-700">Mới</span>
+                                        }
+                                        else if (item.Tasks.ToList().Count < 1
+                                            && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
+                                        {
+                                            <span style="width: 100px" class="badge bg-light-primary text-dark-primary">Đang thực hiện</span>
+                                        }
+                                        //Chưa giao việc, quá hạn => đã quá hạn
+                                        else if (item.Tasks.ToList().Count < 1
+                                            && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0)
+                                        {
+                                            <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã quá hạn</span>
+                                        }
+                                        //Còn hạn và còn việc => đang thực hiện
+                                        else if (item.Tasks.ToList().Count > 0
+                                            && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) < 1 || (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100)
+                                            && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
+                                        {
+                                            <span style="width: 100px" class="badge bg-light-primary text-dark-primary">Đang thực hiện</span>
+                                        }
+                                        //Qúa hạn, còn việc hoặc chưa thanh toán xong => đã quá hạn
+                                        else if ((item.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0
+                                            && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100)
+                                        {
+                                            <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã quá hạn</span>
+                                        }
+                                        //hết việc, chưa thanh toán xong => chờ thanh toán
+                                        else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 >= 100
+                                            && item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
+                                        {
+                                            <span style="width: 100px" class="badge bg-light-warning text-dark-warning">Chờ thanh toán</span>
+                                        }
+                                        //hết việc, đã thanh toán xong => done
+                                        else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 == 100
+                                            && item.Debts.Where(d => d.State == true).ToList().Count == item.Debts.Count)
+                                        {
+                                            <span style="width: 100px" class="badge bg-light-success text-dark-success">Hoàn thành</span>
+                                        }
+                                    }
 
-                                    @if (item.StartDate > DateTime.Now)
-                                    {
-                                        <span style="width: 100px" class="badge bg-gray-100 text-gray-700">Mới</span>
-                                    }
-                                    else if (item.Tasks.ToList().Count < 1
-                                        && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
-                                    {
-                                        <span style="width: 100px" class="badge bg-light-primary text-dark-primary">Đang thực hiện</span>
-                                    }
-                                    //Chưa giao việc, quá hạn => đã quá hạn
-                                    else if (item.Tasks.ToList().Count < 1
-                                        && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0)
-                                    {
-                                        <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã quá hạn</span>
-                                    }
-                                    //Còn hạn và còn việc => đang thực hiện
-                                    else if (item.Tasks.ToList().Count > 0
-                                        && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) < 1 || (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100)
-                                        && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
-                                    {
-                                        <span style="width: 100px" class="badge bg-light-primary text-dark-primary">Đang thực hiện</span>
-                                    }
-                                    //Qúa hạn, còn việc hoặc chưa thanh toán xong => đã quá hạn
-                                    else if ((item.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0
-                                        && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100)
-                                    {
-                                        <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã quá hạn</span>
-                                    }
-                                    //hết việc, chưa thanh toán xong => chờ thanh toán
-                                    else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 >= 100
-                                        && item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
-                                    {
-                                        <span style="width: 100px" class="badge bg-light-warning text-dark-warning">Chờ thanh toán</span>
-                                    }
-                                    //hết việc, đã thanh toán xong => done
-                                    else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 == 100
-                                        && item.Debts.Where(d => d.State == true).ToList().Count == item.Debts.Count)
-                                    {
-                                        <span style="width: 100px" class="badge bg-light-success text-dark-success">Hoàn thành</span>
-                                    }
                                 </td>
                                 <td class="align-middle text-nowrap">
                                     <div class="avatar-group">
