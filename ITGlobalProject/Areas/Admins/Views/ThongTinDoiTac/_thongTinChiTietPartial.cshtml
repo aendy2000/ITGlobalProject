@@ -221,22 +221,32 @@
                         <!-- Birthday -->
                         <div class="mb-3 col-12 col-md-6">
                             <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh <span class="text-danger">*</span></label>
-                            <input value="@Model.Birthday.ToString("yyyy-MM-dd")" id="ngaysinh" name="ngaysinh" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
+                            <input value="@(Model.Birthday != null ? Model.Birthday.Value.ToString("yyyy-MM-dd") : null)" id="ngaysinh" name="ngaysinh" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
                             <p hidden style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
                         </div>
                         <!-- Birthday -->
                         <div class="mb-3 col-12 col-md-6">
                             <label style="font-weight:bold" class="form-label">Giới tính <span class="text-danger">*</span></label>
                             <select id="gioitinh" name="gioitinh" style="color:black" class="selectpicker" data-width="100%">
-                                @if (Model.Sex.Equals("Nam"))
+                                @if (string.IsNullOrEmpty(Model.Sex))
                                 {
-                                    <option selected value="Nam">Nam</option>
+                                    <option selected value="">Chọn giới tính</option>
+                                    <option value="Nam">Nam</option>
                                     <option value="Nữ">Nữ</option>
                                 }
                                 else
                                 {
-                                    <option value="Nam">Nam</option>
-                                    <option selected value="Nữ">Nữ</option>
+                                    <option value="">Chọn giới tính</option>
+                                    if (Model.Sex.Equals("Nam"))
+                                    {
+                                        <option selected value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Nam">Nam</option>
+                                        <option selected value="Nữ">Nữ</option>
+                                    }
                                 }
                             </select>
                             <p hidden style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>

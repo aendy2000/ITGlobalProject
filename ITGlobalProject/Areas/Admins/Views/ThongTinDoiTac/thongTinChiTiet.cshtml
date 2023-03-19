@@ -225,7 +225,7 @@
                         <!-- Birthday -->
                         <div class="mb-3 col-12 col-md-6">
                             <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh</label>
-                            <input value="@(Model.Birthday.Value != null ? Model.Birthday.Value.ToString("yyyy-MM-dd"))" id="ngaysinh" name="ngaysinh" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
+                            <input value="@(Model.Birthday != null ? Model.Birthday.Value.ToString("yyyy-MM-dd") : null)" id="ngaysinh" name="ngaysinh" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
                             <p hidden style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
                         </div>
                         <!-- Birthday -->
