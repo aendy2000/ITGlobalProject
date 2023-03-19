@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="ID" />
@@ -197,11 +197,11 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Company" Type="nvarchar" MaxLength="250" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="IdentityCard" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="IdentityCard" Type="varchar" MaxLength="12" />
           <Property Name="Phone" Type="varchar" MaxLength="12" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Birthday" Type="date" Nullable="false" />
-          <Property Name="Sex" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Birthday" Type="date" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="10" />
           <Property Name="Address" Type="nvarchar" MaxLength="250" />
           <Property Name="Avatar" Type="nvarchar(max)" />
           <Property Name="TaxCode" Type="nvarchar" MaxLength="50" />
@@ -287,6 +287,7 @@
           <Property Name="EndDate" Type="date" Nullable="false" />
           <Property Name="ContractUrl" Type="nvarchar(max)" />
           <Property Name="ID_Project" Type="varchar" MaxLength="10" />
+          <Property Name="Lock" Type="bit" />
         </EntityType>
         <EntityType Name="Recruitment">
           <Key>
@@ -995,7 +996,8 @@
             <End Role="Teams" EntitySet="Teams" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CP25Team06Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1222,11 +1224,11 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Company" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IdentityCard" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdentityCard" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
           <Property Name="Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Birthday" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Sex" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Birthday" Type="DateTime" Precision="0" />
+          <Property Name="Sex" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TaxCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1324,13 +1326,14 @@
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ContractUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID_Project" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Lock" Type="Boolean" />
           <NavigationProperty Name="Debts" Relationship="Self.FK_Debts_Projects" FromRole="Projects" ToRole="Debts" />
           <NavigationProperty Name="Histories" Relationship="Self.FK_Histories_Projects" FromRole="Projects" ToRole="Histories" />
           <NavigationProperty Name="Partners" Relationship="Self.FK_Projects_Partners" FromRole="Projects" ToRole="Partners" />
           <NavigationProperty Name="PaymentHistory" Relationship="Self.FK_PaymentHistory_Projects" FromRole="Projects" ToRole="PaymentHistory" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Projects" FromRole="Projects" ToRole="Tasks" />
           <NavigationProperty Name="Teams" Relationship="Self.FK_Teams_Projects" FromRole="Projects" ToRole="Teams" />
-          <Property Name="ID_Project" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Recruitment">
           <Key>
@@ -2357,7 +2360,6 @@
           <EntitySetMapping Name="Projects">
             <EntityTypeMapping TypeName="CP25Team06Model.Projects">
               <MappingFragment StoreEntitySet="Projects">
-                <ScalarProperty Name="ID_Project" ColumnName="ID_Project" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ID_Partner" ColumnName="ID_Partner" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2365,6 +2367,8 @@
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="ContractUrl" ColumnName="ContractUrl" />
+                <ScalarProperty Name="ID_Project" ColumnName="ID_Project" />
+                <ScalarProperty Name="Lock" ColumnName="Lock" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

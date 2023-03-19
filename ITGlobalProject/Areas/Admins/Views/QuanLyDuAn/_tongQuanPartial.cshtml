@@ -198,7 +198,7 @@
                         <div>
                             <div>
                                 <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ModalXemHinhAnh">Xem Hợp Đồng</button>
-                                <div class="modal fade modal-lg" id="ModalXemHinhAnh" tabindex="-1" role="dialog"
+                                <div class="modal fade modal-xl" id="ModalXemHinhAnh" tabindex="-1" role="dialog"
                                      aria-labelledby="themVaiTroModalLabel" aria-hidden="true" data-simplebar>
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
@@ -216,7 +216,7 @@
                                                     }
                                                     else
                                                     {
-                                                        <img style="margin: 30px 30px 30px 30px; max-width:720px" src="@Model.ContractUrl" alt="Gallery image 1" class="gallery__img rounded-3">
+                                                        <iframe class="gallery__img rounded-3" frameborder="0" style="overflow: hidden; height: 1200px; width: 100%" src="@Model.ContractUrl"></iframe>
                                                     }
                                                 </figure>
                                             </div>

@@ -32,6 +32,7 @@ namespace ITGlobalProject.Models
         public System.DateTime EndDate { get; set; }
         public string ContractUrl { get; set; }
         public string ID_Project { get; set; }
+        public Nullable<bool> Lock { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Debts> Debts { get; set; }

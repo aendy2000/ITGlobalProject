@@ -66,35 +66,95 @@
         $('#luKhachHangCu').hide();
         $('#NavthongTinKhachHangCu').hide();
     });
+
     //Chọn ảnh hợp đồng
     $('#chonanhhopdong').on('click', function () {
         $('#selectFileshopdong').click();
     });
-    $('#selectFileshopdong').on('change', function () {
-        if ($('#selectFileshopdong').val().length > 0) {
+
+
+    $('#selectFileshopdong').on('input', function (e) {
+        if ($(this).val().length < 1) {
+            $('#previewImageshopdong').prop('hidden', false);
+            $('#pdfViewers').prop('hidden', true);
+            $('#xoahinhanhhopdong').prop("hidden", true);
+        } else {
+            $('#pdfViewers').prop('hidden', false);
             $('#xoahinhanhhopdong').prop("hidden", false);
+            // Loaded via <script> tag, create shortcut to access PDF.js exports.
+            var pdfjsLib = window['pdfjs-dist/build/pdf'];
+            // The workerSrc property shall be specified.
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+            var file = e.target.files[0];
+            if (file.type == "application/pdf") {
+
+                var fileReader = new FileReader();
+                fileReader.onload = function () {
+                    var pdfData = new Uint8Array(this.result);
+                    // Using DocumentInitParameters object to load binary data.
+                    var loadingTask = pdfjsLib.getDocument({ data: pdfData });
+                    loadingTask.promise.then(function (pdf) {
+                        console.log('PDF loaded');
+
+                        // Fetch the first page
+                        var pageNumber = 1;
+                        pdf.getPage(pageNumber).then(function (page) {
+                            console.log('Page loaded');
+
+                            var scale = 1.5;
+                            var viewport = page.getViewport({ scale: scale });
+
+                            // Prepare canvas using PDF page dimensions
+                            var canvas = $("#pdfViewers")[0];
+                            var context = canvas.getContext('2d');
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+
+                            // Render PDF page into canvas context
+                            var renderContext = {
+                                canvasContext: context,
+                                viewport: viewport
+                            };
+                            var renderTask = page.render(renderContext);
+                            renderTask.promise.then(function () {
+                                console.log('Page rendered');
+                            });
+
+                            $('#previewImageshopdong').prop('hidden', true);
+                        });
+                    }, function (reason) {
+                        // PDF loading error
+                        console.error(reason);
+                    });
+                };
+                fileReader.readAsArrayBuffer(file);
+            }
         }
     });
+
+
     $('#xoahinhanhhopdong').on('click', function () {
         $('#selectFileshopdong').val('');
-        $(previewImageshopdong).attr('src', $('#anhhopdongcu').val());
+        $('#previewImageshopdong').prop('hidden', false);
+        $('#pdfViewers').prop('hidden', true);
         $('#xoahinhanhhopdong').prop("hidden", true);
     });
 
     //Chọn ảnh
     $('#clickFiles').on('click', function (e) {
         $('#selectFiles').click();
-    })
+    });
 
     //Xóa ảnh
     $('#reloadButton').on('click', function (e) {
         $('#selectFiles').val('');
         $('#previewImage').replaceWith('<img src="' + $('#requestPath').val() + 'Content/Admin/assets/images/avatar/default-avatar.png")" class="avatar-xxl rounded-circle" alt="" id="previewImage" />');
-    })
+    });
 
     //Click lưu chỉnh sửa - khách hàng hiện tại
     $('#luuThongTin').on('click', function () {
-        
+
         //tag Dự án
         $('#namevalidation').hide();
         $('#motavalidation').hide();
@@ -230,15 +290,12 @@
         }
 
         //Validation cmnd
-        if (cmnd.length < 1) {
-            checkkhachhang = false;
-            $("#cmndvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
-            $('#cmnd').focus();
-
-        } else if (cmnd.length != 14 && cmnd.length != 11) {
-            checkkhachhang = false;
-            $("#cmndvalidation").text("Vui lòng nhập đầy đủ thông tin này!").show().prop("hidden", false);
-            $('#cmnd').focus();
+        if (cmnd.length > 0) {
+            if (cmnd.length != 14 && cmnd.length != 11) {
+                checkkhachhang = false;
+                $("#cmndvalidation").text("Vui lòng nhập đầy đủ thông tin này!").show().prop("hidden", false);
+                $('#cmnd').focus();
+            }
         }
 
         //Validation sđt
@@ -275,29 +332,20 @@
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0');
         var yyyy = today.getFullYear();
-        if (ngaysinh.length < 1) {
-            checkkhachhang = false;
-            $("#ngaysinhvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
-            $('#ngaysinh').focus();
-
-        }
-        else if (Number(ngaysinh.replace(/-/g, '')) >= Number(yyyy + mm + dd)) {
-            checkkhachhang = false;
-            $("#ngaysinhvalidation").text("Ngày sinh không thể lớn hơn ngày hiện tại").show().prop("hidden", false);
-            $('#ngaysinh').focus();
+        if (ngaysinh.length > 0) {
+            if (Number(ngaysinh.replace(/-/g, '')) >= Number(yyyy + mm + dd)) {
+                checkkhachhang = false;
+                $("#ngaysinhvalidation").text("Ngày sinh không thể lớn hơn ngày hiện tại").show().prop("hidden", false);
+                $('#ngaysinh').focus();
+            }
         }
 
-        //Validation giới tính
-        if (gioitinh.length < 1) {
-            checkkhachhang = false;
-            $("#gioitinhvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
-            $('#gioitinh').focus();
-        }
-        else if (diahchinha.length > 250) {
+        if (diahchinha.length > 250) {
             checkkhachhang = false;
             $("#diachinhavalidation").text("Địa chỉ, chỉ tối đa 250 ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
             $('#gioitinh').focus();
         }
+
         //validation mã số thuế
         if (masothue.length != 10) {
             checkkhachhang = false;

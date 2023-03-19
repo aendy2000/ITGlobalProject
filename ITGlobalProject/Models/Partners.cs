@@ -26,7 +26,7 @@ namespace ITGlobalProject.Models
         public string IdentityCard { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public System.DateTime Birthday { get; set; }
+        public Nullable<System.DateTime> Birthday { get; set; }
         public string Sex { get; set; }
         public string Address { get; set; }
         public string Avatar { get; set; }

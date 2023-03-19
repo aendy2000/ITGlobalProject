@@ -817,13 +817,6 @@
     <Content Include="Areas\Admins\Views\QuanLyDuAn\_chinhSuaDuAnPartial.cshtml" />
     <Content Include="Areas\Admins\Views\ThongTinDoiTac\_danhSachDoiTacPartial.cshtml" />
     <Content Include="Areas\Admins\Views\ThongTinDoiTac\_duAnThamGiaSearch.cshtml" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\Admins\Views\QuanLyDuAn\_formChinhSuaChiPhi.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDuAn\_chinhSuaDuAnPartial.cshtml" />
     <Content Include="Areas\Admins\Views\ThongTinDoiTac\_danhSachDoiTacPartial.cshtml" />
@@ -839,6 +832,13 @@
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_donNghiPhepPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_donNghiPhepChangeTabPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_danhMucNghiPhepPartial.cshtml" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

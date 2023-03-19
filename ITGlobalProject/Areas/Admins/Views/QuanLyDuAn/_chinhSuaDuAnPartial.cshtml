@@ -75,17 +75,17 @@
                                                     <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Hợp đồng</label>
                                                     <a role="button" id="chonanhhopdong" class="btn btn-outline-primary" style="width:100%">
                                                         <i class="fe fe-upload me-1"></i>
-                                                        Tải Lên Hình Ảnh
+                                                        Tải Lên Hợp Đồng (.PDF)
                                                     </a>
                                                 </div>
                                                 @if (string.IsNullOrEmpty(Model.ContractUrl))
                                                 {
                                                     <div style="margin-left: 13px ;width: 98%" class="form-control bg-gray-200 mb-4 col-12 col-md-12 text-center ">
-                                                        <input hidden id="selectFileshopdong" type="file" name="file" accept="image/*" onchange="ShowImageUploadshopdong(this, document.getElementById('previewImageshopdong'))" />
+                                                        <input hidden id="selectFileshopdong" type="file" name="file" accept="application/pdf" />
                                                         <div class="py-3"></div>
                                                         <figure class="gallery__item gallery__item--1 mb-0">
-                                                            <input hidden value="~/Content/Admin/assets/images/png/hopdong-default.png" id="anhhopdongcu" />
                                                             <img style="max-width: 700px;" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImageshopdong">
+                                                            <canvas hidden id="pdfViewers"></canvas>
                                                         </figure>
                                                         <button hidden style="margin-top: 37px" id="xoahinhanhhopdong" class="btn btn-danger btn-sm">XÓA BỎ</button>
                                                         <div class="py-3"></div>
@@ -94,11 +94,11 @@
                                                 else
                                                 {
                                                     <div style="margin-left: 13px ;width: 98%" class="form-control bg-gray-200 mb-4 col-12 col-md-12 text-center ">
-                                                        <input hidden id="selectFileshopdong" type="file" name="file" accept="image/*" onchange="ShowImageUploadshopdong(this, document.getElementById('previewImageshopdong'))" />
+                                                        <input hidden id="selectFileshopdong" type="file" name="file" accept="application/pdf" />
                                                         <div class="py-3"></div>
                                                         <figure class="gallery__item gallery__item--1 mb-0">
-                                                            <input hidden value="@Model.ContractUrl" id="anhhopdongcu" />
-                                                            <img style="max-width: 700px;" src="@Model.ContractUrl" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImageshopdong">
+                                                            <iframe id="previewImageshopdong" class="gallery__img rounded-3" frameborder="0" style="overflow: hidden; height: 1200px; width: 100%" src="@Model.ContractUrl"></iframe>
+                                                            <canvas hidden id="pdfViewers"></canvas>
                                                         </figure>
                                                         <button hidden style="margin-top: 37px" id="xoahinhanhhopdong" class="btn btn-danger btn-sm">XÓA BỎ</button>
                                                         <div class="py-3"></div>
@@ -221,7 +221,7 @@
                                             </div>
                                         }
                                         <div class="mb-3 col-12 col-md-6">
-                                            <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD <span class="text-danger">*</span></label>
+                                            <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD </label>
                                             <input value="@Model.Partners.IdentityCard" id="cmnd" name="cmnd" type="text" class="form-control" placeholder="Nhập vào số CMND/CCCD của khách hàng" data-inputmask="'mask': '9999 9999 9999'" inputmode="numeric" />
                                             <p hidden style="font-size: 13px; color:red;" id="cmndvalidation"></p>
                                         </div>
@@ -238,23 +238,33 @@
                                         </div>
                                         <!-- Birthday -->
                                         <div class="mb-3 col-12 col-md-6">
-                                            <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh <span class="text-danger">*</span></label>
-                                            <input value="@Model.Partners.Birthday.ToString("yyyy-MM-dd")" id="ngaysinh" name="ngaysinh" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
+                                            <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh</label>
+                                            <input value="@(Model.Partners.Birthday.Value != null ? Model.Partners.Birthday.Value.ToString("yyyy-MM-dd"))" id="ngaysinh" name="ngaysinh" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
                                             <p hidden style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
                                         </div>
                                         <!-- Birthday -->
                                         <div class="mb-3 col-12 col-md-6">
-                                            <label style="font-weight:bold" class="form-label">Giới tính <span class="text-danger">*</span></label>
+                                            <label style="font-weight:bold" class="form-label">Giới tính </label>
                                             <select id="gioitinh" name="gioitinh" style="color:black" data-width="100%">
-                                                @if (Model.Partners.Sex.Equals("Nam"))
+                                                @if (string.IsNullOrEmpty(Model.Partners.Sex))
                                                 {
-                                                    <option selected value="Nam">Nam</option>
+                                                    <option selected value="">Chọn giới tính</option>
+                                                    <option value="Nam">Nam</option>
                                                     <option value="Nữ">Nữ</option>
                                                 }
                                                 else
                                                 {
-                                                    <option value="Nam">Nam</option>
-                                                    <option selected value="Nữ">Nữ</option>
+                                                    <option value="">Chọn giới tính</option>
+                                                    if (Model.Partners.Sex.Equals("Nam"))
+                                                    {
+                                                        <option selected value="Nam">Nam</option>
+                                                        <option value="Nữ">Nữ</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="Nam">Nam</option>
+                                                        <option selected value="Nữ">Nữ</option>
+                                                    }
                                                 }
                                             </select>
                                             <p hidden style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
@@ -427,7 +437,7 @@
                                 <input hidden value="@item.IdentityCard" id="cmnds@(item.ID)" />
                                 <input hidden value="@item.Phone" id="sdts@(item.ID)" />
                                 <input hidden value="@item.Email" id="emails@(item.ID)" />
-                                <input hidden value="@item.Birthday.ToString("yyyy-MM-dd")" id="sns@(item.ID)" />
+                                <input hidden value="@(item.Birthday.Value != null ? item.Birthday.Value.ToString("yyyy-MM-dd"))" id="sns@(item.ID)" />
                                 <input hidden value="@item.Sex" id="gioitinhs@(item.ID)" />
                                 <input hidden value="@item.Address" id="dcs@(item.ID)" />
                                 <input hidden value="@item.Avatar" id="avts@(item.ID)" />
@@ -471,16 +481,6 @@
             </div>
         </div>
     </div>
-    <script>
-        function ShowImageUploadshopdong(imageUploads, previewImageshopdong) {
-            if (imageUploads.files && imageUploads.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $(previewImageshopdong).attr('src', e.target.result);
-                }
-                reader.readAsDataURL(imageUploads.files[0]);
-            }
-        }
-    </script>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
     <script src="~/ValidationAlert/Admin/QuanLyDuAn/ChinhSuaDuAnValidation.js"></script>
 </div>

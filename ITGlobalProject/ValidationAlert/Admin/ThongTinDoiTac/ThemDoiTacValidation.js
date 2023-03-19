@@ -104,15 +104,12 @@
         }
 
         //Validation cmnd
-        if (cmnd.length < 1) {
-            checkkhachhang = false;
-            $("#cmndvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
-            $('#cmnd').focus();
-
-        } else if (cmnd.length != 14 && cmnd.length != 11) {
-            checkkhachhang = false;
-            $("#cmndvalidation").text("Vui lòng nhập đầy đủ thông tin này!").show().prop("hidden", false);
-            $('#cmnd').focus();
+        if (cmnd.length > 0) {
+            if (cmnd.length != 14 && cmnd.length != 11) {
+                checkkhachhang = false;
+                $("#cmndvalidation").text("Vui lòng nhập đầy đủ thông tin này!").show().prop("hidden", false);
+                $('#cmnd').focus();
+            }
         }
 
         //Validation sđt
@@ -149,29 +146,21 @@
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0');
         var yyyy = today.getFullYear();
-        if (ngaysinh.length < 1) {
-            checkkhachhang = false;
-            $("#ngaysinhvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
-            $('#ngaysinh').focus();
-
-        }
-        else if (Number(ngaysinh.replace(/-/g, '')) >= Number(yyyy + mm + dd)) {
-            checkkhachhang = false;
-            $("#ngaysinhvalidation").text("Ngày sinh không thể lớn hơn ngày hiện tại").show().prop("hidden", false);
-            $('#ngaysinh').focus();
+        if (ngaysinh.length > 0) {
+            if (Number(ngaysinh.replace(/-/g, '')) >= Number(yyyy + mm + dd)) {
+                checkkhachhang = false;
+                $("#ngaysinhvalidation").text("Ngày sinh không thể lớn hơn ngày hiện tại").show().prop("hidden", false);
+                $('#ngaysinh').focus();
+            }
         }
 
-        //Validation giới tính
-        if (gioitinh.length < 1) {
-            checkkhachhang = false;
-            $("#gioitinhvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
-            $('#gioitinh').focus();
-        }
-        else if (diahchinha.length > 250) {
+        //Validation địa chỉ
+        if (diahchinha.length > 250) {
             checkkhachhang = false;
             $("#diachinhavalidation").text("Địa chỉ, chỉ tối đa 250 ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
             $('#gioitinh').focus();
         }
+
         //validation mã số thuế
         if (masothue.length != 10) {
             checkkhachhang = false;
