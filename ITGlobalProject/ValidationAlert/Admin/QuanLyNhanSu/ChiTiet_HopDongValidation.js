@@ -169,13 +169,72 @@
             $('#ketthucHopDongChinhSua').prop('hidden', true);
         }
 
-
-        $('#previewEditImage').replaceWith('<img style="margin: 30px 30px 30px 30px; max-width:720px" src="' + $('#hinhanhInput' + id).val() + '" alt="Gallery image 1" class="gallery__img rounded-3" id="previewEditImage">');
+        $('#previewPDFEdit').replaceWith('<iframe class="gallery__img rounded-3" frameborder="0" id="previewPDFEdit" style="overflow: hidden; height: 1130px; width: 100%" src="' + $('#hinhanhInput' + id).val() + '"></iframe>');
     });
 
     //Chọn ảnh chỉnh sửa hợp đồng
     $('#chinhsuachonanhhopdongmoi').on('click', function () {
         $('#chinhsuaselectFiles').click();
+    });
+
+    //Chọn 1 hợp đồng
+    $('#chinhsuaselectFiles').on('input', function (e) {
+
+        if ($(this).val().length < 1) {
+            $('#previewPDFEdit').prop('hidden', false);
+            $('#pdfVieweredit').prop('hidden', true);
+        } else {
+            $('#pdfVieweredit').prop('hidden', false);
+            // Loaded via <script> tag, create shortcut to access PDF.js exports.
+            var pdfjsLib = window['pdfjs-dist/build/pdf'];
+            // The workerSrc property shall be specified.
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+            var file = e.target.files[0]
+            if (file.type == "application/pdf") {
+
+                var fileReader = new FileReader();
+                fileReader.onload = function () {
+                    var pdfData = new Uint8Array(this.result);
+                    // Using DocumentInitParameters object to load binary data.
+                    var loadingTask = pdfjsLib.getDocument({ data: pdfData });
+                    loadingTask.promise.then(function (pdf) {
+                        console.log('PDF loaded');
+
+                        // Fetch the first page
+                        var pageNumber = 1;
+                        pdf.getPage(pageNumber).then(function (page) {
+                            console.log('Page loaded');
+
+                            var scale = 1.5;
+                            var viewport = page.getViewport({ scale: scale });
+
+                            // Prepare canvas using PDF page dimensions
+                            var canvas = $("#pdfVieweredit")[0];
+                            var context = canvas.getContext('2d');
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+
+                            // Render PDF page into canvas context
+                            var renderContext = {
+                                canvasContext: context,
+                                viewport: viewport
+                            };
+                            var renderTask = page.render(renderContext);
+                            renderTask.promise.then(function () {
+                                console.log('Page rendered');
+                            });
+
+                            $('#previewPDFEdit').prop('hidden', true);
+                        });
+                    }, function (reason) {
+                        // PDF loading error
+                        console.error(reason);
+                    });
+                };
+                fileReader.readAsArrayBuffer(file);
+            }
+        }
     });
 
     //Lưu chỉnh sửa hợp đồng
@@ -291,7 +350,7 @@
 
     //Hủy thêm hợp đồng
     $('#dongthemhopdong').on('click', function () {
-        $('#previewImage').replaceWith('<img style="max-width: 700px;" src="' + $('#requestPath').val() + 'Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImage">');
+        $('#previewPDF').replaceWith('<img style="max-width: 700px;" src="' + $('#requestPath').val() + 'Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewPDF">');
 
         $("#taiAnhHopDong").addClass("col-md-4");
         $("#taiAnhHopDong").removeClass("col-md-12");
@@ -302,6 +361,65 @@
     //Chọn ảnh hợp đồng mới
     $('#chonanhhopdongmoi').on('click', function () {
         $('#selectFiles').click();
+    });
+
+    //Chọn 1 hợp đồng mới
+    $('#selectFiles').on('input', function (e) {
+        if ($(this).val().length < 1) {
+            $('#previewPDF').prop('hidden', false);
+            $('#pdfViewer').prop('hidden', true);
+        } else {
+            $('#pdfViewer').prop('hidden', false);
+            // Loaded via <script> tag, create shortcut to access PDF.js exports.
+            var pdfjsLib = window['pdfjs-dist/build/pdf'];
+            // The workerSrc property shall be specified.
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+            var file = e.target.files[0]
+            if (file.type == "application/pdf") {
+
+                var fileReader = new FileReader();
+                fileReader.onload = function () {
+                    var pdfData = new Uint8Array(this.result);
+                    // Using DocumentInitParameters object to load binary data.
+                    var loadingTask = pdfjsLib.getDocument({ data: pdfData });
+                    loadingTask.promise.then(function (pdf) {
+                        console.log('PDF loaded');
+
+                        // Fetch the first page
+                        var pageNumber = 1;
+                        pdf.getPage(pageNumber).then(function (page) {
+                            console.log('Page loaded');
+
+                            var scale = 1.5;
+                            var viewport = page.getViewport({ scale: scale });
+
+                            // Prepare canvas using PDF page dimensions
+                            var canvas = $("#pdfViewer")[0];
+                            var context = canvas.getContext('2d');
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+
+                            // Render PDF page into canvas context
+                            var renderContext = {
+                                canvasContext: context,
+                                viewport: viewport
+                            };
+                            var renderTask = page.render(renderContext);
+                            renderTask.promise.then(function () {
+                                console.log('Page rendered');
+                            });
+
+                            $('#previewPDF').prop('hidden', true);
+                        });
+                    }, function (reason) {
+                        // PDF loading error
+                        console.error(reason);
+                    });
+                };
+                fileReader.readAsArrayBuffer(file);
+            }
+        }
     });
 
     //Lưu thêm HĐ mới

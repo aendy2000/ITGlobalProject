@@ -48,10 +48,10 @@
                     <thead class="table-light">
                         <tr>
                             <th hidden></th>
+                            <th scope="col" class=" border-top-0">Mã dự án</th>
                             <th scope="col" class=" border-top-0">Tên dự án</th>
                             <th scope="col" class=" border-top-0">Bàn giao</th>
-                            <th hidden scope="col" class=" border-top-0"></th>
-                            <th scope="col" class=" border-top-0">Chi phí (VND)</th>
+                            <th scope="col" class=" border-top-0">Chi phí</th>
                             <th scope="col" class=" border-top-0">Công việc</th>
                             <th scope="col" class=" border-top-0">Hoàn thành</th>
                             <th scope="col" class=" border-top-0">Trạng thái</th>
@@ -66,22 +66,19 @@
                                 <td hidden>@i</td>
                                 <td class="align-middle ">
                                     <div class="d-flex align-items-center">
-                                        <div class="icon-shape icon-lg rounded-3 border p-4">
-                                            @i
-                                        </div>
-                                        <div class="ms-3">
+                                            <a href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();">@item.ID_Project</a>
+                                    </div>
+                                </td>
+                                <td class="align-middle ">
+                                    <div class="d-flex align-items-center">
                                             <h4 class="mb-0"><a href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();" class="text-inherit">@item.Name</a></h4>
-                                        </div>
                                     </div>
                                 </td>
                                 <td class="align-middle text-nowrap">
-                                    @item.EndDate.ToString("dd") Thg @item.EndDate.ToString("MM, yyyy")
-                                </td>
-                                <td hidden class="align-middle text-nowrap">
                                     @item.EndDate.ToString("dd/MM/yyyy")
                                 </td>
                                 <td style="font-weight: bold; color: brown " class="align-middle ">
-                                    @item.Debts.Sum(d => d.Price).ToString("0,0").Replace(".", ",")
+                                    @item.Debts.Sum(d => d.Price).ToString("0,0").Replace(".", ",") đ
                                 </td>
                                 <td style="font-weight: bold; " class="align-middle ">
                                     @item.Tasks.Count() công việc

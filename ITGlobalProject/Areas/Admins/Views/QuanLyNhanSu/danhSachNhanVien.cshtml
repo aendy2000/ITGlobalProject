@@ -15,6 +15,8 @@
     var lsttrocap = Session["lst-trocap"] as List<SubsidiesCategory>;
     var lstnghiphep = Session["lst-ngaynghi"] as List<LeaveDate>;
 
+    CP25Team06Entities models = new CP25Team06Entities();
+    int dem = 0;
 }
 
 <div class="container-fluid p-4">
@@ -44,6 +46,13 @@
                 <div class="mb-2 mb-lg-0">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
+                            <li>
+                                <button id="downloadEmp" role="button" class="btn btn-outline-primary" style="width:230px">
+                                    <i class="fe fe-download"> </i> Export Nhân Viên
+                                </button>
+                                <a </a>
+                            </li>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
                             <li>
                                 <button class="btn btn-outline-primary" data-bs-toggle="modal" style="width:230px" data-bs-target="#modalUploadFile">
                                     <i class="fe fe-upload"> </i> Nhập Nhân Viên
@@ -1308,15 +1317,16 @@
                         <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Tải lên hợp đồng</label>
                         <a role="button" id="chonanhhopdong" class="btn btn-outline-primary" style="width:100%">
                             <i class="fe fe-upload me-1"></i>
-                            Tải Lên Hình Ảnh
+                            Tải Lên Hợp Đồng (.PDF)
                         </a>
                     </div>
                     <div class="py-3"></div>
                     <div style="margin-left: 13px ;width: 98%" class="form-control bg-gray-200 mb-4 col-12 col-md-12 text-center ">
-                        <input hidden id="selectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewImage'))" />
+                        <input hidden id="selectFiles" type="file" name="file" accept="application/pdf" />
                         <div class="py-3"></div>
                         <figure class="gallery__item gallery__item--1 mb-0">
-                            <img style="max-width: 700px;" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImage">
+                            <img style="max-width: 700px;" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewPDF">
+                            <canvas hidden id="pdfViewer"></canvas>
                         </figure>
                         <p style="font-size: 13px; color:red;" id="selectFilesvalidation"></p>
                         <div class="py-3"></div>
@@ -1340,6 +1350,78 @@
         </form>
     </div>
 </div>
+
+
+
+<!-- table -->
+<table hidden id="exportLstEmployee" class="table table-hover" style="width:100%">
+    <thead class="table-light">
+        <tr>
+            <th>STT</th>
+            <th scope="col" class="border-0">Mã nhân viên</th>
+            <th scope="col" class="border-0">Họ và Tên</th>
+            <th scope="col" class="border-0">Chức danh</th>
+            <th scope="col" class="border-0">Bộ phận</th>
+            <th scope="col" class="border-0">Lương hợp đồng</th>
+            <th scope="col" class="border-0">Ngày vào làm</th>
+            <th scope="col" class="border-0">Quốc tịch</th>
+            <th scope="col" class="border-0">CMND/CCCD</th>
+            <th scope="col" class="border-0">Số điện thoại</th>
+            <th scope="col" class="border-0">Email</th>
+            <th scope="col" class="border-0">Ngày sinh</th>
+            <th scope="col" class="border-0">Giới tính</th>
+            <th scope="col" class="border-0">Địa chỉ</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in models.Employees.Where(e => e.ID != 1 && e.Lock == false).ToList())
+        {
+            dem++;
+            <tr>
+                <td>@dem</td>
+                <td class="align-middle border-top-0">
+                    @item.ID_Employee
+                </td>
+                <td class="align-middle border-top-0">
+                    <h5 class="mb-0">@item.Name</h5>
+                </td>
+                <td class="align-middle border-top-0">
+                    @item.Position.Name
+                </td>
+                <td class="align-middle border-top-0">
+                    @item.Position.Department.Name
+                </td>
+                <td class="align-middle border-top-0">
+                    @item.Wage.ToString("0,0").Replace(".", ",") đ
+                </td>
+                <td class="align-middle border-top-0">
+                    @item.JoinedDate.ToString("yyyy-MM-dd")
+                </td>
+                <td class="align-middle border-top-0">
+                    @item.Nationality
+                </td>
+                <td class="align-middle border-top-0">
+                    '@item.IdentityCard
+                </td>
+                <td class="align-middle border-top-0">
+                    @item.TelephoneMobile
+                </td>
+                <td class="align-middle border-top-0">
+                    @item.WorkEmail
+                </td>
+                <td class="align-middle border-top-0">
+                    @item.Birthday.ToString("yyyy-MM-dd")
+                </td>
+                <td class="align-middle border-top-0">
+                    @item.Sex
+                </td>
+                <td class="align-middle border-top-0">
+                    @item.Address
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <!-- Danh sách tạm -->
 <button hidden data-bs-toggle="modal" id="openListEmployeeTemp" data-bs-target="#lstEmployeeTemp"></button>
@@ -1377,8 +1459,7 @@
         </div>
     </div>
 </div>
-
-
+<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 <script>
     $('#hotenvalidation').hide();
     $('#cmndvalidation').hide();
@@ -1413,7 +1494,287 @@
         $('#dsNganHang').select2({
             dropdownParent: $("#offcanvasRight")
         });
+
+        $('#downloadEmp').on('click', function () {
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+
+            var SweetAlert2Demo = function () {
+                var initDemos = function () {
+                    swal({
+                        title: 'Tải xuống danh sách nhân viên?',
+                        text: "Bạn có muốn tải xuống danh sách các nhân viên đang hoạt động tại công ty?",
+                        type: 'warning',
+                        buttons: {
+                            cancel: {
+                                visible: true,
+                                text: ' Hủy Bỏ ',
+                                className: 'btn btn-danger'
+                            },
+                            confirm: {
+                                text: 'Xác Nhận',
+                                className: 'btn btn-success'
+                            }
+                        }
+                    }).then((taixuong) => {
+                        if (taixuong) {
+                            $("#exportLstEmployee").table2excel({
+                                filename: 'danh-sach-nhan-vien-' + yyyy + '-' + mm + '-' + dd + '.xls'
+                            });
+                        }
+                    });
+                };
+                return {
+                    init: function () {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function () {
+                SweetAlert2Demo.init();
+            });
+        });
+
+
+        //table2excel.js
+        ; (function ($, window, document, undefined) {
+            var pluginName = "table2excel",
+
+                defaults = {
+                    exclude: ".noExl",
+                    name: "Table2Excel",
+                    filename: "table2excel",
+                    fileext: ".xls",
+                    exclude_img: true,
+                    exclude_links: true,
+                    exclude_inputs: true
+                };
+
+            // The actual plugin constructor
+            function Plugin(element, options) {
+                this.element = element;
+                // jQuery has an extend method which merges the contents of two or
+                // more objects, storing the result in the first object. The first object
+                // is generally empty as we don't want to alter the default options for
+                // future instances of the plugin
+                //
+                this.settings = $.extend({}, defaults, options);
+                this._defaults = defaults;
+                this._name = pluginName;
+                this.init();
+            }
+
+            Plugin.prototype = {
+                init: function () {
+                    var e = this;
+
+                    var utf8Heading = "<meta http-equiv=\"content-type\" content=\"application/vnd.ms-excel; charset=UTF-8\">";
+                    e.template = {
+                        head: "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:x=\"urn:schemas-microsoft-com:office:excel\" xmlns=\"http://www.w3.org/TR/REC-html40\">" + utf8Heading + "<head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets>",
+                        sheet: {
+                            head: "<x:ExcelWorksheet><x:Name>",
+                            tail: "</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet>"
+                        },
+                        mid: "</x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>",
+                        table: {
+                            head: "<table>",
+                            tail: "</table>"
+                        },
+                        foot: "</body></html>"
+                    };
+
+                    e.tableRows = [];
+
+                    // get contents of table except for exclude
+                    $(e.element).each(function (i, o) {
+                        var tempRows = "";
+                        $(o).find("tr").not(e.settings.exclude).each(function (i, p) {
+
+                            tempRows += "<tr>";
+                            $(p).find("td,th").not(e.settings.exclude).each(function (i, q) { // p did not exist, I corrected
+
+                                var rc = {
+                                    rows: $(this).attr("rowspan"),
+                                    cols: $(this).attr("colspan"),
+                                    flag: $(q).find(e.settings.exclude)
+                                };
+
+                                if (rc.flag.length > 0) {
+                                    tempRows += "<td> </td>"; // exclude it!!
+                                } else {
+                                    if (rc.rows & rc.cols) {
+                                        tempRows += "<td>" + $(q).html() + "</td>";
+                                    } else {
+                                        tempRows += "<td";
+                                        if (rc.rows > 0) {
+                                            tempRows += " rowspan=\'" + rc.rows + "\' ";
+                                        }
+                                        if (rc.cols > 0) {
+                                            tempRows += " colspan=\'" + rc.cols + "\' ";
+                                        }
+                                        tempRows += "/>" + $(q).html() + "</td>";
+                                    }
+                                }
+                            });
+
+                            tempRows += "</tr>";
+                            console.log(tempRows);
+
+                        });
+                        // exclude img tags
+                        if (e.settings.exclude_img) {
+                            tempRows = exclude_img(tempRows);
+                        }
+
+                        // exclude link tags
+                        if (e.settings.exclude_links) {
+                            tempRows = exclude_links(tempRows);
+                        }
+
+                        // exclude input tags
+                        if (e.settings.exclude_inputs) {
+                            tempRows = exclude_inputs(tempRows);
+                        }
+                        e.tableRows.push(tempRows);
+                    });
+
+                    e.tableToExcel(e.tableRows, e.settings.name, e.settings.sheetName);
+                },
+
+                tableToExcel: function (table, name, sheetName) {
+                    var e = this, fullTemplate = "", i, link, a;
+
+                    e.format = function (s, c) {
+                        return s.replace(/{(\w+)}/g, function (m, p) {
+                            return c[p];
+                        });
+                    };
+
+                    sheetName = typeof sheetName === "undefined" ? "Sheet" : sheetName;
+
+                    e.ctx = {
+                        worksheet: name || "Worksheet",
+                        table: table,
+                        sheetName: sheetName
+                    };
+
+                    fullTemplate = e.template.head;
+
+                    if ($.isArray(table)) {
+                        for (i in table) {
+                            //fullTemplate += e.template.sheet.head + "{worksheet" + i + "}" + e.template.sheet.tail;
+                            fullTemplate += e.template.sheet.head + sheetName + i + e.template.sheet.tail;
+                        }
+                    }
+
+                    fullTemplate += e.template.mid;
+
+                    if ($.isArray(table)) {
+                        for (i in table) {
+                            fullTemplate += e.template.table.head + "{table" + i + "}" + e.template.table.tail;
+                        }
+                    }
+
+                    fullTemplate += e.template.foot;
+
+                    for (i in table) {
+                        e.ctx["table" + i] = table[i];
+                    }
+                    delete e.ctx.table;
+
+                    var isIE = false || !!document.documentMode; // this works with IE10 and IE11 both :)
+                    //if (typeof msie !== "undefined" && msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // this works ONLY with IE 11!!!
+                    if (isIE) {
+                        if (typeof Blob !== "undefined") {
+                            //use blobs if we can
+                            fullTemplate = e.format(fullTemplate, e.ctx); // with this, works with IE
+                            fullTemplate = [fullTemplate];
+                            //convert to array
+                            var blob1 = new Blob(fullTemplate, { type: "text/html" });
+                            window.navigator.msSaveBlob(blob1, getFileName(e.settings));
+                        } else {
+                            //otherwise use the iframe and save
+                            //requires a blank iframe on page called txtArea1
+                            txtArea1.document.open("text/html", "replace");
+                            txtArea1.document.write(e.format(fullTemplate, e.ctx));
+                            txtArea1.document.close();
+                            txtArea1.focus();
+                            sa = txtArea1.document.execCommand("SaveAs", true, getFileName(e.settings));
+                        }
+
+                    } else {
+                        var blob = new Blob([e.format(fullTemplate, e.ctx)], { type: "application/vnd.ms-excel" });
+                        window.URL = window.URL || window.webkitURL;
+                        link = window.URL.createObjectURL(blob);
+                        a = document.createElement("a");
+                        a.download = getFileName(e.settings);
+                        a.href = link;
+
+                        document.body.appendChild(a);
+
+                        a.click();
+
+                        document.body.removeChild(a);
+                    }
+
+                    return true;
+                }
+            };
+
+            function getFileName(settings) {
+                return (settings.filename ? settings.filename : "table2excel");
+            }
+
+            // Removes all img tags
+            function exclude_img(string) {
+                var _patt = /(\s+alt\s*=\s*"([^"]*)"|\s+alt\s*=\s*'([^']*)')/i;
+                return string.replace(/<img[^>]*>/gi, function myFunction(x) {
+                    var res = _patt.exec(x);
+                    if (res !== null && res.length >= 2) {
+                        return res[2];
+                    } else {
+                        return "";
+                    }
+                });
+            }
+
+            // Removes all link tags
+            function exclude_links(string) {
+                return string.replace(/<a[^>]*>|<\/a>/gi, "");
+            }
+
+            // Removes input params
+            function exclude_inputs(string) {
+                var _patt = /(\s+value\s*=\s*"([^"]*)"|\s+value\s*=\s*'([^']*)')/i;
+                return string.replace(/<input[^>]*>|<\/input>/gi, function myFunction(x) {
+                    var res = _patt.exec(x);
+                    if (res !== null && res.length >= 2) {
+                        return res[2];
+                    } else {
+                        return "";
+                    }
+                });
+            }
+
+            $.fn[pluginName] = function (options) {
+                var e = this;
+                e.each(function () {
+                    if (!$.data(e, "plugin_" + pluginName)) {
+                        $.data(e, "plugin_" + pluginName, new Plugin(this, options));
+                    }
+                });
+
+                // chain jQuery functions
+                return e;
+            };
+
+        })(jQuery, window, document);
+
     });
+
 </script>
 <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ThemNhanVienValidation.js"></script>
 <script src="~/ValidationAlert/Admin/QuanLyNhanSu/TimKiemNhanVien.js"></script>

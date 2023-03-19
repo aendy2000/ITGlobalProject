@@ -79,7 +79,7 @@
                             <div class="card-header">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                        <h4 class="mb-0">Thông tin Dự Án</h4>
+                                        <h4 class="mb-0">Thông tin Dự Án - @Model.ID_Project</h4>
                                     </div>
                                     <!-- dropdown  -->
                                 </div>
@@ -252,7 +252,7 @@
                                                     }
                                                     else
                                                     {
-                                                        <img style="margin: 30px 30px 30px 30px; max-width:720px" src="@Model.ContractUrl" alt="Gallery image 1" class="gallery__img rounded-3">
+                                                        <iframe class="gallery__img rounded-3" frameborder="0" style="overflow: hidden; height: 1200px; width: 100%" src="@Model.ContractUrl"></iframe>
                                                     }
                                                 </figure>
                                             </div>

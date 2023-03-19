@@ -189,6 +189,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 model.Projects.Add(pro);
                 model.SaveChanges();
 
+                pro.ID_Project = "DA" + pro.ID.ToString("D8");
+                model.Entry(pro).State = EntityState.Modified;
+                model.SaveChanges();
+
                 Histories his = new Histories();
                 his.ID_Employee = Convert.ToInt32(Session["user-id"]);
                 his.ID_Projects = pro.ID;

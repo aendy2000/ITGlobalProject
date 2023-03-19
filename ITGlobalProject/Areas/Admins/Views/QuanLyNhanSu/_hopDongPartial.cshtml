@@ -405,8 +405,7 @@
                 </div>
             </div>
         </div>
-        <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_HopDongValidation.js"></script>
-        <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
+
         <script>
             $('#noidungPage').change(function () {
                 somethingChanged = true;
@@ -421,7 +420,7 @@
         @foreach (var item in Model.EmploymentContracts)
         {
             <!-- Hình ảnh hợp đồng -->
-            <div class="modal fade modal-lg" id="ModalXemHinhAnh@(item.ID)" tabindex="-1" role="dialog"
+            <div class="modal fade modal-xl" id="ModalXemHinhAnh@(item.ID)" tabindex="-1" role="dialog"
                  aria-labelledby="themVaiTroModalLabel" aria-hidden="true" data-simplebar>
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -433,13 +432,12 @@
                         </div>
                         <div class="row text-center">
                             <figure class="gallery__item gallery__item--1 mb-0">
-                                <img style="margin: 30px 30px 30px 30px; max-width:720px" src="@item.ImageURL" alt="Gallery image 1" class="gallery__img rounded-3">
+                                <iframe class="gallery__img rounded-3" frameborder="0" style="overflow: hidden; height: 1200px; width: 100%" src="@item.ImageURL"></iframe>
                             </figure>
                         </div>
                     </div>
                 </div>
             </div>
-
         }
 
         <!-- Thêm HĐ -->
@@ -480,15 +478,16 @@
                                 <label style="font-weight:bold;" class="form-label">Đính kèm hợp đồng <span class="text-danger">*</span></label><br />
                                 <a role="button" id="chonanhhopdongmoi" class="btn btn-outline-primary" style="width:100%">
                                     <i class="fe fe-upload me-1"></i>
-                                    Tải Lên Hình Ảnh
+                                    Tải Lên Hợp Đồng (.PDF)
                                 </a>
                             </div>
                             <div class="py-3"></div>
                             <div style="margin-left: 13px ;width: 98%" class="form-control bg-gray-200 mb-4 col-12 col-md-12 text-center ">
                                 <div class="py-3"></div>
-                                <input hidden id="selectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewImage'))" />
+                                <input hidden id="selectFiles" type="file" name="file" accept="application/pdf" />
                                 <figure class="gallery__item gallery__item--1 mb-0">
-                                    <img style="max-width:700px" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImage">
+                                    <img style="max-width: 700px;" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewPDF">
+                                    <canvas hidden id="pdfViewer"></canvas>
                                 </figure>
                                 <p style="font-size: 13px; color:red;" id="selectFilesvalidation"></p>
                                 <div class="py-3"></div>
@@ -549,15 +548,16 @@
                                 <label style="font-weight:bold;" class="form-label">Đính kèm hợp đồng <span class="text-danger">*</span></label><br />
                                 <a role="button" id="chinhsuachonanhhopdongmoi" class="btn btn-outline-primary" style="width:100%">
                                     <i class="fe fe-upload me-1"></i>
-                                    Tải Lên Hình Ảnh
+                                    Tải Lên Hợp Đồng (.PDF)
                                 </a>
                             </div>
                             <div class="py-3"></div>
                             <div style="margin-left: 13px ;width: 98%" class="form-control bg-gray-200 mb-4 col-12 col-md-12 text-center ">
                                 <div class="py-3"></div>
-                                <input hidden id="chinhsuaselectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewEditImage'))" />
+                                <input hidden id="chinhsuaselectFiles" type="file" name="file" accept="application/pdf"/>
                                 <figure class="gallery__item gallery__item--1 mb-0">
-                                    <img style="margin: 30px 30px 30px 30px; max-width:720px" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewEditImage">
+                                    <iframe class="gallery__img rounded-3" frameborder="0" id="previewPDFEdit" style="overflow: hidden; height: 1200px; width: 100%" src=""></iframe>
+                                    <canvas hidden id="pdfVieweredit"></canvas>
                                 </figure>
                                 <div class="py-3"></div>
                             </div>
@@ -577,4 +577,7 @@
             </div>
         </div>
     </div>
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/ChiTiet_HopDongValidation.js"></script>
+    <script src="~/ValidationAlert/Admin/QuanLyNhanSu/KhoaTaiKhoanValidation.js"></script>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 </div>

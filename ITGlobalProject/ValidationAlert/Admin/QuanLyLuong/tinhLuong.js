@@ -95,7 +95,7 @@
                                         var SweetAlert2Demo = function () {
                                             var initDemos = function () {
                                                 swal("Thông báo!", "Đã có lỗi xảy ra trong quá trình thực hiện, vui lòng thử lại sau ít phút!", {
-                                                    icon: "danger",
+                                                    icon: "erorr",
                                                     buttons: {
                                                         confirm: {
                                                             className: 'btn btn-success'

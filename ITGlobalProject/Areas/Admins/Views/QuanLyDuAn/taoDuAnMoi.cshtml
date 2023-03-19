@@ -137,11 +137,13 @@
                                                         </a>
                                                     </div>
                                                     <div style="margin-left: 13px ;width: 98%" class="form-control bg-gray-200 mb-4 col-12 col-md-12 text-center ">
-                                                        <input hidden id="selectFileshopdong" type="file" name="file" accept="image/*" onchange="ShowImageUploadshopdong(this, document.getElementById('previewImageshopdong'))" />
+                                                        <input hidden id="selectFileshopdong" type="file" name="file" accept="application/pdf" />
                                                         <div class="py-3"></div>
                                                         <figure class="gallery__item gallery__item--1 mb-0">
                                                             <img style="max-width: 700px;" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3" id="previewImageshopdong">
+                                                            <canvas hidden id="pdfViewer"></canvas>
                                                         </figure>
+
                                                         <button hidden style="margin-top: 37px" id="xoahinhanhhopdong" class="btn btn-danger btn-sm">XÓA BỎ</button>
                                                         <div class="py-3"></div>
                                                     </div>
@@ -490,6 +492,6 @@
         }
     }
 </script>
-
+<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 <script src="~/Content/Admin/assets/js/reviewImage.js"></script>
 <script src="~/ValidationAlert/Admin/QuanLyDuAn/ThemDuAnValidation.js"></script>
