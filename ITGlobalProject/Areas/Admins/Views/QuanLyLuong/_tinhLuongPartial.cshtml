@@ -2,7 +2,7 @@
 @using ITGlobalProject.Models
 @{
     CP25Team06Entities model = new CP25Team06Entities();
-    var emp = model.Employees.Where(e => e.Lock == false && e.Wage > 0).ToList();
+    var emp = model.Employees.Where(e => e.Lock == false && e.Wage > 0 && e.EmploymentContracts.Count() > 0).ToList();
     emp.Remove(model.Employees.Find(1));
 
     int currentYear = DateTime.Now.Year;

@@ -18,7 +18,7 @@
             ).done(function () {
             });
 
-        })
+        });
     });
     //Trang được duyệt
     $('#duocduyetTab').on('click', function () {

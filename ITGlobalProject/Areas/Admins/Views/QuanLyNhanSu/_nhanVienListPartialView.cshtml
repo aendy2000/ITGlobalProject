@@ -62,7 +62,7 @@
                                         <div class="d-flex justify-content-between pt-2">
                                             <span>Email</span>
                                             <b>
-                                                <span class="text-gray-700">@item.WorkEmail</span>
+                                                <span id="rutgonemail-@item.ID" class="text-gray-700">@item.WorkEmail</span>
                                             </b>
                                         </div>
                                         <div class="d-flex justify-content-between border-bottom py-3">
@@ -407,8 +407,8 @@
                                         </div>
                                         <div class="d-flex justify-content-between pt-2">
                                             <span>Email</span>
-                                            <b>
-                                                <span class="text-gray-700">@item.WorkEmail</span>
+                                            <b id="rutgonemail-@item.ID" class="text-gray-700">
+                                                @item.WorkEmail
                                             </b>
                                         </div>
                                         <div class="d-flex justify-content-between border-bottom py-3">
@@ -702,6 +702,17 @@
             </div>
         }
     </div>
+
+    <script>
+        $(document).ready(function () {
+            $('[id^="rutgonemail-"]').each(function () {
+                var text = $(this).text().trim();
+                if (text.length > 20) {
+                    $(this).html(text.substr(0, 20) + '...');
+                }
+            });
+        });
+    </script>
 </div>
 <script src="~/Content/Admin/assets/js/theme.min.js"></script>
 <script src="~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>

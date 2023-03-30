@@ -1,0 +1,298 @@
+﻿@model ITGlobalProject.Models.Employees
+@using ITGlobalProject.Models;
+@{
+    CP25Team06Entities models = new CP25Team06Entities();
+    var luongNam = models.PayrollCategory.OrderByDescending(o => o.ID).ToList();
+    string imagesUrl = "";
+    var luong = Session["bang-luong-emp"] as IEnumerable<PayrollCategory>;
+    if (string.IsNullOrEmpty(Model.Avatar))
+    {
+        imagesUrl = "~/Content/Admin/assets/images/avatar/default-avatar.png";
+    }
+    else
+    {
+        imagesUrl = Model.Avatar;
+    }
+    var luongdautien = Model.JoinedDate.AddMonths(1).Year;
+}
+<div id="contentPartial" class="container-fluid p-4">
+    <div class="row">
+        <!-- Page Header -->
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="border-bottom pb-4 mb-4 d-flex justify-content-between align-items-center">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-1 h2 fw-bold">
+                        Thông Tin Cá Nhân
+                    </h1>
+                    <!-- Breadcrumb  -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new { id = Session["user-id"] })">Thông Tin Cá Nhân</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- User info -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+            <!-- Bg -->
+            <div class="pt-16 rounded-top-md" style=" background: url(@Url.Content("~/Content/Admin/assets/images/background/profile-bg-admin.jpg")) no-repeat; background-size: cover; "></div>
+            <div class="d-flex align-items-end justify-content-between bg-white px-4 pt-2 pb-4 rounde
+             rounded-bottom-md shadow-sm">
+                <div class="d-flex align-items-center">
+                    <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
+                        @if (string.IsNullOrEmpty(Model.Avatar))
+                        {
+                            <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xl rounded-circle border border-4 border-white"
+                                 alt="" />
+                        }
+                        else
+                        {
+                            <img src="@Model.Avatar" class="avatar-xl rounded-circle border border-4 border-white"
+                                 alt="" />
+                        }
+                    </div>
+                    <div class="lh-1">
+                        <h2 class="mb-0">
+                            @Model.Name
+                            <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="@Model.Position.Name"></i>
+                        </h2>
+                        <p class="mb-0 d-block">@Model.WorkEmail</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Content -->
+    <div class="row mt-0 mt-md-4">
+        <div class="col-lg-3 col-md-4 col-12">
+            <!-- Side navbar -->
+            <nav class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
+                <!-- Menu -->
+                <a class="d-xl-none d-lg-none d-md-none text-inherit fw-bold" href="#">Menu</a>
+                <!-- Button -->
+                <button class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#sidenav" aria-controls="sidenav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="fe fe-menu"></span>
+                </button>
+                <!-- Collapse navbar -->
+                <div class="collapse navbar-collapse" id="sidenav">
+                    <div class="navbar-nav flex-column">
+                        <span class="navbar-header">Hồ Sơ Nhân Viên</span>
+                        <!-- List -->
+                        @*<ul class="list-unstyled ms-n2 mb-4">*@
+                        <ul class="list-unstyled ms-n2 mb-4">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="ttcanhan" class="nav-link">
+                                    <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="knchuyenmon" class="nav-link">
+                                    <i class="fe fe-code nav-icon"></i>Kỹ năng chuyên môn
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tdngoaingu" class="nav-link">
+                                    <i class="fe fe-award nav-icon"></i>Trình độ ngoại ngữ
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="ptnhanthan" class="nav-link">
+                                    <i class="fe fe-users nav-icon"></i>Người phụ thuộc
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="hdvacongviec" class="nav-link">
+                                    <i class="fe fe-file-text nav-icon"></i>Hợp đồng & Công việc
+                                </a>
+                            </li>
+                        </ul>
+
+                        <span class="navbar-header">Thông Tin Lương</span>
+                        <ul class="list-unstyled ms-n2 mb-4">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="lhvathanhtoan" class="nav-link">
+                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tcvaphucap" class="nav-link">
+                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a role="button" id="bangLuongs" class="nav-link">
+                                    <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
+                                </a>
+                            </li>
+                        </ul>
+
+                        <span class="navbar-header">quản lý nghỉ phép</span>
+                        <ul class="list-unstyled ms-n2 mb-4">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="donnghiphep" class="nav-link">
+                                    <i class="fe fe-clock nav-icon"></i>Đơn nghỉ phép
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="danhmucngayphep" class="nav-link">
+                                    <i class="fe fe-calendar nav-icon"></i>Danh Mục Ngày Phép
+                                </a>
+                            </li>
+                        </ul>
+
+                        <span class="navbar-header">Dự án & Công việc</span>
+                        <ul class="list-unstyled ms-n2 mb-0">
+                            <!-- Nav item -->
+
+                            <li class="nav-item">
+                                <a role="button" class="nav-link" id="DAThamGia">
+                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                                </a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a role="button" class="nav-link" id="LBCongViec">
+                                    <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" class="nav-link" id="LSHoatDong">
+                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
+                                </a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a role="button" class="nav-link" id="BCThongKe">
+                                    <i class="fe fe-pie-chart nav-icon"></i>Báo cáo thống kê
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col-lg-9 col-md-8 col-12">
+            <div class="row justify-content-md-between mb-4 mb-xl-4 d-lg-flex">
+                <div class="col-xl-6 col-lg-4 col-md-4 col-12 align-items-end">
+                    <select id="namluong" name="@Model.ID" class="" data-width="100%">
+                        @foreach (var item in luongNam)
+                        {
+                            if (item.Date.Year == DateTime.Now.Year)
+                            {
+                                <option selected value="@item.Date.Year">Lương của năm @item.Date.Year</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Date.Year">Lương của năm @item.Date.Year</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <!-- row -->
+            <div id="appendTimKiemLuongNam" class="row">
+                <!-- col -->
+                <div class="col-12">
+                    <!-- card -->
+                    <div class="card">
+                        <!-- table -->
+                        <div class="table-responsive overflow-y-hidden" data-simplebar>
+                            <table id="tblBangLuong" class="table mb-4 text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class=" border-top-0">Lương tháng</th>
+                                        <th>Ngày nhận</th>
+                                        <th>Lương Hợp đồng</th>
+                                        <th>Thuế - BH</th>
+                                        <th>Thực lãnh</th>
+                                        <th>Trạng thái</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in luong)
+                                    {
+                                        if (item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID) != null)
+                                        {
+                                            <tr>
+                                                <td class="align-middle">
+                                                    <b>@item.Name</b>
+                                                </td>
+                                                <td class="align-middle ">
+                                                    @if (item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).State == true)
+                                                    {
+                                                        @(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Histories.Where(h => h.Name.IndexOf("Thanh Toán") != -1).Count() > 0 ? item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("dd") + " Thg " + item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("MM ,yyyy") : "Chờ thanh toán")
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Chờ thanh toán</span>
+                                                    }
+                                                </td>
+                                                <td class=" fw-bold mb-0 text-primary  align-middle">@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Salary.ToString("0,0").Replace(".", ",") đ </td>
+                                                <td class=" fw-bold mb-0 text-danger  align-middle">@(Convert.ToDecimal(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).TotalPriceTax.Value + item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).TotalPriceInsurance + 0).ToString("0,0").Replace(".", ",")) đ </td>
+                                                <td class=" fw-bold mb-0 text-warning  align-middle">
+                                                    <input hidden id="mucthanhtoan-@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID" value="@(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value != 0 ? item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value.ToString("0").Replace(".", "") : "0")" />
+                                                    @(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value != 0 ? item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value.ToString("0,0").Replace(".", ",") : "0") đ
+                                                </td>
+                                                <td id="tdTrangThai-@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID" class="border-top-0  align-middle">
+                                                    @if (item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).State == true)
+                                                    {
+                                                        <span style="width:110px" class="badge text-success bg-light-success ">Đã thanh toán</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span style="width:110px" class="badge text-danger bg-light-danger ">Chưa thanh toán</span>
+                                                    }
+                                                </td>
+                                                <td class="text-muted align-middle text-end">
+                                                    <div class="dropdown dropstart">
+                                                        <a data-bs-toggle="tooltip" data-placement="top" title="Xem chi tiết" class="btn-icon btn btn-ghost rounded-circle text-primary" role="button" id="xemchiTietLuong-@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID" name="@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID">
+                                                            <i class="fe fe-info"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="5" class="align-middle text-center">
+                                                    Không có dữ liệu để hiển thị.
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade modal-xl" id="xemChiTietLuong" tabindex="-1" role="dialog" aria-labelledby="xemChiTietLuongLabel"
+         aria-hidden="true" data-simplebar>
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="edittaskModalLabel"><i class="fe fe-dollar-sign"> </i>Chi Tiết Lương</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div id="modalchitietluong" class="modal-body" style="background-color: #F5F4F8">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/ValidationAlert/Employee/QuanLyTaiKhoan/ChiTiet_ChiTietBangLuong.js"></script>
+</div>

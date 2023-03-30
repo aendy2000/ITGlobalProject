@@ -227,35 +227,41 @@
                 </div>
                 <div class="card-body">
                     <div>
-                        <form id="noidungPage" class="row">
+                        <form id="noidungPage">
 
                             <div class="py-3"></div>
-                            @foreach (var item in lstnghiphepall)
-                            {
-                                <div class="form-check mb-2 col-12 col-md-6">
-                                    @if (lstnghiphep.Where(w => w.ID == item.ID).Count() > 0)
-                                    {
-                                        <input class="form-check-input" checked type="checkbox" name="@(item.ID)" id="checknghiphep@(item.ID)">
-                                    }
-                                    else
-                                    {
-                                        <input class="form-check-input" type="checkbox" name="@(item.ID)" id="checknghiphep@(item.ID)">
-                                    }
-                                    <label class="form-check-label" for="checknghiphep@(item.ID)">
-                                        @item.Name (@item.StartDay Tháng @item.StartMonth - @item.EndDay Tháng @item.EndMonth)
-                                    </label>
+                            <div class="row">
+                                @foreach (var item in lstnghiphepall)
+                                {
+                                    <div class="form-check mb-2 col-12 col-md-6">
+                                        @if (lstnghiphep.Where(w => w.ID == item.ID).Count() > 0)
+                                        {
+                                            <input class="form-check-input" checked type="checkbox" name="@(item.ID)" id="checknghiphep@(item.ID)">
+                                        }
+                                        else
+                                        {
+                                            <input class="form-check-input" type="checkbox" name="@(item.ID)" id="checknghiphep@(item.ID)">
+                                        }
+                                        <label class="form-check-label" for="checknghiphep@(item.ID)">
+                                            @item.Name (@item.StartDay Tháng @item.StartMonth - @item.EndDay Tháng @item.EndMonth)
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                            <div class="row">
+                                <div style="text-align: right; padding-top: 40px" class="mb-3 col-12 col-md-6">
+                                    <button type="reset" style="width: 230px" class="btn btn-outline-danger">
+                                        Hủy
+                                    </button>
                                 </div>
-                            }
-                            <div style="text-align: right; padding-top: 40px" class="mb-3 col-12 col-md-6">
-                                <button type="reset" style="width: 230px" class="btn btn-outline-danger">
-                                    Hủy
-                                </button>
+                                <div style="padding-top: 40px" class="mb-3 col-12 col-md-6">
+                                    <a role="button" id="btnLuuThongTin" name="@Model.ID" style="width: 230px" class="btn btn-success">
+                                        Lưu
+                                    </a>
+                                </div>
                             </div>
-                            <div style="padding-top: 40px" class="mb-3 col-12 col-md-6">
-                                <a role="button" id="btnLuuThongTin" name="@Model.ID" style="width: 230px" class="btn btn-success">
-                                    Lưu
-                                </a>
-                            </div>
+
+
                         </form>
                     </div>
                 </div>

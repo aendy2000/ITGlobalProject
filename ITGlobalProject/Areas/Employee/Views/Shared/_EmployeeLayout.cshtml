@@ -106,71 +106,30 @@
                             </div>
                         }
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link " href="#" data-bs-toggle="collapse"
-                           data-bs-target="#navProject" aria-expanded="false" aria-controls="navProject">
-                            <i class="nav-icon fe fe-book me-2"></i> Quản Lý Công Việc
-                        </a>
-                        @if (ViewBag.ShowActive == "danhSachDuAn" || ViewBag.ShowActive == "tongCongViec")
-                        {
-                            <div id="navProject" class="collapse show" data-bs-parent="#sideNavbar">
-                                <ul class="nav flex-column">
-                                    @if (ViewBag.ShowActive == "danhSachDuAn")
-                                    {
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="@Url.Action("danhSachDuAn", "QuanLyCongViec")">
-                                                Danh Sách Dự án
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("tongCongViec", "QuanLyCongViec")">
-                                                Tổng Công Việc
-                                            </a>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("danhSachDuAn", "QuanLyCongViec")">
-                                                Danh Sách Dự án
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="@Url.Action("tongCongViec", "QuanLyCongViec")">
-                                                Tổng Công Việc
-                                            </a>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                        }
-                        else
-                        {
-                            <div id="navProject" class="collapse " data-bs-parent="#sideNavbar">
-                                <ul class="nav flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("danhSachDuAn", "QuanLyDuAn")">
-                                            Danh Sách Dự án
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("tongCongViec", "QuanLyCongViec")">
-                                            Tổng Công Việc
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        }
-                    </li>
 
-
+                    @if (ViewBag.ShowActive == "danhSachDuAn")
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link  active" href="@Url.Action("danhSachDuAn", "QuanLyCongViec")">
+                                <i class="nav-icon fe fe-book me-2"></i> Công Việc
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link " href="@Url.Action("danhSachDuAn", "QuanLyCongViec")">
+                                <i class="nav-icon fe fe-book me-2"></i> Công Việc
+                            </a>
+                        </li>
+                    }
 
 
                     @if (ViewBag.ShowActive == "bangLuong")
                     {
                         <li class="nav-item ">
                             <a class="nav-link  active" href="@Url.Action("bangLuong", "QuanLyLuong")">
-                                <i class="nav-icon fe fe-dollar-sign me-2"></i> Quản Lý Lương
+                                <i class="nav-icon fe fe-dollar-sign me-2"></i> Lương
                             </a>
                         </li>
                     }
@@ -178,7 +137,41 @@
                     {
                         <li class="nav-item ">
                             <a class="nav-link " href="@Url.Action("bangLuong", "QuanLyLuong")">
-                                <i class="nav-icon fe fe-dollar-sign me-2"></i> Quản Lý Lương
+                                <i class="nav-icon fe fe-dollar-sign me-2"></i> Lương
+                            </a>
+                        </li>
+                    }
+
+                    @if (ViewBag.ShowActive == "TTChiTiet")
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link  active" href="@Url.Action("thongtinchitiet", "quanlytaikhoan", new {id = Session["user-id"]})">
+                                <i class="nav-icon fe fe-user me-2"></i> Cá Nhân
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link " href="@Url.Action("thongtinchitiet", "quanlytaikhoan", new {id = Session["user-id"]})">
+                                <i class="nav-icon fe fe-user me-2"></i> Cá Nhân
+                            </a>
+                        </li>
+                    }
+
+                    @if (ViewBag.ShowActive == "ttdonnghiphep")
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link  active" href="@Url.Action("danhsachdonnghiphep", "quanlydonnghiphep", new {id = Session["user-id"]})">
+                                <i class="nav-icon fe fe-clock me-2"></i> Đơn Nghỉ Phép
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link " href="@Url.Action("danhsachdonnghiphep", "quanlydonnghiphep", new {id = Session["user-id"]})">
+                                <i class="nav-icon fe fe-clock me-2"></i> Đơn Nghỉ Phép
                             </a>
                         </li>
                     }
@@ -363,7 +356,7 @@
                         </li>
                         <!-- List -->
                         <li class="dropdown ms-2">
-                            <a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new {id = Session["user-id"]})" class="dropdown-item">
+                            <a href="@Url.Action("thongTinChiTiet", "QuanLyTaiKhoan", new {id = Session["user-id"]})" class="dropdown-item">
 
                                 <div class="avatar avatar-md avatar-indicators avatar-online">
                                     @if (Session["user-vatatar"] == null)
@@ -379,7 +372,7 @@
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
-                                <a class="dropdown-item" href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new {id = Session["user-id"]})">
+                                <a class="dropdown-item" href="@Url.Action("thongTinChiTiet", "QuanLyTaiKhoan", new {id = Session["user-id"]})">
                                     <div class="d-flex">
                                         <div class="avatar avatar-md avatar-indicators avatar-online">
                                             @if (Session["user-vatatar"] == null)
@@ -402,7 +395,7 @@
                                 <div class="dropdown-divider"></div>
                                 <ul class="list-unstyled">
                                     <li class="dropdown-submenu dropstart-lg">
-                                        <a class="dropdown-item" href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new {id = Session["user-id"]})">
+                                        <a class="dropdown-item" href="@Url.Action("thongTinChiTiet", "QuanLyTaiKhoan", new {id = Session["user-id"]})">
                                             <i class="fe fe-user me-2"></i> Trang cá nhân
                                         </a>
                                     </li>
@@ -425,6 +418,7 @@
             @RenderSection("scripts", required: false)
         </div>
     </div>
+    <input hidden id="requestPath" value="@Url.Content("~")" />
     <!-- Libs JS -->
     <script src="~/Content/Admin/assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="~/Content/Admin/assets/libs/odometer/odometer.min.js"></script>
@@ -467,24 +461,32 @@
     <script src='https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min.js'></script>
 
     <!-- Theme JS -->
+    <script src="~/Content/Admin/js/bootstrap-notify.min.js"></script>
+
     <script src="~/Content/Admin/assets/js/theme.min.js"></script>
-
     <script src="~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-
     <script src="~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
-    <script src="~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
-
 
     <script src="~/Scripts/jquery.loadscript.js"></script>
     <script src="~/Scripts/jquery.loadscript.min.js"></script>
+
+    @if (ViewBag.ShowActive == "themTinTuyenDung"
+        || ViewBag.ShowActive == "chinhSuaTinTuyenDung"
+        || ViewBag.ShowActive == "danhSachNhanVien"
+        || ViewBag.ShowActive == "taoDonNghiPhep")
+    {
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+        <link href="~/Content/Admin/css/Select2.css" rel="stylesheet" />
+    }
 
     @if (ViewBag.Title == "Chi Tiết Dự Án")
     {
         <script>
             $(document).ready(function () {
-                if ($("#progressChart").length) {
+                if ($("#chartTongTheDuAn").length) {
                     e = {
-                        series: [42],
+                        series: [@ViewBag.TienDoTongTheDuAn],
                         chart: {
                             height: 350,
                             type: "radialBar",
@@ -559,12 +561,38 @@
                             lineCap: "round"
                         }
                     };
-                    new ApexCharts(document.querySelector("#progressChart"), e).render()
+                    new ApexCharts(document.querySelector("#chartTongTheDuAn"), e).render()
                 }
             });
-
         </script>
     }
 
+    <script>
+        $(window).on('load', function () {
+            $('#AjaxLoader').hide();
+            $.ajax({
+                url: $('#requestPath').val() + 'Admins/ThongTinDoiTac/guiMail',
+                type: "GET",
+                success: function (result) {
+                    if (result == "Ok") {
+                        var content = {};
+                        content.message = 'Đã thay đổi trạng thái Tính Thuế';
+                        content.title = 'Thành công!';
+                        content.icon = 'nav-icon fe fe-bell me-2';
+
+                        $.notify(content, {
+                            type: "success",
+                            placement: {
+                                from: "bottom",
+                                align: "right"
+                            },
+                            time: 1000,
+                            delay: 1000,
+                        });
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

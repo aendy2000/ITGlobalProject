@@ -16,7 +16,6 @@ using Firebase.Storage;
 using System.Threading.Tasks;
 using System.Text;
 using ITGlobalProject.Models;
-using ITGlobalProject.Middleware;
 using System.Net.Mail;
 using System.Net;
 
@@ -38,7 +37,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 if (Session["user-role"].ToString().ToLower().Equals("admin"))
                     return RedirectToAction("Overview", "Dashboard");
                 else
-                    return RedirectToAction("danhSachDuAn", "Employee/QuanLyCongViec");
+                    return RedirectToAction("danhSachDuAn", "QuanLyCongViec", new {area = "Employee"});
             }
 
             ViewBag.Title = "Đăng Nhập";

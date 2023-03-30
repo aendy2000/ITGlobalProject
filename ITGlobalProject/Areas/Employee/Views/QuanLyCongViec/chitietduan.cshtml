@@ -1,0 +1,635 @@
+﻿@using ITGlobalProject.Models;
+@model ITGlobalProject.Models.Projects
+@{
+    ViewBag.Title = "Chi Tiết Dự Án";
+    Layout = "~/Areas/Employee/Views/Shared/_EmployeeLayout.cshtml";
+
+    IEnumerable<Histories> lichSu = Session["lst-lichSuDuAn"] as IEnumerable<Histories>;
+    int heights = 400;
+    ViewBag.TienDoTongTheDuAn = ((Model.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) != 0 && Model.Tasks.Sum(t => t.OriginalEstimate) != 0) ? Convert.ToDecimal((Model.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0") : "0");
+}
+<input hidden id="idpro" value="@Model.ID" />
+<input hidden id="nameProject" value="@Model.Name" />
+
+<div class="container-fluid p-4">
+    <div class="row ">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Page header -->
+            <div class="border-bottom pb-4 d-lg-flex align-items-center justify-content-between">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Dự án @Model.Name</h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("danhSachDuAn", "quanlycongviec")">Quản Lý Dự Án</a>
+                            </li>
+                            <li class="breadcrumb-item" aria-current="page">
+                                <a href="@Url.Action("chiTietDuAn", "quanlycongviec", new {id = 1})">Xem Chi Tiết</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Dự án @Model.Name
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="chiTietDuAnPartialID">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <!-- nav  -->
+                <ul class="nav nav-lb-tab">
+                    <li class="nav-item ms-0 me-3">
+                        <a role="button" class="nav-link active" id="tongQuanID">Tổng quan</a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a role="button" class="nav-link " id="congViecID">Công việc</a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a role="button" class="nav-link" id="taiLieuID">Tài liệu</a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a role="button" class="nav-link" id="doiNguID">Đội ngũ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-12 col-xl-8 col-12">
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h4 class="mb-0">Thông tin Dự Án - @Model.ID_Project</h4>
+                                    </div>
+                                    <!-- dropdown  -->
+                                </div>
+
+
+                            </div>
+                            <div class="card-body">
+                                <p style="display:inline;">
+                                    @Model.Description
+                                </p>
+                                <ul style="margin-top: 15px" class="list-group list-group-flush">
+                                    <li class="list-group-item px-0">
+                                        <div class="d-flex justify-content-between
+                            align-items-center">
+                                            <div class="d-flex align-items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     width="16" height="16" fill="currentColor"
+                                                     class="bi bi-calendar4 text-primary"
+                                                     viewBox="0 0 16 16">
+                                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5
+                                  0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0
+                                  1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1
+                                  2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0
+                                  0-1 1v1h14V3a1 1 0 0 0-1-1H2zm13 3H1v9a1
+                                  1 0 0 0 1 1h12a1 1 0 0 0 1-1V5z" />
+                                                </svg>
+                                                <div class="ms-2">
+                                                    <h5 class="mb-0 text-body">Ngày Bắt Đầu</h5>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div>
+                                                    <p class="text-dark mb-0
+                                    fw-semi-bold">@Model.StartDate.ToString("dd") Tháng @Model.StartDate.ToString("MM, yyyy")</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item px-0">
+                        <div class="d-flex justify-content-between
+                            align-items-center">
+                            <div class="d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="16" height="16"
+                                     fill="currentColor" class="bi
+                                bi-calendar4  text-primary"
+                                     viewBox="0 0 16 16">
+                                    <path d="M3.5 0a.5.5 0 0 1
+                                  .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0
+                                  1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0
+                                  1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1
+                                  .5-.5zM2 2a1 1 0 0 0-1 1v1h14V3a1 1 0
+                                  0 0-1-1H2zm13 3H1v9a1 1 0 0 0 1 1h12a1
+                                  1 0 0 0 1-1V5z" />
+                                </svg>
+                                <div class="ms-2">
+                                    <h5 class="mb-0 text-body">Ngày Kết Thúc</h5>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <p class="text-dark mb-0
+                                    fw-semi-bold">@Model.EndDate.ToString("dd") Tháng @Model.EndDate.ToString("MM, yyyy")</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item  px-0">
+                        <div class="d-flex justify-content-between
+                        align-items-center">
+                            <div class="d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="18" height="18"
+                                     fill="currentColor" class="bi bi-clock
+                             text-primary" viewBox="0 0 16
+                            16">
+                                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5
+                              0 0 0 .252.434l3.5 2a.5.5 0 0 0
+                              .496-.868L8 8.71V3.5z" />
+                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0
+                                0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7
+                                0 0 1 14 0z" />
+                                </svg>
+                                <div class="ms-2">
+                                    <h5 class="mb-0 text-body">
+                                        Thời Gian Thực Hiện
+                                    </h5>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <p class="text-dark mb-0
+                                  fw-semi-bold">
+                                        @((Model.EndDate - Model.StartDate).TotalDays + 1) Ngày
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item px-0 ">
+                        <div class="d-flex
+                          justify-content-between
+                          align-items-center">
+                            <div class="d-flex
+                            align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="18" height="18"
+                                     fill="currentColor" class="bi
+                              bi-currency-dollar text-primary
+                              " viewBox="0 0 16 16">
+                                    <path d="M4 10.781c.148 1.667
+                                1.513 2.85 3.591
+                                3.003V15h1.043v-1.216c2.27-.179
+                                3.678-1.438 3.678-3.3
+                                0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11
+                                1.879.714 2.07
+                                1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27
+                                1.472-3.27 3.156 0 1.454.966
+                                2.483 2.661
+                                2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616
+                                0-.944.704-1.641
+                                1.8-1.828v3.495l-.2-.05zm1.591
+                                1.872c1.287.323 1.852.859
+                                1.852 1.769 0 1.097-.826
+                                1.828-2.2
+                                1.939V8.73l.348.086z" />
+                                </svg>
+                                <div class="ms-2">
+                                    <h5 class="mb-0 text-body">Tổng Chi Phí</h5>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <p class="text-danger mb-0
+                                  fw-semi-bold">$ @Model.Debts.Sum(P => P.Price).ToString("0,0").Replace(".", ",") VND</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item px-0 pb-0">
+                    <div class="d-flex
+                          justify-content-between
+                          align-items-center">
+                        <div class="d-flex
+                            align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                 fill="currentColor" class="bi bi-currency-dollar text-primary" viewBox="0 0 24 24">
+                                <title>image-outline</title>
+                                <path d="M19,19H5V5H19M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M13.96,12.29L11.21,15.83L9.25,13.47L6.5,17H17.5L13.96,12.29Z" />
+                            </svg>
+                            <div class="ms-2">
+                                <h5 class="mb-0 text-body">Ảnh hợp đồng</h5>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#ModalXemHinhAnh">Xem Hợp Đồng</button>
+                                <div class="modal fade modal-xl" id="ModalXemHinhAnh" tabindex="-1" role="dialog"
+                                     aria-labelledby="themVaiTroModalLabel" aria-hidden="true" data-simplebar>
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5>ẢNH HỢP ĐỒNG</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close">
+                                                </button>
+                                            </div>
+                                            <div class="row text-center">
+                                                <figure class="gallery__item gallery__item--1 mb-0">
+                                                    @if (string.IsNullOrEmpty(Model.ContractUrl))
+                                                    {
+                                                        <img style="margin: 30px 30px 30px 30px; max-width:720px" src="~/Content/Admin/assets/images/png/hopdong-default.png" alt="Gallery image 1" class="gallery__img rounded-3">
+                                                    }
+                                                    else
+                                                    {
+                                                        <iframe class="gallery__img rounded-3" frameborder="0" style="overflow: hidden; height: 1200px; width: 100%" src="@Model.ContractUrl"></iframe>
+                                                    }
+                                                </figure>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<div class="col-md-12 mb-4">
+    <!-- card -->
+    <div class="card">
+        <div class="card-header">
+            <h4 class="mb-0">Thông Tin Khách Hàng </h4>
+
+        </div>
+        <!-- Card body -->
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                <div class="position-relative">
+                    @if (string.IsNullOrEmpty(Model.Partners.Avatar))
+                    {
+                        <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt="" class="rounded-circle avatar-xl" />
+                    }
+                    else
+                    {
+                        <img src="@Model.Partners.Avatar" alt="" class="rounded-circle avatar-xl" />
+                    }
+                </div>
+                <div class="ms-4">
+                    <h3 class="mb-0">@Model.Partners.Name</h3>
+                    <p class="mb-0 fs-5">@Model.Partners.Company</p>
+                    <p class="mb-1 fs-5">@Model.Partners.Email</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-bottom: -20px" class="border-top row mt-3">
+                <div class="col">
+                    <div class="pe-1 ps-2 py-3">
+                        <h5 class="mb-0">@Model.Partners.Phone</h5>
+                        <span class="fs-6">Số điện thoại</span>
+                    </div>
+                </div>
+                <div class="col border-start">
+                    <div class="pe-1 ps-3 py-3">
+                        <h5 class="mb-0">@Model.Partners.Projects.Count.ToString("D2")</h5>
+                        <span class="fs-6">Dự án đang có</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12 mb-4">
+    <!-- card -->
+    <div class="card">
+        <!-- card body -->
+
+        <div class="card-header">
+            <h4 class="mb-0">
+                Tiến Độ Dự Án
+            </h4>
+
+        </div>
+        <!-- table -->
+        <div class="table-responsive overflow-y-hidden">
+            <table class="table mb-0 text-nowrap">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="border-top-0">Thành viên</th>
+                        <th scope="col" class="border-top-0 ">Vai trò</th>
+                        <th scope="col" class="border-top-0 ">Số việc </th>
+                        <th scope="col" class="border-top-0 ">Hoàn thành</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Teams.Count() > 0)
+                    {
+                        foreach (var item in Model.Teams)
+                        {
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-sm avatar-danger">
+                                            @if (string.IsNullOrEmpty(item.Employees.Avatar))
+                                            {
+                                                <span class="avatar-initials rounded-circle "> @item.Employees.Name.Substring(0, 1) </span>
+                                            }
+                                            else
+                                            {
+                                                <img src="@item.Employees.Avatar" alt="" class="avatar-initials rounded-circle">
+                                            }
+                                        </div>
+                                        <div class="ms-2">
+                                            <h5 class="mb-0">@item.Employees.Name </h5>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle ">
+                                    @item.Employees.Position.Name
+                                </td>
+                                <td class="align-middle ">
+                                    Còn @Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee && !t.State.Equals("done")).ToList().Count/@Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee).ToList().Count
+                                </td>
+                                <td class="align-middle ">
+                                    @if (Model.Tasks.Where(t => t.ID_Employee == item.ID_Employee).ToList().Count < 1)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="progress flex-auto" style="height: 6px;">
+                                                <div class="progress-bar bg-success " role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+
+                                                </div>
+                                            </div>
+                                            <div class="ms-2"> <span>0% </span> </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="progress flex-auto" style="height: 6px;">
+                                                <div class="progress-bar bg-success " role="progressbar" style="width: @(Convert.ToDecimal((Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%;" aria-valuenow="@(Convert.ToDecimal((Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate)) * 100).ToString("0"))" aria-valuemin="0" aria-valuemax="100">
+
+                                                </div>
+                                            </div>
+                                            <div class="ms-2"> <span>@(Convert.ToDecimal((Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee && t.State.Equals("done")).Sum(t => t.OriginalEstimate) / Model.Tasks.Where(t=> t.ID_Employee == item.ID_Employee).Sum(t => t.OriginalEstimate)) * 100).ToString("0"))% </span> </div>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center md-4">
+                                Không có dữ liệu để hiển thị!
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="col-md-12 col-xl-4 col-12">
+    <!-- card  -->
+    <div class="card mb-4 bg-primary border-primary">
+        <!-- card body  -->
+        <div class="card-body">
+
+            <h3 class="card-title text-white">Thời Gian Còn Lại </h3>
+
+            <!-- dropdown  -->
+            <div class="d-flex justify-content-between align-items-center mt-8">
+                <div>
+                    <h1 class="display-4 text-white mb-1">
+                        @if (Model.EndDate < Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd")))
+                        {
+                            <span>0 Ngày</span>
+                        }
+                        else
+                        {
+                            @(((Model.EndDate - Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"))).TotalDays + 1) > ((Model.EndDate - Model.StartDate).TotalDays + 1) ? ((Model.EndDate - Model.StartDate).TotalDays + 1) : ((Model.EndDate - Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"))).TotalDays + 1)) <span>Ngày</span>
+                        }
+                    </h1>
+                    <p class="mb-0 text-white">
+                        @Model.EndDate.ToString("dddd"), @Model.EndDate.ToString("dd") Tháng @Model.EndDate.ToString("MM"), @Model.EndDate.ToString("yyyy")
+                    </p>
+                </div>
+                <div>
+                    <i class="fe fe-flag fs-1 text-light-primary"></i>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- card  -->
+    <div class="card mb-4 ">
+        <!-- card body  -->
+        <div class="card-body">
+            <h4 class=" card-title ">Tiến Độ Tổng Thể </h4>
+            <div id="chartTongTheDuAn"></div>
+        </div>
+    </div>
+    <div class="card">
+        <!-- Card header -->
+        <div class="card-header card-header-height d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-0">
+                    Hoạt Động Gần Đây
+                </h4>
+            </div>
+            @*<div><a href="#">View All</a></div>*@
+        </div>
+        <!-- Card body -->
+        <div style="max-height: @(heights)px;" class="card-body" data-simplebar>
+            <!-- List group -->
+            <ul class="list-group list-group-flush list-timeline-activity">
+                @if (lichSu.ToList().Count < 1)
+                {
+                    <li style="margin-top: -10px" class="list-group-item px-0 pt-0 border-0 text-center">
+                        Chưa có hoạt động nào.
+                    </li>
+                }
+                else
+                {
+                    foreach (var item in lichSu)
+                    {
+                        <li class="list-group-item px-0 pt-0 border-0 pb-6">
+                            <div class="row position-relative">
+                                <div class="col-auto">
+                                    <div class="icon-shape icon-md bg-light-primary text-primary rounded-circle">
+                                        <i class="fe fe-clock"></i>
+                                    </div>
+                                </div>
+                                <div class="col ms-n3">
+                                    <h4 class="mb-0 h5">@item.Name</h4>
+                                    @if (item.ID_Projects != null)
+                                    {
+                                        <p class="mb-0 text-body"><a>@item.Employees.Name</a> @(item.Contents).</p>
+                                    }
+                                    else
+                                    {
+                                        if (item.Contents.IndexOf("|") != -1)
+                                        {
+                                            <p class="mb-0 text-body">@item.Employees.Name @item.Contents.Split('|')[0] <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> @(item.Contents.Split('|')[1]).</p>
+                                        }
+                                        else if (item.Contents.IndexOf("thêm") != -1)
+                                        {
+                                            <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> và được giao cho <a>@item.Tasks.Employees.Name.</a></p>
+                                        }
+                                        else
+                                        {
+                                            <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a>.</p>
+                                        }
+                                    }
+                                </div>
+                                <div class="col-auto">
+                                    <span class="text-muted fs-6">@item.Date.ToString("HH:mm dd/MM/yy")</span><br />
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+<script src="~/Content/Admin/assets/js/reviewImage.js"></script>
+
+<script>
+    $(document).on('click', '#tongQuanID', function (e) {
+        $('#AjaxLoader').show();
+    $.ajax({
+        url: '@Url.Action("tongQuanPartial", "quanlycongviec", new {id = Model.ID})',
+        type: 'GET',
+        dataType: 'html'
+    }).done(function(ketqua) {
+        if (ketqua == "DANHSACH" || ketqua == "DANGNHAP") {
+            $('#AjaxLoader').hide();
+            window.location.href = '@Url.Action("danhSachDuAn", "quanlycongviec")';
+        } else {
+            $('#chiTietDuAnPartialID').replaceWith(ketqua);
+            $.when(
+                $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                $.Deferred(function(deferred) {
+                    $(deferred.resolve);
+                })
+            ).done(function() {
+
+            });
+            $('#AjaxLoader').hide();
+        }
+    });
+});
+
+    $(document).on('click', '#congViecID', function (e) {
+        $('#AjaxLoader').show();
+    $.ajax({
+        url: '@Url.Action("congViecPartial", "quanlycongviec", new {id = Model.ID })',
+        type: 'GET',
+        dataType: 'html'
+    }).done(function(ketqua) {
+        if (ketqua == "DANHSACH" || ketqua == "DANGNHAP") {
+            $('#AjaxLoader').hide();
+            window.location.href = '@Url.Action("danhSachDuAn", "quanlycongviec")';
+        } else {
+             $('#chiTietDuAnPartialID').replaceWith(ketqua);
+            $.when(
+                $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                $.Deferred(function(deferred) {
+                    $(deferred.resolve);
+                })
+            ).done(function() {
+
+            });
+            $('#taskDeadline').selectpicker();
+            $('#assignTo').selectpicker();
+            $('#nguoithuchien').selectpicker({
+                style: "text-dark btn-sm"
+            });
+            $('#AjaxLoader').hide();
+        }
+    });
+});
+
+    $(document).on('click', '#taiLieuID', function (e) {
+        $('#AjaxLoader').show();
+    $.ajax({
+        url: '@Url.Action("taiLieuPartial", "quanlycongviec", new {id = Model.ID })',
+        type: 'GET',
+        dataType: 'html'
+    }).done(function(ketqua) {
+        if (ketqua == "DANHSACH" || ketqua == "DANGNHAP") {
+            $('#AjaxLoader').hide();
+            window.location.href = '@Url.Action("danhSachDuAn", "quanlycongviec")';
+        } else {
+            $('#chiTietDuAnPartialID').replaceWith(ketqua);
+            $.when(
+                $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                $.Deferred(function(deferred) {
+                    $(deferred.resolve);
+                })
+            ).done(function() {
+                //place your code here, the scripts are all loaded
+            });
+            $('#AjaxLoader').hide();
+        }
+    });
+});
+
+    $(document).on('click', '#doiNguID', function (e) {
+        $('#AjaxLoader').show();
+    $.ajax({
+        url: '@Url.Action("doiNguPartial", "quanlycongviec", new {id = Model.ID })',
+        type: 'GET',
+        dataType: 'html'
+    }).done(function(ketqua) {
+        if (ketqua == "DANHSACH" || ketqua == "DANGNHAP") {
+            $('#AjaxLoader').hide();
+            window.location.href = '@Url.Action("danhSachDuAn", "quanlycongviec")';
+        } else {
+            $('#chiTietDuAnPartialID').replaceWith(ketqua);
+            $.when(
+                $.getScript("@Url.Content("~/Content/Admin/js/plugin/sweetalert/sweetalert.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                $.Deferred(function(deferred) {
+                    $(deferred.resolve);
+                })
+            ).done(function() {
+                //place your code here, the scripts are all loaded
+            });
+            $('#AjaxLoader').hide();
+        }
+    });
+});
+
+</script>
+

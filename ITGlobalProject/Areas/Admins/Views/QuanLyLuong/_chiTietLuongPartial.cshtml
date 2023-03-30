@@ -195,11 +195,11 @@
 
                             @if (Model.TaxableSalary.Value != 0)
                             {
-                                if (Model.TaxableSalary.Value >= 20000000 && Model.Tax.Value == 10)
+                                if (Model.TaxableSalary.Value >= 2000000 && Model.Tax.Value == 10)
                                 {
                                     <tr>
                                         <td class="border-top-0 text-dark fw-medium">Thuế Thu Nhập Cá Nhân</td>
-                                        <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")% (Lương Tính Thuế)</td>
+                                        <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")%</td>
                                         <td class="text-dark fw-bold  border-top-0 text-end">
                                             -@Model.TotalPriceTax.Value.ToString("0,0").Replace(".", ",") đ
                                         </td>
@@ -209,7 +209,7 @@
                                 {
                                     <tr>
                                         <td class="border-top-0 text-dark fw-medium">Thuế Thu Nhập Cá Nhân</td>
-                                        <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")% (Lương Tính Thuế)</td>
+                                        <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")%</td>
                                         <td class="text-dark fw-bold  border-top-0 text-end">
                                             -@Model.TotalPriceTax.Value.ToString("0,0").Replace(".", ",") đ
                                         </td>
@@ -592,7 +592,7 @@
                                     {
                                         <tr>
                                             <td class="border-top-0 text-dark fw-medium">Thuế Thu Nhập Cá Nhân</td>
-                                            <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")% (Lương Tính Thuế)</td>
+                                            <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")%</td>
                                             <td class="text-dark fw-bold  border-top-0 text-end">
                                                 -@Model.TotalPriceTax.Value.ToString("0,0").Replace(".", ",") đ
                                             </td>
@@ -602,7 +602,7 @@
                                     {
                                         <tr>
                                             <td class="border-top-0 text-dark fw-medium">Thuế Thu Nhập Cá Nhân</td>
-                                            <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")% (Lương Tính Thuế)</td>
+                                            <td class="border-top-0 text-dark">@Model.Tax.Value.ToString("0.0")%</td>
                                             <td class="text-dark fw-bold  border-top-0 text-end">
                                                 -@Model.TotalPriceTax.Value.ToString("0,0").Replace(".", ",") đ
                                             </td>

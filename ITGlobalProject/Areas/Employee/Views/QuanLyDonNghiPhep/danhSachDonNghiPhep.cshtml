@@ -1,0 +1,232 @@
+﻿@model IEnumerable<ITGlobalProject.Models.LeaveApplication>
+@{
+    ViewBag.Title = "Đơn Nghỉ Phép";
+    Layout = "~/Areas/Employee/Views/Shared/_EmployeeLayout.cshtml";
+    int i = 0;
+}
+
+<div class="container-fluid p-4">
+    <div class="row ">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Page header -->
+            <div class="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Quản Lý Đơn Nghỉ Phép </h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("danhSachDonNghiPhep", "QuanLyDonNghiPhep")">Quản Lý Đơn Nghỉ Phép</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Danh Sách Đơn Nghỉ Phép
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- button -->
+                <div>
+                    <a id="opentThemMoi" class="btn btn-primary me-2" role="button" data-bs-toggle="modal" data-bs-target="#taodon">
+                        Thêm Mới
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row -->
+    <div id="danhSachPartial" class="row">
+        <!-- col -->
+        <div class="col-md-12 col-12 mb-5">
+            <!-- card -->
+            <div class="card rounded-3">
+                <!-- Card header -->
+                <div class="card-header border-bottom-0 p-0 bg-white">
+                    <div>
+                        <input hidden id="typeTab" value="choDuyet" />
+                        <!-- Nav -->
+                        <ul class="nav nav-lb-tab" id="tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="choduyetTab" data-bs-toggle="pill" href="#choduyetTab" role="tab" aria-controls="choduyetTab" aria-selected="false">
+                                    Chờ Duyệt
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="duocduyetTab" data-bs-toggle="pill" href="#duocduyetTab" role="tab" aria-controls="choduyetTab" aria-selected="false">
+                                    Được Duyệt
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="bituchoiTab" data-bs-toggle="pill" href="#bituchoiTab" role="tab" aria-controls="bituchoiTab" aria-selected="false">
+                                    Đã Từ Chối
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-content" id="tabContentsss">
+                    <!--Tab pane -->
+                    <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="courses-tab">
+                        <div class="card">
+                            <!-- table -->
+                            <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col" class=" border-top-0">STT</th>
+                                        <th scope="col" class=" border-top-0">Ngày gửi</th>
+                                        <th scope="col" class=" border-top-0">Thời gian nghỉ</th>
+                                        <th scope="col" class=" border-top-0">ngày nghỉ</th>
+                                        <th scope="col" class=" border-top-0">Nội dung</th>
+                                        <th scope="col" class=" border-top-0"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <input hidden id="startDate-@item.ID" value="@item.StartDate.ToString("yyyy-MM-dd")" />
+                                        <input hidden id="endDate-@item.ID" value="@item.EndDate.ToString("yyyy-MM-dd")" />
+                                        <input hidden id="content-@item.ID" value="@item.Contents" />
+
+                                        i++;
+                                        <tr>
+                                            <td class="align-middle border-top-0">@i</td>
+                                            <td class="align-middle border-top-0">
+                                                @item.SendDate.ToString("HH:mm")
+                                                <br />
+                                                @item.SendDate.ToString("dd-MM-yyyy")
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                <b>Từ:</b>  @item.StartDate.ToString("dd-MM-yyyy")
+                                                <br />
+                                                <b>Đến:</b> @item.EndDate.ToString("dd-MM-yyyy")
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                @((Convert.ToDateTime(item.EndDate.ToString("yyyy-MM-dd")).AddDays(1) - Convert.ToDateTime(item.StartDate.ToString("yyyy-MM-dd"))).TotalDays) ngày
+                                            </td>
+                                            <td word-break: break-word" class="align-middle border-top-0">
+                                                @(string.IsNullOrEmpty(item.Contents) ? "Không có ghi chú nội dung" : item.Contents)
+                                            </td>
+                                            <td class="align-middle border-top-0 text-nowrap">
+                                                <a id="xoa@(item.ID)" name="@item.ID" class="btn btn-outline-danger btn-sm">Xóa đơn</a>
+                                                <a id="capnhat@(item.ID)" name="@item.ID" class="btn btn-outline-success btn-sm">Cập nhật</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <script src="~/ValidationAlert/Employee/QuanLyDonNghiPhep/XoaDonNghiPhep_Validation.js"></script>
+                        <script>
+                            $(document).ready(function () {
+                                $('[id^="capnhat"]').on('click', function () {
+                                    var id = $(this).attr('name');
+                                    $('#chinhsuangaybatdau').val($('#startDate-' + id).val());
+                                    $('#chinhsuangayketthuc').val($('#endDate-' + id).val());
+                                    $('#chinhsuanoidungcapnhat').val($('#content-' + id).val());
+                                    $('#idDonChinhSua').val(id);
+
+                                    $('#chinhsuadon').modal('toggle');
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade gd-example-modal-xl" id="chinhsuadon" role="dialog" aria-labelledby="chinhsuadonTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chinhsuadonTitle">Chỉnh Sửa Đơn Nghỉ Phép</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="mb-2 col-12 col-md-6">
+                        <label style="font-weight:bold;" class="form-label">Ngày bắt đầu <span class="text-danger">*</span></label>
+                        <input hidden id="idDonChinhSua" />
+                        <input type="text" class="form-control flatpickr" placeholder="Chọn ngày bắt đầu nghỉ" id="chinhsuangaybatdau" name="chinhsuangaybatdau" />
+                        <p hidden style="color: red; font-size: 13px" id="chinhsuangaybatdauValidation"></p>
+
+                    </div>
+                    <div class="mb-2 col-12 col-md-6">
+                        <label style="font-weight:bold;" class="form-label">Ngày kết thúc <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control flatpickr" placeholder="Chọn ngày nghỉ cuối cùng" id="chinhsuangayketthuc" name="chinhsuangayketthuc" />
+                        <p hidden style="color: red; font-size: 13px" id="nchinhsuagayketthucValidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-12">
+                        <label style="font-weight:bold;" class="form-label">Ghi chú </label>
+                        <textarea id="chinhsuanoidungcapnhat" name="chinhsuanoidungcapnhat" class="form-control" rows="5"></textarea>
+                        <p hidden style="color: red; font-size: 13px" id="chinhsuanoidungcapnhatValidation"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="py-3"></div>
+                    <div class="mb-2 col-12 col-md-6 text-end">
+                        <button id="chinhsuaDong" style="width: 230px" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">
+                            Hủy
+                        </button>
+                    </div>
+                    <div class="mb-2 col-12 col-md-6">
+                        <button id="chinhsualuuThongTin" style="width: 230px" class="btn btn-outline-success">
+                            Lưu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade gd-example-modal-xl" id="taodon" role="dialog" aria-labelledby="taodonTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lstEmployeeTempTitle">Tạo Đơn Nghỉ Phép</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="modal-body">
+                <div class="row">
+                    <div class="mb-2 col-12 col-md-6">
+                        <label style="font-weight:bold;" class="form-label">Ngày bắt đầu <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control flatpickr" placeholder="Chọn ngày bắt đầu nghỉ" id="ngaybatdau" name="ngaybatdau" />
+                        <p hidden style="color: red; font-size: 13px" id="ngaybatdauValidation"></p>
+
+                    </div>
+                    <div class="mb-2 col-12 col-md-6">
+                        <label style="font-weight:bold;" class="form-label">Ngày kết thúc <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control flatpickr" placeholder="Chọn ngày nghỉ cuối cùng" id="ngayketthuc" name="ngayketthuc" />
+                        <p hidden style="color: red; font-size: 13px" id="ngayketthucValidation"></p>
+                    </div>
+                    <div class="mb-2 col-12 col-md-12">
+                        <label style="font-weight:bold;" class="form-label">Ghi chú </label>
+                        <textarea id="noidungcapnhat" name="noidungcapnhat" class="form-control" rows="5"></textarea>
+                        <p hidden style="color: red; font-size: 13px" id="noidungcapnhatValidation"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="py-3"></div>
+                    <div class="mb-2 col-12 col-md-6 text-end">
+                        <button id="dongchinhsuaThemMoi" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="modal" aria-label="Close">
+                            Hủy
+                        </button>
+                    </div>
+                    <div class="mb-2 col-12 col-md-6">
+                        <a id="luuThongTin" style="width: 230px" class="btn btn-outline-success">
+                            Lưu
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/ValidationAlert/Employee/QuanLyDonNghiPhep/ChinhSuaDonNghiPhep_Validation.js"></script>
+<script src="~/ValidationAlert/Employee/QuanLyDonNghiPhep/ThemDonNghiPhep_Validation.js"></script>
+<script src="~/ValidationAlert/Employee/QuanLyDonNghiPhep/chuyenTab.js"></script>

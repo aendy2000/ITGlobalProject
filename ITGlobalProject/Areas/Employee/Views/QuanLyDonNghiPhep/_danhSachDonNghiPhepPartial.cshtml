@@ -1,0 +1,122 @@
+﻿@model IEnumerable<ITGlobalProject.Models.LeaveApplication>
+@{
+    int i = 0;
+}
+
+<div class="tab-content" id="tabContentsss">
+    <!--Tab pane -->
+    <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="courses-tab">
+        <div class="card">
+            <!-- table -->
+            <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class=" border-top-0">STT</th>
+                        <th scope="col" class=" border-top-0">Ngày gửi</th>
+                        <th scope="col" class=" border-top-0">Thời gian nghỉ</th>
+                        <th scope="col" class=" border-top-0">ngày nghỉ</th>
+                        <th scope="col" class=" border-top-0">Nội dung</th>
+                        @if (Session["typetab"].ToString().Equals("daDuyet"))
+                        {
+                            <th scope="col" class=" border-top-0">Phản hồi</th>
+                            <th scope="col" class=" border-top-0">Trừ lương</th>
+                        }
+                        else if (Session["typetab"].ToString().Equals("daHuy"))
+                        {
+                            <th scope="col" class=" border-top-0">Phản hồi</th>
+                        }
+                        @if (Session["typetab"].ToString().Equals("choDuyet"))
+                        {
+                            <th scope="col" class=" border-top-0"></th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <input hidden id="startDate-@item.ID" value="@item.StartDate.ToString("yyyy-MM-dd")" />
+                        <input hidden id="endDate-@item.ID" value="@item.EndDate.ToString("yyyy-MM-dd")" />
+                        <input hidden id="content-@item.ID" value="@item.Contents" />
+
+                        i++;
+                        <tr>
+                            <td class="align-middle border-top-0">@i</td>
+                            <td class="align-middle border-top-0">
+                                @item.SendDate.ToString("HH:mm")
+                                <br />
+                                @item.SendDate.ToString("dd-MM-yyyy")
+                            </td>
+                            <td class="align-middle border-top-0">
+                                <b>Từ:</b>  @item.StartDate.ToString("dd-MM-yyyy")
+                                <br />
+                                <b>Đến:</b> @item.EndDate.ToString("dd-MM-yyyy")
+                            </td>
+                            <td class="align-middle border-top-0">
+                                @((Convert.ToDateTime(item.EndDate.ToString("yyyy-MM-dd")).AddDays(1) - Convert.ToDateTime(item.StartDate.ToString("yyyy-MM-dd"))).TotalDays) ngày
+                            </td>
+                            <td word-break: break-word" class="align-middle border-top-0">
+                                @(string.IsNullOrEmpty(item.Contents) ? "Không có ghi chú nội dung" : item.Contents)
+                            </td>
+                            @if (Session["typetab"].ToString().Equals("daDuyet"))
+                            {
+                                <td word-break: break-word" class="align-middle border-top-0">
+                                    @item.ResponsiveDate.Value.ToString("HH:mm dd-MM-yyyy")
+                                    <br />
+                                    ----------
+                                    <br />
+                                    @(string.IsNullOrEmpty(item.Reply) ? "Không có nội dung phản hồi" : item.Reply)
+                                </td>
+                                if (item.OnWage == true)
+                                {
+                                    <td word-break: break-word" class="align-middle border-top-0">
+                                        Có
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td word-break: break-word" class="align-middle border-top-0">
+                                        Không
+                                    </td>
+                                }
+                            }
+                            else if (Session["typetab"].ToString().Equals("daHuy"))
+                            {
+                                <td word-break: break-word" class="align-middle border-top-0">
+                                    @item.ResponsiveDate.Value.ToString("HH:mm dd-MM-yyyy")
+                                    <br />
+                                    ----------
+                                    <br />
+                                    @(string.IsNullOrEmpty(item.Reply) ? "Không có nội dung phản hồi" : item.Reply)
+                                </td>
+                            }
+
+                            @if (Session["typetab"].ToString().Equals("choDuyet"))
+                            {
+                                <td class="align-middle border-top-0 text-nowrap">
+                                    <a id="xoa@(item.ID)" name="@item.ID" class="btn btn-outline-danger btn-sm">Xóa đơn</a>
+                                    <a id="capnhat@(item.ID)" name="@item.ID" class="btn btn-outline-success btn-sm">Cập nhật</a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="~/ValidationAlert/Employee/QuanLyDonNghiPhep/XoaDonNghiPhep_Validation.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[id^="capnhat"]').on('click', function () {
+                var id = $(this).attr('name');
+                $('#chinhsuangaybatdau').val($('#startDate-' + id).val());
+                $('#chinhsuangayketthuc').val($('#endDate-' + id).val());
+                $('#chinhsuanoidungcapnhat').val($('#content-' + id).val());
+                $('#idDonChinhSua').val(id);
+
+                $('#chinhsuadon').modal('toggle');
+            });
+        });
+    </script>
+</div>
+

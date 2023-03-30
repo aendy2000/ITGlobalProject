@@ -1,0 +1,355 @@
+﻿$(document).ready(function () {
+
+    //Xóa task
+    $('[id^="xoaBoTask"]').on('click', function () {
+        let id = $(this).attr("name");
+        let idpro = $('#idpro').val();
+
+        var SweetAlert2Demo = function () {
+            var initDemos = function () {
+                swal({
+                    title: 'Xóa Công Việc?',
+                    text: "Chắc chắn muốn xóa chứ?",
+                    type: 'warning',
+                    buttons: {
+                        cancel: {
+                            visible: true,
+                            text: ' Hủy Bỏ ',
+                            className: 'btn btn-danger'
+                        },
+                        confirm: {
+                            text: 'Xác Nhận',
+                            className: 'btn btn-success'
+                        }
+                    }
+                }).then((xoacongviec) => {
+                    if (xoacongviec) {
+                        var formData = new FormData();
+                        formData.append('id', id);
+                        formData.append('idpro', idpro);
+
+                        $('#AjaxLoader').show();
+                        $.ajax({
+                            url: $('#requestPath').val() + 'Employee/QuanLyCongViec/xoaTask',
+                            type: 'POST',
+                            dataType: 'html',
+                            contentType: false,
+                            processData: false,
+                            cache: false,
+                            data: formData
+                        }).done(function (ketqua) {
+                            if (ketqua == "Đã có lỗi xảy ra, vui lòng thử lại") {
+                                $('#AjaxLoader').hide();
+                                var SweetAlert2Demo = function () {
+                                    var initDemos = function () {
+                                        swal("Thông Báo!", "Đã có xảy ra lỗi, vui lòng thử lại sau", {
+                                            icon: "erorr",
+                                            buttons: {
+                                                confirm: {
+                                                    className: 'btn btn-danger'
+                                                }
+                                            },
+                                        });
+                                    };
+                                    return {
+                                        init: function () {
+                                            initDemos();
+                                        },
+                                    };
+                                }();
+
+                                jQuery(document).ready(function () {
+                                    SweetAlert2Demo.init();
+                                });
+                            }
+                            else if (ketqua === "DANHSACH") {
+                                $('#AjaxLoader').hide();
+                                window.location.href = $('#requestPath').val() + 'Employee/QuanLyCongViec/danhSachDuAn';
+                            }
+                            else {
+                                $('#chiTietDuAnPartialID').replaceWith(ketqua);
+                                $('#assignTo').selectpicker();
+                                $('#taskDeadline').selectpicker();
+                                $('#nguoithuchien').selectpicker({
+                                    style: "text-dark btn-sm"
+                                });
+
+                                $.when(
+                                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js'),
+                                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/theme.min.js'),
+                                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js'),
+                                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js'),
+                                    $.Deferred(function (deferred) {
+                                        $(deferred.resolve);
+                                    })
+                                ).done(function () { });
+                                $('#AjaxLoader').hide();
+                                var content = {};
+                                content.message = 'Đã xóa một công việc';
+                                content.title = 'Thành công!';
+                                content.icon = 'nav-icon fe fe-bell me-2';
+
+                                $.notify(content, {
+                                    type: "success",
+                                    placement: {
+                                        from: "bottom",
+                                        align: "right"
+                                    },
+                                    time: 1000,
+                                    delay: 1000,
+                                });
+                            }
+                        });
+                    }
+                });
+            };
+            return {
+                init: function () {
+                    initDemos();
+                },
+            };
+        }();
+
+        jQuery(document).ready(function () {
+            SweetAlert2Demo.init();
+        });
+    });
+
+    //Click chi tiết task
+    $('[id^="clickEditTask"]').on('click', function () {
+        let id = $(this).attr("name");
+        $('#editTaskID' + id).click();
+    });
+
+    //Chi tiết task
+    $('[id^="editTaskID"]').on('click', function () {
+        id = $(this).attr("name");
+        var formData = new FormData();
+        formData.append('id', id);
+        $('#AjaxLoader').show();
+        $.ajax({
+            url: $('#requestPath').val() + 'Employee/QuanLyCongViec/xemChinhSuaTask',
+            type: 'POST',
+            dataType: 'html',
+            contentType: false,
+            processData: false,
+            data: formData
+        }).done(function (ketqua) {
+            if (ketqua == "DANHSACH") {
+                $('#AjaxLoader').hide();
+                window.location.href = $('#requestPath').val() + 'Employee/QuanLyCongViec/danhSachDuAn';
+            }
+            else {
+                $('#ChinhSuaTaskPartialContent').replaceWith(ketqua);
+
+                $('#chinhsuaassignTo').selectpicker();
+                $('#chinhsuataskDeadline').selectpicker();
+                $('#chinhsuanguoithuchien').selectpicker({
+                    style: "text-dark btn-sm"
+                });
+                $('#chinhsuatrangthaicongviec').selectpicker({
+                    style: "text-dark btn-sm"
+                });
+
+                $('#AjaxLoader').hide();
+                $('#edittaskModal').modal('toggle');
+            }
+        });
+    });
+
+
+    //Kéo task
+    dragula([document.querySelector("#do"),
+    document.querySelector("#progress"),
+    document.querySelector("#review"),
+    document.querySelector("#done")]).on('drop', function (CucDuocKeo, viTriMoi, viTriCu, viTriPhiaTrenCucBiKeo) {
+        $('#AjaxLoader').show();
+
+        var idTask = CucDuocKeo.id;
+
+        if (viTriMoi.id == "do") {
+            $('#trangThai_' + idTask).replaceWith('<div id="trangThai_' + idTask + '">'
+                + '<span class="badge-dot bg-gray-400 me-2 d-inline-block align-middle imgtooltip" data-template="stateid' + idTask + '"></span>'
+                + '<div id="stateid' + idTask + '" class="d-none">'
+                + '<h6 class="mb-0">Chưa thực hiện</h6>'
+                + '</div>'
+                + '</div>'
+            );
+
+        } else if (viTriMoi.id == "progress") {
+            $('#trangThai_' + idTask).replaceWith('<div id="trangThai_' + idTask + '">'
+                + '<span class="badge-dot bg-primary me-2 d-inline-block align-middle imgtooltip" data-template="stateid' + idTask + '"></span>'
+                + '<div id="stateid' + idTask + '" class="d-none">'
+                + '<h6 class="mb-0">Đang thực hiện</h6>'
+                + '</div>'
+                + '</div>'
+            );
+
+        } else if (viTriMoi.id == "review") {
+            $('#trangThai_' + idTask).replaceWith('<div id="trangThai_' + idTask + '">'
+                + '<span class="badge-dot bg-primary me-2 d-inline-block align-middle imgtooltip" data-template="stateid' + idTask + '"></span>'
+                + '<div id="stateid' + idTask + '" class="d-none">'
+                + '<h6 class="mb-0">Chờ Phê Duyệt</h6>'
+                + '</div>'
+                + '</div>'
+            );
+
+        } else {
+            $('#trangThai_' + idTask).replaceWith('<div id="trangThai_' + idTask + '">'
+                + '<span class="badge-dot bg-success me-2 d-inline-block align-middle imgtooltip" data-template="stateid' + idTask + '"></span>'
+                + '<div id="stateid' + idTask + '" class="d-none">'
+                + '<h6 class="mb-0">Đã hoàn thành</h6>'
+                + '</div>'
+                + '</div>'
+            );
+        }
+
+        //Tooltip
+        tippy('#trangThai_' + idTask, {
+            content(e) {
+                const t = 'stateid' + idTask;
+                return document.getElementById(t).innerHTML
+            },
+            allowHTML: !0,
+            theme: "light",
+            animation: "scale"
+        }), tippy(".bookmark", {
+            content: "Add to Bookmarks",
+            animation: "scale"
+        }), tippy(".removeBookmark", {
+            content: "Remove Bookmarks",
+            animation: "scale"
+        }), tippy(".texttooltip", {
+            content(e) {
+                const t = 'stateid' + idTask;
+                return document.getElementById(t).innerHTML
+            },
+            allowHTML: !0,
+            animation: "scale"
+        }), tippy(".dropdownTooltip", {
+            content(e) {
+                const t = 'stateid' + idTask;
+                return document.getElementById(t).innerHTML
+            },
+            allowHTML: !0,
+            animation: "scale",
+            placement: "right",
+            theme: "lightPurple"
+        }), $(".contacts-list .contacts-link").on("click", (function () {
+            $(".chat-body").addClass("chat-body-visible")
+        })), $("[data-close]").on("click", (function (e) {
+            e.preventDefault(), $(".chat-body").removeClass("chat-body-visible")
+        }));
+
+        ////////////////////////////////////////////////////////////////////////////
+
+        var lstTaskCurrent = viTriMoi.id + "~";
+        $('#' + viTriMoi.id).find('[id^="taskss"]').each(function () {
+            lstTaskCurrent += $(this).val() + "_";
+        });
+
+        var lstTaskFirst = viTriCu.id + "~";
+        $('#' + viTriCu.id).find('[id^="taskss"]').each(function () {
+            lstTaskFirst += $(this).val() + "_";
+        });
+
+        $.ajax({
+            url: $('#requestPath').val() + 'Employee/QuanLyCongViec/capNhatCongViec',
+            type: 'POST',
+            dataType: 'html',
+            data: {
+                'lstTaskFirst': lstTaskFirst.substring(0, lstTaskFirst.length - 1),
+                'lstTaskCurrent': lstTaskCurrent.substring(0, lstTaskCurrent.length - 1),
+                'idTask': idTask
+            }
+        }).done(function (ketqua) {
+            if (ketqua == "FAILED") {
+                $('#AjaxLoader').hide();
+                var SweetAlert2Demo = function () {
+                    var initDemos = function () {
+                        swal("Thông Báo!", "Đã có lỗi xảy ra, thử tải lại trang và thực hiện lại!", {
+                            icon: "erorr",
+                            buttons: {
+                                confirm: {
+                                    className: 'btn btn-danger'
+                                }
+                            },
+                        });
+                    };
+                    return {
+                        init: function () {
+                            initDemos();
+                        },
+                    };
+                }();
+
+                jQuery(document).ready(function () {
+                    SweetAlert2Demo.init();
+                });
+            } else if (ketqua == "DANGNHAP") {
+                window.location.href = $('#requestPath').val() + "admins/quanlytaikhoan/dangnhap";
+            }
+            else {
+                $('#AjaxLoader').hide();
+            }
+        });
+
+    });
+
+    //danh sách được asign
+    $('#assignTo').on('change', function () {
+        TaskType();
+    });
+
+    //deadline công việc
+    $('#taskDeadline').on('change', function () {
+        TaskType();
+    });
+
+    function TaskType() {
+        let assign = $('#assignTo :selected').val();
+        let deadlineType = $('#taskDeadline :selected').val();
+        let id = $('#idpro').val();
+
+        $('#AjaxLoader').show();
+        $.ajax({
+            url: $('#requestPath').val() + 'Employee/QuanLyCongViec/LoaiCongViec',
+            type: 'POST',
+            dataType: 'html',
+            data: {
+                assign: assign,
+                deadlineType: deadlineType,
+                id: id
+            }
+        }).done(function (ketqua) {
+            if (ketqua == "DANHSACH") {
+                Window.location.href = $('#requestPath').val() + 'Employee/QuanLyCongViec/danhsachduan';
+            }
+            else {
+                $('#chiTietDuAnPartialID').replaceWith(ketqua);
+                $('#assignTo option[value="' + assign + '"]').prop('selected', true);
+                $('#taskDeadline option[value="' + deadlineType + '"]').prop('selected', true);
+
+                $('#assignTo').selectpicker();
+                $('#taskDeadline').selectpicker();
+                $('#nguoithuchien').selectpicker({
+                    style: "text-dark btn-sm"
+                });
+
+                $.when(
+                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js'),
+                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/theme.min.js'),
+                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js'),
+                    $.getScript($('#requestPath').val() + 'Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js'),
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                    //place your code here, the scripts are all loaded
+                });
+
+                $('#AjaxLoader').hide();
+            }
+        });
+    }
+});

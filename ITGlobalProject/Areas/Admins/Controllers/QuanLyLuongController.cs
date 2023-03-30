@@ -268,7 +268,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             }
                                             currentPayroll.SalaryTaxable = luongcobantinhthue;
                                             //Có thể Tính thuế
-                                            if (luongcobantinhthue >= 20000000)
+                                            if (luongcobantinhthue >= 2000000)
                                             {
                                                 var thuephaidong = luongcobantinhthue / 100 * 10;
                                                 currentPayroll.Tax = 10;
@@ -636,7 +636,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             }
                                             payroll.SalaryTaxable = luongcobantinhthue;
                                             //Có thể Tính thuế
-                                            if (luongcobantinhthue >= 20000000)
+                                            if (luongcobantinhthue >= 2000000)
                                             {
                                                 var thuephaidong = luongcobantinhthue / 100 * 10;
                                                 payroll.Tax = 10;
@@ -3423,178 +3423,1275 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     {
                         int id = Convert.ToInt32(item);
                         var emp = model.Employees.Find(id);
-                        var insurance = model.Insurance.ToList();
-                        if (emp != null)
+
+                        if (emp.EmploymentContracts.Count() > 0)
                         {
-                            var payroll = new Payroll();
-                            var trocaps = new List<SubsidiesApply>();
-                            int indextrocap = 0;
-
-                            payroll.ID_PayrollCategory = payrollCategory.ID;
-                            payroll.ID_Employee = id;
-
-                            //Lương cơ bản
-                            decimal luongcoban = emp.Wage;
-                            payroll.Salary = luongcoban;
-                            var luongcobantinhthue = luongcoban;
-                            var luongcobantinhbaohiem = luongcoban;
-                            var tongtrocap = (decimal)0;
-
-                            //Phần trăm bảo hiểm
-                            var PTbhxh = model.Insurance.Find(1).Percentage;
-                            var PTbhyt = model.Insurance.Find(2).Percentage;
-                            var PTbhtn = model.Insurance.Find(4).Percentage;
-                            payroll.SocialInsurance = PTbhxh;
-                            payroll.HealthInsurance = PTbhyt;
-                            payroll.UnemploymentInsurance = PTbhtn;
-
-                            //Mức trần bh
-                            var muctranbh = (decimal)model.Insurance.Find(1).Ceiling_Level;
-                            payroll.InsuranceCeiling = muctranbh;
-                            //Tính bảo hiểm
-                            var khoantienbaohiem = (decimal)0;
-
-                            //Thêm khoản trợ cấp tính bảo hiểm
-                            var trocapTinhBH = model.Subsidies.Where(s => s.ID_Employee == id).ToList();
-                            if (trocapTinhBH.Count > 0)
+                            if (emp.EmploymentContracts.OrderByDescending(o => o.ID).First().EmploymentCategory.Equals("Hợp đồng có thời hạn"))
                             {
-                                foreach (var items in trocapTinhBH)
+                                var ngayhopdong = Convert.ToDateTime(emp.EmploymentContracts.OrderByDescending(o => o.ID).First().EndDate.Value) - Convert.ToDateTime(emp.EmploymentContracts.OrderByDescending(o => o.ID).First().StartDate.Value);
+                                if (ngayhopdong.TotalDays <= 60)
                                 {
-                                    if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == true)
-                                    {
-                                        trocaps.Add(new SubsidiesApply());
-                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
-                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
-                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
-                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
-                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
-                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
-                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
 
-                                        if (items.SubsidiesCategory.Price == 0)
+                                    var insurance = model.Insurance.ToList();
+                                    if (emp != null)
+                                    {
+                                        var payroll = new Payroll();
+                                        var trocaps = new List<SubsidiesApply>();
+                                        int indextrocap = 0;
+
+                                        payroll.ID_PayrollCategory = payrollCategory.ID;
+                                        payroll.ID_Employee = id;
+
+                                        //Lương cơ bản
+                                        decimal luongcoban = emp.Wage;
+                                        payroll.Salary = luongcoban;
+                                        var luongcobantinhthue = luongcoban;
+                                        var luongcobantinhbaohiem = luongcoban;
+                                        var tongtrocap = (decimal)0;
+
+                                        //Phần trăm bảo hiểm
+                                        var PTbhxh = model.Insurance.Find(1).Percentage;
+                                        var PTbhyt = model.Insurance.Find(2).Percentage;
+                                        var PTbhtn = model.Insurance.Find(4).Percentage;
+                                        payroll.SocialInsurance = PTbhxh;
+                                        payroll.HealthInsurance = PTbhyt;
+                                        payroll.UnemploymentInsurance = PTbhtn;
+
+                                        //Mức trần bh
+                                        var muctranbh = (decimal)model.Insurance.Find(1).Ceiling_Level;
+                                        payroll.InsuranceCeiling = muctranbh;
+                                        //Tính bảo hiểm
+                                        var khoantienbaohiem = (decimal)0;
+
+                                        //Thêm khoản trợ cấp tính bảo hiểm
+                                        var trocapTinhBH = model.Subsidies.Where(s => s.ID_Employee == id).ToList();
+                                        if (trocapTinhBH.Count > 0)
                                         {
-                                            luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                            trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                            tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                            foreach (var items in trocapTinhBH)
+                                            {
+                                                if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == true)
+                                                {
+                                                    trocaps.Add(new SubsidiesApply());
+                                                    trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                    trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                    trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                    trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                    trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                    trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                    if (items.SubsidiesCategory.Price == 0)
+                                                    {
+                                                        luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                        trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                        tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                    }
+                                                    else
+                                                    {
+                                                        luongcobantinhbaohiem += items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                        tongtrocap += items.SubsidiesCategory.Price;
+                                                    }
+                                                    indextrocap++;
+                                                }
+                                            }
+                                        }
+                                        if (luongcobantinhbaohiem > muctranbh)
+                                        {
+                                            khoantienbaohiem = (decimal)((PTbhxh + PTbhyt + PTbhtn) * (muctranbh / 100));
                                         }
                                         else
                                         {
-                                            luongcobantinhbaohiem += items.SubsidiesCategory.Price;
-                                            trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
-                                            tongtrocap += items.SubsidiesCategory.Price;
+                                            khoantienbaohiem = (decimal)((PTbhxh + PTbhyt + PTbhtn) * (luongcobantinhbaohiem / 100));
                                         }
-                                        indextrocap++;
+                                        payroll.SalaryInsurance = luongcobantinhbaohiem;
+                                        payroll.TotalPriceInsurance = khoantienbaohiem;
+
+                                        //Thêm khoản trợ cấp có tính thuế
+                                        if (trocapTinhBH.Count > 0)
+                                        {
+                                            foreach (var items in trocapTinhBH)
+                                            {
+                                                if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Tax == true)
+                                                {
+                                                    bool exits = false;
+                                                    foreach (var checktrocap in trocaps)
+                                                    {
+                                                        if (checktrocap.Name.Equals(items.SubsidiesCategory.Name))
+                                                        {
+                                                            exits = true;
+                                                        }
+                                                    }
+                                                    if (exits == false)
+                                                    {
+                                                        trocaps.Add(new SubsidiesApply());
+                                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                        if (items.SubsidiesCategory.Price == 0)
+                                                        {
+                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                            trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                            tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                        }
+                                                        else
+                                                        {
+                                                            luongcobantinhthue += items.SubsidiesCategory.Price;
+                                                            trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                            tongtrocap += items.SubsidiesCategory.Price;
+                                                        }
+                                                        indextrocap++;
+                                                    }
+                                                    else
+                                                    {
+                                                        if (items.SubsidiesCategory.Price == 0)
+                                                        {
+                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                        }
+                                                        else
+                                                        {
+                                                            luongcobantinhthue += items.SubsidiesCategory.Price;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        payroll.SalaryTaxable = luongcobantinhthue;
+                                        //Có thể Tính thuế
+                                        if (luongcobantinhthue >= 2000000)
+                                        {
+                                            var thuephaidong = luongcobantinhthue / 100 * 10;
+                                            payroll.Tax = 10;
+                                            payroll.TaxDeductions = 0;
+                                            payroll.TaxableSalary = luongcobantinhthue;
+                                            payroll.TotalPriceTax = thuephaidong;
+
+                                            var luongthuclanh = (luongcoban + tongtrocap) - (thuephaidong + khoantienbaohiem);
+                                            if (trocapTinhBH.Count > 0)
+                                            {
+                                                foreach (var items in trocapTinhBH)
+                                                {
+                                                    if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == false && items.SubsidiesCategory.Tax == false)
+                                                    {
+                                                        trocaps.Add(new SubsidiesApply());
+                                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                        if (items.SubsidiesCategory.Price == 0)
+                                                        {
+                                                            if (items.SubsidiesCategory.OnBasicSalary == true)
+                                                            {
+                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                            }
+                                                            else
+                                                            {
+                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            luongthuclanh += items.SubsidiesCategory.Price;
+                                                            trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                            tongtrocap += items.SubsidiesCategory.Price;
+                                                        }
+                                                        indextrocap++;
+                                                    }
+                                                }
+                                            }
+
+                                            var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
+                                            var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
+
+                                            var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
+                                            && ((l.StartDate >= strDate && l.StartDate <= endDate)
+                                            || (l.EndDate >= strDate && l.EndDate <= endDate))
+                                            && l.State == true && l.OnWage == true).ToList();
+                                            int songaynghi = 0;
+                                            foreach (var items in ngaynghi)
+                                            {
+                                                //Khoảng thời gian đầu trong tháng
+                                                if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                                    && (items.EndDate > endDate))
+                                                {
+                                                    songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                }
+                                                //Khoảng thời gian nằm trong tháng
+                                                else if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                                    && (items.EndDate >= strDate && items.EndDate <= endDate))
+                                                {
+                                                    songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                }
+                                                //khoảng thời gian cuối trong tháng
+                                                else
+                                                {
+                                                    songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                }
+
+                                            }
+                                            payroll.NumberDaysLeave = songaynghi;
+
+                                            //Tổng thanh toán cuối cùng
+                                            var tongthanhtoan = luongthuclanh;
+
+                                            //Trừ tiền ngày nghỉ phép
+                                            if (songaynghi > 0)
+                                            {
+                                                int tongSoNgay = DateTime.DaysInMonth(thang.Year, thang.Month);
+                                                decimal sotienmotngay = luongthuclanh / tongSoNgay;
+                                                decimal sotientrunghiphep = sotienmotngay * songaynghi;
+                                                payroll.PriceForOneDayOff = sotienmotngay;
+                                                tongthanhtoan = luongthuclanh - sotientrunghiphep;
+
+                                            }
+                                            payroll.Total_Price = tongthanhtoan;
+                                            payroll.MissingAmount = 0;
+                                            payroll.State = false;
+                                            payroll.TotalAllowance = tongtrocap;
+
+                                            model.Payroll.Add(payroll);
+                                            model.SaveChanges();
+
+                                            foreach (var items in trocaps)
+                                            {
+                                                items.ID_Payroll = payroll.ID;
+                                                model.SubsidiesApply.Add(items);
+                                                model.SaveChanges();
+                                            }
+
+                                            Histories his = new Histories();
+                                            his.ID_Employee = id;
+                                            his.ID_Payroll = payroll.ID;
+                                            his.Name = "Tính Lương Tháng " + thang.ToString("MM, yyyy");
+                                            his.Contents = "Đã thực hiện tính tiền lương tháng " + thang.ToString("MM, yyyy") + " cho " + emp.Name;
+                                            his.Date = DateTime.Now;
+
+                                            model.Histories.Add(his);
+                                            model.SaveChanges();
+                                        }
+                                        else
+                                        {
+                                            payroll.Tax = 10;
+                                            payroll.TaxDeductions = 0;
+                                            payroll.TaxableSalary = 0;
+                                            payroll.TotalPriceTax = 0;
+
+                                            var luongthuclanh = (luongcoban + tongtrocap) - khoantienbaohiem;
+                                            if (trocapTinhBH.Count > 0)
+                                            {
+                                                foreach (var items in trocapTinhBH)
+                                                {
+                                                    if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == false && items.SubsidiesCategory.Tax == false)
+                                                    {
+                                                        trocaps.Add(new SubsidiesApply());
+                                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                        if (items.SubsidiesCategory.Price == 0)
+                                                        {
+                                                            if (items.SubsidiesCategory.OnBasicSalary == true)
+                                                            {
+                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                            }
+                                                            else
+                                                            {
+                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            luongthuclanh += items.SubsidiesCategory.Price;
+                                                            trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                            tongtrocap += items.SubsidiesCategory.Price;
+                                                        }
+                                                        indextrocap++;
+                                                    }
+                                                }
+                                            }
+
+                                            var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
+                                            var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
+
+                                            var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
+                                            && ((l.StartDate >= strDate && l.StartDate <= endDate)
+                                            || (l.EndDate >= strDate && l.EndDate <= endDate))
+                                            && l.State == true && l.OnWage == true).ToList();
+                                            int songaynghi = 0;
+                                            foreach (var items in ngaynghi)
+                                            {
+                                                //Khoảng thời gian đầu trong tháng
+                                                if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                                    && (items.EndDate > endDate))
+                                                {
+                                                    songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                }
+                                                //Khoảng thời gian nằm trong tháng
+                                                else if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                                    && (items.EndDate >= strDate && items.EndDate <= endDate))
+                                                {
+                                                    songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                }
+                                                //khoảng thời gian cuối trong tháng
+                                                else
+                                                {
+                                                    songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                }
+
+                                            }
+                                            payroll.NumberDaysLeave = songaynghi;
+
+                                            //Tổng thanh toán cuối cùng
+                                            var tongthanhtoan = luongthuclanh;
+
+                                            //Trừ tiền ngày nghỉ phép
+                                            if (songaynghi > 0)
+                                            {
+                                                int tongSoNgay = DateTime.DaysInMonth(thang.Year, thang.Month);
+                                                decimal sotienmotngay = luongthuclanh / tongSoNgay;
+                                                decimal sotientrunghiphep = sotienmotngay * songaynghi;
+                                                payroll.PriceForOneDayOff = sotienmotngay;
+                                                tongthanhtoan = luongthuclanh - sotientrunghiphep;
+
+                                            }
+                                            payroll.Total_Price = tongthanhtoan;
+                                            payroll.MissingAmount = 0;
+                                            payroll.State = false;
+                                            payroll.TotalAllowance = tongtrocap;
+
+                                            model.Payroll.Add(payroll);
+                                            model.SaveChanges();
+
+                                            foreach (var items in trocaps)
+                                            {
+                                                items.ID_Payroll = payroll.ID;
+                                                model.SubsidiesApply.Add(items);
+                                                model.SaveChanges();
+                                            }
+
+                                            Histories his = new Histories();
+                                            his.ID_Employee = id;
+                                            his.ID_Payroll = payroll.ID;
+                                            his.Name = "Tính Lương Tháng " + thang.ToString("MM, yyyy");
+                                            his.Contents = "Đã thực hiện tính tiền lương tháng " + thang.ToString("MM, yyyy") + " cho " + emp.Name;
+                                            his.Date = DateTime.Now;
+
+                                            model.Histories.Add(his);
+                                            model.SaveChanges();
+                                        }
                                     }
                                 }
-                            }
-                            if (luongcobantinhbaohiem > muctranbh)
-                            {
-                                khoantienbaohiem = (decimal)((PTbhxh + PTbhyt + PTbhtn) * (muctranbh / 100));
+
+                                else
+                                {
+                                    var insurance = model.Insurance.ToList();
+                                    if (emp != null)
+                                    {
+                                        var payroll = new Payroll();
+                                        var trocaps = new List<SubsidiesApply>();
+                                        int indextrocap = 0;
+
+                                        payroll.ID_PayrollCategory = payrollCategory.ID;
+                                        payroll.ID_Employee = id;
+
+                                        //Lương cơ bản
+                                        decimal luongcoban = emp.Wage;
+                                        payroll.Salary = luongcoban;
+                                        var luongcobantinhthue = luongcoban;
+                                        var luongcobantinhbaohiem = luongcoban;
+                                        var tongtrocap = (decimal)0;
+
+                                        //Phần trăm bảo hiểm
+                                        var PTbhxh = model.Insurance.Find(1).Percentage;
+                                        var PTbhyt = model.Insurance.Find(2).Percentage;
+                                        var PTbhtn = model.Insurance.Find(4).Percentage;
+                                        payroll.SocialInsurance = PTbhxh;
+                                        payroll.HealthInsurance = PTbhyt;
+                                        payroll.UnemploymentInsurance = PTbhtn;
+
+                                        //Mức trần bh
+                                        var muctranbh = (decimal)model.Insurance.Find(1).Ceiling_Level;
+                                        payroll.InsuranceCeiling = muctranbh;
+                                        //Tính bảo hiểm
+                                        var khoantienbaohiem = (decimal)0;
+
+                                        //Thêm khoản trợ cấp tính bảo hiểm
+                                        var trocapTinhBH = model.Subsidies.Where(s => s.ID_Employee == id).ToList();
+                                        if (trocapTinhBH.Count > 0)
+                                        {
+                                            foreach (var items in trocapTinhBH)
+                                            {
+                                                if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == true)
+                                                {
+                                                    trocaps.Add(new SubsidiesApply());
+                                                    trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                    trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                    trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                    trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                    trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                    trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                    if (items.SubsidiesCategory.Price == 0)
+                                                    {
+                                                        luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                        trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                        tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                    }
+                                                    else
+                                                    {
+                                                        luongcobantinhbaohiem += items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                        tongtrocap += items.SubsidiesCategory.Price;
+                                                    }
+                                                    indextrocap++;
+                                                }
+                                            }
+                                        }
+                                        if (luongcobantinhbaohiem > muctranbh)
+                                        {
+                                            khoantienbaohiem = (decimal)((PTbhxh + PTbhyt + PTbhtn) * (muctranbh / 100));
+                                        }
+                                        else
+                                        {
+                                            khoantienbaohiem = (decimal)((PTbhxh + PTbhyt + PTbhtn) * (luongcobantinhbaohiem / 100));
+                                        }
+                                        payroll.SalaryInsurance = luongcobantinhbaohiem;
+                                        payroll.TotalPriceInsurance = khoantienbaohiem;
+
+                                        //Thêm khoản trợ cấp có tính thuế
+                                        if (trocapTinhBH.Count > 0)
+                                        {
+                                            foreach (var items in trocapTinhBH)
+                                            {
+                                                if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Tax == true)
+                                                {
+                                                    bool exits = false;
+                                                    foreach (var checktrocap in trocaps)
+                                                    {
+                                                        if (checktrocap.Name.Equals(items.SubsidiesCategory.Name))
+                                                        {
+                                                            exits = true;
+                                                        }
+                                                    }
+                                                    if (exits == false)
+                                                    {
+                                                        trocaps.Add(new SubsidiesApply());
+                                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                        if (items.SubsidiesCategory.Price == 0)
+                                                        {
+                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                            trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                            tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                        }
+                                                        else
+                                                        {
+                                                            luongcobantinhthue += items.SubsidiesCategory.Price;
+                                                            trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                            tongtrocap += items.SubsidiesCategory.Price;
+                                                        }
+                                                        indextrocap++;
+                                                    }
+                                                    else
+                                                    {
+                                                        if (items.SubsidiesCategory.Price == 0)
+                                                        {
+                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                        }
+                                                        else
+                                                        {
+                                                            luongcobantinhthue += items.SubsidiesCategory.Price;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        payroll.SalaryTaxable = luongcobantinhthue;
+                                        //Lương tối thiểu
+                                        var giamtrugiacanh = model.DependencyDeduction.Find(2).Price;
+                                        //Có thể Tính thuế
+                                        if (luongcobantinhthue > giamtrugiacanh)
+                                        {
+                                            int sonhanthan = emp.DependentsInformation.Count;
+                                            payroll.NumberOfDependents = sonhanthan;
+                                            payroll.FamilyAllowances = giamtrugiacanh;
+                                            var luongtinhthue = (decimal)0;
+                                            //Có người phụ thuộc
+                                            if (sonhanthan > 0)
+                                            {
+                                                var khautruphuthuoc = model.DependencyDeduction.Find(1).Price;
+                                                decimal mucluongphuthuoc = giamtrugiacanh + (sonhanthan * khautruphuthuoc);
+                                                payroll.DependencyDeduction = khautruphuthuoc;
+
+                                                //Mức lương đạt điều kiện để tính thuế
+                                                if (luongcobantinhthue >= mucluongphuthuoc)
+                                                {
+                                                    luongtinhthue = (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) : 0;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                luongtinhthue = (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) : 0;
+                                            }
+
+                                            var thuexuat = model.Tax.FirstOrDefault(t => t.MinPrice <= luongtinhthue && t.MaxPrice >= luongtinhthue).Percentage;
+                                            var khoangiamtru = model.Tax.FirstOrDefault(t => t.MinPrice <= luongtinhthue && t.MaxPrice >= luongtinhthue).Deductible;
+                                            var thuephaidong = (luongtinhthue / 100 * thuexuat) - khoangiamtru;
+
+                                            payroll.Tax = thuexuat;
+                                            payroll.TaxDeductions = khoangiamtru;
+                                            payroll.TaxableSalary = luongtinhthue;
+                                            payroll.TotalPriceTax = thuephaidong;
+
+                                            var luongthuclanh = (luongcoban + tongtrocap) - (thuephaidong + khoantienbaohiem);
+                                            if (trocapTinhBH.Count > 0)
+                                            {
+                                                foreach (var items in trocapTinhBH)
+                                                {
+                                                    if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == false && items.SubsidiesCategory.Tax == false)
+                                                    {
+                                                        trocaps.Add(new SubsidiesApply());
+                                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                        if (items.SubsidiesCategory.Price == 0)
+                                                        {
+                                                            if (items.SubsidiesCategory.OnBasicSalary == true)
+                                                            {
+                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                            }
+                                                            else
+                                                            {
+                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            luongthuclanh += items.SubsidiesCategory.Price;
+                                                            trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                            tongtrocap += items.SubsidiesCategory.Price;
+                                                        }
+                                                        indextrocap++;
+                                                    }
+                                                }
+                                            }
+
+                                            var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
+                                            var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
+
+                                            var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
+                                            && ((l.StartDate >= strDate && l.StartDate <= endDate)
+                                            || (l.EndDate >= strDate && l.EndDate <= endDate))
+                                            && l.State == true && l.OnWage == true).ToList();
+                                            int songaynghi = 0;
+                                            foreach (var items in ngaynghi)
+                                            {
+                                                //Khoảng thời gian đầu trong tháng
+                                                if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                                    && (items.EndDate > endDate))
+                                                {
+                                                    songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                }
+                                                //Khoảng thời gian nằm trong tháng
+                                                else if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                                    && (items.EndDate >= strDate && items.EndDate <= endDate))
+                                                {
+                                                    songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                }
+                                                //khoảng thời gian cuối trong tháng
+                                                else
+                                                {
+                                                    songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                }
+
+                                            }
+                                            payroll.NumberDaysLeave = songaynghi;
+
+                                            //Tổng thanh toán cuối cùng
+                                            var tongthanhtoan = luongthuclanh;
+
+                                            //Trừ tiền ngày nghỉ phép
+                                            if (songaynghi > 0)
+                                            {
+                                                int tongSoNgay = DateTime.DaysInMonth(thang.Year, thang.Month);
+                                                decimal sotienmotngay = luongthuclanh / tongSoNgay;
+                                                decimal sotientrunghiphep = sotienmotngay * songaynghi;
+                                                payroll.PriceForOneDayOff = sotienmotngay;
+                                                tongthanhtoan = luongthuclanh - sotientrunghiphep;
+
+                                            }
+                                            payroll.Total_Price = tongthanhtoan;
+                                            payroll.MissingAmount = 0;
+                                            payroll.State = false;
+                                            payroll.TotalAllowance = tongtrocap;
+
+                                            model.Payroll.Add(payroll);
+                                            model.SaveChanges();
+
+                                            foreach (var items in trocaps)
+                                            {
+                                                items.ID_Payroll = payroll.ID;
+                                                model.SubsidiesApply.Add(items);
+                                                model.SaveChanges();
+                                            }
+
+                                            Histories his = new Histories();
+                                            his.ID_Employee = id;
+                                            his.ID_Payroll = payroll.ID;
+                                            his.Name = "Tính Lương Tháng " + thang.ToString("MM, yyyy");
+                                            his.Contents = "Đã thực hiện tính tiền lương tháng " + thang.ToString("MM, yyyy") + " cho " + emp.Name;
+                                            his.Date = DateTime.Now;
+
+                                            model.Histories.Add(his);
+                                            model.SaveChanges();
+                                        }
+                                        else
+                                        {
+                                            int sonhanthan = emp.DependentsInformation.Count;
+                                            payroll.NumberOfDependents = sonhanthan;
+                                            payroll.FamilyAllowances = giamtrugiacanh;
+                                            var luongtinhthue = (decimal)0;
+                                            //Có người phụ thuộc
+                                            if (sonhanthan > 0)
+                                            {
+                                                var khautruphuthuoc = model.DependencyDeduction.Find(1).Price;
+                                                decimal mucluongphuthuoc = giamtrugiacanh + (sonhanthan * khautruphuthuoc);
+                                                payroll.DependencyDeduction = khautruphuthuoc;
+
+                                                //Mức lương đạt điều kiện để tính thuế
+                                                if (luongcobantinhthue >= mucluongphuthuoc)
+                                                {
+                                                    luongtinhthue = (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) : 0;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                luongtinhthue = (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) : 0;
+                                            }
+
+                                            payroll.Tax = 0;
+                                            payroll.TaxDeductions = 0;
+                                            payroll.TaxableSalary = luongtinhthue;
+                                            payroll.TotalPriceTax = 0;
+
+                                            var luongthuclanh = (luongcoban + tongtrocap) - khoantienbaohiem;
+                                            if (trocapTinhBH.Count > 0)
+                                            {
+                                                foreach (var items in trocapTinhBH)
+                                                {
+                                                    if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == false && items.SubsidiesCategory.Tax == false)
+                                                    {
+                                                        trocaps.Add(new SubsidiesApply());
+                                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                        if (items.SubsidiesCategory.Price == 0)
+                                                        {
+                                                            if (items.SubsidiesCategory.OnBasicSalary == true)
+                                                            {
+                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                            }
+                                                            else
+                                                            {
+                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            luongthuclanh += items.SubsidiesCategory.Price;
+                                                            trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                            tongtrocap += items.SubsidiesCategory.Price;
+                                                        }
+                                                        indextrocap++;
+                                                    }
+                                                }
+                                            }
+
+                                            var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
+                                            var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
+
+                                            var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
+                                            && ((l.StartDate >= strDate && l.StartDate <= endDate)
+                                            || (l.EndDate >= strDate && l.EndDate <= endDate))
+                                            && l.State == true && l.OnWage == true).ToList();
+                                            int songaynghi = 0;
+                                            foreach (var items in ngaynghi)
+                                            {
+                                                //Khoảng thời gian đầu trong tháng
+                                                if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                                    && (items.EndDate > endDate))
+                                                {
+                                                    songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                }
+                                                //Khoảng thời gian nằm trong tháng
+                                                else if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                                    && (items.EndDate >= strDate && items.EndDate <= endDate))
+                                                {
+                                                    songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                }
+                                                //khoảng thời gian cuối trong tháng
+                                                else
+                                                {
+                                                    songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                }
+
+                                            }
+                                            payroll.NumberDaysLeave = songaynghi;
+
+                                            //Tổng thanh toán cuối cùng
+                                            var tongthanhtoan = luongthuclanh;
+
+                                            //Trừ tiền ngày nghỉ phép
+                                            if (songaynghi > 0)
+                                            {
+                                                int tongSoNgay = DateTime.DaysInMonth(thang.Year, thang.Month);
+                                                decimal sotienmotngay = luongthuclanh / tongSoNgay;
+                                                decimal sotientrunghiphep = sotienmotngay * songaynghi;
+                                                payroll.PriceForOneDayOff = sotienmotngay;
+                                                tongthanhtoan = luongthuclanh - sotientrunghiphep;
+
+                                            }
+                                            payroll.Total_Price = tongthanhtoan;
+                                            payroll.MissingAmount = 0;
+                                            payroll.State = false;
+                                            payroll.TotalAllowance = tongtrocap;
+
+                                            model.Payroll.Add(payroll);
+                                            model.SaveChanges();
+
+                                            foreach (var items in trocaps)
+                                            {
+                                                items.ID_Payroll = payroll.ID;
+                                                model.SubsidiesApply.Add(items);
+                                                model.SaveChanges();
+                                            }
+
+                                            Histories his = new Histories();
+                                            his.ID_Employee = id;
+                                            his.ID_Payroll = payroll.ID;
+                                            his.Name = "Tính Lương Tháng " + thang.ToString("MM, yyyy");
+                                            his.Contents = "Đã thực hiện tính tiền lương tháng " + thang.ToString("MM, yyyy") + " cho " + emp.Name;
+                                            his.Date = DateTime.Now;
+
+                                            model.Histories.Add(his);
+                                            model.SaveChanges();
+                                        }
+
+
+                                    }
+                                }
+
                             }
                             else
                             {
-                                khoantienbaohiem = (decimal)((PTbhxh + PTbhyt + PTbhtn) * (luongcobantinhbaohiem / 100));
-                            }
-                            payroll.SalaryInsurance = luongcobantinhbaohiem;
-                            payroll.TotalPriceInsurance = khoantienbaohiem;
 
-                            //Thêm khoản trợ cấp có tính thuế
-                            if (trocapTinhBH.Count > 0)
-                            {
-                                foreach (var items in trocapTinhBH)
+                                var insurance = model.Insurance.ToList();
+                                if (emp != null)
                                 {
-                                    if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Tax == true)
+                                    var payroll = new Payroll();
+                                    var trocaps = new List<SubsidiesApply>();
+                                    int indextrocap = 0;
+
+                                    payroll.ID_PayrollCategory = payrollCategory.ID;
+                                    payroll.ID_Employee = id;
+
+                                    //Lương cơ bản
+                                    decimal luongcoban = emp.Wage;
+                                    payroll.Salary = luongcoban;
+                                    var luongcobantinhthue = luongcoban;
+                                    var luongcobantinhbaohiem = luongcoban;
+                                    var tongtrocap = (decimal)0;
+
+                                    //Phần trăm bảo hiểm
+                                    var PTbhxh = model.Insurance.Find(1).Percentage;
+                                    var PTbhyt = model.Insurance.Find(2).Percentage;
+                                    var PTbhtn = model.Insurance.Find(4).Percentage;
+                                    payroll.SocialInsurance = PTbhxh;
+                                    payroll.HealthInsurance = PTbhyt;
+                                    payroll.UnemploymentInsurance = PTbhtn;
+
+                                    //Mức trần bh
+                                    var muctranbh = (decimal)model.Insurance.Find(1).Ceiling_Level;
+                                    payroll.InsuranceCeiling = muctranbh;
+                                    //Tính bảo hiểm
+                                    var khoantienbaohiem = (decimal)0;
+
+                                    //Thêm khoản trợ cấp tính bảo hiểm
+                                    var trocapTinhBH = model.Subsidies.Where(s => s.ID_Employee == id).ToList();
+                                    if (trocapTinhBH.Count > 0)
                                     {
-                                        bool exits = false;
-                                        foreach (var checktrocap in trocaps)
+                                        foreach (var items in trocapTinhBH)
                                         {
-                                            if (checktrocap.Name.Equals(items.SubsidiesCategory.Name))
+                                            if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == true)
                                             {
-                                                exits = true;
+                                                trocaps.Add(new SubsidiesApply());
+                                                trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                if (items.SubsidiesCategory.Price == 0)
+                                                {
+                                                    luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                    trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                    tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                }
+                                                else
+                                                {
+                                                    luongcobantinhbaohiem += items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                    tongtrocap += items.SubsidiesCategory.Price;
+                                                }
+                                                indextrocap++;
                                             }
                                         }
-                                        if (exits == false)
-                                        {
-                                            trocaps.Add(new SubsidiesApply());
-                                            trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
-                                            trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
-                                            trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
-                                            trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
-                                            trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
-                                            trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
-                                            trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+                                    }
+                                    if (luongcobantinhbaohiem > muctranbh)
+                                    {
+                                        khoantienbaohiem = (decimal)((PTbhxh + PTbhyt + PTbhtn) * (muctranbh / 100));
+                                    }
+                                    else
+                                    {
+                                        khoantienbaohiem = (decimal)((PTbhxh + PTbhyt + PTbhtn) * (luongcobantinhbaohiem / 100));
+                                    }
+                                    payroll.SalaryInsurance = luongcobantinhbaohiem;
+                                    payroll.TotalPriceInsurance = khoantienbaohiem;
 
-                                            if (items.SubsidiesCategory.Price == 0)
+                                    //Thêm khoản trợ cấp có tính thuế
+                                    if (trocapTinhBH.Count > 0)
+                                    {
+                                        foreach (var items in trocapTinhBH)
+                                        {
+                                            if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Tax == true)
                                             {
-                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                bool exits = false;
+                                                foreach (var checktrocap in trocaps)
+                                                {
+                                                    if (checktrocap.Name.Equals(items.SubsidiesCategory.Name))
+                                                    {
+                                                        exits = true;
+                                                    }
+                                                }
+                                                if (exits == false)
+                                                {
+                                                    trocaps.Add(new SubsidiesApply());
+                                                    trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                    trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                    trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                    trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                    trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                    trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                    if (items.SubsidiesCategory.Price == 0)
+                                                    {
+                                                        luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                        trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                        tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                    }
+                                                    else
+                                                    {
+                                                        luongcobantinhthue += items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                        tongtrocap += items.SubsidiesCategory.Price;
+                                                    }
+                                                    indextrocap++;
+                                                }
+                                                else
+                                                {
+                                                    if (items.SubsidiesCategory.Price == 0)
+                                                    {
+                                                        luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                    }
+                                                    else
+                                                    {
+                                                        luongcobantinhthue += items.SubsidiesCategory.Price;
+                                                    }
+                                                }
                                             }
-                                            else
+                                        }
+                                    }
+                                    payroll.SalaryTaxable = luongcobantinhthue;
+                                    //Lương tối thiểu
+                                    var giamtrugiacanh = model.DependencyDeduction.Find(2).Price;
+                                    //Có thể Tính thuế
+                                    if (luongcobantinhthue > giamtrugiacanh)
+                                    {
+                                        int sonhanthan = emp.DependentsInformation.Count;
+                                        payroll.NumberOfDependents = sonhanthan;
+                                        payroll.FamilyAllowances = giamtrugiacanh;
+                                        var luongtinhthue = (decimal)0;
+                                        //Có người phụ thuộc
+                                        if (sonhanthan > 0)
+                                        {
+                                            var khautruphuthuoc = model.DependencyDeduction.Find(1).Price;
+                                            decimal mucluongphuthuoc = giamtrugiacanh + (sonhanthan * khautruphuthuoc);
+                                            payroll.DependencyDeduction = khautruphuthuoc;
+
+                                            //Mức lương đạt điều kiện để tính thuế
+                                            if (luongcobantinhthue >= mucluongphuthuoc)
                                             {
-                                                luongcobantinhthue += items.SubsidiesCategory.Price;
-                                                trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
-                                                tongtrocap += items.SubsidiesCategory.Price;
+                                                luongtinhthue = (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) : 0;
                                             }
-                                            indextrocap++;
                                         }
                                         else
                                         {
-                                            if (items.SubsidiesCategory.Price == 0)
+                                            luongtinhthue = (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) : 0;
+                                        }
+
+                                        var thuexuat = model.Tax.FirstOrDefault(t => t.MinPrice <= luongtinhthue && t.MaxPrice >= luongtinhthue).Percentage;
+                                        var khoangiamtru = model.Tax.FirstOrDefault(t => t.MinPrice <= luongtinhthue && t.MaxPrice >= luongtinhthue).Deductible;
+                                        var thuephaidong = (luongtinhthue / 100 * thuexuat) - khoangiamtru;
+
+                                        payroll.Tax = thuexuat;
+                                        payroll.TaxDeductions = khoangiamtru;
+                                        payroll.TaxableSalary = luongtinhthue;
+                                        payroll.TotalPriceTax = thuephaidong;
+
+                                        var luongthuclanh = (luongcoban + tongtrocap) - (thuephaidong + khoantienbaohiem);
+                                        if (trocapTinhBH.Count > 0)
+                                        {
+                                            foreach (var items in trocapTinhBH)
                                             {
-                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                            }
-                                            else
-                                            {
-                                                luongcobantinhthue += items.SubsidiesCategory.Price;
+                                                if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == false && items.SubsidiesCategory.Tax == false)
+                                                {
+                                                    trocaps.Add(new SubsidiesApply());
+                                                    trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                    trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                    trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                    trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                    trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                    trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                    if (items.SubsidiesCategory.Price == 0)
+                                                    {
+                                                        if (items.SubsidiesCategory.OnBasicSalary == true)
+                                                        {
+                                                            luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                            trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                            tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                        }
+                                                        else
+                                                        {
+                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        luongthuclanh += items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                        tongtrocap += items.SubsidiesCategory.Price;
+                                                    }
+                                                    indextrocap++;
+                                                }
                                             }
                                         }
+
+                                        var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
+                                        var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
+
+                                        var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
+                                        && ((l.StartDate >= strDate && l.StartDate <= endDate)
+                                        || (l.EndDate >= strDate && l.EndDate <= endDate))
+                                        && l.State == true && l.OnWage == true).ToList();
+                                        int songaynghi = 0;
+                                        foreach (var items in ngaynghi)
+                                        {
+                                            //Khoảng thời gian đầu trong tháng
+                                            if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                                && (items.EndDate > endDate))
+                                            {
+                                                songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                            }
+                                            //Khoảng thời gian nằm trong tháng
+                                            else if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                                && (items.EndDate >= strDate && items.EndDate <= endDate))
+                                            {
+                                                songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                            }
+                                            //khoảng thời gian cuối trong tháng
+                                            else
+                                            {
+                                                songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                            }
+
+                                        }
+                                        payroll.NumberDaysLeave = songaynghi;
+
+                                        //Tổng thanh toán cuối cùng
+                                        var tongthanhtoan = luongthuclanh;
+
+                                        //Trừ tiền ngày nghỉ phép
+                                        if (songaynghi > 0)
+                                        {
+                                            int tongSoNgay = DateTime.DaysInMonth(thang.Year, thang.Month);
+                                            decimal sotienmotngay = luongthuclanh / tongSoNgay;
+                                            decimal sotientrunghiphep = sotienmotngay * songaynghi;
+                                            payroll.PriceForOneDayOff = sotienmotngay;
+                                            tongthanhtoan = luongthuclanh - sotientrunghiphep;
+
+                                        }
+                                        payroll.Total_Price = tongthanhtoan;
+                                        payroll.MissingAmount = 0;
+                                        payroll.State = false;
+                                        payroll.TotalAllowance = tongtrocap;
+
+                                        model.Payroll.Add(payroll);
+                                        model.SaveChanges();
+
+                                        foreach (var items in trocaps)
+                                        {
+                                            items.ID_Payroll = payroll.ID;
+                                            model.SubsidiesApply.Add(items);
+                                            model.SaveChanges();
+                                        }
+
+                                        Histories his = new Histories();
+                                        his.ID_Employee = id;
+                                        his.ID_Payroll = payroll.ID;
+                                        his.Name = "Tính Lương Tháng " + thang.ToString("MM, yyyy");
+                                        his.Contents = "Đã thực hiện tính tiền lương tháng " + thang.ToString("MM, yyyy") + " cho " + emp.Name;
+                                        his.Date = DateTime.Now;
+
+                                        model.Histories.Add(his);
+                                        model.SaveChanges();
+                                    }
+                                    else
+                                    {
+                                        int sonhanthan = emp.DependentsInformation.Count;
+                                        payroll.NumberOfDependents = sonhanthan;
+                                        payroll.FamilyAllowances = giamtrugiacanh;
+                                        var luongtinhthue = (decimal)0;
+                                        //Có người phụ thuộc
+                                        if (sonhanthan > 0)
+                                        {
+                                            var khautruphuthuoc = model.DependencyDeduction.Find(1).Price;
+                                            decimal mucluongphuthuoc = giamtrugiacanh + (sonhanthan * khautruphuthuoc);
+                                            payroll.DependencyDeduction = khautruphuthuoc;
+
+                                            //Mức lương đạt điều kiện để tính thuế
+                                            if (luongcobantinhthue >= mucluongphuthuoc)
+                                            {
+                                                luongtinhthue = (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) : 0;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            luongtinhthue = (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) : 0;
+                                        }
+
+                                        payroll.Tax = 0;
+                                        payroll.TaxDeductions = 0;
+                                        payroll.TaxableSalary = luongtinhthue;
+                                        payroll.TotalPriceTax = 0;
+
+                                        var luongthuclanh = (luongcoban + tongtrocap) - khoantienbaohiem;
+                                        if (trocapTinhBH.Count > 0)
+                                        {
+                                            foreach (var items in trocapTinhBH)
+                                            {
+                                                if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == false && items.SubsidiesCategory.Tax == false)
+                                                {
+                                                    trocaps.Add(new SubsidiesApply());
+                                                    trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                    trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                    trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                    trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                    trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                    trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                    if (items.SubsidiesCategory.Price == 0)
+                                                    {
+                                                        if (items.SubsidiesCategory.OnBasicSalary == true)
+                                                        {
+                                                            luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                            trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                            tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                        }
+                                                        else
+                                                        {
+                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        luongthuclanh += items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                        tongtrocap += items.SubsidiesCategory.Price;
+                                                    }
+                                                    indextrocap++;
+                                                }
+                                            }
+                                        }
+
+                                        var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
+                                        var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
+
+                                        var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
+                                        && ((l.StartDate >= strDate && l.StartDate <= endDate)
+                                        || (l.EndDate >= strDate && l.EndDate <= endDate))
+                                        && l.State == true && l.OnWage == true).ToList();
+                                        int songaynghi = 0;
+                                        foreach (var items in ngaynghi)
+                                        {
+                                            //Khoảng thời gian đầu trong tháng
+                                            if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                                && (items.EndDate > endDate))
+                                            {
+                                                songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                            }
+                                            //Khoảng thời gian nằm trong tháng
+                                            else if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                                && (items.EndDate >= strDate && items.EndDate <= endDate))
+                                            {
+                                                songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                            }
+                                            //khoảng thời gian cuối trong tháng
+                                            else
+                                            {
+                                                songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                            }
+
+                                        }
+                                        payroll.NumberDaysLeave = songaynghi;
+
+                                        //Tổng thanh toán cuối cùng
+                                        var tongthanhtoan = luongthuclanh;
+
+                                        //Trừ tiền ngày nghỉ phép
+                                        if (songaynghi > 0)
+                                        {
+                                            int tongSoNgay = DateTime.DaysInMonth(thang.Year, thang.Month);
+                                            decimal sotienmotngay = luongthuclanh / tongSoNgay;
+                                            decimal sotientrunghiphep = sotienmotngay * songaynghi;
+                                            payroll.PriceForOneDayOff = sotienmotngay;
+                                            tongthanhtoan = luongthuclanh - sotientrunghiphep;
+
+                                        }
+                                        payroll.Total_Price = tongthanhtoan;
+                                        payroll.MissingAmount = 0;
+                                        payroll.State = false;
+                                        payroll.TotalAllowance = tongtrocap;
+
+                                        model.Payroll.Add(payroll);
+                                        model.SaveChanges();
+
+                                        foreach (var items in trocaps)
+                                        {
+                                            items.ID_Payroll = payroll.ID;
+                                            model.SubsidiesApply.Add(items);
+                                            model.SaveChanges();
+                                        }
+
+                                        Histories his = new Histories();
+                                        his.ID_Employee = id;
+                                        his.ID_Payroll = payroll.ID;
+                                        his.Name = "Tính Lương Tháng " + thang.ToString("MM, yyyy");
+                                        his.Contents = "Đã thực hiện tính tiền lương tháng " + thang.ToString("MM, yyyy") + " cho " + emp.Name;
+                                        his.Date = DateTime.Now;
+
+                                        model.Histories.Add(his);
+                                        model.SaveChanges();
                                     }
                                 }
                             }
-                            payroll.SalaryTaxable = luongcobantinhthue;
-                            //Lương tối thiểu
-                            var giamtrugiacanh = model.DependencyDeduction.Find(2).Price;
-                            //Có thể Tính thuế
-                            if (luongcobantinhthue > giamtrugiacanh)
+                        }
+                        else
+                        {
+
+                            var insurance = model.Insurance.ToList();
+                            if (emp != null)
                             {
-                                int sonhanthan = emp.DependentsInformation.Count;
-                                payroll.NumberOfDependents = sonhanthan;
-                                payroll.FamilyAllowances = giamtrugiacanh;
-                                var luongtinhthue = (decimal)0;
-                                //Có người phụ thuộc
-                                if (sonhanthan > 0)
-                                {
-                                    var khautruphuthuoc = model.DependencyDeduction.Find(1).Price;
-                                    decimal mucluongphuthuoc = giamtrugiacanh + (sonhanthan * khautruphuthuoc);
-                                    payroll.DependencyDeduction = khautruphuthuoc;
+                                var payroll = new Payroll();
+                                var trocaps = new List<SubsidiesApply>();
+                                int indextrocap = 0;
 
-                                    //Mức lương đạt điều kiện để tính thuế
-                                    if (luongcobantinhthue >= mucluongphuthuoc)
-                                    {
-                                        luongtinhthue = (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) : 0;
-                                    }
-                                }
-                                else
-                                {
-                                    luongtinhthue = (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) : 0;
-                                }
+                                payroll.ID_PayrollCategory = payrollCategory.ID;
+                                payroll.ID_Employee = id;
 
-                                var thuexuat = model.Tax.FirstOrDefault(t => t.MinPrice <= luongtinhthue && t.MaxPrice >= luongtinhthue).Percentage;
-                                var khoangiamtru = model.Tax.FirstOrDefault(t => t.MinPrice <= luongtinhthue && t.MaxPrice >= luongtinhthue).Deductible;
-                                var thuephaidong = (luongtinhthue / 100 * thuexuat) - khoangiamtru;
+                                //Lương cơ bản
+                                decimal luongcoban = emp.Wage;
+                                payroll.Salary = luongcoban;
+                                var luongcobantinhthue = luongcoban;
+                                var luongcobantinhbaohiem = luongcoban;
+                                var tongtrocap = (decimal)0;
 
-                                payroll.Tax = thuexuat;
-                                payroll.TaxDeductions = khoangiamtru;
-                                payroll.TaxableSalary = luongtinhthue;
-                                payroll.TotalPriceTax = thuephaidong;
+                                //Phần trăm bảo hiểm
+                                var PTbhxh = model.Insurance.Find(1).Percentage;
+                                var PTbhyt = model.Insurance.Find(2).Percentage;
+                                var PTbhtn = model.Insurance.Find(4).Percentage;
+                                payroll.SocialInsurance = PTbhxh;
+                                payroll.HealthInsurance = PTbhyt;
+                                payroll.UnemploymentInsurance = PTbhtn;
 
-                                var luongthuclanh = (luongcoban + tongtrocap) - (thuephaidong + khoantienbaohiem);
+                                //Mức trần bh
+                                var muctranbh = (decimal)model.Insurance.Find(1).Ceiling_Level;
+                                payroll.InsuranceCeiling = muctranbh;
+                                //Tính bảo hiểm
+                                var khoantienbaohiem = (decimal)0;
+
+                                //Thêm khoản trợ cấp tính bảo hiểm
+                                var trocapTinhBH = model.Subsidies.Where(s => s.ID_Employee == id).ToList();
                                 if (trocapTinhBH.Count > 0)
                                 {
                                     foreach (var items in trocapTinhBH)
                                     {
-                                        if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == false && items.SubsidiesCategory.Tax == false)
+                                        if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == true)
                                         {
                                             trocaps.Add(new SubsidiesApply());
                                             trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
@@ -3607,22 +4704,13 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                             if (items.SubsidiesCategory.Price == 0)
                                             {
-                                                if (items.SubsidiesCategory.OnBasicSalary == true)
-                                                {
-                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                }
-                                                else
-                                                {
-                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                }
+                                                luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
                                             }
                                             else
                                             {
-                                                luongthuclanh += items.SubsidiesCategory.Price;
+                                                luongcobantinhbaohiem += items.SubsidiesCategory.Price;
                                                 trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
                                                 tongtrocap += items.SubsidiesCategory.Price;
                                             }
@@ -3630,217 +4718,360 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                         }
                                     }
                                 }
-
-                                var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
-                                var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
-
-                                var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
-                                && ((l.StartDate >= strDate && l.StartDate <= endDate)
-                                || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                && l.State == true && l.OnWage == true).ToList();
-                                int songaynghi = 0;
-                                foreach (var items in ngaynghi)
+                                if (luongcobantinhbaohiem > muctranbh)
                                 {
-                                    //Khoảng thời gian đầu trong tháng
-                                    if ((items.StartDate >= strDate && items.StartDate <= endDate)
-                                        && (items.EndDate > endDate))
-                                    {
-                                        songaynghi = (endDate.Day - items.StartDate.Day) + 1;
-                                    }
-                                    //Khoảng thời gian nằm trong tháng
-                                    else if ((items.StartDate >= strDate && items.StartDate <= endDate)
-                                        && (items.EndDate >= strDate && items.EndDate <= endDate))
-                                    {
-                                        songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
-                                    }
-                                    //khoảng thời gian cuối trong tháng
-                                    else
-                                    {
-                                        songaynghi = (items.EndDate.Day - strDate.Day) + 1;
-                                    }
-
-                                }
-                                payroll.NumberDaysLeave = songaynghi;
-
-                                //Tổng thanh toán cuối cùng
-                                var tongthanhtoan = luongthuclanh;
-
-                                //Trừ tiền ngày nghỉ phép
-                                if (songaynghi > 0)
-                                {
-                                    int tongSoNgay = DateTime.DaysInMonth(thang.Year, thang.Month);
-                                    decimal sotienmotngay = luongthuclanh / tongSoNgay;
-                                    decimal sotientrunghiphep = sotienmotngay * songaynghi;
-                                    payroll.PriceForOneDayOff = sotienmotngay;
-                                    tongthanhtoan = luongthuclanh - sotientrunghiphep;
-
-                                }
-                                payroll.Total_Price = tongthanhtoan;
-                                payroll.MissingAmount = 0;
-                                payroll.State = false;
-                                payroll.TotalAllowance = tongtrocap;
-
-                                model.Payroll.Add(payroll);
-                                model.SaveChanges();
-
-                                foreach (var items in trocaps)
-                                {
-                                    items.ID_Payroll = payroll.ID;
-                                    model.SubsidiesApply.Add(items);
-                                    model.SaveChanges();
-                                }
-
-                                Histories his = new Histories();
-                                his.ID_Employee = id;
-                                his.ID_Payroll = payroll.ID;
-                                his.Name = "Tính Lương Tháng " + thang.ToString("MM, yyyy");
-                                his.Contents = "Đã thực hiện tính tiền lương tháng " + thang.ToString("MM, yyyy") + " cho " + emp.Name;
-                                his.Date = DateTime.Now;
-
-                                model.Histories.Add(his);
-                                model.SaveChanges();
-                            }
-                            else
-                            {
-                                int sonhanthan = emp.DependentsInformation.Count;
-                                payroll.NumberOfDependents = sonhanthan;
-                                payroll.FamilyAllowances = giamtrugiacanh;
-                                var luongtinhthue = (decimal)0;
-                                //Có người phụ thuộc
-                                if (sonhanthan > 0)
-                                {
-                                    var khautruphuthuoc = model.DependencyDeduction.Find(1).Price;
-                                    decimal mucluongphuthuoc = giamtrugiacanh + (sonhanthan * khautruphuthuoc);
-                                    payroll.DependencyDeduction = khautruphuthuoc;
-
-                                    //Mức lương đạt điều kiện để tính thuế
-                                    if (luongcobantinhthue >= mucluongphuthuoc)
-                                    {
-                                        luongtinhthue = (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) : 0;
-                                    }
+                                    khoantienbaohiem = (decimal)((PTbhxh + PTbhyt + PTbhtn) * (muctranbh / 100));
                                 }
                                 else
                                 {
-                                    luongtinhthue = (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) : 0;
+                                    khoantienbaohiem = (decimal)((PTbhxh + PTbhyt + PTbhtn) * (luongcobantinhbaohiem / 100));
                                 }
+                                payroll.SalaryInsurance = luongcobantinhbaohiem;
+                                payroll.TotalPriceInsurance = khoantienbaohiem;
 
-                                payroll.Tax = 0;
-                                payroll.TaxDeductions = 0;
-                                payroll.TaxableSalary = luongtinhthue;
-                                payroll.TotalPriceTax = 0;
-
-                                var luongthuclanh = (luongcoban + tongtrocap) - khoantienbaohiem;
+                                //Thêm khoản trợ cấp có tính thuế
                                 if (trocapTinhBH.Count > 0)
                                 {
                                     foreach (var items in trocapTinhBH)
                                     {
-                                        if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == false && items.SubsidiesCategory.Tax == false)
+                                        if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Tax == true)
                                         {
-                                            trocaps.Add(new SubsidiesApply());
-                                            trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
-                                            trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
-                                            trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
-                                            trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
-                                            trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
-                                            trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
-                                            trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
-
-                                            if (items.SubsidiesCategory.Price == 0)
+                                            bool exits = false;
+                                            foreach (var checktrocap in trocaps)
                                             {
-                                                if (items.SubsidiesCategory.OnBasicSalary == true)
+                                                if (checktrocap.Name.Equals(items.SubsidiesCategory.Name))
                                                 {
-                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                    exits = true;
+                                                }
+                                            }
+                                            if (exits == false)
+                                            {
+                                                trocaps.Add(new SubsidiesApply());
+                                                trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                if (items.SubsidiesCategory.Price == 0)
+                                                {
+                                                    luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                    trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                    tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
                                                 }
                                                 else
                                                 {
-                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                    luongcobantinhthue += items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                    tongtrocap += items.SubsidiesCategory.Price;
                                                 }
+                                                indextrocap++;
                                             }
                                             else
                                             {
-                                                luongthuclanh += items.SubsidiesCategory.Price;
-                                                trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
-                                                tongtrocap += items.SubsidiesCategory.Price;
+                                                if (items.SubsidiesCategory.Price == 0)
+                                                {
+                                                    luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                }
+                                                else
+                                                {
+                                                    luongcobantinhthue += items.SubsidiesCategory.Price;
+                                                }
                                             }
-                                            indextrocap++;
                                         }
                                     }
                                 }
-
-                                var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
-                                var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
-
-                                var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
-                                && ((l.StartDate >= strDate && l.StartDate <= endDate)
-                                || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                && l.State == true && l.OnWage == true).ToList();
-                                int songaynghi = 0;
-                                foreach (var items in ngaynghi)
+                                payroll.SalaryTaxable = luongcobantinhthue;
+                                //Lương tối thiểu
+                                var giamtrugiacanh = model.DependencyDeduction.Find(2).Price;
+                                //Có thể Tính thuế
+                                if (luongcobantinhthue > giamtrugiacanh)
                                 {
-                                    //Khoảng thời gian đầu trong tháng
-                                    if ((items.StartDate >= strDate && items.StartDate <= endDate)
-                                        && (items.EndDate > endDate))
+                                    int sonhanthan = emp.DependentsInformation.Count;
+                                    payroll.NumberOfDependents = sonhanthan;
+                                    payroll.FamilyAllowances = giamtrugiacanh;
+                                    var luongtinhthue = (decimal)0;
+                                    //Có người phụ thuộc
+                                    if (sonhanthan > 0)
                                     {
-                                        songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                        var khautruphuthuoc = model.DependencyDeduction.Find(1).Price;
+                                        decimal mucluongphuthuoc = giamtrugiacanh + (sonhanthan * khautruphuthuoc);
+                                        payroll.DependencyDeduction = khautruphuthuoc;
+
+                                        //Mức lương đạt điều kiện để tính thuế
+                                        if (luongcobantinhthue >= mucluongphuthuoc)
+                                        {
+                                            luongtinhthue = (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) : 0;
+                                        }
                                     }
-                                    //Khoảng thời gian nằm trong tháng
-                                    else if ((items.StartDate >= strDate && items.StartDate <= endDate)
-                                        && (items.EndDate >= strDate && items.EndDate <= endDate))
-                                    {
-                                        songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
-                                    }
-                                    //khoảng thời gian cuối trong tháng
                                     else
                                     {
-                                        songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                        luongtinhthue = (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) : 0;
                                     }
 
-                                }
-                                payroll.NumberDaysLeave = songaynghi;
+                                    var thuexuat = model.Tax.FirstOrDefault(t => t.MinPrice <= luongtinhthue && t.MaxPrice >= luongtinhthue).Percentage;
+                                    var khoangiamtru = model.Tax.FirstOrDefault(t => t.MinPrice <= luongtinhthue && t.MaxPrice >= luongtinhthue).Deductible;
+                                    var thuephaidong = (luongtinhthue / 100 * thuexuat) - khoangiamtru;
 
-                                //Tổng thanh toán cuối cùng
-                                var tongthanhtoan = luongthuclanh;
+                                    payroll.Tax = thuexuat;
+                                    payroll.TaxDeductions = khoangiamtru;
+                                    payroll.TaxableSalary = luongtinhthue;
+                                    payroll.TotalPriceTax = thuephaidong;
 
-                                //Trừ tiền ngày nghỉ phép
-                                if (songaynghi > 0)
-                                {
-                                    int tongSoNgay = DateTime.DaysInMonth(thang.Year, thang.Month);
-                                    decimal sotienmotngay = luongthuclanh / tongSoNgay;
-                                    decimal sotientrunghiphep = sotienmotngay * songaynghi;
-                                    payroll.PriceForOneDayOff = sotienmotngay;
-                                    tongthanhtoan = luongthuclanh - sotientrunghiphep;
+                                    var luongthuclanh = (luongcoban + tongtrocap) - (thuephaidong + khoantienbaohiem);
+                                    if (trocapTinhBH.Count > 0)
+                                    {
+                                        foreach (var items in trocapTinhBH)
+                                        {
+                                            if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == false && items.SubsidiesCategory.Tax == false)
+                                            {
+                                                trocaps.Add(new SubsidiesApply());
+                                                trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
 
-                                }
-                                payroll.Total_Price = tongthanhtoan;
-                                payroll.MissingAmount = 0;
-                                payroll.State = false;
-                                payroll.TotalAllowance = tongtrocap;
+                                                if (items.SubsidiesCategory.Price == 0)
+                                                {
+                                                    if (items.SubsidiesCategory.OnBasicSalary == true)
+                                                    {
+                                                        luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                        trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                        tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                    }
+                                                    else
+                                                    {
+                                                        luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                        trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                        tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    luongthuclanh += items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                    tongtrocap += items.SubsidiesCategory.Price;
+                                                }
+                                                indextrocap++;
+                                            }
+                                        }
+                                    }
 
-                                model.Payroll.Add(payroll);
-                                model.SaveChanges();
+                                    var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
+                                    var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
 
-                                foreach (var items in trocaps)
-                                {
-                                    items.ID_Payroll = payroll.ID;
-                                    model.SubsidiesApply.Add(items);
+                                    var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
+                                    && ((l.StartDate >= strDate && l.StartDate <= endDate)
+                                    || (l.EndDate >= strDate && l.EndDate <= endDate))
+                                    && l.State == true && l.OnWage == true).ToList();
+                                    int songaynghi = 0;
+                                    foreach (var items in ngaynghi)
+                                    {
+                                        //Khoảng thời gian đầu trong tháng
+                                        if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                            && (items.EndDate > endDate))
+                                        {
+                                            songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                        }
+                                        //Khoảng thời gian nằm trong tháng
+                                        else if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                            && (items.EndDate >= strDate && items.EndDate <= endDate))
+                                        {
+                                            songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                        }
+                                        //khoảng thời gian cuối trong tháng
+                                        else
+                                        {
+                                            songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                        }
+
+                                    }
+                                    payroll.NumberDaysLeave = songaynghi;
+
+                                    //Tổng thanh toán cuối cùng
+                                    var tongthanhtoan = luongthuclanh;
+
+                                    //Trừ tiền ngày nghỉ phép
+                                    if (songaynghi > 0)
+                                    {
+                                        int tongSoNgay = DateTime.DaysInMonth(thang.Year, thang.Month);
+                                        decimal sotienmotngay = luongthuclanh / tongSoNgay;
+                                        decimal sotientrunghiphep = sotienmotngay * songaynghi;
+                                        payroll.PriceForOneDayOff = sotienmotngay;
+                                        tongthanhtoan = luongthuclanh - sotientrunghiphep;
+
+                                    }
+                                    payroll.Total_Price = tongthanhtoan;
+                                    payroll.MissingAmount = 0;
+                                    payroll.State = false;
+                                    payroll.TotalAllowance = tongtrocap;
+
+                                    model.Payroll.Add(payroll);
+                                    model.SaveChanges();
+
+                                    foreach (var items in trocaps)
+                                    {
+                                        items.ID_Payroll = payroll.ID;
+                                        model.SubsidiesApply.Add(items);
+                                        model.SaveChanges();
+                                    }
+
+                                    Histories his = new Histories();
+                                    his.ID_Employee = id;
+                                    his.ID_Payroll = payroll.ID;
+                                    his.Name = "Tính Lương Tháng " + thang.ToString("MM, yyyy");
+                                    his.Contents = "Đã thực hiện tính tiền lương tháng " + thang.ToString("MM, yyyy") + " cho " + emp.Name;
+                                    his.Date = DateTime.Now;
+
+                                    model.Histories.Add(his);
                                     model.SaveChanges();
                                 }
+                                else
+                                {
+                                    int sonhanthan = emp.DependentsInformation.Count;
+                                    payroll.NumberOfDependents = sonhanthan;
+                                    payroll.FamilyAllowances = giamtrugiacanh;
+                                    var luongtinhthue = (decimal)0;
+                                    //Có người phụ thuộc
+                                    if (sonhanthan > 0)
+                                    {
+                                        var khautruphuthuoc = model.DependencyDeduction.Find(1).Price;
+                                        decimal mucluongphuthuoc = giamtrugiacanh + (sonhanthan * khautruphuthuoc);
+                                        payroll.DependencyDeduction = khautruphuthuoc;
 
-                                Histories his = new Histories();
-                                his.ID_Employee = id;
-                                his.ID_Payroll = payroll.ID;
-                                his.Name = "Tính Lương Tháng " + thang.ToString("MM, yyyy");
-                                his.Contents = "Đã thực hiện tính tiền lương tháng " + thang.ToString("MM, yyyy") + " cho " + emp.Name;
-                                his.Date = DateTime.Now;
+                                        //Mức lương đạt điều kiện để tính thuế
+                                        if (luongcobantinhthue >= mucluongphuthuoc)
+                                        {
+                                            luongtinhthue = (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (mucluongphuthuoc + khoantienbaohiem)) : 0;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        luongtinhthue = (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) >= 0 ? (luongcobantinhthue - (giamtrugiacanh + khoantienbaohiem)) : 0;
+                                    }
 
-                                model.Histories.Add(his);
-                                model.SaveChanges();
+                                    payroll.Tax = 0;
+                                    payroll.TaxDeductions = 0;
+                                    payroll.TaxableSalary = luongtinhthue;
+                                    payroll.TotalPriceTax = 0;
+
+                                    var luongthuclanh = (luongcoban + tongtrocap) - khoantienbaohiem;
+                                    if (trocapTinhBH.Count > 0)
+                                    {
+                                        foreach (var items in trocapTinhBH)
+                                        {
+                                            if ((items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0) && items.SubsidiesCategory.Insurance == false && items.SubsidiesCategory.Tax == false)
+                                            {
+                                                trocaps.Add(new SubsidiesApply());
+                                                trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                if (items.SubsidiesCategory.Price == 0)
+                                                {
+                                                    if (items.SubsidiesCategory.OnBasicSalary == true)
+                                                    {
+                                                        luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                        trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                        tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                    }
+                                                    else
+                                                    {
+                                                        luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                        trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                        tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    luongthuclanh += items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Total_Price = items.SubsidiesCategory.Price;
+                                                    tongtrocap += items.SubsidiesCategory.Price;
+                                                }
+                                                indextrocap++;
+                                            }
+                                        }
+                                    }
+
+                                    var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
+                                    var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
+
+                                    var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
+                                    && ((l.StartDate >= strDate && l.StartDate <= endDate)
+                                    || (l.EndDate >= strDate && l.EndDate <= endDate))
+                                    && l.State == true && l.OnWage == true).ToList();
+                                    int songaynghi = 0;
+                                    foreach (var items in ngaynghi)
+                                    {
+                                        //Khoảng thời gian đầu trong tháng
+                                        if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                            && (items.EndDate > endDate))
+                                        {
+                                            songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                        }
+                                        //Khoảng thời gian nằm trong tháng
+                                        else if ((items.StartDate >= strDate && items.StartDate <= endDate)
+                                            && (items.EndDate >= strDate && items.EndDate <= endDate))
+                                        {
+                                            songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                        }
+                                        //khoảng thời gian cuối trong tháng
+                                        else
+                                        {
+                                            songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                        }
+
+                                    }
+                                    payroll.NumberDaysLeave = songaynghi;
+
+                                    //Tổng thanh toán cuối cùng
+                                    var tongthanhtoan = luongthuclanh;
+
+                                    //Trừ tiền ngày nghỉ phép
+                                    if (songaynghi > 0)
+                                    {
+                                        int tongSoNgay = DateTime.DaysInMonth(thang.Year, thang.Month);
+                                        decimal sotienmotngay = luongthuclanh / tongSoNgay;
+                                        decimal sotientrunghiphep = sotienmotngay * songaynghi;
+                                        payroll.PriceForOneDayOff = sotienmotngay;
+                                        tongthanhtoan = luongthuclanh - sotientrunghiphep;
+
+                                    }
+                                    payroll.Total_Price = tongthanhtoan;
+                                    payroll.MissingAmount = 0;
+                                    payroll.State = false;
+                                    payroll.TotalAllowance = tongtrocap;
+
+                                    model.Payroll.Add(payroll);
+                                    model.SaveChanges();
+
+                                    foreach (var items in trocaps)
+                                    {
+                                        items.ID_Payroll = payroll.ID;
+                                        model.SubsidiesApply.Add(items);
+                                        model.SaveChanges();
+                                    }
+
+                                    Histories his = new Histories();
+                                    his.ID_Employee = id;
+                                    his.ID_Payroll = payroll.ID;
+                                    his.Name = "Tính Lương Tháng " + thang.ToString("MM, yyyy");
+                                    his.Contents = "Đã thực hiện tính tiền lương tháng " + thang.ToString("MM, yyyy") + " cho " + emp.Name;
+                                    his.Date = DateTime.Now;
+
+                                    model.Histories.Add(his);
+                                    model.SaveChanges();
+                                }
                             }
-
                         }
                     }
                 }

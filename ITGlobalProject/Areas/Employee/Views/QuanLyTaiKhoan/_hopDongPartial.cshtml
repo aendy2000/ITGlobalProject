@@ -1,0 +1,383 @@
+﻿@model ITGlobalProject.Models.Employees
+@using ITGlobalProject.Models
+@{
+    int i = 0;
+    var department = Session["lst-department"] as List<Department>;
+    CP25Team06Entities models = new CP25Team06Entities();
+    string imagesUrl = "";
+    if (string.IsNullOrEmpty(Model.Avatar))
+    {
+        imagesUrl = "~/Content/Admin/assets/images/avatar/default-avatar.png";
+    }
+    else
+    {
+        imagesUrl = Model.Avatar;
+    }
+}
+<div id="contentPartial" class="container-fluid p-4">
+    <div class="row">
+        <!-- Page Header -->
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="border-bottom pb-4 mb-4 d-flex justify-content-between align-items-center">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-1 h2 fw-bold">
+                        Thông Tin Cá Nhân
+                    </h1>
+                    <!-- Breadcrumb  -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new { id = Session["user-id"] })">Thông Tin Cá Nhân</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- User info -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+            <!-- Bg -->
+            <div class="pt-16 rounded-top-md" style=" background: url(@Url.Content("~/Content/Admin/assets/images/background/profile-bg-admin.jpg")) no-repeat; background-size: cover; "></div>
+            <div class="d-flex align-items-end justify-content-between bg-white px-4 pt-2 pb-4 rounde
+             rounded-bottom-md shadow-sm">
+                <div class="d-flex align-items-center">
+                    <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
+                        @if (string.IsNullOrEmpty(Model.Avatar))
+                        {
+                            <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xl rounded-circle border border-4 border-white"
+                                 alt="" />
+                        }
+                        else
+                        {
+                            <img src="@Model.Avatar" class="avatar-xl rounded-circle border border-4 border-white"
+                                 alt="" />
+                        }
+                    </div>
+                    <div class="lh-1">
+                        <h2 class="mb-0">
+                            @Model.Name
+                            <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="@Model.Position.Name"></i>
+                        </h2>
+                        <p class="mb-0 d-block">@Model.WorkEmail</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Content -->
+    <div class="row mt-0 mt-md-4">
+        <div class="col-lg-3 col-md-4 col-12">
+            <!-- Side navbar -->
+            <nav class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
+                <!-- Menu -->
+                <a class="d-xl-none d-lg-none d-md-none text-inherit fw-bold" href="#">Menu</a>
+                <!-- Button -->
+                <button class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#sidenav" aria-controls="sidenav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="fe fe-menu"></span>
+                </button>
+                <!-- Collapse navbar -->
+                <div class="collapse navbar-collapse" id="sidenav">
+                    <div class="navbar-nav flex-column">
+                        <span class="navbar-header">Hồ Sơ Nhân Viên</span>
+                        <!-- List -->
+                        @*<ul class="list-unstyled ms-n2 mb-4">*@
+                        <ul class="list-unstyled ms-n2 mb-4">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="ttcanhan" class="nav-link">
+                                    <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="knchuyenmon" class="nav-link">
+                                    <i class="fe fe-code nav-icon"></i>Kỹ năng chuyên môn
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tdngoaingu" class="nav-link">
+                                    <i class="fe fe-award nav-icon"></i>Trình độ ngoại ngữ
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="ptnhanthan" class="nav-link">
+                                    <i class="fe fe-users nav-icon"></i>Người phụ thuộc
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a role="button" id="hdvacongviec" class="nav-link">
+                                    <i class="fe fe-file-text nav-icon"></i>Hợp đồng & Công việc
+                                </a>
+                            </li>
+                        </ul>
+
+                        <span class="navbar-header">Thông Tin Lương</span>
+                        <ul class="list-unstyled ms-n2 mb-4">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="lhvathanhtoan" class="nav-link">
+                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tcvaphucap" class="nav-link">
+                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a role="button" id="bangLuongs" class="nav-link">
+                                    <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
+                                </a>
+                            </li>
+                        </ul>
+
+                        <span class="navbar-header">quản lý nghỉ phép</span>
+                        <ul class="list-unstyled ms-n2 mb-4">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="donnghiphep" class="nav-link">
+                                    <i class="fe fe-clock nav-icon"></i>Đơn nghỉ phép
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="danhmucngayphep" class="nav-link">
+                                    <i class="fe fe-calendar nav-icon"></i>Danh Mục Ngày Phép
+                                </a>
+                            </li>
+                        </ul>
+
+                        <span class="navbar-header">Dự án & Công việc</span>
+                        <ul class="list-unstyled ms-n2 mb-0">
+                            <!-- Nav item -->
+
+                            <li class="nav-item">
+                                <a role="button" class="nav-link" id="DAThamGia">
+                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                                </a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a role="button" class="nav-link" id="LBCongViec">
+                                    <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" class="nav-link" id="LSHoatDong">
+                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
+                                </a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a role="button" class="nav-link" id="BCThongKe">
+                                    <i class="fe fe-pie-chart nav-icon"></i>Báo cáo thống kê
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col-lg-9 col-md-8 col-12">
+            <!-- Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Thông Tin Làm Việc</h3>
+                </div>
+                <div class="card-body">
+                    <form id="noidungPage" class="row">
+                        <div class="mb-2 col-12 col-md-6">
+                            <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Ngày vào làm <span class="text-danger">*</span></label>
+                            <input value="@Model.JoinedDate.ToString("yyyy-MM-dd")" type="text" class="form-control flatpickr" placeholder="Chọn ngày vào làm" id="ngayvaolam" name="ngayvaolam" />
+                            <p style="font-size: 13px; color:red;" id="ngayvaolamvalidation"></p>
+                        </div>
+                        <div class="mb-2 col-12 col-md-6">
+                            <label style="font-weight:bold;" class="form-label">Hình thức làm việc <span class="text-danger">*</span></label>
+                            <select id="hinhthuc" name="hinhthuc" class="form-select text-dark" data-width="100%">
+                                @if (Model.EmploymentStatus.Equals("Thử việc"))
+                                {
+                                    <option selected value="Thử việc">Thử việc</option>
+                                    <option value="Thực tập sinh">Thực tập sinh</option>
+                                    <option value="Nhân viên chính thức">Nhân viên chính thức</option>
+
+                                }
+                                else if (Model.EmploymentStatus.Equals("Thực tập sinh"))
+                                {
+                                    <option value="Thử việc">Thử việc</option>
+                                    <option selected value="Thực tập sinh">Thực tập sinh</option>
+                                    <option value="Nhân viên chính thức">Nhân viên chính thức</option>
+
+                                }
+                                else
+                                {
+                                    <option value="Thử việc">Thử việc</option>
+                                    <option value="Thực tập sinh">Thực tập sinh</option>
+                                    <option selected value="Nhân viên chính thức">Nhân viên chính thức</option>
+                                }
+                            </select>
+                            <p style="font-size: 13px; color:red;" id="hinhthucvalidation"></p>
+                        </div>
+                        <div class="mb-2 col-12 col-md-6">
+                            <label style="font-weight:bold;" class="form-label">Bộ phận <span class="text-danger">*</span></label>
+                            <select id="bophan" name="bophan" class="form-select text-dark" data-width="100%">
+                                @foreach (var item in models.Department.ToList())
+                                {
+                                    if (item.ID == Model.Position.ID_Department)
+                                    {
+                                        <option selected value="@item.ID">@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ID">@item.Name</option>
+                                    }
+                                }
+                            </select>
+                            <p style="font-size: 13px; color:red;" id="bophanvalidation"></p>
+                        </div>
+                        <div class="mb-2 col-12 col-md-6">
+                            <label style="font-weight:bold;" class="form-label">Chức danh <span class="text-danger">*</span></label>
+                            <select id="vaitro" name="vaitro" class="form-select text-dark" data-width="100%">
+                                @foreach (var item in models.Position.Where(p => p.ID_Department == Model.Position.ID_Department))
+                                {
+                                    if (item.ID == Model.ID_Position)
+                                    {
+                                        <option selected value="@item.ID">@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ID">@item.Name</option>
+                                    }
+                                }
+                            </select>
+                            <p style="font-size: 13px; color:red;" id="vaitrovalidation"></p>
+                        </div>
+
+                        <div style="text-align: right; padding-top: 10px" class="mb-3 col-12 col-md-6">
+                            <a role="button" id="reloadPage" style="width: 230px" class="btn btn-outline-danger">
+                                Hủy
+                            </a>
+                        </div>
+                        <div style="padding-top: 10px" class="mb-3 col-12 col-md-6">
+                            <a role="button" id="btnLuuThongTin" style="width: 230px" class="btn btn-success">
+                                Lưu
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                <div class="border-bottom py-3 bg-light-primary border-1" id="heading3">
+                    <h4 class="mb-0 fw-bold">
+                        <a href="#" class="d-flex align-items-center text-inherit text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+                            <span class="me-auto">
+                                &emsp;Thông Tin Hợp Đồng&ensp;<i id="hoantattthopdong" class="fe fe-check-circle font-weight-bold text-success"></i>
+                            </span>
+                            <span class="collapse-toggle ms-4">
+                                &emsp;<i class="fe fe-plus text-primary"></i>&emsp;
+                            </span>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse3" class=" collapse row" aria-labelledby="heading3" data-bs-parent="#accordionExample">
+                    <div class="table-responsive">
+                        <table class="table" style="width:100%">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" class=" border-top-0">STT</th>
+                                    <th scope="col" class=" border-top-0">Loại hợp đồng</th>
+                                    <th scope="col" class=" border-top-0">Ngày bắt đầu</th>
+                                    <th scope="col" class=" border-top-0">Ngày kết thúc</th>
+                                    <th scope="col" class=" border-top-0" style="max-width: 150px">Hình ảnh</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.EmploymentContracts)
+                                {
+                                    i++;
+                                    <input hidden value="@item.EmploymentCategory" id="loaihopdongInput@(item.ID)" />
+                                    <input hidden value="@(Convert.ToDateTime(item.StartDate).ToString("yyyy-MM-dd"))" id="ngaybatdauInput@(item.ID)" />
+                                    if (item.EndDate == null)
+                                    {
+                                        <input hidden value="" id="ngayketthucInput@(item.ID)" />
+                                    }
+                                    else
+                                    {
+                                        <input hidden value="@(Convert.ToDateTime(item.EndDate).ToString("yyyy-MM-dd"))" id="ngayketthucInput@(item.ID)" />
+                                    }
+                                    <input hidden value="@item.ImageURL" id="hinhanhInput@(item.ID)" />
+
+                                    <tr>
+                                        <td class="align-middle">
+                                            @i.ToString("D2")
+                                        </td>
+                                        <td class="align-middle ">
+                                            @item.EmploymentCategory
+                                        </td>
+                                        @if (item.EmploymentCategory.Equals("Hợp đồng có thời hạn"))
+                                        {
+                                            <td class="align-middle ">
+                                                @Convert.ToDateTime(item.StartDate).ToString("dd") Thg @Convert.ToDateTime(item.StartDate).ToString("MM, yyyy")
+                                            </td>
+                                            <td class="align-middle ">
+                                                @Convert.ToDateTime(item.EndDate).ToString("dd") Thg @Convert.ToDateTime(item.EndDate).ToString("MM, yyyy")
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle ">
+                                                @Convert.ToDateTime(item.StartDate).ToString("dd") Thg @Convert.ToDateTime(item.StartDate).ToString("MM, yyyy")
+                                            </td>
+                                            <td class="align-middle ">
+                                                Không Xác Định
+                                            </td>
+                                        }
+                                        <td class="align-middle ">
+                                            <a class="btn btn-outline-primary btn-xs" data-bs-toggle="modal" data-bs-target="#ModalXemHinhAnh@(item.ID)"><i class="fe fe-image"> </i> XEM HỢP ĐỒNG</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $('#noidungPage').change(function () {
+                somethingChanged = true;
+            });
+            $('#btnLuuThongTin').on('click', function () {
+                somethingChanged = false;
+            });
+            $('#reloadPage').on('click', function () {
+                somethingChanged = false;
+            });
+        </script>
+        @foreach (var item in Model.EmploymentContracts)
+        {
+            <!-- Hình ảnh hợp đồng -->
+            <div class="modal fade modal-xl" id="ModalXemHinhAnh@(item.ID)" tabindex="-1" role="dialog"
+                 aria-labelledby="themVaiTroModalLabel" aria-hidden="true" data-simplebar>
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5>ẢNH HỢP ĐỒNG</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="row text-center">
+                            <figure class="gallery__item gallery__item--1 mb-0">
+                                <iframe class="gallery__img rounded-3" frameborder="0" style="overflow: hidden; height: 1200px; width: 100%" src="@item.ImageURL"></iframe>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <script src="~/ValidationAlert/Employee/QuanLyTaiKhoan/ChiTiet_HopDongValidation.js"></script>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+</div>

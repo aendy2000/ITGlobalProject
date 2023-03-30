@@ -224,7 +224,6 @@
             <div class="row justify-content-md-between mb-4 mb-xl-4 d-lg-flex">
                 <div class="col-xl-6 col-lg-4 col-md-4 col-12 align-items-end">
                     <select id="namluong" name="@Model.ID" class="" data-width="100%">
-                        <option value="2022">Lương của năm 2022</option>
                         @foreach (var item in luongNam)
                         {
                             if (item.Date.Year == DateTime.Now.Year)

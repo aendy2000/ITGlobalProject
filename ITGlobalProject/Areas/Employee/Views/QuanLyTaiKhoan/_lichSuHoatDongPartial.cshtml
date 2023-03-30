@@ -1,0 +1,251 @@
+﻿@model ITGlobalProject.Models.Employees
+@using ITGlobalProject.Models
+@{
+    IEnumerable<Histories> lstHis = Session["lichSuHoatDong-lstHistory"] as IEnumerable<Histories>;
+
+    var result = Convert.ToDateTime(Session["batdaucuatuan"]);
+    string date = Session["lichSuHoatDong-date"].ToString();
+    string imagesUrl = "";
+
+    if (string.IsNullOrEmpty(Model.Avatar))
+    {
+        imagesUrl = "~/Content/Admin/assets/images/avatar/default-avatar.png";
+    }
+    else
+    {
+        imagesUrl = Model.Avatar;
+    }
+}
+<div id="contentPartial" class="container-fluid p-4">
+    <div class="row">
+        <!-- Page Header -->
+        <div class="col-lg-12 col-md-12 col-12">
+            <div class="border-bottom pb-4 mb-4 d-flex justify-content-between align-items-center">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-1 h2 fw-bold">
+                        Thông Tin Cá Nhân
+                    </h1>
+                    <!-- Breadcrumb  -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new { id = Session["user-id"] })">Thông Tin Cá Nhân</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- User info -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+            <!-- Bg -->
+            <div class="pt-16 rounded-top-md" style=" background: url(@Url.Content("~/Content/Admin/assets/images/background/profile-bg-admin.jpg")) no-repeat; background-size: cover; "></div>
+            <div class="d-flex align-items-end justify-content-between bg-white px-4 pt-2 pb-4 rounde
+             rounded-bottom-md shadow-sm">
+                <div class="d-flex align-items-center">
+                    <div class="me-2 position-relative d-flex justify-content-end align-items-end mt-n5">
+                        @if (string.IsNullOrEmpty(Model.Avatar))
+                        {
+                            <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xl rounded-circle border border-4 border-white"
+                                 alt="" />
+                        }
+                        else
+                        {
+                            <img src="@Model.Avatar" class="avatar-xl rounded-circle border border-4 border-white"
+                                 alt="" />
+                        }
+                    </div>
+                    <div class="lh-1">
+                        <h2 class="mb-0">
+                            @Model.Name
+                            <i class="mdi mdi-check-circle-outline text-success" data-bs-toggle="tooltip" data-placement="top" title="@Model.Position.Name"></i>
+                        </h2>
+                        <p class="mb-0 d-block">@Model.WorkEmail</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-0 mt-md-4">
+        <div class="col-lg-3 col-md-4 col-12">
+            <!-- Side navbar -->
+            <nav class="navbar navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
+                <!-- Menu -->
+                <a class="d-xl-none d-lg-none d-md-none text-inherit fw-bold" href="#">Menu</a>
+                <!-- Button -->
+                <button class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#sidenav" aria-controls="sidenav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="fe fe-menu"></span>
+                </button>
+                <!-- Collapse navbar -->
+                <div class="collapse navbar-collapse" id="sidenav">
+                    <div class="navbar-nav flex-column">
+                        <span class="navbar-header">Hồ Sơ Nhân Viên</span>
+                        <!-- List -->
+                        @*<ul class="list-unstyled ms-n2 mb-4">*@
+                        <ul class="list-unstyled ms-n2 mb-4">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="ttcanhan" class="nav-link">
+                                    <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="knchuyenmon" class="nav-link">
+                                    <i class="fe fe-code nav-icon"></i>Kỹ năng chuyên môn
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tdngoaingu" class="nav-link">
+                                    <i class="fe fe-award nav-icon"></i>Trình độ ngoại ngữ
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="ptnhanthan" class="nav-link">
+                                    <i class="fe fe-users nav-icon"></i>Người phụ thuộc
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="hdvacongviec" class="nav-link">
+                                    <i class="fe fe-file-text nav-icon"></i>Hợp đồng & Công việc
+                                </a>
+                            </li>
+                        </ul>
+
+                        <span class="navbar-header">Thông Tin Lương</span>
+                        <ul class="list-unstyled ms-n2 mb-4">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="lhvathanhtoan" class="nav-link">
+                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tcvaphucap" class="nav-link">
+                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a role="button" id="bangLuongs" class="nav-link">
+                                    <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
+                                </a>
+                            </li>
+                        </ul>
+
+                        <span class="navbar-header">quản lý nghỉ phép</span>
+                        <ul class="list-unstyled ms-n2 mb-4">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="donnghiphep" class="nav-link">
+                                    <i class="fe fe-clock nav-icon"></i>Đơn nghỉ phép
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="danhmucngayphep" class="nav-link">
+                                    <i class="fe fe-calendar nav-icon"></i>Danh Mục Ngày Phép
+                                </a>
+                            </li>
+                        </ul>
+
+                        <span class="navbar-header">Dự án & Công việc</span>
+                        <ul class="list-unstyled ms-n2 mb-0">
+                            <!-- Nav item -->
+
+                            <li class="nav-item">
+                                <a role="button" class="nav-link" id="DAThamGia">
+                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                                </a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a role="button" class="nav-link" id="LBCongViec">
+                                    <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a role="button" class="nav-link" id="LSHoatDong">
+                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
+                                </a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a role="button" class="nav-link" id="BCThongKe">
+                                    <i class="fe fe-pie-chart nav-icon"></i>Báo cáo thống kê
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                </div>
+            </nav>
+
+        </div>
+        <div class="col-lg-9 col-md-8 col-12">
+            <!-- Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-md-flex justify-content-between align-items-center mb-0">
+                        <div style="margin-top:10px">
+                            <!-- text -->
+                            <h3 class="mb-3 mb-md-0">Lịch Sử Hoạt Động</h3>
+                            <p>Lịch sử các thay đổi, hoạt động của tài khoản trong khoảng thời gian được chọn.</p>
+                        </div>
+                        <div>
+                            <!-- button -->
+                            <input id="searchHistory" type="week" class="btn btn-outline-primary" value="@date" />
+                        </div>
+                    </div>
+                </div>
+                <div id="contentLichSuHoatDong" class="card-body">
+                    <!-- List group -->
+                    @if (lstHis.Count() > 0)
+                    {
+                        <ul class="list-group list-group-flush list-timeline-activity">
+                            @foreach (var item in lstHis)
+                            {
+                                <li class="list-group-item px-0 pt-0 border-1 mb-4">
+                                    <div class="row">
+                                        <!-- col -->
+                                        <div class="col-auto">
+                                            <div class="icon-shape icon-md rounded-circle bg-primary text-white position-relative z-1">
+                                                <i class="fe fe-clock"></i>
+                                            </div>
+                                        </div>
+                                        <!-- col -->
+                                        <div class="col ms-n2 mt-1">
+                                            <h4 class="mb-3">@item.Name</h4>
+                                            @if (item.Contents.IndexOf("|") != -1)
+                                            {
+                                                <h5 class="mb-0">@item.Employees.Name @item.Contents.Split('|')[0] <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> @(item.Contents.Split('|')[1]).</h5>
+                                            }
+                                            else if (item.Contents.IndexOf("thêm") != -1)
+                                            {
+                                                <h5 class="mb-0"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> và được giao cho <a>@item.Tasks.Employees.Name.</a></h5>
+                                            }
+                                            else
+                                            {
+                                                <h5 class="mb-0"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a>.</h5>
+                                            }
+                                            <span class="fs-6 text-muted">@item.Date.ToString("dddd"), @item.Date.ToString("dd") Tháng @item.Date.ToString("MMMM"), 2022 lúc @item.Date.ToString("HH:mm")</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <div class="mb-3 col-12 col-md-12 text-center">
+                            <span>Không có hoạt động nào trong tuần này.</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/ValidationAlert/Employee/QuanLyTaiKhoan/ChiTiet_LichSuHoatDongGiaValidation.js"></script>
+</div>

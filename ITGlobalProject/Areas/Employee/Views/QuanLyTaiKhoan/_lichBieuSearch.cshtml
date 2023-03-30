@@ -1,0 +1,80 @@
+﻿@using ITGlobalProject.Models
+@{
+    IEnumerable<Tasks> lstTask = Session["tienDoCongViec-lstTask"] as IEnumerable<Tasks>;
+}
+<div class="tab-content" id="tabContent">
+    <!-- Tab -->
+    <div class="tab-pane fade show active">
+        <div class="table-responsive border-0">
+            <!-- Table -->
+            <table id="dataTableBasic" class="table text-nowrap" style="width: 99%">
+                <!-- Table Head -->
+                <thead class="table-light">
+                    <tr>
+                        <th class="border-0">ID</th>
+                        <th class="border-0">Tên công việc</th>
+                        <th class="border-0">Trạng Thái</th>
+                        <th class="border-0">Hạn chót</th>
+                        <th class="border-0">Dự án</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in lstTask)
+                    {
+                        <tr>
+                            <td>
+                                @item.ID
+                            </td>
+                            <td class="align-middle border-top-0">
+                                <a href="#" class="text-inherit">
+                                    <h5 class="mb-0 text-primary-hover">
+                                        @item.Name
+                                    </h5>
+                                </a>
+                            </td>
+                            @if (item.State.Equals("do"))
+                            {
+                                <td class="align-middle border-top-0 text-gray-400">
+                                    <span class="badge bg-gray-400 badge-dot me-1"></span><span> Chưa Thực Hiện</span>
+                                </td>
+                            }
+
+                            else if (item.State.Equals("progress"))
+                            {
+                                <td class="align-middle border-top-0 text-primary">
+                                    <span class="badge bg-primary badge-dot me-1"></span> <span> Đang Thực Hiện</span>
+                                </td>
+                            }
+                            else if (item.State.Equals("review"))
+                            {
+                                <td class="align-middle border-top-0 text-primary">
+                                    <span class="badge bg-primary badge-dot me-1"></span>
+                                    <span> Đang Chờ Duyệt</span>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="align-middle border-top-0 text-success">
+                                    <span class="badge bg-success badge-dot me-1"></span>
+                                    <span> Đã Hoàn Thành</span>
+                                </td>
+                            }
+
+                            <td class="align-middle border-top-0">
+                                @item.Deadline.ToString("dd") Thg @item.Deadline.ToString("MM, yyyy")
+                            </td>
+                            <td class="align-middle border-top-0">
+                                <a target="_blank" href="@Url.Action("chitietduan", "quanlycongviec", new {id = item.ID_Project})" class="text-inherit">
+                                    <h5 class="mb-0 text-primary-hover">
+                                        @item.ID_Project
+                                    </h5>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

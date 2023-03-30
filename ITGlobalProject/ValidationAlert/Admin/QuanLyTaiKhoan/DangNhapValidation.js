@@ -205,7 +205,7 @@
                         window.location.href = $('#actionAdminSuccess').data('request-url');
                     }
                     else if (ketqua === "employee") {
-                        window.location.href = $('#actionEmployeeSuccess').data('request-url');
+                        window.location.href = $('#actionEmployeeSuccess').val().replace("/Admins", "");
                     }
                     else {
                         $('#AjaxLoader').hide();
