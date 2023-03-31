@@ -263,6 +263,10 @@
                                             {
                                                 <h5 class="mb-0"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> và được giao cho <a>@item.Tasks.Employees.Name.</a></h5>
                                             }
+                                            else if (item.Tasks == null)
+                                            {
+                                                <h5 class="mb-0"><a>@item.Employees.Name</a> @item.Contents.</h5>
+                                            }
                                             else
                                             {
                                                 <h5 class="mb-0"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a>.</h5>

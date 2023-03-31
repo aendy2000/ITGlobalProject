@@ -94,6 +94,11 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
+                                <a role="button" id="doimatkhau" class="nav-link">
+                                    <i class="fe fe-settings nav-icon"></i>Đổi mật khẩu
+                                </a>
+                            </li>
+                            <li class="nav-item ">
                                 <a role="button" id="knchuyenmon" class="nav-link">
                                     <i class="fe fe-code nav-icon"></i>Kỹ năng chuyên môn
                                 </a>
@@ -126,26 +131,6 @@
                             <li class="nav-item active">
                                 <a role="button" id="tcvaphucap" class="nav-link">
                                     <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a role="button" id="bangLuongs" class="nav-link">
-                                    <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
-                                </a>
-                            </li>
-                        </ul>
-
-                        <span class="navbar-header">quản lý nghỉ phép</span>
-                        <ul class="list-unstyled ms-n2 mb-4">
-                            <!-- Nav item -->
-                            <li class="nav-item ">
-                                <a role="button" id="donnghiphep" class="nav-link">
-                                    <i class="fe fe-clock nav-icon"></i>Đơn nghỉ phép
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a role="button" id="danhmucngayphep" class="nav-link">
-                                    <i class="fe fe-calendar nav-icon"></i>Danh Mục Ngày Phép
                                 </a>
                             </li>
                         </ul>
@@ -186,120 +171,95 @@
                 <div class="card-header">
                     <h3 class="mb-0">Trợ Cấp & Phụ Cấp</h3>
                 </div>
-                <form id="noidungPage" class="card-body">
+                <div id="noidungPage" class="card-body">
                     <div class="row">
-                        @foreach (var item in lstTroCap)
+                        @if (lstTroCap.Where(t => t.Subsidies.Where(s => s.ID_Employee == Model.ID).Count() > 0).Count() > 0)
                         {
-                            j++;
-                            <div class="form-check mb-2 col-12 col-md-4">
-                                @if (Model.Subsidies.FirstOrDefault(s => s.ID_SubsidiesCategory == item.ID) != null)
-                                {
-                                    <input checked class="form-check-input" type="checkbox" name="checktrocap@(j)" id="pc@(item.ID)">
-                                }
-                                else
-                                {
-                                    <input class="form-check-input" type="checkbox" name="checktrocap@(j)" id="pc@(item.ID)">
-                                }
-                                @if (item.Price == 0 && item.Percentage != null && item.OnBasicSalary != null)
-                                {
-                                    if (item.OnBasicSalary == true)
+                            foreach (var item in lstTroCap.Where(t => t.Subsidies.Where(s => s.ID_Employee == Model.ID).Count() > 0).ToList())
+                            {
+                                j++;
+                                <div class="form-check mb-2 col-12 col-md-4">
+                                    @if (item.Price == 0 && item.Percentage != null && item.OnBasicSalary != null)
                                     {
-                                        if (item.DateApply == 0)
+                                        if (item.OnBasicSalary == true)
                                         {
-                                            <label class="form-check-label" for="pc@(item.ID)">
-                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Hàng tháng
-                                            </label>
-                                        }
-                                        else if (item.DateApply == -1)
-                                        {
-                                            <label class="form-check-label" for="pc@(item.ID)">
-                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Tùy chọn
-                                            </label>
+                                            if (item.DateApply == 0)
+                                            {
+                                                <label class="form-check-label" for="pc@(item.ID)">
+                                                    @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Hàng tháng
+                                                </label>
+                                            }
+                                            else if (item.DateApply == -1)
+                                            {
+                                                <label class="form-check-label" for="pc@(item.ID)">
+                                                    @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Tùy chọn
+                                                </label>
+                                            }
+                                            else
+                                            {
+                                                <label class="form-check-label" for="pc@(item.ID)">
+                                                    @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Mỗi tháng @item.DateApply
+                                                </label>
+                                            }
                                         }
                                         else
                                         {
-                                            <label class="form-check-label" for="pc@(item.ID)">
-                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương CB)</b> - Mỗi tháng @item.DateApply
-                                            </label>
+                                            if (item.DateApply == 0)
+                                            {
+                                                <label class="form-check-label" for="pc@(item.ID)">
+                                                    @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Hàng tháng
+                                                </label>
+                                            }
+                                            else if (item.DateApply == -1)
+                                            {
+                                                <label class="form-check-label" for="pc@(item.ID)">
+                                                    @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Tùy chọn
+                                                </label>
+                                            }
+                                            else
+                                            {
+                                                <label class="form-check-label" for="pc@(item.ID)">
+                                                    @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Mỗi tháng @item.DateApply
+                                                </label>
+                                            }
                                         }
+
                                     }
                                     else
                                     {
                                         if (item.DateApply == 0)
                                         {
                                             <label class="form-check-label" for="pc@(item.ID)">
-                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Hàng tháng
+                                                @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") (VND)</b> - Hàng tháng
                                             </label>
                                         }
                                         else if (item.DateApply == -1)
                                         {
                                             <label class="form-check-label" for="pc@(item.ID)">
-                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Tùy chọn
+                                                @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") (VND)</b> - Tùy chọn
                                             </label>
                                         }
                                         else
                                         {
                                             <label class="form-check-label" for="pc@(item.ID)">
-                                                @item.Name: <b class="text-danger">@Convert.ToDecimal(item.Percentage).ToString("0.0")% (Lương TL)</b> - Mỗi tháng @item.DateApply
+                                                @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") (VND)</b> - Mỗi tháng @item.DateApply
                                             </label>
                                         }
                                     }
 
-                                }
-                                else
-                                {
-                                    if (item.DateApply == 0)
-                                    {
-                                        <label class="form-check-label" for="pc@(item.ID)">
-                                            @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") (VND)</b> - Hàng tháng
-                                        </label>
-                                    }
-                                    else if (item.DateApply == -1)
-                                    {
-                                        <label class="form-check-label" for="pc@(item.ID)">
-                                            @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") (VND)</b> - Tùy chọn
-                                        </label>
-                                    }
-                                    else
-                                    {
-                                        <label class="form-check-label" for="pc@(item.ID)">
-                                            @item.Name: <b class="text-danger">@item.Price.ToString("0,0").Replace(".", ",") (VND)</b> - Mỗi tháng @item.DateApply
-                                        </label>
-                                    }
-                                }
-
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="mb-2 col-12 col-md-12 text-center">
+                                Không có dữ liệu để hiển thị.
                             </div>
                         }
-                        <input hidden value="@j" id="sltc" />
-
                     </div>
-                    <div class="row">
-                        <div style="text-align: right; padding-top: 40px" class="mb-3 col-12 col-md-6">
-                            <button type="reset" id="reloadPage" style="width: 230px" class="btn btn-outline-danger">
-                                Hủy
-                            </button>
-                        </div>
-                        <div style="padding-top: 40px" class="mb-3 col-12 col-md-6">
-                            <a role="button" id="btnLuuThongTin" style="width: 230px" class="btn btn-success">
-                                Lưu
-                            </a>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-    <script src="~/ValidationAlert/Employee/QuanLyTaiKhoan/ChiTiet_phuCapVaTroCapValidation.js"></script>
-    <script>
-        $('#noidungPage').change(function () {
-            somethingChanged = true;
-        });
-        $('#btnLuuThongTin').on('click', function () {
-            somethingChanged = false;
-        });
-        $('#reloadPage').on('click', function () {
-            somethingChanged = false;
-        });
-    </script>
 </div>
 

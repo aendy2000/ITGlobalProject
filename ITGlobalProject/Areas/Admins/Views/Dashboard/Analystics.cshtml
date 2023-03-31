@@ -603,3 +603,15 @@
 
     </div>
 </div>
+
+<script src="~/Scripts/jquery.signalR-2.4.3.js"></script>
+<script src="~/scripts/jquery.signalR-2.2.0.min.js"></script>
+<script src="~/signalr/Notification"></script>
+<script type="text/javascript">
+    var hub = $.connection.Notifications;
+    console.log(hub);
+    //client method which can be called from the server
+    hub.client.Hello = function (message) {
+        alert(message);
+    };
+</script>

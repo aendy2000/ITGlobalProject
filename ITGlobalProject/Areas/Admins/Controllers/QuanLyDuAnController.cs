@@ -186,6 +186,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 pro.StartDate = Convert.ToDateTime(batdau);
                 pro.EndDate = Convert.ToDateTime(ketthuc);
                 pro.ID_Partner = kh.ID;
+                pro.Lock = false;
                 model.Projects.Add(pro);
                 model.SaveChanges();
 
@@ -240,6 +241,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 pro.StartDate = Convert.ToDateTime(batdau);
                 pro.EndDate = Convert.ToDateTime(ketthuc);
                 pro.ID_Partner = (int)id;
+                pro.Lock = false;
 
                 FileStream streams;
                 if (hopdong != null)
@@ -287,6 +289,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 }
 
                 model.Projects.Add(pro);
+                model.SaveChanges();
+
+                pro.ID_Project = "DA" + pro.ID.ToString("D8");
+                model.Entry(pro).State = EntityState.Modified;
                 model.SaveChanges();
 
                 model = new CP25Team06Entities();
@@ -662,7 +668,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 Histories his = new Histories();
                 his.ID_Employee = Int32.Parse(Session["user-id"].ToString());
                 his.ID_Task = idTask;
-                his.Name = "Cập Nhập Trạng Thái Công Việc";
+                his.Name = "Cập Nhật Trạng Thái Công Việc";
                 his.Date = DateTime.Now;
 
                 if (stateStrCr.Equals("do"))
@@ -1079,7 +1085,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     Histories his = new Histories();
                     his.ID_Employee = Int32.Parse(Session["user-id"].ToString());
                     his.ID_Task = id;
-                    his.Name = "Cập Nhập Thông Tin Công Việc";
+                    his.Name = "Cập Nhật Thông Tin Công Việc";
                     his.Date = DateTime.Now;
 
                     if (state.Equals("do"))
@@ -1101,7 +1107,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     Histories his = new Histories();
                     his.ID_Employee = Int32.Parse(Session["user-id"].ToString());
                     his.ID_Task = id;
-                    his.Name = "Cập Nhập Thông Tin Công Việc";
+                    his.Name = "Cập Nhật Thông Tin Công Việc";
                     his.Date = DateTime.Now;
                     his.Contents = "đã cập nhật thông tin Công việc";
 

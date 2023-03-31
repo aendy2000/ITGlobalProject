@@ -15,7 +15,7 @@
                             <li class="breadcrumb-item">
                                 <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan")">Thông Tin Cá Nhân</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new { id = Session["user-id"] })">Thông Tin Cá Nhân</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -70,33 +70,84 @@
                 <!-- Collapse navbar -->
                 <div class="collapse navbar-collapse" id="sidenav">
                     <div class="navbar-nav flex-column">
-                        <span class="navbar-header">Hồ Sơ Cá Nhân</span>
+                        <span class="navbar-header">Hồ Sơ Nhân Viên</span>
                         <!-- List -->
                         @*<ul class="list-unstyled ms-n2 mb-4">*@
-                        <ul class="list-unstyled ms-n2 mb-0">
+                        <ul class="list-unstyled ms-n2 mb-4">
                             <!-- Nav item -->
                             <li class="nav-item ">
-                                <a role="button" id="ttchiTiet" class="nav-link">
+                                <a role="button" id="ttcanhan" class="nav-link">
                                     <i class="fe fe-user nav-icon"></i>Thông tin cá nhân
                                 </a>
                             </li>
-                            <li class="nav-item ">
-                                <a role="button" id="csthongtin" class="nav-link">
-                                    <i class="fe fe-edit nav-icon"></i>Chỉnh sửa thông tin
-                                </a>
-                            </li>
                             <li class="nav-item active">
-                                <a role="button" id="tdmatkhau" class="nav-link">
-                                    <i class="fe fe-settings nav-icon"></i>Thay đổi mật khẩu
+                                <a role="button" id="doimatkhau" class="nav-link">
+                                    <i class="fe fe-settings nav-icon"></i>Đổi mật khẩu
                                 </a>
                             </li>
-                            <hr />
-                            <li style="text-align:center; margin-top:20px">
-                                <a id="dangXuats" style="width:100%" class="btn btn-outline-danger btn-sm">
-                                    ĐĂNG XUẤT  &nbsp;<i class="fe fe-log-out "> </i>
+                            <li class="nav-item ">
+                                <a role="button" id="knchuyenmon" class="nav-link">
+                                    <i class="fe fe-code nav-icon"></i>Kỹ năng chuyên môn
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tdngoaingu" class="nav-link">
+                                    <i class="fe fe-award nav-icon"></i>Trình độ ngoại ngữ
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="ptnhanthan" class="nav-link">
+                                    <i class="fe fe-users nav-icon"></i>Người phụ thuộc
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="hdvacongviec" class="nav-link">
+                                    <i class="fe fe-file-text nav-icon"></i>Hợp đồng & Công việc
                                 </a>
                             </li>
                         </ul>
+
+                        <span class="navbar-header">Thông Tin Lương</span>
+                        <ul class="list-unstyled ms-n2 mb-4">
+                            <!-- Nav item -->
+                            <li class="nav-item ">
+                                <a role="button" id="lhvathanhtoan" class="nav-link">
+                                    <i class="fe fe-phone-call nav-icon"></i>Tiền Lương & Thanh toán
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" id="tcvaphucap" class="nav-link">
+                                    <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
+                                </a>
+                            </li>
+                        </ul>
+
+                        <span class="navbar-header">Dự án & Công việc</span>
+                        <ul class="list-unstyled ms-n2 mb-0">
+                            <!-- Nav item -->
+
+                            <li class="nav-item">
+                                <a role="button" class="nav-link" id="DAThamGia">
+                                    <i class="fe fe-bookmark nav-icon"></i>Dự án tham gia
+                                </a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a role="button" class="nav-link" id="LBCongViec">
+                                    <i class="fe fe-calendar nav-icon"></i>Tiến độ công việc
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a role="button" class="nav-link" id="LSHoatDong">
+                                    <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
+                                </a>
+                            </li>
+                            <li class="nav-item  ">
+                                <a role="button" class="nav-link" id="BCThongKe">
+                                    <i class="fe fe-pie-chart nav-icon"></i>Báo cáo thống kê
+                                </a>
+                            </li>
+                        </ul>
+
                     </div>
                 </div>
             </nav>
@@ -149,5 +200,6 @@
             </div>
         </div>
     </div>
+    <script src="~/ValidationAlert/Employee/QuanLyTaiKhoan/DoiMatKhauValidation.js"></script>
 </div>
-<script src="~/ValidationAlert/Employee/QuanLyTaiKhoan/DoiMatKhauValidation.js"></script>
+

@@ -109,6 +109,11 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
+                                <a role="button" id="doimatkhau" class="nav-link">
+                                    <i class="fe fe-settings nav-icon"></i>Đổi mật khẩu
+                                </a>
+                            </li>
+                            <li class="nav-item ">
                                 <a role="button" id="knchuyenmon" class="nav-link">
                                     <i class="fe fe-code nav-icon"></i>Kỹ năng chuyên môn
                                 </a>
@@ -141,26 +146,6 @@
                             <li class="nav-item ">
                                 <a role="button" id="tcvaphucap" class="nav-link">
                                     <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a role="button" id="bangLuongs" class="nav-link">
-                                    <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
-                                </a>
-                            </li>
-                        </ul>
-
-                        <span class="navbar-header">quản lý nghỉ phép</span>
-                        <ul class="list-unstyled ms-n2 mb-4">
-                            <!-- Nav item -->
-                            <li class="nav-item ">
-                                <a role="button" id="donnghiphep" class="nav-link">
-                                    <i class="fe fe-clock nav-icon"></i>Đơn nghỉ phép
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a role="button" id="danhmucngayphep" class="nav-link">
-                                    <i class="fe fe-calendar nav-icon"></i>Danh Mục Ngày Phép
                                 </a>
                             </li>
                         </ul>
@@ -349,6 +334,101 @@
         somethingChanged = false;
         $("#diachiemailcongtyvalidation").hide();
     });
+
+    $(document).on('click', '#doimatkhau', function (e) {
+
+        if (somethingChanged == true) {
+            var SweetAlert2Demo = function () {
+                var initDemos = function () {
+                    swal({
+                        title: 'Rời khỏi trang?',
+                        text: "Những thay đổi vẫn chưa được lưu! Tiếp tục rời khỏi trang?",
+                        type: 'warning',
+                        buttons: {
+                            cancel: {
+                                visible: true,
+                                text: ' Hủy Bỏ ',
+                                className: 'btn btn-danger'
+                            },
+                            confirm: {
+                                text: 'Xác Nhận',
+                                className: 'btn btn-success'
+                            }
+                        }
+                    }).then((roikhoitrang) => {
+                        if (roikhoitrang) {
+                            somethingChanged = false;
+                            $('#AjaxLoader').show();
+                            $.ajax({
+                                url: '@Url.Action("doiMatKhauPartial", "quanlytaikhoan", new {id = Model.ID })',
+                                type: 'GET',
+                                dataType: 'html'
+                            }).done(function (ketqua) {
+                                if (ketqua !== "DANHSACH") {
+                                    $('#contentPartial').replaceWith(ketqua);
+                                    $.when(
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                                        $.Deferred(function (deferred) {
+                                            $(deferred.resolve);
+                                        })
+                                    ).done(function () {
+                                        //place your code here, the scripts are all loaded
+                                    });
+                                    $('#AjaxLoader').hide();
+                                }
+                                else {
+                                    $('#AjaxLoader').hide();
+                                    window.location.href = $('#actionDanhsach').data('request-url');
+                                }
+                            });
+
+                        }
+                    });
+                };
+                return {
+                    init: function () {
+                        initDemos();
+                    },
+                };
+            }();
+
+            jQuery(document).ready(function () {
+                SweetAlert2Demo.init();
+            });
+
+        } else {
+            $('#AjaxLoader').show();
+            $.ajax({
+            url: '@Url.Action("doiMatKhauPartial", "QuanLyTaiKhoan", new {id = Model.ID })',
+            type: 'GET',
+            dataType: 'html'
+            }).done(function (ketqua) {
+                if (ketqua !== "DANHSACH") {
+                    $('#contentPartial').replaceWith(ketqua);
+                    $.when(
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/js/theme.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js")"),
+                        $.getScript("@Url.Content("~/Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js")"),
+                        $.Deferred(function (deferred) {
+                            $(deferred.resolve);
+                        })
+                    ).done(function () {
+                        //place your code here, the scripts are all loaded
+                    });
+                    $('#AjaxLoader').hide();
+                }
+                else {
+                    $('#AjaxLoader').hide();
+                    window.location.href = $('#actionDanhsach').data('request-url');
+                }
+            });
+        }
+    });
+
 
     $(document).on('click', '#donnghiphep', function (e) {
 

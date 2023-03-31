@@ -190,7 +190,7 @@ namespace ITGlobalProject.Areas.Employee.Controllers
                 Histories his = new Histories();
                 his.ID_Employee = Int32.Parse(Session["user-id"].ToString());
                 his.ID_Task = idTask;
-                his.Name = "Cập Nhập Trạng Thái Công Việc";
+                his.Name = "Cập Nhật Trạng Thái Công Việc";
                 his.Date = DateTime.Now;
 
                 if (stateStrCr.Equals("do"))
@@ -366,7 +366,7 @@ namespace ITGlobalProject.Areas.Employee.Controllers
                     Histories his = new Histories();
                     his.ID_Employee = Int32.Parse(Session["user-id"].ToString());
                     his.ID_Task = id;
-                    his.Name = "Cập Nhập Thông Tin Công Việc";
+                    his.Name = "Cập Nhật Thông Tin Công Việc";
                     his.Date = DateTime.Now;
 
                     if (state.Equals("do"))
@@ -388,7 +388,7 @@ namespace ITGlobalProject.Areas.Employee.Controllers
                     Histories his = new Histories();
                     his.ID_Employee = Int32.Parse(Session["user-id"].ToString());
                     his.ID_Task = id;
-                    his.Name = "Cập Nhập Thông Tin Công Việc";
+                    his.Name = "Cập Nhật Thông Tin Công Việc";
                     his.Date = DateTime.Now;
                     his.Contents = "đã cập nhật thông tin Công việc";
 

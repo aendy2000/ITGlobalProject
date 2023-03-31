@@ -3,7 +3,7 @@
     ViewBag.Title = "Danh Sách Dự Án";
     Layout = "~/Areas/Employee/Views/Shared/_EmployeeLayout.cshtml";
 }
-
+<input value="@Session["user-fullname"].ToString()" id="idnguoidung" />
 <div class="container-fluid p-4">
     <div class="row ">
         <div class="col-lg-12 col-md-12 col-12">
@@ -294,3 +294,19 @@
 
 </div>
 <script src="~/ValidationAlert/Employee/QuanLyDuAn/DanhSachDuAn.js"></script>
+<script src="~/Scripts/jquery.signalR-2.4.3.js"></script>
+<script src="~/scripts/jquery.signalR-2.2.0.min.js"></script>
+<script src="~/signalr/hubs"></script>
+<script type="text/javascript">
+    var hub = $.connection.Notifications;
+
+    //client method which can be called from the server
+    hub.client.Hello = function (message) {
+        alert(message);
+    };
+    // Wait for the connection
+    $.connection.hub.start().done(function () {
+        hub.server.Hello($('#idnguoidung').val());
+        alert("Ok");
+    });
+</script>

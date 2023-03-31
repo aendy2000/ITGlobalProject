@@ -96,6 +96,11 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
+                                <a role="button" id="doimatkhau" class="nav-link">
+                                    <i class="fe fe-settings nav-icon"></i>Đổi mật khẩu
+                                </a>
+                            </li>
+                            <li class="nav-item ">
                                 <a role="button" id="knchuyenmon" class="nav-link">
                                     <i class="fe fe-code nav-icon"></i>Kỹ năng chuyên môn
                                 </a>
@@ -128,26 +133,6 @@
                             <li class="nav-item ">
                                 <a role="button" id="tcvaphucap" class="nav-link">
                                     <i class="fe fe-trending-up nav-icon"></i>Trợ cấp & Phụ cấp
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a role="button" id="bangLuongs" class="nav-link">
-                                    <i class="fe fe-dollar-sign nav-icon"></i>Bảng lương
-                                </a>
-                            </li>
-                        </ul>
-
-                        <span class="navbar-header">quản lý nghỉ phép</span>
-                        <ul class="list-unstyled ms-n2 mb-4">
-                            <!-- Nav item -->
-                            <li class="nav-item ">
-                                <a role="button" id="donnghiphep" class="nav-link">
-                                    <i class="fe fe-clock nav-icon"></i>Đơn nghỉ phép
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a role="button" id="danhmucngayphep" class="nav-link">
-                                    <i class="fe fe-calendar nav-icon"></i>Danh Mục Ngày Phép
                                 </a>
                             </li>
                         </ul>
@@ -225,6 +210,10 @@
                                             else if (item.Contents.IndexOf("thêm") != -1)
                                             {
                                                 <h5 class="mb-0"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> và được giao cho <a>@item.Tasks.Employees.Name.</a></h5>
+                                            }
+                                            else if (item.Tasks == null)
+                                            {
+                                                <h5 class="mb-0"><a>@item.Employees.Name</a> @item.Contents.</h5>
                                             }
                                             else
                                             {
