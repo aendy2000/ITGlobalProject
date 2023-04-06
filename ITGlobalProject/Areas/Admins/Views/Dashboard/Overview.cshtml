@@ -1,8 +1,421 @@
-﻿
+﻿@using ITGlobalProject.Models
 @{
-    ViewBag.Title = "Overview";
+    ViewBag.Title = "Trang Chủ";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+    var doanhthulst = Session["thongke-chitiet-doanhthu"] as IEnumerable<PaymentHistory>;
+    var maxyear = DateTime.Now.Year;
+    int selectYear = Int32.Parse(Session["nam-thongke"].ToString());
 }
 
-<div style="background-image: url('https://wallpapercave.com/wp/wp3938049.jpg'); background-repeat: no-repeat; background-size: 100% 100%; height: 100% " class="container-fluid p-4">
+<!-- Container fluid -->
+<div class="container-fluid p-4 ">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- page header -->
+            <div class="border-bottom pb-4 mb-4 d-lg-flex justify-content-between align-items-center">
+                <div class="mb-3 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">TRANG CHỦ</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 col-lg-6 col-md-12 col-12">
+            <!-- card -->
+            <div class="card mb-4">
+                <!-- Card Body -->
+                <div class="card-body">
+                    <span class="fs-6 text-uppercase fw-semi-bold">NHÂN VIÊN</span>
+                    <div class="mt-2 d-flex justify-content-between align-items-center">
+                        <div class="lh-1">
+                            <h2 class="h2 fw-bold mb-1 text-dark">@Session["soluong-nhanvien-thongke"].ToString()</h2>
+                            <h5 class="h5 mb-1 text-primary">
+                                THÁNG NÀY +@Session["soluong-nhanvien-trongthang-thongke"].ToString()
+                            </h5>
+                        </div>
+                        <div>
+                            <span class="bg-light-primary icon-shape icon-xl rounded-3 text-dark-primary">
+                                <i class="mdi mdi-account-multiple mdi-24px "></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 col-12">
+            <!-- card -->
+            <div class="card mb-4">
+                <!-- Card Body -->
+                <div class="card-body">
+                    <span class="fs-6 text-uppercase fw-semi-bold">ĐỐI TÁC</span>
+                    <div class="mt-2 d-flex justify-content-between align-items-center">
+                        <div class="lh-1">
+                            <h2 class="h2 fw-bold mb-1 text-dark">@Session["soluong-doitac-thongke"].ToString()</h2>
+                            <h5 class="h5 mb-1 text-success">
+                                THÁNG NÀY +@Session["soluong-doitac-trongthang-thongke"].ToString()
+                            </h5>
+                        </div>
+                        <div>
+                            <span class="bg-light-success icon-shape icon-xl rounded-3 text-dark-success">
+                                <i class="mdi mdi-account-star-outline mdi-24px "></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 col-12">
+            <!-- card -->
+            <div class="card mb-4">
+                <!-- Card Body -->
+                <div class="card-body">
+                    <span class="fs-6 text-uppercase fw-semi-bold">DỰ ÁN</span>
+                    <div class="mt-2 d-flex justify-content-between align-items-center">
+                        <div class="lh-1">
+                            <h2 class="h2 fw-bold mb-1 text-dark">@Session["soluong-duan-thongke"].ToString()</h2>
+                            <h5 class="h5 mb-1 text-warning">
+                                @Session["soluong-duan-dangthuchien-thongke"].ToString() ĐANG THỰC HIỆN
+                            </h5>
+                        </div>
+                        <div>
+                            <span class="bg-light-warning icon-shape icon-xl rounded-3 text-dark-warning">
+                                <i class="mdi mdi-book mdi-24px "></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 col-12">
+            <!-- card -->
+            <div class="card mb-4">
+                <!-- Card Body -->
+                <div class="card-body">
+                    <span class="fs-6 text-uppercase fw-semi-bold">CÔNG VIỆC</span>
+                    <div class="mt-2 d-flex justify-content-between align-items-center">
+                        <div class="lh-1">
+                            <h2 class="h2 fw-bold mb-1 text-dark">@Session["soluong-congviec-thongke"].ToString()</h2>
+                            <h5 class="h5 mb-1 text-danger">
+                                @Session["soluong-congviec-moi-thongke"].ToString() CÔNG VIỆC MỚI
+                            </h5>
+                        </div>
+                        <div>
+                            <span class="bg-light-danger icon-shape icon-xl rounded-3 text-dark-danger">
+                                <i class="mdi mdi-table mdi-24px "></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-4">
+            <!-- card -->
+            <div id="appendthongkedoanhthu" class="card h-100">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6 col-6">
+                            <h4 style="margin-top: 15px">THỐNG KÊ DOANH THU NĂM @Session["nam-thongke"].ToString()</h4>
+                        </div>
+                        <div class="col-md-6 col-6 text-end">
+                            <select id="chonnamthongke" class="selectpicker">
+                                @for (int i = 2023; i <= maxyear; i++)
+                                {
+                                    if (selectYear == i)
+                                    {
+                                        <option selected value="@i">Doanh Thu Năm @i</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i">Doanh Thu Năm @i</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- card body -->
+                <div class="card-body">
+                    <!-- chart -->
+                    <div id="sessionChart"></div>
+                    <!-- table -->
+                    <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col" class="text-nowrap border-top-0">#</th>
+                                <th scope="col" class="text-nowrap border-top-0">Thời gian</th>
+                                <th scope="col" class="text-nowrap border-top-0">Mã khách hàng</th>
+                                <th scope="col" class="text-nowrap border-top-0">Mã Dự Án</th>
+                                <th scope="col" class="text-nowrap border-top-0">Tên dự án</th>
+                                <th scope="col" class="text-nowrap border-top-0">Số tiền</th>
+                                <th scope="col" class="text-nowrap border-top-0">Ghi chú</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (doanhthulst.Count() > 0)
+                            {
+                                int i = 0;
+                                foreach (var item in doanhthulst)
+                                {
+                                    i++;
+                                    <tr>
+                                        <td class="align-middle text-nowrap">
+                                            @i
+                                        </td>
+                                        <td class="align-middle text-nowrap">
+                                            @item.Date.ToString("HH:mm dd/MM/yyyy")
+                                        </td>
+                                        <td class="align-middle text-nowrap">
+                                            <a target="_blank" href="@Url.Action("thongtinchitiet", "thongtindoitac", new {id = item.Debts.Projects.ID_Partner})" class="text-dark text-inherit">@item.Debts.Projects.Partners.ID_Partners</a>
+                                        </td>
+                                        <td class="align-middle text-nowrap">
+                                            <a target="_blank" href="@Url.Action("chitietduan", "quanlyduan", new {id = item.Debts.ID_Project})" class="text-dark text-inherit">@item.Debts.Projects.ID_Project</a>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a target="_blank" href="@Url.Action("chitietduan", "quanlyduan", new {id = item.Debts.ID_Project})" class="text-dark text-inherit">@item.Debts.Projects.Name</a>
+                                        </td>
+                                        <td class="align-middle text-nowrap">
+                                            @item.Price.Value.ToString("0,0") đ
+                                        </td>
+                                        <td class="align-middle">
+                                            @item.Contents
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="align-middle text-center">
+                                        Không có dữ liệu để hiển thị.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12 col-xl-8 mb-4">
+            <!-- card -->
+            <div class="card h-100">
+                <!-- card header -->
+                <div class="card-header">
+                    <h4 class="mb-0">THỐNG KÊ DỰ ÁN</h4>
+                </div>
+                <!-- card body -->
+                <div class="card-body">
+                    <!-- chart -->
+                    <div id="chartDuAn"></div>
+                    <!-- table -->
+                </div>
+
+            </div>
+        </div>
+        <div class="col-12 col-md-12 col-lg-12 col-xl-4 mb-4">
+            <!-- card -->
+            <div class="card h-100">
+                <!-- card header -->
+                <div class="card-header">
+                    <h4 class="mb-0">THỐNG KÊ CÔNG VIỆC</h4>
+                </div>
+                <!-- card body -->
+                <div class="card-body">
+                    <div id="chartCongViec"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    $(document).ready(function () {
+
+        //Chart doanh thu
+        var lstDoanhThu = @Html.Raw(Json.Encode(Session["lst-doanhthu-nam"]));
+        var lstDuAn = @Html.Raw(Json.Encode(Session["lst-duan-nam"]));
+
+        var doanhthutach = lstDoanhThu.split('-');
+        var duantach = lstDuAn.split('-');
+
+        var options = {
+            series: [{
+                name: 'Doanh thu',
+                data: []
+            }, {
+                name: 'Số dự án',
+                data: []
+            }],
+            title: {
+                text: '\n',
+                margin: 20,
+                floating: false
+            },
+            chart: {
+                height: 350,
+                type: 'area'
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            colors: [window.theme.danger, window.theme.primary],
+            stroke: {
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'month',
+                categories: ["@Session["nam-thongke"].ToString()-01", "@Session["nam-thongke"].ToString()-02", "@Session["nam-thongke"].ToString()-03", "@Session["nam-thongke"].ToString()-04", "@Session["nam-thongke"].ToString()-05"
+                    , "@Session["nam-thongke"].ToString()-06", "@Session["nam-thongke"].ToString()-07", "@Session["nam-thongke"].ToString()-08", "@Session["nam-thongke"].ToString()-09", "@Session["nam-thongke"].ToString()-10", "@Session["nam-thongke"].ToString()-11", "@Session["nam-thongke"].ToString()-12"]
+            },
+            yaxis: [{
+                title: {
+                    text: 'DOANH THU',
+                },
+
+            }, {
+                opposite: true,
+                title: {
+                    text: 'SỐ DỰ ÁN'
+                }
+            }]
+        };
+
+        options.series[0].data = doanhthutach;
+        options.series[1].data = duantach;
+        var chart = new ApexCharts(document.querySelector("#sessionChart"), options);
+        chart.render();
+
+
+        //Chart dự án
+        var lstThongKeDuAn = @Html.Raw(Json.Encode(Session["lst-duan-thongke"]));
+        var thongkeduantach = lstThongKeDuAn.split('-');
+
+        var optionsDuAn = {
+            series: [{
+                name: 'Số dự án',
+                data: []
+            }],
+            chart: {
+                type: 'bar',
+                height: 380
+            },
+            plotOptions: {
+                bar: {
+                    barHeight: '100%',
+                    distributed: true,
+                    horizontal: true,
+                    dataLabels: {
+                        position: 'bottom'
+                    },
+                }
+            },
+            colors: ['#d1cfd8', '#754ffe', '#ffaa46', '#19cb98', '#e53f3c', '#ae302e'],
+            dataLabels: {
+                enabled: true,
+                textAnchor: 'start',
+                style: {
+                    colors: ['#000']
+                },
+                formatter: function (val, opt) {
+                    return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
+                },
+                offsetX: 0,
+                dropShadow: {
+                    enabled: false,
+                    enabledOnSeries: undefined,
+                    color: '#fff',
+                }
+            },
+            stroke: {
+                width: 1,
+                colors: ['#fff']
+            },
+            xaxis: {
+                categories: ['MỚI', 'ĐANG THỰC HIỆN', 'CHỜ THANH TOÁN', 'ĐÃ HOÀN THÀNH', 'ĐÃ QUÁ HẠN', 'ĐÃ ĐÓNG'
+                ],
+            },
+            yaxis: {
+                labels: {
+                    show: false
+                }
+            },
+            title: {
+                text: '\n',
+                margin: 20,
+                floating: true
+            },
+            tooltip: {
+                theme: 'dark',
+                x: {
+                    show: false
+                },
+                y: {
+                    title: {
+                        formatter: function () {
+                            return ''
+                        }
+                    }
+                }
+            }
+        };
+        optionsDuAn.series[0].data = thongkeduantach;
+        var chartDuAn = new ApexCharts(document.querySelector("#chartDuAn"), optionsDuAn);
+        chartDuAn.render();
+
+
+        //Chart công việc
+        var lstThongKeCongViec = @Html.Raw(Json.Encode(Session["lst-congviec-thongke"]));
+        var thongkecongviectach = lstThongKeCongViec.split('-');
+
+        var optionsCongViec = {
+            series: [],
+            chart: {
+                type: 'pie',
+                height: 350,
+            },
+            labels: ['Chưa thực hiện', 'Đang thực hiện', 'Phê duyệt', 'Hoàn thành'],
+            legend: {
+                show: true,
+                position: 'bottom',
+            },
+        };
+        for (var i = 0; i < 4; i++) {
+            optionsCongViec.series.push(Number(thongkecongviectach[i]));
+        }
+        var chartCongViec = new ApexCharts(document.querySelector("#chartCongViec"), optionsCongViec);
+        chartCongViec.render();
+
+        //CHọn năm thống kê
+        $('#chonnamthongke').on('change', function () {
+            var nam = $(this).val();
+            var formData = new FormData();
+            formData.append("nam", nam);
+            $('#AjaxLoader').show();
+            $.ajax({
+                url: $('#requestPath').val() + "admins/dashboard/chonxemdoanhthu",
+                type: 'POST',
+                dataType: 'html',
+                contentType: false,
+                processData: false,
+                data: formData
+            }).done(function (ketqua) {
+                $('#appendthongkedoanhthu').replaceWith(ketqua);
+                $('#chonnamthongke').selectpicker();
+                $.when(
+                    $.getScript($('#requestPath').val() + "Content/Admin/assets/js/theme.min.js"),
+
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                });
+                $('#AjaxLoader').hide();
+            });
+        });
+    });
+
+</script>

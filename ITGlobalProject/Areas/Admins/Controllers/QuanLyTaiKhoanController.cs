@@ -60,6 +60,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             Session["user-email"] = user.WorkEmail;
                             Session["user-role"] = user.Position.Name.ToLower();
                             Session["user-vatatar"] = user.Avatar;
+
+                            Session["Lst-ThongBaoDay"] = model.Notification.OrderByDescending(o => o.ID).ToList();
+                            Session["Push-notification"] = true;
                             return Content("admin");
                         }
                         else

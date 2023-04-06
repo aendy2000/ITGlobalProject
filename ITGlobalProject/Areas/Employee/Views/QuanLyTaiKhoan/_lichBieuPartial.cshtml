@@ -180,15 +180,15 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="chualam" data-bs-toggle="pill" href="#chualam" role="tab"
-                                       aria-controls="draft" aria-selected="false">Chưa Làm</a>
+                                       aria-controls="draft" aria-selected="false">Chưa Thực Hiện</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="danglam" data-bs-toggle="pill" href="#danglam" role="tab"
-                                       aria-controls="archived" aria-selected="false">Đang Làm</a>
+                                       aria-controls="archived" aria-selected="false">Đang Thực Hiện</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="danop" data-bs-toggle="pill" href="#danop" role="tab"
-                                       aria-controls="archived" aria-selected="false">Đã Nộp</a>
+                                       aria-controls="archived" aria-selected="false">Phê Duyệt</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="hoanthanh" data-bs-toggle="pill" href="#hoanthanh" role="tab"
@@ -244,19 +244,19 @@
                                                         {
                                                             <td class="align-middle border-top-0 text-primary">
                                                                 <span class="badge bg-primary badge-dot me-1"></span>
-                                                                <span> Đang Chờ Duyệt</span>
+                                                                <span> Phê Duyệt</span>
                                                             </td>
                                                         }
                                                         else
                                                         {
                                                             <td class="align-middle border-top-0 text-success">
                                                                 <span class="badge bg-success badge-dot me-1"></span>
-                                                                <span> Đã Hoàn Thành</span>
+                                                                <span> Hoàn Thành</span>
                                                             </td>
                                                         }
 
                                                         <td class="align-middle border-top-0">
-                                                            @item.Deadline.ToString("dd") Thg @item.Deadline.ToString("MM, yyyy")
+                                                            @item.Deadline.ToString("dd/MM/yyyy")
                                                         </td>
                                                         <td class="align-middle border-top-0">
                                                             <a target="_blank" href="@Url.Action("chitietduan", "quanlycongviec", new {id = item.ID_Project})" class="text-inherit">

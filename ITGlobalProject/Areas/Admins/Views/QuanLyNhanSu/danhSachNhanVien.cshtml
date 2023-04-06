@@ -163,21 +163,21 @@
                                                 </div>
                                                 <div class="d-flex justify-content-between border-bottom py-2 mt-4">
                                                     <span>Mã nhân viên</span>
-                                                    <b>
+                                                    <span>
                                                         <span class="text-gray-700">@item.ID_Employee</span>
-                                                    </b>
+                                                    </span>
                                                 </div>
                                                 <div class="d-flex justify-content-between border-bottom py-2">
                                                     <span>Điện thoại</span>
-                                                    <b>
+                                                    <span>
                                                         <span class="text-gray-700">@item.TelephoneMobile</span>
-                                                    </b>
+                                                    </span>
                                                 </div>
                                                 <div class="d-flex justify-content-between pt-2">
                                                     <span>Email</span>
-                                                    <b id="rutgonemail-@item.ID" class="text-gray-700">
+                                                    <span id="rutgonemail-@item.ID" title="@item.WorkEmail" class="text-gray-700">
                                                         @item.WorkEmail
-                                                    </b>
+                                                    </span>
                                                 </div>
                                                 <div class="d-flex justify-content-between border-bottom py-3">
                                                 </div>
@@ -510,21 +510,21 @@
                                                 </div>
                                                 <div class="d-flex justify-content-between border-bottom py-2 mt-4">
                                                     <span>Mã nhân viên</span>
-                                                    <b>
+                                                    <span>
                                                         <span class="text-gray-700">@item.ID_Employee</span>
-                                                    </b>
+                                                    </span>
                                                 </div>
                                                 <div class="d-flex justify-content-between border-bottom py-2">
                                                     <span>Điện thoại</span>
-                                                    <b>
+                                                    <span>
                                                         <span class="text-gray-700">@item.TelephoneMobile</span>
-                                                    </b>
+                                                    </span>
                                                 </div>
                                                 <div class="d-flex justify-content-between pt-2">
                                                     <span>Email</span>
-                                                    <b id="rutgonemail-@item.ID" class="text-gray-700">
+                                                    <span id="rutgonemail-@item.ID" title="@item.WorkEmail" class="text-gray-700">
                                                         @item.WorkEmail
-                                                    </b>
+                                                    </span>
                                                 </div>
                                                 <div class="d-flex justify-content-between border-bottom py-3">
                                                 </div>
@@ -821,8 +821,8 @@
                     $(document).ready(function () {
                         $('[id^="rutgonemail-"]').each(function () {
                             var texts = $(this).text().trim();
-                            if (texts.length > 20) {
-                                $(this).html(texts.substr(0, 20) + '...');
+                            if (texts.length > 17) {
+                                $(this).html(texts.substr(0, 17) + '...');
                             }
                         });
                     });

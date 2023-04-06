@@ -333,6 +333,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             kh.TaxCode = masothue.Trim();
             kh.WebUrl = website.Trim();
             kh.CompanyOrPersonal = loaidoitac;
+            kh.AddDate = DateTime.Now;
 
             FileStream stream;
             if (avatar != null)
@@ -381,6 +382,11 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
             model.Partners.Add(kh);
             model.SaveChanges();
+
+            kh.ID_Partners = "KH" + kh.ID.ToString("D8");
+            model.Entry(kh).State = EntityState.Modified;
+            model.SaveChanges();
+            
             return PartialView("_danhSachDoiTacPartial", model.Partners.OrderByDescending(o => o.ID).ToPagedList(1, (int)pageSize));
         }
         public ActionResult guiMail()

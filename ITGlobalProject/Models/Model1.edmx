@@ -207,6 +207,8 @@
           <Property Name="TaxCode" Type="nvarchar" MaxLength="50" />
           <Property Name="WebUrl" Type="nvarchar(max)" />
           <Property Name="CompanyOrPersonal" Type="bit" />
+          <Property Name="AddDate" Type="datetime" />
+          <Property Name="ID_Partners" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="PaymentHistory">
           <Key>
@@ -1234,6 +1236,8 @@
           <Property Name="TaxCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WebUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CompanyOrPersonal" Type="Boolean" />
+          <Property Name="AddDate" Type="DateTime" Precision="3" />
+          <Property Name="ID_Partners" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Projects" Relationship="Self.FK_Projects_Partners" FromRole="Partners" ToRole="Projects" />
         </EntityType>
         <EntityType Name="PaymentHistory">
@@ -2282,6 +2286,8 @@
                 <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
                 <ScalarProperty Name="WebUrl" ColumnName="WebUrl" />
                 <ScalarProperty Name="CompanyOrPersonal" ColumnName="CompanyOrPersonal" />
+                <ScalarProperty Name="AddDate" ColumnName="AddDate" />
+                <ScalarProperty Name="ID_Partners" ColumnName="ID_Partners" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

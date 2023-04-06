@@ -308,17 +308,18 @@
     <Compile Include="Areas\Employee\Controllers\QuanLyLuongController.cs" />
     <Compile Include="Areas\Employee\Controllers\QuanLyTaiKhoanController.cs" />
     <Compile Include="Areas\Employee\EmployeeAreaRegistration.cs" />
-    <Compile Include="Areas\Notification\Notifications.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DuAnThanhCongController.cs" />
     <Compile Include="Controllers\GioiThieuController.cs" />
     <Compile Include="Controllers\HoiDapController.cs" />
     <Compile Include="Controllers\LienHeController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\TinTuyenDungController.cs" />
     <Compile Include="Controllers\TrangChuController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\ThongBaoDay.cs" />
     <Compile Include="Middleware\LoginVerification.cs" />
     <Compile Include="Models\Comment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -754,7 +755,6 @@
     <Content Include="Content\User\public\main\css\fonts\FBVzdDflz-iPfoPuIC2iIqYn6A.woff2" />
     <Content Include="Content\User\public\main\css\fonts\icomoon.ttf" />
     <Content Include="Content\User\public\mix-manifest.json" />
-    <Content Include="Areas\Admins\Views\Dashboard\Analystics.cshtml" />
     <Content Include="Areas\Admins\Views\Dashboard\Overview.cshtml" />
     <Content Include="Areas\Admins\Views\LienHeTuVan\thongTinLienHeTuVan.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyDuAn\chiTietDuAn.cshtml" />
@@ -849,13 +849,6 @@
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_donNghiPhepPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_donNghiPhepChangeTabPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyNhanSu\_danhMucNghiPhepPartial.cshtml" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\Employee\Views\QuanLyCongViec\_danhSachDuAnPartial.cshtml" />
     <Content Include="Areas\Employee\Views\QuanLyCongViec\chitietduan.cshtml" />
     <Content Include="Areas\Employee\Views\QuanLyCongViec\_commentTaskPartial.cshtml" />
@@ -885,6 +878,14 @@
     <Content Include="Areas\Employee\Views\QuanLyLuong\_timkiembangluong.cshtml" />
     <Content Include="Areas\Employee\Views\QuanLyDonNghiPhep\danhSachDonNghiPhep.cshtml" />
     <Content Include="Areas\Employee\Views\QuanLyDonNghiPhep\_danhSachDonNghiPhepPartial.cshtml" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Admins\Views\Dashboard\_thongKeDoanhThuPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -1016,6 +1017,8 @@
     <Content Include="Views\Shared\_UserLayout.cshtml" />
     <Content Include="Views\TinTuyenDung\_timkiemtintuyendung.cshtml" />
     <Content Include="Views\TinTuyenDung\_xemthemtintuyendung.cshtml" />
+    <Content Include="Views\Notifications\_hienThiThongBao.cshtml" />
+    <Content Include="Views\Notifications\_hienThiThongBaoDanhSach.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

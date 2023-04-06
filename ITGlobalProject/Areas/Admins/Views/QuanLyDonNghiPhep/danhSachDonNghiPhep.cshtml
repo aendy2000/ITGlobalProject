@@ -27,6 +27,11 @@
                         </ol>
                     </nav>
                 </div>
+                <div>
+                    <a href="@Url.Action("taoDonNghiPhep", "QuanLyDonNghiPhep")" class="btn btn-primary me-2">
+                        Thêm Mới
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -69,13 +74,13 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th hidden>STT</th>
-                                        <th scope="col" class=" border-top-0">Ngày gửi</th>
-                                        <th scope="col" class=" border-top-0">Nhân viên</th>
-                                        <th scope="col" class=" border-top-0">Thời gian nghỉ</th>
-                                        <th scope="col" class=" border-top-0">Nội dung</th>
-                                        <th scope="col" class=" border-top-0">Nội dung phản hồi</th>
-                                        <th scope="col" class=" border-top-0">Trừ lương</th>
-                                        <th scope="col" class=" border-top-0">Xác nhận</th>
+                                        <th scope="col" class="text-nowrap border-top-0">Ngày gửi</th>
+                                        <th scope="col" class="text-nowrap  border-top-0">Nhân viên</th>
+                                        <th scope="col" class="text-nowrap  border-top-0">Thời gian nghỉ</th>
+                                        <th scope="col" class="text-nowrap  border-top-0">Nội dung</th>
+                                        <th scope="col" class="text-nowrap  border-top-0">Nội dung phản hồi</th>
+                                        <th scope="col" class="text-nowrap  border-top-0">Trừ lương</th>
+                                        <th scope="col" class="text-nowrap  border-top-0">Xác nhận</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -88,28 +93,29 @@
                                             <td class="align-middle border-top-0">
                                                 @item.SendDate.ToString("HH:mm")
                                                 <br />
-                                                @item.SendDate.ToString("dd-MM-yyyy")
+                                                @item.SendDate.ToString("dd/MM/yyyy")
                                             </td>
                                             <td class="align-middle border-top-0">
-                                                Tên:
                                                 <b>
-                                                    <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID})">
-                                                        @item.Employees.Name
-                                                    </a>
+                                                    Tên:
                                                 </b>
-                                                <br />
-                                                Mã: <b>
-                                                    <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID})">
-                                                        @item.Employees.ID_Employee
-                                                    </a>
-                                                </b>
-                                                <br />
+                                                <a class="text-dark" target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.Employees.ID})">
+                                                    @item.Employees.Name
+                                                </a>
 
+                                                <br />
+                                                <b>
+                                                    Mã:
+                                                </b>
+                                                <a class="text-dark" target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.Employees.ID})">
+                                                    @item.Employees.ID_Employee
+                                                </a>
+                                                <br />
                                             </td>
                                             <td class="align-middle border-top-0">
-                                                <b>Từ:</b>  @item.StartDate.ToString("dd-MM-yyyy")
+                                                <b>Từ:</b>  @item.StartDate.ToString("dd/MM/yyyy")
                                                 <br />
-                                                <b>Đến:</b> @item.EndDate.ToString("dd-MM-yyyy")
+                                                <b>Đến:</b> @item.EndDate.ToString("dd/MM/yyyy")
                                                 <br />
                                                 <b>Tổng:</b> @((Convert.ToDateTime(item.EndDate.ToString("yyyy-MM-dd")).AddDays(1) - Convert.ToDateTime(item.StartDate.ToString("yyyy-MM-dd"))).TotalDays) ngày
                                             </td>

@@ -1,0 +1,152 @@
+﻿@using ITGlobalProject.Models
+@{
+    var noti = Session["Lst-ThongBaoDay"] as IEnumerable<Notification>;
+}
+<ul id="toanthethongbao" class="list-group list-group-flush" data-simplebar style="max-height: 300px;">
+    <li hidden id="appendNotifi"></li>
+    @if (noti.Count() > 0)
+    {
+        foreach (var item in noti)
+        {
+            if (item.State == false)
+            {
+                <li id="datathongbaoso-@item.ID" class="list-group-item">
+                    <div class="row">
+                        <div class="col">
+                            <a target="_blank" class="text-body" name="@item.ID" id="thongbaoso-@item.ID" href="@Url.Content("~" + item.Url)">
+                                <div class="d-flex">
+                                    @if (string.IsNullOrEmpty(item.Employees.Avatar))
+                                    {
+                                        <div class="avatar-group">
+                                            <span class="avatar avatar-md avatar-danger">
+                                                <span class="avatar-initials rounded-circle ">
+                                                    @item.Employees.Name.Substring(0, 1).ToUpper()
+                                                </span>
+                                            </span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <img src="@item.Employees.Avatar" alt=""
+                                             class="avatar-md rounded-circle" />
+                                    }
+                                    <div class="ms-3">
+                                        <h5 class="fw-bold mb-1">@item.Employees.Name:</h5>
+                                        <p class="mb-3">
+                                            @item.Contents
+                                        </p>
+                                        <span class="fs-6 text-muted">
+                                            <span class="ms-1">@item.Date.ToString("HH:mm dd/MM/yyyy")</span>
+                                        </span>
+                                    </div>
+                                </div>
+</a>
+                        </div>
+                        <div class="col-auto text-center me-2">
+                            <a role="button" class="badge-dot bg-primary" data-bs-toggle="tooltip"
+                               data-bs-placement="top" title="Chưa đọc">
+                            </a>
+                            <div>
+                                <a name="@item.ID" id="loaibo-@item.ID" role="button" class="bg-transparent" data-bs-toggle="tooltip"
+                                   data-bs-placement="top" title="Loại bỏ">
+                                    <i class="fe fe-x text-muted"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+            else
+            {
+                <li id="datathongbaoso-@item.ID" class="list-group-item bg-light">
+                    <div class="row">
+                        <div class="col">
+                            <a target="_blank" class="text-body" name="@item.ID" id="thongbaoso-@item.ID" href="@Url.Content("~" + item.Url)">
+                                <div class="d-flex">
+                                    @if (string.IsNullOrEmpty(item.Employees.Avatar))
+                                    {
+                                        <div class="avatar-group">
+                                            <span class="avatar avatar-md avatar-danger">
+                                                <span class="avatar-initials rounded-circle ">
+                                                    @item.Employees.Name.Substring(0, 1).ToUpper()
+                                                </span>
+                                            </span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <img src="@item.Employees.Avatar" alt=""
+                                             class="avatar-md rounded-circle" />
+                                    }
+                                    <div class="ms-3">
+                                        <h5 class="fw-bold mb-1">@item.Employees.Name:</h5>
+                                        <p class="mb-3">
+                                            @item.Contents
+                                        </p>
+                                        <span class="fs-6 text-muted">
+                                            <span class="ms-1">@item.Date.ToString("HH:mm dd/MM/yyyy")</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-auto text-center me-2">
+                            <a role="button" class="badge-dot bg-secondary" data-bs-toggle="tooltip"
+                               data-bs-placement="top" title="Đã đọc">
+                            </a>
+                            <div>
+                                <a name="@item.ID" id="loaibo-@item.ID" role="button" class="bg-transparent" data-bs-toggle="tooltip"
+                                   data-bs-placement="top" title="Loại bỏ">
+                                    <i class="fe fe-x text-muted"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+        }
+    }
+    else
+    {
+        <li class="text-center">
+            Không có thông báo.
+        </li>
+    }
+</ul>
+<script>
+    $('[id^="thongbaoso-"]').on('click', function () {
+        var id = $(this).attr("name");
+        var formData = new FormData();
+        formData.append("id", id);
+        $.ajax({
+            url: $('#requestPath').val() + "notifications/capnhattrangthai",
+            processData: false,
+            contentType: false,
+            data: formData,
+            dataType: "html",
+            type: "POST"
+        }).done(function (ketqua) {
+            $('#datathongbaoso-' + id).replaceWith(ketqua);
+        });
+    });
+
+
+    //xóa 1 thông báo
+    $('[id^="loaibo-"]').on('click', function () {
+        var id = $(this).attr("name");
+        var formData = new FormData();
+        formData.append("id", id);
+        $.ajax({
+            url: $('#requestPath').val() + "notifications/loaibothongbao",
+            processData: false,
+            contentType: false,
+            data: formData,
+            dataType: "html",
+            type: "POST"
+        }).done(function (ketqua) {
+            if (ketqua == "success") {
+                $('#datathongbaoso-' + id).replaceWith("");
+            }
+        });
+    });
+</script>

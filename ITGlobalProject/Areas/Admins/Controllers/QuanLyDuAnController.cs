@@ -86,6 +86,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 kh.TaxCode = masothue.Trim();
                 kh.WebUrl = website.Trim();
                 kh.CompanyOrPersonal = loaidoitac;
+                kh.AddDate = DateTime.Now;
 
                 FileStream stream;
                 if (avatar != null)
@@ -133,6 +134,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 }
 
                 model.Partners.Add(kh);
+                model.SaveChanges();
+
+                kh.ID_Partners = "KH" + kh.ID.ToString("D8");
+                model.Entry(kh).State = EntityState.Modified;
                 model.SaveChanges();
 
                 model = new CP25Team06Entities();

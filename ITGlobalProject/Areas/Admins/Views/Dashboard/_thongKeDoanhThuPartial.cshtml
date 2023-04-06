@@ -1,0 +1,178 @@
+﻿@using ITGlobalProject.Models
+@{
+    var doanhthulst = Session["thongke-chitiet-doanhthu"] as IEnumerable<PaymentHistory>;
+    var maxyear = DateTime.Now.Year;
+    int selectYear = Int32.Parse(Session["nam-thongke"].ToString());
+}
+<div id="appendthongkedoanhthu" class="card h-100">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6 col-6">
+                <h4 style="margin-top: 15px">THỐNG KÊ DOANH THU NĂM @Session["nam-thongke"].ToString()</h4>
+            </div>
+            <div class="col-md-6 col-6 text-end">
+                <select id="chonnamthongke" class="selectpicker">
+                    @for (int i = 2023; i <= maxyear; i++)
+                    {
+                        if (selectYear == i)
+                        {
+                            <option selected value="@i">Doanh Thu Năm @i</option>
+                        }
+                        else
+                        {
+                            <option value="@i">Doanh Thu Năm @i</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <!-- card body -->
+    <div class="card-body">
+        <!-- chart -->
+        <div id="sessionChart"></div>
+        <!-- table -->
+        <table id="dataTableBasic" class="table table-hover" style="width:100%">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col" class="text-nowrap border-top-0">#</th>
+                    <th scope="col" class="text-nowrap border-top-0">Thời gian</th>
+                    <th scope="col" class="text-nowrap border-top-0">Mã khách hàng</th>
+                    <th scope="col" class="text-nowrap border-top-0">Mã Dự Án</th>
+                    <th scope="col" class="text-nowrap border-top-0">Tên dự án</th>
+                    <th scope="col" class="text-nowrap border-top-0">Số tiền</th>
+                    <th scope="col" class="text-nowrap border-top-0">Ghi chú</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (doanhthulst.Count() > 0)
+                {
+                    int i = 0;
+                    foreach (var item in doanhthulst)
+                    {
+                        i++;
+                        <tr>
+                            <td class="align-middle text-nowrap">
+                                @i
+                            </td>
+                            <td class="align-middle text-nowrap">
+                                @item.Date.ToString("HH:mm dd/MM/yyyy")
+                            </td>
+                            <td class="align-middle text-nowrap">
+                                <a target="_blank" href="@Url.Action("thongtinchitiet", "thongtindoitac", new {id = item.Debts.Projects.ID_Partner})" class="text-dark text-inherit">@item.Debts.Projects.Partners.ID_Partners</a>
+                            </td>
+                            <td class="align-middle text-nowrap">
+                                <a target="_blank" href="@Url.Action("chitietduan", "quanlyduan", new {id = item.Debts.ID_Project})" class="text-dark text-inherit">@item.Debts.Projects.ID_Project</a>
+                            </td>
+                            <td class="align-middle">
+                                <a target="_blank" href="@Url.Action("chitietduan", "quanlyduan", new {id = item.Debts.ID_Project})" class="text-dark text-inherit">@item.Debts.Projects.Name</a>
+                            </td>
+                            <td class="align-middle text-nowrap">
+                                @item.Price.Value.ToString("0,0") đ
+                            </td>
+                            <td class="align-middle">
+                                @item.Contents
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="align-middle text-center">
+                            Không có dữ liệu để hiển thị.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <script>
+    $(document).ready(function () {
+
+        //Chart doanh thu
+        var lstDoanhThu = @Html.Raw(Json.Encode(Session["lst-doanhthu-nam"]));
+        var lstDuAn = @Html.Raw(Json.Encode(Session["lst-duan-nam"]));
+
+        var doanhthutach = lstDoanhThu.split('-');
+        var duantach = lstDuAn.split('-');
+
+        var options = {
+            series: [{
+                name: 'Doanh thu',
+                data: []
+            }, {
+                name: 'Số dự án',
+                data: []
+            }],
+            title: {
+                text: '\n',
+                margin: 20,
+                floating: false
+            },
+            chart: {
+                height: 350,
+                type: 'area'
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            colors: [window.theme.danger, window.theme.primary],
+            stroke: {
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'month',
+                categories: ["@Session["nam-thongke"].ToString()-01", "@Session["nam-thongke"].ToString()-02", "@Session["nam-thongke"].ToString()-03", "@Session["nam-thongke"].ToString()-04", "@Session["nam-thongke"].ToString()-05"
+                    , "@Session["nam-thongke"].ToString()-06", "@Session["nam-thongke"].ToString()-07", "@Session["nam-thongke"].ToString()-08", "@Session["nam-thongke"].ToString()-09", "@Session["nam-thongke"].ToString()-10", "@Session["nam-thongke"].ToString()-11", "@Session["nam-thongke"].ToString()-12"]
+            },
+            yaxis: [{
+                title: {
+                    text: 'DOANH THU',
+                },
+
+            }, {
+                opposite: true,
+                title: {
+                    text: 'SỐ DỰ ÁN'
+                }
+            }]
+        };
+
+        options.series[0].data = doanhthutach;
+        options.series[1].data = duantach;
+        var chart = new ApexCharts(document.querySelector("#sessionChart"), options);
+        chart.render();
+
+        //CHọn năm thống kê
+        $('#chonnamthongke').on('change', function () {
+            var nam = $(this).val();
+            var formData = new FormData();
+            formData.append("nam", nam);
+            $('#AjaxLoader').show();
+            $.ajax({
+                url: $('#requestPath').val() + "admins/dashboard/chonxemdoanhthu",
+                type: 'POST',
+                dataType: 'html',
+                contentType: false,
+                processData: false,
+                data: formData
+            }).done(function (ketqua) {
+                $('#appendthongkedoanhthu').replaceWith(ketqua);
+                $('#chonnamthongke').selectpicker();
+                $.when(
+                    $.getScript($('#requestPath').val() + "Content/Admin/assets/js/theme.min.js"),
+
+                    $.Deferred(function (deferred) {
+                        $(deferred.resolve);
+                    })
+                ).done(function () {
+                });
+                $('#AjaxLoader').hide();
+            });
+        });
+    });
+
+    </script>
+</div>

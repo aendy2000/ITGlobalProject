@@ -18,7 +18,6 @@
                         <th scope="col" class=" border-top-0">Mô tả </th>
                         <th scope="col" class=" border-top-0">Bộ phận</th>
                         <th scope="col" class=" border-top-0">Bài viết </th>
-                        <th scope="col" class=" border-top-0">Được áp dụng </th>
                         <th scope="col" class=" border-top-0"></th>
                     </tr>
                 </thead>
@@ -51,78 +50,6 @@
                                 </td>
                                 <td class="align-middle h4">
                                     @item.Recruitment.Count() Bài viết
-                                </td>
-                                <td class="align-middle ">
-                                    <div class="avatar-group">
-                                        @if (employee.Count < 1)
-                                        {
-                                            <span>Chưa áp dụng</span>
-                                        }
-                                        else if (employee.Count < 4)
-                                        {
-                                            foreach (var emp in item.Employees.ToList())
-                                            {
-                                                if (!string.IsNullOrEmpty(emp.Avatar))
-                                                {
-                                                    <span class="avatar avatar-md">
-
-                                                        <img alt="avatar" src="@emp.Avatar"
-                                                             class="rounded-circle imgtooltip" data-template="@emp.ID">
-                                                        <span id="@emp.ID" class="d-none">
-                                                            <span class="mb-0 h6">@emp.Name</span>
-                                                        </span>
-                                                    </span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@emp.ID">
-                                                        <span class="avatar-initials rounded-circle ">
-                                                            @emp.Name.Substring(0, 1)
-                                                        </span>
-
-                                                        <span id="@emp.ID" class="d-none">
-                                                            <span class="mb-0 h6">@emp.Name</span>
-
-                                                        </span>
-                                                    </span>
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            for (int d = 0; d < 3; d++)
-                                            {
-                                                if (!string.IsNullOrEmpty(employee[d].Avatar))
-                                                {
-                                                    <span class="avatar avatar-md">
-
-                                                        <img alt="avatar" src="@employee[d].Avatar"
-                                                             class="rounded-circle imgtooltip" data-template="@employee[d].ID">
-                                                        <span id="@employee[d].ID" class="d-none">
-                                                            <span class="mb-0 h6">@employee[d].Name</span>
-                                                        </span>
-                                                    </span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@employee[d].ID">
-                                                        <span class="avatar-initials rounded-circle ">
-                                                            @employee[d].Name.Substring(0, 1)
-                                                        </span>
-
-                                                        <span id="@employee[d].ID" class="d-none">
-                                                            <span class="mb-0 h6">@employee[d].Name</span>
-
-                                                        </span>
-                                                    </span>
-                                                }
-                                            }
-                                            <span class="avatar avatar-md ">
-                                                <span class="avatar-initials rounded-circle bg-light text-dark">@(employee.Count - 3)+</span>
-                                            </span>
-                                        }
-
-                                    </div>
                                 </td>
                                 <td class="text-muted align-middle text-end">
                                     <div class="dropdown dropstart">

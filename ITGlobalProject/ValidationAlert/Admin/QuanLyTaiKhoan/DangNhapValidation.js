@@ -1,5 +1,12 @@
 ﻿$(document).ready(function () {
 
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#subMitNe').click();
+        }
+    });
+
     //Check captcha
     //let submitButton = document.getElementById("submit-button");
     let userInput = document.getElementById("user-input");

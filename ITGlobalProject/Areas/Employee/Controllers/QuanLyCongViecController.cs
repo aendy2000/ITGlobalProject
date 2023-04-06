@@ -88,6 +88,8 @@ namespace ITGlobalProject.Areas.Employee.Controllers
                     return Content("DANGNHAP");
 
                 int idPro;
+                string mapro = "";
+                string taskname = "";
                 //Task cũ
                 if (lstTaskFirst.IndexOf("~") != -1)
                 {
@@ -114,6 +116,8 @@ namespace ITGlobalProject.Areas.Employee.Controllers
                             model.Entry(taskIndex).State = EntityState.Modified;
                         }
                         idPro = model.Tasks.Find(Int32.Parse(taskCu[0])).ID_Project;
+                        taskname = model.Tasks.Find(Int32.Parse(taskCu[0])).Name;
+                        mapro = model.Tasks.Find(Int32.Parse(taskCu[0])).Projects.ID_Project;
                     }
                     else
                     {
@@ -135,6 +139,8 @@ namespace ITGlobalProject.Areas.Employee.Controllers
                         }
                         model.Entry(taskIndex).State = EntityState.Modified;
                         idPro = taskIndex.ID_Project;
+                        taskname = taskIndex.Name;
+                        mapro = taskIndex.Projects.ID_Project;
                     }
                 }
 
@@ -162,6 +168,8 @@ namespace ITGlobalProject.Areas.Employee.Controllers
                         model.Entry(taskIndex).State = EntityState.Modified;
                     }
                     idPro = model.Tasks.Find(Int32.Parse(taskCu[0])).ID_Project;
+                    taskname = model.Tasks.Find(Int32.Parse(taskCu[0])).Name;
+                    mapro = model.Tasks.Find(Int32.Parse(taskCu[0])).Projects.ID_Project;
                 }
                 else
                 {
@@ -184,6 +192,8 @@ namespace ITGlobalProject.Areas.Employee.Controllers
                     model.Entry(taskIndex).State = EntityState.Modified;
 
                     idPro = taskIndex.ID_Project;
+                    taskname = taskIndex.Name;
+                    mapro = taskIndex.Projects.ID_Project;
                 }
 
                 //Add history
@@ -203,6 +213,24 @@ namespace ITGlobalProject.Areas.Employee.Controllers
                     his.Contents = "đã xác nhận Công việc được hoàn thành";
 
                 model.Histories.Add(his);
+                model.SaveChanges();
+
+                Models.Notification noti = new Models.Notification();
+                noti.ID_Employee = Int32.Parse(Session["user-id"].ToString()); ;
+                noti.Date = DateTime.Now;
+                if (stateStrCr.Equals("do"))
+                    noti.Contents = "đã đặt trạng thái Công việc " + taskname + " của dự án " + mapro + " thành Chưa Thực Hiện";
+                else if (stateStrCr.Equals("progress"))
+                    noti.Contents = "đã bắt đầu thực hiện Công việc " + taskname + " của dự án " + mapro;
+                else if (stateStrCr.Equals("review"))
+                    noti.Contents = "đã hoàn thành Công việc " + taskname + " của dự án " + mapro + " và chờ xác nhận";
+                else
+                    noti.Contents = "đã xác nhận Công việc " + taskname + " của dự án " + mapro + " được hoàn thành";
+
+                noti.State = false;
+                noti.Push = true;
+                noti.Url = this.Url.Action("chitietduan", "quanlyduan", new { Area = "admins", id = idPro });
+                model.Notification.Add(noti);
                 model.SaveChanges();
 
                 return Content("SUCCESS");
@@ -379,6 +407,23 @@ namespace ITGlobalProject.Areas.Employee.Controllers
                         his.Contents = "đã cập nhật thông tin và xác nhận Công việc được hoàn thành";
 
                     model.Histories.Add(his);
+
+                    Models.Notification noti = new Models.Notification();
+                    noti.ID_Employee = Int32.Parse(Session["user-id"].ToString()); ;
+                    noti.Date = DateTime.Now;
+                    if (state.Equals("do"))
+                        noti.Contents = "đã cập nhật thông tin và đặt trạng thái Công việc " + task.Name + " của dự án " + pro.ID_Project + " thành \"Chưa Thực Hiện\"";
+                    else if (state.Equals("progress"))
+                        noti.Contents = "đã cập nhật thông tin và bắt đầu thực hiện Công việc" + task.Name + " của dự án " + pro.ID_Project;
+                    else if (state.Equals("review"))
+                        noti.Contents = "đã cập nhật thông tin và hoàn thành Công việc " + task.Name + " của dự án " + pro.ID_Project + " và chờ xác nhận";
+                    else
+                        noti.Contents = "đã cập nhật thông tin và xác nhận Công việc " + task.Name + " của dự án " + pro.ID_Project + " được hoàn thành";
+
+                    noti.State = false;
+                    noti.Push = true;
+                    noti.Url = this.Url.Action("chitietduan", "quanlyduan", new { Area = "admins", id = pro.ID });
+                    model.Notification.Add(noti);
                 }
                 else //giữ nguyên trạng thái
                 {
@@ -393,6 +438,16 @@ namespace ITGlobalProject.Areas.Employee.Controllers
                     his.Contents = "đã cập nhật thông tin Công việc";
 
                     model.Histories.Add(his);
+
+                    Models.Notification noti = new Models.Notification();
+                    noti.ID_Employee = Int32.Parse(Session["user-id"].ToString()); ;
+                    noti.Date = DateTime.Now;
+                    noti.Contents = "đã cập nhật thông tin Công việc " + task.Name + " của dự án " + pro.ID_Project;
+
+                    noti.State = false;
+                    noti.Push = true;
+                    noti.Url = this.Url.Action("chitietduan", "quanlyduan", new { Area = "admins", id = pro.ID });
+                    model.Notification.Add(noti);
                 }
                 model.SaveChanges();
                 model = new CP25Team06Entities();
@@ -428,6 +483,17 @@ namespace ITGlobalProject.Areas.Employee.Controllers
             his.Contents = "đã viết một bình luận Công việc";
             his.Date = DateTime.Now;
             model.Histories.Add(his);
+
+            Models.Notification noti = new Models.Notification();
+            noti.ID_Employee = Int32.Parse(Session["user-id"].ToString()); ;
+            noti.Date = DateTime.Now;
+            noti.Contents = "đã viết một bình luận Công việc " + task.Name + " của dự án " + task.Projects.ID_Project;
+
+            noti.State = false;
+            noti.Push = true;
+            noti.Url = this.Url.Action("chitietduan", "quanlyduan", new { Area = "admins", id = task.Projects.ID_Project });
+            model.Notification.Add(noti);
+
             model.SaveChanges();
 
             model = new CP25Team06Entities();
@@ -462,7 +528,18 @@ namespace ITGlobalProject.Areas.Employee.Controllers
                 his.Name = "Loại Bỏ Công Việc";
                 his.Contents = "đã loại bỏ Công việc: " + task.Name;
                 his.Date = DateTime.Now;
+
                 model.Histories.Add(his);
+
+                Models.Notification noti = new Models.Notification();
+                noti.ID_Employee = Int32.Parse(Session["user-id"].ToString()); ;
+                noti.Date = DateTime.Now;
+                noti.Contents = "đã loại bỏ Công việc " + task.Name + " của dự án " + task.Projects.ID_Project;
+
+                noti.State = false;
+                noti.Push = true;
+                noti.Url = this.Url.Action("chitietduan", "quanlyduan", new { Area = "admins", id = task.Projects.ID_Project });
+                model.Notification.Add(noti);
 
                 model.Histories.RemoveRange(task.Histories);
                 model.Comment.RemoveRange(task.Comment);

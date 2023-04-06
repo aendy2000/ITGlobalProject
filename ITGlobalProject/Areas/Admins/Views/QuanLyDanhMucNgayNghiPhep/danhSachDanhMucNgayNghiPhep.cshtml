@@ -51,7 +51,6 @@
                             <th scope="col" class=" border-top-0">Tên</th>
                             <th scope="col" class=" border-top-0">Ngày bắt đầu</th>
                             <th scope="col" class=" border-top-0">Ngày kết thúc</th>
-                            <th scope="col" class=" border-top-0">Nhân viên</th>
                             <th scope="col" class=" border-top-0"></th>
                         </tr>
                     </thead>
@@ -85,53 +84,6 @@
                                     </td>
                                     <td class="align-middle">
                                         @item.EndDay Tháng @item.EndMonth
-                                    </td>
-                                    <td class="align-middle ">
-                                        <div class="avatar-group">
-                                            @if (appends.Count < 1)
-                                            {
-                                                <span>Chưa được áp dụng cho Nhân viên nào</span>
-                                            }
-                                            else if (appends.Count < 4)
-                                            {
-                                                foreach (var posi in item.OnLeave)
-                                                {
-                                                    <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@posi.ID">
-                                                        <span class="avatar-initials rounded-circle ">
-                                                            @posi.Employees.Name.Substring(0, 1)
-                                                        </span>
-
-                                                        <span id="@posi.ID" class="d-none">
-                                                            <span class="mb-0 h6">@posi.Employees.Name</span>
-
-                                                        </span>
-                                                    </span>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                int max = 3;
-                                                for (int d = 0; d < max; d++)
-                                                {
-
-                                                    <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@appends[d].ID">
-                                                        <span class="avatar-initials rounded-circle ">
-                                                            @appends[d].Employees.Name.Substring(0, 1)
-                                                        </span>
-
-                                                        <span id="@appends[d].ID" class="d-none">
-                                                            <span class="mb-0 h6">@appends[d].Employees.Name</span>
-
-                                                        </span>
-                                                    </span>
-
-                                                }
-                                                <span class="avatar avatar-md ">
-                                                    <span class="avatar-initials rounded-circle bg-light text-dark">@(appends.Count - 3)+</span>
-                                                </span>
-                                            }
-
-                                        </div>
                                     </td>
                                     <td class="text-muted align-middle text-end">
                                         <div class="dropdown dropstart">
