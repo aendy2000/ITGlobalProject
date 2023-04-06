@@ -1,0 +1,46 @@
+﻿@model ITGlobalProject.Models.Notification
+<li id="datathongbaoso-@Model.ID" class="list-group-item bg-light">
+    <div class="row">
+        <div class="col">
+            <a target="_blank" class="text-body" name="@Model.ID" id="thongbaoso-@Model.ID" href="@Url.Content("~" + Model.Url)">
+                <div class="d-flex">
+                    @if (string.IsNullOrEmpty(Model.Employees.Avatar))
+                    {
+                        <div class="avatar-group">
+                            <span class="avatar avatar-md avatar-danger">
+                                <span class="avatar-initials rounded-circle ">
+                                    @item.Employees.Name.Substring(0, 1).ToUpper()
+                                </span>
+                            </span>
+                        </div>
+                    }
+                    else
+                    {
+                        <img src="@Model.Employees.Avatar" alt=""
+                             class="avatar-md rounded-circle" />
+                    }
+                    <div class="ms-3">
+                        <h5 class="fw-bold mb-1">@Model.Employees.Name:</h5>
+                        <p class="mb-3">
+                            @Model.Contents
+                        </p>
+                        <span class="fs-6 text-muted">
+                            <span class="ms-1">@Model.Date.ToString("HH:mm dd/MM/yyyy")</span>
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-auto text-center me-2">
+            <a role="button" class="badge-dot bg-secondary" data-bs-toggle="tooltip"
+               data-bs-placement="top" title="Đã đọc">
+            </a>
+            <div>
+                <a name="@Model.ID" id="loaibo-@Model.ID" role="button" class="bg-transparent" data-bs-toggle="tooltip"
+                   data-bs-placement="top" title="Loại bỏ">
+                    <i class="fe fe-x text-muted"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</li>

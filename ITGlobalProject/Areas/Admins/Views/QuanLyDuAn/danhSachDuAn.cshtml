@@ -66,7 +66,7 @@
                                 <td hidden>@i</td>
                                 <td class="align-middle ">
                                     <div class="d-flex align-items-center">
-                                        <a href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();">@item.ID_Project</a>
+                                        <a class="text-dark" style="font-weight: bold; " href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();">@item.ID_Project</a>
                                     </div>
                                 </td>
                                 <td class="align-middle ">
@@ -77,7 +77,7 @@
                                 <td class="align-middle text-nowrap">
                                     @item.EndDate.ToString("dd/MM/yyyy")
                                 </td>
-                                <td style="font-weight: bold; color: brown " class="align-middle ">
+                                <td style="font-weight: bold; " class="align-middle ">
                                     @item.Debts.Sum(d => d.Price).ToString("0,0").Replace(".", ",") đ
                                 </td>
                                 <td style="font-weight: bold; " class="align-middle ">
@@ -172,11 +172,12 @@
                                     }
                                     else
                                     {
-                                        <!--Chưa giao việc, còn hạn => đang thực hiện-->
+                                        //Mới
                                         if (item.StartDate > DateTime.Now)
                                         {
                                             <span style="width: 100px" class="badge bg-gray-100 text-gray-700">Mới</span>
                                         }
+                                        //Đang thực hiện
                                         else if (item.Tasks.ToList().Count < 1
                                             && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
                                         {

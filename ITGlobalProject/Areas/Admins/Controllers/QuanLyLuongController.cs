@@ -95,7 +95,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 return Content("DANHNHAP");
             int thang = thoigian.Value.Month;
             int nam = thoigian.Value.Year;
-
+            Session["tinhluong-date"] = Convert.ToDateTime(nam.ToString() + "-" + thang.ToString("D2") + "-20");
             var payrollMonth = model.PayrollCategory.Where(p => p.Date.Month == thang && p.Date.Year == nam).ToList();
             return PartialView("_tinhLuongPartial", payrollMonth);
         }
@@ -104,6 +104,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             Session["Insurance"] = model.Insurance.ToList();
             Session["Tax"] = model.Tax.ToList();
             Session["Dependency"] = model.DependencyDeduction.ToList();
+            Session["tinhluong-date"] = DateTime.Now.ToString("yyyy-MM-dd");
 
             ViewBag.ShowActive = "tinhLuong";
             return View("tinhLuong");
@@ -332,18 +333,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate > endDate))
                                                     {
-                                                        songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //Khoảng thời gian nằm trong tháng
                                                     else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                     {
-                                                        songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //khoảng thời gian cuối trong tháng
                                                     else
                                                     {
-                                                        songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                     }
 
                                                 }
@@ -448,18 +449,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate > endDate))
                                                     {
-                                                        songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //Khoảng thời gian nằm trong tháng
                                                     else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                     {
-                                                        songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //khoảng thời gian cuối trong tháng
                                                     else
                                                     {
-                                                        songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                     }
 
                                                 }
@@ -700,18 +701,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate > endDate))
                                                     {
-                                                        songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //Khoảng thời gian nằm trong tháng
                                                     else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                     {
-                                                        songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //khoảng thời gian cuối trong tháng
                                                     else
                                                     {
-                                                        songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                     }
 
                                                 }
@@ -818,18 +819,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate > endDate))
                                                     {
-                                                        songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //Khoảng thời gian nằm trong tháng
                                                     else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                     {
-                                                        songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //khoảng thời gian cuối trong tháng
                                                     else
                                                     {
-                                                        songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                     }
 
                                                 }
@@ -1102,18 +1103,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate > endDate))
                                                     {
-                                                        songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //Khoảng thời gian nằm trong tháng
                                                     else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                     {
-                                                        songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //khoảng thời gian cuối trong tháng
                                                     else
                                                     {
-                                                        songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                     }
 
                                                 }
@@ -1241,18 +1242,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate > endDate))
                                                     {
-                                                        songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //Khoảng thời gian nằm trong tháng
                                                     else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                     {
-                                                        songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //khoảng thời gian cuối trong tháng
                                                     else
                                                     {
-                                                        songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                     }
 
                                                 }
@@ -1522,18 +1523,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate > endDate))
                                                     {
-                                                        songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //Khoảng thời gian nằm trong tháng
                                                     else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                     {
-                                                        songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //khoảng thời gian cuối trong tháng
                                                     else
                                                     {
-                                                        songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                     }
 
                                                 }
@@ -1662,18 +1663,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate > endDate))
                                                     {
-                                                        songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //Khoảng thời gian nằm trong tháng
                                                     else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                     {
-                                                        songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                     }
                                                     //khoảng thời gian cuối trong tháng
                                                     else
                                                     {
-                                                        songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                        songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                     }
 
                                                 }
@@ -1949,18 +1950,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate > endDate))
                                                 {
-                                                    songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //Khoảng thời gian nằm trong tháng
                                                 else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                 {
-                                                    songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //khoảng thời gian cuối trong tháng
                                                 else
                                                 {
-                                                    songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                 }
 
                                             }
@@ -2087,18 +2088,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate > endDate))
                                                 {
-                                                    songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //Khoảng thời gian nằm trong tháng
                                                 else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                 {
-                                                    songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //khoảng thời gian cuối trong tháng
                                                 else
                                                 {
-                                                    songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                 }
 
                                             }
@@ -2368,18 +2369,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate > endDate))
                                                 {
-                                                    songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //Khoảng thời gian nằm trong tháng
                                                 else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                 {
-                                                    songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //khoảng thời gian cuối trong tháng
                                                 else
                                                 {
-                                                    songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                 }
 
                                             }
@@ -2508,18 +2509,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate > endDate))
                                                 {
-                                                    songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //Khoảng thời gian nằm trong tháng
                                                 else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                 {
-                                                    songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //khoảng thời gian cuối trong tháng
                                                 else
                                                 {
-                                                    songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                 }
 
                                             }
@@ -2793,18 +2794,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate > endDate))
                                             {
-                                                songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                             }
                                             //Khoảng thời gian nằm trong tháng
                                             else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate >= strDate && items.EndDate <= endDate))
                                             {
-                                                songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                             }
                                             //khoảng thời gian cuối trong tháng
                                             else
                                             {
-                                                songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                             }
 
                                         }
@@ -2931,18 +2932,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate > endDate))
                                             {
-                                                songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                             }
                                             //Khoảng thời gian nằm trong tháng
                                             else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate >= strDate && items.EndDate <= endDate))
                                             {
-                                                songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                             }
                                             //khoảng thời gian cuối trong tháng
                                             else
                                             {
-                                                songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                             }
 
                                         }
@@ -3210,18 +3211,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate > endDate))
                                             {
-                                                songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                             }
                                             //Khoảng thời gian nằm trong tháng
                                             else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate >= strDate && items.EndDate <= endDate))
                                             {
-                                                songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                             }
                                             //khoảng thời gian cuối trong tháng
                                             else
                                             {
-                                                songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                             }
 
                                         }
@@ -3350,18 +3351,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate > endDate))
                                             {
-                                                songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                             }
                                             //Khoảng thời gian nằm trong tháng
                                             else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate >= strDate && items.EndDate <= endDate))
                                             {
-                                                songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                             }
                                             //khoảng thời gian cuối trong tháng
                                             else
                                             {
-                                                songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                             }
 
                                         }
@@ -3627,18 +3628,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate > endDate))
                                                 {
-                                                    songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //Khoảng thời gian nằm trong tháng
                                                 else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                 {
-                                                    songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //khoảng thời gian cuối trong tháng
                                                 else
                                                 {
-                                                    songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                 }
 
                                             }
@@ -3745,18 +3746,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate > endDate))
                                                 {
-                                                    songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //Khoảng thời gian nằm trong tháng
                                                 else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                 {
-                                                    songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //khoảng thời gian cuối trong tháng
                                                 else
                                                 {
-                                                    songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                 }
 
                                             }
@@ -4027,18 +4028,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate > endDate))
                                                 {
-                                                    songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //Khoảng thời gian nằm trong tháng
                                                 else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                 {
-                                                    songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //khoảng thời gian cuối trong tháng
                                                 else
                                                 {
-                                                    songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                 }
 
                                             }
@@ -4167,18 +4168,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate > endDate))
                                                 {
-                                                    songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //Khoảng thời gian nằm trong tháng
                                                 else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                 {
-                                                    songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                                 }
                                                 //khoảng thời gian cuối trong tháng
                                                 else
                                                 {
-                                                    songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                    songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                                 }
 
                                             }
@@ -4453,18 +4454,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate > endDate))
                                             {
-                                                songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                             }
                                             //Khoảng thời gian nằm trong tháng
                                             else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate >= strDate && items.EndDate <= endDate))
                                             {
-                                                songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                             }
                                             //khoảng thời gian cuối trong tháng
                                             else
                                             {
-                                                songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                             }
 
                                         }
@@ -4593,18 +4594,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate > endDate))
                                             {
-                                                songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                             }
                                             //Khoảng thời gian nằm trong tháng
                                             else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate >= strDate && items.EndDate <= endDate))
                                             {
-                                                songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                             }
                                             //khoảng thời gian cuối trong tháng
                                             else
                                             {
-                                                songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                                songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                             }
 
                                         }
@@ -4876,18 +4877,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                         if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                             && (items.EndDate > endDate))
                                         {
-                                            songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                            songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                         }
                                         //Khoảng thời gian nằm trong tháng
                                         else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                             && (items.EndDate >= strDate && items.EndDate <= endDate))
                                         {
-                                            songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                            songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                         }
                                         //khoảng thời gian cuối trong tháng
                                         else
                                         {
-                                            songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                            songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                         }
 
                                     }
@@ -5016,18 +5017,18 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                         if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                             && (items.EndDate > endDate))
                                         {
-                                            songaynghi = (endDate.Day - items.StartDate.Day) + 1;
+                                            songaynghi += (endDate.Day - items.StartDate.Day) + 1;
                                         }
                                         //Khoảng thời gian nằm trong tháng
                                         else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                             && (items.EndDate >= strDate && items.EndDate <= endDate))
                                         {
-                                            songaynghi = (items.EndDate.Day - items.StartDate.Day) + 1;
+                                            songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
                                         }
                                         //khoảng thời gian cuối trong tháng
                                         else
                                         {
-                                            songaynghi = (items.EndDate.Day - strDate.Day) + 1;
+                                            songaynghi += (items.EndDate.Day - strDate.Day) + 1;
                                         }
 
                                     }

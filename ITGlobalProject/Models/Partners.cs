@@ -33,6 +33,8 @@ namespace ITGlobalProject.Models
         public string TaxCode { get; set; }
         public string WebUrl { get; set; }
         public Nullable<bool> CompanyOrPersonal { get; set; }
+        public Nullable<System.DateTime> AddDate { get; set; }
+        public string ID_Partners { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Projects> Projects { get; set; }

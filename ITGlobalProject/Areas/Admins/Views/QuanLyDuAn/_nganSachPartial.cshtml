@@ -226,7 +226,7 @@
                                     }
 
                                     <td class="align-middle ">
-                                        @item.Date.ToString("dd") Thg @item.Date.ToString("MM, yyyy")
+                                        @item.Date.ToString("dd/MM/yyyy")
                                     </td>
                                     <td style="font-weight:bold; color: salmon" class="align-middle ">
                                         $ @(item.Price > 0 ? item.Price.ToString("0,0").Replace(".", ",") : "0")
@@ -329,7 +329,7 @@
                                     <b class="align-items-center ">@(item.ID_Debts == null ? "Tổng giai đoạn" : item.Debts.Stage)</b>
                                 </td>
                                 <td class="align-middle ">
-                                    @item.Date.ToString("dd") Thg @item.Date.ToString("MM, yyyy")
+                                   @item.Date.ToString("dd/MM/yyyy")
                                 </td>
                                 <td class="align-middle ">
                                     @if (item.Type == false)

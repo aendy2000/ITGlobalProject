@@ -50,7 +50,6 @@
                             <th scope="col" class=" border-top-0">#</th>
                             <th scope="col" class=" border-top-0">Tên bộ phận</th>
                             <th scope="col" class=" border-top-0">Mô tả </th>
-                            <th scope="col" class=" border-top-0">Số chức danh </th>
                             <th scope="col" class=" border-top-0"></th>
                         </tr>
                     </thead>
@@ -76,61 +75,6 @@
                                     </td>
                                     <td style="max-width: 350px">
                                         <p data-bs-toggle="tooltip" data-placement="top" title="@item.Description" id="tendaiqua">@item.Description</p>
-                                    </td>
-                                    <td class="align-middle ">
-                                        <div class="avatar-group">
-                                            @if (positions.Count < 1)
-                                            {
-                                                <span>Chưa có chức danh nào</span>
-                                            }
-                                            else if (positions.Count < 4)
-                                            {
-                                                foreach (var posi in item.Position.ToList())
-                                                {
-                                                    if (posi.ID != 1)
-                                                    {
-                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@posi.ID">
-                                                            <span class="avatar-initials rounded-circle ">
-                                                                @posi.Name.Substring(0, 1)
-                                                            </span>
-
-                                                            <span id="@posi.ID" class="d-none">
-                                                                <span class="mb-0 h6">@posi.Name</span>
-
-                                                            </span>
-                                                        </span>
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                int max = 3;
-                                                for (int d = 0; d < max; d++)
-                                                {
-                                                    if (positions[d].ID != 1)
-                                                    {
-                                                        <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@positions[d].ID">
-                                                            <span class="avatar-initials rounded-circle ">
-                                                                @positions[d].Name.Substring(0, 1)
-                                                            </span>
-
-                                                            <span id="@positions[d].ID" class="d-none">
-                                                                <span class="mb-0 h6">@positions[d].Name</span>
-
-                                                            </span>
-                                                        </span>
-                                                    }
-                                                    else
-                                                    {
-                                                        max++;
-                                                    }
-                                                }
-                                                <span class="avatar avatar-md ">
-                                                    <span class="avatar-initials rounded-circle bg-light text-dark">@(positions.Count - (max - 3) - 3)+</span>
-                                                </span>
-                                            }
-
-                                        </div>
                                     </td>
                                     <td class="text-muted align-middle text-end">
                                         <div class="dropdown dropstart">

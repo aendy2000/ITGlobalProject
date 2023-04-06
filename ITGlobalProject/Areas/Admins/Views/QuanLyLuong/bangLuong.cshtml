@@ -214,7 +214,7 @@
                                             </div>
                                         </td>
                                         <td class="align-middle ">
-                                            @item.Date.ToString("dd") Thg @item.Date.ToString("MM, yyyy")
+                                            @item.Date.ToString("dd/MM/yyyy")
                                         </td>
                                         <td class="align-middle text-warning">
                                             <b><b>@item.Payroll.Sum(s => s.Total_Price).Value.ToString("0,0").Replace(".", ",") đ</b></b>

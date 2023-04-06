@@ -186,16 +186,6 @@
                     <a id="nav-toggle" href="#">
                         <i class="fe fe-menu"></i>
                     </a>
-                    <div class="ms-lg-3 d-none d-md-none d-lg-block">
-                        <!-- Form -->
-                        <form class="d-flex align-items-center">
-                            <span class="position-absolute ps-3 search-icon">
-                                <i class="fe fe-search"></i>
-                            </span>
-                            <input type="search" class="form-control form-control-sm ps-6"
-                                   placeholder="Tìm kiếm trong trang" />
-                        </form>
-                    </div>
                     <!--Navbar nav -->
                     <ul class="navbar-nav navbar-right-wrap ms-auto d-flex nav-top-wrap">
                         <li class="dropdown stopevent">
@@ -415,6 +405,9 @@
                 </nav>
             </div>
             @RenderBody()
+            @Scripts.Render("~/bundles/jquery")
+            <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+            <script src="~/signalr/hubs"></script>
             @RenderSection("scripts", required: false)
         </div>
     </div>
@@ -454,7 +447,6 @@
     <script src="~/Content/Admin/assets/libs/nouislider/dist/nouislider.min.js"></script>
     <script src="~/Content/Admin/assets/libs/wnumb/wNumb.min.js"></script>
     <script src="~/Content/Admin/assets/libs/glightbox/dist/js/glightbox.min.js"></script>
-
 
 
     <!-- CDN File for moment -->
