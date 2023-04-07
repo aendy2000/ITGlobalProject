@@ -80,6 +80,52 @@ namespace ITGlobalProject.Areas.Employee.Controllers
             return PartialView("_congViecPartial", pro);
         }
         [HttpPost]
+        public ActionResult themCongViec(int? idpro, int? idassign, string taskname, string mota,
+    string deadline, decimal estimate, string tentailieu, string loaitailieu, string duongdantailieu)
+        {
+            var pro = model.Projects.Find(idpro);
+            var emp = model.Employees.Find(idassign);
+            if (pro == null || emp == null || Session["user-id"] == null)
+                return Content("DANHSACH");
+
+            Tasks task = new Tasks();
+            task.ID_Employee = (int)idassign;
+            task.ID_Project = (int)idpro;
+            task.Name = taskname;
+            task.Description = mota;
+            task.State = "do";
+            task.Deadline = Convert.ToDateTime(deadline);
+            task.OriginalEstimate = estimate;
+            task.CompletedWork = 0;
+            task.DocumentName = tentailieu;
+            task.DocumentType = loaitailieu;
+            task.DocumentURL = duongdantailieu;
+
+            if (pro.Tasks.Where(t => t.ID_Project == idpro && t.State.Equals("do")).OrderByDescending(o => o.OrdinalNumbers).Count() > 0)
+            {
+                task.OrdinalNumbers = pro.Tasks.Where(t => t.ID_Project == idpro && t.State.Equals("do")).OrderByDescending(o => o.OrdinalNumbers).First().OrdinalNumbers + 1;
+            }
+            else
+            {
+                task.OrdinalNumbers = 1;
+            }
+            model.Tasks.Add(task);
+            model.SaveChanges();
+
+            Histories his = new Histories();
+            his.ID_Employee = Int32.Parse(Session["user-id"].ToString());
+            his.ID_Task = task.ID;
+            his.Name = "Thêm Công Việc Mới";
+            his.Contents = "đã thêm công việc";
+            his.Date = DateTime.Now;
+            model.Histories.Add(his);
+            model.SaveChanges();
+            model = new CP25Team06Entities();
+
+            Session["lst-Task"] = model.Tasks.Where(t => t.ID_Project == idpro).OrderBy(o => o.OrdinalNumbers).ToList();
+            return PartialView("_congViecPartial", pro);
+        }
+        [HttpPost]
         public ActionResult capNhatCongViec(string lstTaskFirst, string lstTaskCurrent, int idTask)
         {
             try
