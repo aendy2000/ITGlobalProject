@@ -164,8 +164,6 @@
         $('#motataskvalidation').hide();
         $('#deadlinevalidation').hide();
         $('#estimatevalidation').hide();
-        $('#tentailieuvalidation').hide();
-        $('#duongdantailieuvalidation').hide();
 
         var idpro = $("#idpro").val();
         var assign = $('#nguoithuchien :selected').val();
@@ -173,10 +171,6 @@
         var mota = $('#motatask').val().trim();
         var deadline = $('#deadline').val().trim();
         var estimate = $('#estimate').val().trim();
-
-        var tentailieu = $('#tentailieu').val().trim();
-        var loaitailieu = $('#loaitailieu :selected').val().trim();
-        var duongdantailieu = $('#duongdantailieu').val().trim();
 
         //Check
         var check = true;
@@ -217,17 +211,6 @@
             $('#estimatevalidation').text("Số giờ ước lượng phải lớn hơn 0.").show().prop("hidden", false);
         }
 
-        //tên tài liệu
-        if (tentailieu.length > 50) {
-            check = false;
-            $('#tentailieuvalidation').text("Tên tài liệu chỉ tối đa 50 ký tự.").show().prop("hidden", false);
-        }
-
-        if (duongdantailieu.length > 0 && (duongdantailieu.indexOf(' ') != -1 || duongdantailieu.indexOf("http") == -1)) {
-            check = false;
-            $('#duongdantailieuvalidation').text("Đường dẫn liên kết đến tài liệu không hợp lệ.").show().prop("hidden", false);
-        }
-
         //Check xong thì:
         if (check == true) {
             var formData = new FormData();
@@ -237,9 +220,6 @@
             formData.append('mota', mota);
             formData.append('deadline', deadline);
             formData.append('estimate', estimate.replace(",", "."));
-            formData.append('tentailieu', tentailieu);
-            formData.append('loaitailieu', loaitailieu);
-            formData.append('duongdantailieu', duongdantailieu);
 
             $('#AjaxLoader').show();
             $.ajax({

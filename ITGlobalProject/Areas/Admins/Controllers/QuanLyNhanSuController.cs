@@ -508,7 +508,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                         {
                                             smtp.Host = "smtp.gmail.com";
                                             smtp.EnableSsl = true;
-                                            NetworkCredential cred = new NetworkCredential("noreply.itglobal@gmail.com", "dagpayhjihvgdfym");
+                                            NetworkCredential cred = new NetworkCredential("noreply.itglobal@gmail.com", "cofozlabrfkyqmfs");
                                             smtp.UseDefaultCredentials = true;
                                             smtp.Credentials = cred;
                                             smtp.Port = 587;
@@ -837,7 +837,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     {
                         smtp.Host = "smtp.gmail.com";
                         smtp.EnableSsl = true;
-                        NetworkCredential cred = new NetworkCredential("noreply.itglobal@gmail.com", "dagpayhjihvgdfym");
+                        NetworkCredential cred = new NetworkCredential("noreply.itglobal@gmail.com", "cofozlabrfkyqmfs");
                         smtp.UseDefaultCredentials = true;
                         smtp.Credentials = cred;
                         smtp.Port = 587;

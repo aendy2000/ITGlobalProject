@@ -213,54 +213,6 @@
             }
             <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuacompletedvalidation"></p>
         </div>
-        <div class="mb-2 col-12">
-            <label style="font-weight:bold" for="date" class="col-form-label-sm">Tài liệu </label>
-            <div class="input-group me-3">
-                <input id="chinhsuatentailieu" value="@Model.DocumentName" name="chinhsuatentailieu" class="form-control form-control-sm" type="text" placeholder="Nhập tên tài liệu" aria-describedby="basic-addon-gd2">
-                <select id="chinhsualoaitailieu" name="chinhsualoaitailieu" style="color: black; width: 100px; font-size: 12px; " class="input-group-text form-select-sm" data-width="100%">
-                    @if (Model.DocumentType.Equals("xlsx"))
-                    {
-                        <option selected value="xlsx">.xlsx</option>
-                        <option value="docx">.docx</option>
-                        <option value="pptx">.pptx</option>
-                        <option value="txt">.txt</option>
-                    }
-                    else if (Model.DocumentType.Equals("docx"))
-                    {
-                        <option value="xlsx">.xlsx</option>
-                        <option selected value="docx">.docx</option>
-                        <option value="pptx">.pptx</option>
-                        <option value="txt">.txt</option>
-                    }
-                    else if (Model.DocumentType.Equals("pptx"))
-                    {
-                        <option value="xlsx">.xlsx</option>
-                        <option value="docx">.docx</option>
-                        <option selected value="pptx">.pptx</option>
-                        <option value="txt">.txt</option>
-                    }
-                    else if (Model.DocumentType.Equals("txt"))
-                    {
-                        <option value="xlsx">.xlsx</option>
-                        <option value="docx">.docx</option>
-                        <option value="pptx">.pptx</option>
-                        <option selected value="txt">.txt</option>
-                    }
-                    else
-                    {
-                        <option selected value="xlsx">.xlsx</option>
-                        <option value="docx">.docx</option>
-                        <option value="pptx">.pptx</option>
-                        <option value="txt">.txt</option>
-                    }
-                </select>
-            </div>
-            <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuatentailieuvalidation"></p>
-        </div>
-        <div class="col-12">
-            <input id="chinhsuaduongdantailieu" value="@Model.DocumentURL" name="duongdantailieu" class="form-control form-control-sm text-primary" type="text" placeholder="Đường dẫn đến tài liệu (https://duongdantailieu...)">
-            <p hidden="hidden" style="font-size: 13px; color:red;" id="chinhsuaduongdantailieuvalidation"></p>
-        </div>
         <hr class="my-3" />
         <div class="mb-3 col-12">
             <a role="button" id="luuChinhSuaTask" style="width: 100%" class="btn btn-success btn-sm">

@@ -18,9 +18,9 @@
                 <li class="nav-item mx-3">
                     <a role="button" class="nav-link" id="nganSachID">Công nợ</a>
                 </li>
-                <li class="nav-item mx-3">
+                @*<li class="nav-item mx-3">
                     <a role="button" class="nav-link" id="taiLieuID">Tài liệu</a>
-                </li>
+                </li>*@
                 <li class="nav-item mx-3">
                     <a role="button" class="nav-link" id="doiNguID">Đội ngũ</a>
                 </li>
@@ -646,23 +646,6 @@
                                 <label style="font-weight:bold" for="date" class="col-form-label-sm">Giờ ước lượng  <span class="text-danger">*</span></label>
                                 <input id="estimate" name="estimate" class="form-control form-control-sm text-start" data-inputmask="'alias': 'decimal'" inputmode="numeric" placeholder="Số giờ sẽ hoàn thành công việc">
                                 <p hidden="hidden" style="font-size: 13px; color:red;" id="estimatevalidation"></p>
-                            </div>
-                            <div class="mb-2 col-12">
-                                <label style="font-weight:bold" for="date" class="col-form-label-sm">Tài liệu </label>
-                                <div class="input-group me-3">
-                                    <input id="tentailieu" name="tentailieu" class="form-control form-control-sm" type="text" placeholder="Nhập tên tài liệu" aria-describedby="basic-addon-gd2">
-                                    <select id="loaitailieu" name="loaitailieu" style="color: black; width: 100px; font-size: 12px; " class="input-group-text form-select-sm" data-width="100%">
-                                        <option value="xlsx">.xlsx</option>
-                                        <option value="doct">.docx</option>
-                                        <option value="pptx">.pptx</option>
-                                        <option value="txt">.txt</option>
-                                    </select>
-                                </div>
-                                <p hidden="hidden" style="font-size: 13px; color:red;" id="tentailieuvalidation"></p>
-                            </div>
-                            <div class="col-12">
-                                <input id="duongdantailieu" name="duongdantailieu" class="form-control form-control-sm text-primary" type="text" placeholder="Đường dẫn đến tài liệu (https://duongdantailieu...)">
-                                <p hidden="hidden" style="font-size: 13px; color:red;" id="duongdantailieuvalidation"></p>
                             </div>
                             <hr class="my-3" />
                             <div class="mb-3 col-12">

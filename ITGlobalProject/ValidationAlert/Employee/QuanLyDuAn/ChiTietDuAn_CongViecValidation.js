@@ -30,7 +30,7 @@
 
                         $('#AjaxLoader').show();
                         $.ajax({
-                            url: $('#requestPath').val() + 'Employee/QuanLyCongViec/xoaTask',
+                            url: $('#requestPath').val() + 'employee/quanlycongviec/xoaTask',
                             type: 'POST',
                             dataType: 'html',
                             contentType: false,
@@ -64,7 +64,7 @@
                             }
                             else if (ketqua === "DANHSACH") {
                                 $('#AjaxLoader').hide();
-                                window.location.href = $('#requestPath').val() + 'Employee/QuanLyCongViec/danhSachDuAn';
+                                window.location.href = $('#requestPath').val() + 'employee/quanlycongviec/danhSachDuAn';
                             }
                             else {
                                 $('#chiTietDuAnPartialID').replaceWith(ketqua);
@@ -128,7 +128,7 @@
         formData.append('id', id);
         $('#AjaxLoader').show();
         $.ajax({
-            url: $('#requestPath').val() + 'Employee/QuanLyCongViec/xemChinhSuaTask',
+            url: $('#requestPath').val() + 'employee/quanlycongviec/xemChinhSuaTask',
             type: 'POST',
             dataType: 'html',
             contentType: false,
@@ -137,7 +137,7 @@
         }).done(function (ketqua) {
             if (ketqua == "DANHSACH") {
                 $('#AjaxLoader').hide();
-                window.location.href = $('#requestPath').val() + 'Employee/QuanLyCongViec/danhSachDuAn';
+                window.location.href = $('#requestPath').val() + 'employee/quanlycongviec/danhSachDuAn';
             }
             else {
                 $('#ChinhSuaTaskPartialContent').replaceWith(ketqua);
@@ -157,6 +157,145 @@
         });
     });
 
+    //Thêm task mới
+    $('#luuThemTask').on('click', function () {
+        $('#nguoithuchienvalidation').hide();
+        $('#taskNamevalidation').hide();
+        $('#motataskvalidation').hide();
+        $('#deadlinevalidation').hide();
+        $('#estimatevalidation').hide();
+
+        var idpro = $("#idpro").val();
+        var assign = $('#nguoithuchien :selected').val();
+        var taskname = $('#taskName').val().trim();
+        var mota = $('#motatask').val().trim();
+        var deadline = $('#deadline').val().trim();
+        var estimate = $('#estimate').val().trim();
+
+        //Check
+        var check = true;
+
+        //Người thực hiện
+        if (assign.length < 1) {
+            check = false;
+            $('#nguoithuchienvalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+        }
+
+        //Tên công việc
+        if (taskname.length < 1) {
+            check = false;
+            $('#taskNamevalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+        } else if (taskname.length > 100) {
+            check = false;
+            $('#taskNamevalidation').text("Tên công việc chỉ tối đa 100 ký tự.").show().prop("hidden", false);
+        }
+
+        //Mô tả công việc
+        if (mota.length > 250) {
+            check = false;
+            $('#motataskvalidation').text("Mô tả công việc chỉ tối đa 250 ký tự.").show().prop("hidden", false);
+        }
+
+        //deadline công việc
+        if (deadline.length < 1) {
+            check = false;
+            $('#deadlinevalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+        }
+
+        //ước lượng công việc
+        if (estimate.length < 1) {
+            check = false;
+            $('#estimatevalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+        } else if (estimate.indexOf("-") != -1 || Number(estimate) <= 0) {
+            check = false;
+            $('#estimatevalidation').text("Số giờ ước lượng phải lớn hơn 0.").show().prop("hidden", false);
+        }
+
+        //Check xong thì:
+        if (check == true) {
+            var formData = new FormData();
+            formData.append('idpro', idpro);
+            formData.append('idassign', assign);
+            formData.append('taskname', taskname);
+            formData.append('mota', mota);
+            formData.append('deadline', deadline);
+            formData.append('estimate', estimate.replace(",", "."));
+
+            $('#AjaxLoader').show();
+            $.ajax({
+                url: $('#requestPath').val() + 'employee/quanlycongviec/themcongviec',
+                type: 'POST',
+                dataType: 'html',
+                contentType: false,
+                processData: false,
+                data: formData
+            }).done(function (ketqua) {
+                if (ketqua === "Đã có lỗi xảy ra, vui lòng thử lại") {
+                    $('#AjaxLoader').hide();
+                    var SweetAlert2Demo = function () {
+                        var initDemos = function () {
+                            swal("Thông Báo!", "Đã có xảy ra lỗi, vui lòng thử lại sau", {
+                                icon: "erorr",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-danger'
+                                    }
+                                },
+                            });
+                        };
+                        return {
+                            init: function () {
+                                initDemos();
+                            },
+                        };
+                    }();
+
+                    jQuery(document).ready(function () {
+                        SweetAlert2Demo.init();
+                    });
+                }
+                else if (ketqua === "DANHSACH") {
+                    $('#AjaxLoader').hide();
+                    window.location.href = $('#requestPath').val() + 'employee/quanlycongviec/danhSachDuAn';
+                }
+                else {
+                    $('#dongthemTask').click();
+                    $('#chiTietDuAnPartialID').replaceWith(ketqua);
+
+                    $('#assignTo').selectpicker();
+                    $('#taskDeadline').selectpicker();
+                    $('#nguoithuchien').selectpicker({
+                        style: "text-dark btn-sm"
+                    });
+
+                    $.when(
+                        $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js'),
+                        $.getScript($('#requestPath').val() + 'Content/Admin/assets/js/theme.min.js'),
+                        $.getScript($('#requestPath').val() + 'Content/Admin/assets/libs/flatpickr/dist/flatpickr.min.js'),
+                        $.getScript($('#requestPath').val() + 'Content/Admin/assets/libs/apexcharts/dist/apexcharts.min.js'),
+                        $.Deferred(function (deferred) {
+                            $(deferred.resolve);
+                        })
+                    ).done(function () { });
+                    $('#AjaxLoader').hide();
+                    var content = {};
+                    content.message = 'Đã thêm một công việc mới!';
+                    content.title = 'Thành công!';
+                    content.icon = 'nav-icon fe fe-bell me-2';
+
+                    $.notify(content, {
+                        type: "success",
+                        placement: {
+                            from: "bottom",
+                            align: "right"
+                        },
+                        time: 1000,
+                        delay: 1000,
+                    });
+                }
+            });
+        }
+    });
 
     //Kéo task
     dragula([document.querySelector("#do"),
@@ -254,7 +393,7 @@
         });
 
         $.ajax({
-            url: $('#requestPath').val() + 'Employee/QuanLyCongViec/capNhatCongViec',
+            url: $('#requestPath').val() + 'employee/quanlycongviec/capNhatCongViec',
             type: 'POST',
             dataType: 'html',
             data: {
@@ -313,7 +452,7 @@
 
         $('#AjaxLoader').show();
         $.ajax({
-            url: $('#requestPath').val() + 'Employee/QuanLyCongViec/LoaiCongViec',
+            url: $('#requestPath').val() + 'employee/quanlycongviec/LoaiCongViec',
             type: 'POST',
             dataType: 'html',
             data: {
@@ -323,7 +462,7 @@
             }
         }).done(function (ketqua) {
             if (ketqua == "DANHSACH") {
-                Window.location.href = $('#requestPath').val() + 'Employee/QuanLyCongViec/danhsachduan';
+                Window.location.href = $('#requestPath').val() + 'employee/quanlycongviec/danhsachduan';
             }
             else {
                 $('#chiTietDuAnPartialID').replaceWith(ketqua);

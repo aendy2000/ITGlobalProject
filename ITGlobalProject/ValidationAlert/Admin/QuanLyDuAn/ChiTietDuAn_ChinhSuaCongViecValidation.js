@@ -60,8 +60,6 @@
         $('#chinhsuadeadlinevalidation').hide();
         $('#chinhsuaestimatevalidation').hide();
         $('#chinhsuacompletedvalidation').hide();
-        $('#chinhsuatentailieuvalidation').hide();
-        $('#chinhsuaduongdantailieuvalidation').hide();
 
         var id = $("#idt").val();
         var idpro = $("#idpro").val();
@@ -72,10 +70,6 @@
         var deadline = $('#chinhsuadeadline').val().trim();
         let estimates = $('#chinhsuaestimate').val();
         let completed = $('#chinhsuacompleted').val();
-
-        var tentailieu = $('#chinhsuatentailieu').val().trim();
-        var loaitailieu = $('#chinhsualoaitailieu :selected').val().trim();
-        var duongdantailieu = $('#chinhsuaduongdantailieu').val().trim();
 
         //Check
         var check = true;
@@ -116,16 +110,6 @@
             $('#chinhsuacompletedvalidation').text("Số giờ hoàn thành không thể nhỏ hơn 0.").show().prop("hidden", false);
         }
 
-        //tên tài liệu
-        if (tentailieu.length > 50) {
-            check = false;
-            $('#chinhsuatentailieuvalidation').text("Tên tài liệu chỉ tối đa 50 ký tự.").show().prop("hidden", false);
-        }
-
-        if (duongdantailieu.length > 0 && (duongdantailieu.indexOf(' ') != -1 || duongdantailieu.indexOf("http") == -1)) {
-            check = false;
-            $('#chinhsuaduongdantailieuvalidation').text("Đường dẫn liên kết đến tài liệu không hợp lệ.").show().prop("hidden", false);
-        }
         if (check == true) {
             var formData = new FormData();
             formData.append('id', id);
@@ -137,9 +121,6 @@
             formData.append('deadline', deadline);
             formData.append('estimates', estimates);
             formData.append('completed', completed);
-            formData.append('tentailieu', tentailieu);
-            formData.append('loaitailieu', loaitailieu);
-            formData.append('duongdantailieu', duongdantailieu);
 
             $('#AjaxLoader').show();
             $.ajax({

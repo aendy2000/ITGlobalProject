@@ -154,11 +154,11 @@
                                     <i class="fe fe-clock nav-icon"></i>Lịch sử hoạt động
                                 </a>
                             </li>
-                            <li class="nav-item  ">
+                            @*<li class="nav-item  ">
                                 <a role="button" class="nav-link" id="BCThongKe">
                                     <i class="fe fe-pie-chart nav-icon"></i>Báo cáo thống kê
                                 </a>
-                            </li>
+                            </li>*@
                         </ul>
 
                     </div>
@@ -178,7 +178,7 @@
                             foreach (var item in lstTroCap.Where(t => t.Subsidies.Where(s => s.ID_Employee == Model.ID).Count() > 0).ToList())
                             {
                                 j++;
-                                <div class="form-check mb-2 col-12 col-md-4">
+                                <div class="form-check mb-2 col-12 col-md-6">
                                     @if (item.Price == 0 && item.Percentage != null && item.OnBasicSalary != null)
                                     {
                                         if (item.OnBasicSalary == true)
