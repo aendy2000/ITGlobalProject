@@ -59,15 +59,14 @@
         else if (hoten.length > 50) {
             checkthongtincanhan = false;
             $("#hotenvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
-
         }
         else if (formatss.test(hoten.toLowerCase().replace(/\d+/g, '')) == true) {
             checkthongtincanhan = false;
-            $("#hotenvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $("#hotenvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
         }
         else if (formatnumber.test(hoten) == true) {
             checkthongtincanhan = false;
-            $("#hotenvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $("#hotenvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
 
         }
         // Vali CMND
@@ -77,7 +76,7 @@
         }
         else if (cmnd.length != 14 && cmnd.length != 11) {
             checkthongtincanhan = false;
-            $("#cmndvalidation").text("Vui lòng nhập đầy đủ thông tin này!").show();
+            $("#cmndvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
 
         }
         // Vali quốc tịch
@@ -92,11 +91,11 @@
         }
         else if (formatnumber.test(quoctich) == true) {
             checkthongtincanhan = false;
-            $("#quoctichvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $("#quoctichvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
         }
         else if (formatss.test(quoctich.toLowerCase().replace(/\d+/g, '')) == true) {
             checkthongtincanhan = false;
-            $("#quoctichvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $("#quoctichvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
         }
         // Vali hôn nhân
         if (honnhan.length < 1) {
@@ -107,7 +106,7 @@
         // Vali Ngày sinh
         if (ngaysinh.length < 1) {
             checkthongtincanhan = false;
-            $("#ngaysinhvalidation").text("Không được bỏ trống thông tin này!").show();
+            $("#ngaysinhvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
 
         }
         // Vali Giới tính
@@ -129,14 +128,14 @@
 
         } else if (sodienthoaididong.length != 12) {
             checkthongtincanhan = false;
-            $("#sodienthoaididongvalidation").text("Vui lòng nhập đầy đủ thông tin này!").show();
+            $("#sodienthoaididongvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
 
         }
         // Vali số điện thoại khác
         if (sodienthoaikhac.length > 0) {
             if (sodienthoaikhac.length != 12) {
                 checkthongtincanhan = false;
-                $("#sodienthoaikhacvalidation").text("Vui lòng nhập đầy đủ thông tin này!").show();
+                $("#sodienthoaikhacvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
 
 
             }
@@ -150,7 +149,7 @@
         }
         else if (formatEmail.test(diachiemailcongty) == false) {
             checkthongtincanhan = false;
-            $("#diachiemailcongtyvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $("#diachiemailcongtyvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
 
         }
         else if (diachiemailcongty.length > 50) {
@@ -168,7 +167,7 @@
             }
             else if (formatEmail.test(diachiemailkhac) == false) {
                 checkthongtincanhan = false;
-                $("#diachiemailkhacvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                $("#diachiemailkhacvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
 
             }
         }
@@ -228,7 +227,7 @@
 
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Đã lưu thông tin chỉnh sửa", {
+                            swal("Thành Công!", "Bạn đã cập nhật thành công", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

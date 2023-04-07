@@ -78,7 +78,7 @@
 
                             var SweetAlert2Demo = function () {
                                 var initDemos = function () {
-                                    swal("Thông báo!", "Thành công! Đã lưu trạng thái lương thành đã thanh toán!", {
+                                    swal("Thông báo!", "Bạn đã lưu trạng thái lương thành đã thanh toán thành công.", {
                                         icon: "success",
                                         buttons: {
                                             confirm: {
@@ -170,7 +170,7 @@
 
                                 var SweetAlert2Demo = function () {
                                     var initDemos = function () {
-                                        swal("Thông báo!", "Thành công! Đã lưu trạng thái lương thành chưa thanh toán!", {
+                                        swal("Thông báo!", "Bạn đã lưu trạng thái lương thành chưa thanh toán thành công", {
                                             icon: "success",
                                             buttons: {
                                                 confirm: {

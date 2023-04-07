@@ -102,23 +102,23 @@
         }
         else if (usn.length > 50) {
             checkusn = false;
-            $('#UsernameValidateResul').text("Tài khoản tối đa 50 ký tự. Vui lòng nhập lại.").show();
+            $('#UsernameValidateResul').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
         }
         else if (usn.indexOf(' ') != -1) {
             checkusn = false;
-            $('#UsernameValidateResul').text("Sai rồi! Vui lòng kiểm tra lại định dạng tài khoản.").show();
+            $('#UsernameValidateResul').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
         }
         else if (format.test(usn) == true) {
             checkusn = false;
-            $('#UsernameValidateResul').text("Sai rồi! Vui lòng kiểm tra lại định dạng tài khoản.").show();
+            $('#UsernameValidateResul').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
         }
         else if (emailReg.test(usn) == false) {
             checkusn = false;
-            $('#UsernameValidateResul').text("Sai rồi! Vui lòng kiểm tra lại định dạng tài khoản.").show();
+            $('#UsernameValidateResul').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
         }
         else if (formatTextVN.test(usn) == true) {
             checkusn = false;
-            $('#UsernameValidateResul').text("Sai rồi! Vui lòng kiểm tra lại định dạng tài khoản.").show();
+            $('#UsernameValidateResul').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
         } else {
             checkusn = true;
             $('#UsernameValidateResul').text("").hide();

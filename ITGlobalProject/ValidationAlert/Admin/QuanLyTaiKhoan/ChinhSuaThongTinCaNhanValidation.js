@@ -66,7 +66,7 @@
         }
         else if (format.test(hoten) == true || formatnumber.test(hoten) == true) {
             checkshoten = false;
-            $('#hotenvalidation').text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $('#hotenvalidation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
         }
         else {
             checkshoten = true;
@@ -156,7 +156,7 @@
         }
         else if (emailReg.test(diachiemail) == false) {
             checksdiachiemail = false;
-            $('#diachiemailvalidation').text("Sai rồi! Vui lòng kiểm tra lại định dạng tài khoản.").show();
+            $('#diachiemailvalidation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
             var searchInput = $('#diachiemail');
             var strLength = searchInput.val().length * 2;
 
@@ -253,7 +253,7 @@
                     $('#contentPartial').replaceWith(ketqua);
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Tuyệt quá! Thông tin đã được chỉnh sửa thành công.", {
+                            swal("Thành Công!", "Bạn đã cập nhật thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

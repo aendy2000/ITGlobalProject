@@ -94,7 +94,7 @@
                     $('#AjaxLoader').hide();
                     $('#dongmodaltinhthue').click();
                     var content = {};
-                    content.message = 'Đã lưu thông tin thay đổi cấu hình khoản giảm trừ';
+                    content.message = 'Bạn đã lưu thông tin thay đổi thành công.';
                     content.title = 'Thành công!';
                     content.icon = 'nav-icon fe fe-bell me-2';
 

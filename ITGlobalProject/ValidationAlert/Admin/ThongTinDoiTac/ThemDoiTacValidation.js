@@ -67,7 +67,7 @@
             }
             else if (namedn.length > 100) {
                 checkkhachhang = false;
-                $('#namednvalidation').text("Tên doanh nghiệp chỉ tối đa 100 ký tự.").show().prop("hidden", false);
+                $('#namednvalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#namedn').focus();
             }
 
@@ -78,11 +78,11 @@
                 $('#hotennguoidaidien').focus();
             } else if (formatnumber.test(hotendaidien) == true || formatss.test(hotendaidien.toLowerCase().replace(/\d+/g, '')) == true) {
                 checkkhachhang = false;
-                $('#hotennguoidaidienvalidation').text("Họ và Tên chưa đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
+                $('#hotennguoidaidienvalidation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#hotennguoidaidien').focus();
             } else if (hotendaidien.length > 50) {
                 checkkhachhang = false;
-                $('#hotennguoidaidienvalidation').text("Họ và Tên chỉ tối đa 50 ký tự.").show().prop("hidden", false);
+                $('#hotennguoidaidienvalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#hotennguoidaidien').focus();
             }
         }
@@ -94,11 +94,11 @@
                 $('#hoten').focus();
             } else if (formatnumber.test(hoten) == true || formatss.test(hoten.toLowerCase().replace(/\d+/g, '')) == true) {
                 checkkhachhang = false;
-                $('#hotenvalidation').text("Họ và Tên chưa đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
+                $('#hotenvalidation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#hoten').focus();
             } else if (hoten.length > 50) {
                 checkkhachhang = false;
-                $('#hotenvalidation').text("Họ và Tên chỉ tối đa 50 ký tự.").show().prop("hidden", false);
+                $('#hotenvalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#hoten').focus();
             }
         }
@@ -107,7 +107,7 @@
         if (cmnd.length > 0) {
             if (cmnd.length != 14 && cmnd.length != 11) {
                 checkkhachhang = false;
-                $("#cmndvalidation").text("Vui lòng nhập đầy đủ thông tin này!").show().prop("hidden", false);
+                $("#cmndvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#cmnd').focus();
             }
         }
@@ -132,12 +132,12 @@
 
         } else if (formatEmail.test(email) == false) {
             checkkhachhang = false;
-            $("#emailvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show().prop("hidden", false);
+            $("#emailvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
             $('#email').focus();
         }
         else if (email.length > 50) {
             checkkhachhang = false;
-            $("#emailvalidation").text("Email chỉ tối đa 50 ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
+            $("#emailvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
             $('#email').focus();
         }
 
@@ -157,7 +157,7 @@
         //Validation địa chỉ
         if (diahchinha.length > 250) {
             checkkhachhang = false;
-            $("#diachinhavalidation").text("Địa chỉ, chỉ tối đa 250 ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
+            $("#diachinhavalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
             $('#gioitinh').focus();
         }
 
@@ -270,7 +270,7 @@
 
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Đã thêm một đối tác mới!", {
+                            swal("Thành Công!", "Bạn đã thêm thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

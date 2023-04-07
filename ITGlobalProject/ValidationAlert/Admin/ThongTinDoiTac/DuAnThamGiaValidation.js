@@ -36,7 +36,7 @@
                             } else {
                                 var SweetAlert2Demo = function () {
                                     var initDemos = function () {
-                                        swal("Thành Công!", "Tuyệt quá! Đối đã được xóa thành công.\nChọn xác nhận để quay về trang danh sách!", {
+                                        swal("Thành Công!", "Bạn đã xóa thành công.\nChọn xác nhận để quay về trang danh sách!", {
                                             icon: "success",
                                             buttons: {
                                                 confirm: {

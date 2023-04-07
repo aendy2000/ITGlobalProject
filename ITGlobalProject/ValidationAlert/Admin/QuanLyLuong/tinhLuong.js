@@ -116,7 +116,7 @@
                                     } else {
                                         var SweetAlert2Demo = function () {
                                             var initDemos = function () {
-                                                swal("Thành Công!", "Tuyệt quá! Tháng lương đã được tính thành công.", {
+                                                swal("Thành Công!", "Bạn đã tính lương tháng thành công.", {
                                                     icon: "success",
                                                     buttons: {
                                                         confirm: {
@@ -212,7 +212,7 @@
                                     } else {
                                         var SweetAlert2Demo = function () {
                                             var initDemos = function () {
-                                                swal("Thành Công!", "Tuyệt quá! Tháng lương đã được tính thành công.", {
+                                                swal("Thành Công!", "Bạn đã tính lương tháng thành công.", {
                                                     icon: "success",
                                                     buttons: {
                                                         confirm: {

@@ -29,10 +29,10 @@
             $('#EditDanhMucKyNangValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         } else if (formats.test(name) == true || formatNumber.test(name) == true) {
             checkname = false;
-            $('#EditDanhMucKyNangValidateResul').text("Tên bộ phận không hợp lệ! Vui lòng kiểm tra lại.").show();
+            $('#EditDanhMucKyNangValidateResul').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
         } else if (name.length > 50) {
             checkname = false;
-            $('#EditDanhMucKyNangValidateResul').text("Tên bộ phận chỉ tối đa 50 ký tự! Vui lòng kiểm tra lại.").show();
+            $('#EditDanhMucKyNangValidateResul').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
         }
 
         if (checkname == true) {
@@ -55,7 +55,7 @@
                     $('#danhSachPartial').replaceWith(ketqua);
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Tuyệt quá! Thông tin đã được chỉnh sửa thành công.", {
+                            swal("Thành Công!", "Bạn đã cập nhật thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

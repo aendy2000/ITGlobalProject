@@ -40,7 +40,7 @@
         if (content.length > 200) {
             check = false;
             $('#noidung').focus();
-            $('#noidungValidation').text("Nội dung chỉ tối đa 200 ký tự! Vui lòng kiểm tra lại").show().prop("hidden", false);
+            $('#noidungValidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
         }
 
         if (check == true) {
@@ -97,7 +97,7 @@
                     $('#dongChinhSua').click();
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Đã hoàn thành tạo một đơn nghỉ phép cho Nhân viên!", {
+                            swal("Thành Công!", "Bạn đã tạo đơn thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

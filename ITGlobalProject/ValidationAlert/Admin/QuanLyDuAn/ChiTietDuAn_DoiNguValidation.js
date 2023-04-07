@@ -71,7 +71,7 @@
                                 $('#chiTietDuAnPartialID').replaceWith(ketqua);
 
                                 var content = {};
-                                content.message = 'Đã thêm một thành viên vào dự án.';
+                                content.message = 'Bạn đã thêm thành công.';
                                 content.title = 'Thành công!';
                                 content.icon = 'nav-icon fe fe-bell me-2';
                                 $.notify(content, {

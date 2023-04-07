@@ -72,7 +72,7 @@
 
                 var SweetAlert2Demo = function () {
                     var initDemos = function () {
-                        swal("Thành Công!", "Đã lưu thông tin chỉnh sửa", {
+                        swal("Thành Công!", "Bạn đã cập nhật thành công.", {
                             icon: "success",
                             buttons: {
                                 confirm: {

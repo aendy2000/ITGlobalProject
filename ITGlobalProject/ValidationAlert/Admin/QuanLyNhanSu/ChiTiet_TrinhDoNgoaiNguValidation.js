@@ -133,7 +133,7 @@
                     }
                     else if (formatnumber.test($('#strtenngoaingu' + i).val().trim()) == true || formatss.test($('#strtenngoaingu' + i).val().trim().toLowerCase().replace(/\d+/g, '')) == true) {
                         checkngoaingu = false;
-                        $('#strtenngoaingu' + i + 'validation').text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                        $('#strtenngoaingu' + i + 'validation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                     }
                     // Trình độ
                     if ($('#trinhdol' + i).val().length < 1 || $('#trinhdos' + i).val().length < 1 || $('#trinhdor' + i).val().length < 1 || $('#trinhdow' + i).val().length < 1) {
@@ -156,7 +156,7 @@
                     }
                     else if (formatnumber.test($('#strtenngoaingu' + i).val().trim()) == true || formatss.test($('#strtenngoaingu' + i).val().trim().toLowerCase().replace(/\d+/g, '')) == true) {
                         checkngoaingu = false;
-                        $('#strtenngoaingu' + i + 'validation').text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                        $('#strtenngoaingu' + i + 'validation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                     }
                     // Trình độ
                     if ($('#trinhdol' + i).val().length < 1 || $('#trinhdos' + i).val().length < 1 || $('#trinhdor' + i).val().length < 1 || $('#trinhdow' + i).val().length < 1) {
@@ -215,7 +215,7 @@
 
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Đã lưu thông tin chỉnh sửa", {
+                            swal("Thành Công!", "Bạn đã cập nhật thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

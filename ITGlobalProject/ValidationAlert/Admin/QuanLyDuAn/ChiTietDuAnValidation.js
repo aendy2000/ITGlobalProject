@@ -4,7 +4,7 @@ $(document).ready(function () {
     $('#xoabot').on('click', function (e) {
         let sott = Number($('#dem').val());
         if (sott === 1) {
-            alert("Còn có 1 cái thôi đừng xóa nữa");
+            alert("Bạn không thể xóa nữa.");
         }
         else {
             $('label[for=ipcpgd' + sott + ']').remove();

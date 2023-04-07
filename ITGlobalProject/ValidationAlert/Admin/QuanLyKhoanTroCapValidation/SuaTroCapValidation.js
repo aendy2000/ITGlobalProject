@@ -296,7 +296,7 @@
                     $('#danhSachPartial').replaceWith(ketqua);
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Tuyệt quá! Đã lưu thông tin chỉnh sửa khoản trợ cấp.", {
+                            swal("Thành Công!", "Bạn đã cập nhật thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

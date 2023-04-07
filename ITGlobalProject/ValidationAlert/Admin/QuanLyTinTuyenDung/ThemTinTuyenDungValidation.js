@@ -64,7 +64,7 @@
         }
         else if (formatnumber.test(tieude)) {
             checktintuyendung = false;
-            $("#tieudevalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $("#tieudevalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
         }
         else if (tieude.length > 250) {
             checktintuyendung = false;
@@ -195,7 +195,7 @@
                         var initDemos = function () {
                             swal({
                                 title: 'Thành Công!',
-                                text: "Tuyệt quá! Tin tuyển dụng đã được thêm vào danh sách.",
+                                text: "Bạn đã thêm thành công.",
                                 type: 'success',
                                 buttons: {
                                     cancel: {
@@ -317,7 +317,7 @@
         }
         else if (formatnumber.test(tieude)) {
             checktintuyendung = false;
-            $("#tieudevalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $("#tieudevalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
         }
         else if (tieude.length > 250) {
             checktintuyendung = false;
@@ -447,7 +447,7 @@
                     $('#resetdata').click();
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal('Thành Công!', "Tuyệt quá! Bản nháp tin tuyển dụng đã được thêm vào danh sách.", {
+                            swal('Thành Công!', "Bạn đã thêm bản nháp thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

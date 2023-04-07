@@ -85,7 +85,7 @@
                                 ).done(function () { });
                                 $('#AjaxLoader').hide();
                                 var content = {};
-                                content.message = 'Đã xóa một công việc';
+                                content.message = 'Bạn đã xóa thành công.';
                                 content.title = 'Thành công!';
                                 content.icon = 'nav-icon fe fe-bell me-2';
 
@@ -193,13 +193,13 @@
             $('#taskNamevalidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
         } else if (taskname.length > 100) {
             check = false;
-            $('#taskNamevalidation').text("Tên công việc chỉ tối đa 100 ký tự.").show().prop("hidden", false);
+            $('#taskNamevalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
         }
 
         //Mô tả công việc
         if (mota.length > 250) {
             check = false;
-            $('#motataskvalidation').text("Mô tả công việc chỉ tối đa 250 ký tự.").show().prop("hidden", false);
+            $('#motataskvalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
         }
 
         //deadline công việc
@@ -220,7 +220,7 @@
         //tên tài liệu
         if (tentailieu.length > 50) {
             check = false;
-            $('#tentailieuvalidation').text("Tên tài liệu chỉ tối đa 50 ký tự.").show().prop("hidden", false);
+            $('#tentailieuvalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
         }
 
         if (duongdantailieu.length > 0 && (duongdantailieu.indexOf(' ') != -1 || duongdantailieu.indexOf("http") == -1)) {
@@ -299,7 +299,7 @@
                     ).done(function () { });
                     $('#AjaxLoader').hide();
                     var content = {};
-                    content.message = 'Đã thêm một công việc mới!';
+                    content.message = 'Bạn đã thêm thành công';
                     content.title = 'Thành công!';
                     content.icon = 'nav-icon fe fe-bell me-2';
 

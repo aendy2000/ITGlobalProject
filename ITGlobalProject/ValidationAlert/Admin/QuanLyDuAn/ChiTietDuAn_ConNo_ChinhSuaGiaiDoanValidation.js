@@ -131,7 +131,7 @@
                                         $('#AjaxLoader').hide();
 
                                         var content = {};
-                                        content.message = 'Đã thay đổi thông tin giai đoạn thanh toán của dự án';
+                                        content.message = 'Bạn đã cập nhật thành công.';
                                         content.title = 'Thành công!';
                                         content.icon = 'nav-icon fe fe-bell me-2';
                                         $.notify(content, {

@@ -42,7 +42,7 @@
                                 $('#chiTietDuAnPartialID').replaceWith(ketqua);
 
                                 var content = {};
-                                content.message = 'Đã loại bỏ thành viên khỏi dự án';
+                                content.message = 'Bạn đã loại bỏ thành viên thành công.';
                                 content.title = 'Thành công!';
                                 content.icon = 'nav-icon fe fe-bell me-2';
                                 $.notify(content, {

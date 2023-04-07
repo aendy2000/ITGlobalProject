@@ -47,14 +47,18 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li>
-                                <button id="downloadEmp" role="button" class="btn btn-outline-primary" style="width:230px">
-                                    <i class="fe fe-download"> </i> Export Nhân Viên
+                                <a style="width:100%" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Thêm Mới</a>
+                            </li>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <li>
+                                <button id="downloadEmp" role="button" class="btn btn-primary">
+                                    <i class="fe fe-download"> </i> Xuất
                                 </button>
                             </li>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <li>
-                                <button class="btn btn-outline-primary" data-bs-toggle="modal" style="width:230px" data-bs-target="#modalUploadFile">
-                                    <i class="fe fe-upload"> </i> Nhập Nhân Viên
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalUploadFile">
+                                    <i class="fe fe-upload"> </i> Nhập
                                 </button>
                             </li>
                             &nbsp;&nbsp;&nbsp;&nbsp;
@@ -96,10 +100,7 @@
         </div>
     </div>
     <div style="margin-bottom: 10px" class="row">
-        <div class="mb-3 col-12 col-md-3">
-            <a style="width:100%" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="fe fe-user-plus"> </i> Thêm Nhân viên</a>
-        </div>
-        <div class="mb-3 col-12 col-md-6">
+        <div class="mb-3 col-12 col-md-9">
             <input id="searchNhanViens" type="search" class="form-control" placeholder="Tìm kiếm với Mã, Tên, Email hoặc CMND/CCCD của Nhân viên" />
             <input value="1" hidden id="valueTypes" />
             <input value="8" hidden id="valueListCount" />

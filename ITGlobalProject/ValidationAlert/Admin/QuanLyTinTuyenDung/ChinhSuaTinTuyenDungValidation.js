@@ -62,7 +62,7 @@
         }
         else if (formatnumber.test(tieude)) {
             checktintuyendung = false;
-            $("#tieudevalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $("#tieudevalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
         }
         else if (tieude.length > 250) {
             checktintuyendung = false;
@@ -191,7 +191,7 @@
                 if (ketqua.indexOf("SUCCESS") != -1) {
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Tuyệt quá! Thông tin đã được chỉnh sửa thành công.", {
+                            swal("Thành Công!", "Bạn đã cập nhật thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

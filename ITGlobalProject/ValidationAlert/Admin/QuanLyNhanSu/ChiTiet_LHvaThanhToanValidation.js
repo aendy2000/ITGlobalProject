@@ -52,7 +52,7 @@
             }
             else if (formatTextVN.test(sotaikhoan) == true || formatss.test(sotaikhoan.toLowerCase().replace(/\d+/g, '')) == true) {
                 checklienhethanhtoan = false;
-                $("#sotaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                $("#sotaikhoanvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
 
             }
             // Vali chutaikhoan
@@ -69,12 +69,12 @@
             }
             else if (formatss.test(chutaikhoan.toLowerCase().replace(/\d+/g, '')) == true) {
                 checklienhethanhtoan = false;
-                $("#chutaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                $("#chutaikhoanvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
 
             }
             else if (formatnumber.test(chutaikhoan) == true) {
                 checklienhethanhtoan = false;
-                $("#chutaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                $("#chutaikhoanvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
             }
         }
         //Done
@@ -122,7 +122,7 @@
 
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Đã lưu thông tin chỉnh sửa", {
+                            swal("Thành Công!", "Bạn đã cập nhật thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

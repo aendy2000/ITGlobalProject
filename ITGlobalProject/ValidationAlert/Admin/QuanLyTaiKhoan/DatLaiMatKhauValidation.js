@@ -77,7 +77,7 @@
                 else if (ketqua === "SUCCESS") {
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Đã đặt lại mật khẩu mới, chọn OK để quay về trang đăng nhập!", {
+                            swal("Thành Công!", "Bạn đã đặt lại mật khẩu mới thành công, chọn OK để quay về trang đăng nhập!", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

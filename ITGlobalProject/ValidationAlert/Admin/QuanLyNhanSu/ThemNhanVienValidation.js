@@ -315,7 +315,7 @@
         }
         else if (formatss.test(hoten.toLowerCase().replace(/\d+/g, '')) == true) {
             checkthongtincanhan = false;
-            $("#hotenvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $("#hotenvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
             $('#collapseOne').collapse('show');
             $('#hoantatttcanhan').addClass('fe-x-circle');
             $('#hoantatttcanhan').addClass('text-danger');
@@ -325,7 +325,7 @@
         }
         else if (formatnumber.test(hoten) == true) {
             checkthongtincanhan = false;
-            $("#hotenvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $("#hotenvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
             $('#collapseOne').collapse('show');
             $('#hoantatttcanhan').addClass('fe-x-circle');
             $('#hoantatttcanhan').addClass('text-danger');
@@ -344,7 +344,7 @@
 
         } else if (cmnd.length != 14 && cmnd.length != 11) {
             checkthongtincanhan = false;
-            $("#cmndvalidation").text("Vui lòng nhập đầy đủ thông tin này!").show();
+            $("#cmndvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
             $('#collapseOne').collapse('show');
             $('#hoantatttcanhan').addClass('fe-x-circle');
             $('#hoantatttcanhan').addClass('text-danger');
@@ -372,7 +372,7 @@
         }
         else if (formatnumber.test(quoctich) == true) {
             checkthongtincanhan = false;
-            $("#quoctichvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $("#quoctichvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
             $('#collapseOne').collapse('show');
             $('#hoantatttcanhan').addClass('fe-x-circle');
             $('#hoantatttcanhan').addClass('text-danger');
@@ -391,7 +391,7 @@
             $('#hoantatttcanhan').removeClass('text-success');
         } else if (sodienthoaididong.length != 12) {
             checkthongtincanhan = false;
-            $("#sodienthoaididongvalidation").text("Vui lòng nhập đầy đủ thông tin này!").show();
+            $("#sodienthoaididongvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
             $('#collapseOne').collapse('show');
             $('#hoantatttcanhan').addClass('fe-x-circle');
             $('#hoantatttcanhan').addClass('text-danger');
@@ -402,7 +402,7 @@
         if (sodienthoaikhac.length > 0) {
             if (sodienthoaikhac.length != 12) {
                 checkthongtincanhan = false;
-                $("#sodienthoaikhacvalidation").text("Vui lòng nhập đầy đủ thông tin này!").show();
+                $("#sodienthoaikhacvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                 $('#collapseOne').collapse('show');
                 $('#hoantatttcanhan').addClass('fe-x-circle');
                 $('#hoantatttcanhan').addClass('text-danger');
@@ -423,7 +423,7 @@
 
         } else if (formatEmail.test(diachiemailcongty) == false) {
             checkthongtincanhan = false;
-            $("#diachiemailcongtyvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+            $("#diachiemailcongtyvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
             $('#collapseOne').collapse('show');
             $('#hoantatttcanhan').addClass('fe-x-circle');
             $('#hoantatttcanhan').addClass('text-danger');
@@ -452,7 +452,7 @@
             }
             else if (formatEmail.test(diachiemailkhac) == false) {
                 checkthongtincanhan = false;
-                $("#diachiemailkhacvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                $("#diachiemailkhacvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                 $('#collapseOne').collapse('show');
                 $('#hoantatttcanhan').addClass('fe-x-circle');
                 $('#hoantatttcanhan').addClass('text-danger');
@@ -472,7 +472,7 @@
         }
         if (ngaysinh.length < 1) {
             checkthongtincanhan = false;
-            $("#ngaysinhvalidation").text("Không được bỏ trống thông tin này!").show();
+            $("#ngaysinhvalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
             $('#collapseOne').collapse('show');
             $('#hoantatttcanhan').addClass('fe-x-circle');
             $('#hoantatttcanhan').addClass('text-danger');
@@ -573,7 +573,7 @@
             }
             else if (formatTextVN.test(sotaikhoan) == true || formatss.test(sotaikhoan.toLowerCase().replace(/\d+/g, '')) == true) {
                 checklienhethanhtoan = false;
-                $("#sotaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                $("#sotaikhoanvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                 $('#collapse2').collapse('show');
                 $('#hoantatttlienhe').addClass('fe-x-circle');
                 $('#hoantatttlienhe').addClass('text-danger');
@@ -603,7 +603,7 @@
             }
             else if (formatss.test(chutaikhoan.toLowerCase().replace(/\d+/g, '')) == true) {
                 checklienhethanhtoan = false;
-                $("#chutaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                $("#chutaikhoanvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                 $('#collapse2').collapse('show');
                 $('#hoantatttlienhe').addClass('fe-x-circle');
                 $('#hoantatttlienhe').addClass('text-danger');
@@ -612,7 +612,7 @@
             }
             else if (formatnumber.test(chutaikhoan) == true) {
                 checklienhethanhtoan = false;
-                $("#chutaikhoanvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                $("#chutaikhoanvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                 $('#collapse2').collapse('show');
                 $('#hoantatttlienhe').addClass('fe-x-circle');
                 $('#hoantatttlienhe').addClass('text-danger');
@@ -786,7 +786,7 @@
                     }
                     else if (formatnumber.test($('#hotennhanthan' + i).val().trim()) == true || formatss.test($('#hotennhanthan' + i).val().trim().toLowerCase().replace(/\d+/g, '')) == true) {
                         checknhanthan = false;
-                        $('#hotennhanthan' + i + 'validation').text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                        $('#hotennhanthan' + i + 'validation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                     }
                     if ($('#moiquanhenhanthan' + i).val().trim().length < 1) {
                         checknhanthan = false;
@@ -799,7 +799,7 @@
                     }
                     else if (formatss.test($('#moiquanhenhanthan' + i).val().trim().toLowerCase().replace(/\d+/g, '')) == true) {
                         checknhanthan = false;
-                        $('#moiquanhenhanthan' + i + 'validation').text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                        $('#moiquanhenhanthan' + i + 'validation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                     }
                     if ($('#ngaysinhnhanthan' + i).val().length < 1) {
                         checknhanthan = false;
@@ -837,7 +837,7 @@
                     }
                     else if (formatnumber.test($('#hotennhanthan' + i).val().trim()) == true || formatss.test($('#hotennhanthan' + i).val().trim().toLowerCase().replace(/\d+/g, '')) == true) {
                         checknhanthan = false;
-                        $('#hotennhanthan' + i + 'validation').text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                        $('#hotennhanthan' + i + 'validation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                     }
                     if ($('#moiquanhenhanthan' + i).val().trim().length < 1) {
                         checknhanthan = false;
@@ -850,7 +850,7 @@
                     }
                     else if (formatss.test($('#moiquanhenhanthan' + i).val().trim().toLowerCase().replace(/\d+/g, '')) == true) {
                         checknhanthan = false;
-                        $('#moiquanhenhanthan' + i + 'validation').text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                        $('#moiquanhenhanthan' + i + 'validation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                     }
                     if ($('#ngaysinhnhanthan' + i).val().length < 1) {
                         checknhanthan = false;
@@ -1116,7 +1116,7 @@
                     $('#soLuongNV').val(soluongNV);
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Tuyệt quá! Nhân viên đã được thêm vào danh sách.", {
+                            swal("Thành Công!", "Bạn đã thêm thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

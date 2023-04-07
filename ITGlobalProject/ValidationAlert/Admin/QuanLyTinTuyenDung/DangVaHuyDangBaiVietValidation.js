@@ -53,7 +53,7 @@
                                     });
                                     var SweetAlert2Demo = function () {
                                         var initDemos = function () {
-                                            swal("Thành Công!", "Tuyệt quá! Bài viết đã được ngừng đăng tuyển công khai.", {
+                                            swal("Thành Công!", "Bạn đã ngưng đăng tin tuyển dụng thành công.", {
                                                 icon: "success",
                                                 buttons: {
                                                     confirm: {
@@ -140,7 +140,7 @@
 
                                     var SweetAlert2Demo = function () {
                                         var initDemos = function () {
-                                            swal("Thành Công!", "Tuyệt quá! Bài viết đã được đăng công khai.", {
+                                            swal("Thành Công!", "Bạn đã đăng công khai thành công.", {
                                                 icon: "success",
                                                 buttons: {
                                                     confirm: {

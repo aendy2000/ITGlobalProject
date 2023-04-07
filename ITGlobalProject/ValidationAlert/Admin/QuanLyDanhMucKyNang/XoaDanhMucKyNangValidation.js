@@ -40,7 +40,7 @@
                                 $('#danhSachPartial').replaceWith(ketqua);
                                 var SweetAlert2Demo = function () {
                                     var initDemos = function () {
-                                        swal("Thành Công!", "Tuyệt quá! Một danh mục kỹ năng đã được xóa thành công.", {
+                                        swal("Thành Công!", "Bạn đã xóa thành công.", {
                                             icon: "success",
                                             buttons: {
                                                 confirm: {

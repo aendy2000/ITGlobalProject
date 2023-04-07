@@ -105,7 +105,7 @@
                     $('#contentPartial').replaceWith(ketqua);
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Tuyệt quá! Bạn đã thay đổi mật khẩu thành công.", {
+                            swal("Thành Công!", "Bạn đã thay đổi mật khẩu thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

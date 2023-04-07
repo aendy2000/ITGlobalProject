@@ -223,7 +223,7 @@
                                 ).done(function () {
                                 });
                                 var content = {};
-                                content.message = 'Đã duyệt đơn nghỉ phép!';
+                                content.message = 'Bạn đã duyệt đơn thành công.';
                                 content.title = 'Thành công!';
                                 content.icon = 'nav-icon fe fe-bell me-2';
 
@@ -303,7 +303,7 @@
                                 ).done(function () {
                                 });
                                 var content = {};
-                                content.message = 'Đã từ chối đơn nghỉ phép!';
+                                content.message = 'Bạn đã từ chối đơn nghỉ phép thành công.';
                                 content.title = 'Thành công!';
                                 content.icon = 'nav-icon fe fe-bell me-2';
 

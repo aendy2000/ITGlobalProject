@@ -6,7 +6,7 @@
             var initDemos = function () {
                 swal({
                     title: 'Bỏ Liên Hệ Này?',
-                    text: "Bạn có chắc muốn xóa Liên hệ này này?",
+                    text: "Bạn có chắc muốn xóa Liên hệ này?",
                     type: 'warning',
                     buttons: {
                         cancel: {
@@ -39,7 +39,7 @@
                                 $('#tabContent').replaceWith(ketqua);
                                 var SweetAlert2Demo = function () {
                                     var initDemos = function () {
-                                        swal("Thành Công!", "Đã xóa một liên hệ!", {
+                                        swal("Thành Công!", "Bạn đã xóa thành công.", {
                                             icon: "success",
                                             buttons: {
                                                 confirm: {
@@ -92,7 +92,7 @@
             var initDemos = function () {
                 swal({
                     title: 'Bỏ Liên Hệ Này?',
-                    text: "Bạn có chắc muốn xóa Liên hệ này này?",
+                    text: "Bạn có chắc muốn xóa Liên hệ này?",
                     type: 'warning',
                     buttons: {
                         cancel: {
@@ -125,7 +125,7 @@
                                 $('#tabContent').replaceWith(ketqua);
                                 var SweetAlert2Demo = function () {
                                     var initDemos = function () {
-                                        swal("Thành Công!", "Đã xóa một liên hệ!", {
+                                        swal("Thành Công!", "Bạn đã xóa thành công.", {
                                             icon: "success",
                                             buttons: {
                                                 confirm: {
@@ -209,7 +209,7 @@
                                 $('#tabContent').replaceWith(ketqua);
                                 var SweetAlert2Demo = function () {
                                     var initDemos = function () {
-                                        swal("Thành Công!", "Đã hoàn thành một tư vấn!", {
+                                        swal("Thành Công!", "Bạn đã tư vấn thành công.", {
                                             icon: "success",
                                             buttons: {
                                                 confirm: {

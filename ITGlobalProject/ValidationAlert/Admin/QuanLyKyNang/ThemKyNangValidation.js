@@ -20,10 +20,10 @@
             $('#KyNangValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         } else if (formats.test(name) == true || formatNumber.test(name) == true) {
             checkname = false;
-            $('#KyNangValidateResul').text("Tên kỹ năng không hợp lệ! Vui lòng kiểm tra lại.").show();
+            $('#KyNangValidateResul').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
         } else if (name.length > 50) {
             checkname = false;
-            $('#KyNangValidateResul').text("Tên kỹ năng chỉ tối đa 50 ký tự! Vui lòng kiểm tra lại.").show();
+            $('#KyNangValidateResul').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
         }
 
         if (dmkynang.length < 1) {
@@ -51,7 +51,7 @@
                     $('#danhSachPartial').replaceWith(ketqua);
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Tuyệt quá! Kỹ năng đã được thêm vào danh sách.", {
+                            swal("Thành Công!", "Bạn đã thêm thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

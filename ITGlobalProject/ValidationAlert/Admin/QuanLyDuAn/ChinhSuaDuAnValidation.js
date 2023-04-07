@@ -199,7 +199,7 @@
             $('#name').focus();
         } else if (name.length > 100) {
             checkduan = false;
-            $('#namevalidation').text("Tên dự án chỉ tối đa 100 ký tự.").show().prop("hidden", false);
+            $('#namevalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
             $('#name').focus();
         }
 
@@ -207,7 +207,7 @@
         if (mota.length > 0) {
             if (mota.length > 1000) {
                 checkduan = false;
-                $('#motavalidation').text("Mô tả dự án chỉ tối đa 1000 ký tự.").show().prop("hidden", false);
+                $('#motavalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#mota').focus();
             }
         }
@@ -253,7 +253,7 @@
             }
             else if (namedn.length > 100) {
                 checkkhachhang = false;
-                $('#namednvalidation').text("Tên doanh nghiệp chỉ tối đa 100 ký tự.").show().prop("hidden", false);
+                $('#namednvalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#namedn').focus();
             }
 
@@ -264,11 +264,11 @@
                 $('#hotennguoidaidien').focus();
             } else if (formatnumber.test(hotendaidien) == true || formatss.test(hotendaidien.toLowerCase().replace(/\d+/g, '')) == true) {
                 checkkhachhang = false;
-                $('#hotennguoidaidienvalidation').text("Họ và Tên chưa đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
+                $('#hotennguoidaidienvalidation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#hotennguoidaidien').focus();
             } else if (hotendaidien.length > 50) {
                 checkkhachhang = false;
-                $('#hotennguoidaidienvalidation').text("Họ và Tên chỉ tối đa 50 ký tự.").show().prop("hidden", false);
+                $('#hotennguoidaidienvalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#hotennguoidaidien').focus();
             }
         }
@@ -280,11 +280,11 @@
                 $('#hoten').focus();
             } else if (formatnumber.test(hoten) == true || formatss.test(hoten.toLowerCase().replace(/\d+/g, '')) == true) {
                 checkkhachhang = false;
-                $('#hotenvalidation').text("Họ và Tên chưa đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
+                $('#hotenvalidation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#hoten').focus();
             } else if (hoten.length > 50) {
                 checkkhachhang = false;
-                $('#hotenvalidation').text("Họ và Tên chỉ tối đa 50 ký tự.").show().prop("hidden", false);
+                $('#hotenvalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#hoten').focus();
             }
         }
@@ -318,12 +318,12 @@
 
         } else if (formatEmail.test(email) == false) {
             checkkhachhang = false;
-            $("#emailvalidation").text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show().prop("hidden", false);
+            $("#emailvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
             $('#email').focus();
         }
         else if (email.length > 50) {
             checkkhachhang = false;
-            $("#emailvalidation").text("Email chỉ tối đa 50 ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
+            $("#emailvalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
             $('#email').focus();
         }
 
@@ -342,7 +342,7 @@
 
         if (diahchinha.length > 250) {
             checkkhachhang = false;
-            $("#diachinhavalidation").text("Địa chỉ, chỉ tối đa 250 ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
+            $("#diachinhavalidation").text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
             $('#gioitinh').focus();
         }
 
@@ -443,7 +443,7 @@
                     $('#resetdata_1').click();
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Đã lưu thông tin cập nhật dự án.", {
+                            swal("Thành Công!", "Bạn đã cập nhật thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {
@@ -489,7 +489,7 @@
             $('#name').focus();
         } else if (name.length > 100) {
             checkduan = false;
-            $('#namevalidation').text("Tên dự án chỉ tối đa 100 ký tự.").show().prop("hidden", false);
+            $('#namevalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
             $('#name').focus();
         }
 
@@ -497,7 +497,7 @@
         if (mota.length > 0) {
             if (mota.length > 1000) {
                 checkduan = false;
-                $('#motavalidation').text("Mô tả dự án chỉ tối đa 1000 ký tự.").show().prop("hidden", false);
+                $('#motavalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#mota').focus();
             }
         }
@@ -593,7 +593,7 @@
                     $('#resetdata_1').click();
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Đã lưu thông tin cập nhật dự án.", {
+                            swal("Thành Công!", "Bạn đã cập nhật thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

@@ -30,10 +30,10 @@
             $('#tenNgayNghiValidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show();
         } else if (formats.test(name) == true || formatNumber.test(name) == true) {
             checkname = false;
-            $('#tenNgayNghiValidation').text("Tên danh mục ngày nghỉ không hợp lệ! Vui lòng kiểm tra lại.").show();
+            $('#tenNgayNghiValidation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
         } else if (name.length > 50) {
             checkname = false;
-            $('#tenNgayNghiValidation').text("Tên danh mục ngày nghỉ chỉ tối đa 50 ký tự! Vui lòng kiểm tra lại.").show();
+            $('#tenNgayNghiValidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show();
         }
 
         if (monthbatdau.length == 0) {
@@ -79,7 +79,7 @@
                     $('#danhSachPartial').replaceWith(ketqua);
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Tuyệt quá! Một danh mục ngày nghỉ phép đã được thêm vào danh sách.", {
+                            swal("Thành Công!", "Bạn đã thêm thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {

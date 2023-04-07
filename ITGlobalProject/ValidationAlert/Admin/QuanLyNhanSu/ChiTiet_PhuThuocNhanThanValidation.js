@@ -136,7 +136,7 @@
                     }
                     else if (formatnumber.test($('#hotennhanthan' + i).val().trim()) == true || formatss.test($('#hotennhanthan' + i).val().trim().toLowerCase().replace(/\d+/g, '')) == true) {
                         checknhanthan = false;
-                        $('#hotennhanthan' + i + 'validation').text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                        $('#hotennhanthan' + i + 'validation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                     }
                     // Vali mối quan hệ
                     if ($('#moiquanhenhanthan' + i).val().trim().length < 1) {
@@ -145,7 +145,7 @@
                     }
                     else if (formatss.test($('#moiquanhenhanthan' + i).val().trim().toLowerCase().replace(/\d+/g, '')) == true) {
                         checknhanthan = false;
-                        $('#moiquanhenhanthan' + i + 'validation').text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                        $('#moiquanhenhanthan' + i + 'validation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                     }
                     // Vali ngày sinh
                     if ($('#ngaysinhnhanthan' + i).val().length < 1) {
@@ -166,7 +166,7 @@
                     }
                     else if (formatnumber.test($('#hotennhanthan' + i).val().trim()) == true || formatss.test($('#hotennhanthan' + i).val().trim().toLowerCase().replace(/\d+/g, '')) == true) {
                         checknhanthan = false;
-                        $('#hotennhanthan' + i + 'validation').text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                        $('#hotennhanthan' + i + 'validation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                     }
                     // Vali mối quan hệ
                     if ($('#moiquanhenhanthan' + i).val().trim().length < 1) {
@@ -175,7 +175,7 @@
                     }
                     else if (formatss.test($('#moiquanhenhanthan' + i).val().trim().toLowerCase().replace(/\d+/g, '')) == true) {
                         checknhanthan = false;
-                        $('#moiquanhenhanthan' + i + 'validation').text("Sai rồi! Vui lòng kiểm tra lại định dạng.").show();
+                        $('#moiquanhenhanthan' + i + 'validation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show();
                     }
                     // Vali ngày sinh
                     if ($('#ngaysinhnhanthan' + i).val().length < 1) {
@@ -231,7 +231,7 @@
 
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal("Thành Công!", "Đã lưu thông tin chỉnh sửa", {
+                            swal("Thành Công!", "Bạn đã cập nhật thành công.", {
                                 icon: "success",
                                 buttons: {
                                     confirm: {
