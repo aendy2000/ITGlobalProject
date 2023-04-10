@@ -55,7 +55,6 @@
                             <th scope="col" class=" border-top-0">Công việc</th>
                             <th scope="col" class=" border-top-0">Hoàn thành</th>
                             <th scope="col" class=" border-top-0">Trạng thái</th>
-                            <th scope="col" class=" border-top-0">Đội ngũ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -216,79 +215,6 @@
                                         }
                                     }
 
-                                </td>
-                                <td class="align-middle text-nowrap">
-                                    <div class="avatar-group">
-                                        <!-- Chưa có đội ngũ-->
-                                        @if (item.Teams.Count == 0)
-                                        {
-                                            <span>Chưa Lập</span>
-                                        }
-                                        //Đội ngũ ít hơn 4 người
-                                        else if (item.Teams.Count <= 3)
-                                        {
-                                            foreach (var iteam in item.Teams)
-                                            {
-                                                if (string.IsNullOrEmpty(iteam.Employees.Avatar))
-                                                {
-                                                    <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@iteam.Employees.ID">
-                                                        <span class="avatar-initials rounded-circle ">
-                                                            @iteam.Employees.Name.Substring(0, 1).ToUpper()
-                                                        </span>
-                                                        <span id="@iteam.Employees.ID" class="d-none">
-                                                            <span class="mb-0 h6">@iteam.Employees.Name</span>
-
-                                                        </span>
-                                                    </span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="avatar avatar-md">
-                                                        <img alt="avatar" src="@iteam.Employees.Avatar"
-                                                             class="rounded-circle imgtooltip" data-template="@iteam.Employees.ID">
-
-                                                        <span id="@iteam.Employees.ID" class="d-none">
-                                                            <span class="mb-0 h6">@iteam.Employees.Name</span>
-                                                        </span>
-                                                    </span>
-                                                }
-                                            }
-                                        }
-                                        //Đội ngũ nhiều hơn 3 người
-                                        else
-                                        {
-                                            for (int t = 0; t < 3; t++)
-                                            {
-                                                if (string.IsNullOrEmpty(item.Teams.ToList()[t].Employees.Avatar))
-                                                {
-                                                    <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@item.Teams.ToList()[t].Employees.ID">
-                                                        <span class="avatar-initials rounded-circle ">
-                                                            @item.Teams.ToList()[t].Employees.Name.Substring(0, 1).ToUpper()
-                                                        </span>
-                                                        <span id="@item.Teams.ToList()[t].Employees.ID" class="d-none">
-                                                            <span class="mb-0 h6">@item.Teams.ToList()[t].Employees.Name</span>
-
-                                                        </span>
-                                                    </span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="avatar avatar-md">
-                                                        <img alt="avatar" src="@item.Teams.ToList()[t].Employees.Avatar"
-                                                             class="rounded-circle imgtooltip" data-template="@item.Teams.ToList()[t].Employees.ID">
-
-                                                        <span id="@item.Teams.ToList()[t].Employees.ID" class="d-none">
-                                                            <span class="mb-0 h6">@item.Teams.ToList()[t].Employees.Name</span>
-                                                        </span>
-                                                    </span>
-                                                }
-                                            }
-                                            <span class="avatar avatar-md">
-                                                <span class="avatar-initials rounded-circle bg-light text-dark">@(item.Teams.Count - 3)+</span>
-                                            </span>
-                                        }
-
-                                    </div>
                                 </td>
                             </tr>
                         }

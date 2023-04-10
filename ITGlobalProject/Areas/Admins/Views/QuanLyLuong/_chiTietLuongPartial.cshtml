@@ -618,28 +618,31 @@
                                                 @Model.TotalPriceInsurance.ToString("0,0").Replace(".", ",") đ
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td class="border-bottom-0 pb-0"></td>
-                                            <td colspan="1" class="fw-medium border-bottom-0 pb-0">
-                                                <!-- text -->
-                                                Giảm Trừ Gia Cảnh :
-                                            </td>
-                                            <td class="fw-medium border-bottom-0 pb-0 text-end">
-                                                <!-- text -->
-                                                @Model.FamilyAllowances.Value.ToString("0,0").Replace(".", ",") đ
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-bottom-0 pb-0"></td>
-                                            <td colspan="1" class="fw-medium border-bottom-0 pb-0">
-                                                <!-- text -->
-                                                Giảm Trừ Phụ Thuộc :
-                                            </td>
-                                            <td class="fw-medium border-bottom-0 pb-0 text-end">
-                                                <!-- text -->
-                                                @Model.NumberOfDependents x @(Model.NumberOfDependents != null && Model.NumberOfDependents.Value != 0 ? (Model.DependencyDeduction.Value * Model.NumberOfDependents.Value).ToString("0,0").Replace(".", ",") : "0") đ
-                                            </td>
-                                        </tr>
+                                        if (Model.FamilyAllowances != null && Model.NumberOfDependents != null && Model.DependencyDeduction != null)
+                                        {
+                                            <tr>
+                                                <td class="border-bottom-0 pb-0"></td>
+                                                <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                                    <!-- text -->
+                                                    Giảm Trừ Gia Cảnh :
+                                                </td>
+                                                <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                                    <!-- text -->
+                                                    @Model.FamilyAllowances.Value.ToString("0,0").Replace(".", ",") đ
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border-bottom-0 pb-0"></td>
+                                                <td colspan="1" class="fw-medium border-bottom-0 pb-0">
+                                                    <!-- text -->
+                                                    Giảm Trừ Phụ Thuộc :
+                                                </td>
+                                                <td class="fw-medium border-bottom-0 pb-0 text-end">
+                                                    <!-- text -->
+                                                    @Model.NumberOfDependents.Value x @(Model.NumberOfDependents.Value != null && Model.NumberOfDependents.Value != 0 ? (Model.DependencyDeduction.Value * Model.NumberOfDependents.Value).ToString("0,0").Replace(".", ",") : "0") đ
+                                                </td>
+                                            </tr>
+                                        }
                                         <tr>
                                             <td class="fw-medium text-dark "></td>
                                             <td colspan="1" class="fw-medium">

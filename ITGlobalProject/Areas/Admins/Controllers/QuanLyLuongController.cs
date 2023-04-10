@@ -187,9 +187,12 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                         if (items.SubsidiesCategory.Price == 0)
                                                         {
-                                                            luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                            if (items.SubsidiesCategory.OnBasicSalary.Value == true)
+                                                            {
+                                                                luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            }
                                                         }
                                                         else
                                                         {
@@ -241,9 +244,12 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                             if (items.SubsidiesCategory.Price == 0)
                                                             {
-                                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                                if (items.SubsidiesCategory.OnBasicSalary.Value == true)
+                                                                {
+                                                                    luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                }
                                                             }
                                                             else
                                                             {
@@ -257,7 +263,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                         {
                                                             if (items.SubsidiesCategory.Price == 0)
                                                             {
-                                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                                if (items.SubsidiesCategory.OnBasicSalary.Value == true)
+                                                                {
+                                                                    luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                }
                                                             }
                                                             else
                                                             {
@@ -297,15 +306,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                             {
                                                                 if (items.SubsidiesCategory.OnBasicSalary == true)
                                                                 {
-                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                                 else
                                                                 {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                             }
                                                             else
@@ -413,15 +422,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                             {
                                                                 if (items.SubsidiesCategory.OnBasicSalary == true)
                                                                 {
-                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                                 else
                                                                 {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                             }
                                                             else
@@ -556,9 +565,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                         if (items.SubsidiesCategory.Price == 0)
                                                         {
-                                                            luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                            luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
@@ -609,9 +618,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                             if (items.SubsidiesCategory.Price == 0)
                                                             {
-                                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                             else
                                                             {
@@ -625,7 +634,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                         {
                                                             if (items.SubsidiesCategory.Price == 0)
                                                             {
-                                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                             else
                                                             {
@@ -665,15 +674,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                             {
                                                                 if (items.SubsidiesCategory.OnBasicSalary == true)
                                                                 {
-                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                                 else
                                                                 {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                             }
                                                             else
@@ -783,15 +792,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                             {
                                                                 if (items.SubsidiesCategory.OnBasicSalary == true)
                                                                 {
-                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                                 else
                                                                 {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                             }
                                                             else
@@ -931,9 +940,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                         if (items.SubsidiesCategory.Price == 0)
                                                         {
-                                                            luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                            luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
@@ -984,9 +993,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                             if (items.SubsidiesCategory.Price == 0)
                                                             {
-                                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                             else
                                                             {
@@ -1000,7 +1009,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                         {
                                                             if (items.SubsidiesCategory.Price == 0)
                                                             {
-                                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                             else
                                                             {
@@ -1067,15 +1076,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                             {
                                                                 if (items.SubsidiesCategory.OnBasicSalary == true)
                                                                 {
-                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                                 else
                                                                 {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                             }
                                                             else
@@ -1206,15 +1215,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                             {
                                                                 if (items.SubsidiesCategory.OnBasicSalary == true)
                                                                 {
-                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                                 else
                                                                 {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                             }
                                                             else
@@ -1351,9 +1360,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                         if (items.SubsidiesCategory.Price == 0)
                                                         {
-                                                            luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                            luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
@@ -1404,9 +1413,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                             if (items.SubsidiesCategory.Price == 0)
                                                             {
-                                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                             else
                                                             {
@@ -1420,7 +1429,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                         {
                                                             if (items.SubsidiesCategory.Price == 0)
                                                             {
-                                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                                luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                             else
                                                             {
@@ -1487,15 +1496,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                             {
                                                                 if (items.SubsidiesCategory.OnBasicSalary == true)
                                                                 {
-                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                                 else
                                                                 {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                             }
                                                             else
@@ -1627,15 +1636,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                             {
                                                                 if (items.SubsidiesCategory.OnBasicSalary == true)
                                                                 {
-                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                                 else
                                                                 {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
                                                             }
                                                             else
@@ -1778,9 +1787,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                     if (items.SubsidiesCategory.Price == 0)
                                                     {
-                                                        luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                        trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                        tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                        luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
                                                     else
                                                     {
@@ -1831,9 +1840,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                         if (items.SubsidiesCategory.Price == 0)
                                                         {
-                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
@@ -1847,7 +1856,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     {
                                                         if (items.SubsidiesCategory.Price == 0)
                                                         {
-                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
@@ -1914,15 +1923,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                         {
                                                             if (items.SubsidiesCategory.OnBasicSalary == true)
                                                             {
-                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                             else
                                                             {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                         }
                                                         else
@@ -2052,15 +2061,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                         {
                                                             if (items.SubsidiesCategory.OnBasicSalary == true)
                                                             {
-                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                             else
                                                             {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                         }
                                                         else
@@ -2197,9 +2206,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                     if (items.SubsidiesCategory.Price == 0)
                                                     {
-                                                        luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                        trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                        tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                        luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
                                                     else
                                                     {
@@ -2250,9 +2259,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                         if (items.SubsidiesCategory.Price == 0)
                                                         {
-                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
@@ -2266,7 +2275,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     {
                                                         if (items.SubsidiesCategory.Price == 0)
                                                         {
-                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
@@ -2333,15 +2342,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                         {
                                                             if (items.SubsidiesCategory.OnBasicSalary == true)
                                                             {
-                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                             else
                                                             {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                         }
                                                         else
@@ -2473,15 +2482,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                         {
                                                             if (items.SubsidiesCategory.OnBasicSalary == true)
                                                             {
-                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                             else
                                                             {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                         }
                                                         else
@@ -2622,9 +2631,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                 if (items.SubsidiesCategory.Price == 0)
                                                 {
-                                                    luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                    trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                    tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                    luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
                                                 }
                                                 else
                                                 {
@@ -2675,9 +2684,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                     if (items.SubsidiesCategory.Price == 0)
                                                     {
-                                                        luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                        trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                        tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                        luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
                                                     else
                                                     {
@@ -2691,7 +2700,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 {
                                                     if (items.SubsidiesCategory.Price == 0)
                                                     {
-                                                        luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                        luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
                                                     else
                                                     {
@@ -2758,15 +2767,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     {
                                                         if (items.SubsidiesCategory.OnBasicSalary == true)
                                                         {
-                                                            luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                            luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
-                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                     }
                                                     else
@@ -2896,15 +2905,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     {
                                                         if (items.SubsidiesCategory.OnBasicSalary == true)
                                                         {
-                                                            luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                            luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
-                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                     }
                                                     else
@@ -3039,9 +3048,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                 if (items.SubsidiesCategory.Price == 0)
                                                 {
-                                                    luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                    trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                    tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                    luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
                                                 }
                                                 else
                                                 {
@@ -3092,9 +3101,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                     if (items.SubsidiesCategory.Price == 0)
                                                     {
-                                                        luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                        trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                        tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                        luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
                                                     else
                                                     {
@@ -3108,7 +3117,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 {
                                                     if (items.SubsidiesCategory.Price == 0)
                                                     {
-                                                        luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                        luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
                                                     else
                                                     {
@@ -3175,15 +3184,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     {
                                                         if (items.SubsidiesCategory.OnBasicSalary == true)
                                                         {
-                                                            luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                            luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
-                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                     }
                                                     else
@@ -3315,15 +3324,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     {
                                                         if (items.SubsidiesCategory.OnBasicSalary == true)
                                                         {
-                                                            luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                            luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
-                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                     }
                                                     else
@@ -3483,9 +3492,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                     if (items.SubsidiesCategory.Price == 0)
                                                     {
-                                                        luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                        trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                        tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                        luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
                                                     else
                                                     {
@@ -3536,9 +3545,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                         if (items.SubsidiesCategory.Price == 0)
                                                         {
-                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
@@ -3552,7 +3561,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     {
                                                         if (items.SubsidiesCategory.Price == 0)
                                                         {
-                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
@@ -3592,15 +3601,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                         {
                                                             if (items.SubsidiesCategory.OnBasicSalary == true)
                                                             {
-                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                             else
                                                             {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                         }
                                                         else
@@ -3710,15 +3719,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                         {
                                                             if (items.SubsidiesCategory.OnBasicSalary == true)
                                                             {
-                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                             else
                                                             {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                         }
                                                         else
@@ -3856,9 +3865,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                     if (items.SubsidiesCategory.Price == 0)
                                                     {
-                                                        luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                        trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                        tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                        luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
                                                     else
                                                     {
@@ -3909,9 +3918,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                         if (items.SubsidiesCategory.Price == 0)
                                                         {
-                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
@@ -3925,7 +3934,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     {
                                                         if (items.SubsidiesCategory.Price == 0)
                                                         {
-                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                            luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
@@ -3992,15 +4001,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                         {
                                                             if (items.SubsidiesCategory.OnBasicSalary == true)
                                                             {
-                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                             else
                                                             {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                         }
                                                         else
@@ -4132,15 +4141,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                         {
                                                             if (items.SubsidiesCategory.OnBasicSalary == true)
                                                             {
-                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                             else
                                                             {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
                                                         }
                                                         else
@@ -4282,9 +4291,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                 if (items.SubsidiesCategory.Price == 0)
                                                 {
-                                                    luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                    trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                    tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                    luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
                                                 }
                                                 else
                                                 {
@@ -4335,9 +4344,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                     if (items.SubsidiesCategory.Price == 0)
                                                     {
-                                                        luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                        trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                        tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                        luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
                                                     else
                                                     {
@@ -4351,7 +4360,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 {
                                                     if (items.SubsidiesCategory.Price == 0)
                                                     {
-                                                        luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                        luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
                                                     else
                                                     {
@@ -4418,15 +4427,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     {
                                                         if (items.SubsidiesCategory.OnBasicSalary == true)
                                                         {
-                                                            luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                            luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
-                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                     }
                                                     else
@@ -4558,15 +4567,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     {
                                                         if (items.SubsidiesCategory.OnBasicSalary == true)
                                                         {
-                                                            luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                            luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                         else
                                                         {
-                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
                                                     }
                                                     else
@@ -4705,9 +4714,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                             if (items.SubsidiesCategory.Price == 0)
                                             {
-                                                luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
-                                                tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value;
+                                                luongcobantinhbaohiem += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                trocaps[indextrocap].Total_Price = luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
+                                                tongtrocap += luongcobantinhbaohiem * items.SubsidiesCategory.Percentage.Value / 100;
                                             }
                                             else
                                             {
@@ -4758,9 +4767,9 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                                                 if (items.SubsidiesCategory.Price == 0)
                                                 {
-                                                    luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                    trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
-                                                    tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                    luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    trocaps[indextrocap].Total_Price = luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongtrocap += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                 }
                                                 else
                                                 {
@@ -4774,7 +4783,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             {
                                                 if (items.SubsidiesCategory.Price == 0)
                                                 {
-                                                    luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value;
+                                                    luongcobantinhthue += luongcobantinhthue * items.SubsidiesCategory.Percentage.Value / 100;
                                                 }
                                                 else
                                                 {
@@ -4841,15 +4850,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 {
                                                     if (items.SubsidiesCategory.OnBasicSalary == true)
                                                     {
-                                                        luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                        trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                        tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                        luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
                                                     else
                                                     {
-                                                        luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                        trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                        tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                        luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
                                                 }
                                                 else
@@ -4981,15 +4990,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 {
                                                     if (items.SubsidiesCategory.OnBasicSalary == true)
                                                     {
-                                                        luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                        trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value;
-                                                        tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value;
+                                                        luongthuclanh += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
                                                     else
                                                     {
-                                                        luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                        trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value;
-                                                        tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value;
+                                                        luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
                                                 }
                                                 else
