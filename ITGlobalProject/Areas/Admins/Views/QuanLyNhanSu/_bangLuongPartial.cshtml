@@ -224,15 +224,15 @@
             <div class="row justify-content-md-between mb-4 mb-xl-4 d-lg-flex">
                 <div class="col-xl-6 col-lg-4 col-md-4 col-12 align-items-end">
                     <select id="namluong" name="@Model.ID" class="" data-width="100%">
-                        @foreach (var item in luongNam)
+                        @for (int y = 2023; y <= luong.First().Date.Year; y++)
                         {
-                            if (item.Date.Year == DateTime.Now.Year)
+                            if (y == DateTime.Now.Year)
                             {
-                                <option selected value="@item.Date.Year">Lương của năm @item.Date.Year</option>
+                                <option selected value="@y">Lương của năm @y</option>
                             }
                             else
                             {
-                                <option value="@item.Date.Year">Lương của năm @item.Date.Year</option>
+                                <option value="@y">Lương của năm @y</option>
                             }
                         }
                     </select>
@@ -265,7 +265,7 @@
                                         {
                                             <tr>
                                                 <td class="align-middle">
-                                                    <b>@item.Name</b>
+                                                    @item.Name
                                                 </td>
                                                 <td class="align-middle ">
                                                     @if (item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).State == true)
@@ -277,9 +277,9 @@
                                                         <span>Chờ thanh toán</span>
                                                     }
                                                 </td>
-                                                <td class=" fw-bold mb-0 text-primary  align-middle">@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Salary.ToString("0,0").Replace(".", ",") đ </td>
-                                                <td class=" fw-bold mb-0 text-danger  align-middle">@(Convert.ToDecimal(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).TotalPriceTax.Value + item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).TotalPriceInsurance + 0).ToString("0,0").Replace(".", ",")) đ </td>
-                                                <td class=" fw-bold mb-0 text-warning  align-middle">
+                                                <td class=" align-middle">@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Salary.ToString("0,0").Replace(".", ",") đ </td>
+                                                <td class=" align-middle">@(Convert.ToDecimal(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).TotalPriceTax.Value + item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).TotalPriceInsurance + 0).ToString("0,0").Replace(".", ",")) đ </td>
+                                                <td class=" align-middle">
                                                     <input hidden id="mucthanhtoan-@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID" value="@(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value != 0 ? item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value.ToString("0").Replace(".", "") : "0")" />
                                                     @(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value != 0 ? item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value.ToString("0,0").Replace(".", ",") : "0") đ
                                                 </td>

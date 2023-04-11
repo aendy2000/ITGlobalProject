@@ -65,21 +65,21 @@
                                 <td hidden>@i</td>
                                 <td class="align-middle ">
                                     <div class="d-flex align-items-center">
-                                        <a class="text-dark" style="font-weight: bold; " href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();">@item.ID_Project</a>
+                                        <a class="text-dark" href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();">@item.ID_Project</a>
                                     </div>
                                 </td>
                                 <td class="align-middle ">
                                     <div class="d-flex align-items-center">
-                                        <h4 class="mb-0"><a href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();" class="text-inherit">@item.Name</a></h4>
+                                       <a href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();" class="text-dark">@item.Name</a>
                                     </div>
                                 </td>
                                 <td class="align-middle text-nowrap">
                                     @item.EndDate.ToString("dd/MM/yyyy")
                                 </td>
-                                <td style="font-weight: bold; " class="align-middle ">
+                                <td class="align-middle ">
                                     @item.Debts.Sum(d => d.Price).ToString("0,0").Replace(".", ",") đ
                                 </td>
-                                <td style="font-weight: bold; " class="align-middle ">
+                                <td class="align-middle ">
                                     @item.Tasks.Count() công việc
                                 </td>
                                 <td class="align-middle ">

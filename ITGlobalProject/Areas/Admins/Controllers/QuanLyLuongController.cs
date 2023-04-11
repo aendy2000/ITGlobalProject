@@ -310,12 +310,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                     trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                     tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
-                                                                else
-                                                                {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                }
                                                             }
                                                             else
                                                             {
@@ -371,6 +365,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     currentPayroll.PriceForOneDayOff = sotienmotngay;
                                                     tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
+                                                }
+
+                                                //Trợ cấp lương thực lãnh
+                                                foreach (var items in trocapTinhBH)
+                                                {
+                                                    if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                    {
+                                                        trocaps.Add(new SubsidiesApply());
+                                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                        trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                        indextrocap++;
+                                                    }
                                                 }
 
                                                 currentPayroll.Total_Price = tongthanhtoan;
@@ -426,12 +442,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                     trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                     tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
-                                                                else
-                                                                {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                }
                                                             }
                                                             else
                                                             {
@@ -488,7 +498,27 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                                 }
+                                                //Trợ cấp lương thực lãnh
+                                                foreach (var items in trocapTinhBH)
+                                                {
+                                                    if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                    {
+                                                        trocaps.Add(new SubsidiesApply());
+                                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
 
+                                                        trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                        indextrocap++;
+                                                    }
+                                                }
                                                 currentPayroll.Total_Price = tongthanhtoan;
                                                 currentPayroll.TotalAllowance = tongtrocap;
 
@@ -678,12 +708,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                     trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                     tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
-                                                                else
-                                                                {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                }
                                                             }
                                                             else
                                                             {
@@ -740,6 +764,29 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                                 }
+
+                                                //Trợ cấp lương thực lãnh
+                                                foreach (var items in trocapTinhBH)
+                                                {
+                                                    if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                    {
+                                                        trocaps.Add(new SubsidiesApply());
+                                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                        trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                        indextrocap++;
+                                                    }
+                                                }
+
                                                 payroll.Total_Price = tongthanhtoan;
                                                 payroll.MissingAmount = 0;
                                                 payroll.State = false;
@@ -796,12 +843,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                     trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                     tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
-                                                                else
-                                                                {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                }
                                                             }
                                                             else
                                                             {
@@ -858,6 +899,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                                 }
+                                                //Trợ cấp lương thực lãnh
+                                                foreach (var items in trocapTinhBH)
+                                                {
+                                                    if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                    {
+                                                        trocaps.Add(new SubsidiesApply());
+                                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                        trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                        indextrocap++;
+                                                    }
+                                                }
+
                                                 payroll.Total_Price = tongthanhtoan;
                                                 payroll.MissingAmount = 0;
                                                 payroll.State = false;
@@ -1080,12 +1143,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                     trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                     tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
-                                                                else
-                                                                {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                }
                                                             }
                                                             else
                                                             {
@@ -1141,6 +1198,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     currentPayroll.PriceForOneDayOff = sotienmotngay;
                                                     tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
+                                                }
+
+                                                //Trợ cấp lương thực lãnh
+                                                foreach (var items in trocapTinhBH)
+                                                {
+                                                    if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                    {
+                                                        trocaps.Add(new SubsidiesApply());
+                                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                        trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                        indextrocap++;
+                                                    }
                                                 }
 
                                                 currentPayroll.Total_Price = tongthanhtoan;
@@ -1219,12 +1298,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                     trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                     tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
-                                                                else
-                                                                {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                }
                                                             }
                                                             else
                                                             {
@@ -1280,6 +1353,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     currentPayroll.PriceForOneDayOff = sotienmotngay;
                                                     tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
+                                                }
+
+                                                //Trợ cấp lương thực lãnh
+                                                foreach (var items in trocapTinhBH)
+                                                {
+                                                    if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                    {
+                                                        trocaps.Add(new SubsidiesApply());
+                                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                        trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                        indextrocap++;
+                                                    }
                                                 }
 
                                                 currentPayroll.Total_Price = tongthanhtoan;
@@ -1500,12 +1595,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                     trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                     tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
-                                                                else
-                                                                {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                }
                                                             }
                                                             else
                                                             {
@@ -1562,6 +1651,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                                 }
+                                                //Trợ cấp lương thực lãnh
+                                                foreach (var items in trocapTinhBH)
+                                                {
+                                                    if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                    {
+                                                        trocaps.Add(new SubsidiesApply());
+                                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                        trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                        indextrocap++;
+                                                    }
+                                                }
+
                                                 payroll.Total_Price = tongthanhtoan;
                                                 payroll.MissingAmount = 0;
                                                 payroll.State = false;
@@ -1640,12 +1751,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                     trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                     tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 }
-                                                                else
-                                                                {
-                                                                    luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                    tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                }
                                                             }
                                                             else
                                                             {
@@ -1702,6 +1807,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                     tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                                 }
+                                                //Trợ cấp lương thực lãnh
+                                                foreach (var items in trocapTinhBH)
+                                                {
+                                                    if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                    {
+                                                        trocaps.Add(new SubsidiesApply());
+                                                        trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                        trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                        trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                        trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                        trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                        trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                        trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                        trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                        tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                        indextrocap++;
+                                                    }
+                                                }
+
                                                 payroll.Total_Price = tongthanhtoan;
                                                 payroll.MissingAmount = 0;
                                                 payroll.State = false;
@@ -1927,12 +2054,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                 trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
-                                                            else
-                                                            {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            }
                                                         }
                                                         else
                                                         {
@@ -1988,6 +2109,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 currentPayroll.PriceForOneDayOff = sotienmotngay;
                                                 tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
+                                            }
+
+                                            //Trợ cấp lương thực lãnh
+                                            foreach (var items in trocapTinhBH)
+                                            {
+                                                if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                {
+                                                    trocaps.Add(new SubsidiesApply());
+                                                    trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                    trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                    trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                    trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                    trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                    trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                    trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                    indextrocap++;
+                                                }
                                             }
 
                                             currentPayroll.Total_Price = tongthanhtoan;
@@ -2065,12 +2208,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                 trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
-                                                            else
-                                                            {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            }
                                                         }
                                                         else
                                                         {
@@ -2126,6 +2263,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 currentPayroll.PriceForOneDayOff = sotienmotngay;
                                                 tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
+                                            }
+
+                                            //Trợ cấp lương thực lãnh
+                                            foreach (var items in trocapTinhBH)
+                                            {
+                                                if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                {
+                                                    trocaps.Add(new SubsidiesApply());
+                                                    trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                    trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                    trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                    trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                    trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                    trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                    trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                    indextrocap++;
+                                                }
                                             }
 
                                             currentPayroll.Total_Price = tongthanhtoan;
@@ -2346,12 +2505,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                 trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
-                                                            else
-                                                            {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            }
                                                         }
                                                         else
                                                         {
@@ -2408,6 +2561,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                             }
+                                            //Trợ cấp lương thực lãnh
+                                            foreach (var items in trocapTinhBH)
+                                            {
+                                                if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                {
+                                                    trocaps.Add(new SubsidiesApply());
+                                                    trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                    trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                    trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                    trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                    trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                    trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                    trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                    indextrocap++;
+                                                }
+                                            }
+
                                             payroll.Total_Price = tongthanhtoan;
                                             payroll.MissingAmount = 0;
                                             payroll.State = false;
@@ -2486,12 +2661,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                 trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
-                                                            else
-                                                            {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            }
                                                         }
                                                         else
                                                         {
@@ -2548,6 +2717,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                             }
+                                            //Trợ cấp lương thực lãnh
+                                            foreach (var items in trocapTinhBH)
+                                            {
+                                                if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                {
+                                                    trocaps.Add(new SubsidiesApply());
+                                                    trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                    trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                    trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                    trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                    trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                    trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                    trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                    indextrocap++;
+                                                }
+                                            }
+
                                             payroll.Total_Price = tongthanhtoan;
                                             payroll.MissingAmount = 0;
                                             payroll.State = false;
@@ -2771,12 +2962,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                             trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
-                                                        else
-                                                        {
-                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                        }
                                                     }
                                                     else
                                                     {
@@ -2832,6 +3017,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             currentPayroll.PriceForOneDayOff = sotienmotngay;
                                             tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
+                                        }
+
+                                        //Trợ cấp lương thực lãnh
+                                        foreach (var items in trocapTinhBH)
+                                        {
+                                            if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                            {
+                                                trocaps.Add(new SubsidiesApply());
+                                                trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                indextrocap++;
+                                            }
                                         }
 
                                         currentPayroll.Total_Price = tongthanhtoan;
@@ -2909,12 +3116,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                             trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
-                                                        else
-                                                        {
-                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                        }
                                                     }
                                                     else
                                                     {
@@ -2970,6 +3171,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             currentPayroll.PriceForOneDayOff = sotienmotngay;
                                             tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
+                                        }
+
+                                        //Trợ cấp lương thực lãnh
+                                        foreach (var items in trocapTinhBH)
+                                        {
+                                            if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                            {
+                                                trocaps.Add(new SubsidiesApply());
+                                                trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                indextrocap++;
+                                            }
                                         }
 
                                         currentPayroll.Total_Price = tongthanhtoan;
@@ -3188,12 +3411,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                             trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
-                                                        else
-                                                        {
-                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                        }
                                                     }
                                                     else
                                                     {
@@ -3250,6 +3467,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                         }
+                                        //Trợ cấp lương thực lãnh
+                                        foreach (var items in trocapTinhBH)
+                                        {
+                                            if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                            {
+                                                trocaps.Add(new SubsidiesApply());
+                                                trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                indextrocap++;
+                                            }
+                                        }
+
                                         payroll.Total_Price = tongthanhtoan;
                                         payroll.MissingAmount = 0;
                                         payroll.State = false;
@@ -3328,12 +3567,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                             trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
-                                                        else
-                                                        {
-                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                        }
+
                                                     }
                                                     else
                                                     {
@@ -3390,6 +3624,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                         }
+                                        //Trợ cấp lương thực lãnh
+                                        foreach (var items in trocapTinhBH)
+                                        {
+                                            if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                            {
+                                                trocaps.Add(new SubsidiesApply());
+                                                trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                indextrocap++;
+                                            }
+                                        }
+
                                         payroll.Total_Price = tongthanhtoan;
                                         payroll.MissingAmount = 0;
                                         payroll.State = false;
@@ -3605,12 +3861,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                 trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
-                                                            else
-                                                            {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            }
                                                         }
                                                         else
                                                         {
@@ -3667,6 +3917,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                             }
+                                            //Trợ cấp lương thực lãnh
+                                            foreach (var items in trocapTinhBH)
+                                            {
+                                                if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                {
+                                                    trocaps.Add(new SubsidiesApply());
+                                                    trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                    trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                    trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                    trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                    trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                    trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                    trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                    indextrocap++;
+                                                }
+                                            }
+
                                             payroll.Total_Price = tongthanhtoan;
                                             payroll.MissingAmount = 0;
                                             payroll.State = false;
@@ -3723,12 +3995,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                 trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
-                                                            else
-                                                            {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            }
                                                         }
                                                         else
                                                         {
@@ -3785,6 +4051,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                             }
+                                            //Trợ cấp lương thực lãnh
+                                            foreach (var items in trocapTinhBH)
+                                            {
+                                                if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                {
+                                                    trocaps.Add(new SubsidiesApply());
+                                                    trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                    trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                    trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                    trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                    trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                    trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                    trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                    indextrocap++;
+                                                }
+                                            }
+
                                             payroll.Total_Price = tongthanhtoan;
                                             payroll.MissingAmount = 0;
                                             payroll.State = false;
@@ -4005,12 +4293,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                 trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
-                                                            else
-                                                            {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            }
                                                         }
                                                         else
                                                         {
@@ -4067,6 +4349,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                             }
+                                            //Trợ cấp lương thực lãnh
+                                            foreach (var items in trocapTinhBH)
+                                            {
+                                                if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                {
+                                                    trocaps.Add(new SubsidiesApply());
+                                                    trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                    trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                    trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                    trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                    trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                    trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                    trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                    indextrocap++;
+                                                }
+                                            }
+
                                             payroll.Total_Price = tongthanhtoan;
                                             payroll.MissingAmount = 0;
                                             payroll.State = false;
@@ -4145,12 +4449,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                                 trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                                 tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             }
-                                                            else
-                                                            {
-                                                                luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                                tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            }
                                                         }
                                                         else
                                                         {
@@ -4207,6 +4505,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                             }
+                                            //Trợ cấp lương thực lãnh
+                                            foreach (var items in trocapTinhBH)
+                                            {
+                                                if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                                {
+                                                    trocaps.Add(new SubsidiesApply());
+                                                    trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                    trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                    trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                    trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                    trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                    trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                    trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                    trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                    tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                    indextrocap++;
+                                                }
+                                            }
+
                                             payroll.Total_Price = tongthanhtoan;
                                             payroll.MissingAmount = 0;
                                             payroll.State = false;
@@ -4431,12 +4751,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                             trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
-                                                        else
-                                                        {
-                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                        }
                                                     }
                                                     else
                                                     {
@@ -4493,6 +4807,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                         }
+                                        //Trợ cấp lương thực lãnh
+                                        foreach (var items in trocapTinhBH)
+                                        {
+                                            if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                            {
+                                                trocaps.Add(new SubsidiesApply());
+                                                trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                indextrocap++;
+                                            }
+                                        }
+
                                         payroll.Total_Price = tongthanhtoan;
                                         payroll.MissingAmount = 0;
                                         payroll.State = false;
@@ -4571,12 +4907,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                             trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                             tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                         }
-                                                        else
-                                                        {
-                                                            luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                            tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                        }
                                                     }
                                                     else
                                                     {
@@ -4633,6 +4963,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                         }
+                                        //Trợ cấp lương thực lãnh
+                                        foreach (var items in trocapTinhBH)
+                                        {
+                                            if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                            {
+                                                trocaps.Add(new SubsidiesApply());
+                                                trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                                trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                                trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                                trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                                trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                                trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                                trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                                trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                                tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                                indextrocap++;
+                                            }
+                                        }
+
                                         payroll.Total_Price = tongthanhtoan;
                                         payroll.MissingAmount = 0;
                                         payroll.State = false;
@@ -4854,12 +5206,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                         trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                         tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
-                                                    else
-                                                    {
-                                                        luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                        trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                        tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                    }
                                                 }
                                                 else
                                                 {
@@ -4916,6 +5262,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                         tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                     }
+                                    //Trợ cấp lương thực lãnh
+                                    foreach (var items in trocapTinhBH)
+                                    {
+                                        if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                        {
+                                            trocaps.Add(new SubsidiesApply());
+                                            trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                            trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                            trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                            trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                            trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                            trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                            trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                            tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                            trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                            tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                            indextrocap++;
+                                        }
+                                    }
+
                                     payroll.Total_Price = tongthanhtoan;
                                     payroll.MissingAmount = 0;
                                     payroll.State = false;
@@ -4994,12 +5362,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                         trocaps[indextrocap].Total_Price = luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                         tongtrocap += luongcoban * items.SubsidiesCategory.Percentage.Value / 100;
                                                     }
-                                                    else
-                                                    {
-                                                        luongthuclanh += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                        trocaps[indextrocap].Total_Price = luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                        tongtrocap += luongthuclanh * items.SubsidiesCategory.Percentage.Value / 100;
-                                                    }
                                                 }
                                                 else
                                                 {
@@ -5056,6 +5418,28 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                         tongthanhtoan = luongthuclanh - sotientrunghiphep;
 
                                     }
+                                    //Trợ cấp lương thực lãnh
+                                    foreach (var items in trocapTinhBH)
+                                    {
+                                        if (items.SubsidiesCategory.DateApply == DateTime.Now.Month || items.SubsidiesCategory.DateApply == 0 && items.SubsidiesCategory.Insurance == null && items.SubsidiesCategory.Tax == null)
+                                        {
+                                            trocaps.Add(new SubsidiesApply());
+                                            trocaps[indextrocap].Name = items.SubsidiesCategory.Name;
+                                            trocaps[indextrocap].Price = items.SubsidiesCategory.Price;
+                                            trocaps[indextrocap].Percentage = items.SubsidiesCategory.Percentage;
+                                            trocaps[indextrocap].OnBasicSalary = items.SubsidiesCategory.OnBasicSalary;
+                                            trocaps[indextrocap].Date_Apply = items.SubsidiesCategory.DateApply;
+                                            trocaps[indextrocap].Tax = items.SubsidiesCategory.Tax;
+                                            trocaps[indextrocap].Insurance = items.SubsidiesCategory.Insurance;
+
+                                            tongthanhtoan += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                            trocaps[indextrocap].Total_Price = tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+                                            tongtrocap += tongthanhtoan * items.SubsidiesCategory.Percentage.Value / 100;
+
+                                            indextrocap++;
+                                        }
+                                    }
+
                                     payroll.Total_Price = tongthanhtoan;
                                     payroll.MissingAmount = 0;
                                     payroll.State = false;

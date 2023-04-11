@@ -104,6 +104,8 @@
                                         className: 'btn btn-success'
                                     }
                                 },
+                            }).then(() => {
+                                window.location.href = $('#requestPath').val() + 'admins/quanlydonnghiphep/danhsachdonnghiphep';
                             });
                         };
                         return {

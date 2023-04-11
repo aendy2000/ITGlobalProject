@@ -23,8 +23,8 @@
                     <a role="button" class="nav-link" id="nganSachID">Công nợ</a>
                 </li>
                 @*<li class="nav-item mx-3">
-                    <a role="button" class="nav-link" id="taiLieuID">Tài liệu</a>
-                </li>*@
+                        <a role="button" class="nav-link" id="taiLieuID">Tài liệu</a>
+                    </li>*@
                 <li class="nav-item mx-3">
                     <a role="button" class="nav-link" id="doiNguID">Đội ngũ</a>
                 </li>
@@ -399,7 +399,7 @@
                         }
                     </h1>
                     <p class="mb-0 text-white">
-                        @Model.EndDate.ToString("dddd"), @Model.EndDate.ToString("dd") Tháng @Model.EndDate.ToString("MM"), @Model.EndDate.ToString("yyyy")
+                        @Model.EndDate.ToString("dd") Tháng @Model.EndDate.ToString("MM"), @Model.EndDate.ToString("yyyy")
                     </p>
                 </div>
                 <div>
@@ -459,15 +459,15 @@
                                     {
                                         if (item.Contents.IndexOf("|") != -1)
                                         {
-                                            <p class="mb-0 text-body">@item.Employees.Name @item.Contents.Split('|')[0] <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> @(item.Contents.Split('|')[1]).</p>
+                                            <p class="mb-0 text-body">@item.Employees.Name @item.Contents.Split('|')[0] @item.Tasks.Name.</p>
                                         }
                                         else if (item.Contents.IndexOf("thêm") != -1)
                                         {
-                                            <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a> và được giao cho <a>@item.Tasks.Employees.Name.</a></p>
+                                            <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents @item.Tasks.Name.</p>
                                         }
                                         else
                                         {
-                                            <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a>.</p>
+                                            <p class="mb-0 text-body"><a>@item.Employees.Name</a> @item.Contents @item.Tasks.Name.</p>
                                         }
                                     }
                                 </div>

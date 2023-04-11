@@ -103,11 +103,19 @@
             check = false;
             $('#chinhsuaestimatevalidation').text("Số giờ ước lượng phải lớn hơn 0.").show().prop("hidden", false);
         }
+        else if (Number(estimate) > 999999999) {
+            check = false;
+            $('#chinhsuaestimatevalidation').text("Số giờ ước lượng không hợp lệ.").show().prop("hidden", false);
+        }
 
         //Đã hoàn thành
         if (completed.length > 0 && (completed.indexOf("-") != -1 || Number(completed)) < 0) {
             check = false;
             $('#chinhsuacompletedvalidation').text("Số giờ hoàn thành không thể nhỏ hơn 0.").show().prop("hidden", false);
+        }
+        else if (Number(completed) > 999999999) {
+            check = false;
+            $('#chinhsuacompletedvalidation').text("Số giờ hoàn thành không hợp lệ.").show().prop("hidden", false);
         }
 
         if (check == true) {

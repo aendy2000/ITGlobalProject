@@ -237,7 +237,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="contentLichSuHoatDong" class="card-body">
+                <div id="contentLichSuHoatDong" class="card-body" style="max-height: 700px" data-simplebar>
                     <!-- List group -->
                     @if (lstHis.Count() > 0)
                     {
@@ -271,7 +271,7 @@
                                             {
                                                 <h5 class="mb-0"><a>@item.Employees.Name</a> @item.Contents <a data-bs-toggle="tooltip" data-placement="top" title="@item.Tasks.Name" href="#"><u>@item.ID_Task</u></a>.</h5>
                                             }
-                                            <span class="fs-6 text-muted">@item.Date.ToString("dddd"), @item.Date.ToString("dd") Tháng @item.Date.ToString("MMMM"), 2022 lúc @item.Date.ToString("HH:mm")</span>
+                                            <span class="fs-6 text-muted">@item.Date.ToString("dd/MM/yyyy HH:MM")</span>
                                         </div>
                                     </div>
                                 </li>

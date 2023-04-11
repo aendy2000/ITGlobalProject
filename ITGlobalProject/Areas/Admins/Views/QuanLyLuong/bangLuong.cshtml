@@ -181,7 +181,7 @@
                             <tr>
                                 <th scope="col" class=" border-top-0">Tháng lương</th>
                                 <th scope="col" class=" border-top-0">Ngày tạo</th>
-                                <th scope="col" class=" border-top-0">Tổng lương (VND)</th>
+                                <th scope="col" class=" border-top-0">Tổng lương</th>
                                 <th scope="col" class=" border-top-0">Thanh toán</th>
                                 <th scope="col" class=" border-top-0">Trạng thái</th>
                                 <th scope="col" class=" border-top-0"></th>
@@ -207,15 +207,15 @@
                                                     <i class="fe fe-calendar  fs-3 text-muted"></i>
                                                 </div>
                                                 <div class="ms-3">
-                                                    <h4 class="mb-0"><a href="@Url.Action("danhsachluongthang", "quanlyluong", new {id = item.ID})" class="text-inherit">Tháng @item.Date.ToString("MM, yyyy")</a></h4>
+                                                    <a class="text-dark" href="@Url.Action("danhsachluongthang", "quanlyluong", new {id = item.ID})">Lương Tháng @item.Date.ToString("MM, yyyy")</a>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="align-middle ">
                                             @item.Date.ToString("dd/MM/yyyy")
                                         </td>
-                                        <td class="align-middle text-warning">
-                                            <b><b>@item.Payroll.Sum(s => s.Total_Price).Value.ToString("0,0").Replace(".", ",") đ</b></b>
+                                        <td class="align-middle">
+                                            @item.Payroll.Sum(s => s.Total_Price).Value.ToString("0,0").Replace(".", ",") đ
                                         </td>
                                         @if (item.Payroll.Where(p => p.State == true).Count() < 1)
                                         {

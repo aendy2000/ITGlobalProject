@@ -177,14 +177,25 @@
         $('#chinhsuaselectFiles').click();
     });
 
+    //Xóa ảnh hợp đồng chỉnh sửa
+    $('#xoahinhanhhopdong').on('click', function () {
+        $('#chinhsuaselectFiles').val('');
+        $('#previewPDFEdit').prop('hidden', false);
+        $('#pdfVieweredit').prop('hidden', true);
+        $('#xoahinhanhhopdong').prop("hidden", true);
+    });
+
     //Chọn 1 hợp đồng
     $('#chinhsuaselectFiles').on('input', function (e) {
 
         if ($(this).val().length < 1) {
             $('#previewPDFEdit').prop('hidden', false);
             $('#pdfVieweredit').prop('hidden', true);
+            $('#xoahinhanhhopdong').prop("hidden", true);
         } else {
             $('#pdfVieweredit').prop('hidden', false);
+            $('#xoahinhanhhopdong').prop("hidden", false);
+
             // Loaded via <script> tag, create shortcut to access PDF.js exports.
             var pdfjsLib = window['pdfjs-dist/build/pdf'];
             // The workerSrc property shall be specified.
@@ -362,14 +373,22 @@
     $('#chonanhhopdongmoi').on('click', function () {
         $('#selectFiles').click();
     });
-
+    //Xóa ảnh hợp đồng thêm mới
+    $('#xoahinhanhhopdongthemmoi').on('click', function () {
+        $('#chinhsuaselectFiles').val('');
+        $('#previewPDF').prop('hidden', false);
+        $('#pdfViewer').prop('hidden', true);
+        $('#xoahinhanhhopdongthemmoi').prop("hidden", true);
+    });
     //Chọn 1 hợp đồng mới
     $('#selectFiles').on('input', function (e) {
         if ($(this).val().length < 1) {
             $('#previewPDF').prop('hidden', false);
             $('#pdfViewer').prop('hidden', true);
+            $('#xoahinhanhhopdongthemmoi').prop("hidden", true);
         } else {
             $('#pdfViewer').prop('hidden', false);
+            $('#xoahinhanhhopdongthemmoi').prop("hidden", false);
             // Loaded via <script> tag, create shortcut to access PDF.js exports.
             var pdfjsLib = window['pdfjs-dist/build/pdf'];
             // The workerSrc property shall be specified.

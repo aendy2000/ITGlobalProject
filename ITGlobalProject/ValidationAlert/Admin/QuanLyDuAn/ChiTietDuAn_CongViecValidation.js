@@ -210,6 +210,10 @@
             check = false;
             $('#estimatevalidation').text("Số giờ ước lượng phải lớn hơn 0.").show().prop("hidden", false);
         }
+        else if (Number(estimate) > 999999999) {
+            check = false;
+            $('#estimatevalidation').text("Số giờ ước lượng không hợp lệ.").show().prop("hidden", false);
+        }
 
         //Check xong thì:
         if (check == true) {

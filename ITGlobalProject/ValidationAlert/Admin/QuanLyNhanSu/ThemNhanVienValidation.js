@@ -46,6 +46,13 @@
     $('#chonanhhopdong').on('click', function () {
         $('#selectFiles').click();
     });
+    //Xóa ảnh hợp đồng
+    $('#xoahinhanhhopdong').on('click', function () {
+        $('#selectFiles').val('');
+        $('#previewPDF').prop('hidden', false);
+        $('#pdfViewer').prop('hidden', true);
+        $('#xoahinhanhhopdong').prop("hidden", true);
+    });
 
     //Chọn 1 hợp đồng
     $('#selectFiles').on('input', function (e) {
@@ -53,8 +60,11 @@
         if ($(this).val().length < 1) {
             $('#previewPDF').prop('hidden', false);
             $('#pdfViewer').prop('hidden', true);
+            $('#xoahinhanhhopdong').prop("hidden", true);
         } else {
             $('#pdfViewer').prop('hidden', false);
+            $('#xoahinhanhhopdong').prop("hidden", false);
+
             // Loaded via <script> tag, create shortcut to access PDF.js exports.
             var pdfjsLib = window['pdfjs-dist/build/pdf'];
             // The workerSrc property shall be specified.
