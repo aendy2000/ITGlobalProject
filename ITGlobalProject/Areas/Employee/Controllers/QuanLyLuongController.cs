@@ -32,7 +32,7 @@ namespace ITGlobalProject.Areas.Employee.Controllers
 
             ViewBag.ShowActive = "bangLuong";
             int currentYear = DateTime.Now.Year;
-            Session["bang-luong-emp"] = model.PayrollCategory.Where(p => p.Date.Year == currentYear).ToList();
+            Session["bang-luong-emp"] = model.PayrollCategory.Where(p => p.Date.Year == currentYear && p.Payroll.Where(PAY => PAY.ID_Employee == id).Count() > 0).OrderByDescending(o => o.ID).ToList();
             return View("bangLuong", model.Employees.Find(id));
         }
         public ActionResult timKiemBangLuongPartial(int? id, int? nam, string trangthai)
@@ -53,7 +53,7 @@ namespace ITGlobalProject.Areas.Employee.Controllers
             {
                 Session["trangthai-bangluong"] = false;
             }
-            Session["bang-luong-emp"] = model.PayrollCategory.Where(p => p.Date.Year == nam).ToList();
+            Session["bang-luong-emp"] = model.PayrollCategory.Where(p => p.Date.Year == nam && p.Payroll.Where(PAY => PAY.ID_Employee == id).Count() > 0).OrderByDescending(o => o.ID).ToList();
             return PartialView("_timkiembangluong", user);
         }
     }

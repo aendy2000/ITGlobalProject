@@ -2,9 +2,8 @@
 @using ITGlobalProject.Models;
 @{
     CP25Team06Entities models = new CP25Team06Entities();
-    var luongNam = models.PayrollCategory.Where(p => p.Payroll.Where(pay => pay.ID_Employee == Model.ID).Count() > 0).OrderByDescending(o => o.ID).ToList();
     string imagesUrl = "";
-    var luong = Session["bang-luong-emp"] as IEnumerable<PayrollCategory>;
+    var luongNam = Session["bang-luong-emp"] as IEnumerable<PayrollCategory>;
     if (string.IsNullOrEmpty(Model.Avatar))
     {
         imagesUrl = "~/Content/Admin/assets/images/avatar/default-avatar.png";
@@ -47,7 +46,7 @@
     <div class="row justify-content-md-between mb-4 mb-xl-4 ">
         <div class="col-xl-8 col-lg-8 col-md-8 col-12 ">
             <select name="@Model.ID" id="namluong" class="selectpicker" data-width="100%">
-                @if (luong.Count() > 0)
+                @if (luongNam.Count() > 0)
                 {
                     for (int y = 2023; y <= luongNam.First().Date.Year; y++)
                     {
@@ -96,10 +95,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in luong)
+                            @if (luongNam.Count() > 0)
                             {
-                                if (item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID) != null)
+                                foreach (var item in luongNam)
                                 {
+
                                     <tr>
                                         <td class="align-middle">
                                             @item.Name
@@ -139,14 +139,14 @@
                                         </td>
                                     </tr>
                                 }
-                                else
-                                {
-                                    <tr>
-                                        <td colspan="5" class="align-middle text-center">
-                                            Không có dữ liệu để hiển thị.
-                                        </td>
-                                    </tr>
-                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="align-middle text-center">
+                                        Không có dữ liệu để hiển thị.
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
