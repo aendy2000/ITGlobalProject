@@ -40,6 +40,7 @@ namespace ITGlobalProject.Models
         public virtual DbSet<LeaveDate> LeaveDate { get; set; }
         public virtual DbSet<Notification> Notification { get; set; }
         public virtual DbSet<OnLeave> OnLeave { get; set; }
+        public virtual DbSet<PartnerOfProject> PartnerOfProject { get; set; }
         public virtual DbSet<Partners> Partners { get; set; }
         public virtual DbSet<PaymentHistory> PaymentHistory { get; set; }
         public virtual DbSet<Payroll> Payroll { get; set; }

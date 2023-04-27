@@ -55,10 +55,28 @@
                         responsive: !0
                     })
                 })));
+
+                $('[id^="gioitinh-"]').each(function () {
+                    $(this).selectpicker();
+                });
+
+                //Chọn loại đối tác
+                $('[id^="canhandoanhnghiep-"]').on('change', function () {
+                    var id = $(this).attr('name');
+                    if ($(this).prop("checked")) {
+                        $('#doanhnghieps1-' + id).prop("hidden", false);
+                        $('#doanhnghieps2-' + id).prop("hidden", false);
+                        $('#canhans-' + id).prop("hidden", true);
+                    } else {
+                        $('#doanhnghieps1-' + id).prop("hidden", true);
+                        $('#doanhnghieps2-' + id).prop("hidden", true);
+                        $('#canhans-' + id).prop("hidden", false);
+                    }
+                });
+
                 $('#AjaxLoader').hide();
                 
                 $('#offcanvasRight').offcanvas("toggle");
-                $('#gioitinh').selectpicker();
             }
         });
     });

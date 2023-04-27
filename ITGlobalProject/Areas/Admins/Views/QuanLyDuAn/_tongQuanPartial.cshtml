@@ -238,46 +238,51 @@
     <div class="card">
         <div class="card-header">
             <h4 class="mb-0">Thông Tin Khách Hàng </h4>
-
         </div>
         <!-- Card body -->
         <div class="card-body">
-            <div class="d-flex align-items-center">
-                <div class="position-relative">
-                    @if (string.IsNullOrEmpty(Model.Partners.Avatar))
-                    {
-                        <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt="" class="rounded-circle avatar-xl" />
-                    }
-                    else
-                    {
-                        <img src="@Model.Partners.Avatar" alt="" class="rounded-circle avatar-xl" />
-                    }
-                </div>
-                <div class="ms-4">
-                    <h3 class="mb-0">@Model.Partners.Name</h3>
-                    <p class="mb-0 fs-5">@Model.Partners.Company</p>
-                    <p class="mb-1 fs-5">@Model.Partners.Email</p>
-                </div>
-            </div>
-            <div style="text-align: center; margin-bottom: -20px" class="border-top row mt-3">
-                <div class="col">
-                    <div class="pe-1 ps-2 py-3">
-                        <h5 class="mb-0">@Model.Partners.Phone</h5>
-                        <span class="fs-6">Số điện thoại</span>
+            @foreach (var item in Model.PartnerOfProject.ToList())
+            {
+                <div class="d-flex align-items-center">
+
+                    <div class="position-relative">
+                        @if (string.IsNullOrEmpty(item.Partners.Avatar))
+                        {
+                            <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt="" class="rounded-circle avatar-xl" />
+                        }
+                        else
+                        {
+                            <img src="@item.Partners.Avatar" alt="" class="rounded-circle avatar-xl" />
+                        }
+                    </div>
+                    <div class="ms-4">
+                        <h3 class="mb-0">@item.Partners.Name</h3>
+                        <p class="mb-0 fs-5">@item.Partners.Company</p>
+                        <p class="mb-1 fs-5">@item.Partners.Email</p>
                     </div>
                 </div>
-                <div class="col border-start">
-                    <div class="pe-1 ps-3 py-3">
-                        <h5 class="mb-0">@Model.Partners.Projects.Count.ToString("D2")</h5>
-                        <span class="fs-6">Dự án đang có</span>
+                <div style="text-align: center; margin-bottom: -20px" class="border-top row mt-3">
+                    <div class="col">
+                        <div class="pe-1 ps-2 py-3">
+                            <h5 class="mb-0">@item.Partners.Phone</h5>
+                            <span class="fs-6">Số điện thoại</span>
+                        </div>
+                    </div>
+                    <div class="col border-start">
+                        <div class="pe-1 ps-3 py-3">
+                            <h5 class="mb-0">@item.Partners.PartnerOfProject.Count.ToString("D2")</h5>
+                            <span class="fs-6">Dự án đang có</span>
+                        </div>
+                    </div>
+                    <div class="col border-start">
+                        <div class="pe-1 ps-3 py-3">
+                            <a target="_blank" href="@Url.Action("thongtinchitiet", "thongtindoitac", new { id = item.ID_Partners})" style="width: 90%; margin-top:5px" role="button" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col border-start">
-                    <div class="pe-1 ps-3 py-3">
-                        <a target="_blank" href="@Url.Action("thongtinchitiet", "thongtindoitac", new { id = Model.ID_Partner})" style="width: 90%; margin-top:5px" role="button" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
-                    </div>
-                </div>
-            </div>
+                <hr class="my-4 row" />
+            }
+
         </div>
     </div>
 </div>

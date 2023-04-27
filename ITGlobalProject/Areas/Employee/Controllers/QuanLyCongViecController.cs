@@ -537,7 +537,7 @@ namespace ITGlobalProject.Areas.Employee.Controllers
 
             noti.State = false;
             noti.Push = true;
-            noti.Url = this.Url.Action("chitietduan", "quanlyduan", new { Area = "admins", id = task.Projects.ID_Project });
+            noti.Url = this.Url.Action("chitietduan", "quanlyduan", new { Area = "admins", id = task.Projects.ID });
             model.Notification.Add(noti);
 
             model.SaveChanges();
@@ -584,7 +584,7 @@ namespace ITGlobalProject.Areas.Employee.Controllers
 
                 noti.State = false;
                 noti.Push = true;
-                noti.Url = this.Url.Action("chitietduan", "quanlyduan", new { Area = "admins", id = task.Projects.ID_Project });
+                noti.Url = this.Url.Action("chitietduan", "quanlyduan", new { Area = "admins", id = task.Projects.ID });
                 model.Notification.Add(noti);
 
                 model.Histories.RemoveRange(task.Histories);

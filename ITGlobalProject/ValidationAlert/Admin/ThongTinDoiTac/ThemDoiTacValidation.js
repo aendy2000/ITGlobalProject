@@ -26,7 +26,6 @@
         $('#namednvalidation').hide();
         $('#hotennguoidaidienvalidation').hide();
         $('#hotenvalidation').hide();
-        $('#cmndvalidation').hide();
         $('#phonevalidation').hide();
         $('#emailvalidation').hide();
         $('#ngaysinhvalidation').hide();
@@ -43,11 +42,9 @@
         var formatEmail = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 
         // value Khách hàng
-        var avatar = $("#selectFiles")[0].files[0];
         var namedn = $('#namedn').val().trim();
         var hotendaidien = $('#hotennguoidaidien').val().trim();
         var hoten = $('#hoten').val().trim();
-        var cmnd = $('#cmnd').val().replace(/_/g, '').trim();
         var phone = $('#phone').val().replace(/_/g, '').trim();
         var email = $('#email').val().trim();
         var ngaysinh = $('#ngaysinh').val().trim();
@@ -100,15 +97,6 @@
                 checkkhachhang = false;
                 $('#hotenvalidation').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#hoten').focus();
-            }
-        }
-
-        //Validation cmnd
-        if (cmnd.length > 0) {
-            if (cmnd.length != 14 && cmnd.length != 11) {
-                checkkhachhang = false;
-                $("#cmndvalidation").text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
-                $('#cmnd').focus();
             }
         }
 
@@ -171,11 +159,9 @@
         //Check đúng hết thì làm
         if (checkkhachhang == true) {
             var formData = new FormData();
-            formData.append('avatar', avatar);
             formData.append('namedn', namedn);
             formData.append('hotennguoidaidien', hotendaidien);
             formData.append('hoten', hoten);
-            formData.append('cmnd', cmnd);
             formData.append('phone', phone);
             formData.append('email', email);
             formData.append('ngaysinh', ngaysinh);

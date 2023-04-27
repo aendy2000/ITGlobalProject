@@ -178,10 +178,10 @@
                             <tr>
                                 <th style="padding-left: 20px" scope="col" class=" border-top-0">Giai đoạn</th>
                                 <th scope="col" class=" border-top-0">kết thúc</th>
-                                <th scope="col" class=" border-top-0">chi phí (VND)</th>
+                                <th scope="col" class=" border-top-0">chi phí</th>
                                 <th scope="col" class=" border-top-0">Trạng thái</th>
-                                <th scope="col" class=" border-top-0">Khách hàng</th>
-                                <th scope="col" class=" border-top-0">Đã trả (VND)</th>
+                                <th scope="col" class=" border-top-0">Đã trả</th>
+                                <th scope="col" class=" border-top-0">Còn lại</th>
                                 <th scope="col" class=" border-top-0 text-center"></th>
                             </tr>
                         </thead>
@@ -229,7 +229,7 @@
                                         @item.Date.ToString("dd/MM/yyyy")
                                     </td>
                                     <td style="font-weight:bold; color: salmon" class="align-middle ">
-                                        $ @(item.Price > 0 ? item.Price.ToString("0,0").Replace(".", ",") : "0")
+                                        @(item.Price > 0 ? item.Price.ToString("0,0").Replace(".", ",") : "0") đ
                                     </td>
 
                                     <td class="align-middle ">
@@ -249,25 +249,11 @@
                                             }
                                         }
                                     </td>
-                                    <td class="align-middle ">
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar avatar-sm avatar-danger">
-                                                @if (string.IsNullOrEmpty(item.Projects.Partners.Avatar))
-                                                {
-                                                    <span class="avatar-initials rounded-circle "> @item.Projects.Partners.Name.Substring(0, 1) </span>
-                                                }
-                                                else
-                                                {
-                                                    <img src="@item.Projects.Partners.Avatar" alt="" class="avatar-initials rounded-circle">
-                                                }
-                                            </div>
-                                            <div class="ms-2">
-                                                <h5 class="mb-0">@item.Projects.Partners.Name </h5>
-                                            </div>
-                                        </div>
+                                    <td style="font-weight:bold; color: salmon" class="align-middle ">
+                                        @(item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price) == 0 ? "0" : Convert.ToDecimal(item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price)).ToString("0,0").Replace(".", ",")) đ
                                     </td>
                                     <td style="font-weight:bold; color: salmon" class="align-middle ">
-                                        $ @(item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price) == 0 ? "0" : Convert.ToDecimal(item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price)).ToString("0,0").Replace(".", ","))
+                                        @(item.Price - item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price) == 0 ? "0" : (item.Price - item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price)).Value.ToString("0,0").Replace(".", ",")) đ
                                     </td>
                                     <td class="align-middle text-center">
                                         <input hidden id="tongTien@(item.ID)" name="@item.Stage" value="@((item.Price - item.PaymentHistory.Where(p => p.OnUpdate == false).Sum(s => s.Price)) == 0 ? "0 VND" : Convert.ToDecimal((item.Price - item.PaymentHistory.Where(p => p.OnUpdate == false).Sum(s => s.Price))).ToString("0,0").Replace(".", ",") + " VND")" />

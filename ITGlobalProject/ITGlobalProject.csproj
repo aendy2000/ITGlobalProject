@@ -381,6 +381,9 @@
     <Compile Include="Models\OnLeave.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PartnerOfProject.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Partners.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -878,6 +881,7 @@
     <Content Include="Areas\Employee\Views\QuanLyLuong\_timkiembangluong.cshtml" />
     <Content Include="Areas\Employee\Views\QuanLyDonNghiPhep\danhSachDonNghiPhep.cshtml" />
     <Content Include="Areas\Employee\Views\QuanLyDonNghiPhep\_danhSachDonNghiPhepPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\Dashboard\_thongKeDoanhThuPartial.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -885,7 +889,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admins\Views\Dashboard\_thongKeDoanhThuPartial.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

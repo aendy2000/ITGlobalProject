@@ -177,104 +177,101 @@
                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <div class="card-body p-lg-6">
-                                        <!-- form -->
                                         <div class="row">
-                                            <!-- form group -->
                                             <div style="text-align: center; margin-top: -10px" class="mb-2 col-12">
                                                 <a data-bs-toggle="modal" data-bs-target="#lstKhachHangCu" style="width:100%" role="button" class="btn btn-outline-primary"> <i class="fe fe-user-plus"> </i> Lấy Thông Tin Khách Hàng Cũ</a>
                                             </div>
+                                        </div>
+                                        <div id="appendKhachHang-1">
                                             <hr class="my-4" />
-                                            <div class="d-lg-flex align-items-center justify-content-between">
-                                                <div class="d-flex align-items-center mb-3 mb-lg-0">
-                                                    <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xxl rounded-circle" alt="" id="previewImage" />
-                                                    <div class="ms-3">
-                                                        <h4 class="mb-0">Hình đại diện (nếu có)</h4>
-                                                        <p class="mb-0">
-                                                            Tải lên ảnh đại diện với định dạng hình ảnh.
-                                                        </p>
+                                            <!-- form -->
+                                            <p class="h4 mb-4 text-center"><u>THÔNG TIN KHÁCH HÀNG 1</u></p>
+                                            <div class="row">
+                                                <div class="mb-3 col-12">
+                                                    <label style="font-weight:bold;" class="form-label" for="phone">Loại đối tác</label>
+                                                    <div class="form-check form-switch form-control">
+                                                        <label style="margin-top: 1px; margin-left: -10px" class="form-check-label" for="canhandoanhnghiep-1">Cá Nhân / Doanh Nghiệp</label>
+                                                        &emsp;&emsp;&ensp;&ensp;&ensp;
+                                                        <input id="canhandoanhnghiep-1" name="1" style="margin-right: -20px" class="form-check-input" type="checkbox" role="switch">
                                                     </div>
                                                 </div>
-                                                <div>
-                                                    <input hidden id="selectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewImage'))" />
-                                                    <a id="clickFiles" style="width: 150px" role="button" class="btn btn-outline-primary btn-sm">Tải lên</a>
-                                                    <a id="reloadButton" style="width: 150px" role="button" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
+                                                <div hidden id="doanhnghieps1-1" class="mb-3 col-12">
+                                                    <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp <span class="text-danger">*</span></label>
+                                                    <input id="namedn-1" name="namedn-1" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng" required>
+                                                    <p hidden style="font-size: 13px; color:red;" id="namednvalidation-1"></p>
                                                 </div>
-                                            </div>
-                                            <hr class="my-4" />
-                                            <div class="mb-3 col-12">
-                                                <label style="font-weight:bold;" class="form-label" for="phone">Loại đối tác</label>
-                                                <div class="form-check form-switch form-control">
-                                                    <label style="margin-top: 1px; margin-left: -10px" class="form-check-label" for="canhandoanhnghiep">Cá Nhân / Doanh Nghiệp</label>
-                                                    &emsp;&emsp;&ensp;&ensp;&ensp;
-                                                    <input id="canhandoanhnghiep" style="margin-right: -20px" class="form-check-input" type="checkbox" role="switch">
+                                                <!-- form group -->
+                                                <div hidden id="doanhnghieps2-1" class="mb-3 col-12  col-md-6">
+                                                    <label style="font-weight:bold" class="form-label">Tên người đại diện <span class="text-danger">*</span></label>
+                                                    <input id="hotennguoidaidien-1" name="hotennguoidaidien-1" type="text" class="form-control" placeholder="Nhập vào họ và tên của người đại diện" required>
+                                                    <p hidden style="font-size: 13px; color:red;" id="hotennguoidaidienvalidation-1"></p>
                                                 </div>
-                                            </div>
-                                            <div hidden id="doanhnghieps1" class="mb-3 col-12">
-                                                <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp <span class="text-danger">*</span></label>
-                                                <input id="namedn" name="namedn" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng" required>
-                                                <p hidden style="font-size: 13px; color:red;" id="namednvalidation"></p>
-                                            </div>
-                                            <!-- form group -->
-                                            <div hidden id="doanhnghieps2" class="mb-3 col-12  col-md-6">
-                                                <label style="font-weight:bold" class="form-label">Tên người đại diện <span class="text-danger">*</span></label>
-                                                <input id="hotennguoidaidien" name="hotennguoidaidien" type="text" class="form-control" placeholder="Nhập vào họ và tên của người đại diện" required>
-                                                <p hidden style="font-size: 13px; color:red;" id="hotennguoidaidienvalidation"></p>
-                                            </div>
-                                            <!-- form group -->
-                                            <div id="canhans" class="mb-3 col-12  col-md-6">
-                                                <label style="font-weight:bold" class="form-label">Họ và Tên <span class="text-danger">*</span></label>
-                                                <input id="hoten" name="hoten" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
-                                                <p hidden style="font-size: 13px; color:red;" id="hotenvalidation"></p>
-                                            </div>
-                                            <div class="mb-3 col-12 col-md-6">
-                                                <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD</label>
-                                                <input id="cmnd" name="cmnd" value="" type="text" class="form-control" placeholder="Nhập vào số CMND/CCCD của khách hàng" data-inputmask="'mask': '9999 9999 9999'" inputmode="numeric" />
-                                                <p hidden style="font-size: 13px; color:red;" id="cmndvalidation"></p>
-                                            </div>
-                                            <!-- Phone -->
-                                            <div class="mb-3 col-12 col-md-6">
-                                                <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
-                                                <input id="phone" name="phone" value="" type="tel" class="form-control" placeholder="Nhập vào số điện thoại khách hàng" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" />
-                                                <p hidden style="font-size: 13px; color:red;" id="phonevalidation"></p>
-                                            </div>
-                                            <div class="mb-3 col-12 col-md-6">
-                                                <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
-                                                <input value="" type="text" id="email" name="email" class="form-control" placeholder="example@itglobal.net" data-inputmask="'alias': 'email'" inputmode="numeric" />
-                                                <p hidden style="font-size: 13px; color:red;" id="emailvalidation"></p>
-                                            </div>
-                                            <!-- Birthday -->
-                                            <div class="mb-3 col-12 col-md-6">
-                                                <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh</label>
-                                                <input id="ngaysinh" name="ngaysinh" value="" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
-                                                <p hidden style="font-size: 13px; color:red;" id="ngaysinhvalidation"></p>
-                                            </div>
-                                            <!-- Birthday -->
-                                            <div class="mb-3 col-12 col-md-6">
-                                                <label style="font-weight:bold" class="form-label">Giới tính </label>
-                                                <select id="gioitinh" name="gioitinh" style="color:black" class="selectpicker" data-width="100%">
-                                                    <option value="">Chọn giới tính</option>
-                                                    <option value="Nam">Nam</option>
-                                                    <option value="Nữ">Nữ</option>
-                                                </select>
-                                                <p hidden style="font-size: 13px; color:red;" id="gioitinhvalidation"></p>
-                                            </div>
-                                            <div class="mb-3 col-12 col-md-6">
-                                                <label style="font-weight:bold" class="form-label">Mã Số Thuế <span class="text-danger">*</span></label>
-                                                <input id="masothue" name="masothue" type="text" class="form-control" placeholder="Nhập mã số thuế" data-inputmask="'mask': '9999999999'" inputmode="numeric" required>
-                                                <p hidden style="font-size: 13px; color:red;" id="masothuevalidation"></p>
-                                            </div>
-                                            <div class="mb-3 col-12 col-md-6">
-                                                <label style="font-weight:bold" class="form-label">Website</label>
-                                                <input id="urlweb" name="urlweb" type="text" class="form-control" placeholder="Nhập vào đường dẫn website (nếu có)" required>
-                                                <p hidden style="font-size: 13px; color:red;" id="urlwebvalidation"></p>
-                                            </div>
-                                            <!-- Address -->
-                                            <div class="mb-3 col-12 col-md-12">
-                                                <label style="font-weight:bold" class="form-label" for="address">Địa chỉ</label>
-                                                <textarea id="diahchinha" name="diachinha" rows="5" class="form-control" placeholder="Nhập địa chỉ doanh nghiệp / nhà riêng khách hàng"></textarea>
-                                                <p hidden style="font-size: 13px; color:red;" id="diachinhavalidation"></p>
-                                            </div>
+                                                <!-- form group -->
+                                                <div id="canhans-1" class="mb-3 col-12  col-md-6">
+                                                    <label style="font-weight:bold" class="form-label">Họ và Tên <span class="text-danger">*</span></label>
+                                                    <input id="hoten-1" name="hoten-1" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
+                                                    <p hidden style="font-size: 13px; color:red;" id="hotenvalidation-1"></p>
+                                                </div>
+                                                <div class="mb-3 col-12 col-md-6">
+                                                    <label style="font-weight:bold" class="form-label">Mã Số Thuế <span class="text-danger">*</span></label>
+                                                    <input id="masothue-1" name="masothue-1" type="text" class="form-control" placeholder="Nhập mã số thuế" data-inputmask="'mask': '9999999999'" inputmode="numeric" required>
+                                                    <p hidden style="font-size: 13px; color:red;" id="masothuevalidation-1"></p>
+                                                </div>
+                                                <!-- Phone -->
+                                                <div class="mb-3 col-12 col-md-6">
+                                                    <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                                                    <input id="phone-1" name="phone-1" value="" type="tel" class="form-control" placeholder="Nhập vào số điện thoại khách hàng" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" />
+                                                    <p hidden style="font-size: 13px; color:red;" id="phonevalidation-1"></p>
+                                                </div>
+                                                <div class="mb-3 col-12 col-md-6">
+                                                    <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
+                                                    <input value="" type="text" id="email-1" name="email-1" class="form-control" placeholder="example@itglobal.net" data-inputmask="'alias': 'email'" inputmode="numeric" />
+                                                    <p hidden style="font-size: 13px; color:red;" id="emailvalidation-1"></p>
+                                                </div>
+                                                <!-- Birthday -->
+                                                <div class="mb-3 col-12 col-md-6">
+                                                    <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh</label>
+                                                    <input id="ngaysinh-1" name="ngaysinh-1" value="" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
+                                                    <p hidden style="font-size: 13px; color:red;" id="ngaysinhvalidation-1"></p>
+                                                </div>
+                                                <!-- Birthday -->
+                                                <div class="mb-3 col-12 col-md-6">
+                                                    <label style="font-weight:bold" class="form-label">Giới tính </label>
+                                                    <select id="gioitinh-1" name="gioitinh-1" style="color:black" class="selectpicker" data-width="100%">
+                                                        <option value="">Chọn giới tính</option>
+                                                        <option value="Nam">Nam</option>
+                                                        <option value="Nữ">Nữ</option>
+                                                    </select>
+                                                    <p hidden style="font-size: 13px; color:red;" id="gioitinhvalidation-1"></p>
+                                                </div>
 
+                                                <div class="mb-3 col-12 col-md-12">
+                                                    <label style="font-weight:bold" class="form-label">Website</label>
+                                                    <input id="urlweb-1" name="urlweb-1" type="text" class="form-control" placeholder="Nhập vào đường dẫn website (nếu có)" required>
+                                                    <p hidden style="font-size: 13px; color:red;" id="urlwebvalidation-1"></p>
+                                                </div>
+                                                <div class="mb-3 col-12 col-md-12">
+                                                    <label style="font-weight:bold" class="form-label">Địa chỉ</label>
+                                                    <textarea rows="4" id="diahchinha-1" name="diahchinha-1" type="text" class="form-control" placeholder="Nhập vào địa chỉ liên lạc"></textarea>
+                                                    <p hidden style="font-size: 13px; color:red;" id="diachinhavalidation-1"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="appendDoDay"></div>
+                                        <div class="row">
+                                            <hr class="my-3" />
+                                            <br />
+                                            <br />
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <a role="button" id="botthongtin" name="1" style="width: 100%" class="btn btn-outline-danger btn-xs">
+                                                    <i class="fe fe-minus-circle"> </i> Xóa Bớt Khách Hàng
+                                                </a>
+                                            </div>
+                                            <div class="mb-3 col-12 col-md-6">
+                                                <a role="button" id="themthongtin" name="1" style="width: 100%" class="btn btn-outline-primary btn-xs">
+                                                    <i class="fe fe-plus-circle"> </i> Thêm Thông Tin Khách Hàng
+                                                </a>
+                                            </div>
                                             <div style="text-align: right; padding-top: 25px" class="mb-2 col-12 col-md-6">
                                                 <button id="resetdata" style="width: 230px" class="btn btn-outline-danger" type="reset" onclick="document.documentElement.scrollTop = 0;">
                                                     Hủy
@@ -419,7 +416,6 @@
                             <th hidden scope="col" class=" border-top-0"></th>
                             <th scope="col" class=" border-top-0">Tên</th>
                             <th scope="col" class=" border-top-0">Email</th>
-                            <th scope="col" class=" border-top-0">CMND/CCCD</th>
                             <th scope="col" class=" border-top-0">Số điện thoại</th>
                             <th scope="col" class=" border-top-0"></th>
                         </tr>
@@ -431,7 +427,6 @@
                             <input hidden value="@item.ID" id="ids@(item.ID)" />
                             <input hidden value="@item.Company" id="companys@(item.ID)" />
                             <input hidden value="@item.Name" id="names@(item.ID)" />
-                            <input hidden value="@item.IdentityCard" id="cmnds@(item.ID)" />
                             <input hidden value="@item.Phone" id="sdts@(item.ID)" />
                             <input hidden value="@item.Email" id="emails@(item.ID)" />
                             <input hidden value="@(item.Birthday.Value != null ? item.Birthday.Value.ToString("yyyy-MM-dd") : null)" id="sns@(item.ID)" />
@@ -463,9 +458,6 @@
                                 </td>
                                 <td class="align-middle ">
                                     @item.Email
-                                </td>
-                                <td class="align-middle ">
-                                    @item.IdentityCard
                                 </td>
                                 <td class="align-middle ">
                                     @item.Phone

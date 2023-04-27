@@ -95,7 +95,7 @@
                                     <i class="fe fe-bookmark nav-icon"></i>Dự án đang có
                                 </a>
                             </li>
-                            @if (Model.Projects.Count() < 1)
+                            @if (Model.PartnerOfProject.Count() < 1)
                             {
                                 <hr />
                                 <li style="text-align:center; margin-top:20px">
@@ -136,9 +136,9 @@
             </div>
             <div id="lstContentProject" class="row">
                 <input hidden value="@Model.ID" id="idpart" />
-                @if (Model.Projects.Count() > 0)
+                @if (Model.PartnerOfProject.Count() > 0)
                 {
-                    foreach (var item in Model.Projects)
+                    foreach (var item in Model.PartnerOfProject.ToList())
                     {
                         <div class="col-xxl-4 col-xl-4 col-lg-6 col-12 mb-4">
                             <!-- card -->
@@ -149,14 +149,14 @@
                                     <div class="d-flex align-items-center
                                 justify-content-between">
                                         <div>
-                                            <h4 class="mb-0"><a target="_blank" href="@Url.Action("chitietduan", "quanlyduan", new {id = item.ID})" class="text-inherit">@item.Name</a></h4>
-                                            <span class="text-muted fs-6">@item.Tasks.Count() Công việc</span>
+                                            <h4 class="mb-0"><a target="_blank" href="@Url.Action("chitietduan", "quanlyduan", new {id = item.Projects.ID})" class="text-inherit">@item.Projects.Name</a></h4>
+                                            <span class="text-muted fs-6">@item.Projects.Tasks.Count() Công việc</span>
                                         </div>
                                     </div>
                                     <!-- para-->
                                     <div class="mt-3 mb-4">
                                         <p class="mb-0">
-                                            @item.Description
+                                            @item.Projects.Description
                                         </p>
                                     </div>
                                     <!-- progress -->
@@ -165,14 +165,14 @@
                                         <div class="d-flex align-items-center">
                                             <!-- avatar group -->
                                             <div class="avatar-group">
-                                                @if (item.Teams.Count == 0)
+                                                @if (item.Projects.Teams.Count == 0)
                                                 {
                                                     <span>0 Thành viên</span>
                                                 }
                                                 //Đội ngũ ít hơn 4 người
-                                                else if (item.Teams.Count <= 3)
+                                                else if (item.Projects.Teams.Count <= 3)
                                                 {
-                                                    foreach (var iteam in item.Teams)
+                                                    foreach (var iteam in item.Projects.Teams)
                                                     {
                                                         if (string.IsNullOrEmpty(iteam.Employees.Avatar))
                                                         {
@@ -204,14 +204,14 @@
                                                 {
                                                     for (int t = 0; t < 3; t++)
                                                     {
-                                                        if (string.IsNullOrEmpty(item.Teams.ToList()[t].Employees.Avatar))
+                                                        if (string.IsNullOrEmpty(item.Projects.Teams.ToList()[t].Employees.Avatar))
                                                         {
-                                                            <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@item.Teams.ToList()[t].Employees.ID">
+                                                            <span class="avatar avatar-md avatar-primary imgtooltip" data-template="@item.Projects.Teams.ToList()[t].Employees.ID">
                                                                 <span class="avatar-initials rounded-circle ">
-                                                                    @item.Teams.ToList()[t].Employees.Name.Substring(0, 1).ToUpper()
+                                                                    @item.Projects.Teams.ToList()[t].Employees.Name.Substring(0, 1).ToUpper()
                                                                 </span>
-                                                                <span id="@item.Teams.ToList()[t].Employees.ID" class="d-none">
-                                                                    <span class="mb-0 h6">@item.Teams.ToList()[t].Employees.Name</span>
+                                                                <span id="@item.Projects.Teams.ToList()[t].Employees.ID" class="d-none">
+                                                                    <span class="mb-0 h6">@item.Projects.Teams.ToList()[t].Employees.Name</span>
 
                                                                 </span>
                                                             </span>
@@ -219,61 +219,61 @@
                                                         else
                                                         {
                                                             <span class="avatar avatar-md">
-                                                                <img alt="avatar" src="@item.Teams.ToList()[t].Employees.Avatar"
-                                                                     class="rounded-circle imgtooltip" data-template="@item.Teams.ToList()[t].Employees.ID">
+                                                                <img alt="avatar" src="@item.Projects.Teams.ToList()[t].Employees.Avatar"
+                                                                     class="rounded-circle imgtooltip" data-template="@item.Projects.Teams.ToList()[t].Employees.ID">
 
-                                                                <span id="@item.Teams.ToList()[t].Employees.ID" class="d-none">
-                                                                    <span class="mb-0 h6">@item.Teams.ToList()[t].Employees.Name</span>
+                                                                <span id="@item.Projects.Teams.ToList()[t].Employees.ID" class="d-none">
+                                                                    <span class="mb-0 h6">@item.Projects.Teams.ToList()[t].Employees.Name</span>
                                                                 </span>
                                                             </span>
                                                         }
                                                     }
                                                     <span class="avatar avatar-md">
-                                                        <span class="avatar-initials rounded-circle bg-light text-dark">@(item.Teams.Count - 3)+</span>
+                                                        <span class="avatar-initials rounded-circle bg-light text-dark">@(item.Projects.Teams.Count - 3)+</span>
                                                     </span>
                                                 }
                                             </div>
                                         </div>
                                         <!-- text -->
                                         <div>
-                                            @if (item.Lock == true)
+                                            @if (item.Projects.Lock == true)
                                             {
                                                 <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã đóng</span>
                                             }
                                             else
                                             {
-                                                if (item.Tasks.ToList().Count < 1 && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
+                                                if (item.Projects.Tasks.ToList().Count < 1 && (item.Projects.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
                                                 {
                                                     <span style="width: 100px" class="badge bg-light-primary text-dark-primary">Đang thực hiện</span>
                                                 }
                                                 //Chưa giao việc, quá hạn => đã quá hạn
-                                                else if (item.Tasks.ToList().Count < 1
-                                                    && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0)
+                                                else if (item.Projects.Tasks.ToList().Count < 1
+                                                    && (item.Projects.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0)
                                                 {
                                                     <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã quá hạn</span>
                                                 }
                                                 //Còn hạn và còn việc => đang thực hiện
-                                                else if (item.Tasks.ToList().Count > 0
-                                                    && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
-                                                    && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
+                                                else if (item.Projects.Tasks.ToList().Count > 0
+                                                    && (item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
+                                                    && (item.Projects.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
                                                 {
                                                     <span style="width: 100px" class="badge bg-light-primary text-dark-primary">Đang thực hiện</span>
                                                 }
                                                 //Qúa hạn, còn việc hoặc chưa thanh toán xong => đã quá hạn
-                                                else if ((item.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0
-                                                    && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100)
+                                                else if ((item.Projects.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0
+                                                    && (item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100)
                                                 {
                                                     <span style="width: 100px" class="badge bg-light-danger text-dark-danger">Đã quá hạn</span>
                                                 }
                                                 //hết việc, chưa thanh toán xong => chờ thanh toán
-                                                else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 >= 100
-                                                    && item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
+                                                else if ((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100 >= 100
+                                                    && item.Projects.Debts.Where(d => d.State == true).ToList().Count < item.Projects.Debts.Count)
                                                 {
                                                     <span style="width: 100px" class="badge bg-light-warning text-dark-warning">Chờ thanh toán</span>
                                                 }
                                                 //hết việc, đã thanh toán xong => done
-                                                else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 == 100
-                                                    && item.Debts.Where(d => d.State == true).ToList().Count == item.Debts.Count)
+                                                else if ((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100 == 100
+                                                    && item.Projects.Debts.Where(d => d.State == true).ToList().Count == item.Projects.Debts.Count)
                                                 {
                                                     <span style="width: 100px" class="badge bg-light-success text-dark-success">Hoàn thành</span>
                                                 }
@@ -282,8 +282,8 @@
                                     </div>
                                     <div>
                                         <!--Chưa giao việc, còn hạn => đang thực hiện-->
-                                        @if (item.Tasks.ToList().Count < 1
-                                            && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
+                                        @if (item.Projects.Tasks.ToList().Count < 1
+                                            && (item.Projects.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
                                         {
                                             <div class="d-flex align-items-center">
                                                 <div class="me-2"> <span>0%</span></div>
@@ -295,8 +295,8 @@
                                             </div>
                                         }
                                         //Chưa giao việc, quá hạn => đã quá hạn
-                                        else if (item.Tasks.ToList().Count < 1
-                                            && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0)
+                                        else if (item.Projects.Tasks.ToList().Count < 1
+                                            && (item.Projects.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0)
                                         {
                                             <div class="d-flex align-items-center">
                                                 <div class="me-2"> <span>0%</span></div>
@@ -308,55 +308,55 @@
                                             </div>
                                         }
                                         //Còn hạn và còn việc => đang thực hiện
-                                        else if (item.Tasks.ToList().Count > 0
-                                            && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
-                                            && (item.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
+                                        else if (item.Projects.Tasks.ToList().Count > 0
+                                            && (item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
+                                            && (item.Projects.EndDate.AddDays(1) - DateTime.Now).TotalDays >= 0)
                                         {
                                             <div class="d-flex align-items-center">
-                                                <div class="me-2"><span>@(Convert.ToDecimal((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%</span></div>
+                                                <div class="me-2"><span>@(Convert.ToDecimal((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%</span></div>
                                                 <div class="progress flex-auto" style="height: 6px;">
-                                                    <div class="progress-bar bg-primary " role="progressbar" style="width: @(Convert.ToDecimal((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%;"
-                                                         aria-valuenow="@(Convert.ToDecimal((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))" aria-valuemin="0" aria-valuemax="100">
+                                                    <div class="progress-bar bg-primary " role="progressbar" style="width: @(Convert.ToDecimal((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%;"
+                                                         aria-valuenow="@(Convert.ToDecimal((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))" aria-valuemin="0" aria-valuemax="100">
                                                     </div>
                                                 </div>
                                             </div>
                                         }
                                         //Qúa hạn, còn việc hoặc chưa thanh toán xong => đã quá hạn
-                                        else if ((item.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0
-                                            && (item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
-                                            || item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
+                                        else if ((item.Projects.EndDate.AddDays(1) - DateTime.Now).TotalDays < 0
+                                            && (item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100 < 100
+                                            || item.Projects.Debts.Where(d => d.State == true).ToList().Count < item.Projects.Debts.Count)
                                         {
                                             <div class="d-flex align-items-center">
-                                                <div class="me-2"><span>@(Convert.ToDecimal((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%</span></div>
+                                                <div class="me-2"><span>@(Convert.ToDecimal((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%</span></div>
                                                 <div class="progress flex-auto" style="height: 6px;">
-                                                    <div class="progress-bar bg-primary " role="progressbar" style="width: @(Convert.ToDecimal((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%;"
-                                                         aria-valuenow="@(Convert.ToDecimal((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))" aria-valuemin="0" aria-valuemax="100">
+                                                    <div class="progress-bar bg-primary " role="progressbar" style="width: @(Convert.ToDecimal((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%;"
+                                                         aria-valuenow="@(Convert.ToDecimal((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))" aria-valuemin="0" aria-valuemax="100">
                                                     </div>
                                                 </div>
                                             </div>
                                         }
                                         //hết việc, chưa thanh toán xong => chờ thanh toán
-                                        else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 >= 100
-                                            && item.Debts.Where(d => d.State == true).ToList().Count < item.Debts.Count)
+                                        else if ((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100 >= 100
+                                            && item.Projects.Debts.Where(d => d.State == true).ToList().Count < item.Projects.Debts.Count)
                                         {
                                             <div class="d-flex align-items-center">
-                                                <div class="me-2"><span>@(Convert.ToDecimal((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%</span></div>
+                                                <div class="me-2"><span>@(Convert.ToDecimal((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%</span></div>
                                                 <div class="progress flex-auto" style="height: 6px;">
-                                                    <div class="progress-bar bg-primary " role="progressbar" style="width: @(Convert.ToDecimal((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%;"
-                                                         aria-valuenow="@(Convert.ToDecimal((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))" aria-valuemin="0" aria-valuemax="100">
+                                                    <div class="progress-bar bg-primary " role="progressbar" style="width: @(Convert.ToDecimal((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%;"
+                                                         aria-valuenow="@(Convert.ToDecimal((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))" aria-valuemin="0" aria-valuemax="100">
                                                     </div>
                                                 </div>
                                             </div>
                                         }
                                         //hết việc, đã thanh toán xong => done
-                                        else if ((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100 == 100
-                                            && item.Debts.Where(d => d.State == true).ToList().Count == item.Debts.Count)
+                                        else if ((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100 == 100
+                                            && item.Projects.Debts.Where(d => d.State == true).ToList().Count == item.Projects.Debts.Count)
                                         {
                                             <div class="d-flex align-items-center">
-                                                <div class="me-2"><span>@(Convert.ToDecimal((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%</span></div>
+                                                <div class="me-2"><span>@(Convert.ToDecimal((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%</span></div>
                                                 <div class="progress flex-auto" style="height: 6px;">
-                                                    <div class="progress-bar bg-primary " role="progressbar" style="width: @(Convert.ToDecimal((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%;"
-                                                         aria-valuenow="@(Convert.ToDecimal((item.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))" aria-valuemin="0" aria-valuemax="100">
+                                                    <div class="progress-bar bg-primary " role="progressbar" style="width: @(Convert.ToDecimal((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))%;"
+                                                         aria-valuenow="@(Convert.ToDecimal((item.Projects.Tasks.Where(t => t.State.Equals("done")).Sum(t => t.OriginalEstimate) / item.Projects.Tasks.Sum(t => t.OriginalEstimate)) * 100).ToString("0"))" aria-valuemin="0" aria-valuemax="100">
                                                     </div>
                                                 </div>
                                             </div>
@@ -368,11 +368,11 @@
                                     <div class="d-flex justify-content-between ">
                                         <div class="w-50 py-3 px-4 ">
                                             <h6 class="mb-0 text-muted">Hạn Chót:</h6>
-                                            <p class="text-dark fs-6 fw-semi-bold mb-0">@item.EndDate.ToString("dd") Thg @item.EndDate.ToString("MM, yyyy")</p>
+                                            <p class="text-dark fs-6 fw-semi-bold mb-0">@item.Projects.EndDate.ToString("dd") Thg @item.Projects.EndDate.ToString("MM, yyyy")</p>
                                         </div>
                                         <div class="border-start w-50 py-3 px-4">
                                             <h6 class="mb-0 text-muted">Chi Phí:</h6>
-                                            <p class="text-dark fs-6 fw-semi-bold mb-0">@item.Debts.ToList().Sum(d => d.Price).ToString("0,0").Replace(".", ",") đ</p>
+                                            <p class="text-dark fs-6 fw-semi-bold mb-0">@item.Projects.Debts.ToList().Sum(d => d.Price).ToString("0,0").Replace(".", ",") đ</p>
                                         </div>
                                     </div>
                                 </div>

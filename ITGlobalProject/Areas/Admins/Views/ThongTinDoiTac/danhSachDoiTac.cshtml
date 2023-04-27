@@ -94,14 +94,14 @@
                                         <div class="d-flex justify-content-between border-bottom py-2 mt-4">
                                             <span>Dự án đang được phát triển</span>
                                             <b>
-                                                <span class="text-warning">@item.Projects.Count()
+                                                <span class="text-warning">@item.PartnerOfProject.Count()
                                             </b>
                                         </div>
                                         <div class="d-flex justify-content-between border-bottom py-2">
                                             <span>Công nợ còn</span>
                                             <b>
                                                 <span class="text-danger">
-                                                    @(item.Projects.Sum(p => p.Debts.Where(d => d.State == false).Sum(s => s.Price)) > 0 ? item.Projects.Sum(p => p.Debts.Where(d => d.State == false).Sum(s => s.Price)).ToString("0,0").Replace(".", ",") : "0")  đ <i class="mdi mdi-"></i>
+                                                    @(item.PartnerOfProject.Sum(p => p.Projects.Debts.Where(d => d.State == false).Sum(s => s.Price)) > 0 ? item.PartnerOfProject.Sum(p => p.Projects.Debts.Where(d => d.State == false).Sum(s => s.Price)).ToString("0,0").Replace(".", ",") : "0")  đ <i class="mdi mdi-"></i>
                                                 </span>
                                             </b>
                                         </div>
@@ -109,7 +109,7 @@
                                             <span>Dự án đã tham gia</span>
                                             <b>
                                                 <span class="text-success">
-                                                    @item.Projects.Count()
+                                                    @item.PartnerOfProject.Count()
                                                 </span>
                                             </b>
                                         </div>
@@ -214,23 +214,6 @@
         </div>
         <div class="offcanvas-body">
             <form class="row">
-                <div class="d-lg-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center mb-3 mb-lg-0">
-                        <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xxl rounded-circle" alt="" id="previewImage" />
-                        <div class="ms-3">
-                            <h4 class="mb-0">Hình đại diện (nếu có)</h4>
-                            <p class="mb-0">
-                                Tải lên ảnh đại diện với định dạng hình ảnh.
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <input hidden id="selectFiles" type="file" name="file" accept="image/*" onchange="ShowImageUpload(this, document.getElementById('previewImage'))" />
-                        <a id="clickFiles" style="width: 150px" role="button" class="btn btn-outline-primary btn-sm">Tải lên</a>
-                        <a id="reloadButton" style="width: 150px" role="button" class="btn btn-outline-danger btn-sm">Xóa bỏ</a>
-                    </div>
-                </div>
-                <hr class="my-4" />
                 <div class="mb-3 col-12">
                     <label style="font-weight:bold;" class="form-label" for="phone">Loại đối tác</label>
                     <div class="form-check form-switch form-control">
@@ -255,11 +238,6 @@
                     <label style="font-weight:bold" class="form-label">Họ và Tên <span class="text-danger">*</span></label>
                     <input id="hoten" name="hoten" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
                     <p hidden style="font-size: 13px; color:red;" id="hotenvalidation"></p>
-                </div>
-                <div class="mb-3 col-12 col-md-6">
-                    <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD</label>
-                    <input id="cmnd" name="cmnd" type="text" class="form-control" placeholder="Nhập vào số CMND/CCCD của khách hàng" data-inputmask="'mask': '9999 9999 9999'" inputmode="numeric" />
-                    <p hidden style="font-size: 13px; color:red;" id="cmndvalidation"></p>
                 </div>
                 <!-- Phone -->
                 <div class="mb-3 col-12 col-md-6">
@@ -293,7 +271,7 @@
                     <input id="masothue" name="masothue" type="text" class="form-control" placeholder="Nhập mã số thuế" data-inputmask="'mask': '9999999999'" inputmode="numeric" required>
                     <p hidden style="font-size: 13px; color:red;" id="masothuevalidation"></p>
                 </div>
-                <div class="mb-3 col-12 col-md-6">
+                <div class="mb-3 col-12 col-md-12">
                     <label style="font-weight:bold" class="form-label">Website</label>
                     <input id="urlweb" name="urlweb" type="text" class="form-control" placeholder="Nhập vào đường dẫn website (nếu có)" required>
                     <p hidden style="font-size: 13px; color:red;" id="urlwebvalidation"></p>

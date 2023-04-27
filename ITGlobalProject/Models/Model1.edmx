@@ -190,6 +190,14 @@
           <Property Name="ID_Employee" Type="int" Nullable="false" />
           <Property Name="ID_LeaveDate" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="PartnerOfProject">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Partners" Type="int" Nullable="false" />
+          <Property Name="ID_Project" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Partners">
           <Key>
             <PropertyRef Name="ID" />
@@ -197,7 +205,6 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Company" Type="nvarchar" MaxLength="250" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="IdentityCard" Type="varchar" MaxLength="12" />
           <Property Name="Phone" Type="varchar" MaxLength="12" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Birthday" Type="date" />
@@ -282,7 +289,6 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ID_Partner" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="StartDate" Type="date" Nullable="false" />
@@ -599,6 +605,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PartnerOfProject_Partners">
+          <End Role="Partners" Type="Self.Partners" Multiplicity="1" />
+          <End Role="PartnerOfProject" Type="Self.PartnerOfProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partners">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PartnerOfProject">
+              <PropertyRef Name="ID_Partners" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PartnerOfProject_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="PartnerOfProject" Type="Self.PartnerOfProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PartnerOfProject">
+              <PropertyRef Name="ID_Project" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PaymentHistory_Debts">
           <End Role="Debts" Type="Self.Debts" Multiplicity="0..1" />
           <End Role="PaymentHistory" Type="Self.PaymentHistory" Multiplicity="*" />
@@ -680,18 +710,6 @@
             </Principal>
             <Dependent Role="Position">
               <PropertyRef Name="ID_Department" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Projects_Partners">
-          <End Role="Partners" Type="Self.Partners" Multiplicity="1" />
-          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Partners">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Projects">
-              <PropertyRef Name="ID_Partner" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -843,6 +861,7 @@
           <EntitySet Name="LeaveDate" EntityType="Self.LeaveDate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OnLeave" EntityType="Self.OnLeave" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PartnerOfProject" EntityType="Self.PartnerOfProject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Partners" EntityType="Self.Partners" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentHistory" EntityType="Self.PaymentHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payroll" EntityType="Self.Payroll" Schema="dbo" store:Type="Tables" />
@@ -921,6 +940,14 @@
             <End Role="LeaveDate" EntitySet="LeaveDate" />
             <End Role="OnLeave" EntitySet="OnLeave" />
           </AssociationSet>
+          <AssociationSet Name="FK_PartnerOfProject_Partners" Association="Self.FK_PartnerOfProject_Partners">
+            <End Role="Partners" EntitySet="Partners" />
+            <End Role="PartnerOfProject" EntitySet="PartnerOfProject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PartnerOfProject_Projects" Association="Self.FK_PartnerOfProject_Projects">
+            <End Role="Projects" EntitySet="Projects" />
+            <End Role="PartnerOfProject" EntitySet="PartnerOfProject" />
+          </AssociationSet>
           <AssociationSet Name="FK_PaymentHistory_Debts" Association="Self.FK_PaymentHistory_Debts">
             <End Role="Debts" EntitySet="Debts" />
             <End Role="PaymentHistory" EntitySet="PaymentHistory" />
@@ -948,10 +975,6 @@
           <AssociationSet Name="FK_Position_Department" Association="Self.FK_Position_Department">
             <End Role="Department" EntitySet="Department" />
             <End Role="Position" EntitySet="Position" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Projects_Partners" Association="Self.FK_Projects_Partners">
-            <End Role="Partners" EntitySet="Partners" />
-            <End Role="Projects" EntitySet="Projects" />
           </AssociationSet>
           <AssociationSet Name="FK_Recruitment_Position" Association="Self.FK_Recruitment_Position">
             <End Role="Position" EntitySet="Position" />
@@ -1219,6 +1242,16 @@
           <NavigationProperty Name="Employees" Relationship="Self.FK_OnLeave_Employees" FromRole="OnLeave" ToRole="Employees" />
           <NavigationProperty Name="LeaveDate" Relationship="Self.FK_OnLeave_LeaveDate" FromRole="OnLeave" ToRole="LeaveDate" />
         </EntityType>
+        <EntityType Name="PartnerOfProject">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Partners" Type="Int32" Nullable="false" />
+          <Property Name="ID_Project" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Partners" Relationship="Self.FK_PartnerOfProject_Partners" FromRole="PartnerOfProject" ToRole="Partners" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK_PartnerOfProject_Projects" FromRole="PartnerOfProject" ToRole="Projects" />
+        </EntityType>
         <EntityType Name="Partners">
           <Key>
             <PropertyRef Name="ID" />
@@ -1226,7 +1259,6 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Company" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IdentityCard" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
           <Property Name="Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Birthday" Type="DateTime" Precision="0" />
@@ -1238,7 +1270,7 @@
           <Property Name="CompanyOrPersonal" Type="Boolean" />
           <Property Name="AddDate" Type="DateTime" Precision="3" />
           <Property Name="ID_Partners" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Projects" Relationship="Self.FK_Projects_Partners" FromRole="Partners" ToRole="Projects" />
+          <NavigationProperty Name="PartnerOfProject" Relationship="Self.FK_PartnerOfProject_Partners" FromRole="Partners" ToRole="PartnerOfProject" />
         </EntityType>
         <EntityType Name="PaymentHistory">
           <Key>
@@ -1324,7 +1356,6 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_Partner" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
@@ -1334,7 +1365,7 @@
           <Property Name="Lock" Type="Boolean" />
           <NavigationProperty Name="Debts" Relationship="Self.FK_Debts_Projects" FromRole="Projects" ToRole="Debts" />
           <NavigationProperty Name="Histories" Relationship="Self.FK_Histories_Projects" FromRole="Projects" ToRole="Histories" />
-          <NavigationProperty Name="Partners" Relationship="Self.FK_Projects_Partners" FromRole="Projects" ToRole="Partners" />
+          <NavigationProperty Name="PartnerOfProject" Relationship="Self.FK_PartnerOfProject_Projects" FromRole="Projects" ToRole="PartnerOfProject" />
           <NavigationProperty Name="PaymentHistory" Relationship="Self.FK_PaymentHistory_Projects" FromRole="Projects" ToRole="PaymentHistory" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Projects" FromRole="Projects" ToRole="Tasks" />
           <NavigationProperty Name="Teams" Relationship="Self.FK_Teams_Projects" FromRole="Projects" ToRole="Teams" />
@@ -1749,15 +1780,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Projects_Partners">
+        <Association Name="FK_PartnerOfProject_Partners">
           <End Role="Partners" Type="Self.Partners" Multiplicity="1" />
-          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+          <End Role="PartnerOfProject" Type="Self.PartnerOfProject" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Partners">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Projects">
-              <PropertyRef Name="ID_Partner" />
+            <Dependent Role="PartnerOfProject">
+              <PropertyRef Name="ID_Partners" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PartnerOfProject_Projects">
+          <End Role="Projects" Type="Self.Projects" Multiplicity="1" />
+          <End Role="PartnerOfProject" Type="Self.PartnerOfProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Projects">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PartnerOfProject">
+              <PropertyRef Name="ID_Project" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1909,6 +1952,7 @@
           <EntitySet Name="LeaveDate" EntityType="Self.LeaveDate" />
           <EntitySet Name="Notification" EntityType="Self.Notification" />
           <EntitySet Name="OnLeave" EntityType="Self.OnLeave" />
+          <EntitySet Name="PartnerOfProject" EntityType="Self.PartnerOfProject" />
           <EntitySet Name="Partners" EntityType="Self.Partners" />
           <EntitySet Name="PaymentHistory" EntityType="Self.PaymentHistory" />
           <EntitySet Name="Payroll" EntityType="Self.Payroll" />
@@ -2015,9 +2059,13 @@
             <End Role="LeaveDate" EntitySet="LeaveDate" />
             <End Role="OnLeave" EntitySet="OnLeave" />
           </AssociationSet>
-          <AssociationSet Name="FK_Projects_Partners" Association="Self.FK_Projects_Partners">
+          <AssociationSet Name="FK_PartnerOfProject_Partners" Association="Self.FK_PartnerOfProject_Partners">
             <End Role="Partners" EntitySet="Partners" />
+            <End Role="PartnerOfProject" EntitySet="PartnerOfProject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PartnerOfProject_Projects" Association="Self.FK_PartnerOfProject_Projects">
             <End Role="Projects" EntitySet="Projects" />
+            <End Role="PartnerOfProject" EntitySet="PartnerOfProject" />
           </AssociationSet>
           <AssociationSet Name="FK_PaymentHistory_Projects" Association="Self.FK_PaymentHistory_Projects">
             <End Role="Projects" EntitySet="Projects" />
@@ -2270,13 +2318,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PartnerOfProject">
+            <EntityTypeMapping TypeName="CP25Team06Model.PartnerOfProject">
+              <MappingFragment StoreEntitySet="PartnerOfProject">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Partners" ColumnName="ID_Partners" />
+                <ScalarProperty Name="ID_Project" ColumnName="ID_Project" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Partners">
             <EntityTypeMapping TypeName="CP25Team06Model.Partners">
               <MappingFragment StoreEntitySet="Partners">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Company" ColumnName="Company" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="IdentityCard" ColumnName="IdentityCard" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Birthday" ColumnName="Birthday" />
@@ -2367,7 +2423,6 @@
             <EntityTypeMapping TypeName="CP25Team06Model.Projects">
               <MappingFragment StoreEntitySet="Projects">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ID_Partner" ColumnName="ID_Partner" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />

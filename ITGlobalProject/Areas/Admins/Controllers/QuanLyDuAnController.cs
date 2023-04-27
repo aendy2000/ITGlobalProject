@@ -45,100 +45,75 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             return View(khachhang);
         }
         [HttpPost]
-        public async Task<ActionResult> taoDuAnMoi(HttpPostedFileBase hopdong, HttpPostedFileBase avatar, string name, string mota, string batdau, string ketthuc,
-            string giaidoan, string chiphi, string namedn, string hotennguoidaidien, string hoten, string cmnd, string phone,
-            string email, string ngaysinh, string gioitinh, string diahchinha, bool? loaidoitac,
-            string masothue, string website, int? id)
+        public async Task<ActionResult> taoDuAnMoi(HttpPostedFileBase hopdong, string name, string mota, string batdau, string ketthuc,
+            string giaidoan, string chiphi, string namedn, string hotennguoidaidien, string hoten, string phone,
+            string email, string ngaysinh, string gioitinh, string diahchinha, string loaidoitac,
+            string masothue, string website, string id)
         {
-            var khachHangCu = model.Partners.Find(id);
-            if (id == null || khachHangCu == null || Session["user-id"] == null)
+            if (string.IsNullOrEmpty(id) || Session["user-id"] == null)
             {
-                var checkExits = model.Partners.FirstOrDefault(p => p.Email.ToLower().Equals(email.ToLower()) || p.IdentityCard.Equals(cmnd.Replace(" ", "").Trim()));
-                if (checkExits != null)
+                List<int> idParts = new List<int>(); //danh sách mã của khách hsql
+                int soluong = email.Split('#').Count();
+                var lstphone = phone.Split('#').ToList();
+                var lstemail = email.Split('#').ToList();
+                var lstngaysinh = ngaysinh.Split('#').ToList();
+                var lstgioitinh = gioitinh.Split('#').ToList();
+                var lstdiahchinha = diahchinha.Split('#').ToList();
+                var lstmasothue = masothue.Split('#').ToList();
+                var lstwebsite = website.Split('#').ToList();
+                var lstloaidoitac = loaidoitac.Split('#').ToList();
+                var lstnamedn = namedn.Split('#').ToList();
+                var lsthotennguoidaidien = hotennguoidaidien.Split('#').ToList();
+                var lsthoten = hoten.Split('#').ToList();
+                int indexchecks = 0;
+                foreach (var item in lstemail)
                 {
-                    string text = "";
-                    if (checkExits.Email.ToLower().Equals(email.ToLower()))
-                        text += "Địa chỉ Email và";
-                    if (checkExits.IdentityCard.Equals(cmnd.Replace(" ", "").Trim()))
-                        text += "số CMND/CCCD";
-                    else
-                        text = "Địa chỉ Email";
-
-                    return Content(text + " đang được sử dụng bởi một khách hàng khác.");
-                }
-
-                Partners kh = new Partners();
-                if (loaidoitac == true)
-                {
-                    kh.Company = namedn.Trim();
-                    kh.Name = hotennguoidaidien.Trim();
-                }
-                else
-                {
-                    kh.Name = hoten.Trim();
-                }
-                kh.IdentityCard = cmnd.Replace(" ", "").Trim();
-                kh.Phone = phone.Trim();
-                kh.Email = email.Trim();
-                kh.Birthday = Convert.ToDateTime(ngaysinh);
-                kh.Sex = gioitinh.Trim();
-                kh.Address = diahchinha.Trim();
-                kh.TaxCode = masothue.Trim();
-                kh.WebUrl = website.Trim();
-                kh.CompanyOrPersonal = loaidoitac;
-                kh.AddDate = DateTime.Now;
-
-                FileStream stream;
-                if (avatar != null)
-                {
-                    if (avatar.ContentLength > 0)
+                    indexchecks++;
+                    var checkExits = model.Partners.FirstOrDefault(p => p.Email.ToLower().Equals(item.ToLower()));
+                    if (checkExits != null)
                     {
-                        const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
-                        int length = 30;
-                        var sb = new StringBuilder();
-                        Random RNG = new Random();
-                        for (var i = 0; i < length; i++)
+                        string text = "";
+                        if (checkExits.Email.ToLower().Equals(email.ToLower()))
                         {
-                            var c = src[RNG.Next(0, src.Length)];
-                            sb.Append(c);
+                            text += "Địa chỉ Email khách hàng " + indexchecks;
+                            return Content(text + " đang được sử dụng bởi một khách hàng khác.");
                         }
 
-                        string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + avatar.FileName); ;
-                        avatar.SaveAs(path);
-                        stream = new FileStream(Path.Combine(path), FileMode.Open);
-                        var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
-                        var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
-                        var cancellation = new CancellationTokenSource();
-
-                        var task = new FirebaseStorage(
-                            Bucket,
-                            new FirebaseStorageOptions
-                            {
-                                AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
-                                ThrowOnCancel = true
-                            })
-                            .Child("images")
-                            .Child(sb.ToString().Trim() + avatar.FileName)
-                            .PutAsync(stream, cancellation.Token);
-                        try
-                        {
-                            string link = await task;
-                            kh.Avatar = link;
-                            System.IO.File.Delete(path);
-                        }
-                        catch
-                        {
-                            return Content("Đã có xảy ra lỗi, vui lòng thử lại");
-                        }
                     }
                 }
 
-                model.Partners.Add(kh);
-                model.SaveChanges();
+                for (int i = 0; i < soluong; i++)
+                {
+                    Partners kh = new Partners();
+                    if (Convert.ToBoolean(lstloaidoitac[i]) == true)
+                    {
+                        kh.Company = lstnamedn[i].Trim();
+                        kh.Name = lsthotennguoidaidien[i].Trim();
+                    }
+                    else
+                    {
+                        kh.Name = lsthoten[i].Trim();
+                    }
 
-                kh.ID_Partners = "KH" + kh.ID.ToString("D8");
-                model.Entry(kh).State = EntityState.Modified;
-                model.SaveChanges();
+                    kh.Phone = lstphone[i].Trim();
+                    kh.Email = lstemail[i].Trim();
+                    kh.Birthday = Convert.ToDateTime(lstngaysinh[i]);
+                    kh.Sex = lstgioitinh[i].Trim();
+                    kh.Address = lstdiahchinha[i].Trim();
+                    kh.TaxCode = lstmasothue[i].Trim();
+                    kh.WebUrl = lstwebsite[i].Trim();
+                    kh.CompanyOrPersonal = Convert.ToBoolean(lstloaidoitac[i].Trim());
+                    kh.AddDate = DateTime.Now;
+
+                    model.Partners.Add(kh);
+                    model.SaveChanges();
+
+                    kh.ID_Partners = "KH" + kh.ID.ToString("D8");
+                    model.Entry(kh).State = EntityState.Modified;
+                    model.SaveChanges();
+
+                    idParts.Add(kh.ID);
+                }
 
                 model = new CP25Team06Entities();
                 Projects pro = new Projects();
@@ -190,7 +165,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 pro.Description = mota;
                 pro.StartDate = Convert.ToDateTime(batdau);
                 pro.EndDate = Convert.ToDateTime(ketthuc);
-                pro.ID_Partner = kh.ID;
                 pro.Lock = false;
                 model.Projects.Add(pro);
                 model.SaveChanges();
@@ -199,6 +173,15 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 model.Entry(pro).State = EntityState.Modified;
                 model.SaveChanges();
 
+                foreach (var item in idParts)
+                {
+                    PartnerOfProject poj = new PartnerOfProject();
+                    poj.ID_Partners = item;
+                    poj.ID_Project = pro.ID;
+                    model.PartnerOfProject.Add(poj);
+                }
+
+                model.SaveChanges();
                 Histories his = new Histories();
                 his.ID_Employee = Convert.ToInt32(Session["user-id"]);
                 his.ID_Projects = pro.ID;
@@ -245,7 +228,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 pro.Description = mota;
                 pro.StartDate = Convert.ToDateTime(batdau);
                 pro.EndDate = Convert.ToDateTime(ketthuc);
-                pro.ID_Partner = (int)id;
                 pro.Lock = false;
 
                 FileStream streams;
@@ -327,6 +309,16 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                     model.PaymentHistory.Add(payHis);
                     model.SaveChanges();
                 }
+
+                var idcu = id.Split('#').ToList();
+                foreach (var item in idcu)
+                {
+                    PartnerOfProject partofPro = new PartnerOfProject();
+                    partofPro.ID_Project = pro.ID;
+                    partofPro.ID_Partners = int.Parse(item);
+                    model.PartnerOfProject.Add(partofPro);
+                    model.SaveChanges();
+                }
                 return Content(pro.ID.ToString());
             }
         }
@@ -338,98 +330,102 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 return Content("DANHSACH");
 
             var lstPartner = model.Partners.OrderByDescending(o => o.ID).ToList();
-            lstPartner.Remove(pro.Partners);
+            //lstPartner.RemoveRange(pro.PartnerOfProject.ToList());
             Session["lst-partner-DuAn"] = lstPartner.ToList();
             return PartialView("_chinhSuaDuAnPartial", pro);
         }
         [HttpPost]
-        public async Task<ActionResult> chinhSuaDuAn(int? idpro, int? idpart, HttpPostedFileBase hopdong, HttpPostedFileBase avatar,
-            string name, string mota, string batdau, string ketthuc, string namedn, string hotennguoidaidien, string hoten, string cmnd,
-            string phone, string email, string ngaysinh, string gioitinh, string diahchinha, bool? loaidoitac,
-            string masothue, string website, int? id)
+        public async Task<ActionResult> chinhSuaDuAn(string idpro, string idpart,
+            HttpPostedFileBase hopdong, string name, string mota, string batdau, string ketthuc,
+            string namedn, string hotennguoidaidien, string hoten, string phone,
+            string email, string ngaysinh, string gioitinh, string diahchinha, string loaidoitac,
+            string masothue, string website, string id)
         {
-            var duAn = model.Projects.Find(idpro);
-            if (duAn == null || Session["user-id"] == null)
+            var duAn = model.Projects.Find(Int32.Parse(idpro));
+            if (duAn == null || Session["user-id"] == null || string.IsNullOrEmpty(idpart))
                 return Content("DANHSACH");
 
-            if (idpart != null)
-            {
-                var khachHang = model.Partners.Find(idpart);
-                if (!khachHang.Email.ToLower().Equals(email.ToLower()) && model.Partners.Where(p => p.Email.ToLower().Equals(email.ToLower().Trim()) || p.IdentityCard.Equals(cmnd)).Count() > 0)
-                    return Content("Email hoặc CMND/CCCD đang được sử dụng bởi một khách hàng khác");
+            List<int> idParts = new List<int>();
+            int soluong = email.Split('#').Count();
+            var lstidpart = idpart.Split('#').ToList();
+            var lstphone = phone.Split('#').ToList();
+            var lstemail = email.Split('#').ToList();
+            var lstngaysinh = ngaysinh.Split('#').ToList();
+            var lstgioitinh = gioitinh.Split('#').ToList();
+            var lstdiahchinha = diahchinha.Split('#').ToList();
+            var lstmasothue = masothue.Split('#').ToList();
+            var lstwebsite = website.Split('#').ToList();
+            var lstloaidoitac = loaidoitac.Split('#').ToList();
+            var lstnamedn = namedn.Split('#').ToList();
+            var lsthotennguoidaidien = hotennguoidaidien.Split('#').ToList();
+            var lsthoten = hoten.Split('#').ToList();
 
-                if (loaidoitac == true)
+            int indexchecks = 0;
+            foreach (var item in lstemail)
+            {
+                indexchecks++;
+                var checkExits = model.Partners.FirstOrDefault(p => p.Email.ToLower().Equals(item.ToLower()));
+                if (checkExits != null)
                 {
-                    khachHang.Company = namedn.Trim();
-                    khachHang.Name = hotennguoidaidien.Trim();
+                    string text = "";
+                    if (checkExits.Email.ToLower().Equals(email.ToLower()))
+                    {
+                        text += "Địa chỉ Email khách hàng " + indexchecks;
+                        return Content(text + " đang được sử dụng bởi một khách hàng khác.");
+                    }
+                }
+            }
+
+            List<Partners> removePart = new List<Partners>();
+            foreach (var item in duAn.PartnerOfProject.ToList())
+                removePart.Add(item.Partners);
+
+            model.PartnerOfProject.RemoveRange(duAn.PartnerOfProject);
+            model.Partners.RemoveRange(removePart);
+            model.SaveChanges();
+
+            for (int i = 0; i < lstidpart.Count(); i++)
+            {
+                Partners kh = new Partners();
+                if (Convert.ToBoolean(lstloaidoitac[i]) == true)
+                {
+                    kh.Company = lstnamedn[i].Trim();
+                    kh.Name = lsthotennguoidaidien[i].Trim();
                 }
                 else
                 {
-                    khachHang.Company = "";
-                    khachHang.Name = hoten.Trim();
-                }
-                khachHang.IdentityCard = cmnd.Replace(" ", "").Trim();
-                khachHang.Phone = phone.Trim();
-                khachHang.Email = email.Trim();
-                khachHang.Birthday = Convert.ToDateTime(ngaysinh);
-                khachHang.Sex = gioitinh.Trim();
-                khachHang.Address = diahchinha.Trim();
-                khachHang.TaxCode = masothue.Trim();
-                khachHang.WebUrl = website.Trim();
-                khachHang.CompanyOrPersonal = loaidoitac;
-
-                FileStream stream;
-                if (avatar != null)
-                {
-                    if (avatar.ContentLength > 0)
-                    {
-                        const string src = "abcdefghijklmnopqrstuvwxyz0123456789";
-                        int length = 30;
-                        var sb = new StringBuilder();
-                        Random RNG = new Random();
-                        for (var i = 0; i < length; i++)
-                        {
-                            var c = src[RNG.Next(0, src.Length)];
-                            sb.Append(c);
-                        }
-
-                        string path = Path.Combine(Server.MapPath("~/Content/images/"), sb.ToString().Trim() + avatar.FileName); ;
-                        avatar.SaveAs(path);
-                        stream = new FileStream(Path.Combine(path), FileMode.Open);
-                        var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
-                        var a = await auth.SignInWithEmailAndPasswordAsync(AuthEmail, AuthPassword);
-                        var cancellation = new CancellationTokenSource();
-
-                        var task = new FirebaseStorage(
-                            Bucket,
-                            new FirebaseStorageOptions
-                            {
-                                AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
-                                ThrowOnCancel = true
-                            })
-                            .Child("images")
-                            .Child(sb.ToString().Trim() + avatar.FileName)
-                            .PutAsync(stream, cancellation.Token);
-                        try
-                        {
-                            string link = await task;
-                            khachHang.Avatar = link;
-                            System.IO.File.Delete(path);
-                        }
-                        catch
-                        {
-                            return Content("Đã có xảy ra lỗi, vui lòng thử lại");
-                        }
-                    }
+                    kh.Name = lsthoten[i].Trim();
                 }
 
-                model.Entry(khachHang).State = EntityState.Modified;
+                kh.Phone = lstphone[i].Trim();
+                kh.Email = lstemail[i].Trim();
+                kh.Birthday = Convert.ToDateTime(lstngaysinh[i]);
+                kh.Sex = lstgioitinh[i].Trim();
+                kh.Address = lstdiahchinha[i].Trim();
+                kh.TaxCode = lstmasothue[i].Trim();
+                kh.WebUrl = lstwebsite[i].Trim();
+                kh.CompanyOrPersonal = Convert.ToBoolean(lstloaidoitac[i].Trim());
+                kh.AddDate = DateTime.Now;
+
+                model.Partners.Add(kh);
                 model.SaveChanges();
+
+                kh.ID_Partners = "KH" + kh.ID.ToString("D8");
+                model.Entry(kh).State = EntityState.Modified;
+                model.SaveChanges();
+
+                idParts.Add(kh.ID);
             }
-            if (id != null)
+
+            foreach (var item in idParts)
             {
-                duAn.ID_Partner = (int)id;
+                PartnerOfProject poj = new PartnerOfProject();
+                poj.ID_Partners = item;
+                poj.ID_Project = Int32.Parse(idpro);
+                model.PartnerOfProject.Add(poj);
             }
+            model.SaveChanges();
+
             FileStream streams;
             if (hopdong != null)
             {
@@ -482,7 +478,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             model.SaveChanges();
 
             model = new CP25Team06Entities();
-            return PartialView("_tongQuanPartial", model.Projects.Find(idpro));
+            return PartialView("_tongQuanPartial", model.Projects.Find(Int32.Parse(idpro)));
         }
 
         public ActionResult chiTietDuAn(int? id)

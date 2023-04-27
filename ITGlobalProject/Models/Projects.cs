@@ -19,13 +19,13 @@ namespace ITGlobalProject.Models
         {
             this.Debts = new HashSet<Debts>();
             this.Histories = new HashSet<Histories>();
+            this.PartnerOfProject = new HashSet<PartnerOfProject>();
             this.PaymentHistory = new HashSet<PaymentHistory>();
             this.Tasks = new HashSet<Tasks>();
             this.Teams = new HashSet<Teams>();
         }
     
         public int ID { get; set; }
-        public int ID_Partner { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public System.DateTime StartDate { get; set; }
@@ -38,7 +38,8 @@ namespace ITGlobalProject.Models
         public virtual ICollection<Debts> Debts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Histories> Histories { get; set; }
-        public virtual Partners Partners { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PartnerOfProject> PartnerOfProject { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PaymentHistory> PaymentHistory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

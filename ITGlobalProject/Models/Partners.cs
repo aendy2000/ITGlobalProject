@@ -17,13 +17,12 @@ namespace ITGlobalProject.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Partners()
         {
-            this.Projects = new HashSet<Projects>();
+            this.PartnerOfProject = new HashSet<PartnerOfProject>();
         }
     
         public int ID { get; set; }
         public string Company { get; set; }
         public string Name { get; set; }
-        public string IdentityCard { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
         public Nullable<System.DateTime> Birthday { get; set; }
@@ -37,6 +36,6 @@ namespace ITGlobalProject.Models
         public string ID_Partners { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Projects> Projects { get; set; }
+        public virtual ICollection<PartnerOfProject> PartnerOfProject { get; set; }
     }
 }

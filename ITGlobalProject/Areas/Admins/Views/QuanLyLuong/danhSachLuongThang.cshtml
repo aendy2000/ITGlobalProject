@@ -156,12 +156,12 @@
                                     {
                                         <tr>
                                             <td class="align-middle ">
-                                                <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID_Employee})" class="d-flex align-items-center">
+                                                <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID_Employee})" class="d-flex align-items-center text-dark">
                                                     @item.Employees.ID_Employee
                                                 </a>
                                             </td>
-                                            <td class="fw-semi-bold text-primary align-middle">
-                                                <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID_Employee})" class="d-flex align-items-center">
+                                            <td class="align-middle">
+                                                <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID_Employee})" class="d-flex align-items-center text-dark">
 
                                                     @if (string.IsNullOrEmpty(item.Employees.Avatar))
                                                     {
@@ -187,9 +187,9 @@
                                                     <span>Chờ thanh toán</span>
                                                 }
                                             </td>
-                                            <td class=" fw-bold mb-0 text-primary  align-middle">@item.Salary.ToString("0,0").Replace(".", ",") đ </td>
-                                            <td class=" fw-bold mb-0 text-danger  align-middle">@(Convert.ToDecimal(item.TotalPriceTax.Value + item.TotalPriceInsurance + 0).ToString("0,0").Replace(".", ",")) đ </td>
-                                            <td class=" fw-bold mb-0 text-warning  align-middle">
+                                            <td class=" align-middle">@item.Salary.ToString("0,0").Replace(".", ",") đ </td>
+                                            <td class=" align-middle">@(Convert.ToDecimal(item.TotalPriceTax.Value + item.TotalPriceInsurance + 0).ToString("0,0").Replace(".", ",")) đ </td>
+                                            <td class=" align-middle">
                                                 <input hidden id="mucthanhtoan-@item.ID" value="@(item.Total_Price.Value != 0 ? item.Total_Price.Value.ToString("0").Replace(".", "") : "0")" />
                                                 @(item.Total_Price.Value != 0 ? item.Total_Price.Value.ToString("0,0").Replace(".", ",") : "0") đ
                                             </td>

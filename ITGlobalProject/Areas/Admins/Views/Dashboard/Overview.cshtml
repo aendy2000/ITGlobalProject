@@ -145,7 +145,6 @@
                             <tr>
                                 <th scope="col" class="text-nowrap border-top-0">#</th>
                                 <th scope="col" class="text-nowrap border-top-0">Thời gian</th>
-                                <th scope="col" class="text-nowrap border-top-0">Mã khách hàng</th>
                                 <th scope="col" class="text-nowrap border-top-0">Mã Dự Án</th>
                                 <th scope="col" class="text-nowrap border-top-0">Tên dự án</th>
                                 <th scope="col" class="text-nowrap border-top-0">Số tiền</th>
@@ -166,9 +165,6 @@
                                         </td>
                                         <td class="align-middle text-nowrap">
                                             @item.Date.ToString("HH:mm dd/MM/yyyy")
-                                        </td>
-                                        <td class="align-middle text-nowrap">
-                                            <a target="_blank" href="@Url.Action("thongtinchitiet", "thongtindoitac", new {id = item.Debts.Projects.ID_Partner})" class="text-dark text-inherit">@item.Debts.Projects.Partners.ID_Partners</a>
                                         </td>
                                         <td class="align-middle text-nowrap">
                                             <a target="_blank" href="@Url.Action("chitietduan", "quanlyduan", new {id = item.Debts.ID_Project})" class="text-dark text-inherit">@item.Debts.Projects.ID_Project</a>
