@@ -309,72 +309,7 @@
                                             <div style="text-align: center; margin-top: -10px" class="mb-2 col-12">
                                                 <a data-bs-toggle="modal" data-bs-target="#lstKhachHangCu" style="width:100%" role="button" class="btn btn-outline-primary"> <i class="fe fe-user-plus"> </i> Lấy Thông Tin Khách Hàng Cũ</a>
                                             </div>
-                                            <hr class="my-4" />
-                                            <div class="d-lg-flex align-items-center justify-content-between">
-                                                <div class="d-flex align-items-center mb-3 mb-lg-0">
-                                                    <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" class="avatar-xxl rounded-circle" alt="" id="previewImageCu" />
-                                                    <div class="ms-3">
-                                                        <h4 class="mb-0">Hình đại diện (nếu có)</h4>
-                                                        <p class="mb-0">
-                                                            Tải lên ảnh đại diện với định dạng hình ảnh.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr class="my-4" />
-                                            <input hidden id="idKhachHang" />
-                                            <div hidden id="doanhnghieps1s" class="mb-3 col-12">
-                                                <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp <span class="text-danger">*</span></label>
-                                                <input readonly id="namedncu" name="namedncu" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng" required>
-                                            </div>
-                                            <!-- form group -->
-                                            <div hidden id="doanhnghieps2s" class="mb-3 col-12  col-md-6">
-                                                <label style="font-weight:bold" class="form-label">Tên người đại diện <span class="text-danger">*</span></label>
-                                                <input readonly id="hotennguoidaidiencu" name="hotennguoidaidiencu" type="text" class="form-control" placeholder="Nhập vào họ và tên của người đại diện" required>
-                                            </div>
-                                            <!-- form group -->
-                                            <div id="canhanss" class="mb-3 col-12  col-md-6">
-                                                <label style="font-weight:bold" class="form-label">Họ và Tên<span class="text-danger">*</span></label>
-                                                <input readonly id="hotencu" name="hotencu" type="text" class="form-control" placeholder="Nhập vào họ và tên của khách hàng" required>
-                                            </div>
-
-                                            <div class="mb-3 col-12 col-md-6">
-                                                <label style="font-weight:bold" class="form-label" for="fname">Số CMND / CCCD</label>
-                                                <input readonly id="cmndcu" name="cmndcu" value="" type="text" class="form-control" placeholder="07020000xxxx..." required />
-                                            </div>
-                                            <!-- Phone -->
-                                            <div class="mb-3 col-12 col-md-6">
-                                                <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
-                                                <input readonly id="phonecu" name="phonecu" value="" type="tel" class="form-control" placeholder="0999888777..." required />
-                                            </div>
-                                            <div class="mb-3 col-12 col-md-6">
-                                                <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
-                                                <input readonly value="" type="text" id="emailcu" name="emailcu" class="form-control" placeholder="example@itglobal.net..." required />
-                                            </div>
-                                            <!-- Birthday -->
-                                            <div class="mb-3 col-12 col-md-6">
-                                                <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh</label>
-                                                <input readonly id="ngaysinhcu" name="ngaysinhcu" value="" class="form-control" type="text" placeholder="Chọn ngày sinh" />
-                                            </div>
-                                            <!-- Birthday -->
-                                            <div class="mb-3 col-12 col-md-6">
-                                                <label style="font-weight:bold" class="form-label">Giới tính</label>
-                                                <input readonly id="gioitinhcu" name="gioitinhcu" value="" class="form-control" type="text" placeholder="Chọn giới tính" />
-                                            </div>
-                                            <div class="mb-3 col-12 col-md-6">
-                                                <label style="font-weight:bold" class="form-label">Mã Số Thuế <span class="text-danger">*</span></label>
-                                                <input readonly id="masothuecu" name="masothuecu" type="text" class="form-control" placeholder="Nhập mã số thuế" data-inputmask="'mask': '9999999999'" inputmode="numeric" required>
-                                            </div>
-                                            <div class="mb-3 col-12 col-md-6">
-                                                <label style="font-weight:bold" class="form-label">Website</label>
-                                                <input readonly id="urlwebcu" name="urlwebcu" type="text" class="form-control" placeholder="Nhập vào đường dẫn website (nếu có)" required>
-                                            </div>
-                                            <!-- Address -->
-                                            <div class="mb-3 col-12 col-md-12">
-                                                <label style="font-weight:bold" class="form-label" for="address">Địa chỉ</label>
-                                                <textarea readonly id="diahchinhacu" name="diachinhacu" rows="5" class="form-control" placeholder="Số 01 đường Nguyễn Minh Châu, Phường 12, Quận 1, Thành Phố Hồ Chí Minh..."></textarea>
-                                            </div>
-
+                                            <div id="appendkhachhangcuvaoday"></div>
                                             <div style="text-align: right; padding-top: 25px" class="mb-2 col-12 col-md-6">
                                                 <button id="nhapKhachHangMoi" style="width: 260px" class="btn btn-outline-primary">
                                                     Nhập thông tin khách hàng mới
@@ -413,11 +348,11 @@
                 <table id="dataTableBasic" class="table table-hover" style="width:100%">
                     <thead class="table-light">
                         <tr>
-                            <th hidden scope="col" class=" border-top-0"></th>
-                            <th scope="col" class=" border-top-0">Tên</th>
-                            <th scope="col" class=" border-top-0">Email</th>
-                            <th scope="col" class=" border-top-0">Số điện thoại</th>
-                            <th scope="col" class=" border-top-0"></th>
+                            <th hidden scope="col" class="text-nowrap border-top-0"></th>
+                            <th cope="col" class="text-nowrap border-top-0">Chọn</th>
+                            <th scope="col" class="text-nowrap border-top-0">Tên</th>
+                            <th scope="col" class="text-nowrap border-top-0">Email</th>
+                            <th scope="col" class="text-nowrap border-top-0">Số điện thoại</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -432,7 +367,6 @@
                             <input hidden value="@(item.Birthday.Value != null ? item.Birthday.Value.ToString("yyyy-MM-dd") : null)" id="sns@(item.ID)" />
                             <input hidden value="@item.Sex" id="gioitinhs@(item.ID)" />
                             <input hidden value="@item.Address" id="dcs@(item.ID)" />
-                            <input hidden value="@item.Avatar" id="avts@(item.ID)" />
                             <input hidden value="@item.CompanyOrPersonal.Value.ToString()" id="type@(item.ID)" />
                             <input hidden value="@item.TaxCode" id="mathue@(item.ID)" />
                             <input hidden value="@item.WebUrl" id="web@(item.ID)" />
@@ -441,34 +375,47 @@
                                 <td hidden class="align-middle">
                                     @i
                                 </td>
-                                <td class="align-middle ">
-                                    <div class="d-flex align-items-center text-nowrap">
-                                        @if (string.IsNullOrEmpty(item.Avatar))
-                                        {
-                                            <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt=""
-                                                 class="rounded-circle avatar-md me-2" />
-                                        }
-                                        else
-                                        {
-                                            <img src="@item.Avatar" alt=""
-                                                 class="rounded-circle avatar-md me-2" />
-                                        }
-                                        <h5 class="mb-0">@item.Name</h5>
+                                <td class="text-nowrap align-middle ps-5">
+                                    <div class="form-check">
+                                        <input type="checkbox" id="chondoitac-@item.ID" name="@item.ID" class="form-check-input p-2" />
                                     </div>
                                 </td>
                                 <td class="align-middle ">
-                                    @item.Email
+                                    <label for="chondoitac-@item.ID">
+                                        <div class="d-flex align-items-center text-nowrap">
+                                            @if (string.IsNullOrEmpty(item.Avatar))
+                                            {
+                                                <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt=""
+                                                     class="rounded-circle avatar-md me-2" />
+                                            }
+                                            else
+                                            {
+                                                <img src="@item.Avatar" alt=""
+                                                     class="rounded-circle avatar-md me-2" />
+                                            }
+                                            <h5 class="mb-0">@item.Name</h5>
+                                        </div>
+                                    </label>
                                 </td>
                                 <td class="align-middle ">
-                                    @item.Phone
+                                    <label for="chondoitac-@item.ID">
+                                        @item.Email
+                                    </label>
                                 </td>
                                 <td class="align-middle ">
-                                    <button id="selectKhachHangCu@(item.ID)" name="@item.ID" class="btn btn-outline-primary btn-xs">CHỌN&ensp;<i class="fe fe-check-square"></i></button>
+                                    <label for="chondoitac-@item.ID">
+                                        @item.Phone
+                                    </label>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
+                <div style="text-align: center; padding-bottom: 20px" class="col-12 col-md-12">
+                    <button style="width: 230px" class="btn btn-success" id="btnthemkhachhangcuvao">
+                        Thêm Khách Hàng
+                    </button>
+                </div>
             </div>
         </div>
     </div>
