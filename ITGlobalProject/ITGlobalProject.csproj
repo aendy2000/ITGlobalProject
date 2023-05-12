@@ -296,6 +296,7 @@
     <Compile Include="Areas\Admins\Controllers\QuanLyDonNghiPhepController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyDuAnController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyKyNangChuyenMonController.cs" />
+    <Compile Include="Areas\Admins\Controllers\QuanLyLoaiNghiPhepController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyLuongController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyNhanSuController.cs" />
     <Compile Include="Areas\Admins\Controllers\QuanLyTaiKhoanController.cs" />
@@ -321,6 +322,9 @@
     </Compile>
     <Compile Include="Hubs\ThongBaoDay.cs" />
     <Compile Include="Middleware\LoginVerification.cs" />
+    <Compile Include="Models\ApplyLeaveType.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Comment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -358,6 +362,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LeaveDate.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LeaveType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
@@ -889,6 +896,9 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\danhSachLoaiNghiPhep.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\_danhSachLoaiNghiPhepPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\ApplyNgayNghiPhep.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -933,6 +943,9 @@
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\SuaKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\ThemKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\XoaKyNangValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyLoaiNghiPhep\XoaLoaiNghiPhepValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyLoaiNghiPhep\SuaLoaiNghiPhepValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyLoaiNghiPhep\ThemLoaiNghiPhepValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyLuong\BangLuongValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyLuong\CauHinhKhoanTru.js" />
     <Content Include="ValidationAlert\Admin\QuanLyLuong\chiTietLuongValidation.js" />

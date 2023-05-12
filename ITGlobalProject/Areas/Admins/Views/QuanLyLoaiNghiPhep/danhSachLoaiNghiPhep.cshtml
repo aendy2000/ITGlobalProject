@@ -1,0 +1,232 @@
+﻿@model IEnumerable<ITGlobalProject.Models.LeaveType>
+@{
+    ViewBag.Title = "Danh Sách Loại Nghỉ Phép";
+    Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
+
+    int i = 0;
+}
+
+<div class="container-fluid p-4">
+    <div class="row ">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Page header -->
+            <div class="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Quản Lý Loại Nghỉ Phép </h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("danhSachLoaiNghiPhep", "QuanLyLoaiNghiPhep")">Quản Lý Loại Nghỉ Phép</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Danh Sách Bộ Phận
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- button -->
+                <div>
+                    <a href="#" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#themBoPhanModal">
+                        Thêm Mới
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row -->
+    <div id="danhSachPartial" class="row">
+        <!-- col -->
+        <div class="col-md-12 col-12 mb-5">
+            <!-- card -->
+            <div class="card">
+                <!-- table -->
+                <table id="dataTableBasic" class="table table-hover" style="width:100%">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class=" border-top-0">#</th>
+                            <th scope="col" class=" border-top-0">Tên loại nghỉ phép</th>
+                            <th scope="col" class=" border-top-0">Trừ lương</th>
+                            <th scope="col" class=" border-top-0"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                i++;
+                                <input hidden value="@item.ID" id="ids@(item.ID)" />
+                                <input hidden value="@item.Name" id="names@(item.ID)" />
+                                <input hidden value="@item.Sate" id="des@(item.ID)" /> // Đổi thành state
+
+                                var ltype = item.Name.ToList();
+
+                                <tr>
+                                    <td class="align-middle">
+                                        @i
+                                    <td class="align-middle ">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <h4 class="mb-0"><a href="#" class="text-inherit">@item.Name</a></h4>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle text-center border-top-0">
+                                        <div class="form-check form-switch">
+                                            @if (item.Sate == false)
+                                            {
+                                                <input id="tinhluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
+                                            }
+                                            else
+                                            {
+                                                <input checked id="tinhluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="text-muted align-middle text-end">
+                                        <div class="dropdown dropstart">
+                                            <a class="btn-icon btn btn-ghost btn-sm rounded-circle" href="#" role="button" id="Dropdown1"
+                                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fe fe-more-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="Dropdown1">
+                                                <span class="dropdown-header">Hành động</span>
+                                                <a role="button" name="@item.ID" id="chinhsua@(item.ID)" class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
+                                                    <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa loại nghỉ phép
+                                                </a>
+                                                @if (ltype.Count < 1)
+                                                {
+                                                    <div class="dropdown-divider"></div>
+                                                    <a role="button" name="@item.ID" id="xoa@(item.ID)" class="dropdown-item" href="#">
+                                                        <i class="fe fe-trash dropdown-item-icon"></i>Xóa loại nghỉ phép
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="align-middle text-center">
+                                    Không có dữ liệu để hiển thị.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Chỉnh sửa loại nghỉ phép -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 800px;">
+
+            <div class="offcanvas-body" data-simplebar>
+                <div style="margin-bottom: -20px" class="offcanvas-header px-2 pt-0">
+                    <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Loại Nghỉ Phép</h4>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <hr class="my-4" />
+                <!-- card body -->
+                <div class="container ">
+                    <!-- form -->
+                    <form class="row">
+                        <!-- form group -->
+                        <div class="mb-3 col-md-12">
+                            <label style="font-weight: bold;" class="form-label">Tên loại nghỉ phép <span class="text-danger">*</span></label>
+                            <input id="name" name="name" type="text" class="form-control" placeholder="Nhập tên loại nghỉ phép">
+                            <input id="id" name="id" hidden>
+                            <p style="color: red; font-size: 13px" id="EditLoaiNghiPhepValidateResul"></p >
+                        </div>
+                        <!-- form group -->
+                       <div class="mb-3 col-md-12">
+                            <label style="font-weight:bold;" class="form-label" for="phone">Kỳ nghỉ được trả lương</label>
+                            <div class="form-check form-switch form-control">
+                                <label style="margin-top: 1px; margin-left: -10px" class="form-check-label" for="traluong">Không được trả lương / Được trả lương</label>
+                                &emsp;&emsp;&ensp;&ensp;&ensp;
+                                <input id="tinhluong" style="margin-right: -20px" class="form-check-input" type="checkbox" role="switch">
+                            </div>
+                        </div>
+                        <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
+                            <button id="dongChinhSua" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="offcanvas" aria-label="Close">
+                                Hủy
+                            </button>
+                        </div>
+                        <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
+                            <a role="button" id="luuChinhSua" style="width: 230px" class="btn btn-success">
+                                Lưu
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Thêm loại nghỉ phép -->
+<div class="modal fade modal-lg" id="themBoPhanModal" tabindex="-1" role="dialog"
+     aria-labelledby="themVaiTroModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="themVaiTroModal"><i class="fe fe-briefcase"> </i> Thêm Loại Nghỉ Phép</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+            </div>
+            <form class="modal-body">
+                <!-- form -->
+                <div class="row">
+
+                    <div class="mb-3 col-md-12">
+                        <label style="font-weight: bold;" class="form-label">Tên loại nghỉ phép<span class="text-danger">*</span></label>
+                        <input id="tenbophan" type="text" class="form-control" placeholder="Nhập tên loại nghỉ phép">
+                        <p style="color: red; font-size: 13px" id="BoPhanValidateResul"></p>
+                    </div>
+
+                    <!-- form group -->
+                    <div class="mb-3 col-md-12">
+                        <label style="font-weight:bold;" class="form-label" for="phone">Kỳ nghỉ được trả lương</label>
+                        <div class="form-check form-switch form-control">
+                            <label style="margin-top: 1px; margin-left: -10px" class="form-check-label" for="traluong">Không được trả lương / Được trả lương</label>
+                            &emsp;&emsp;&ensp;&ensp;&ensp;
+                            <input id="tinhluong" style="margin-right: -20px" class="form-check-input" type="checkbox" role="switch">
+                        </div>
+                    </div>
+
+                    <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
+                        <button id="dongthembophan" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="modal" aria-label="Close">
+                            Hủy
+                        </button>
+                    </div>
+                    <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
+                        <a role="button" id="thembophan" style="width: 230px" class="btn btn-success">
+                            Lưu
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/ValidationAlert/Admin/QuanLyLoaiNghiPhep/ThemLoaiNghiPhepValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyLoaiNghiPhep/XoaLoaiNghiPhepValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyLoaiNghiPhep/SuaLoaiNghiPhepValidation.js"></script>
+<script>
+    $(document).ready(function () {
+        $('[id^=tendaiqua]').each(function () {
+            text = $(this).text();
+            if (text.length > 50) {
+                $(this).html(text.substr(0, 50) + '...');
+            }
+        });
+    });
+</script>
+
+

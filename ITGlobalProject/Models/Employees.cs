@@ -17,6 +17,7 @@ namespace ITGlobalProject.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Employees()
         {
+            this.ApplyLeaveType = new HashSet<ApplyLeaveType>();
             this.Comment = new HashSet<Comment>();
             this.DependentsInformation = new HashSet<DependentsInformation>();
             this.EmploymentContracts = new HashSet<EmploymentContracts>();
@@ -61,6 +62,8 @@ namespace ITGlobalProject.Models
         public Nullable<System.DateTime> DayOff { get; set; }
         public string ID_Employee { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ApplyLeaveType> ApplyLeaveType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

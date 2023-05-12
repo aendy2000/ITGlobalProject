@@ -25,6 +25,7 @@ namespace ITGlobalProject.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<ApplyLeaveType> ApplyLeaveType { get; set; }
         public virtual DbSet<Comment> Comment { get; set; }
         public virtual DbSet<Consultation> Consultation { get; set; }
         public virtual DbSet<Debts> Debts { get; set; }
@@ -38,6 +39,7 @@ namespace ITGlobalProject.Models
         public virtual DbSet<LanguagesSkills> LanguagesSkills { get; set; }
         public virtual DbSet<LeaveApplication> LeaveApplication { get; set; }
         public virtual DbSet<LeaveDate> LeaveDate { get; set; }
+        public virtual DbSet<LeaveType> LeaveType { get; set; }
         public virtual DbSet<Notification> Notification { get; set; }
         public virtual DbSet<OnLeave> OnLeave { get; set; }
         public virtual DbSet<PartnerOfProject> PartnerOfProject { get; set; }

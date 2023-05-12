@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ApplyLeaveType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Leave_Type" Type="int" Nullable="false" />
+          <Property Name="ID_Employee" Type="int" Nullable="false" />
+          <Property Name="LeavePeriod" Type="int" Nullable="false" />
+          <Property Name="Entitlement" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="ID" />
@@ -158,6 +168,7 @@
           <Property Name="ResponsiveDate" Type="datetime" />
           <Property Name="Reply" Type="nvarchar" MaxLength="200" />
           <Property Name="OnWage" Type="bit" Nullable="false" />
+          <Property Name="ID_ApplyLeaveType" Type="int" />
         </EntityType>
         <EntityType Name="LeaveDate">
           <Key>
@@ -169,6 +180,14 @@
           <Property Name="StartMonth" Type="int" Nullable="false" />
           <Property Name="EndDay" Type="int" Nullable="false" />
           <Property Name="EndMonth" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LeaveType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sate" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -425,6 +444,18 @@
           <Property Name="ID_Employee" Type="int" Nullable="false" />
           <Property Name="ID_Project" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_ApplyLeaveType_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="ApplyLeaveType" Type="Self.ApplyLeaveType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplyLeaveType">
+              <PropertyRef Name="ID_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Comment_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
@@ -554,6 +585,18 @@
             </Principal>
             <Dependent Role="LanguagesSkills">
               <PropertyRef Name="ID_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaveApplication_ApplyLeaveType">
+          <End Role="ApplyLeaveType" Type="Self.ApplyLeaveType" Multiplicity="0..1" />
+          <End Role="LeaveApplication" Type="Self.LeaveApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplyLeaveType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LeaveApplication">
+              <PropertyRef Name="ID_ApplyLeaveType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -846,6 +889,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CP25Team06ModelStoreContainer">
+          <EntitySet Name="ApplyLeaveType" EntityType="Self.ApplyLeaveType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Consultation" EntityType="Self.Consultation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Debts" EntityType="Self.Debts" Schema="dbo" store:Type="Tables" />
@@ -859,6 +903,7 @@
           <EntitySet Name="LanguagesSkills" EntityType="Self.LanguagesSkills" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LeaveApplication" EntityType="Self.LeaveApplication" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LeaveDate" EntityType="Self.LeaveDate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeaveType" EntityType="Self.LeaveType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OnLeave" EntityType="Self.OnLeave" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PartnerOfProject" EntityType="Self.PartnerOfProject" Schema="dbo" store:Type="Tables" />
@@ -880,6 +925,10 @@
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tax" EntityType="Self.Tax" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ApplyLeaveType_Employees" Association="Self.FK_ApplyLeaveType_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="ApplyLeaveType" EntitySet="ApplyLeaveType" />
+          </AssociationSet>
           <AssociationSet Name="FK_Comment_Employees" Association="Self.FK_Comment_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Comment" EntitySet="Comment" />
@@ -923,6 +972,10 @@
           <AssociationSet Name="FK_LanguagesSkills_Employees" Association="Self.FK_LanguagesSkills_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="LanguagesSkills" EntitySet="LanguagesSkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaveApplication_ApplyLeaveType" Association="Self.FK_LeaveApplication_ApplyLeaveType">
+            <End Role="ApplyLeaveType" EntitySet="ApplyLeaveType" />
+            <End Role="LeaveApplication" EntitySet="LeaveApplication" />
           </AssociationSet>
           <AssociationSet Name="FK_LeaveApplication_Employees" Association="Self.FK_LeaveApplication_Employees">
             <End Role="Employees" EntitySet="Employees" />
@@ -1026,6 +1079,18 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CP25Team06Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ApplyLeaveType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Leave_Type" Type="Int32" Nullable="false" />
+          <Property Name="ID_Employee" Type="Int32" Nullable="false" />
+          <Property Name="LeavePeriod" Type="Int32" Nullable="false" />
+          <Property Name="Entitlement" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_ApplyLeaveType_Employees" FromRole="ApplyLeaveType" ToRole="Employees" />
+          <NavigationProperty Name="LeaveApplication" Relationship="Self.FK_LeaveApplication_ApplyLeaveType" FromRole="ApplyLeaveType" ToRole="LeaveApplication" />
+        </EntityType>
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="ID" />
@@ -1125,6 +1190,7 @@
           <Property Name="AccountSatus" Type="Boolean" Nullable="false" />
           <Property Name="DayOff" Type="DateTime" Precision="3" />
           <Property Name="ID_Employee" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ApplyLeaveType" Relationship="Self.FK_ApplyLeaveType_Employees" FromRole="Employees" ToRole="ApplyLeaveType" />
           <NavigationProperty Name="Comment" Relationship="Self.FK_Comment_Employees" FromRole="Employees" ToRole="Comment" />
           <NavigationProperty Name="DependentsInformation" Relationship="Self.FK_DependentsInformation_Employees" FromRole="Employees" ToRole="DependentsInformation" />
           <NavigationProperty Name="Position" Relationship="Self.FK_Employees_Position" FromRole="Employees" ToRole="Position" />
@@ -1205,6 +1271,8 @@
           <Property Name="ResponsiveDate" Type="DateTime" Precision="3" />
           <Property Name="Reply" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="OnWage" Type="Boolean" Nullable="false" />
+          <Property Name="ID_ApplyLeaveType" Type="Int32" />
+          <NavigationProperty Name="ApplyLeaveType" Relationship="Self.FK_LeaveApplication_ApplyLeaveType" FromRole="LeaveApplication" ToRole="ApplyLeaveType" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_LeaveApplication_Employees" FromRole="LeaveApplication" ToRole="Employees" />
         </EntityType>
         <EntityType Name="LeaveDate">
@@ -1218,6 +1286,14 @@
           <Property Name="EndDay" Type="Int32" Nullable="false" />
           <Property Name="EndMonth" Type="Int32" Nullable="false" />
           <NavigationProperty Name="OnLeave" Relationship="Self.FK_OnLeave_LeaveDate" FromRole="LeaveDate" ToRole="OnLeave" />
+        </EntityType>
+        <EntityType Name="LeaveType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sate" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -1516,6 +1592,30 @@
           <NavigationProperty Name="Employees" Relationship="Self.FK_Teams_Employees" FromRole="Teams" ToRole="Employees" />
           <NavigationProperty Name="Projects" Relationship="Self.FK_Teams_Projects" FromRole="Teams" ToRole="Projects" />
         </EntityType>
+        <Association Name="FK_ApplyLeaveType_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="ApplyLeaveType" Type="Self.ApplyLeaveType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplyLeaveType">
+              <PropertyRef Name="ID_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaveApplication_ApplyLeaveType">
+          <End Role="ApplyLeaveType" Type="Self.ApplyLeaveType" Multiplicity="0..1" />
+          <End Role="LeaveApplication" Type="Self.LeaveApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplyLeaveType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LeaveApplication">
+              <PropertyRef Name="ID_ApplyLeaveType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Comment_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
@@ -1937,6 +2037,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CP25Team06Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ApplyLeaveType" EntityType="Self.ApplyLeaveType" />
           <EntitySet Name="Comment" EntityType="Self.Comment" />
           <EntitySet Name="Consultation" EntityType="Self.Consultation" />
           <EntitySet Name="Debts" EntityType="Self.Debts" />
@@ -1950,6 +2051,7 @@
           <EntitySet Name="LanguagesSkills" EntityType="Self.LanguagesSkills" />
           <EntitySet Name="LeaveApplication" EntityType="Self.LeaveApplication" />
           <EntitySet Name="LeaveDate" EntityType="Self.LeaveDate" />
+          <EntitySet Name="LeaveType" EntityType="Self.LeaveType" />
           <EntitySet Name="Notification" EntityType="Self.Notification" />
           <EntitySet Name="OnLeave" EntityType="Self.OnLeave" />
           <EntitySet Name="PartnerOfProject" EntityType="Self.PartnerOfProject" />
@@ -1971,6 +2073,14 @@
           <EntitySet Name="Tasks" EntityType="Self.Tasks" />
           <EntitySet Name="Tax" EntityType="Self.Tax" />
           <EntitySet Name="Teams" EntityType="Self.Teams" />
+          <AssociationSet Name="FK_ApplyLeaveType_Employees" Association="Self.FK_ApplyLeaveType_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="ApplyLeaveType" EntitySet="ApplyLeaveType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaveApplication_ApplyLeaveType" Association="Self.FK_LeaveApplication_ApplyLeaveType">
+            <End Role="ApplyLeaveType" EntitySet="ApplyLeaveType" />
+            <End Role="LeaveApplication" EntitySet="LeaveApplication" />
+          </AssociationSet>
           <AssociationSet Name="FK_Comment_Employees" Association="Self.FK_Comment_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Comment" EntitySet="Comment" />
@@ -2118,6 +2228,17 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CP25Team06ModelStoreContainer" CdmEntityContainer="CP25Team06Entities">
+          <EntitySetMapping Name="ApplyLeaveType">
+            <EntityTypeMapping TypeName="CP25Team06Model.ApplyLeaveType">
+              <MappingFragment StoreEntitySet="ApplyLeaveType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Leave_Type" ColumnName="ID_Leave_Type" />
+                <ScalarProperty Name="ID_Employee" ColumnName="ID_Employee" />
+                <ScalarProperty Name="LeavePeriod" ColumnName="LeavePeriod" />
+                <ScalarProperty Name="Entitlement" ColumnName="Entitlement" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Comment">
             <EntityTypeMapping TypeName="CP25Team06Model.Comment">
               <MappingFragment StoreEntitySet="Comment">
@@ -2281,6 +2402,7 @@
                 <ScalarProperty Name="ResponsiveDate" ColumnName="ResponsiveDate" />
                 <ScalarProperty Name="Reply" ColumnName="Reply" />
                 <ScalarProperty Name="OnWage" ColumnName="OnWage" />
+                <ScalarProperty Name="ID_ApplyLeaveType" ColumnName="ID_ApplyLeaveType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2293,6 +2415,15 @@
                 <ScalarProperty Name="StartMonth" ColumnName="StartMonth" />
                 <ScalarProperty Name="EndDay" ColumnName="EndDay" />
                 <ScalarProperty Name="EndMonth" ColumnName="EndMonth" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeaveType">
+            <EntityTypeMapping TypeName="CP25Team06Model.LeaveType">
+              <MappingFragment StoreEntitySet="LeaveType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Sate" ColumnName="Sate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
