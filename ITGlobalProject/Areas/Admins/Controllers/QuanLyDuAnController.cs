@@ -322,6 +322,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 return Content(pro.ID.ToString());
             }
         }
+
         [HttpPost]
         public ActionResult openChinhSuaDuAn(int? id)
         {
@@ -334,6 +335,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             Session["lst-partner-DuAn"] = lstPartner.ToList();
             return PartialView("_chinhSuaDuAnPartial", pro);
         }
+
         [HttpPost]
         public async Task<ActionResult> chinhSuaDuAn(string idpro, string idpart,
             HttpPostedFileBase hopdong, string name, string mota, string batdau, string ketthuc,
@@ -537,6 +539,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             ViewBag.ShowActive = "danhSachDuAn";
             return View(pro);
         }
+
         public ActionResult tongQuanPartial(int? id)
         {
             var pro = model.Projects.Find(id);

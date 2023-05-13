@@ -321,6 +321,9 @@
     </Compile>
     <Compile Include="Hubs\ThongBaoDay.cs" />
     <Compile Include="Middleware\LoginVerification.cs" />
+    <Compile Include="Models\ApplyLeaveType.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Comment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -358,6 +361,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LeaveDate.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LeaveType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">

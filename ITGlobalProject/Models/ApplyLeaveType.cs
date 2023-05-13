@@ -12,21 +12,22 @@ namespace ITGlobalProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class LeaveApplication
+    public partial class ApplyLeaveType
     {
-        public int ID { get; set; }
-        public int ID_Employee { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
-        public System.DateTime SendDate { get; set; }
-        public Nullable<bool> State { get; set; }
-        public string Contents { get; set; }
-        public Nullable<System.DateTime> ResponsiveDate { get; set; }
-        public string Reply { get; set; }
-        public bool OnWage { get; set; }
-        public Nullable<int> ID_ApplyLeaveType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ApplyLeaveType()
+        {
+            this.LeaveApplication = new HashSet<LeaveApplication>();
+        }
     
-        public virtual ApplyLeaveType ApplyLeaveType { get; set; }
+        public int ID { get; set; }
+        public int ID_Leave_Type { get; set; }
+        public int ID_Employee { get; set; }
+        public int LeavePeriod { get; set; }
+        public int Entitlement { get; set; }
+    
         public virtual Employees Employees { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LeaveApplication> LeaveApplication { get; set; }
     }
 }

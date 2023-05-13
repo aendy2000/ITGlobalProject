@@ -1582,7 +1582,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 return Content("DANHSACH");
             var currentYear = DateTime.Now.Year;
 
-            Session["bang-luong-emp"] = model.PayrollCategory.Where(p => p.Date.Year == currentYear).ToList();
+            Session["bang-luong-emp"] = model.PayrollCategory.FirstOrDefault(p => p.Date.Year == currentYear);
             return PartialView("_bangLuongPartial", user);
         }
         [HttpPost]
