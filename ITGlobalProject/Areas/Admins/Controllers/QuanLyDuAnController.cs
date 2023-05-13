@@ -322,6 +322,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 return Content(pro.ID.ToString());
             }
         }
+
         [HttpPost]
         public ActionResult openChinhSuaDuAn(int? id)
         {
@@ -334,6 +335,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             Session["lst-partner-DuAn"] = lstPartner.ToList();
             return PartialView("_chinhSuaDuAnPartial", pro);
         }
+
         [HttpPost]
         public async Task<ActionResult> chinhSuaDuAn(string idpro, string idpart,
             HttpPostedFileBase hopdong, string name, string mota, string batdau, string ketthuc,
@@ -342,89 +344,134 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             string masothue, string website, string id)
         {
             var duAn = model.Projects.Find(Int32.Parse(idpro));
-            if (duAn == null || Session["user-id"] == null || string.IsNullOrEmpty(idpart))
+            if (duAn == null || Session["user-id"] == null)
                 return Content("DANHSACH");
 
-            List<int> idParts = new List<int>();
-            int soluong = email.Split('#').Count();
-            var lstidpart = idpart.Split('#').ToList();
-            var lstphone = phone.Split('#').ToList();
-            var lstemail = email.Split('#').ToList();
-            var lstngaysinh = ngaysinh.Split('#').ToList();
-            var lstgioitinh = gioitinh.Split('#').ToList();
-            var lstdiahchinha = diahchinha.Split('#').ToList();
-            var lstmasothue = masothue.Split('#').ToList();
-            var lstwebsite = website.Split('#').ToList();
-            var lstloaidoitac = loaidoitac.Split('#').ToList();
-            var lstnamedn = namedn.Split('#').ToList();
-            var lsthotennguoidaidien = hotennguoidaidien.Split('#').ToList();
-            var lsthoten = hoten.Split('#').ToList();
-
-            int indexchecks = 0;
-            foreach (var item in lstemail)
+            if (string.IsNullOrEmpty(id))
             {
-                indexchecks++;
-                var checkExits = model.Partners.FirstOrDefault(p => p.Email.ToLower().Equals(item.ToLower()));
-                if (checkExits != null)
+                List<int> idParts = new List<int>();
+                int soluong = email.Split('#').Count();
+                var lstidpart = idpart.Split('#').ToList();
+                var lstphone = phone.Split('#').ToList();
+                var lstemail = email.Split('#').ToList();
+                var lstngaysinh = ngaysinh.Split('#').ToList();
+                var lstgioitinh = gioitinh.Split('#').ToList();
+                var lstdiahchinha = diahchinha.Split('#').ToList();
+                var lstmasothue = masothue.Split('#').ToList();
+                var lstwebsite = website.Split('#').ToList();
+                var lstloaidoitac = loaidoitac.Split('#').ToList();
+                var lstnamedn = namedn.Split('#').ToList();
+                var lsthotennguoidaidien = hotennguoidaidien.Split('#').ToList();
+                var lsthoten = hoten.Split('#').ToList();
+
+                int indexchecks = 0;
+                foreach (var item in lstemail)
                 {
-                    string text = "";
-                    if (checkExits.Email.ToLower().Equals(email.ToLower()))
+                    indexchecks++;
+                    var checkExits = model.Partners.FirstOrDefault(p => p.Email.ToLower().Equals(item.ToLower()));
+                    if (checkExits != null)
                     {
-                        text += "Địa chỉ Email khách hàng " + indexchecks;
-                        return Content(text + " đang được sử dụng bởi một khách hàng khác.");
+                        string text = "";
+                        if (checkExits.Email.ToLower().Equals(email.ToLower()))
+                        {
+                            text += "Địa chỉ Email khách hàng " + indexchecks;
+                            return Content(text + " đang được sử dụng bởi một khách hàng khác.");
+                        }
                     }
                 }
-            }
 
-            List<Partners> removePart = new List<Partners>();
-            foreach (var item in duAn.PartnerOfProject.ToList())
-                removePart.Add(item.Partners);
-
-            model.PartnerOfProject.RemoveRange(duAn.PartnerOfProject);
-            model.Partners.RemoveRange(removePart);
-            model.SaveChanges();
-
-            for (int i = 0; i < lstidpart.Count(); i++)
-            {
-                Partners kh = new Partners();
-                if (Convert.ToBoolean(lstloaidoitac[i]) == true)
-                {
-                    kh.Company = lstnamedn[i].Trim();
-                    kh.Name = lsthotennguoidaidien[i].Trim();
-                }
-                else
-                {
-                    kh.Name = lsthoten[i].Trim();
-                }
-
-                kh.Phone = lstphone[i].Trim();
-                kh.Email = lstemail[i].Trim();
-                kh.Birthday = Convert.ToDateTime(lstngaysinh[i]);
-                kh.Sex = lstgioitinh[i].Trim();
-                kh.Address = lstdiahchinha[i].Trim();
-                kh.TaxCode = lstmasothue[i].Trim();
-                kh.WebUrl = lstwebsite[i].Trim();
-                kh.CompanyOrPersonal = Convert.ToBoolean(lstloaidoitac[i].Trim());
-                kh.AddDate = DateTime.Now;
-
-                model.Partners.Add(kh);
+                model.PartnerOfProject.RemoveRange(duAn.PartnerOfProject);
                 model.SaveChanges();
 
-                kh.ID_Partners = "KH" + kh.ID.ToString("D8");
-                model.Entry(kh).State = EntityState.Modified;
+                for (int i = 0; i < lstidpart.Count(); i++)
+                {
+                    if (Int32.Parse(lstidpart[i]) == 0)
+                    {
+                        Partners kh = new Partners();
+                        if (Convert.ToBoolean(lstloaidoitac[i]) == true)
+                        {
+                            kh.Company = lstnamedn[i].Trim();
+                            kh.Name = lsthotennguoidaidien[i].Trim();
+                        }
+                        else
+                        {
+                            kh.Name = lsthoten[i].Trim();
+                        }
+
+                        kh.Phone = lstphone[i].Trim();
+                        kh.Email = lstemail[i].Trim();
+                        kh.Birthday = Convert.ToDateTime(lstngaysinh[i]);
+                        kh.Sex = lstgioitinh[i].Trim();
+                        kh.Address = lstdiahchinha[i].Trim();
+                        kh.TaxCode = lstmasothue[i].Trim();
+                        kh.WebUrl = lstwebsite[i].Trim();
+                        kh.CompanyOrPersonal = Convert.ToBoolean(lstloaidoitac[i].Trim());
+                        kh.AddDate = DateTime.Now;
+
+                        model.Partners.Add(kh);
+                        model.SaveChanges();
+
+                        kh.ID_Partners = "KH" + kh.ID.ToString("D8");
+                        model.Entry(kh).State = EntityState.Modified;
+                        model.SaveChanges();
+
+                        idParts.Add(kh.ID);
+                    }
+                    else
+                    {
+                        var kh = model.Partners.Find(Int32.Parse(lstidpart[i]));
+
+                        if (Convert.ToBoolean(lstloaidoitac[i]) == true)
+                        {
+                            kh.Company = lstnamedn[i].Trim();
+                            kh.Name = lsthotennguoidaidien[i].Trim();
+                        }
+                        else
+                        {
+                            kh.Name = lsthoten[i].Trim();
+                        }
+
+                        kh.Phone = lstphone[i].Trim();
+                        kh.Email = lstemail[i].Trim();
+                        kh.Birthday = Convert.ToDateTime(lstngaysinh[i]);
+                        kh.Sex = lstgioitinh[i].Trim();
+                        kh.Address = lstdiahchinha[i].Trim();
+                        kh.TaxCode = lstmasothue[i].Trim();
+                        kh.WebUrl = lstwebsite[i].Trim();
+                        kh.CompanyOrPersonal = Convert.ToBoolean(lstloaidoitac[i].Trim());
+                        kh.AddDate = DateTime.Now;
+
+                        model.Entry(kh).State = EntityState.Modified;
+                        model.SaveChanges();
+
+                        idParts.Add(kh.ID);
+                    }
+
+                }
+
+                foreach (var item in idParts)
+                {
+                    PartnerOfProject poj = new PartnerOfProject();
+                    poj.ID_Partners = item;
+                    poj.ID_Project = Int32.Parse(idpro);
+                    model.PartnerOfProject.Add(poj);
+                }
+                model.SaveChanges();
+            }
+            else
+            {
+                model.PartnerOfProject.RemoveRange(duAn.PartnerOfProject);
                 model.SaveChanges();
 
-                idParts.Add(kh.ID);
+                foreach (var item in id.Split('#').ToList())
+                {
+                    PartnerOfProject poj = new PartnerOfProject();
+                    poj.ID_Partners = Int32.Parse(item);
+                    poj.ID_Project = Int32.Parse(idpro);
+                    model.PartnerOfProject.Add(poj);
+                }
+                model.SaveChanges();
             }
-
-            foreach (var item in idParts)
-            {
-                PartnerOfProject poj = new PartnerOfProject();
-                poj.ID_Partners = item;
-                poj.ID_Project = Int32.Parse(idpro);
-                model.PartnerOfProject.Add(poj);
-            }
-            model.SaveChanges();
 
             FileStream streams;
             if (hopdong != null)
@@ -492,6 +539,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             ViewBag.ShowActive = "danhSachDuAn";
             return View(pro);
         }
+
         public ActionResult tongQuanPartial(int? id)
         {
             var pro = model.Projects.Find(id);

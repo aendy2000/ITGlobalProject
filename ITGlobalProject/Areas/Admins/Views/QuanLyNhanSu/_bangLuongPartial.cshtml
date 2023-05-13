@@ -4,7 +4,7 @@
     CP25Team06Entities models = new CP25Team06Entities();
     var luongNam = models.PayrollCategory.OrderByDescending(o => o.ID).ToList();
     string imagesUrl = "";
-    var luong = Session["bang-luong-emp"] as IEnumerable<PayrollCategory>;
+    var luong = Session["bang-luong-emp"] as PayrollCategory;
     if (string.IsNullOrEmpty(Model.Avatar))
     {
         imagesUrl = "~/Content/Admin/assets/images/avatar/default-avatar.png";
@@ -193,10 +193,10 @@
                                 </a>
                             </li>
                             @*<li class="nav-item  ">
-                                <a role="button" class="nav-link" id="BCThongKe">
-                                    <i class="fe fe-pie-chart nav-icon"></i>Báo cáo thống kê
-                                </a>
-                            </li>*@
+                                    <a role="button" class="nav-link" id="BCThongKe">
+                                        <i class="fe fe-pie-chart nav-icon"></i>Báo cáo thống kê
+                                    </a>
+                                </li>*@
                             <hr />
                             @if (Model.Lock == false)
                             {
@@ -222,9 +222,9 @@
         </div>
         <div class="col-lg-9 col-md-8 col-12">
             <div class="row justify-content-md-between mb-4 mb-xl-4 d-lg-flex">
-                <div class="col-xl-6 col-lg-4 col-md-4 col-12 align-items-end">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-12 align-items-end">
                     <select id="namluong" name="@Model.ID" class="" data-width="100%">
-                        @for (int y = 2023; y <= luong.First().Date.Year; y++)
+                        @for (int y = 2023; y <= luong.Date.Year; y++)
                         {
                             if (y == DateTime.Now.Year)
                             {
@@ -259,58 +259,56 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in luong)
+                                    @if (luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID) != null)
                                     {
-                                        if (item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID) != null)
-                                        {
-                                            <tr>
-                                                <td class="align-middle">
-                                                    @item.Name
-                                                </td>
-                                                <td class="align-middle ">
-                                                    @if (item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).State == true)
-                                                    {
-                                                        @(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Histories.Where(h => h.Name.IndexOf("Thanh Toán") != -1).Count() > 0 ? item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("dd") + " Thg " + item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("MM ,yyyy") : "Chờ thanh toán")
-                                                    }
-                                                    else
-                                                    {
-                                                        <span>Chờ thanh toán</span>
-                                                    }
-                                                </td>
-                                                <td class=" align-middle">@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Salary.ToString("0,0").Replace(".", ",") đ </td>
-                                                <td class=" align-middle">@(Convert.ToDecimal(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).TotalPriceTax.Value + item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).TotalPriceInsurance + 0).ToString("0,0").Replace(".", ",")) đ </td>
-                                                <td class=" align-middle">
-                                                    <input hidden id="mucthanhtoan-@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID" value="@(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value != 0 ? item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value.ToString("0").Replace(".", "") : "0")" />
-                                                    @(item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value != 0 ? item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value.ToString("0,0").Replace(".", ",") : "0") đ
-                                                </td>
-                                                <td id="tdTrangThai-@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID" class="border-top-0  align-middle">
-                                                    @if (item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).State == true)
-                                                    {
-                                                        <span style="width:110px" class="badge text-success bg-light-success ">Đã thanh toán</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span style="width:110px" class="badge text-danger bg-light-danger ">Chưa thanh toán</span>
-                                                    }
-                                                </td>
-                                                <td class="text-muted align-middle text-end">
-                                                    <div class="dropdown dropstart">
-                                                        <a data-bs-toggle="tooltip" data-placement="top" title="Xem chi tiết" class="btn-icon btn btn-ghost rounded-circle text-primary" role="button" id="xemchiTietLuong-@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID" name="@item.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID">
-                                                            <i class="fe fe-info"></i>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
-                                        else
-                                        {
-                                            <tr>
-                                                <td colspan="5" class="align-middle text-center">
-                                                    Không có dữ liệu để hiển thị.
-                                                </td>
-                                            </tr>
-                                        }
+                                        <tr>
+                                            <td class="align-middle">
+                                                @luong.Name
+                                            </td>
+                                            <td class="align-middle ">
+                                                @if (luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).State == true)
+                                                {
+                                                    @(luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Histories.Where(h => h.Name.IndexOf("Thanh Toán") != -1).Count() > 0 ? luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("dd") + " Thg " + luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Histories.FirstOrDefault(h => h.Name.IndexOf("Thanh Toán") != -1).Date.ToString("MM ,yyyy") : "Chờ thanh toán")
+                                                }
+                                                else
+                                                {
+                                                    <span>Chờ thanh toán</span>
+                                                }
+                                            </td>
+                                            <td class=" align-middle">@luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Salary.ToString("0,0").Replace(".", ",") đ </td>
+                                            <td class=" align-middle">@(Convert.ToDecimal(luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).TotalPriceTax.Value + luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).TotalPriceInsurance + 0).ToString("0,0").Replace(".", ",")) đ </td>
+                                            <td class=" align-middle">
+                                                <input hidden id="mucthanhtoan-@luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID" value="@(luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value != 0 ? luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value.ToString("0").Replace(".", "") : "0")" />
+                                                @(luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value != 0 ? luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).Total_Price.Value.ToString("0,0").Replace(".", ",") : "0") đ
+                                            </td>
+                                            <td id="tdTrangThai-@luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID" class="border-top-0  align-middle">
+                                                @if (luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).State == true)
+                                                {
+                                                    <span style="width:110px" class="badge text-success bg-light-success ">Đã thanh toán</span>
+                                                }
+                                                else
+                                                {
+                                                    <span style="width:110px" class="badge text-danger bg-light-danger ">Chưa thanh toán</span>
+                                                }
+                                            </td>
+                                            <td class="text-muted align-middle text-end">
+                                                <div class="dropdown dropstart">
+                                                    <a data-bs-toggle="tooltip" data-placement="top" title="Xem chi tiết" class="btn-icon btn btn-ghost rounded-circle text-primary" role="button" id="xemchiTietLuong-@luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID" name="@luong.Payroll.FirstOrDefault(e => e.ID_Employee == Model.ID).ID">
+                                                        <i class="fe fe-info"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="7" class="align-middle text-center">
+                                                Không có dữ liệu để hiển thị.
+                                            </td>
+                                        </tr>
+                                    }
+
                                 </tbody>
                             </table>
                         </div>

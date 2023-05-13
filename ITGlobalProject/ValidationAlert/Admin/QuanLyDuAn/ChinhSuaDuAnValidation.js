@@ -15,53 +15,180 @@
     });
 
     //Chọn khách hàng có sẵn
-    $('[id^="selectKhachHangCu"]').on('click', function () {
-        var id = $(this).attr("name");
+    $('[id^="chondoitac-"]').on('input', function () {
+        var dem = 0;
+        var id = [];
+
+        $('#dataTableBasic').DataTable()
+            .column(1)
+            .nodes()
+            .to$()
+            .find('[id^="chondoitac-"]:checked').each(function () {
+                id[dem] = $(this).attr('name');
+                dem++;
+            });
+
+        if (dem >= 3) {
+            $('#dataTableBasic').DataTable()
+                .column(1)
+                .nodes()
+                .to$()
+                .find('[id^="chondoitac-"]').each(function () {
+                    if ($.inArray($(this).attr('name'), id) == -1) {
+                        $(this).attr('disabled', true);
+                    }
+                });
+        }
+        else {
+            $('#dataTableBasic').DataTable()
+                .column(1)
+                .nodes()
+                .to$()
+                .find('[id^="chondoitac-"]').each(function () {
+                    if ($.inArray($(this).attr('name'), id) == -1) {
+                        $(this).attr('disabled', false);
+                    }
+                });
+        }
+    });
+
+    //Chọn thêm khách hàng cũ
+    $('#btnthemkhachhangcuvao').on('click', function () {
+        var dem = 0;
+        var id = [];
+
+        $('#dataTableBasic').DataTable()
+            .column(1)
+            .nodes()
+            .to$()
+            .find('[id^="chondoitac-"]:checked').each(function () {
+                id[dem] = $(this).attr('name');
+                dem++;
+            });
 
         $('#tatDanhSachKHCu').click();
 
         $('#luKhachHang').hide();
         $('#NavthongTinKhachHang').hide();
 
-        $('#luKhachHangCu').show().prop("hidden", false);
-        $('#NavthongTinKhachHangCu').show().prop("hidden", false);
+        $('#luKhachHangCu').prop('hidden', false).show();
+        $('#NavthongTinKhachHangCu').prop('hidden', false).show();
 
-        $('#idKhachHang').val(id);
-        $('#namedncu').val(
-            $('#companys' + id).val()
-        );
-        $('#hotencu').val(
-            $('#names' + id).val()
-        );
-        $('#cmndcu').val(
-            $('#cmnds' + id).val()
-        );
-        $('#phonecu').val(
-            $('#sdts' + id).val()
-        );
-        $('#emailcu').val(
-            $('#emails' + id).val()
-        );
-        $('#ngaysinhcu').val(
-            $('#sns' + id).val()
-        );
-        $('#gioitinhcu').val(
-            $('#gioitinhs' + id).val()
-        );
-        $('#diahchinhacu').val(
-            $('#dcs' + id).val()
-        );
+        for (var i = 0; i < dem; i++) {
 
-        var avt = $('#avts' + id).val();
-        if (avt.length < 1) {
-            $('#previewImageCu').replaceWith('<img src="' + $('#requestPath').val() + 'Content/Admin/assets/images/avatar/default-avatar.png")" class="avatar-xxl rounded-circle" alt="" id="previewImage" />');
-        } else {
-            $('#previewImageCu').replaceWith('<img src="' + avt + '" class="avatar-xxl rounded-circle" alt="" id="previewImageCu" />');
+            if ($('#type' + id[i]).val().toLowerCase() == "true") {
+                $('#appendkhachhangcuvaoday').append(`<div id="appendKhachHang-` + (i + 1) + `">
+                <hr class="my-4" />
+                <!-- form -->
+                <p class="h4 mb-4 text-center"><u>THÔNG TIN KHÁCH HÀNG ` + (i + 1) + `</u></p>
+                <div class="row">
+                    <input hidden value="`+ $('#ids' + id[i]).val() + `" id="idkhcu-` + id[i] + `" type="text">
+                    <div id="doanhnghieps1-1" class="mb-3 col-12">
+                        <label style="font-weight:bold" class="form-label">Tên Đơn vị / Doanh nghiệp <span class="text-danger">*</span></label>
+                        <input readonly value="` + $('#companys' + id[i]).val() + `" id="namedn-1" name="namedn-1" type="text" class="form-control" placeholder="Nhập vào tên doanh nghiệp của khách hàng" required>
+                    </div>
+                    <!-- form group -->
+                    <div id="doanhnghieps2-1" class="mb-3 col-12  col-md-6">
+                        <label style="font-weight:bold" class="form-label">Tên người đại diện <span class="text-danger">*</span></label>
+                        <input readonly value="`+ $('#names' + id[i]).val() + `" id="hotennguoidaidien-1" name="hotennguoidaidien-1" type="text" class="form-control" placeholder="Nhập vào họ và tên của người đại diện" required>
+                    </div>
+                    <div class="mb-3 col-12 col-md-6">
+                        <label style="font-weight:bold" class="form-label">Mã Số Thuế <span class="text-danger">*</span></label>
+                        <input readonly value="`+ $('#mathue' + id[i]).val() + `" id="masothue-1" name="masothue-1" type="text" class="form-control" placeholder="Nhập mã số thuế" data-inputmask="'mask': '9999999999'" inputmode="numeric" required>
+                    </div>
+                    <!-- Phone -->
+                    <div class="mb-3 col-12 col-md-6">
+                        <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                        <input readonly value="`+ $('#sdts' + id[i]).val() + `" id="phone-1" name="phone-1" value="" type="tel" class="form-control" placeholder="Nhập vào số điện thoại khách hàng" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" />
+                    </div>
+                    <div class="mb-3 col-12 col-md-6">
+                        <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
+                        <input readonly value="`+ $('#emails' + id[i]).val() + `" type="text" id="email-1" name="email-1" class="form-control" placeholder="example@itglobal.net" data-inputmask="'alias': 'email'" inputmode="numeric" />
+                    </div>
+                    <!-- Birthday -->
+                    <div class="mb-3 col-12 col-md-6">
+                        <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh</label>
+                        <input readonly value="`+ $('#sns' + id[i]).val() + `" id="ngaysinh-1" name="ngaysinh-1" value="" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
+                    </div>
+                    <!-- Birthday -->
+                    <div class="mb-3 col-12 col-md-6">
+                        <label style="font-weight:bold" class="form-label">Giới tính </label>
+                        <input readonly value="`+ $('#gioitinhs' + id[i]).val() + `" id="gioitinh-1" name="gioitinh-1" value="" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
+                    </div>
+
+                    <div class="mb-3 col-12 col-md-12">
+                        <label style="font-weight:bold" class="form-label">Website</label>
+                        <input readonly value="`+ $('#web' + id[i]).val() + `" id="urlweb-1" name="urlweb-1" type="text" class="form-control" placeholder="Nhập vào đường dẫn website (nếu có)" required>
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <label style="font-weight:bold" class="form-label">Địa chỉ</label>
+                        <textarea readonly rows="4" id="diahchinha-1" name="diahchinha-1" type="text" class="form-control" placeholder="Nhập vào địa chỉ liên lạc">`+ $('#dcs' + id[i]).val() + `</textarea>
+                    </div>
+                </div>
+            </div>
+            `);
+            }
+            else {
+                $('#appendkhachhangcuvaoday').append(`<div id="appendKhachHang-` + (i + 1) + `">
+                <hr class="my-4" />
+                <!-- form -->
+                <p class="h4 mb-4 text-center"><u>THÔNG TIN KHÁCH HÀNG ` + (i + 1) + `</u></p>
+                <div class="row">
+                    <input hidden value="`+ $('#ids' + id[i]).val() + `" id="idkhcu-` + id[i] + `" type="text">
+                    <div id="doanhnghieps2-1" class="mb-3 col-12  col-md-6">
+                        <label style="font-weight:bold" class="form-label">Họ & Tên <span class="text-danger">*</span></label>
+                        <input readonly value="`+ $('#names' + id[i]).val() + `" id="hotennguoidaidien-1" name="hotennguoidaidien-1" type="text" class="form-control" placeholder="Nhập vào họ và tên của người đại diện" required>
+                    </div>
+                    <div class="mb-3 col-12 col-md-6">
+                        <label style="font-weight:bold" class="form-label">Mã Số Thuế <span class="text-danger">*</span></label>
+                        <input readonly value="`+ $('#mathue' + id[i]).val() + `" id="masothue-1" name="masothue-1" type="text" class="form-control" placeholder="Nhập mã số thuế" data-inputmask="'mask': '9999999999'" inputmode="numeric" required>
+                    </div>
+                    <!-- Phone -->
+                    <div class="mb-3 col-12 col-md-6">
+                        <label style="font-weight:bold" class="form-label" for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                        <input readonly value="`+ $('#sdts' + id[i]).val() + `" id="phone-1" name="phone-1" value="" type="tel" class="form-control" placeholder="Nhập vào số điện thoại khách hàng" data-inputmask="'mask': '9999 999 999'" inputmode="numeric" />
+                    </div>
+                    <div class="mb-3 col-12 col-md-6">
+                        <label style="font-weight:bold" class="form-label" for="phone">Email <span class="text-danger">*</span></label>
+                        <input readonly value="`+ $('#emails' + id[i]).val() + `" type="text" id="email-1" name="email-1" class="form-control" placeholder="example@itglobal.net" data-inputmask="'alias': 'email'" inputmode="numeric" />
+                    </div>
+                    <!-- Birthday -->
+                    <div class="mb-3 col-12 col-md-6">
+                        <label style="font-weight:bold" class="form-label" for="birth">Ngày sinh</label>
+                        <input readonly value="`+ $('#sns' + id[i]).val() + `" id="ngaysinh-1" name="ngaysinh-1" value="" class="form-control flatpickr" type="date" placeholder="Chọn ngày sinh" />
+                    </div>
+                    <!-- Birthday -->
+                    <div class="mb-3 col-12 col-md-6">
+                        <label style="font-weight:bold" class="form-label">Giới tính </label>
+                        <input readonly value="`+ $('#gioitinhs' + id[i]).val() + `" id="gioitinh-1" name="gioitinh-1" value="" class="form-control" type="text" placeholder="Chọn ngày sinh" />
+                    </div>
+
+                    <div class="mb-3 col-12 col-md-12">
+                        <label style="font-weight:bold" class="form-label">Website</label>
+                        <input readonly value="`+ $('#web' + id[i]).val() + `" id="urlweb-1" name="urlweb-1" type="text" class="form-control" placeholder="Nhập vào đường dẫn website (nếu có)" required>
+                    </div>
+                    <div class="mb-3 col-12 col-md-12">
+                        <label style="font-weight:bold" class="form-label">Địa chỉ</label>
+                        <textarea readonly rows="4" id="diahchinha-1" name="diahchinha-1" type="text" class="form-control" placeholder="Nhập vào địa chỉ liên lạc">`+ $('#dcs' + id[i]).val() + `</textarea>
+                    </div>
+                </div>
+            </div>
+            `);
+            }
         }
-
     });
 
     //Chọn nhập khách hàng mới
+    $('#nhapKhachHangMoi').on('click', function () {
+        $('#luKhachHang').show();
+        $('#NavthongTinKhachHang').show();
+
+        $('#luKhachHangCu').hide();
+        $('#NavthongTinKhachHangCu').hide();
+        $('#appendkhachhangcuvaoday').empty();
+    });
+
+    //Thêm kh
     $('#themthongtin').on('click', function () {
         var dem = Number($(this).attr('name'));
         if (dem < 3) {
@@ -246,7 +373,6 @@
             }
         }
     });
-
 
     $('#xoahinhanhhopdong').on('click', function () {
         $('#selectFileshopdong').val('');
@@ -719,8 +845,10 @@
         if (checkduan == true) {
             //Khách hàng
             var idpro = $('#idpro').val();
-            var id = $('#idKhachHang').val();
-
+            var id = '';
+            $('[id^="idkhcu-"]').each(function () {
+                id += $(this).val() + "#";
+            });
             var formData = new FormData();
             //Dự án
             formData.append('idpro', idpro);
@@ -729,7 +857,7 @@
             formData.append('mota', mota);
             formData.append('batdau', batdau);
             formData.append('ketthuc', ketthuc);
-            formData.append('id', id);
+            formData.append('id', id.substring(0, id.length - 1));
 
             $('#AjaxLoader').show();
             $.ajax({

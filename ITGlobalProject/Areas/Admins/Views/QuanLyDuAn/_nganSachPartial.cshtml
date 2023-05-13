@@ -3,7 +3,7 @@
 @{
     CP25Team06Entities models = new CP25Team06Entities();
 
-    int idPros = Model.First().ID_Project;
+    int idPros = Model.Count() > 0 ? Model.First().ID_Project : 0;
     var paymentHis = models.PaymentHistory.Where(p => p.ID_Projects == idPros).ToList();
     foreach (var item in Model)
     {
@@ -34,8 +34,8 @@
                     <a role="button" class="nav-link active" id="nganSachID">Công nợ</a>
                 </li>
                 @*<li class="nav-item mx-3">
-                    <a role="button" class="nav-link" id="taiLieuID">Tài liệu</a>
-                </li>*@
+                        <a role="button" class="nav-link" id="taiLieuID">Tài liệu</a>
+                    </li>*@
                 <li class="nav-item mx-3">
                     <a role="button" class="nav-link" id="doiNguID">Đội ngũ</a>
                 </li>
@@ -186,81 +186,85 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
+                            @if (Model.Count() > 0)
                             {
-                                giaiDoanDebt += item.Stage + "~";
-                                chiPhiDebt += (item.Price != 0 ? ((item.Price / Model.Sum(s => s.Price)) * 100).ToString("0,0") : "0") + "~";
-                                <tr>
-                                    @if (item.State == true)
-                                    {
-                                        <td style="padding-left: 20px" class="align-middle ">
-                                            <div class="d-flex align-items-center">
-                                                <div style="width: 120px" class="icon-shape icon-x rounded-3 border p-2 bg-success text-white">
-                                                    <b>@item.Stage.ToUpper()</b>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        if (item.Date < DateTime.Now)
-                                        {
-                                            <td style="padding-left: 20px" class="align-middle ">
-                                                <div class="d-flex align-items-center">
-                                                    <div style="width: 120px" class="icon-shape icon-x rounded-3 border p-2 bg-danger text-white">
-                                                        <b>@item.Stage.ToUpper()</b>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        }
-                                        else
-                                        {
-                                            <td style="padding-left: 20px" class="align-middle ">
-                                                <div class="d-flex align-items-center">
-                                                    <div style="width: 120px" class="icon-shape icon-x rounded-3 border p-2 bg-warning text-white">
-                                                        <b>@item.Stage.ToUpper()</b>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        }
-                                    }
-
-                                    <td class="align-middle ">
-                                        @item.Date.ToString("dd/MM/yyyy")
-                                    </td>
-                                    <td style="font-weight:bold; color: salmon" class="align-middle ">
-                                        @(item.Price > 0 ? item.Price.ToString("0,0").Replace(".", ",") : "0") đ
-                                    </td>
-
-                                    <td class="align-middle ">
+                                foreach (var item in Model)
+                                {
+                                    giaiDoanDebt += item.Stage + "~";
+                                    chiPhiDebt += (item.Price != 0 ? ((item.Price / Model.Sum(s => s.Price)) * 100).ToString("0,0") : "0") + "~";
+                                    <tr>
                                         @if (item.State == true)
                                         {
-                                            <span style="width:110px" class="badge bg-success text-white p-2">Đã thanh toán</span>
+                                            <td style="padding-left: 20px" class="align-middle ">
+                                                <div class="d-flex align-items-center">
+                                                    <div style="width: 120px" class="icon-shape icon-x rounded-3 border p-2 bg-success text-white">
+                                                        <b>@item.Stage.ToUpper()</b>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         }
                                         else
                                         {
                                             if (item.Date < DateTime.Now)
                                             {
-                                                <span style="width:110px" class="badge bg-danger text-white p-2">Đã quá hạn</span>
+                                                <td style="padding-left: 20px" class="align-middle ">
+                                                    <div class="d-flex align-items-center">
+                                                        <div style="width: 120px" class="icon-shape icon-x rounded-3 border p-2 bg-danger text-white">
+                                                            <b>@item.Stage.ToUpper()</b>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             }
                                             else
                                             {
-                                                <span style="width:110px" class="badge bg-warning text-white p-2">Chưa thanh toán</span>
+                                                <td style="padding-left: 20px" class="align-middle ">
+                                                    <div class="d-flex align-items-center">
+                                                        <div style="width: 120px" class="icon-shape icon-x rounded-3 border p-2 bg-warning text-white">
+                                                            <b>@item.Stage.ToUpper()</b>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             }
                                         }
-                                    </td>
-                                    <td style="font-weight:bold; color: salmon" class="align-middle ">
-                                        @(item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price) == 0 ? "0" : Convert.ToDecimal(item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price)).ToString("0,0").Replace(".", ",")) đ
-                                    </td>
-                                    <td style="font-weight:bold; color: salmon" class="align-middle ">
-                                        @(item.Price - item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price) == 0 ? "0" : (item.Price - item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price)).Value.ToString("0,0").Replace(".", ",")) đ
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <input hidden id="tongTien@(item.ID)" name="@item.Stage" value="@((item.Price - item.PaymentHistory.Where(p => p.OnUpdate == false).Sum(s => s.Price)) == 0 ? "0 VND" : Convert.ToDecimal((item.Price - item.PaymentHistory.Where(p => p.OnUpdate == false).Sum(s => s.Price))).ToString("0,0").Replace(".", ",") + " VND")" />
-                                        <button id="btnThanhToan@(item.ID)" name="@item.ID" class="btn btn-outline-primary btn-xs">THANH TOÁN</button>
-                                    </td>
-                                </tr>
+
+                                        <td class="align-middle ">
+                                            @item.Date.ToString("dd/MM/yyyy")
+                                        </td>
+                                        <td style="font-weight:bold; color: salmon" class="align-middle ">
+                                            @(item.Price > 0 ? item.Price.ToString("0,0").Replace(".", ",") : "0") đ
+                                        </td>
+
+                                        <td class="align-middle ">
+                                            @if (item.State == true)
+                                            {
+                                                <span style="width:110px" class="badge bg-success text-white p-2">Đã thanh toán</span>
+                                            }
+                                            else
+                                            {
+                                                if (item.Date < DateTime.Now)
+                                                {
+                                                    <span style="width:110px" class="badge bg-danger text-white p-2">Đã quá hạn</span>
+                                                }
+                                                else
+                                                {
+                                                    <span style="width:110px" class="badge bg-warning text-white p-2">Chưa thanh toán</span>
+                                                }
+                                            }
+                                        </td>
+                                        <td style="font-weight:bold; color: salmon" class="align-middle ">
+                                            @(item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price) == 0 ? "0" : Convert.ToDecimal(item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price)).ToString("0,0").Replace(".", ",")) đ
+                                        </td>
+                                        <td style="font-weight:bold; color: salmon" class="align-middle ">
+                                            @(item.Price - item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price) == 0 ? "0" : (item.Price - item.PaymentHistory.Where(p => p.OnUpdate != true).Sum(s => s.Price)).Value.ToString("0,0").Replace(".", ",")) đ
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <input hidden id="tongTien@(item.ID)" name="@item.Stage" value="@((item.Price - item.PaymentHistory.Where(p => p.OnUpdate == false).Sum(s => s.Price)) == 0 ? "0 VND" : Convert.ToDecimal((item.Price - item.PaymentHistory.Where(p => p.OnUpdate == false).Sum(s => s.Price))).ToString("0,0").Replace(".", ",") + " VND")" />
+                                            <button id="btnThanhToan@(item.ID)" name="@item.ID" class="btn btn-outline-primary btn-xs">THANH TOÁN</button>
+                                        </td>
+                                    </tr>
+                                }
                             }
+
                         </tbody>
                     </table>
                 </div>
@@ -281,8 +285,8 @@
                 <!-- Card body -->
                 <div class="card-body">
                     <div name="trafficCongNo" id="traffic" class="apex-charts d-flex justify-content-center"></div>
-                    <input hidden id="giaiDoanDebt" value="@giaiDoanDebt.Substring(0, giaiDoanDebt.Length - 1)" />
-                    <input hidden id="chiPhiDebt" value="@chiPhiDebt.Substring(0, chiPhiDebt.Length - 1)" />
+                    <input hidden id="giaiDoanDebt" value="@(giaiDoanDebt.Length > 0 ? giaiDoanDebt.Substring(0, giaiDoanDebt.Length - 1) : "0")" />
+                    <input hidden id="chiPhiDebt" value="@(chiPhiDebt.Length > 0 ? chiPhiDebt.Substring(0, chiPhiDebt.Length - 1) : "0")" />
                 </div>
             </div>
         </div>
@@ -306,46 +310,49 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in paymentHis.OrderByDescending(o => o.Date))
+                        @if (paymentHis.Count > 0)
                         {
-                            i++;
-                            <tr>
-                                <td hidden>@i</td>
-                                <td style="padding-left: 30px" class="align-middle ">
-                                    <b class="align-items-center ">@(item.ID_Debts == null ? "Tổng giai đoạn" : item.Debts.Stage)</b>
-                                </td>
-                                <td class="align-middle ">
-                                   @item.Date.ToString("dd/MM/yyyy")
-                                </td>
-                                <td class="align-middle ">
-                                    @if (item.Type == false)
-                                    {
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor"
-                                             class="bi bi-square-fill text-danger me-2" viewBox="0 0 16 16">
-                                            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z" />
-                                        </svg><span>$ @(item.Price != 0 ? Convert.ToDecimal(item.Price).ToString("0,0").Replace(".", ",") : "0")</span>
-                                    }
-                                    else
-                                    {
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor"
-                                             class="bi bi-square-fill text-success me-2" viewBox="0 0 16 16">
-                                            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z" />
-                                        </svg><span>$ @(item.Price != 0 ? Convert.ToDecimal(item.Price).ToString("0,0").Replace(".", ",") : "0")</span>
-                                    }
-                                </td>
-                                <td class="align-middle ">
-                                    @if (item.Contents.IndexOf("Từ tổng") != -1)
-                                    {
-                                        <span>@item.Contents.Substring(0, item.Contents.IndexOf("Từ tổng"))</span><br />
-                                        <span>@item.Contents.Substring(item.Contents.IndexOf("Từ tổng"))</span>
-                                    }
-                                    else
-                                    {
-                                        <span>@item.Contents</span>
-                                    }
-                                </td>
-                            </tr>
+                            foreach (var item in paymentHis.OrderByDescending(o => o.Date))
+                            {
+                                i++;
+                                <tr>
+                                    <td hidden>@i</td>
+                                    <td style="padding-left: 30px" class="align-middle ">
+                                        <b class="align-items-center ">@(item.ID_Debts == null ? "Tổng giai đoạn" : item.Debts.Stage)</b>
+                                    </td>
+                                    <td class="align-middle ">
+                                        @item.Date.ToString("dd/MM/yyyy")
+                                    </td>
+                                    <td class="align-middle ">
+                                        @if (item.Type == false)
+                                        {
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor"
+                                                 class="bi bi-square-fill text-danger me-2" viewBox="0 0 16 16">
+                                                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z" />
+                                            </svg><span>$ @(item.Price != 0 ? Convert.ToDecimal(item.Price).ToString("0,0").Replace(".", ",") : "0")</span>
+                                        }
+                                        else
+                                        {
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor"
+                                                 class="bi bi-square-fill text-success me-2" viewBox="0 0 16 16">
+                                                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z" />
+                                            </svg><span>$ @(item.Price != 0 ? Convert.ToDecimal(item.Price).ToString("0,0").Replace(".", ",") : "0")</span>
+                                        }
+                                    </td>
+                                    <td class="align-middle ">
+                                        @if (item.Contents.IndexOf("Từ tổng") != -1)
+                                        {
+                                            <span>@item.Contents.Substring(0, item.Contents.IndexOf("Từ tổng"))</span><br />
+                                            <span>@item.Contents.Substring(item.Contents.IndexOf("Từ tổng"))</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@item.Contents</span>
+                                        }
+                                    </td>
+                                </tr>
 
+                            }
                         }
                     </tbody>
                 </table>

@@ -51,8 +51,8 @@
                         <a role="button" class="nav-link " id="congViecID">Công việc</a>
                     </li>
                     @*<li class="nav-item mx-3">
-                        <a role="button" class="nav-link" id="taiLieuID">Tài liệu</a>
-                    </li>*@
+                            <a role="button" class="nav-link" id="taiLieuID">Tài liệu</a>
+                        </li>*@
                     <li class="nav-item mx-3">
                         <a role="button" class="nav-link" id="doiNguID">Đội ngũ</a>
                     </li>
@@ -271,40 +271,48 @@
         </div>
         <!-- Card body -->
         <div class="card-body">
-            <div class="d-flex align-items-center">
-                <div class="position-relative">
-                    @if (string.IsNullOrEmpty(Model.Partners.Avatar))
-                    {
-                        <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt="" class="rounded-circle avatar-xl" />
-                    }
-                    else
-                    {
-                        <img src="@Model.Partners.Avatar" alt="" class="rounded-circle avatar-xl" />
-                    }
-                </div>
-                <div class="ms-4">
-                    <h3 class="mb-0">@Model.Partners.Name</h3>
-                    <p class="mb-0 fs-5">@Model.Partners.Company</p>
-                    <p class="mb-1 fs-5">@Model.Partners.Email</p>
-                </div>
-            </div>
-            <div style="text-align: center; margin-bottom: -20px" class="border-top row mt-3">
-                <div class="col">
-                    <div class="pe-1 ps-2 py-3">
-                        <h5 class="mb-0">@Model.Partners.Phone</h5>
-                        <span class="fs-6">Số điện thoại</span>
+            @foreach (var item in Model.PartnerOfProject.ToList())
+            {
+                <div class="d-flex align-items-center">
+
+                    <div class="position-relative">
+                        @if (string.IsNullOrEmpty(item.Partners.Avatar))
+                        {
+                            <img src="~/Content/Admin/assets/images/avatar/default-avatar.png" alt="" class="rounded-circle avatar-xl" />
+                        }
+                        else
+                        {
+                            <img src="@item.Partners.Avatar" alt="" class="rounded-circle avatar-xl" />
+                        }
+                    </div>
+                    <div class="ms-4">
+                        <h3 class="mb-0">@item.Partners.Name</h3>
+                        <p class="mb-0 fs-5">@item.Partners.Company</p>
+                        <p class="mb-1 fs-5">@item.Partners.Email</p>
                     </div>
                 </div>
-                <div class="col border-start">
-                    <div class="pe-1 ps-3 py-3">
-                        <h5 class="mb-0">@Model.Partners.Projects.Count.ToString("D2")</h5>
-                        <span class="fs-6">Dự án đang có</span>
+                <div style="text-align: center; margin-bottom: -20px" class="border-top row mt-3">
+                    <div class="col">
+                        <div class="pe-1 ps-2 py-3">
+                            <h5 class="mb-0">@item.Partners.Phone</h5>
+                            <span class="fs-6">Số điện thoại</span>
+                        </div>
                     </div>
+                    <div class="col border-start">
+                        <div class="pe-1 ps-3 py-3">
+                            <h5 class="mb-0">@item.Partners.PartnerOfProject.Count.ToString("D2")</h5>
+                            <span class="fs-6">Dự án đang có</span>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
+                <hr class="my-4 row" />
+            }
+
         </div>
     </div>
 </div>
+
 <div class="col-md-12 mb-4">
     <!-- card -->
     <div class="card">
