@@ -26,7 +26,6 @@ namespace ITGlobalProject.Models
         public bool OnWage { get; set; }
         public Nullable<int> ID_ApplyLeaveType { get; set; }
     
-        public virtual ApplyLeaveType ApplyLeaveType { get; set; }
         public virtual Employees Employees { get; set; }
     }
 }

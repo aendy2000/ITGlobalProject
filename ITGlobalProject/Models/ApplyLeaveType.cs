@@ -14,12 +14,6 @@ namespace ITGlobalProject.Models
     
     public partial class ApplyLeaveType
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ApplyLeaveType()
-        {
-            this.LeaveApplication = new HashSet<LeaveApplication>();
-        }
-    
         public int ID { get; set; }
         public int ID_Leave_Type { get; set; }
         public int ID_Employee { get; set; }
@@ -27,7 +21,6 @@ namespace ITGlobalProject.Models
         public int Entitlement { get; set; }
     
         public virtual Employees Employees { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LeaveApplication> LeaveApplication { get; set; }
+        public virtual LeaveType LeaveType { get; set; }
     }
 }

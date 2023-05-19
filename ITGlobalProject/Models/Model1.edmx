@@ -456,6 +456,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ApplyLeaveType_LeaveType">
+          <End Role="LeaveType" Type="Self.LeaveType" Multiplicity="1" />
+          <End Role="ApplyLeaveType" Type="Self.ApplyLeaveType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeaveType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplyLeaveType">
+              <PropertyRef Name="ID_Leave_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Comment_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
@@ -585,18 +597,6 @@
             </Principal>
             <Dependent Role="LanguagesSkills">
               <PropertyRef Name="ID_Employee" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LeaveApplication_ApplyLeaveType">
-          <End Role="ApplyLeaveType" Type="Self.ApplyLeaveType" Multiplicity="0..1" />
-          <End Role="LeaveApplication" Type="Self.LeaveApplication" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ApplyLeaveType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="LeaveApplication">
-              <PropertyRef Name="ID_ApplyLeaveType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -929,6 +929,10 @@
             <End Role="Employees" EntitySet="Employees" />
             <End Role="ApplyLeaveType" EntitySet="ApplyLeaveType" />
           </AssociationSet>
+          <AssociationSet Name="FK_ApplyLeaveType_LeaveType" Association="Self.FK_ApplyLeaveType_LeaveType">
+            <End Role="LeaveType" EntitySet="LeaveType" />
+            <End Role="ApplyLeaveType" EntitySet="ApplyLeaveType" />
+          </AssociationSet>
           <AssociationSet Name="FK_Comment_Employees" Association="Self.FK_Comment_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Comment" EntitySet="Comment" />
@@ -972,10 +976,6 @@
           <AssociationSet Name="FK_LanguagesSkills_Employees" Association="Self.FK_LanguagesSkills_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="LanguagesSkills" EntitySet="LanguagesSkills" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LeaveApplication_ApplyLeaveType" Association="Self.FK_LeaveApplication_ApplyLeaveType">
-            <End Role="ApplyLeaveType" EntitySet="ApplyLeaveType" />
-            <End Role="LeaveApplication" EntitySet="LeaveApplication" />
           </AssociationSet>
           <AssociationSet Name="FK_LeaveApplication_Employees" Association="Self.FK_LeaveApplication_Employees">
             <End Role="Employees" EntitySet="Employees" />
@@ -1089,7 +1089,7 @@
           <Property Name="LeavePeriod" Type="Int32" Nullable="false" />
           <Property Name="Entitlement" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_ApplyLeaveType_Employees" FromRole="ApplyLeaveType" ToRole="Employees" />
-          <NavigationProperty Name="LeaveApplication" Relationship="Self.FK_LeaveApplication_ApplyLeaveType" FromRole="ApplyLeaveType" ToRole="LeaveApplication" />
+          <NavigationProperty Name="LeaveType" Relationship="Self.FK_ApplyLeaveType_LeaveType" FromRole="ApplyLeaveType" ToRole="LeaveType" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -1272,7 +1272,6 @@
           <Property Name="Reply" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="OnWage" Type="Boolean" Nullable="false" />
           <Property Name="ID_ApplyLeaveType" Type="Int32" />
-          <NavigationProperty Name="ApplyLeaveType" Relationship="Self.FK_LeaveApplication_ApplyLeaveType" FromRole="LeaveApplication" ToRole="ApplyLeaveType" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_LeaveApplication_Employees" FromRole="LeaveApplication" ToRole="Employees" />
         </EntityType>
         <EntityType Name="LeaveDate">
@@ -1294,6 +1293,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Sate" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ApplyLeaveType" Relationship="Self.FK_ApplyLeaveType_LeaveType" FromRole="LeaveType" ToRole="ApplyLeaveType" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -1604,15 +1604,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_LeaveApplication_ApplyLeaveType">
-          <End Role="ApplyLeaveType" Type="Self.ApplyLeaveType" Multiplicity="0..1" />
-          <End Role="LeaveApplication" Type="Self.LeaveApplication" Multiplicity="*" />
+        <Association Name="FK_ApplyLeaveType_LeaveType">
+          <End Role="LeaveType" Type="Self.LeaveType" Multiplicity="1" />
+          <End Role="ApplyLeaveType" Type="Self.ApplyLeaveType" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ApplyLeaveType">
+            <Principal Role="LeaveType">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="LeaveApplication">
-              <PropertyRef Name="ID_ApplyLeaveType" />
+            <Dependent Role="ApplyLeaveType">
+              <PropertyRef Name="ID_Leave_Type" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2077,9 +2077,9 @@
             <End Role="Employees" EntitySet="Employees" />
             <End Role="ApplyLeaveType" EntitySet="ApplyLeaveType" />
           </AssociationSet>
-          <AssociationSet Name="FK_LeaveApplication_ApplyLeaveType" Association="Self.FK_LeaveApplication_ApplyLeaveType">
+          <AssociationSet Name="FK_ApplyLeaveType_LeaveType" Association="Self.FK_ApplyLeaveType_LeaveType">
+            <End Role="LeaveType" EntitySet="LeaveType" />
             <End Role="ApplyLeaveType" EntitySet="ApplyLeaveType" />
-            <End Role="LeaveApplication" EntitySet="LeaveApplication" />
           </AssociationSet>
           <AssociationSet Name="FK_Comment_Employees" Association="Self.FK_Comment_Employees">
             <End Role="Employees" EntitySet="Employees" />

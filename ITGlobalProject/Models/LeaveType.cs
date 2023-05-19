@@ -14,8 +14,17 @@ namespace ITGlobalProject.Models
     
     public partial class LeaveType
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public LeaveType()
+        {
+            this.ApplyLeaveType = new HashSet<ApplyLeaveType>();
+        }
+    
         public int ID { get; set; }
         public string Name { get; set; }
         public bool Sate { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ApplyLeaveType> ApplyLeaveType { get; set; }
     }
 }

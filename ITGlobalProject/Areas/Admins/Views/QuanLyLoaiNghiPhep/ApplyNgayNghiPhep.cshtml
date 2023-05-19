@@ -1,46 +1,22 @@
-﻿@model IEnumerable<ITGlobalProject.Models.ApplyLeaveType>
+﻿@model IEnumerable<ITGlobalProject.Models.LeaveType>
 @using ITGlobalProject.Models
 @{
     CP25Team06Entities model = new CP25Team06Entities();
-    var lstLoaiNghiPhep = Session["danhSachLoaiNghiPhep-lstLoaiNghiPhep"] as List<LeaveType>;
 
-    //var emp = model.Employees.Where(e => e.Lock == false && e.Wage > 0 && e.EmploymentContracts.Count() > 0).ToList();
-    //emp.Remove(model.Employees.Find(1));
-
-    //int currentYear = Convert.ToDateTime(Session["tinhluong-date"]).Year;
-    //int currentMonth = Convert.ToDateTime(Session["tinhluong-date"]).Month;
-    //var currentDate = Convert.ToDateTime(Session["tinhluong-date"]);
+    var emp = model.Employees.Where(e => e.Lock == false && e.Wage > 0 && e.EmploymentContracts.Count() > 0).ToList();
+    emp.Remove(model.Employees.Find(1));
 }
 
 <div id="tinhLuongThangPartial">
-    @*@if (Model.Where(t => t.Date.Month == currentMonth && t.Date.Year == currentYear).Count() > 0)
-        {
-            <input hidden id="datinhluong" value="datinh" />
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-12">
-                    <div class="shadow p-3 mb-4 bg-light-success border-100 rounded text-middle text-center">
-                        <span class="text-dark-success">
-                            Lương tháng @currentDate.ToString("MM, yyyy") đã được tính!
-                            <a target="_blank" href="@Url.Action("danhsachluongthang", "quanlyluong", new { id = Model.FirstOrDefault(t => t.Date.Month == currentMonth && t.Date.Year == currentYear).ID})"><u>Xem tháng lương</u></a>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        }
-        else
-        {
-            <input hidden id="datinhluong" value="chuatinh" />
-        }*@
-
     <div class="row">
         <div class="col-lg-12 col-md-12 col-12">
             <!-- Card -->
             <div class="card">
                 <div style="margin-bottom: -30px" class="card-header border-bottom-0">
-                    <h4 class="mb-2">DANH SÁCH NHÂN VIÊN CÓ THỂ TÍNH LƯƠNG.</h4>
+                    <h4 class="mb-2">DANH SÁCH NHÂN VIÊN CÓ THỂ ÁP DỤNG.</h4>
                     <p class="mb-0">
                         Đây là danh sách những Nhân viên hiện đang còn làm việc tại Công Ty.
-                        Tích chọn vào ô select trước tên Nhân viên để chọn những Nhân viên sẽ được tính lương hoặc chọn select đầu tiên trên hàng tiêu đề để chọn tất cả.
+                        Tích chọn vào ô select trước tên Nhân viên để chọn những Nhân viên sẽ được áp dụng loại nghỉ phép hoặc chọn select đầu tiên trên hàng tiêu đề để chọn tất cả.
                     </p>
                 </div>
                 <div class="table-responsive border-0 overflow-y-hidden pt-2">
@@ -56,60 +32,21 @@
                                 <th class="border-0">Mã Nhân viên</th>
                                 <th class="border-0">Tên nhân viên</th>
                                 <th class="border-0">Chức danh</th>
+                                <th class="border-0">Email</th>
                                 <th class="border-0">Ngày vào làm</th>
-                                <th class="border-0">Ngày nghỉ</th>
                                 <th class="border-0">Lương hợp đồng</th>
-                                <th class="border-0">Trạng thái</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in emp.Where(e => e.Lock == false).ToList())
                             {
-                                var strDate = Convert.ToDateTime(currentDate.ToString("yyyy-MM-") + "01");
-                                var endDate = Convert.ToDateTime(currentDate.ToString("yyyy-MM-") + DateTime.DaysInMonth(currentDate.Year, currentDate.Month).ToString());
-                                var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == item.ID
-                                                                && ((l.StartDate >= strDate && l.StartDate <= endDate)
-                                                                || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                                                && l.State == true && l.OnWage == true).ToList();
-                                int songaynghi = 0;
-                                foreach (var items in ngaynghi)
-                                {
-                                    //Khoảng thời gian đầu trong tháng
-                                    if ((items.StartDate >= strDate && items.StartDate <= endDate)
-                                        && (items.EndDate > endDate))
-                                    {
-                                        songaynghi += (endDate.Day - items.StartDate.Day) + 1;
-                                    }
-                                    //Khoảng thời gian nằm trong tháng
-                                    else if ((items.StartDate >= strDate && items.StartDate <= endDate)
-                                        && (items.EndDate >= strDate && items.EndDate <= endDate))
-                                    {
-                                        songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
-                                    }
-                                    //khoảng thời gian cuối trong tháng
-                                    else
-                                    {
-                                        songaynghi += (items.EndDate.Day - strDate.Day) + 1;
-                                    }
-
-                                }
                                 <tr>
-                                    @if (Model.Where(l => l.Payroll.Where(e => e.ID_Employee == item.ID).Count() > 0).Count() > 0 && Model.Where(l => l.Payroll.Where(p => p.ID_Employee == item.ID).Count() > 0).First().Payroll.Where(p => p.ID_Employee == item.ID).First().State == true)
-                                    {
-                                        <td class="align-middle">
-                                            <div class="form-check">
-                                                <span class="form-check-input p-2" style="border-radius: 20%"></span>
-                                            </div>
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td class="align-middle">
-                                            <div class="form-check">
-                                                <input checked type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
-                                            </div>
-                                        </td>
-                                    }
+
+                                    <td class="align-middle">
+                                        <div class="form-check">
+                                            <input checked type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
+                                        </div>
+                                    </td>
 
                                     <td class="align-middle">
                                         <label class="form-check-label" for="@item.ID">@item.ID_Employee</label>
@@ -131,67 +68,64 @@
                                         </a>
                                     </td>
                                     <td class="align-middle">@item.Position.Name</td>
+                                    <td class="align-middle">@item.WorkEmail</td>
+
                                     <td class="align-middle">@item.JoinedDate.ToString("dd/MM/yyyy")</td>
-                                    <td class="align-middle">
-                                        @songaynghi ngày
-                                    </td>
+
                                     <td class="align-middle">
                                         @item.Wage.ToString("0,0").Replace(".", ",") đ
-                                    </td>
-                                    <td class="align-middle">
-                                        @if (Model.Where(l => l.Payroll.Where(e => e.ID_Employee == item.ID).Count() > 0).Count() < 1)
-                                        {
-                                            <span style="width:110px" class="badge bg-gray-100 text-gray-700">Sẵn sàng</span>
-                                        }
-                                        else if (Model.Where(l => l.Payroll.Where(e => e.ID_Employee == item.ID).Count() > 0).Count() > 0 && Model.Where(l => l.Payroll.Where(p => p.ID_Employee == item.ID).Count() > 0).First().Payroll.Where(p => p.ID_Employee == item.ID).First().State == true)
-                                        {
-                                            <span style="width:110px" class="badge text-danger bg-light-danger ">Đã thanh toán</span>
-                                        }
-                                        else
-                                        {
-                                            <span style="width:110px" class="badge text-success bg-light-success ">Đã được tính</span>
-                                        }
                                     </td>
                                 </tr>
                             }
                         </tbody>
                     </table>
-                    @*<div style="text-align: center; padding-bottom: 20px" class="col-12 col-md-12">
-                            <button style="width: 230px" class="btn btn-success" id="btntinhluong">
-                                Tính Lương
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="mb-4 col-md-4 col-12">
+                            <label style="font-weight:bold;" class="form-label">Loại nghỉ phép <span class="text-danger">*</span></label>
+                            <select id="loainghiphep" name="loainghiphep" class="selectpicker" data-width="100%">
+                                <option selected value="">Chọn loại nghỉ phép</option>
+                                @foreach (var item in Model)
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            </select>
+                            <p style="font-size: 13px; color:red;" id="loainghiphepvalidation"></p>
+                        </div>
+
+                        <div class="mb-4 col-md-4 col-12">
+                            <label style="font-weight:bold;" class="form-label">Năm áp dụng <span class="text-danger">*</span></label>
+                            <select id="namnghiphep" name="namnghiphep" class="selectpicker" data-width="100%">
+                                <option selected value="">Chọn năm áp dụng</option>
+                                @for (int i = DateTime.Now.Year; i >= 2023; i--)
+                                {
+                                    <option value="@i">Năm @i</option>
+                                }
+                            </select>
+                            <p style="color: red; font-size: 13px" id="namnghiphepvalidation"></p>
+                        </div>
+
+                        <div class="mb-4 col-md-4 col-12">
+                            <label style="font-weight: bold;" class="form-label">Ngày nghỉ được hưởng <span class="text-danger">*</span></label>
+                            <input id="songayhuong" type="number" class="form-control" placeholder="Nhập số ngày nghỉ được hưởng trong năm">
+                            <p style="color: red; font-size: 13px" id="songayhuongvalidation"></p>
+                        </div>
+                        <div style="text-align: center; padding-bottom: 20px" class="col-12 col-md-12">
+                            <button style="width: 230px" class="btn btn-success" id="btnluuthongtinapdung">
+                                Lưu
                             </button>
-                        </div>*@
-
-                    <div class="mb-3 col-md-4 col-12">
-                        <label style="font-weight:bold;" class="form-label">Loại nghỉ phép <span class="text-danger">*</span></label>
-                        <select id="kynang" name="kynang" class="form-select text-dark" data-width="100%">
-                            <option selected disabled value="">Chọn danh mục</option>
-                            @foreach (var item in lstLoaiNghiPhep)
-                            {
-                                <option value="@item.ID">@item.Name</option>
-                            }
-                        </select>
-                        <p style="font-size: 13px; color:red;" id="kynangvalidation"></p>
+                        </div>
                     </div>
-
-                    <div class="mb-3 col-md-4 col-12">
-                        <label style="font-weight:bold;" class="form-label">Năm áp dụng <span class="text-danger">*</span></label>
-                        <input id="namapply" type="text" class="form-control" placeholder="Nhập năm áp dụng loại nghỉ phép">
-                        <p style="color: red; font-size: 13px" id="KyNangValidateResul"></p>
-                    </div>
-
-                    <div class="mb-3 col-md-4 col-12">
-                        <label style="font-weight: bold;" class="form-label">Số ngày tối đa của năm <span class="text-danger">*</span></label>
-                        <input id="songaytoida" type="text" class="form-control" placeholder="Nhập số ngày tối đa của năm đó">
-                        <p style="color: red; font-size: 13px" id="KyNangValidateResul"></p>
-                    </div>
-
 
                 </div>
+
             </div>
         </div>
     </div>
+
     <script>
+
         //check all
         $('#checkAlls').on('click', function () {
             $('#dataTableBasic').DataTable()
@@ -203,24 +137,41 @@
         });
 
         //btn tính lương
-        $('#btntinhluong').on('click', function () {
+        $('#btnluuthongtinapdung').on('click', function () {
             var lstId = "";
-            var thang = $('#tinhluongthangs :selected').val();
-            $('#dataTableBasic').DataTable()
-                .column(0)
-                .nodes()
-                .to$()
-                .find('input[type=checkbox]:checked').each(function () {
-                    lstId += $(this).attr("name") + "-";
-                });
+            var loai = $('#loainghiphep :selected').val();
+            var nam = $('#namnghiphep :selected').val();
+            var ngayhuong = $('#songayhuong').val();
 
-            if (lstId.trim().length > 0) {
-                var formData = new FormData();
-                formData.append('thang', thang);
-                formData.append('lstId', lstId.substring(0, lstId.length - 1));
+            var check = true;
+            if (loai.length < 1) {
+                check = false;
+            }
 
-                var checkexists = $('#datinhluong').val();
-                if (checkexists == "chuatinh") {
+            if (nam.length < 1) {
+                check = false;
+            }
+
+            if (ngayhuong.length < 1) {
+                check = false;
+            }
+
+            if (check = true) {
+
+                $('#dataTableBasic').DataTable()
+                    .column(0)
+                    .nodes()
+                    .to$()
+                    .find('input[type=checkbox]:checked').each(function () {
+                        lstId += $(this).attr("name") + "-";
+                    });
+
+                if (lstId.trim().length > 0) {
+                    var formData = new FormData();
+                    formData.append('loai', loai);
+                    formData.append('nam', nam);
+                    formData.append('lstId', lstId.substring(0, lstId.length - 1));
+                    formData.append('ngayhuong', ngayhuong);
 
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
@@ -244,7 +195,7 @@
                                 if (tinhluong) {
                                     $('#AjaxLoader').show();
                                     $.ajax({
-                                        url: $('#requestPath').val() + 'Admins/quanlyluong/tinhluong',
+                                        url: $('#requestPath').val() + 'Admins/QuanLyLoaiNghiPhep/ApplyNgayNghiPhep',
                                         type: 'POST',
                                         dataType: 'html',
                                         contentType: false,
@@ -280,7 +231,7 @@
                                         } else {
                                             var SweetAlert2Demo = function () {
                                                 var initDemos = function () {
-                                                    swal("Thành Công!", "Tuyệt quá! Tháng lương đã được tính thành công.", {
+                                                    swal("Thành Công!", "Đã áp dụng loại nghỉ phép cho nhân viên được chỉ định.", {
                                                         icon: "success",
                                                         buttons: {
                                                             confirm: {
@@ -318,87 +269,13 @@
                 else {
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
-                            swal({
-                                title: 'Tính Lại Lương?',
-                                text: "Xác nhận tính lại lương cho nhân viên tháng này." +
-                                    "\nTháng lương mới sẽ được ghi đè lên tháng lương cũ, toàn bộ dữ liệu cũ sẽ không thể hoàn tác! Vẫn tiếp tục?"
-                                    + "\n\n(Hãy xuất tháng lương cũ trước khi thực hiện tính lại lương mới!)",
-                                type: 'info',
-                                icon: 'info',
+                            swal("Thông báo!", "Chưa chọn nhân viên để áp dụng loại nghỉ phép!", {
+                                icon: "info",
                                 buttons: {
-                                    cancel: {
-                                        visible: true,
-                                        text: ' Hủy Bỏ ',
-                                        className: 'btn btn-danger'
-                                    },
                                     confirm: {
-                                        text: 'Xác Nhận',
-                                        className: 'btn btn-success'
+                                        className: 'btn btn-info'
                                     }
-                                }
-                            }).then((tinhluong) => {
-                                if (tinhluong) {
-                                    $('#AjaxLoader').show();
-                                    $.ajax({
-                                        url: $('#requestPath').val() + 'Admins/quanlyluong/tinhluong',
-                                        type: 'POST',
-                                        dataType: 'html',
-                                        contentType: false,
-                                        processData: false,
-                                        data: formData
-                                    }).done(function (ketqua) {
-                                        $('#AjaxLoader').hide();
-
-                                        if (ketqua == "DANGNHAP") {
-                                            window.location.href = $('#requestPath').val() + 'quanlytaikhoan/dangxuat';
-                                        }
-                                        else if (ketqua == "Erorr") {
-                                            var SweetAlert2Demo = function () {
-                                                var initDemos = function () {
-                                                    swal("Thông báo!", "Đã có lỗi xảy ra trong quá trình thực hiện, vui lòng thử lại sau ít phút!", {
-                                                        icon: "danger",
-                                                        buttons: {
-                                                            confirm: {
-                                                                className: 'btn btn-success'
-                                                            }
-                                                        },
-                                                    });
-                                                };
-                                                return {
-                                                    init: function () {
-                                                        initDemos();
-                                                    },
-                                                };
-                                            }();
-
-                                            jQuery(document).ready(function () {
-                                                SweetAlert2Demo.init();
-                                            });
-                                        } else {
-                                            var SweetAlert2Demo = function () {
-                                                var initDemos = function () {
-                                                    swal("Thành Công!", "Tuyệt quá! Tháng lương đã được tính thành công.", {
-                                                        icon: "success",
-                                                        buttons: {
-                                                            confirm: {
-                                                                className: 'btn btn-success'
-                                                            }
-                                                        },
-                                                    });
-                                                };
-                                                return {
-                                                    init: function () {
-                                                        initDemos();
-                                                    },
-                                                };
-                                            }();
-
-                                            jQuery(document).ready(function () {
-                                                SweetAlert2Demo.init();
-                                            });
-                                        }
-                                    });
-                                }
+                                },
                             });
                         };
                         return {

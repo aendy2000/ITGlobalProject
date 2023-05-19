@@ -24,8 +24,40 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult ApplyNgayNghiPhep()
         {
             ViewBag.ShowActive = "danhSachLoaiNghiPhep";
-            var lstApplyNgayNghi = model.ApplyLeaveType.OrderByDescending(o => o.ID).ToList();
-            return View("ApplyNgayNghiPhep", lstApplyNgayNghi);
+            var lstLeaveType = model.LeaveType.OrderByDescending(o => o.ID).ToList();
+            return View("ApplyNgayNghiPhep", lstLeaveType);
+        }
+        [HttpPost]
+        public ActionResult ApplyNgayNghiPhep(int nam, int loai, string lstId, int ngayhuong)
+        {
+            var lstidEmp = lstId.Split('-').ToList();
+            foreach (var item in lstidEmp)
+            {
+                int idemp = Int32.Parse(item);
+                var period = model.ApplyLeaveType.FirstOrDefault(a => a.LeavePeriod == nam && a.ID_Employee == idemp && a.ID_Leave_Type == loai);
+                if (period != null)
+                {
+                    period.ID_Leave_Type = loai;
+                    period.ID_Employee = idemp;
+                    period.Entitlement = ngayhuong;
+
+                    model.Entry(period).State = EntityState.Modified;
+                    model.SaveChanges();
+                }
+                else
+                {
+                    ApplyLeaveType newPeriod = new ApplyLeaveType();
+                    period.ID_Leave_Type = loai;
+                    period.ID_Employee = idemp;
+                    period.LeavePeriod = nam;
+                    period.Entitlement = ngayhuong;
+
+                    model.ApplyLeaveType.Add(period);
+                    model.SaveChanges();
+                }
+            }
+            var lstLeaveType = model.LeaveType.OrderByDescending(o => o.ID).ToList();
+            return PartialView("_ApplyNgayNghiPhep", lstLeaveType);
         }
 
         [HttpPost]
@@ -60,6 +92,20 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
             var lstLoaiNghiPhep = model.LeaveType.OrderByDescending(d => d.ID).ToList();
             return PartialView("_danhSachLoaiNghiPhepPartial", lstLoaiNghiPhep);
+        }
+
+        [HttpPost]
+        public ActionResult thayDoiTrangThai(int? id, bool tinhluong)
+        {
+            var leavetype = model.LeaveType.Find(id);
+            if (leavetype == null || id == null)
+                return Content("DANHSACH");
+
+            leavetype.Sate = tinhluong;
+            model.Entry(leavetype).State = EntityState.Modified;
+            model.SaveChanges();
+
+            return Content("Success");
         }
 
         [HttpPost]

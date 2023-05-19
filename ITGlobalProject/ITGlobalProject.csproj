@@ -889,6 +889,9 @@
     <Content Include="Areas\Employee\Views\QuanLyDonNghiPhep\danhSachDonNghiPhep.cshtml" />
     <Content Include="Areas\Employee\Views\QuanLyDonNghiPhep\_danhSachDonNghiPhepPartial.cshtml" />
     <Content Include="Areas\Admins\Views\Dashboard\_thongKeDoanhThuPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\danhSachLoaiNghiPhep.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\_danhSachLoaiNghiPhepPartial.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\ApplyNgayNghiPhep.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -896,9 +899,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\danhSachLoaiNghiPhep.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\_danhSachLoaiNghiPhepPartial.cshtml" />
-    <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\ApplyNgayNghiPhep.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

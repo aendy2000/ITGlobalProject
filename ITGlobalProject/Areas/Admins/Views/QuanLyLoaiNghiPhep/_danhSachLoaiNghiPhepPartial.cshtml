@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<ITGlobalProject.Models.Department>
+﻿@model IEnumerable<ITGlobalProject.Models.LeaveType>
 @{
     int i = 0;
 }
@@ -14,8 +13,8 @@
                 <thead class="table-light">
                     <tr>
                         <th scope="col" class=" border-top-0">#</th>
-                        <th scope="col" class=" border-top-0">Tên bộ phận</th>
-                        <th scope="col" class=" border-top-0">Mô tả </th>
+                        <th scope="col" class=" border-top-0">Tên loại nghỉ phép</th>
+                        <th scope="col" class=" border-top-0">Tính lương</th>
                         <th scope="col" class=" border-top-0"></th>
                     </tr>
                 </thead>
@@ -27,8 +26,11 @@
                             i++;
                             <input hidden value="@item.ID" id="ids@(item.ID)" />
                             <input hidden value="@item.Name" id="names@(item.ID)" />
-                            <input hidden value="@item.Description" id="des@(item.ID)" />
-                            var positions = item.Position.ToList();
+                            <input hidden value="@item.Sate.ToString()" id="des@(item.ID)" />
+                            // Đổi thành state
+
+                            var ltype = item.ApplyLeaveType.Count();
+
                             <tr>
                                 <td class="align-middle">
                                     @i
@@ -39,8 +41,17 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td style="max-width: 350px">
-                                    <p data-bs-toggle="tooltip" data-placement="top" title="@item.Description" id="tendaiqua">@item.Description</p>
+                                <td class="align-middle text-center border-top-0">
+                                    <div class="form-check form-switch">
+                                        @if (item.Sate == false)
+                                        {
+                                            <input id="tinhluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
+                                        }
+                                        else
+                                        {
+                                            <input checked id="tinhluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
+                                        }
+                                    </div>
                                 </td>
                                 <td class="text-muted align-middle text-end">
                                     <div class="dropdown dropstart">
@@ -51,13 +62,13 @@
                                         <div class="dropdown-menu" aria-labelledby="Dropdown1">
                                             <span class="dropdown-header">Hành động</span>
                                             <a role="button" name="@item.ID" id="chinhsua@(item.ID)" class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
-                                                <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa bộ phận
+                                                <i class="fe fe-edit dropdown-item-icon"></i>Chỉnh sửa loại nghỉ phép
                                             </a>
-                                            @if (positions.Count < 1)
+                                            @if (ltype < 1)
                                             {
                                                 <div class="dropdown-divider"></div>
                                                 <a role="button" name="@item.ID" id="xoa@(item.ID)" class="dropdown-item" href="#">
-                                                    <i class="fe fe-trash dropdown-item-icon"></i>Xóa bộ phận
+                                                    <i class="fe fe-trash dropdown-item-icon"></i>Xóa loại nghỉ phép
                                                 </a>
                                             }
                                         </div>
@@ -78,12 +89,12 @@
             </table>
         </div>
     </div>
-    <!-- Chỉnh sửa bộ phận -->
+    <!-- Chỉnh sửa loại nghỉ phép -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 800px;">
 
         <div class="offcanvas-body" data-simplebar>
             <div style="margin-bottom: -20px" class="offcanvas-header px-2 pt-0">
-                <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Bộ Phận</h4>
+                <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Loại Nghỉ Phép</h4>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <hr class="my-4" />
@@ -93,16 +104,19 @@
                 <form class="row">
                     <!-- form group -->
                     <div class="mb-3 col-md-12">
-                        <label style="font-weight: bold;" class="form-label">Tên bộ phận <span class="text-danger">*</span></label>
-                        <input id="name" name="name" type="text" class="form-control" placeholder="Nhập tên bộ phận">
-                        <input id="id" name="id" hidden>
-                        <p style="color: red; font-size: 13px" id="EditBoPhanValidateResul"></p>
+                        <label style="font-weight: bold;" class="form-label">Tên loại nghỉ phép <span class="text-danger">*</span></label>
+                        <input id="namechinhsua" name="namechinhsua" type="text" class="form-control" placeholder="Nhập tên loại nghỉ phép">
+                        <input id="idchinhsua" name="idchinhsua" hidden>
+                        <p hidden style="color: red; font-size: 13px" id="EditLoaiNghiPhepValidateResul"></p>
                     </div>
                     <!-- form group -->
                     <div class="mb-3 col-md-12">
-                        <label style="font-weight: bold;" class="form-label">Mô tả </label>
-                        <textarea class="form-control" id="descript" name="descript" placeholder="Mô tả bộ phận..." rows="5"></textarea>
-                        <p style="color: red; font-size: 13px" id="MoTaEditBoPhanValidateResul"></p>
+                        <label style="font-weight:bold;" class="form-label" for="phone">Kỳ nghỉ được trả lương</label>
+                        <div class="form-check form-switch form-control">
+                            <label style="margin-top: 1px; margin-left: -10px" class="form-check-label" for="traluong">Không được trả lương / Được trả lương</label>
+                            &emsp;&emsp;&ensp;&ensp;&ensp;
+                            <input id="tinhluongchinhsua" style="margin-right: -20px" class="form-check-input" type="checkbox" role="switch">
+                        </div>
                     </div>
                     <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
                         <button id="dongChinhSua" style="width: 230px" class="btn btn-outline-danger" type="reset" data-bs-dismiss="offcanvas" aria-label="Close">
@@ -119,17 +133,7 @@
         </div>
     </div>
 </div>
-<script src="~/ValidationAlert/Admin/QuanLyBoPhan/XoaBoPhanValidation.js"></script>
-<script src="~/ValidationAlert/Admin/QuanLyBoPhan/SuaBoPhanValidation.js"></script>
-<script>
-    $(document).ready(function () {
-        $('[id^=tendaiqua]').each(function () {
-            text = $(this).text();
-            if (text.length > 50) {
-                $(this).html(text.substr(0, 50) + '...');
-            }
-        });
-    });
-</script>
+<script src="~/ValidationAlert/Admin/QuanLyLoaiNghiPhep/XoaLoaiNghiPhepValidation.js"></script>
+<script src="~/ValidationAlert/Admin/QuanLyLoaiNghiPhep/SuaLoaiNghiPhepValidation.js"></script>
 
 

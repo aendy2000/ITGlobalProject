@@ -6,7 +6,7 @@
         var SweetAlert2Demo = function () {
             var initDemos = function () {
                 swal({
-                    title: 'Xóa Bộ Phận?',
+                    title: 'Xóa Loại Nghỉ Phép?',
                     text: "Chắc chắn muốn xóa chứ?",
                     type: 'warning',
                     buttons: {
@@ -27,7 +27,7 @@
                         formData.append('id', ids);
 
                         $.ajax({
-                            url: $('#requestPath').val() + "Admins/quanlydanhmucbophan/xoabophan",
+                            url: $('#requestPath').val() + "Admins/QuanLyLoaiNghiPhep/xoaLoaiNghiPhep",
                             type: 'POST',
                             dataType: 'html',
                             contentType: false,
@@ -35,7 +35,7 @@
                             data: formData
                         }).done(function (ketqua) {
                             if (ketqua === "DANHSACH") {
-                                window.location.href = $('#requestPath').val() + "Admins/quanlydanhmucbophan/danhsachbophan";
+                                window.location.href = $('#requestPath').val() + "Admins/QuanLyLoaiNghiPhep/danhSachLoaiNghiPhep";
                             } else {
                                 $('#danhSachPartial').replaceWith(ketqua);
                                 var SweetAlert2Demo = function () {
