@@ -27,7 +27,7 @@
                             i++;
                             <input hidden value="@item.ID" id="ids@(item.ID)" />
                             <input hidden value="@item.Name" id="names@(item.ID)" />
-                            <input hidden value="@item.Date.ToString("yyyy-MM-dd")" id="dates@(item.ID)" />
+                            <input hidden value="@(DateTime.Now.Year + item.Date.ToString("-MM-dd"))" id="dates@(item.ID)" />
                             <input hidden value="@item.DateType" id="datetypes@(item.ID)" />
 
                             var appends = item.OnLeave.ToList();
@@ -43,7 +43,7 @@
                                     </div>
                                 </td>
                                 <td class="align-middle">
-                                    @item.Date.ToString("dd/MM/yyyy")
+                                    @item.Date.ToString("dd/MM/")<span>@DateTime.Now.Year</span>
                                 </td>
                                 <td class="align-middle">
                                     @item.DateType
@@ -88,7 +88,7 @@
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" style="width: 800px;">
         <div class="offcanvas-body" data-simplebar>
             <div style="margin-bottom: -20px" class="offcanvas-header px-2 pt-0">
-                <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Danh Mục Ngày Nghỉ Phép</h4>
+                <h4 class="offcanvas-title" id="offcanvasExampleLabel"><i class="fe fe-edit"> </i> Chỉnh Sửa Ngày Nghỉ Lễ</h4>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <hr class="my-4" />
@@ -99,14 +99,14 @@
                     <!-- form group -->
                     <div class="mb-3 col-md-12">
                         <label style="font-weight: bold;" class="form-label">Tên Ngày Nghỉ <span class="text-danger">*</span></label>
-                        <input id="name" name="name" type="text" class="form-control" placeholder="Nhập tên ngày nghỉ phép">
+                        <input id="name" name="name" type="text" class="form-control" placeholder="Nhập tên ngày nghỉ">
                         <input id="id" name="id" hidden>
                         <p hidden style="color: red; font-size: 13px" id="EdittenNgayNghiValidation"></p>
                     </div>
                     <!-- form group -->
                     <div class="mb-3 col-md-12">
                         <label style="font-weight: bold;" class="form-label">Ngày Nghỉ <span class="text-danger">*</span></label>
-                        <input id="date" name="date" type="text" class="form-control flatpickr" placeholder="Nhập tên ngày nghỉ phép">
+                        <input id="date" name="date" type="text" class="form-control flatpickr" placeholder="Chọn ngày nghỉ">
                         <p hidden style="font-size: 13px; color:red;" id="EditdateValidation"></p>
                     </div>
 
