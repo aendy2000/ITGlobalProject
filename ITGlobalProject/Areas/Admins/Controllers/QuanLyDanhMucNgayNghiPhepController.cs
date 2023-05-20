@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Text;
 using ITGlobalProject.Models;
 using ITGlobalProject.Middleware;
+using System.ComponentModel.DataAnnotations;
 
 namespace ITGlobalProject.Areas.Admins.Controllers
 {
@@ -27,20 +28,20 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         public ActionResult danhSachDanhMucNgayNghiPhep()
         {
             ViewBag.ShowActive = "danhSachDanhMucNgayNghiPhep";
-            return View("danhSachDanhMucNgayNghiPhep", model.LeaveDate.ToList());
+            return View("danhSachDanhMucNgayNghiPhep", model.LeaveDate.OrderByDescending(o => o.ID).ToList());
         }
+
         [HttpPost]
-        public ActionResult themDanhMucNgayNghiPhep(string name, string thangbatdau, string ngaybatdau, string thangketthuc, string ngayketthuc)
+        public ActionResult themDanhMucNgayNghiPhep(string name, DateTime date, string datetype)
         {
             if (string.IsNullOrEmpty(name))
                 return Content("DANHSACH");
 
             LeaveDate depart = new LeaveDate();
             depart.Name = name;
-            depart.StartMonth = Convert.ToInt32(thangbatdau);
-            depart.StartDay = Convert.ToInt32(ngaybatdau);
-            depart.EndMonth = Convert.ToInt32(thangketthuc);
-            depart.EndDay = Convert.ToInt32(ngayketthuc);
+            depart.Date = date;
+            depart.DateType = datetype;
+
             model.LeaveDate.Add(depart);
             model.SaveChanges();
             model = new CP25Team06Entities();
@@ -50,22 +51,21 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
 
         [HttpPost]
-        public ActionResult chinhSuaDanhMucNgayNghiPhep(int? id, string name, string thangbatdau, string ngaybatdau, string thangketthuc, string ngayketthuc)
+        public ActionResult chinhSuaDanhMucNgayNghiPhep(int? id, string name, DateTime date, string datetype)
         {
             var depart = model.LeaveDate.Find(id);
             if (depart == null || id == null || string.IsNullOrEmpty(name))
                 return Content("DANHSACH");
 
             depart.Name = name;
-            depart.StartMonth = Convert.ToInt32(thangbatdau);
-            depart.StartDay = Convert.ToInt32(ngaybatdau);
-            depart.EndMonth = Convert.ToInt32(thangketthuc);
-            depart.EndDay = Convert.ToInt32(ngayketthuc);
+            depart.Date = date;
+            depart.DateType = datetype;
+
             model.Entry(depart).State = EntityState.Modified;
             model.SaveChanges();
             model = new CP25Team06Entities();
 
-            var leavedate = model.LeaveDate.OrderByDescending(d => d.ID).ToList();
+            var leavedate = model.LeaveDate.OrderByDescending(o => o.ID).ToList();
             return PartialView("_danhsachDanhMucNgayNghiPhepPartial", leavedate);
         }
 
@@ -80,7 +80,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             model.SaveChanges();
             model = new CP25Team06Entities();
 
-            var leavedate = model.LeaveDate.OrderByDescending(d => d.ID).ToList();
+            var leavedate = model.LeaveDate.OrderByDescending(o => o.ID).ToList();
             return PartialView("_danhsachDanhMucNgayNghiPhepPartial", leavedate);
         }
     }

@@ -13,6 +13,7 @@
                     <tr>
                         <th scope="col" class=" border-top-0">STT</th>
                         <th scope="col" class=" border-top-0">Ngày gửi</th>
+                        <th scope="col" class=" border-top-0">Loại Nghỉ Phép</th>
                         <th scope="col" class=" border-top-0">Thời gian nghỉ</th>
                         <th scope="col" class=" border-top-0">ngày nghỉ</th>
                         <th scope="col" class=" border-top-0">Nội dung</th>
@@ -38,6 +39,7 @@
                         <input hidden id="startDate-@item.ID" value="@item.StartDate.ToString("yyyy-MM-dd")" />
                         <input hidden id="endDate-@item.ID" value="@item.EndDate.ToString("yyyy-MM-dd")" />
                         <input hidden id="content-@item.ID" value="@item.Contents" />
+                        <input hidden id="leavetype-@item.ID" value="@item.ApplyLeaveType.ID_Leave_Type" />
 
                         i++;
                         <tr>
@@ -47,6 +49,7 @@
                                 <br />
                                 @item.SendDate.ToString("dd-MM-yyyy")
                             </td>
+                            <td class="align-middle border-top-0">@item.ApplyLeaveType.LeaveType.Name</td>
                             <td class="align-middle border-top-0">
                                 <b>Từ:</b>  @item.StartDate.ToString("dd-MM-yyyy")
                                 <br />
@@ -109,6 +112,7 @@
         $(document).ready(function () {
             $('[id^="capnhat"]').on('click', function () {
                 var id = $(this).attr('name');
+                $('#chinhsualoainghiphep').selectpicker('val', $('#leavetype-' + id).val());
                 $('#chinhsuangaybatdau').val($('#startDate-' + id).val());
                 $('#chinhsuangayketthuc').val($('#endDate-' + id).val());
                 $('#chinhsuanoidungcapnhat').val($('#content-' + id).val());

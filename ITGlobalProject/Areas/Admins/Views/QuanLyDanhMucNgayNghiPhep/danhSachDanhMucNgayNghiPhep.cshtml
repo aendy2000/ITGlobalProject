@@ -12,7 +12,7 @@
             <!-- Page header -->
             <div class="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
                 <div class="mb-2 mb-lg-0">
-                    <h1 class="mb-0 h2 fw-bold">Danh Mục Ngày Nghỉ Phép </h1>
+                    <h1 class="mb-0 h2 fw-bold">Quản Lý Danh Mục Nghỉ Lễ </h1>
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -20,10 +20,10 @@
                                 <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")">Quản Lý Danh Mục Ngày Nghỉ Phép</a>
+                                <a href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")">Quản Lý Danh Mục Nghỉ Lễ</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                Danh Sách Ngày Nghỉ Phép
+                                Danh Sách Ngày Nghỉ Lễ
                             </li>
                         </ol>
                     </nav>
@@ -48,9 +48,9 @@
                     <thead class="table-light">
                         <tr>
                             <th scope="col" class=" border-top-0">#</th>
-                            <th scope="col" class=" border-top-0">Tên</th>
-                            <th scope="col" class=" border-top-0">Ngày bắt đầu</th>
-                            <th scope="col" class=" border-top-0">Ngày kết thúc</th>
+                            <th scope="col" class=" border-top-0">Tên Ngày Nghỉ</th>
+                            <th scope="col" class=" border-top-0">Ngày Nghỉ</th>
+                            <th scope="col" class=" border-top-0">Loại Ngày Nghỉ</th>
                             <th scope="col" class=" border-top-0"></th>
                         </tr>
                     </thead>
@@ -62,10 +62,8 @@
                                 i++;
                                 <input hidden value="@item.ID" id="ids@(item.ID)" />
                                 <input hidden value="@item.Name" id="names@(item.ID)" />
-                                <input hidden value="@item.StartDay" id="stdays@(item.ID)" />
-                                <input hidden value="@item.StartMonth" id="stmonths@(item.ID)" />
-                                <input hidden value="@item.EndDay" id="enddays@(item.ID)" />
-                                <input hidden value="@item.EndMonth" id="endmonths@(item.ID)" />
+                                <input hidden value="@item.Date.ToString("yyyy-MM-dd")" id="dates@(item.ID)" />
+                                <input hidden value="@item.DateType" id="datetypes@(item.ID)" />
 
                                 var appends = item.OnLeave.ToList();
                                 <tr>
@@ -80,10 +78,10 @@
                                         </div>
                                     </td>
                                     <td class="align-middle">
-                                        @item.StartDay Tháng @item.StartMonth
+                                        @item.Date.ToString("dd/MM/yyyy")
                                     </td>
                                     <td class="align-middle">
-                                        @item.EndDay Tháng @item.EndMonth
+                                        @item.DateType
                                     </td>
                                     <td class="text-muted align-middle text-end">
                                         <div class="dropdown dropstart">
@@ -138,126 +136,24 @@
                             <label style="font-weight: bold;" class="form-label">Tên Ngày Nghỉ <span class="text-danger">*</span></label>
                             <input id="name" name="name" type="text" class="form-control" placeholder="Nhập tên ngày nghỉ phép">
                             <input id="id" name="id" hidden>
-                            <p style="color: red; font-size: 13px" id="EdittenNgayNghiValidation"></p>
+                            <p hidden style="color: red; font-size: 13px" id="EdittenNgayNghiValidation"></p>
                         </div>
                         <!-- form group -->
-                        <div class="mb-3 col-md-6">
-                            <label style="font-weight: bold;" class="form-label">Ngày Bắt Đầu <span class="text-danger">*</span></label>
-                            <select name="startday" id="startday" class="selectpicker" data-width="100%" placeholder="Chọn ngày bắt đầu">
-                                <option value="">Chọn ngày bắt đầu</option>
-                                <option value="1">Ngày 1</option>
-                                <option value="2">Ngày 2</option>
-                                <option value="3">Ngày 3</option>
-                                <option value="4">Ngày 4</option>
-                                <option value="5">Ngày 5</option>
-                                <option value="6">Ngày 6</option>
-                                <option value="7">Ngày 7</option>
-                                <option value="8">Ngày 8</option>
-                                <option value="9">Ngày 9</option>
-                                <option value="10">Ngày 10</option>
-                                <option value="11">Ngày 11</option>
-                                <option value="12">Ngày 12</option>
-                                <option value="13">Ngày 13</option>
-                                <option value="14">Ngày 14</option>
-                                <option value="15">Ngày 15</option>
-                                <option value="16">Ngày 16</option>
-                                <option value="17">Ngày 17</option>
-                                <option value="18">Ngày 18</option>
-                                <option value="19">Ngày 19</option>
-                                <option value="20">Ngày 20</option>
-                                <option value="21">Ngày 21</option>
-                                <option value="22">Ngày 22</option>
-                                <option value="23">Ngày 23</option>
-                                <option value="24">Ngày 24</option>
-                                <option value="25">Ngày 25</option>
-                                <option value="26">Ngày 26</option>
-                                <option value="27">Ngày 27</option>
-                                <option value="28">Ngày 28</option>
-                                <option value="29">Ngày 29</option>
-                                <option value="30">Ngày 30</option>
-                                <option value="31">Ngày 31</option>
-                            </select>
-                            <p style="font-size: 13px; color:red;" id="EditngayBatdauValidation"></p>
+                        <div class="mb-3 col-md-12">
+                            <label style="font-weight: bold;" class="form-label">Ngày Nghỉ <span class="text-danger">*</span></label>
+                            <input id="date" name="date" type="text" class="form-control flatpickr" placeholder="Nhập tên ngày nghỉ phép">
+                            <p hidden style="font-size: 13px; color:red;" id="EditdateValidation"></p>
                         </div>
 
-                        <div class="mb-3 col-md-6">
-                            <label style="font-weight: bold;" class="form-label">Tháng Bắt Đầu <span class="text-danger">*</span></label>
-                            <select name="startmonth" id="startmonth" class="selectpicker" data-width="100%">
-                                <option value="">Chọn tháng bắt đầu</option>
-                                <option value="1">Tháng 1</option>
-                                <option value="2">Tháng 2</option>
-                                <option value="3">Tháng 3</option>
-                                <option value="4">Tháng 4</option>
-                                <option value="5">Tháng 5</option>
-                                <option value="6">Tháng 6</option>
-                                <option value="7">Tháng 7</option>
-                                <option value="8">Tháng 8</option>
-                                <option value="9">Tháng 9</option>
-                                <option value="10">Tháng 10</option>
-                                <option value="11">Tháng 11</option>
-                                <option value="12">Tháng 12</option>
+                        <div class="mb-3 col-md-12">
+                            <label style="font-weight: bold;" class="form-label">Loại Ngày Nghỉ <span class="text-danger">*</span></label>
+                            <select name="datetype" id="datetype" class="selectpicker" data-width="100%">
+                                <option value="">Chọn loại ngày nghỉ</option>
+                                <option value="Cả Ngày">Cả Ngày</option>
+                                <option value="Nữa Ngày">Nữa Ngày</option>
                             </select>
-                            <p style="font-size: 13px; color:red;" id="EditthangBatdauValidation"></p>
+                            <p hidden style="font-size: 13px; color:red;" id="EditloaingaynghiValidation"></p>
                         </div>
-                        <div class="mb-3 col-md-6">
-                            <label style="font-weight: bold;" class="form-label">Ngày Kết Thúc <span class="text-danger">*</span></label>
-                            <select name="endday" id="endday" class="selectpicker" data-width="100%" placeholder="Chọn ngày kết thúc">
-                                <option value="">Chọn ngày kết thúc</option>
-                                <option value="1">Ngày 1</option>
-                                <option value="2">Ngày 2</option>
-                                <option value="3">Ngày 3</option>
-                                <option value="4">Ngày 4</option>
-                                <option value="5">Ngày 5</option>
-                                <option value="6">Ngày 6</option>
-                                <option value="7">Ngày 7</option>
-                                <option value="8">Ngày 8</option>
-                                <option value="9">Ngày 9</option>
-                                <option value="10">Ngày 10</option>
-                                <option value="11">Ngày 11</option>
-                                <option value="12">Ngày 12</option>
-                                <option value="13">Ngày 13</option>
-                                <option value="14">Ngày 14</option>
-                                <option value="15">Ngày 15</option>
-                                <option value="16">Ngày 16</option>
-                                <option value="17">Ngày 17</option>
-                                <option value="18">Ngày 18</option>
-                                <option value="19">Ngày 19</option>
-                                <option value="20">Ngày 20</option>
-                                <option value="21">Ngày 21</option>
-                                <option value="22">Ngày 22</option>
-                                <option value="23">Ngày 23</option>
-                                <option value="24">Ngày 24</option>
-                                <option value="25">Ngày 25</option>
-                                <option value="26">Ngày 26</option>
-                                <option value="27">Ngày 27</option>
-                                <option value="28">Ngày 28</option>
-                                <option value="29">Ngày 29</option>
-                                <option value="30">Ngày 30</option>
-                                <option value="31">Ngày 31</option>
-                            </select>
-                            <p style="color: red; font-size: 13px" id="EditngayKetThucValidation"></p>
-                        </div>
-
-                        <div class="mb-3 col-md-6">
-                            <label style="font-weight: bold;" class="form-label">Tháng Kết Thúc <span class="text-danger">*</span></label>
-                            <select name="endmonth" id="endmonth" class="selectpicker" data-width="100%">
-                                <option value="">Chọn tháng kết thúc</option>
-                                <option value="1">Tháng 1</option>
-                                <option value="2">Tháng 2</option>
-                                <option value="3">Tháng 3</option>
-                                <option value="4">Tháng 4</option>
-                                <option value="5">Tháng 5</option>
-                                <option value="6">Tháng 6</option>
-                                <option value="7">Tháng 7</option>
-                                <option value="8">Tháng 8</option>
-                                <option value="9">Tháng 9</option>
-                                <option value="10">Tháng 10</option>
-                                <option value="11">Tháng 11</option>
-                                <option value="12">Tháng 12</option>
-                            </select>
-                            <p style="font-size: 13px; color:red;" id="EditthangKetThucValidation"></p>
-                        </div>
-
                         <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
                             <button id="dongChinhSua" style="width: 230px" class="btn btn-outline-danger" data-bs-dismiss="offcanvas" aria-label="Close">
                                 Hủy
@@ -293,124 +189,22 @@
                     <div class="mb-3 col-md-12">
                         <label style="font-weight: bold;" class="form-label">Tên Ngày Nghỉ <span class="text-danger">*</span></label>
                         <input id="tenngaynghi" type="text" class="form-control" placeholder="Nhập tên ngày nghỉ phép">
-                        <p style="font-size: 13px; color:red;" id="tenNgayNghiValidation"></p>
+                        <p hidden style="font-size: 13px; color:red;" id="tenNgayNghiValidation"></p>
                     </div>
-                    <div class="mb-3 col-md-6">
-                        <label style="font-weight: bold;" class="form-label">Ngày Bắt Đầu <span class="text-danger">*</span></label>
-                        <select name="ngaybatdau" id="ngaybatdau" class="selectpicker" data-width="100%" placeholder="Chọn ngày bắt đầu">
-                            <option value="">Chọn ngày kết thúc</option>
-                            <option value="1">Ngày 1</option>
-                            <option value="2">Ngày 2</option>
-                            <option value="3">Ngày 3</option>
-                            <option value="4">Ngày 4</option>
-                            <option value="5">Ngày 5</option>
-                            <option value="6">Ngày 6</option>
-                            <option value="7">Ngày 7</option>
-                            <option value="8">Ngày 8</option>
-                            <option value="9">Ngày 9</option>
-                            <option value="10">Ngày 10</option>
-                            <option value="11">Ngày 11</option>
-                            <option value="12">Ngày 12</option>
-                            <option value="13">Ngày 13</option>
-                            <option value="14">Ngày 14</option>
-                            <option value="15">Ngày 15</option>
-                            <option value="16">Ngày 16</option>
-                            <option value="17">Ngày 17</option>
-                            <option value="18">Ngày 18</option>
-                            <option value="19">Ngày 19</option>
-                            <option value="20">Ngày 20</option>
-                            <option value="21">Ngày 21</option>
-                            <option value="22">Ngày 22</option>
-                            <option value="23">Ngày 23</option>
-                            <option value="24">Ngày 24</option>
-                            <option value="25">Ngày 25</option>
-                            <option value="26">Ngày 26</option>
-                            <option value="27">Ngày 27</option>
-                            <option value="28">Ngày 28</option>
-                            <option value="29">Ngày 29</option>
-                            <option value="30">Ngày 30</option>
-                            <option value="31">Ngày 31</option>
-                        </select>
-                        <p style="font-size: 13px; color:red;" id="ngayBatdauValidation"></p>
+                    <div class="mb-3 col-md-12">
+                        <label style="font-weight: bold;" class="form-label">Ngày Nghỉ <span class="text-danger">*</span></label>
+                        <input id="ngaynghi" name="ngaynghi" type="text" class="form-control flatpickr" placeholder="Nhập tên ngày nghỉ phép">
+                        <p hidden style="font-size: 13px; color:red;" id="NgayNghiValidation"></p>
                     </div>
 
-                    <!-- form group -->
-                    <div class="mb-3 col-md-6">
-                        <label style="font-weight: bold;" class="form-label">Tháng Bắt Đầu <span class="text-danger">*</span></label>
-                        <select name="thangbatdau" id="thangbatdau" class="selectpicker" data-width="100%">
-                            <option value="">Chọn tháng bắt đầu</option>
-                            <option value="1">Tháng 1</option>
-                            <option value="2">Tháng 2</option>
-                            <option value="3">Tháng 3</option>
-                            <option value="4">Tháng 4</option>
-                            <option value="5">Tháng 5</option>
-                            <option value="6">Tháng 6</option>
-                            <option value="7">Tháng 7</option>
-                            <option value="8">Tháng 8</option>
-                            <option value="9">Tháng 9</option>
-                            <option value="10">Tháng 10</option>
-                            <option value="11">Tháng 11</option>
-                            <option value="12">Tháng 12</option>
+                    <div class="mb-3 col-md-12">
+                        <label style="font-weight: bold;" class="form-label">Loại Ngày Nghỉ <span class="text-danger">*</span></label>
+                        <select name="loaingaynghi" id="loaingaynghi" class="selectpicker" data-width="100%">
+                            <option value="">Chọn loại ngày nghỉ</option>
+                            <option value="Cả Ngày">Cả Ngày</option>
+                            <option value="Nữa Ngày">Nữa Ngày</option>
                         </select>
-                        <p style="font-size: 13px; color:red;" id="thangBatdauValidation"></p>
-                    </div>
-                    <div class="mb-3 col-md-6">
-                        <label style="font-weight: bold;" class="form-label">Ngày Kết Thúc <span class="text-danger">*</span></label>
-                        <select name="ngayketthuc" id="ngayketthuc" class="selectpicker" data-width="100%" placeholder="Chọn ngày kết thúc">
-                            <option value="">Chọn ngày kết thúc</option>
-                            <option value="1">Ngày 1</option>
-                            <option value="2">Ngày 2</option>
-                            <option value="3">Ngày 3</option>
-                            <option value="4">Ngày 4</option>
-                            <option value="5">Ngày 5</option>
-                            <option value="6">Ngày 6</option>
-                            <option value="7">Ngày 7</option>
-                            <option value="8">Ngày 8</option>
-                            <option value="9">Ngày 9</option>
-                            <option value="10">Ngày 10</option>
-                            <option value="11">Ngày 11</option>
-                            <option value="12">Ngày 12</option>
-                            <option value="13">Ngày 13</option>
-                            <option value="14">Ngày 14</option>
-                            <option value="15">Ngày 15</option>
-                            <option value="16">Ngày 16</option>
-                            <option value="17">Ngày 17</option>
-                            <option value="18">Ngày 18</option>
-                            <option value="19">Ngày 19</option>
-                            <option value="20">Ngày 20</option>
-                            <option value="21">Ngày 21</option>
-                            <option value="22">Ngày 22</option>
-                            <option value="23">Ngày 23</option>
-                            <option value="24">Ngày 24</option>
-                            <option value="25">Ngày 25</option>
-                            <option value="26">Ngày 26</option>
-                            <option value="27">Ngày 27</option>
-                            <option value="28">Ngày 28</option>
-                            <option value="29">Ngày 29</option>
-                            <option value="30">Ngày 30</option>
-                            <option value="31">Ngày 31</option>
-                        </select>
-                        <p style="color: red; font-size: 13px" id="ngayKetThucValidation"></p>
-                    </div>
-
-                    <div class="mb-3 col-md-6">
-                        <label style="font-weight: bold;" class="form-label">Tháng Kết Thúc <span class="text-danger">*</span></label>
-                        <select name="thangketthuc" id="thangketthuc" class="selectpicker" data-width="100%">
-                            <option value="">Chọn tháng kết thúc</option>
-                            <option value="1">Tháng 1</option>
-                            <option value="2">Tháng 2</option>
-                            <option value="3">Tháng 3</option>
-                            <option value="4">Tháng 4</option>
-                            <option value="5">Tháng 5</option>
-                            <option value="6">Tháng 6</option>
-                            <option value="7">Tháng 7</option>
-                            <option value="8">Tháng 8</option>
-                            <option value="9">Tháng 9</option>
-                            <option value="10">Tháng 10</option>
-                            <option value="11">Tháng 11</option>
-                            <option value="12">Tháng 12</option>
-                        </select>
-                        <p style="font-size: 13px; color:red;" id="thangKetThucValidation"></p>
+                        <p hidden style="font-size: 13px; color:red;" id="loaiNgayNghiBatdauValidation"></p>
                     </div>
 
                     <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">

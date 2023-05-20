@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<ITGlobalProject.Models.LeaveApplication>
+@using ITGlobalProject.Models
 @{
     ViewBag.Title = "Đơn Nghỉ Phép";
     Layout = "~/Areas/Employee/Views/Shared/_EmployeeLayout.cshtml";
     int i = 0;
+    var loainghiphep = Session["lst-leavetype"] as IEnumerable<LeaveType>;
 }
 
 <div class="container-fluid p-4">
@@ -76,6 +78,7 @@
                                     <tr>
                                         <th scope="col" class=" border-top-0">STT</th>
                                         <th scope="col" class=" border-top-0">Ngày gửi</th>
+                                        <th scope="col" class=" border-top-0">Loại Nghỉ Phép</th>
                                         <th scope="col" class=" border-top-0">Thời gian nghỉ</th>
                                         <th scope="col" class=" border-top-0">ngày nghỉ</th>
                                         <th scope="col" class=" border-top-0">Nội dung</th>
@@ -89,6 +92,7 @@
                                         <input hidden id="startDate-@item.ID" value="@item.StartDate.ToString("yyyy-MM-dd")" />
                                         <input hidden id="endDate-@item.ID" value="@item.EndDate.ToString("yyyy-MM-dd")" />
                                         <input hidden id="content-@item.ID" value="@item.Contents" />
+                                        <input hidden id="leavetype-@item.ID" value="@item.ApplyLeaveType.ID_Leave_Type" />
 
                                         i++;
                                         <tr>
@@ -98,6 +102,8 @@
                                                 <br />
                                                 @item.SendDate.ToString("dd-MM-yyyy")
                                             </td>
+                                            <td class="align-middle border-top-0">@item.ApplyLeaveType.LeaveType.Name</td>
+
                                             <td class="align-middle border-top-0">
                                                 <b>Từ:</b>  @item.StartDate.ToString("dd-MM-yyyy")
                                                 <br />
@@ -123,11 +129,12 @@
                             $(document).ready(function () {
                                 $('[id^="capnhat"]').on('click', function () {
                                     var id = $(this).attr('name');
+                                    $('#chinhsualoainghiphep').selectpicker('val', $('#leavetype-' + id).val());
                                     $('#chinhsuangaybatdau').val($('#startDate-' + id).val());
                                     $('#chinhsuangayketthuc').val($('#endDate-' + id).val());
                                     $('#chinhsuanoidungcapnhat').val($('#content-' + id).val());
                                     $('#idDonChinhSua').val(id);
-
+                            
                                     $('#chinhsuadon').modal('toggle');
                                 });
                             });
@@ -148,6 +155,19 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <div class="mb-3 col-md-12">
+                        <label style="font-weight:bold;" class="form-label" for="chinhsualoainghiphep">Loại Nghỉ Phép <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <select data-width="100%" name="chinhsualoainghiphep" class="selectpicker" id="chinhsualoainghiphep">
+                                <option selected value="">Chọn loại nghỉ phép</option>
+                                @foreach (var item in loainghiphep)
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            </select>
+                            <p style="font-size: 13px; color:red;" id="chinhsualoainghiphepValidation"></p>
+                        </div>
+                    </div>
                     <div class="mb-2 col-12 col-md-6">
                         <label style="font-weight:bold;" class="form-label">Ngày bắt đầu <span class="text-danger">*</span></label>
                         <input hidden id="idDonChinhSua" />
@@ -193,6 +213,19 @@
             </div>
             <form class="modal-body">
                 <div class="row">
+                    <div class="mb-3 col-md-12">
+                        <label style="font-weight:bold;" class="form-label" for="loainghiphep">Loại Nghỉ Phép <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <select data-width="100%" name="loainghiphep" class="selectpicker" id="loainghiphep">
+                                <option selected value="">Chọn loại nghỉ phép</option>
+                                @foreach (var item in loainghiphep)
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            </select>
+                            <p style="font-size: 13px; color:red;" id="loainghiphepValidation"></p>
+                        </div>
+                    </div>
                     <div class="mb-2 col-12 col-md-6">
                         <label style="font-weight:bold;" class="form-label">Ngày bắt đầu <span class="text-danger">*</span></label>
                         <input type="text" class="form-control flatpickr" placeholder="Chọn ngày bắt đầu nghỉ" id="ngaybatdau" name="ngaybatdau" />

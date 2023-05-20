@@ -5,16 +5,25 @@
         $('#startDateValidation').prop("hidden", true);
         $('#endDateValidation').prop("hidden", true);
         $('#noidungValidation').prop("hidden", true);
+        $('#loainghiphepValidation').prop("hidden", true);
+        
         var idEmp = $('#nhanvien :selected').val();
         var startDate = $('#startDate').val();
         var endDate = $('#endDate').val();
         var content = $('#noidung').val().trim();
+        var leavetype = $('#loainghiphep :selected').val().trim();
 
         var check = true;
         if (idEmp.length < 1) {
             check = false;
             $('#nhanvien').focus();
             $('#nhanvienValidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
+        }
+
+        if (leavetype.length < 1) {
+            check = false;
+            $('#loainghiphep').focus();
+            $('#loainghiphepValidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
         }
 
         if (startDate.length < 1) {
@@ -50,6 +59,8 @@
             formData.append("endDate", endDate);
             formData.append("content", content);
             formData.append("state", $('#trangthai :selected').val());
+            formData.append("leavetype", leavetype);
+
 
             if ($('#traluong').prop("checked") == true) {
                 formData.append("truluong", false);
@@ -58,6 +69,7 @@
                 formData.append("truluong", true);
             }
 
+            $('#AjaxLoader').show();
             $.ajax({
                 url: $('#requestPath').val() + "admins/quanlydonnghiphep/taodonnghiphep",
                 data: formData,
@@ -70,7 +82,128 @@
                 if (ketqua == "DANGNHAP") {
                     window.location.href = $('#requestPath').val() + "admins/quanlytaikhoan/dangnhap";
                 }
+                else if (ketqua == "TRUNG") {
+                    $('#AjaxLoader').hide();
+                    var SweetAlert2Demo = function () {
+                        var initDemos = function () {
+                            swal("Thông Báo!", "Đơn nghỉ phép có ngày nghỉ đã bị trùng với đơn nghỉ phép khác của Nhân viên, vui lòng kiểm tra lại!", {
+                                icon: "warning",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-warning'
+                                    }
+                                },
+                            });
+                        };
+                        return {
+                            init: function () {
+                                initDemos();
+                            },
+                        };
+                    }();
+
+                    jQuery(document).ready(function () {
+                        SweetAlert2Demo.init();
+                    });
+                }
+                else if (ketqua == "QUANGAYCHOPHEP") {
+                    $('#AjaxLoader').hide();
+                    var SweetAlert2Demo = function () {
+                        var initDemos = function () {
+                            swal("Thông Báo!", "Số ngày nghỉ vượt quá ngày cho phép, vui lòng kiểm tra lại!", {
+                                icon: "warning",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-warning'
+                                    }
+                                },
+                            });
+                        };
+                        return {
+                            init: function () {
+                                initDemos();
+                            },
+                        };
+                    }();
+
+                    jQuery(document).ready(function () {
+                        SweetAlert2Demo.init();
+                    });
+                }
+                else if (ketqua == "CHUAAPDUNGNAMNAY") {
+                    $('#AjaxLoader').hide();
+                    var SweetAlert2Demo = function () {
+                        var initDemos = function () {
+                            swal("Thông Báo!", "Loại nghỉ phép không được áp dụng cho Nhân viên này trong năm " + startDate.split('-')[0] + "!", {
+                                icon: "warning",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-warning'
+                                    }
+                                },
+                            });
+                        };
+                        return {
+                            init: function () {
+                                initDemos();
+                            },
+                        };
+                    }();
+
+                    jQuery(document).ready(function () {
+                        SweetAlert2Demo.init();
+                    });
+                }
+                else if (ketqua == "QUANGAYCHOPHEPNAMTRUOC") {
+                    $('#AjaxLoader').hide();
+                    var SweetAlert2Demo = function () {
+                        var initDemos = function () {
+                            swal("Thông Báo!", "Loại nghỉ phép không được áp dụng cho Nhân viên này trong năm " + startDate.split('-')[0] + "!", {
+                                icon: "warning",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-warning'
+                                    }
+                                },
+                            });
+                        };
+                        return {
+                            init: function () {
+                                initDemos();
+                            },
+                        };
+                    }();
+
+                    jQuery(document).ready(function () {
+                        SweetAlert2Demo.init();
+                    });
+                }
+                else if (ketqua == "QUANGAYCHOPHEPNAMSAU") {
+                    $('#AjaxLoader').hide();
+                    var SweetAlert2Demo = function () {
+                        var initDemos = function () {
+                            swal("Thông Báo!", "Loại nghỉ phép không được áp dụng cho Nhân viên này trong năm " + endDate.split('-')[0] + "!", {
+                                icon: "warning",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-warning'
+                                    }
+                                },
+                            });
+                        };
+                        return {
+                            init: function () {
+                                initDemos();
+                            },
+                        };
+                    }();
+
+                    jQuery(document).ready(function () {
+                        SweetAlert2Demo.init();
+                    });
+                }
                 else if (ketqua == "Error") {
+                    $('#AjaxLoader').hide();
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thông Báo!", "Đã có xảy ra lỗi, vui lòng thử lại", {
@@ -95,6 +228,7 @@
                 }
                 else {
                     $('#dongChinhSua').click();
+                    $('#AjaxLoader').hide();
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thành Công!", "Bạn đã tạo đơn thành công.", {

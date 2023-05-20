@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CP25Team06Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ApplyLeaveType">
           <Key>
             <PropertyRef Name="ID" />
@@ -176,10 +176,8 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="StartDay" Type="int" Nullable="false" />
-          <Property Name="StartMonth" Type="int" Nullable="false" />
-          <Property Name="EndDay" Type="int" Nullable="false" />
-          <Property Name="EndMonth" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="DateType" Type="nvarchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="LeaveType">
           <Key>
@@ -600,6 +598,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LeaveApplication_ApplyLeaveType">
+          <End Role="ApplyLeaveType" Type="Self.ApplyLeaveType" Multiplicity="0..1" />
+          <End Role="LeaveApplication" Type="Self.LeaveApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplyLeaveType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LeaveApplication">
+              <PropertyRef Name="ID_ApplyLeaveType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_LeaveApplication_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
           <End Role="LeaveApplication" Type="Self.LeaveApplication" Multiplicity="*" />
@@ -977,6 +987,10 @@
             <End Role="Employees" EntitySet="Employees" />
             <End Role="LanguagesSkills" EntitySet="LanguagesSkills" />
           </AssociationSet>
+          <AssociationSet Name="FK_LeaveApplication_ApplyLeaveType" Association="Self.FK_LeaveApplication_ApplyLeaveType">
+            <End Role="ApplyLeaveType" EntitySet="ApplyLeaveType" />
+            <End Role="LeaveApplication" EntitySet="LeaveApplication" />
+          </AssociationSet>
           <AssociationSet Name="FK_LeaveApplication_Employees" Association="Self.FK_LeaveApplication_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="LeaveApplication" EntitySet="LeaveApplication" />
@@ -1074,8 +1088,7 @@
             <End Role="Teams" EntitySet="Teams" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CP25Team06Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1090,6 +1103,7 @@
           <Property Name="Entitlement" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_ApplyLeaveType_Employees" FromRole="ApplyLeaveType" ToRole="Employees" />
           <NavigationProperty Name="LeaveType" Relationship="Self.FK_ApplyLeaveType_LeaveType" FromRole="ApplyLeaveType" ToRole="LeaveType" />
+          <NavigationProperty Name="LeaveApplication" Relationship="Self.FK_LeaveApplication_ApplyLeaveType" FromRole="ApplyLeaveType" ToRole="LeaveApplication" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -1272,6 +1286,7 @@
           <Property Name="Reply" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="OnWage" Type="Boolean" Nullable="false" />
           <Property Name="ID_ApplyLeaveType" Type="Int32" />
+          <NavigationProperty Name="ApplyLeaveType" Relationship="Self.FK_LeaveApplication_ApplyLeaveType" FromRole="LeaveApplication" ToRole="ApplyLeaveType" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_LeaveApplication_Employees" FromRole="LeaveApplication" ToRole="Employees" />
         </EntityType>
         <EntityType Name="LeaveDate">
@@ -1280,10 +1295,8 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="StartDay" Type="Int32" Nullable="false" />
-          <Property Name="StartMonth" Type="Int32" Nullable="false" />
-          <Property Name="EndDay" Type="Int32" Nullable="false" />
-          <Property Name="EndMonth" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="OnLeave" Relationship="Self.FK_OnLeave_LeaveDate" FromRole="LeaveDate" ToRole="OnLeave" />
         </EntityType>
         <EntityType Name="LeaveType">
@@ -1613,6 +1626,18 @@
             </Principal>
             <Dependent Role="ApplyLeaveType">
               <PropertyRef Name="ID_Leave_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaveApplication_ApplyLeaveType">
+          <End Role="ApplyLeaveType" Type="Self.ApplyLeaveType" Multiplicity="0..1" />
+          <End Role="LeaveApplication" Type="Self.LeaveApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplyLeaveType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LeaveApplication">
+              <PropertyRef Name="ID_ApplyLeaveType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2081,6 +2106,10 @@
             <End Role="LeaveType" EntitySet="LeaveType" />
             <End Role="ApplyLeaveType" EntitySet="ApplyLeaveType" />
           </AssociationSet>
+          <AssociationSet Name="FK_LeaveApplication_ApplyLeaveType" Association="Self.FK_LeaveApplication_ApplyLeaveType">
+            <End Role="ApplyLeaveType" EntitySet="ApplyLeaveType" />
+            <End Role="LeaveApplication" EntitySet="LeaveApplication" />
+          </AssociationSet>
           <AssociationSet Name="FK_Comment_Employees" Association="Self.FK_Comment_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Comment" EntitySet="Comment" />
@@ -2411,10 +2440,8 @@
               <MappingFragment StoreEntitySet="LeaveDate">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="StartDay" ColumnName="StartDay" />
-                <ScalarProperty Name="StartMonth" ColumnName="StartMonth" />
-                <ScalarProperty Name="EndDay" ColumnName="EndDay" />
-                <ScalarProperty Name="EndMonth" ColumnName="EndMonth" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="DateType" ColumnName="DateType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

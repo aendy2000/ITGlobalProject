@@ -76,6 +76,7 @@
                                         <th hidden>STT</th>
                                         <th scope="col" class="text-nowrap border-top-0">Ngày gửi</th>
                                         <th scope="col" class="text-nowrap  border-top-0">Nhân viên</th>
+                                        <th scope="col" class="text-nowrap  border-top-0">Loại nghỉ</th>
                                         <th scope="col" class="text-nowrap  border-top-0">Thời gian nghỉ</th>
                                         <th scope="col" class="text-nowrap  border-top-0">Nội dung</th>
                                         <th scope="col" class="text-nowrap  border-top-0">Nội dung phản hồi</th>
@@ -111,6 +112,9 @@
                                                     @item.Employees.ID_Employee
                                                 </a>
                                                 <br />
+                                            </td>
+                                            <td class="align-middle border-top-0">
+                                                @item.ApplyLeaveType.LeaveType.Name
                                             </td>
                                             <td class="align-middle border-top-0">
                                                 <b>Từ:</b>  @item.StartDate.ToString("dd/MM/yyyy")

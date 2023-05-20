@@ -1,0 +1,212 @@
+﻿@model IEnumerable<ITGlobalProject.Models.LeaveType>
+@using ITGlobalProject.Models
+@{
+    CP25Team06Entities models = new CP25Team06Entities();
+    string exists = Session["exist-applyleave"].ToString();
+    var emp = models.Employees.Where(e => e.Lock == false && e.Wage > 0 && e.EmploymentContracts.Count() > 0).ToList();
+    emp.Remove(models.Employees.Find(1));
+
+    int year = Int32.Parse(Session["applyleavetype-year"].ToString());
+}
+
+<div id="ContentsPartial">
+    @if (exists.Equals("yes"))
+    {
+        <input hidden id="daapdung" value="daapdung" />
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-12">
+                <div class="shadow p-3 mb-4 bg-light-success border-100 rounded text-middle text-center">
+                    <span class="text-dark-success">
+                        Năm @year đã được áp dụng (vẫn có thể áp dụng lại).
+                    </span>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <input hidden id="daapdung" value="chuaapdung" />
+    }
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+            <!-- Card -->
+            <div class="card">
+
+                <div class="card-body" style="margin-bottom: -30px">
+                    <div class="row">
+                        <div class="mb-3 col-md-4 col-12">
+                            <label style="font-weight:bold;" class="form-label">Năm áp dụng <span class="text-danger">*</span></label>
+                            <select id="namnghiphep" name="namnghiphep" class="selectpicker" data-width="100%">
+                                @for (int i = DateTime.Now.Year + 10; i >= 2023; i--)
+                                {
+                                    if (i == year)
+                                    {
+                                        <option selected value="@i">Năm @i</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i">Năm @i</option>
+                                    }
+                                }
+                            </select>
+                            <p hidden style="color: red; font-size: 13px" id="namnghiphepvalidation"></p>
+                        </div>
+                        <div class="mb-3 col-md-4 col-12">
+                            <label style="font-weight:bold;" class="form-label">Loại nghỉ phép <span class="text-danger">*</span></label>
+                            <select id="loainghiphep" name="loainghiphep" class="selectpicker" data-width="100%">
+                                <option selected value="">Chọn loại nghỉ phép</option>
+                                @foreach (var item in Model)
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            </select>
+                            <p hidden style="font-size: 13px; color:red;" id="loainghiphepvalidation"></p>
+                        </div>
+                        <div class="mb-3 col-md-4 col-12">
+                            <label style="font-weight: bold;" class="form-label">Ngày nghỉ được hưởng <span class="text-danger">*</span></label>
+                            <input id="songayhuong" type="number" class="form-control" placeholder="Nhập số ngày nghỉ được hưởng trong năm">
+                            <p hidden style="color: red; font-size: 13px" id="songayhuongvalidation"></p>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: -30px" class="card-header border-bottom-0">
+                    <h4 class="mb-2">DANH SÁCH NHÂN VIÊN CÓ THỂ ÁP DỤNG.</h4>
+                    <p class="mb-0">
+                        Đây là danh sách những Nhân viên hiện đang còn làm việc tại Công Ty.
+                        Tích chọn vào ô select trước tên Nhân viên để chọn những Nhân viên sẽ được áp dụng loại nghỉ phép hoặc chọn select đầu tiên trên hàng tiêu đề để chọn tất cả.
+                    </p>
+                </div>
+                <div class="table-responsive border-0 overflow-y-hidden pt-2">
+                    <table class="table text-nowrap" id="dataTableBasic" style="width:100%">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="border-0 font-size-inherit">
+                                    <div class="form-check">
+                                        <input checked type="checkbox" class="form-check-input p-2" id="checkAlls" />
+                                        <label class="form-check-label" for="checkAlls"></label>
+                                    </div>
+                                </th>
+                                <th class="border-0">Mã Nhân viên</th>
+                                <th class="border-0">Tên nhân viên</th>
+                                <th class="border-0">Chức danh</th>
+                                <th class="border-0">Email</th>
+                                <th class="border-0">Ngày vào làm</th>
+                                <th class="border-0">Trạng thái</th>
+                                <th class="border-0">Chi tiết</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (exists.Equals("no"))
+                            {
+                                foreach (var item in emp.Where(e => e.Lock == false).ToList())
+                                {
+                                    <tr>
+
+                                        <td class="align-middle">
+                                            <div class="form-check">
+                                                <input checked type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
+                                            </div>
+                                        </td>
+
+                                        <td class="align-middle">
+                                            <label class="form-check-label" for="@item.ID">@item.ID_Employee</label>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID})" class="d-flex align-items-center">
+
+                                                @if (string.IsNullOrEmpty(item.Avatar))
+                                                {
+                                                    <div class="avatar avatar-xs avatar-danger me-2">
+                                                        <span class="avatar-initials rounded-circle ">@item.Name.Substring(0, 1)</span>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <img src="@item.Avatar" alt="" class="rounded-circle avatar-xs me-2" />
+                                                }
+                                                <h5 class="mb-0">@item.Name</h5>
+                                            </a>
+                                        </td>
+                                        <td class="align-middle">@item.Position.Name</td>
+                                        <td class="align-middle">@item.WorkEmail</td>
+                                        <td class="align-middle">@item.JoinedDate.ToString("dd/MM/yyyy")</td>
+                                        <td class="align-middle">
+                                            <span style="width: 100px" class="badge bg-gray-200 text-gray-700">Sẵn sàng</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <button disabled style="width: 100px" class="btn btn-secondary btn-xs"><i class="fe fe-eye-off"></i> Xem</button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                foreach (var item in emp.Where(e => e.Lock == false).ToList())
+                                {
+                                    <tr>
+
+                                        <td class="align-middle">
+                                            <div class="form-check">
+                                                <input checked type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
+                                            </div>
+                                        </td>
+
+                                        <td class="align-middle">
+                                            <label class="form-check-label" for="@item.ID">@item.ID_Employee</label>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID})" class="d-flex align-items-center">
+
+                                                @if (string.IsNullOrEmpty(item.Avatar))
+                                                {
+                                                    <div class="avatar avatar-xs avatar-danger me-2">
+                                                        <span class="avatar-initials rounded-circle ">@item.Name.Substring(0, 1)</span>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <img src="@item.Avatar" alt="" class="rounded-circle avatar-xs me-2" />
+                                                }
+                                                <h5 class="mb-0">@item.Name</h5>
+                                            </a>
+                                        </td>
+                                        <td class="align-middle">@item.Position.Name</td>
+                                        <td class="align-middle">@item.WorkEmail</td>
+                                        <td class="align-middle">@item.JoinedDate.ToString("dd/MM/yyyy")</td>
+                                        @if (models.ApplyLeaveType.FirstOrDefault(a => a.LeavePeriod == year && a.ID_Employee == item.ID) == null)
+                                        {
+                                            <td class="align-middle">
+                                                <span style="width: 100px" class="badge bg-gray-200 text-gray-700">Sẵn sàng</span>
+                                            </td>
+                                            <td class="align-middle">
+                                                <button disabled style="width: 100px" class="btn btn-secondary btn-xs"><i class="fe fe-eye-off"></i> Xem</button>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle">
+                                                <span style="width: 100px" class="badge bg-light-success text-dark-success">Đã có áp dụng</span>
+                                            </td>
+                                            <td class="align-middle">
+                                                <a id="xemchitiet-@item.ID" name="@item.ID" style="width: 100px" class="btn btn-primary btn-xs"><i class="fe fe-eye"></i> Xem</a>
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div style="text-align: center; padding-bottom: 50px" class="col-12 col-md-12">
+                        <button style="width: 230px" class="btn btn-success" id="btnluuthongtinapdung">
+                            Lưu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/ValidationAlert/Admin/QuanLyLoaiNghiPhep/ApplyLoaiNghiPhepValidation.js"></script>
+</div>
+

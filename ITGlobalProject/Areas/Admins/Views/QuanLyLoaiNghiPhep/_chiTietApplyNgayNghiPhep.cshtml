@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ITGlobalProject.Models.ApplyLeaveType>
+@{
+    int year = Int32.Parse(Session["applyleavetype-year"].ToString());
+    int i = 0;
+}
+<div id="partialChiTiet" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="chiTietApplyNghiPhepNhanVienModal"><i class="fe fe-user-check"> </i> Chi Tiết Loại Nghỉ Phéo Năm @year Phép Được Áp Dụng Cho: <a target="_blank" href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = Model.First().ID_Employee })">@Model.First().Employees.Name - @Model.First().Employees.ID_Employee</a></h4>
+            <button id="tatBangChiTiet" type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close">
+            </button>
+        </div>
+        <div class="card">
+            <!-- form -->
+            <!-- table -->
+            <table id="DataTableChiTietApply" class="table table-hover" style="width:100%">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class=" border-top-0">STT</th>
+                        <th scope="col" class=" border-top-0">Tên Loại Nghỉ Phép</th>
+                        <th scope="col" class=" border-top-0">Hưởng Lương</th>
+                        <th scope="col" class=" border-top-0">Số Ngày Được Hưởng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        i++;
+                        <tr>
+                            <td class="align-middle">
+                                @i
+                            </td>
+                            <td class="align-middle ">
+                                @item.LeaveType.Name
+                            </td>
+                            <td class="align-middle ">
+                                @if (item.LeaveType.Sate == true)
+                                {
+                                    <span>Được Hưởng</span>
+                                }
+                                else
+                                {
+                                    <span>Không Được Hưởng</span>
+
+                                }
+                            </td>
+                            <td class="align-middle ">
+                                @item.Entitlement ngày
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

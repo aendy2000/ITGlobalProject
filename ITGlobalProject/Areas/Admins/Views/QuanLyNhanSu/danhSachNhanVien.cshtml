@@ -1217,7 +1217,7 @@
                         <div class="form-check mb-2 col-4 col-md-4">
                             <input class="form-check-input" type="checkbox" name="@(item.ID)" id="checknghiphep@(item.ID)">
                             <label class="form-check-label" for="checknghiphep@(item.ID)">
-                                @item.Name (@item.StartDay Tháng @item.StartMonth - @item.EndDay Tháng @item.EndMonth)
+                                @item.Name (@item.DateType - @item.Date.ToString("dd/MM/yyyy"))
                             </label>
                         </div>
                     }

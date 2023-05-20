@@ -1,4 +1,5 @@
-﻿@using ITGlobalProject.Models
+﻿@model IEnumerable<ITGlobalProject.Models.LeaveType>
+@using ITGlobalProject.Models
 @{
     CP25Team06Entities model = new CP25Team06Entities();
     var emp = model.Employees.Where(e => e.Lock == false).ToList();
@@ -54,6 +55,19 @@
                                 <p style="font-size: 13px; color:red;" id="nhanvienValidation"></p>
                             </div>
                         </div>
+                        <div class="mb-3 col-md-12">
+                            <label style="font-weight:bold;" class="form-label" for="loainghiphep">Loại Nghỉ Phép <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <select data-width="100%" name="loainghiphep" id="loainghiphep">
+                                    <option selected value="">Chọn loại nghỉ phép</option>
+                                    @foreach (var item in Model)
+                                    {
+                                        <option value="@item.ID">@item.Name</option>
+                                    }
+                                </select>
+                                <p style="font-size: 13px; color:red;" id="loainghiphepValidation"></p>
+                            </div>
+                        </div>
                         <!-- input -->
                         <div class="mb-3 col-md-6">
                             <label style="font-weight:bold;" class="form-label" for="firstName">Ngày bắt đầu nghỉ <span class="text-danger">*</span></label>
@@ -88,12 +102,8 @@
                                 <option value="true">Được duyệt</option>
                             </select>
                         </div>
-                        <div style="text-align: right; padding-top: 20px" class="mb-2 col-12 col-md-6">
-                            <button id="dongChinhSua" style="width: 230px" class="btn btn-outline-danger" type="reset">
-                                Hủy
-                            </button>
-                        </div>
-                        <div style=" padding-top: 20px" class="mb-2 col-12 col-md-6">
+                        <hr class="my-3" />
+                        <div style=" padding-top: 20px" class="mb-2 col-12 col-md-12 text-center">
                             <a role="button" id="luuThongTin" style="width: 230px" class="btn btn-success">
                                 Lưu
                             </a>
@@ -110,6 +120,7 @@
 <script>
     $(document).ready(function () {
         $("#nhanvien").select2();
+        $("#loainghiphep").select2();
 
         //tìm kiếm Kỹ năng chuyên môn
         $('.select2-search__field').addClass('form-control');

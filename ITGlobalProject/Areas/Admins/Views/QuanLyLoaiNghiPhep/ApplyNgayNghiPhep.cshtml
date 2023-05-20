@@ -1,295 +1,243 @@
 ﻿@model IEnumerable<ITGlobalProject.Models.LeaveType>
 @using ITGlobalProject.Models
 @{
-    CP25Team06Entities model = new CP25Team06Entities();
+    CP25Team06Entities models = new CP25Team06Entities();
+    string exists = Session["exist-applyleave"].ToString();
+    var emp = models.Employees.Where(e => e.Lock == false && e.Wage > 0 && e.EmploymentContracts.Count() > 0).ToList();
+    emp.Remove(models.Employees.Find(1));
 
-    var emp = model.Employees.Where(e => e.Lock == false && e.Wage > 0 && e.EmploymentContracts.Count() > 0).ToList();
-    emp.Remove(model.Employees.Find(1));
+    Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
 }
-
-<div id="tinhLuongThangPartial">
-    <div class="row">
+<div class="container-fluid p-4">
+    <div class="row ">
         <div class="col-lg-12 col-md-12 col-12">
-            <!-- Card -->
-            <div class="card">
-                <div style="margin-bottom: -30px" class="card-header border-bottom-0">
-                    <h4 class="mb-2">DANH SÁCH NHÂN VIÊN CÓ THỂ ÁP DỤNG.</h4>
-                    <p class="mb-0">
-                        Đây là danh sách những Nhân viên hiện đang còn làm việc tại Công Ty.
-                        Tích chọn vào ô select trước tên Nhân viên để chọn những Nhân viên sẽ được áp dụng loại nghỉ phép hoặc chọn select đầu tiên trên hàng tiêu đề để chọn tất cả.
-                    </p>
+            <!-- Page header -->
+            <div class="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
+                <div class="mb-2 mb-lg-0">
+                    <h1 class="mb-0 h2 fw-bold">Áp Dụng Loại Nghỉ Phép</h1>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("Overview", "Dashboard")">Trang Chủ</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("danhSachLoaiNghiPhep", "QuanLyLoaiNghiPhep")">Loại Nghỉ Phép</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="@Url.Action("ApplyNgayNghiPhep", "QuanLyLoaiNghiPhep")">Áp Dụng Loại Nghỉ Phép</a>
+                            </li>
+                        </ol>
+                    </nav>
                 </div>
-                <div class="table-responsive border-0 overflow-y-hidden pt-2">
-                    <table class="table text-nowrap" id="dataTableBasic" style="width:100%">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="border-0 font-size-inherit">
-                                    <div class="form-check">
-                                        <input checked type="checkbox" class="form-check-input p-2" id="checkAlls" />
-                                        <label class="form-check-label" for="checkAlls"></label>
-                                    </div>
-                                </th>
-                                <th class="border-0">Mã Nhân viên</th>
-                                <th class="border-0">Tên nhân viên</th>
-                                <th class="border-0">Chức danh</th>
-                                <th class="border-0">Email</th>
-                                <th class="border-0">Ngày vào làm</th>
-                                <th class="border-0">Lương hợp đồng</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in emp.Where(e => e.Lock == false).ToList())
-                            {
+            </div>
+        </div>
+    </div>
+    <div id="ContentsPartial">
+        @if (exists.Equals("yes"))
+        {
+            <input hidden id="daapdung" value="daapdung" />
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="shadow p-3 mb-4 bg-light-success border-100 rounded text-middle text-center">
+                        <span class="text-dark-success">
+                            Năm @DateTime.Now.Year đã được áp dụng (vẫn có thể áp dụng lại).
+                        </span>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <input hidden id="daapdung" value="chuaapdung" />
+        }
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-12">
+                <!-- Card -->
+                <div class="card">
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="mb-3 col-md-4 col-12">
+                                <label style="font-weight:bold;" class="form-label">Năm áp dụng <span class="text-danger">*</span></label>
+                                <select id="namnghiphep" name="namnghiphep" class="selectpicker" data-width="100%">
+                                    @for (int i = DateTime.Now.Year + 10; i >= 2023; i--)
+                                    {
+                                        if (DateTime.Now.Year == i)
+                                        {
+                                            <option selected value="@DateTime.Now.Year">Năm @DateTime.Now.Year</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">Năm @i</option>
+                                        }
+                                    }
+                                </select>
+                                <p hidden style="color: red; font-size: 13px" id="namnghiphepvalidation"></p>
+                            </div>
+                            <div class="mb-3 col-md-4 col-12">
+                                <label style="font-weight:bold;" class="form-label">Loại nghỉ phép <span class="text-danger">*</span></label>
+                                <select id="loainghiphep" name="loainghiphep" class="selectpicker" data-width="100%">
+                                    <option selected value="">Chọn loại nghỉ phép</option>
+                                    @foreach (var item in Model)
+                                    {
+                                        <option value="@item.ID">@item.Name</option>
+                                    }
+                                </select>
+                                <p hidden style="font-size: 13px; color:red;" id="loainghiphepvalidation"></p>
+                            </div>
+                            <div class="mb-3 col-md-4 col-12">
+                                <label style="font-weight: bold;" class="form-label">Ngày nghỉ được hưởng <span class="text-danger">*</span></label>
+                                <input id="songayhuong" type="number" class="form-control" placeholder="Nhập số ngày nghỉ được hưởng trong năm">
+                                <p hidden style="color: red; font-size: 13px" id="songayhuongvalidation"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: -30px" class="card-header border-bottom-0">
+                        <h4 class="mb-2">DANH SÁCH NHÂN VIÊN CÓ THỂ ÁP DỤNG.</h4>
+                        <p class="mb-0">
+                            Đây là danh sách những Nhân viên hiện đang còn làm việc tại Công Ty.
+                            Tích chọn vào ô select trước tên Nhân viên để chọn những Nhân viên sẽ được áp dụng loại nghỉ phép hoặc chọn select đầu tiên trên hàng tiêu đề để chọn tất cả.
+                        </p>
+                    </div>
+                    <div class="table-responsive border-0 overflow-y-hidden pt-2">
+                        <table class="table text-nowrap" id="dataTableBasic" style="width:100%">
+                            <thead class="table-light">
                                 <tr>
-
-                                    <td class="align-middle">
+                                    <th class="border-0 font-size-inherit">
                                         <div class="form-check">
-                                            <input checked type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
+                                            <input checked type="checkbox" class="form-check-input p-2" id="checkAlls" />
+                                            <label class="form-check-label" for="checkAlls"></label>
                                         </div>
-                                    </td>
+                                    </th>
+                                    <th class="border-0">Mã Nhân viên</th>
+                                    <th class="border-0">Tên nhân viên</th>
+                                    <th class="border-0">Chức danh</th>
+                                    <th class="border-0">Email</th>
+                                    <th class="border-0">Ngày vào làm</th>
+                                    <th class="border-0">Trạng thái</th>
+                                    <th class="border-0">Chi tiết</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (exists.Equals("no"))
+                                {
+                                    foreach (var item in emp.Where(e => e.Lock == false).ToList())
+                                    {
+                                        <tr>
 
-                                    <td class="align-middle">
-                                        <label class="form-check-label" for="@item.ID">@item.ID_Employee</label>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID})" class="d-flex align-items-center">
-
-                                            @if (string.IsNullOrEmpty(item.Avatar))
-                                            {
-                                                <div class="avatar avatar-xs avatar-danger me-2">
-                                                    <span class="avatar-initials rounded-circle ">@item.Name.Substring(0, 1)</span>
+                                            <td class="align-middle">
+                                                <div class="form-check">
+                                                    <input checked type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
                                                 </div>
+                                            </td>
+
+                                            <td class="align-middle">
+                                                <label class="form-check-label" for="@item.ID">@item.ID_Employee</label>
+                                            </td>
+                                            <td class="align-middle">
+                                                <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID})" class="d-flex align-items-center">
+
+                                                    @if (string.IsNullOrEmpty(item.Avatar))
+                                                    {
+                                                        <div class="avatar avatar-xs avatar-danger me-2">
+                                                            <span class="avatar-initials rounded-circle ">@item.Name.Substring(0, 1)</span>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="@item.Avatar" alt="" class="rounded-circle avatar-xs me-2" />
+                                                    }
+                                                    <h5 class="mb-0">@item.Name</h5>
+                                                </a>
+                                            </td>
+                                            <td class="align-middle">@item.Position.Name</td>
+                                            <td class="align-middle">@item.WorkEmail</td>
+                                            <td class="align-middle">@item.JoinedDate.ToString("dd/MM/yyyy")</td>
+                                            <td class="align-middle">
+                                                <span style="width: 100px" class="badge bg-gray-200 text-gray-700">Sẵn sàng</span>
+                                            </td>
+                                            <td class="align-middle">
+                                                <button disabled style="width: 100px" class="btn btn-secondary btn-xs"><i class="fe fe-eye-off"></i> Xem</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    int year = DateTime.Now.Year;
+                                    foreach (var item in emp.Where(e => e.Lock == false).ToList())
+                                    {
+                                        <tr>
+
+                                            <td class="align-middle">
+                                                <div class="form-check">
+                                                    <input checked type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
+                                                </div>
+                                            </td>
+
+                                            <td class="align-middle">
+                                                <label class="form-check-label" for="@item.ID">@item.ID_Employee</label>
+                                            </td>
+                                            <td class="align-middle">
+                                                <a target="_blank" href="@Url.Action("thongtinchitiet", "quanlynhansu", new {id = item.ID})" class="d-flex align-items-center">
+
+                                                    @if (string.IsNullOrEmpty(item.Avatar))
+                                                    {
+                                                        <div class="avatar avatar-xs avatar-danger me-2">
+                                                            <span class="avatar-initials rounded-circle ">@item.Name.Substring(0, 1)</span>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="@item.Avatar" alt="" class="rounded-circle avatar-xs me-2" />
+                                                    }
+                                                    <h5 class="mb-0">@item.Name</h5>
+                                                </a>
+                                            </td>
+                                            <td class="align-middle">@item.Position.Name</td>
+                                            <td class="align-middle">@item.WorkEmail</td>
+                                            <td class="align-middle">@item.JoinedDate.ToString("dd/MM/yyyy")</td>
+                                            @if (models.ApplyLeaveType.FirstOrDefault(a => a.LeavePeriod == year && a.ID_Employee == item.ID) == null)
+                                            {
+                                                <td class="align-middle">
+                                                    <span style="width: 100px" class="badge bg-gray-200 text-gray-700">Sẵn sàng</span>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <button disabled style="width: 100px" class="btn btn-secondary btn-xs"><i class="fe fe-eye-off"></i> Xem</button>
+                                                </td>
                                             }
                                             else
                                             {
-                                                <img src="@item.Avatar" alt="" class="rounded-circle avatar-xs me-2" />
+                                                <td class="align-middle">
+                                                    <span style="width: 100px" class="badge bg-light-success text-dark-success">Đã có áp dụng</span>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <a id="xemchitiet-@item.ID" name="@item.ID" style="width: 100px" class="btn btn-primary btn-xs"><i class="fe fe-eye"></i> Xem</a>
+                                                </td>
                                             }
-                                            <h5 class="mb-0">@item.Name</h5>
-                                        </a>
-                                    </td>
-                                    <td class="align-middle">@item.Position.Name</td>
-                                    <td class="align-middle">@item.WorkEmail</td>
-
-                                    <td class="align-middle">@item.JoinedDate.ToString("dd/MM/yyyy")</td>
-
-                                    <td class="align-middle">
-                                        @item.Wage.ToString("0,0").Replace(".", ",") đ
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div class="card-body">
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="row">
-                        <div class="mb-4 col-md-4 col-12">
-                            <label style="font-weight:bold;" class="form-label">Loại nghỉ phép <span class="text-danger">*</span></label>
-                            <select id="loainghiphep" name="loainghiphep" class="selectpicker" data-width="100%">
-                                <option selected value="">Chọn loại nghỉ phép</option>
-                                @foreach (var item in Model)
-                                {
-                                    <option value="@item.ID">@item.Name</option>
-                                }
-                            </select>
-                            <p style="font-size: 13px; color:red;" id="loainghiphepvalidation"></p>
-                        </div>
-
-                        <div class="mb-4 col-md-4 col-12">
-                            <label style="font-weight:bold;" class="form-label">Năm áp dụng <span class="text-danger">*</span></label>
-                            <select id="namnghiphep" name="namnghiphep" class="selectpicker" data-width="100%">
-                                <option selected value="">Chọn năm áp dụng</option>
-                                @for (int i = DateTime.Now.Year; i >= 2023; i--)
-                                {
-                                    <option value="@i">Năm @i</option>
-                                }
-                            </select>
-                            <p style="color: red; font-size: 13px" id="namnghiphepvalidation"></p>
-                        </div>
-
-                        <div class="mb-4 col-md-4 col-12">
-                            <label style="font-weight: bold;" class="form-label">Ngày nghỉ được hưởng <span class="text-danger">*</span></label>
-                            <input id="songayhuong" type="number" class="form-control" placeholder="Nhập số ngày nghỉ được hưởng trong năm">
-                            <p style="color: red; font-size: 13px" id="songayhuongvalidation"></p>
-                        </div>
-                        <div style="text-align: center; padding-bottom: 20px" class="col-12 col-md-12">
+                        <div style="text-align: center; padding-bottom: 50px" class="col-12 col-md-12">
                             <button style="width: 230px" class="btn btn-success" id="btnluuthongtinapdung">
                                 Lưu
                             </button>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
+        <script src="~/ValidationAlert/Admin/QuanLyLoaiNghiPhep/ApplyLoaiNghiPhepValidation.js"></script>
     </div>
+</div>
 
-    <script>
-
-        //check all
-        $('#checkAlls').on('click', function () {
-            $('#dataTableBasic').DataTable()
-                .column(0)
-                .nodes()
-                .to$()
-                .find('input[type=checkbox]')
-                .prop('checked', this.checked);
-        });
-
-        //btn tính lương
-        $('#btnluuthongtinapdung').on('click', function () {
-            var lstId = "";
-            var loai = $('#loainghiphep :selected').val();
-            var nam = $('#namnghiphep :selected').val();
-            var ngayhuong = $('#songayhuong').val();
-
-            var check = true;
-            if (loai.length < 1) {
-                check = false;
-            }
-
-            if (nam.length < 1) {
-                check = false;
-            }
-
-            if (ngayhuong.length < 1) {
-                check = false;
-            }
-
-            if (check = true) {
-
-                $('#dataTableBasic').DataTable()
-                    .column(0)
-                    .nodes()
-                    .to$()
-                    .find('input[type=checkbox]:checked').each(function () {
-                        lstId += $(this).attr("name") + "-";
-                    });
-
-                if (lstId.trim().length > 0) {
-                    var formData = new FormData();
-                    formData.append('loai', loai);
-                    formData.append('nam', nam);
-                    formData.append('lstId', lstId.substring(0, lstId.length - 1));
-                    formData.append('ngayhuong', ngayhuong);
-
-                    var SweetAlert2Demo = function () {
-                        var initDemos = function () {
-                            swal({
-                                title: 'Tính Lương?',
-                                text: "Xác nhận tính lương cho nhân viên tháng này?",
-                                type: 'info',
-                                icon: 'info',
-                                buttons: {
-                                    cancel: {
-                                        visible: true,
-                                        text: ' Hủy Bỏ ',
-                                        className: 'btn btn-danger'
-                                    },
-                                    confirm: {
-                                        text: 'Xác Nhận',
-                                        className: 'btn btn-success'
-                                    }
-                                }
-                            }).then((tinhluong) => {
-                                if (tinhluong) {
-                                    $('#AjaxLoader').show();
-                                    $.ajax({
-                                        url: $('#requestPath').val() + 'Admins/QuanLyLoaiNghiPhep/ApplyNgayNghiPhep',
-                                        type: 'POST',
-                                        dataType: 'html',
-                                        contentType: false,
-                                        processData: false,
-                                        data: formData
-                                    }).done(function (ketqua) {
-                                        $('#AjaxLoader').hide();
-                                        if (ketqua == "DANGNHAP") {
-                                            window.location.href = $('#requestPath').val() + 'quanlytaikhoan/dangxuat';
-                                        }
-                                        else if (ketqua == "Erorr") {
-                                            var SweetAlert2Demo = function () {
-                                                var initDemos = function () {
-                                                    swal("Thông báo!", "Đã có lỗi xảy ra trong quá trình thực hiện, vui lòng thử lại sau ít phút!", {
-                                                        icon: "danger",
-                                                        buttons: {
-                                                            confirm: {
-                                                                className: 'btn btn-success'
-                                                            }
-                                                        },
-                                                    });
-                                                };
-                                                return {
-                                                    init: function () {
-                                                        initDemos();
-                                                    },
-                                                };
-                                            }();
-
-                                            jQuery(document).ready(function () {
-                                                SweetAlert2Demo.init();
-                                            });
-                                        } else {
-                                            var SweetAlert2Demo = function () {
-                                                var initDemos = function () {
-                                                    swal("Thành Công!", "Đã áp dụng loại nghỉ phép cho nhân viên được chỉ định.", {
-                                                        icon: "success",
-                                                        buttons: {
-                                                            confirm: {
-                                                                className: 'btn btn-success'
-                                                            }
-                                                        },
-                                                    });
-                                                };
-                                                return {
-                                                    init: function () {
-                                                        initDemos();
-                                                    },
-                                                };
-                                            }();
-
-                                            jQuery(document).ready(function () {
-                                                SweetAlert2Demo.init();
-                                            });
-                                        }
-                                    });
-                                }
-                            });
-                        };
-                        return {
-                            init: function () {
-                                initDemos();
-                            },
-                        };
-                    }();
-
-                    jQuery(document).ready(function () {
-                        SweetAlert2Demo.init();
-                    });
-                }
-                else {
-                    var SweetAlert2Demo = function () {
-                        var initDemos = function () {
-                            swal("Thông báo!", "Chưa chọn nhân viên để áp dụng loại nghỉ phép!", {
-                                icon: "info",
-                                buttons: {
-                                    confirm: {
-                                        className: 'btn btn-info'
-                                    }
-                                },
-                            });
-                        };
-                        return {
-                            init: function () {
-                                initDemos();
-                            },
-                        };
-                    }();
-
-                    jQuery(document).ready(function () {
-                        SweetAlert2Demo.init();
-                    });
-                }
-            }
-        });
-    </script>
+<div class="modal fade modal-xl" id="chiTietApplyNghiPhepNhanVien" tabindex="-1" role="dialog"
+     aria-labelledby="chiTietApplyNghiPhepNhanVienModalLabel" aria-hidden="true" data-simplebar>
+    <div id="partialChiTiet" class="modal-dialog modal-dialog-centered" role="document">
+    </div>
 </div>

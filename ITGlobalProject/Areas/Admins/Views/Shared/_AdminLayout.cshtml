@@ -81,7 +81,7 @@
                            aria-expanded="false" aria-controls="navProfile">
                             <i class="nav-icon fe fe-users me-2"></i> Nhân Sự
                         </a>
-                        @if (ViewBag.ShowActive == "danhSachNhanVien" || ViewBag.ShowActive == "danhSachDonNghiPhep" || ViewBag.ShowActive == "taoDonNghiPhep" || ViewBag.ShowActive == "danhSachDanhMucNgayNghiPhep" || ViewBag.ShowActive == "TTChiTiet")
+                        @if (ViewBag.ShowActive == "danhSachNhanVien" || ViewBag.ShowActive == "danhSachDonNghiPhep" || ViewBag.ShowActive == "taoDonNghiPhep" || ViewBag.ShowActive == "TTChiTiet")
                         {
                             <div id="navProfile" class="collapse show" data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
@@ -97,11 +97,6 @@
                                                 Đơn Nghỉ Phép
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').show();">
-                                                Danh Mục Ngày Phép
-                                            </a>
-                                        </li>
                                     }
                                     else if (ViewBag.ShowActive == "danhSachDonNghiPhep")
                                     {
@@ -113,11 +108,6 @@
                                         <li class="nav-item">
                                             <a class="nav-link active" href="@Url.Action("danhSachDonNghiPhep", "QuanLyDonNghiPhep")" onclick="$('#AjaxLoader').show();">
                                                 Đơn Nghỉ Phép
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').show();">
-                                                Danh Mục Ngày Phép
                                             </a>
                                         </li>
                                     }
@@ -133,11 +123,7 @@
                                                 Đơn Nghỉ Phép
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').show();">
-                                                Danh Mục Ngày Phép
-                                            </a>
-                                        </li>
+
                                     }
                                 </ul>
                             </div>
@@ -156,15 +142,103 @@
                                             Đơn Nghỉ Phép
                                         </a>
                                     </li>
+
+                                </ul>
+                            </div>
+                        }
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link  " href="#" data-bs-toggle="collapse" data-bs-target="#navLoaiNghiPhep"
+                           aria-expanded="false" aria-controls="navLoaiNghiPhep">
+                            <i class="nav-icon fe fe-calendar me-2"></i> Loại Nghỉ Phép
+                        </a>
+                        @if (ViewBag.ShowActive == "danhSachLoaiNghiPhep" || ViewBag.ShowActive == "ApplyNgayNghiPhep" || ViewBag.ShowActive == "danhSachDanhMucNgayNghiPhep")
+                        {
+                            <div id="navLoaiNghiPhep" class="collapse show" data-bs-parent="#sideNavbar">
+                                <ul class="nav flex-column">
+                                    @if (ViewBag.ShowActive == "danhSachLoaiNghiPhep")
+                                    {
+                                        <li class="nav-item ">
+                                            <a class="nav-link active" href="@Url.Action("danhSachLoaiNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').show();">
+                                                Loại Nghỉ Phép
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="@Url.Action("ApplyNgayNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').show();">
+                                                Gán Loại Nghỉ Phép
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').show();">
+                                                Nghỉ Lễ
+                                            </a>
+                                        </li> 
+                                    }
+                                    else if (ViewBag.ShowActive == "ApplyNgayNghiPhep")
+                                    {
+                                        <li class="nav-item ">
+                                            <a class="nav-link " href="@Url.Action("danhSachLoaiNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').show();">
+                                                Loại Nghỉ Phép
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="@Url.Action("ApplyNgayNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').show();">
+                                                Gán Loại Nghỉ Phép
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').show();">
+                                                Nghỉ Lễ
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item ">
+                                            <a class="nav-link " href="@Url.Action("danhSachLoaiNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').show();">
+                                                Loại Nghỉ Phép
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="@Url.Action("ApplyNgayNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').show();">
+                                                Gán Loại Nghỉ Phép
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').show();">
+                                                Nghỉ Lễ
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="navLoaiNghiPhep" class="collapse " data-bs-parent="#sideNavbar">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item ">
+                                        <a class="nav-link " href="@Url.Action("danhSachLoaiNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').show();">
+                                            Loại Nghỉ Phép
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="@Url.Action("ApplyNgayNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').show();">
+                                            Gán Loại Nghỉ Phép
+                                        </a>
+                                    </li>
                                     <li class="nav-item">
                                         <a class="nav-link " href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').show();">
-                                            Danh Mục Ngày Phép
+                                            Nghỉ Lễ
                                         </a>
                                     </li>
                                 </ul>
                             </div>
                         }
                     </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link  " href="#" data-bs-toggle="collapse" data-bs-target="#navKyNangChuyenMon"
                            aria-expanded="false" aria-controls="navKyNangChuyenMon">

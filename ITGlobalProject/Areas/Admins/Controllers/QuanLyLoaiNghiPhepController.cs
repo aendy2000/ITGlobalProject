@@ -23,8 +23,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
         public ActionResult ApplyNgayNghiPhep()
         {
-            ViewBag.ShowActive = "danhSachLoaiNghiPhep";
+            ViewBag.ShowActive = "ApplyNgayNghiPhep";
             var lstLeaveType = model.LeaveType.OrderByDescending(o => o.ID).ToList();
+            int year = DateTime.Now.Year;
+            Session["exist-applyleave"] = model.ApplyLeaveType.FirstOrDefault(a => a.LeavePeriod == year) != null ? "yes" : "no" ;
             return View("ApplyNgayNghiPhep", lstLeaveType);
         }
         [HttpPost]
@@ -47,17 +49,35 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 else
                 {
                     ApplyLeaveType newPeriod = new ApplyLeaveType();
-                    period.ID_Leave_Type = loai;
-                    period.ID_Employee = idemp;
-                    period.LeavePeriod = nam;
-                    period.Entitlement = ngayhuong;
+                    newPeriod.ID_Leave_Type = loai;
+                    newPeriod.ID_Employee = idemp;
+                    newPeriod.LeavePeriod = nam;
+                    newPeriod.Entitlement = ngayhuong;
 
-                    model.ApplyLeaveType.Add(period);
+                    model.ApplyLeaveType.Add(newPeriod);
                     model.SaveChanges();
                 }
             }
             var lstLeaveType = model.LeaveType.OrderByDescending(o => o.ID).ToList();
+            Session["applyleavetype-year"] = nam;
+            Session["exist-applyleave"] = "yes";
             return PartialView("_ApplyNgayNghiPhep", lstLeaveType);
+        }
+        [HttpPost]
+        public ActionResult ChonNam(int year)
+        {
+            var lstLeaveType = model.LeaveType.OrderByDescending(o => o.ID).ToList();
+            Session["applyleavetype-year"] = year;
+            Session["exist-applyleave"] = model.ApplyLeaveType.FirstOrDefault(a => a.LeavePeriod == year) != null ? "yes" : "no";
+            return PartialView("_ApplyNgayNghiPhep", lstLeaveType);
+        }
+
+        [HttpPost]
+        public ActionResult XemChiTietApplyNghiPhep(int id, int year)
+        {
+            var lstApplyLeaveType = model.ApplyLeaveType.Where(a => a.ID_Employee == id && a.LeavePeriod == year).OrderByDescending(o => o.ID).ToList();
+            Session["applyleavetype-year"] = year;
+            return PartialView("_chiTietApplyNgayNghiPhep", lstApplyLeaveType);
         }
 
         [HttpPost]

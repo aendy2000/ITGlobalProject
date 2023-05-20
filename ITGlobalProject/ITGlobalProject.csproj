@@ -892,6 +892,8 @@
     <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\danhSachLoaiNghiPhep.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\_danhSachLoaiNghiPhepPartial.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\ApplyNgayNghiPhep.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\_ApplyNgayNghiPhep.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\_chiTietApplyNgayNghiPhep.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -943,6 +945,7 @@
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\SuaKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\ThemKyNangValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyKyNang\XoaKyNangValidation.js" />
+    <Content Include="ValidationAlert\Admin\QuanLyLoaiNghiPhep\ApplyLoaiNghiPhepValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyLoaiNghiPhep\XoaLoaiNghiPhepValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyLoaiNghiPhep\SuaLoaiNghiPhepValidation.js" />
     <Content Include="ValidationAlert\Admin\QuanLyLoaiNghiPhep\ThemLoaiNghiPhepValidation.js" />
