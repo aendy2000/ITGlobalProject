@@ -149,13 +149,6 @@
             $('#gioitinh').focus();
         }
 
-        //validation mã số thuế
-        if (masothue.length != 10) {
-            checkkhachhang = false;
-            $("#masothuevalidation").text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
-            $('#masothue').focus();
-        }
-
         //Check đúng hết thì làm
         if (checkkhachhang == true) {
             var formData = new FormData();

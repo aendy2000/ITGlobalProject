@@ -39,7 +39,7 @@
                                                     <p hidden style="font-size: 13px; color:red;" id="hotenvalidation-` + dem + `"></p>
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
-                                                    <label style="font-weight:bold" class="form-label">Mã Số Thuế <span class="text-danger">*</span></label>
+                                                    <label style="font-weight:bold" class="form-label">Mã Số Thuế</label>
                                                     <input id="masothue-` + dem + `" name="masothue-` + dem + `" type="text" class="form-control" placeholder="Nhập mã số thuế" data-inputmask="'mask': '9999999999'" inputmode="numeric" required>
                                                     <p hidden style="font-size: 13px; color:red;" id="masothuevalidation-` + dem + `"></p>
                                                 </div>
@@ -289,7 +289,7 @@
                         <input readonly value="`+ $('#names' + id[i]).val() + `" id="hotennguoidaidien-1" name="hotennguoidaidien-1" type="text" class="form-control" placeholder="Nhập vào họ và tên của người đại diện" required>
                     </div>
                     <div class="mb-3 col-12 col-md-6">
-                        <label style="font-weight:bold" class="form-label">Mã Số Thuế <span class="text-danger">*</span></label>
+                        <label style="font-weight:bold" class="form-label">Mã Số Thuế</label>
                         <input readonly value="`+ $('#mathue' + id[i]).val() + `" id="masothue-1" name="masothue-1" type="text" class="form-control" placeholder="Nhập mã số thuế" data-inputmask="'mask': '9999999999'" inputmode="numeric" required>
                     </div>
                     <!-- Phone -->
@@ -336,7 +336,7 @@
                         <input readonly value="`+ $('#names' + id[i]).val() + `" id="hotennguoidaidien-1" name="hotennguoidaidien-1" type="text" class="form-control" placeholder="Nhập vào họ và tên của người đại diện" required>
                     </div>
                     <div class="mb-3 col-12 col-md-6">
-                        <label style="font-weight:bold" class="form-label">Mã Số Thuế <span class="text-danger">*</span></label>
+                        <label style="font-weight:bold" class="form-label">Mã Số Thuế</label>
                         <input readonly value="`+ $('#mathue' + id[i]).val() + `" id="masothue-1" name="masothue-1" type="text" class="form-control" placeholder="Nhập mã số thuế" data-inputmask="'mask': '9999999999'" inputmode="numeric" required>
                     </div>
                     <!-- Phone -->
@@ -755,13 +755,6 @@
                 checkkhachhang = false;
                 $('#diachinhavalidation-' + i).text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").show().prop("hidden", false);
                 $('#gioitinh-' + i).focus();
-            }
-
-            //validation mã số thuế
-            if (masothue.length != 10) {
-                checkkhachhang = false;
-                $('#masothuevalidation-' + i).text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop("hidden", false);
-                $('#masothue-' + i).focus();
             }
 
             if (checkkhachhang == false) {
