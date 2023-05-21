@@ -7,7 +7,7 @@
     ViewBag.Title = "Tạo Đơn Nghỉ Phép";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
 }
-
+<input hidden id="currentyear" value="@DateTime.Now.Year" />
 <div class="container-fluid p-4">
     <div class="row ">
         <div class="col-lg-12 col-md-12 col-12">
@@ -43,7 +43,7 @@
                     <!-- row -->
                     <form class="row">
                         <div class="mb-3 col-md-12">
-                            <label style="font-weight:bold;" class="form-label" for="firstName">Nhân viên nghỉ phép <span class="text-danger">*</span></label>
+                            <label style="font-weight:bold;" class="form-label" for="firstName">Họ tên nhân viên <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <select data-width="100%" name="nhanvien" id="nhanvien">
                                     <option selected value="">Chọn nhân viên nghỉ phép</option>
@@ -55,7 +55,7 @@
                                 <p style="font-size: 13px; color:red;" id="nhanvienValidation"></p>
                             </div>
                         </div>
-                        <div class="mb-3 col-md-12">
+                        <div class="mb-3 col-md-6">
                             <label style="font-weight:bold;" class="form-label" for="loainghiphep">Loại Nghỉ Phép <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <select data-width="100%" name="loainghiphep" id="loainghiphep">
@@ -68,6 +68,10 @@
                                 <p style="font-size: 13px; color:red;" id="loainghiphepValidation"></p>
                             </div>
                         </div>
+                        <div class="mb-3 col-md-6">
+                            <label style="font-weight:bold;" class="form-label" for="firstName">Ngày nghỉ còn lại</label>
+                            <label readonly type="text" class="form-control" placeholder="Chọn ngày bắt đầu nghỉ" id="quantityleavetype">0 ngày</label>
+                        </div>
                         <!-- input -->
                         <div class="mb-3 col-md-6">
                             <label style="font-weight:bold;" class="form-label" for="firstName">Ngày bắt đầu nghỉ <span class="text-danger">*</span></label>
@@ -76,13 +80,18 @@
                         </div>
                         <!-- input -->
                         <div class="mb-3 col-md-6">
-                            <label style="font-weight:bold;" class="form-label" for="firstName">Đến hết ngày <span class="text-danger">*</span></label>
-                            <input type="text" class="flatpickr form-control" placeholder="Chọn ngày nghỉ cuối cùng" id="endDate">
+                            <label style="font-weight:bold;" class="form-label" for="firstName">Ngày kết thúc <span class="text-danger">*</span></label>
+                            <input type="text" class="flatpickr form-control" placeholder="Chọn ngày kết thúc" id="endDate">
                             <p hidden style="font-size: 13px; color:red;" id="endDateValidation"></p>
                         </div>
                         <!-- input -->
                         <div class="mb-3 col-md-12">
-                            <label style="font-weight:bold;" class="form-label" for="firstName">Nội dung ghi chú</label>
+                            <label style="font-weight:bold;" class="form-label" for="firstName">Số ngày nghỉ (ngày) <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" placeholder="Nhập số ngày nghỉ thực tế" id="realleavedate">
+                            <p hidden style="font-size: 13px; color:red;" id="realleavedateValidation"></p>
+                        </div>
+                        <div class="mb-3 col-md-12">
+                            <label style="font-weight:bold;" class="form-label" for="firstName">Ghi chú</label>
                             <textarea rows="7" type="text" class="flatpickr form-control" placeholder="Nhập nội dung ghi chú" id="noidung"></textarea>
                             <p hidden style="font-size: 13px; color:red;" id="noidungValidation"></p>
                         </div>

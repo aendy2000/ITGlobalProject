@@ -1,6 +1,9 @@
 ﻿@model IEnumerable<ITGlobalProject.Models.LeaveApplication>
+@using ITGlobalProject.Models
 @{
     int i = 0;
+    CP25Team06Entities models = new CP25Team06Entities();
+
 }
 
 <div class="tab-content" id="tabContentsss">
@@ -15,33 +18,31 @@
                         <th scope="col" class=" border-top-0">Ngày gửi</th>
                         <th scope="col" class=" border-top-0">Loại Nghỉ Phép</th>
                         <th scope="col" class=" border-top-0">Thời gian nghỉ</th>
-                        <th scope="col" class=" border-top-0">ngày nghỉ</th>
+                        <th scope="col" class=" border-top-0">Số ngày nghỉ</th>
                         <th scope="col" class=" border-top-0">Nội dung</th>
-                        @if (Session["typetab"].ToString().Equals("daDuyet"))
-                        {
-                            <th scope="col" class=" border-top-0">Phản hồi</th>
-                            <th scope="col" class=" border-top-0">Trừ lương</th>
-                        }
-                        else if (Session["typetab"].ToString().Equals("daHuy"))
-                        {
-                            <th scope="col" class=" border-top-0">Phản hồi</th>
-                        }
-                        @if (Session["typetab"].ToString().Equals("choDuyet"))
-                        {
-                            <th scope="col" class=" border-top-0"></th>
-                        }
+                        <th scope="col" class=" border-top-0"></th>
                     </tr>
                 </thead>
                 <tbody>
 
                     @foreach (var item in Model)
                     {
+                        i++;
                         <input hidden id="startDate-@item.ID" value="@item.StartDate.ToString("yyyy-MM-dd")" />
                         <input hidden id="endDate-@item.ID" value="@item.EndDate.ToString("yyyy-MM-dd")" />
                         <input hidden id="content-@item.ID" value="@item.Contents" />
                         <input hidden id="leavetype-@item.ID" value="@item.ApplyLeaveType.ID_Leave_Type" />
+                        <input hidden id="realleavedate-@item.ID" value="@item.RealLeaveDate.ToString("0.0").Replace(",",".")" />
 
-                        i++;
+                        int idleavetype = item.ApplyLeaveType.ID_Leave_Type;
+                        int idemp = Int32.Parse(Session["user-id"].ToString());
+                        var applyleavetype = models.ApplyLeaveType.FirstOrDefault(a => a.ID_Leave_Type == idleavetype && a.ID_Employee == idemp && a.LeavePeriod == DateTime.Now.Year);
+                        var idapplyleavetype = applyleavetype.ID;
+                        var tongSoNgayChoPhep = applyleavetype.Entitlement;
+
+                        var lstSoNgayDaNghi = models.LeaveApplication.Where(l => l.ID_Employee == idemp && l.ID_ApplyLeaveType == idapplyleavetype).Sum(s => s.RealLeaveDate);
+                        string contents = ((tongSoNgayChoPhep - lstSoNgayDaNghi) + item.RealLeaveDate) + " ngày";
+                        <input hidden id="quantity-@item.ID" value="@contents" />
                         <tr>
                             <td class="align-middle border-top-0">@i</td>
                             <td class="align-middle border-top-0">
@@ -50,77 +51,44 @@
                                 @item.SendDate.ToString("dd-MM-yyyy")
                             </td>
                             <td class="align-middle border-top-0">@item.ApplyLeaveType.LeaveType.Name</td>
+
                             <td class="align-middle border-top-0">
                                 <b>Từ:</b>  @item.StartDate.ToString("dd-MM-yyyy")
                                 <br />
                                 <b>Đến:</b> @item.EndDate.ToString("dd-MM-yyyy")
                             </td>
                             <td class="align-middle border-top-0">
-                                @((Convert.ToDateTime(item.EndDate.ToString("yyyy-MM-dd")).AddDays(1) - Convert.ToDateTime(item.StartDate.ToString("yyyy-MM-dd"))).TotalDays) ngày
+                                @item.RealLeaveDate.ToString("0.0").Replace(",", ".") ngày
                             </td>
                             <td word-break: break-word" class="align-middle border-top-0">
                                 @(string.IsNullOrEmpty(item.Contents) ? "Không có ghi chú nội dung" : item.Contents)
                             </td>
-                            @if (Session["typetab"].ToString().Equals("daDuyet"))
-                            {
-                                <td word-break: break-word" class="align-middle border-top-0">
-                                    @item.ResponsiveDate.Value.ToString("HH:mm dd-MM-yyyy")
-                                    <br />
-                                    ----------
-                                    <br />
-                                    @(string.IsNullOrEmpty(item.Reply) ? "Không có nội dung phản hồi" : item.Reply)
-                                </td>
-                                if (item.OnWage == true)
-                                {
-                                    <td word-break: break-word" class="align-middle border-top-0">
-                                        Có
-                                    </td>
-                                }
-                                else
-                                {
-                                    <td word-break: break-word" class="align-middle border-top-0">
-                                        Không
-                                    </td>
-                                }
-                            }
-                            else if (Session["typetab"].ToString().Equals("daHuy"))
-                            {
-                                <td word-break: break-word" class="align-middle border-top-0">
-                                    @item.ResponsiveDate.Value.ToString("HH:mm dd-MM-yyyy")
-                                    <br />
-                                    ----------
-                                    <br />
-                                    @(string.IsNullOrEmpty(item.Reply) ? "Không có nội dung phản hồi" : item.Reply)
-                                </td>
-                            }
-
-                            @if (Session["typetab"].ToString().Equals("choDuyet"))
-                            {
-                                <td class="align-middle border-top-0 text-nowrap">
-                                    <a id="xoa@(item.ID)" name="@item.ID" class="btn btn-outline-danger btn-sm">Xóa đơn</a>
-                                    <a id="capnhat@(item.ID)" name="@item.ID" class="btn btn-outline-success btn-sm">Cập nhật</a>
-                                </td>
-                            }
+                            <td class="align-middle border-top-0 text-nowrap">
+                                <a id="xoa@(item.ID)" name="@item.ID" class="btn btn-outline-danger btn-sm">Xóa đơn</a>
+                                <a id="capnhat@(item.ID)" name="@item.ID" class="btn btn-outline-success btn-sm">Cập nhật</a>
+                            </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-    </div>
-    <script src="~/ValidationAlert/Employee/QuanLyDonNghiPhep/XoaDonNghiPhep_Validation.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('[id^="capnhat"]').on('click', function () {
-                var id = $(this).attr('name');
-                $('#chinhsualoainghiphep').selectpicker('val', $('#leavetype-' + id).val());
-                $('#chinhsuangaybatdau').val($('#startDate-' + id).val());
-                $('#chinhsuangayketthuc').val($('#endDate-' + id).val());
-                $('#chinhsuanoidungcapnhat').val($('#content-' + id).val());
-                $('#idDonChinhSua').val(id);
+        <script src="~/ValidationAlert/Employee/QuanLyDonNghiPhep/XoaDonNghiPhep_Validation.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('[id^="capnhat"]').on('click', function () {
+                    var id = $(this).attr('name');
+                    $('#chinhsualoainghiphep').selectpicker('val', $('#leavetype-' + id).val());
+                    $('#chinhsuangaybatdau').val($('#startDate-' + id).val());
+                    $('#chinhsuangayketthuc').val($('#endDate-' + id).val());
+                    $('#chinhsuanoidungcapnhat').val($('#content-' + id).val());
+                    $('#chinhsuarealleavedate').val($('#realleavedate-' + id).val());
+                    $('#chinhsuaquantityleavetype').text($('#quantity-' + id).val());
 
-                $('#chinhsuadon').modal('toggle');
+                    $('#idDonChinhSua').val(id);
+
+                    $('#chinhsuadon').modal('toggle');
+                });
             });
-        });
-    </script>
+        </script>
+    </div>
 </div>
-

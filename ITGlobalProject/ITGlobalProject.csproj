@@ -894,6 +894,7 @@
     <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\ApplyNgayNghiPhep.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\_ApplyNgayNghiPhep.cshtml" />
     <Content Include="Areas\Admins\Views\QuanLyLoaiNghiPhep\_chiTietApplyNgayNghiPhep.cshtml" />
+    <Content Include="Areas\Admins\Views\QuanLyDonNghiPhep\_lstLeaveTypeOfPersonal.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>

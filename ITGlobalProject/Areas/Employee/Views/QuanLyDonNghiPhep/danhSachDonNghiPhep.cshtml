@@ -5,8 +5,9 @@
     Layout = "~/Areas/Employee/Views/Shared/_EmployeeLayout.cshtml";
     int i = 0;
     var loainghiphep = Session["lst-leavetype"] as IEnumerable<LeaveType>;
+    CP25Team06Entities models = new CP25Team06Entities();
 }
-
+<input hidden id="currentyear" value="@DateTime.Now.Year" />
 <div class="container-fluid p-4">
     <div class="row ">
         <div class="col-lg-12 col-md-12 col-12">
@@ -80,7 +81,7 @@
                                         <th scope="col" class=" border-top-0">Ngày gửi</th>
                                         <th scope="col" class=" border-top-0">Loại Nghỉ Phép</th>
                                         <th scope="col" class=" border-top-0">Thời gian nghỉ</th>
-                                        <th scope="col" class=" border-top-0">ngày nghỉ</th>
+                                        <th scope="col" class=" border-top-0">Số ngày nghỉ</th>
                                         <th scope="col" class=" border-top-0">Nội dung</th>
                                         <th scope="col" class=" border-top-0"></th>
                                     </tr>
@@ -89,12 +90,23 @@
 
                                     @foreach (var item in Model)
                                     {
+                                        i++;
                                         <input hidden id="startDate-@item.ID" value="@item.StartDate.ToString("yyyy-MM-dd")" />
                                         <input hidden id="endDate-@item.ID" value="@item.EndDate.ToString("yyyy-MM-dd")" />
                                         <input hidden id="content-@item.ID" value="@item.Contents" />
                                         <input hidden id="leavetype-@item.ID" value="@item.ApplyLeaveType.ID_Leave_Type" />
+                                        <input hidden id="realleavedate-@item.ID" value="@item.RealLeaveDate.ToString("0.0").Replace(",",".")" />
 
-                                        i++;
+                                        int idleavetype = item.ApplyLeaveType.ID_Leave_Type;
+                                        int idemp = Int32.Parse(Session["user-id"].ToString());
+                                        var applyleavetype = models.ApplyLeaveType.FirstOrDefault(a => a.ID_Leave_Type == idleavetype && a.ID_Employee == idemp && a.LeavePeriod == DateTime.Now.Year);
+                                        var idapplyleavetype = applyleavetype.ID;
+                                        var tongSoNgayChoPhep = applyleavetype.Entitlement;
+
+                                        var lstSoNgayDaNghi = models.LeaveApplication.Where(l => l.ID_Employee == idemp && l.ID_ApplyLeaveType == idapplyleavetype).Sum(s => s.RealLeaveDate);
+                                        string contents = ((tongSoNgayChoPhep - lstSoNgayDaNghi) + item.RealLeaveDate) + " ngày";
+                                        <input hidden id="quantity-@item.ID" value="@contents" />
+
                                         <tr>
                                             <td class="align-middle border-top-0">@i</td>
                                             <td class="align-middle border-top-0">
@@ -110,7 +122,7 @@
                                                 <b>Đến:</b> @item.EndDate.ToString("dd-MM-yyyy")
                                             </td>
                                             <td class="align-middle border-top-0">
-                                                @((Convert.ToDateTime(item.EndDate.ToString("yyyy-MM-dd")).AddDays(1) - Convert.ToDateTime(item.StartDate.ToString("yyyy-MM-dd"))).TotalDays) ngày
+                                                @item.RealLeaveDate.ToString("0.0").Replace(",", ".") ngày
                                             </td>
                                             <td word-break: break-word" class="align-middle border-top-0">
                                                 @(string.IsNullOrEmpty(item.Contents) ? "Không có ghi chú nội dung" : item.Contents)
@@ -133,8 +145,11 @@
                                     $('#chinhsuangaybatdau').val($('#startDate-' + id).val());
                                     $('#chinhsuangayketthuc').val($('#endDate-' + id).val());
                                     $('#chinhsuanoidungcapnhat').val($('#content-' + id).val());
+                                    $('#chinhsuarealleavedate').val($('#realleavedate-' + id).val());
+                                    $('#chinhsuaquantityleavetype').text($('#quantity-' + id).val());
+
                                     $('#idDonChinhSua').val(id);
-                            
+
                                     $('#chinhsuadon').modal('toggle');
                                 });
                             });
@@ -155,7 +170,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="mb-3 col-md-12">
+                    <div class="mb-3 col-md-6">
                         <label style="font-weight:bold;" class="form-label" for="chinhsualoainghiphep">Loại Nghỉ Phép <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <select data-width="100%" name="chinhsualoainghiphep" class="selectpicker" id="chinhsualoainghiphep">
@@ -168,6 +183,10 @@
                             <p style="font-size: 13px; color:red;" id="chinhsualoainghiphepValidation"></p>
                         </div>
                     </div>
+                    <div class="mb-3 col-md-6">
+                        <label style="font-weight:bold;" class="form-label" for="firstName">Ngày nghỉ còn lại</label>
+                        <label readonly type="text" class="form-control" placeholder="Chọn ngày bắt đầu nghỉ" id="chinhsuaquantityleavetype">0 ngày</label>
+                    </div>
                     <div class="mb-2 col-12 col-md-6">
                         <label style="font-weight:bold;" class="form-label">Ngày bắt đầu <span class="text-danger">*</span></label>
                         <input hidden id="idDonChinhSua" />
@@ -178,7 +197,12 @@
                     <div class="mb-2 col-12 col-md-6">
                         <label style="font-weight:bold;" class="form-label">Ngày kết thúc <span class="text-danger">*</span></label>
                         <input type="text" class="form-control flatpickr" placeholder="Chọn ngày nghỉ cuối cùng" id="chinhsuangayketthuc" name="chinhsuangayketthuc" />
-                        <p hidden style="color: red; font-size: 13px" id="nchinhsuagayketthucValidation"></p>
+                        <p hidden style="color: red; font-size: 13px" id="chinhsuangayketthucValidation"></p>
+                    </div>
+                    <div class="mb-3 col-md-12">
+                        <label style="font-weight:bold;" class="form-label" for="firstName">Số ngày nghỉ (ngày) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Nhập số ngày nghỉ thực tế" id="chinhsuarealleavedate">
+                        <p hidden style="font-size: 13px; color:red;" id="chinhsuarealleavedateValidation"></p>
                     </div>
                     <div class="mb-2 col-12 col-md-12">
                         <label style="font-weight:bold;" class="form-label">Ghi chú </label>
@@ -213,7 +237,7 @@
             </div>
             <form class="modal-body">
                 <div class="row">
-                    <div class="mb-3 col-md-12">
+                    <div class="mb-3 col-md-6">
                         <label style="font-weight:bold;" class="form-label" for="loainghiphep">Loại Nghỉ Phép <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <select data-width="100%" name="loainghiphep" class="selectpicker" id="loainghiphep">
@@ -223,23 +247,32 @@
                                     <option value="@item.ID">@item.Name</option>
                                 }
                             </select>
-                            <p style="font-size: 13px; color:red;" id="loainghiphepValidation"></p>
+                            <p hidden style="font-size: 13px; color:red;" id="loainghiphepValidation"></p>
                         </div>
                     </div>
-                    <div class="mb-2 col-12 col-md-6">
+                    <div class="mb-3 col-md-6">
+                        <label style="font-weight:bold;" class="form-label" for="firstName">Ngày nghỉ còn lại</label>
+                        <label readonly type="text" class="form-control" placeholder="Chọn ngày bắt đầu nghỉ" id="quantityleavetype">0 ngày</label>
+                    </div>
+                    <div class="mb-3 col-12 col-md-6">
                         <label style="font-weight:bold;" class="form-label">Ngày bắt đầu <span class="text-danger">*</span></label>
                         <input type="text" class="form-control flatpickr" placeholder="Chọn ngày bắt đầu nghỉ" id="ngaybatdau" name="ngaybatdau" />
                         <p hidden style="color: red; font-size: 13px" id="ngaybatdauValidation"></p>
 
                     </div>
-                    <div class="mb-2 col-12 col-md-6">
+                    <div class="mb-3 col-12 col-md-6">
                         <label style="font-weight:bold;" class="form-label">Ngày kết thúc <span class="text-danger">*</span></label>
                         <input type="text" class="form-control flatpickr" placeholder="Chọn ngày nghỉ cuối cùng" id="ngayketthuc" name="ngayketthuc" />
                         <p hidden style="color: red; font-size: 13px" id="ngayketthucValidation"></p>
                     </div>
+                    <div class="mb-3 col-md-12">
+                        <label style="font-weight:bold;" class="form-label" for="firstName">Số ngày nghỉ (ngày) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Nhập số ngày nghỉ thực tế" id="realleavedate">
+                        <p hidden style="font-size: 13px; color:red;" id="realleavedateValidation"></p>
+                    </div>
                     <div class="mb-2 col-12 col-md-12">
                         <label style="font-weight:bold;" class="form-label">Ghi chú </label>
-                        <textarea id="noidungcapnhat" name="noidungcapnhat" class="form-control" rows="5"></textarea>
+                        <textarea id="noidungcapnhat" placeholder="Nhập nội dung ghi chú" name="noidungcapnhat" class="form-control" rows="5"></textarea>
                         <p hidden style="color: red; font-size: 13px" id="noidungcapnhatValidation"></p>
                     </div>
                 </div>

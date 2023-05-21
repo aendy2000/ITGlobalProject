@@ -16,6 +16,7 @@
                         <th scope="col" class="text-nowrap border-top-0">Nhân viên</th>
                         <th scope="col" class="text-nowrap  border-top-0">Loại nghỉ</th>
                         <th scope="col" class="text-nowrap border-top-0">Thời gian nghỉ</th>
+                        <th scope="col" class="text-nowrap  border-top-0">Số ngày nghỉ</th>
                         <th scope="col" class="text-nowrap border-top-0">Nội dung</th>
                         <th scope="col" class="text-nowrap border-top-0">Nội dung phản hồi</th>
                         @if (Session["TuChoiTabDonNghiPhep"] != null)
@@ -65,8 +66,9 @@
                                 <b>Từ:</b>  @item.StartDate.ToString("dd/MM/yyyy")
                                 <br />
                                 <b>Đến:</b> @item.EndDate.ToString("dd/MM/yyyy")
-                                <br />
-                                <b>Tổng:</b> @((Convert.ToDateTime(item.EndDate.ToString("yyyy-MM-dd")).AddDays(1) - Convert.ToDateTime(item.StartDate.ToString("yyyy-MM-dd"))).TotalDays) ngày
+                            </td>
+                            <td word-break: break-word" class="align-middle border-top-0">
+                                @item.RealLeaveDate.ToString("0.0").Replace(",", ".") ngày
                             </td>
                             <td word-break: break-word" class="align-middle border-top-0">
                                 @item.Contents

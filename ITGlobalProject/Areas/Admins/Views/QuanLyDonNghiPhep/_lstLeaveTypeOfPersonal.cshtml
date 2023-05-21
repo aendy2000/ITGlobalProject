@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ITGlobalProject.Models.LeaveType>
+
+<select data-width="100%" name="loainghiphep" id="loainghiphep">
+    <option selected value="">Chọn loại nghỉ phép</option>
+    @foreach (var item in Model)
+    {
+        <option value="@item.ID">@item.Name</option>
+    }
+</select>
+
+<script>
+    $(document).ready(function () {
+        //Chọn loại nghỉ phép => lấy số lượng còn có thể áp dụng của loại nghỉ phép của nv đó
+        $('#loainghiphep').on('change', function () {
+            var idemp = $('#nhanvien :selected').val();
+            var idleavetype = $(this).val();
+            var formData = new FormData();
+            formData.append('idemp', idemp);
+            formData.append('idleavetype', idleavetype);
+
+            $.ajax({
+                url: $('#requestPath').val() + "admins/quanlydonnghiphep/songayconlai",
+                data: formData,
+                type: "post",
+                dataType: "html",
+                processData: false,
+                contentType: false
+            }).done(function (ketqua) {
+                $('#quantityleavetype').text(ketqua);
+            });
+        });
+    });
+</script>

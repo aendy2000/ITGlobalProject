@@ -24,7 +24,8 @@ namespace ITGlobalProject.Models
         public Nullable<System.DateTime> ResponsiveDate { get; set; }
         public string Reply { get; set; }
         public bool OnWage { get; set; }
-        public Nullable<int> ID_ApplyLeaveType { get; set; }
+        public int ID_ApplyLeaveType { get; set; }
+        public decimal RealLeaveDate { get; set; }
     
         public virtual ApplyLeaveType ApplyLeaveType { get; set; }
         public virtual Employees Employees { get; set; }
