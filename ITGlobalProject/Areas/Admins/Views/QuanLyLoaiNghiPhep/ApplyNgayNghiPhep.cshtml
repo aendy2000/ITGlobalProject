@@ -112,7 +112,6 @@
                                     </th>
                                     <th class="border-0">Mã Nhân viên</th>
                                     <th class="border-0">Tên nhân viên</th>
-                                    <th class="border-0">Chức danh</th>
                                     <th class="border-0">Email</th>
                                     <th class="border-0">Ngày vào làm</th>
                                     <th class="border-0">Trạng thái</th>
@@ -151,7 +150,6 @@
                                                     <h5 class="mb-0">@item.Name</h5>
                                                 </a>
                                             </td>
-                                            <td class="align-middle">@item.Position.Name</td>
                                             <td class="align-middle">@item.WorkEmail</td>
                                             <td class="align-middle">@item.JoinedDate.ToString("dd/MM/yyyy")</td>
                                             <td class="align-middle">
@@ -195,7 +193,6 @@
                                                     <h5 class="mb-0">@item.Name</h5>
                                                 </a>
                                             </td>
-                                            <td class="align-middle">@item.Position.Name</td>
                                             <td class="align-middle">@item.WorkEmail</td>
                                             <td class="align-middle">@item.JoinedDate.ToString("dd/MM/yyyy")</td>
                                             @if (models.ApplyLeaveType.FirstOrDefault(a => a.LeavePeriod == year && a.ID_Employee == item.ID) == null)

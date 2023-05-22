@@ -30,7 +30,6 @@
         $('#emailvalidation').hide();
         $('#ngaysinhvalidation').hide();
         $('#gioitinhvalidation').hide();
-        $('#masothuevalidation').hide();
         $('#urlwebvalidation').hide();
         $('#diahchinhavalidation').hide();
 

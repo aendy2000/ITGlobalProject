@@ -55,6 +55,8 @@ $('[id^="chinhsua"]').on('click', function (e) {
 $('#luuChinhSua').on('click', function (e) {
     $('#EditLoaiNghiPhepValidateResul').prop('hidden', true).hide();
 
+    var formatss = /[`!*()\=\[\]{}#;'%:"\\|,^@&.+-_<>\/?~]/;
+
     var id = $('#idchinhsua').val();
     var name = $('#namechinhsua').val();
 
@@ -63,6 +65,9 @@ $('#luuChinhSua').on('click', function (e) {
     if (name.length == 0) {
         checkname = false;
         $('#EditLoaiNghiPhepValidateResul').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").prop('hidden', false).show();
+    } else if (formatss.test(name.toLowerCase().replace(/\d+/g, '')) == true) {
+        checkname = false;
+        $('#EditLoaiNghiPhepValidateResul').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").prop("hidden", false).show();
     } else if (name.length > 50) {
         checkname = false;
         $('#EditLoaiNghiPhepValidateResul').text("Nhập quá giới hạn ký tự! Vui lòng kiểm tra lại.").prop('hidden', false).show();
