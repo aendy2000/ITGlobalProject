@@ -268,7 +268,7 @@
           <Property Name="FamilyAllowances" Type="money" />
           <Property Name="TaxableSalary" Type="money" />
           <Property Name="TotalPriceTax" Type="money" />
-          <Property Name="NumberDaysLeave" Type="int" />
+          <Property Name="NumberDaysLeave" Type="decimal" Precision="5" Scale="2" />
           <Property Name="PriceForOneDayOff" Type="money" />
           <Property Name="Total_Price" Type="money" />
           <Property Name="State" Type="bit" />
@@ -1399,7 +1399,7 @@
           <Property Name="FamilyAllowances" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="TaxableSalary" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="TotalPriceTax" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="NumberDaysLeave" Type="Int32" />
+          <Property Name="NumberDaysLeave" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="PriceForOneDayOff" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Total_Price" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="State" Type="Boolean" />

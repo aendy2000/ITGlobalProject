@@ -37,7 +37,7 @@ namespace ITGlobalProject.Models
         public Nullable<decimal> FamilyAllowances { get; set; }
         public Nullable<decimal> TaxableSalary { get; set; }
         public Nullable<decimal> TotalPriceTax { get; set; }
-        public Nullable<int> NumberDaysLeave { get; set; }
+        public Nullable<decimal> NumberDaysLeave { get; set; }
         public Nullable<decimal> PriceForOneDayOff { get; set; }
         public Nullable<decimal> Total_Price { get; set; }
         public Nullable<bool> State { get; set; }

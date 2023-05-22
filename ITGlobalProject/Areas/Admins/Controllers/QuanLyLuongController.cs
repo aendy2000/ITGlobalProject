@@ -325,32 +325,48 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
                                                 var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
 
-                                                var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
+                                                var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
                                                 && l.State == true && l.OnWage == true).ToList();
-                                                int songaynghi = 0;
+                                                decimal songaynghi = 0;
                                                 foreach (var items in ngaynghi)
                                                 {
                                                     //Khoảng thời gian đầu trong tháng
                                                     if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate > endDate))
                                                     {
-                                                        songaynghi += (endDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += items.RealLeaveDate;
                                                     }
                                                     //Khoảng thời gian nằm trong tháng
                                                     else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                     {
-                                                        songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += items.RealLeaveDate;
                                                     }
                                                     //khoảng thời gian cuối trong tháng
                                                     else
                                                     {
-                                                        songaynghi += (items.EndDate.Day - strDate.Day) + 1;
+                                                        songaynghi += items.RealLeaveDate;
                                                     }
+                                                    var leaveDate = model.LeaveDate.Where(l => l.OnLeave.Where(o => o.ID_Employee == id).Count() > 0).ToList();
+                                                    foreach (var itemss in leaveDate)
+                                                    {
+                                                        if (Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) >= strDate && Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) <= endDate)
+                                                        {
+                                                            if (itemss.DateType.Equals("Nữa Ngày"))
+                                                            {
+                                                                songaynghi -= Convert.ToDecimal(0.5);
+                                                            }
+                                                            else
+                                                            {
+                                                                songaynghi -= 1;
 
+                                                            }
+                                                        }
+                                                    }
                                                 }
+                                                
                                                 currentPayroll.NumberDaysLeave = songaynghi;
 
                                                 //Tổng thanh toán cuối cùng
@@ -457,31 +473,46 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
                                                 var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
 
-                                                var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
+                                                var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
                                                 && l.State == true && l.OnWage == true).ToList();
-                                                int songaynghi = 0;
+                                                decimal songaynghi = 0;
                                                 foreach (var items in ngaynghi)
                                                 {
                                                     //Khoảng thời gian đầu trong tháng
                                                     if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate > endDate))
                                                     {
-                                                        songaynghi += (endDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += items.RealLeaveDate;
                                                     }
                                                     //Khoảng thời gian nằm trong tháng
                                                     else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                     {
-                                                        songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += items.RealLeaveDate;
                                                     }
                                                     //khoảng thời gian cuối trong tháng
                                                     else
                                                     {
-                                                        songaynghi += (items.EndDate.Day - strDate.Day) + 1;
+                                                        songaynghi += items.RealLeaveDate;
                                                     }
+                                                    var leaveDate = model.LeaveDate.Where(l => l.OnLeave.Where(o => o.ID_Employee == id).Count() > 0).ToList();
+                                                    foreach (var itemss in leaveDate)
+                                                    {
+                                                        if (Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) >= strDate && Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) <= endDate)
+                                                        {
+                                                            if (itemss.DateType.Equals("Nữa Ngày"))
+                                                            {
+                                                                songaynghi -= Convert.ToDecimal(0.5);
+                                                            }
+                                                            else
+                                                            {
+                                                                songaynghi -= 1;
 
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                                 currentPayroll.NumberDaysLeave = songaynghi;
 
@@ -1158,31 +1189,46 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
                                                 var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
 
-                                                var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
+                                                var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
                                                 && l.State == true && l.OnWage == true).ToList();
-                                                int songaynghi = 0;
+                                                decimal songaynghi = 0;
                                                 foreach (var items in ngaynghi)
                                                 {
                                                     //Khoảng thời gian đầu trong tháng
                                                     if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate > endDate))
                                                     {
-                                                        songaynghi += (endDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += items.RealLeaveDate;
                                                     }
                                                     //Khoảng thời gian nằm trong tháng
                                                     else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                     {
-                                                        songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += items.RealLeaveDate;
                                                     }
                                                     //khoảng thời gian cuối trong tháng
                                                     else
                                                     {
-                                                        songaynghi += (items.EndDate.Day - strDate.Day) + 1;
+                                                        songaynghi += items.RealLeaveDate;
                                                     }
+                                                    var leaveDate = model.LeaveDate.Where(l => l.OnLeave.Where(o => o.ID_Employee == id).Count() > 0).ToList();
+                                                    foreach (var itemss in leaveDate)
+                                                    {
+                                                        if (Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) >= strDate && Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) <= endDate)
+                                                        {
+                                                            if (itemss.DateType.Equals("Nữa Ngày"))
+                                                            {
+                                                                songaynghi -= Convert.ToDecimal(0.5);
+                                                            }
+                                                            else
+                                                            {
+                                                                songaynghi -= 1;
 
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                                 currentPayroll.NumberDaysLeave = songaynghi;
 
@@ -1313,31 +1359,46 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
                                                 var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
 
-                                                var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
+                                                var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
                                                 && l.State == true && l.OnWage == true).ToList();
-                                                int songaynghi = 0;
+                                                decimal songaynghi = 0;
                                                 foreach (var items in ngaynghi)
                                                 {
                                                     //Khoảng thời gian đầu trong tháng
                                                     if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate > endDate))
                                                     {
-                                                        songaynghi += (endDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += items.RealLeaveDate;
                                                     }
                                                     //Khoảng thời gian nằm trong tháng
                                                     else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                         && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                     {
-                                                        songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                        songaynghi += items.RealLeaveDate;
                                                     }
                                                     //khoảng thời gian cuối trong tháng
                                                     else
                                                     {
-                                                        songaynghi += (items.EndDate.Day - strDate.Day) + 1;
+                                                        songaynghi += items.RealLeaveDate;
                                                     }
+                                                    var leaveDate = model.LeaveDate.Where(l => l.OnLeave.Where(o => o.ID_Employee == id).Count() > 0).ToList();
+                                                    foreach (var itemss in leaveDate)
+                                                    {
+                                                        if (Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) >= strDate && Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) <= endDate)
+                                                        {
+                                                            if (itemss.DateType.Equals("Nữa Ngày"))
+                                                            {
+                                                                songaynghi -= Convert.ToDecimal(0.5);
+                                                            }
+                                                            else
+                                                            {
+                                                                songaynghi -= 1;
 
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                                 currentPayroll.NumberDaysLeave = songaynghi;
 
@@ -2069,31 +2130,46 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
                                             var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
 
-                                            var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
-                                            && ((l.StartDate >= strDate && l.StartDate <= endDate)
-                                            || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                            && l.State == true && l.OnWage == true).ToList();
-                                            int songaynghi = 0;
+                                            var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
+                                                && ((l.StartDate >= strDate && l.StartDate <= endDate)
+                                                || (l.EndDate >= strDate && l.EndDate <= endDate))
+                                                && l.State == true && l.OnWage == true).ToList();
+                                            decimal songaynghi = 0;
                                             foreach (var items in ngaynghi)
                                             {
                                                 //Khoảng thời gian đầu trong tháng
                                                 if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate > endDate))
                                                 {
-                                                    songaynghi += (endDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += items.RealLeaveDate;
                                                 }
                                                 //Khoảng thời gian nằm trong tháng
                                                 else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                 {
-                                                    songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += items.RealLeaveDate;
                                                 }
                                                 //khoảng thời gian cuối trong tháng
                                                 else
                                                 {
-                                                    songaynghi += (items.EndDate.Day - strDate.Day) + 1;
+                                                    songaynghi += items.RealLeaveDate;
                                                 }
+                                                var leaveDate = model.LeaveDate.Where(l => l.OnLeave.Where(o => o.ID_Employee == id).Count() > 0).ToList();
+                                                foreach (var itemss in leaveDate)
+                                                {
+                                                    if (Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) >= strDate && Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) <= endDate)
+                                                    {
+                                                        if (itemss.DateType.Equals("Nữa Ngày"))
+                                                        {
+                                                            songaynghi -= Convert.ToDecimal(0.5);
+                                                        }
+                                                        else
+                                                        {
+                                                            songaynghi -= 1;
 
+                                                        }
+                                                    }
+                                                }
                                             }
                                             currentPayroll.NumberDaysLeave = songaynghi;
 
@@ -2223,31 +2299,46 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
                                             var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
 
-                                            var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
-                                            && ((l.StartDate >= strDate && l.StartDate <= endDate)
-                                            || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                            && l.State == true && l.OnWage == true).ToList();
-                                            int songaynghi = 0;
+                                            var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
+                                                && ((l.StartDate >= strDate && l.StartDate <= endDate)
+                                                || (l.EndDate >= strDate && l.EndDate <= endDate))
+                                                && l.State == true && l.OnWage == true).ToList();
+                                            decimal songaynghi = 0;
                                             foreach (var items in ngaynghi)
                                             {
                                                 //Khoảng thời gian đầu trong tháng
                                                 if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate > endDate))
                                                 {
-                                                    songaynghi += (endDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += items.RealLeaveDate;
                                                 }
                                                 //Khoảng thời gian nằm trong tháng
                                                 else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                     && (items.EndDate >= strDate && items.EndDate <= endDate))
                                                 {
-                                                    songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                    songaynghi += items.RealLeaveDate;
                                                 }
                                                 //khoảng thời gian cuối trong tháng
                                                 else
                                                 {
-                                                    songaynghi += (items.EndDate.Day - strDate.Day) + 1;
+                                                    songaynghi += items.RealLeaveDate;
                                                 }
+                                                var leaveDate = model.LeaveDate.Where(l => l.OnLeave.Where(o => o.ID_Employee == id).Count() > 0).ToList();
+                                                foreach (var itemss in leaveDate)
+                                                {
+                                                    if (Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) >= strDate && Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) <= endDate)
+                                                    {
+                                                        if (itemss.DateType.Equals("Nữa Ngày"))
+                                                        {
+                                                            songaynghi -= Convert.ToDecimal(0.5);
+                                                        }
+                                                        else
+                                                        {
+                                                            songaynghi -= 1;
 
+                                                        }
+                                                    }
+                                                }
                                             }
                                             currentPayroll.NumberDaysLeave = songaynghi;
 
@@ -2977,31 +3068,46 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                         var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
                                         var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
 
-                                        var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
-                                        && ((l.StartDate >= strDate && l.StartDate <= endDate)
-                                        || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                        && l.State == true && l.OnWage == true).ToList();
-                                        int songaynghi = 0;
+                                        var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
+                                                && ((l.StartDate >= strDate && l.StartDate <= endDate)
+                                                || (l.EndDate >= strDate && l.EndDate <= endDate))
+                                                && l.State == true && l.OnWage == true).ToList();
+                                        decimal songaynghi = 0;
                                         foreach (var items in ngaynghi)
                                         {
                                             //Khoảng thời gian đầu trong tháng
                                             if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate > endDate))
                                             {
-                                                songaynghi += (endDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += items.RealLeaveDate;
                                             }
                                             //Khoảng thời gian nằm trong tháng
                                             else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate >= strDate && items.EndDate <= endDate))
                                             {
-                                                songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += items.RealLeaveDate;
                                             }
                                             //khoảng thời gian cuối trong tháng
                                             else
                                             {
-                                                songaynghi += (items.EndDate.Day - strDate.Day) + 1;
+                                                songaynghi += items.RealLeaveDate;
                                             }
+                                            var leaveDate = model.LeaveDate.Where(l => l.OnLeave.Where(o => o.ID_Employee == id).Count() > 0).ToList();
+                                            foreach (var itemss in leaveDate)
+                                            {
+                                                if (Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) >= strDate && Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) <= endDate)
+                                                {
+                                                    if (itemss.DateType.Equals("Nữa Ngày"))
+                                                    {
+                                                        songaynghi -= Convert.ToDecimal(0.5);
+                                                    }
+                                                    else
+                                                    {
+                                                        songaynghi -= 1;
 
+                                                    }
+                                                }
+                                            }
                                         }
                                         currentPayroll.NumberDaysLeave = songaynghi;
 
@@ -3131,31 +3237,46 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                         var strDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + "01");
                                         var endDate = Convert.ToDateTime(thang.ToString("yyyy-MM-") + DateTime.DaysInMonth(thang.Year, thang.Month).ToString());
 
-                                        var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
-                                        && ((l.StartDate >= strDate && l.StartDate <= endDate)
-                                        || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                        && l.State == true && l.OnWage == true).ToList();
-                                        int songaynghi = 0;
+                                        var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
+                                                && ((l.StartDate >= strDate && l.StartDate <= endDate)
+                                                || (l.EndDate >= strDate && l.EndDate <= endDate))
+                                                && l.State == true && l.OnWage == true).ToList();
+                                        decimal songaynghi = 0;
                                         foreach (var items in ngaynghi)
                                         {
                                             //Khoảng thời gian đầu trong tháng
                                             if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate > endDate))
                                             {
-                                                songaynghi += (endDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += items.RealLeaveDate;
                                             }
                                             //Khoảng thời gian nằm trong tháng
                                             else if ((items.StartDate >= strDate && items.StartDate <= endDate)
                                                 && (items.EndDate >= strDate && items.EndDate <= endDate))
                                             {
-                                                songaynghi += (items.EndDate.Day - items.StartDate.Day) + 1;
+                                                songaynghi += items.RealLeaveDate;
                                             }
                                             //khoảng thời gian cuối trong tháng
                                             else
                                             {
-                                                songaynghi += (items.EndDate.Day - strDate.Day) + 1;
+                                                songaynghi += items.RealLeaveDate;
                                             }
+                                            var leaveDate = model.LeaveDate.Where(l => l.OnLeave.Where(o => o.ID_Employee == id).Count() > 0).ToList();
+                                            foreach (var itemss in leaveDate)
+                                            {
+                                                if (Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) >= strDate && Convert.ToDateTime(strDate.Year + itemss.Date.ToString("-MM-dd")) <= endDate)
+                                                {
+                                                    if (itemss.DateType.Equals("Nữa Ngày"))
+                                                    {
+                                                        songaynghi -= Convert.ToDecimal(0.5);
+                                                    }
+                                                    else
+                                                    {
+                                                        songaynghi -= 1;
 
+                                                    }
+                                                }
+                                            }
                                         }
                                         currentPayroll.NumberDaysLeave = songaynghi;
 

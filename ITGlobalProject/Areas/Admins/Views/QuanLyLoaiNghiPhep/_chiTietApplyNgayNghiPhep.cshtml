@@ -47,7 +47,7 @@
                                 }
                             </td>
                             <td class="align-middle ">
-                                @item.Entitlement ngày
+                                @item.Entitlement.ToString("0.0").Replace(",", ".") ngày
                             </td>
                             <td class="align-middle ">
                                 @item.LeaveApplication.Sum(s => s.RealLeaveDate).ToString("0.0").Replace(",", ".") ngày

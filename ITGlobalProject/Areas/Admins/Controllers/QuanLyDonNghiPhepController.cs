@@ -193,11 +193,11 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (model.LeaveApplication.Where(l => l.ID_Employee == idemp && l.ID_ApplyLeaveType == idapplyleavetype).Count() > 0)
             {
                 var lstSoNgayDaNghi = model.LeaveApplication.Where(l => l.ID_Employee == idemp && l.ID_ApplyLeaveType == idapplyleavetype).Sum(s => s.RealLeaveDate);
-                return Content((tongSoNgayChoPhep - lstSoNgayDaNghi) + " ngày");
+                return Content((tongSoNgayChoPhep - lstSoNgayDaNghi).ToString("0.0").Replace(",", ".") + " ngày");
             }
             else
             {
-                return Content((tongSoNgayChoPhep) + " ngày");
+                return Content(tongSoNgayChoPhep.ToString("0.0").Replace(",", ".") + " ngày");
             }
         }
     }

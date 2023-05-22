@@ -265,7 +265,7 @@
                                 <tr>
                                     <td class="border-top-0 text-dark fw-medium">Nghỉ Phép</td>
                                     <td class="border-top-0 text-dark">
-                                        @Model.NumberDaysLeave Ngày x @Model.PriceForOneDayOff.Value.ToString("0,0").Replace(".", ",")
+                                        @Model.NumberDaysLeave.Value.ToString("0.0").Replace(",", ".") ngày x @Model.PriceForOneDayOff.Value.ToString("0,0").Replace(".", ",")
                                     </td>
                                     <td class="text-dark fw-bold  border-top-0 text-end">
                                         -@((Model.NumberDaysLeave * Model.PriceForOneDayOff.Value).Value.ToString("0,0").Replace(".", ",")) đ
