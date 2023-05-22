@@ -158,7 +158,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
             partner.Phone = phone.Trim();
             partner.Email = email.Trim();
-            partner.Birthday = Convert.ToDateTime(ngaysinh);
+            if (!string.IsNullOrEmpty(ngaysinh))
+                partner.Birthday = Convert.ToDateTime(ngaysinh);
             partner.Sex = gioitinh.Trim();
             partner.Address = diahchinha.Trim();
             partner.TaxCode = masothue.Trim();
@@ -300,7 +301,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             }
             kh.Phone = phone.Trim();
             kh.Email = email.Trim();
-            kh.Birthday = Convert.ToDateTime(ngaysinh);
+            if (!string.IsNullOrEmpty(ngaysinh))
+                kh.Birthday = Convert.ToDateTime(ngaysinh);
             kh.Sex = gioitinh.Trim();
             kh.Address = diahchinha.Trim();
             kh.TaxCode = masothue.Trim();

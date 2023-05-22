@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Tạo Dự Án Mới";
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
-    int i = 0;
+    int index = 0;
 }
 <div class="container-fluid p-4">
     <div id="frm">
@@ -358,13 +358,13 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            i++;
+                            index++;
                             <input hidden value="@item.ID" id="ids@(item.ID)" />
                             <input hidden value="@item.Company" id="companys@(item.ID)" />
                             <input hidden value="@item.Name" id="names@(item.ID)" />
                             <input hidden value="@item.Phone" id="sdts@(item.ID)" />
                             <input hidden value="@item.Email" id="emails@(item.ID)" />
-                            <input hidden value="@(item.Birthday.Value != null ? item.Birthday.Value.ToString("yyyy-MM-dd") : null)" id="sns@(item.ID)" />
+                            <input hidden value="@(item.Birthday == null ? "" : item.Birthday.Value.ToString("yyyy-MM-dd"))" id="sns@(item.ID)" />
                             <input hidden value="@item.Sex" id="gioitinhs@(item.ID)" />
                             <input hidden value="@item.Address" id="dcs@(item.ID)" />
                             <input hidden value="@item.CompanyOrPersonal.Value.ToString()" id="type@(item.ID)" />
@@ -373,7 +373,7 @@
 
                             <tr>
                                 <td hidden class="align-middle">
-                                    @i
+                                    @index
                                 </td>
                                 <td class="text-nowrap align-middle ps-5">
                                     <div class="form-check">

@@ -97,7 +97,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                     kh.Phone = lstphone[i].Trim();
                     kh.Email = lstemail[i].Trim();
-                    kh.Birthday = Convert.ToDateTime(lstngaysinh[i]);
+                    if (!string.IsNullOrEmpty(lstngaysinh[i].Trim()))
+                        kh.Birthday = Convert.ToDateTime(lstngaysinh[i]);
                     kh.Sex = lstgioitinh[i].Trim();
                     kh.Address = lstdiahchinha[i].Trim();
                     kh.TaxCode = lstmasothue[i].Trim();
@@ -400,7 +401,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                         kh.Phone = lstphone[i].Trim();
                         kh.Email = lstemail[i].Trim();
-                        kh.Birthday = Convert.ToDateTime(lstngaysinh[i]);
+                        if (!string.IsNullOrEmpty(lstngaysinh[i].Trim()))
+                            kh.Birthday = Convert.ToDateTime(lstngaysinh[i]);
                         kh.Sex = lstgioitinh[i].Trim();
                         kh.Address = lstdiahchinha[i].Trim();
                         kh.TaxCode = lstmasothue[i].Trim();
@@ -433,7 +435,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                         kh.Phone = lstphone[i].Trim();
                         kh.Email = lstemail[i].Trim();
-                        kh.Birthday = Convert.ToDateTime(lstngaysinh[i]);
+                        if (!string.IsNullOrEmpty(lstngaysinh[i].Trim()))
+                            kh.Birthday = Convert.ToDateTime(lstngaysinh[i]);
                         kh.Sex = lstgioitinh[i].Trim();
                         kh.Address = lstdiahchinha[i].Trim();
                         kh.TaxCode = lstmasothue[i].Trim();
