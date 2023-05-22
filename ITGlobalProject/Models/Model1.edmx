@@ -13,7 +13,7 @@
           <Property Name="ID_Leave_Type" Type="int" Nullable="false" />
           <Property Name="ID_Employee" Type="int" Nullable="false" />
           <Property Name="LeavePeriod" Type="int" Nullable="false" />
-          <Property Name="Entitlement" Type="int" Nullable="false" />
+          <Property Name="Entitlement" Type="decimal" Precision="5" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -169,7 +169,7 @@
           <Property Name="Reply" Type="nvarchar" MaxLength="200" />
           <Property Name="OnWage" Type="bit" Nullable="false" />
           <Property Name="ID_ApplyLeaveType" Type="int" Nullable="false" />
-          <Property Name="RealLeaveDate" Type="decimal" Precision="3" Scale="1" Nullable="false" />
+          <Property Name="RealLeaveDate" Type="decimal" Precision="5" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="LeaveDate">
           <Key>
@@ -1102,7 +1102,7 @@
           <Property Name="ID_Leave_Type" Type="Int32" Nullable="false" />
           <Property Name="ID_Employee" Type="Int32" Nullable="false" />
           <Property Name="LeavePeriod" Type="Int32" Nullable="false" />
-          <Property Name="Entitlement" Type="Int32" Nullable="false" />
+          <Property Name="Entitlement" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_ApplyLeaveType_Employees" FromRole="ApplyLeaveType" ToRole="Employees" />
           <NavigationProperty Name="LeaveType" Relationship="Self.FK_ApplyLeaveType_LeaveType" FromRole="ApplyLeaveType" ToRole="LeaveType" />
           <NavigationProperty Name="LeaveApplication" Relationship="Self.FK_LeaveApplication_ApplyLeaveType" FromRole="ApplyLeaveType" ToRole="LeaveApplication" />
@@ -1288,7 +1288,7 @@
           <Property Name="Reply" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="OnWage" Type="Boolean" Nullable="false" />
           <Property Name="ID_ApplyLeaveType" Type="Int32" Nullable="false" />
-          <Property Name="RealLeaveDate" Type="Decimal" Precision="3" Scale="1" Nullable="false" />
+          <Property Name="RealLeaveDate" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
           <NavigationProperty Name="ApplyLeaveType" Relationship="Self.FK_LeaveApplication_ApplyLeaveType" FromRole="LeaveApplication" ToRole="ApplyLeaveType" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_LeaveApplication_Employees" FromRole="LeaveApplication" ToRole="Employees" />
         </EntityType>

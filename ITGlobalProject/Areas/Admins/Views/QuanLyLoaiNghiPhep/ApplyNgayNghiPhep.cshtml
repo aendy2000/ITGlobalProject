@@ -3,7 +3,7 @@
 @{
     CP25Team06Entities models = new CP25Team06Entities();
     string exists = Session["exist-applyleave"].ToString();
-    var emp = models.Employees.Where(e => e.Lock == false && e.Wage > 0 && e.EmploymentContracts.Count() > 0).ToList();
+    var emp = models.Employees.Where(e => e.Lock == false).ToList();
     emp.Remove(models.Employees.Find(1));
 
     Layout = "~/Areas/Admins/Views/Shared/_AdminLayout.cshtml";
@@ -106,7 +106,7 @@
                                 <tr>
                                     <th class="border-0 font-size-inherit">
                                         <div class="form-check">
-                                            <input checked type="checkbox" class="form-check-input p-2" id="checkAlls" />
+                                            <input type="checkbox" class="form-check-input p-2" id="checkAlls" />
                                             <label class="form-check-label" for="checkAlls"></label>
                                         </div>
                                     </th>
@@ -128,7 +128,7 @@
 
                                             <td class="align-middle">
                                                 <div class="form-check">
-                                                    <input checked type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
+                                                    <input type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
                                                 </div>
                                             </td>
 
@@ -172,7 +172,7 @@
 
                                             <td class="align-middle">
                                                 <div class="form-check">
-                                                    <input checked type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
+                                                    <input type="checkbox" name="@item.ID" class="form-check-input p-2" id="@item.ID" />
                                                 </div>
                                             </td>
 

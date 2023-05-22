@@ -24,7 +24,7 @@ namespace ITGlobalProject.Models
         public int ID_Leave_Type { get; set; }
         public int ID_Employee { get; set; }
         public int LeavePeriod { get; set; }
-        public int Entitlement { get; set; }
+        public decimal Entitlement { get; set; }
     
         public virtual Employees Employees { get; set; }
         public virtual LeaveType LeaveType { get; set; }

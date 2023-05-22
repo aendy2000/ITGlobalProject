@@ -117,103 +117,255 @@
                 formData.append('loai', loai);
                 formData.append('nam', nam);
                 formData.append('lstId', lstId.substring(0, lstId.length - 1));
-                formData.append('ngayhuong', ngayhuong);
+                formData.append('ngayhuong', ngayhuong.replace(/,/g, '.'));
 
-                var SweetAlert2Demo = function () {
-                    var initDemos = function () {
-                        swal({
-                            title: 'Áp Dụng?',
-                            text: "Xác nhận áp dụng lọai nghỉ phép cho nhân viên năm này?",
-                            type: 'info',
-                            icon: 'info',
-                            buttons: {
-                                cancel: {
-                                    visible: true,
-                                    text: ' Hủy Bỏ ',
-                                    className: 'btn btn-danger'
-                                },
-                                confirm: {
-                                    text: 'Xác Nhận',
-                                    className: 'btn btn-success'
-                                }
-                            }
-                        }).then((xacnhan) => {
-                            if (xacnhan) {
-                                $('#AjaxLoader').show();
-                                $.ajax({
-                                    url: $('#requestPath').val() + 'Admins/QuanLyLoaiNghiPhep/ApplyNgayNghiPhep',
-                                    type: 'POST',
-                                    dataType: 'html',
-                                    contentType: false,
-                                    processData: false,
-                                    data: formData
-                                }).done(function (ketqua) {
-                                    $('#AjaxLoader').hide();
-                                    if (ketqua == "DANGNHAP") {
-                                        window.location.href = $('#requestPath').val() + 'quanlytaikhoan/dangxuat';
+                $.ajax({
+                    url: $('#requestPath').val() + 'Admins/QuanLyLoaiNghiPhep/kiemTraApplyNgayNghiPhep',
+                    type: 'POST',
+                    dataType: 'html',
+                    contentType: false,
+                    processData: false,
+                    data: formData
+                }).done(function (kiemtra) {
+                    if (kiemtra == "Already") {
+
+                        var SweetAlert2Demo = function () {
+                            var initDemos = function () {
+                                swal({
+                                    title: 'Áp Dụng?',
+                                    text: "Xác nhận áp dụng lọai nghỉ phép cho nhân viên năm này?",
+                                    type: 'info',
+                                    icon: 'info',
+                                    buttons: {
+                                        cancel: {
+                                            visible: true,
+                                            text: ' Hủy Bỏ ',
+                                            className: 'btn btn-danger'
+                                        },
+                                        confirm: {
+                                            text: 'Xác Nhận',
+                                            className: 'btn btn-success'
+                                        }
                                     }
-                                    else if (ketqua == "Erorr") {
-                                        var SweetAlert2Demo = function () {
-                                            var initDemos = function () {
-                                                swal("Thông báo!", "Đã có lỗi xảy ra trong quá trình thực hiện, vui lòng thử lại sau ít phút!", {
-                                                    icon: "danger",
-                                                    buttons: {
-                                                        confirm: {
-                                                            className: 'btn btn-success'
-                                                        }
-                                                    },
-                                                });
-                                            };
-                                            return {
-                                                init: function () {
-                                                    initDemos();
-                                                },
-                                            };
-                                        }();
+                                }).then((xacnhan) => {
+                                    if (xacnhan) {
+                                        $('#AjaxLoader').show();
+                                        $.ajax({
+                                            url: $('#requestPath').val() + 'Admins/QuanLyLoaiNghiPhep/ApplyNgayNghiPhep',
+                                            type: 'POST',
+                                            dataType: 'html',
+                                            contentType: false,
+                                            processData: false,
+                                            data: formData
+                                        }).done(function (ketqua) {
+                                            $('#AjaxLoader').hide();
+                                            if (ketqua == "DANGNHAP") {
+                                                window.location.href = $('#requestPath').val() + 'quanlytaikhoan/dangxuat';
+                                            }
+                                            else if (ketqua == "Erorr") {
+                                                var SweetAlert2Demo = function () {
+                                                    var initDemos = function () {
+                                                        swal("Thông báo!", "Đã có lỗi xảy ra trong quá trình thực hiện, vui lòng thử lại sau ít phút!", {
+                                                            icon: "danger",
+                                                            buttons: {
+                                                                confirm: {
+                                                                    className: 'btn btn-danger'
+                                                                }
+                                                            },
+                                                        });
+                                                    };
+                                                    return {
+                                                        init: function () {
+                                                            initDemos();
+                                                        },
+                                                    };
+                                                }();
 
-                                        jQuery(document).ready(function () {
-                                            SweetAlert2Demo.init();
-                                        });
-                                    } else {
-                                        $('#ContentsPartial').replaceWith(ketqua);
-                                        $('#namnghiphep').selectpicker();
-                                        $('#loainghiphep').selectpicker();
-                                        $('#dataTableBasic').DataTable();
-                                        var SweetAlert2Demo = function () {
-                                            var initDemos = function () {
-                                                swal("Thành Công!", "Đã áp dụng loại nghỉ phép cho nhân viên được chỉ định.", {
-                                                    icon: "success",
-                                                    buttons: {
-                                                        confirm: {
-                                                            className: 'btn btn-success'
-                                                        }
-                                                    },
+                                                jQuery(document).ready(function () {
+                                                    SweetAlert2Demo.init();
                                                 });
-                                            };
-                                            return {
-                                                init: function () {
-                                                    initDemos();
-                                                },
-                                            };
-                                        }();
+                                            } else {
+                                                $('#ContentsPartial').replaceWith(ketqua);
+                                                $('#namnghiphep').selectpicker();
+                                                $('#loainghiphep').selectpicker();
+                                                $('#dataTableBasic').DataTable();
+                                                var SweetAlert2Demo = function () {
+                                                    var initDemos = function () {
+                                                        swal("Thành Công!", "Đã áp dụng loại nghỉ phép cho nhân viên được chỉ định.", {
+                                                            icon: "success",
+                                                            buttons: {
+                                                                confirm: {
+                                                                    className: 'btn btn-success'
+                                                                }
+                                                            },
+                                                        });
+                                                    };
+                                                    return {
+                                                        init: function () {
+                                                            initDemos();
+                                                        },
+                                                    };
+                                                }();
 
-                                        jQuery(document).ready(function () {
-                                            SweetAlert2Demo.init();
+                                                jQuery(document).ready(function () {
+                                                    SweetAlert2Demo.init();
+                                                });
+                                            }
                                         });
                                     }
                                 });
-                            }
-                        });
-                    };
-                    return {
-                        init: function () {
-                            initDemos();
-                        },
-                    };
-                }();
+                            };
+                            return {
+                                init: function () {
+                                    initDemos();
+                                },
+                            };
+                        }();
 
-                jQuery(document).ready(function () {
-                    SweetAlert2Demo.init();
+                        jQuery(document).ready(function () {
+                            SweetAlert2Demo.init();
+                        });
+                    }
+                    else if (kiemtra.indexOf("OnlyExits~") != -1) {
+
+                        var data = kiemtra.split('~')[1];
+                        var result = "Loại nghỉ phép này đã được áp dụng cho các nhân viên:\n\n";
+                        var lstdata = data.split('#');
+                        for (var i = 0; i < lstdata.length; i++) {
+                            result += lstdata[i] + "\n";
+                        }
+
+                        result += "\nChọn xác nhận để ghi đè dữ liệu mới cho các nhân viên này!";
+
+                        var SweetAlert2Demo = function () {
+                            var initDemos = function () {
+                                swal({
+                                    title: 'Áp Dụng?',
+                                    text: result,
+                                    type: 'info',
+                                    icon: 'info',
+                                    buttons: {
+                                        cancel: {
+                                            visible: true,
+                                            text: ' Hủy Bỏ ',
+                                            className: 'btn btn-danger'
+                                        },
+                                        confirm: {
+                                            text: 'Xác Nhận',
+                                            className: 'btn btn-success'
+                                        }
+                                    }
+                                }).then((xacnhan) => {
+                                    if (xacnhan) {
+                                        if (xacnhan) {
+                                            $('#AjaxLoader').show();
+                                            $.ajax({
+                                                url: $('#requestPath').val() + 'Admins/QuanLyLoaiNghiPhep/ApplyNgayNghiPhep',
+                                                type: 'POST',
+                                                dataType: 'html',
+                                                contentType: false,
+                                                processData: false,
+                                                data: formData
+                                            }).done(function (ketqua) {
+                                                $('#AjaxLoader').hide();
+                                                if (ketqua == "DANGNHAP") {
+                                                    window.location.href = $('#requestPath').val() + 'quanlytaikhoan/dangxuat';
+                                                }
+                                                else if (ketqua == "Erorr") {
+                                                    var SweetAlert2Demo = function () {
+                                                        var initDemos = function () {
+                                                            swal("Thông báo!", "Đã có lỗi xảy ra trong quá trình thực hiện, vui lòng thử lại sau ít phút!", {
+                                                                icon: "danger",
+                                                                buttons: {
+                                                                    confirm: {
+                                                                        className: 'btn btn-success'
+                                                                    }
+                                                                },
+                                                            });
+                                                        };
+                                                        return {
+                                                            init: function () {
+                                                                initDemos();
+                                                            },
+                                                        };
+                                                    }();
+
+                                                    jQuery(document).ready(function () {
+                                                        SweetAlert2Demo.init();
+                                                    });
+                                                } else {
+                                                    $('#ContentsPartial').replaceWith(ketqua);
+                                                    $('#namnghiphep').selectpicker();
+                                                    $('#loainghiphep').selectpicker();
+                                                    $('#dataTableBasic').DataTable();
+                                                    var SweetAlert2Demo = function () {
+                                                        var initDemos = function () {
+                                                            swal("Thành Công!", "Đã áp dụng loại nghỉ phép cho nhân viên được chỉ định.", {
+                                                                icon: "success",
+                                                                buttons: {
+                                                                    confirm: {
+                                                                        className: 'btn btn-success'
+                                                                    }
+                                                                },
+                                                            });
+                                                        };
+                                                        return {
+                                                            init: function () {
+                                                                initDemos();
+                                                            },
+                                                        };
+                                                    }();
+
+                                                    jQuery(document).ready(function () {
+                                                        SweetAlert2Demo.init();
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            };
+                            return {
+                                init: function () {
+                                    initDemos();
+                                },
+                            };
+                        }();
+
+                        jQuery(document).ready(function () {
+                            SweetAlert2Demo.init();
+                        });
+                    }
+                    else if (kiemtra.indexOf("OnlyMax~") != -1) {
+
+                        var data = kiemtra.split('~')[1];
+                        var result = "Loại nghỉ phép này đã được dùng cho một số đơn nghỉ phép của một số nhân viên. Không thể thay đổi số ngày nghỉ nhỏ hơn tổng số ngày đã được sử dụng cho đơn nghỉ phép của loại nghỉ phép này, vui lòng điều chỉnh lại thông số tối thiểu cho một số nhân viên sau: \n\n";
+                        var lstdata = data.split('#');
+                        for (var i = 0; i < lstdata.length; i++) {
+                            result += lstdata[i] + "\n";
+                        }
+                        var SweetAlert2Demo = function () {
+                            var initDemos = function () {
+                                swal("Thông báo!", result, {
+                                    icon: "warning",
+                                    buttons: {
+                                        confirm: {
+                                            className: 'btn btn-warning'
+                                        }
+                                    },
+                                });
+                            };
+                            return {
+                                init: function () {
+                                    initDemos();
+                                },
+                            };
+                        }();
+
+                        jQuery(document).ready(function () {
+                            SweetAlert2Demo.init();
+                        });
+                    }
                 });
             }
             else {

@@ -26,11 +26,11 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             ViewBag.ShowActive = "ApplyNgayNghiPhep";
             var lstLeaveType = model.LeaveType.OrderByDescending(o => o.ID).ToList();
             int year = DateTime.Now.Year;
-            Session["exist-applyleave"] = model.ApplyLeaveType.FirstOrDefault(a => a.LeavePeriod == year) != null ? "yes" : "no" ;
+            Session["exist-applyleave"] = model.ApplyLeaveType.FirstOrDefault(a => a.LeavePeriod == year) != null ? "yes" : "no";
             return View("ApplyNgayNghiPhep", lstLeaveType);
         }
         [HttpPost]
-        public ActionResult ApplyNgayNghiPhep(int nam, int loai, string lstId, int ngayhuong)
+        public ActionResult ApplyNgayNghiPhep(int nam, int loai, string lstId, decimal ngayhuong)
         {
             var lstidEmp = lstId.Split('-').ToList();
             foreach (var item in lstidEmp)
@@ -141,6 +141,49 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
             var lstLoaiNghiPhep = model.LeaveType.OrderByDescending(d => d.ID).ToList();
             return PartialView("_danhSachLoaiNghiPhepPartial", lstLoaiNghiPhep);
+        }
+        [HttpPost]
+        public ActionResult kiemTraApplyNgayNghiPhep(int nam, int loai, string lstId, decimal ngayhuong)
+        {
+            var lstidEmp = lstId.Split('-').ToList();
+            string resultDaTonTaiLoaiNghi = "";
+            string resultQuaNgayDaNghi = "";
+            foreach (var item in lstidEmp)
+            {
+                int idemp = Int32.Parse(item);
+
+                var period = model.ApplyLeaveType.FirstOrDefault(a => a.LeavePeriod == nam && a.ID_Employee == idemp && a.ID_Leave_Type == loai);
+                if (period != null)
+                {
+                    resultDaTonTaiLoaiNghi += period.Employees.ID_Employee.ToString() + " - " + period.Employees.Name + ": " + period.Entitlement + " ngày.#";
+                }
+
+                var applyleavetype = model.ApplyLeaveType.FirstOrDefault(a => a.ID_Leave_Type == loai && a.ID_Employee == idemp && a.LeavePeriod == nam);
+                decimal SoNgayDaNghi = 0;
+                if (applyleavetype != null)
+                    if (model.LeaveApplication.Where(l => l.ID_Employee == idemp && l.ID_ApplyLeaveType == applyleavetype.ID).Count() > 0)
+                        SoNgayDaNghi = model.LeaveApplication.Where(l => l.ID_Employee == idemp && l.ID_ApplyLeaveType == applyleavetype.ID).Sum(s => s.RealLeaveDate);
+
+                if (SoNgayDaNghi != 0)
+                    if (SoNgayDaNghi > ngayhuong)
+                        resultQuaNgayDaNghi += model.Employees.Find(idemp).ID_Employee +" - " + model.Employees.Find(idemp).Name + ": " + SoNgayDaNghi.ToString("0.0").Replace(",", ".") + " ngày trở lên.#";
+            }
+
+            if (string.IsNullOrEmpty(resultQuaNgayDaNghi))
+            {
+                if (string.IsNullOrEmpty(resultDaTonTaiLoaiNghi))
+                {
+                    return Content("Already");
+                }
+                else
+                {
+                    return Content("OnlyExits~" + resultDaTonTaiLoaiNghi.Substring(0, resultDaTonTaiLoaiNghi.Length - 1));
+                }
+            }
+            else
+            {
+                return Content("OnlyMax~" + resultQuaNgayDaNghi.Substring(0, resultQuaNgayDaNghi.Length - 1));
+            }
         }
     }
 }
