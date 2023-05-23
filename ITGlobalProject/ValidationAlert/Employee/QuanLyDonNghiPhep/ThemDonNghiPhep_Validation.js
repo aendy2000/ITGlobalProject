@@ -164,7 +164,7 @@
                     });
                 }
                 else if (ketqua == "TRUNG") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thông Báo!", "Đơn nghỉ phép có ngày nghỉ đã bị trùng với đơn nghỉ phép khác của bạn, vui lòng kiểm tra lại!", {
@@ -201,7 +201,7 @@
                     });
 
                     $('#dongchinhsuaThemMoi').click();
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thành Công!", "Đã thêm một đơn xin nghỉ phép!", {

@@ -129,7 +129,7 @@
             formData.append('contents', ghichu);
             formData.append("realleavedate", realleavedate);
 
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + "employee/quanlydonnghiphep/capNhat",
                 data: formData,
@@ -143,7 +143,7 @@
                     window.location.href = $('#requestPath').val() + "admins/quanlytaikhoan/dangnhap";
                 }
                 else if (ketqua == "TRUNG") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thông Báo!", "Đơn nghỉ phép có ngày nghỉ đã bị trùng với đơn nghỉ phép khác của bạn, vui lòng kiểm tra lại!", {
@@ -170,7 +170,7 @@
                     $('#chinhsuaDong').click();
                     $('#tabContentsss').replaceWith(ketqua);
                     $("#dataTableBasic").DataTable();
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thành Công!", "Đã cập nhật thông tin đơn xin nghỉ phép!", {

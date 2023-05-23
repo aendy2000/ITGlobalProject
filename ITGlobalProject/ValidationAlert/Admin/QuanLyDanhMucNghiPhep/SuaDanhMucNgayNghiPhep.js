@@ -59,7 +59,7 @@
             formData.append('date', date);
             formData.append('datetype', datetype);
 
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + "Admins/QuanLyDanhMucNgayNghiPhep/chinhSuaDanhMucNgayNghiPhep",
                 type: 'POST',
@@ -75,7 +75,7 @@
                     $('#danhSachPartial').replaceWith(ketqua);
                     $('#dataTableBasic').DataTable();
                     $('#date').flatpickr();
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thành Công!", "Bạn đã cập nhật thành công.", {

@@ -417,7 +417,7 @@
             var nam = $(this).val();
             var formData = new FormData();
             formData.append("nam", nam);
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + "admins/dashboard/chonxemdoanhthu",
                 type: 'POST',
@@ -436,7 +436,7 @@
                     })
                 ).done(function () {
                 });
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
             });
         });
     });

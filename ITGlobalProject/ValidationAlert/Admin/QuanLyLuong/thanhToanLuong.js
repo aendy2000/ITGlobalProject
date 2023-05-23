@@ -51,7 +51,7 @@
                     }
                 }).then((thanhtoan) => {
                     if (thanhtoan) {
-                        $('#AjaxLoader').show();
+                        $('#AjaxLoader').fadeIn('slow');
                         $.ajax({
                             url: $("#requestPath").val() + 'Admins/quanlyluong/thanhtoanluong',
                             data: formData,
@@ -60,7 +60,7 @@
                             contentType: false,
                             processData: false
                         }).done(function (ketqua) {
-                            $('#AjaxLoader').hide();
+                            $('#AjaxLoader').fadeOut('slow');
                             $('#modalchitietluong').replaceWith(ketqua);
                             $('#tdTrangThai-' + id).empty().append('<span style="width:110px" class="badge text-success bg-light-success ">Đã thanh toán</span>');
 
@@ -139,7 +139,7 @@
                     }
                 }).then((huythanhtoan) => {
                     if (huythanhtoan) {
-                        $('#AjaxLoader').show();
+                        $('#AjaxLoader').fadeIn('slow');
                         $.ajax({
                             url: $("#requestPath").val() + 'Admins/quanlyluong/thanhtoanluong',
                             data: formData,
@@ -152,7 +152,7 @@
                                 window.location.href = $('#requestPath').val() + "admins/quanlytaikhoan/dangnhap";
                             }
                             else {
-                                $('#AjaxLoader').hide();
+                                $('#AjaxLoader').fadeOut('slow');
                                 $('#modalchitietluong').replaceWith(ketqua);
                                 $('#tdTrangThai-' + id).empty().append('<span style="width:110px" class="badge text-danger bg-light-danger ">Chưa thanh toán</span>');
 

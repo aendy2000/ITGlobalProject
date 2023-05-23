@@ -4,7 +4,7 @@
         var id = $('#idpro').val();
         var formData = new FormData();
         formData.append("id", id);
-        $('#AjaxLoader').show();
+        $('#AjaxLoader').fadeIn('slow');
         $.ajax({
             url: $('#requestPath').val() + "Admins/quanlyduan/chinhsuachiphi",
             type: 'POST',
@@ -14,7 +14,7 @@
             data: formData
         }).done(function (ketqua) {
             if (ketqua == "DANHSACH") {
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 window.location.href = $('#requestPath').val() + "Admins/quanlyduan/danhsachduan";
             } else {
                 $('#cnfrm').replaceWith(ketqua);
@@ -28,7 +28,7 @@
                 } else {
                     $('#cnsums').val(totals);
                 }
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
 
                 if ($("input").length && Inputmask().mask(document.querySelectorAll("input")), $("#editor").length) new Quill("#editor", {
                     modules: {
@@ -160,7 +160,7 @@
                             var formData = new FormData();
                             formData.append('id', id);
                             formData.append('price', price);
-                            $('#AjaxLoader').show();
+                            $('#AjaxLoader').fadeIn('slow');
                             $.ajax({
                                 url: $('#requestPath').val() + "Admins/quanlyduan/thanhToanCongNo",
                                 type: 'POST',
@@ -170,7 +170,7 @@
                                 data: formData
                             }).done(function (ketqua) {
                                 if (ketqua == "DANHSACH") {
-                                    $('#AjaxLoader').hide();
+                                    $('#AjaxLoader').fadeOut('slow');
                                     window.location.href = $('#requestPath').val() + "Admins/quanlyduan/danhsachduan";
                                 } else {
                                     $('#ThanhToanModal').modal('toggle');
@@ -187,7 +187,7 @@
                                             })
                                         ).done(function () { });
 
-                                        $('#AjaxLoader').hide();
+                                        $('#AjaxLoader').fadeOut('slow');
 
                                         var content = {};
                                         content.message = 'Đã thêm khoản thanh toán cho ' + $('#tongTien' + id).attr("name");

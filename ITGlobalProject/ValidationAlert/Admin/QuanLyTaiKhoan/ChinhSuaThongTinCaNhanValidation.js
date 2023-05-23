@@ -200,7 +200,7 @@
         if (checkshoten === true && checkscmnd === true && checkssodienthoai === true && checksngaysinh === true &&
             checksgioitinh === true && checksdiachiemail === true && checksdiachinha === true) {
             e.preventDefault();
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             var formData = new FormData();
             formData.append('AvatarImg', $("#selectFiles")[0].files[0]);
             formData.append('ids', id);
@@ -222,7 +222,7 @@
                 processData: false,
                 data: formData
             }).done(function (ketqua) {
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 if (ketqua === "Đã có xảy ra lỗi, vui lòng thử lại") {
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {

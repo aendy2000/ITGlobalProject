@@ -26,7 +26,7 @@
 
 $(document).ready(function () {
     $('#guiLaiMa').on('click', function (e) {
-        $('#AjaxLoader').show(); 
+        $('#AjaxLoader').fadeIn('slow'); 
         e.preventDefault();
         var emails = $('#emailNe').val();
         let urls = $('#actionDatLaiMatKhau').data('request-url');
@@ -37,7 +37,7 @@ $(document).ready(function () {
             data: { email: emails }
         }).done(function (ketqua) {
             window.location.href = $('#actionDatLaiMatKhauSuccess').data('request-url');
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
         });
     });
 
@@ -77,7 +77,7 @@ $(document).ready(function () {
         }
 
         if (checkMa === true) {
-            $('#AjaxLoader').show();  
+            $('#AjaxLoader').fadeIn('slow');  
             e.preventDefault();
             let valuema = $('#maXacThuc').val();
             let emails = $('#emailNe').val();
@@ -89,11 +89,11 @@ $(document).ready(function () {
                 data: { ma: valuema, email: emails }
             }).done(function (ketqua) {
                 if (ketqua === "SAIMA") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     $('#UsernameValidateResul').text("Mã xác nhận chưa đúng! Vui lòng kiểm tra lại.").show();
                 }
                 else if (ketqua === "HETHANMA") {
-                    $('#AjaxLoader').hide(); 
+                    $('#AjaxLoader').fadeOut('slow'); 
                     swal("Thông Báo!", "Mã của bạn đã quá hạn, chúng tôi sẽ gửi cho bạn một mã mới!", {
                         icon: "error",
                         buttons: {
@@ -102,7 +102,7 @@ $(document).ready(function () {
                             }
                         },
                     }).then(function () {
-                        $('#AjaxLoader').show();  
+                        $('#AjaxLoader').fadeIn('slow');  
                         e.preventDefault();
                         var emails = $('#emailNe').val();
                         let urls = $('#actionDatLaiMatKhau').data('request-url');
@@ -113,18 +113,18 @@ $(document).ready(function () {
                             data: { email: emails }
                         }).done(function (ketqua) {
                             window.location.href = $('#actionDatLaiMatKhauSuccess').data('request-url');
-                            $('#AjaxLoader').hide();  
+                            $('#AjaxLoader').fadeOut('slow');  
                         });
                     });
 
                 }
                 else if (ketqua === "SUCCESS") {
                     window.location.href = $('#actionSuccess').data('request-url');
-                    $('#AjaxLoader').hide();  
+                    $('#AjaxLoader').fadeOut('slow');  
                 }
                 else if (ketqua === "DANGNHAP") {
                     window.location.href = $('#actionFailed').data('request - url');
-                    $('#AjaxLoader').hide();  
+                    $('#AjaxLoader').fadeOut('slow');  
                 }
             });
         }
@@ -174,7 +174,7 @@ $(document).ready(function () {
         //}
 
         //if (checkMa === true) {
-        //    $('#AjaxLoader').show();
+        //    $('#AjaxLoader').fadeIn('slow');
         //    e.preventDefault();
         //    let valuema = $('#maXacThuc').val();
         //    let emails = $('#emailNe').val();
@@ -186,11 +186,11 @@ $(document).ready(function () {
         //        data: { ma: valuema, email: emails }
         //    }).done(function (ketqua) {
         //        if (ketqua === "SAIMA") {
-        //            $('#AjaxLoader').hide();
+        //            $('#AjaxLoader').fadeOut('slow');
         //            $('#UsernameValidateResul').text("Mã xác nhận chưa đúng! Vui lòng kiểm tra lại.").show();
         //        }
         //        else if (ketqua === "HETHANMA") {
-        //            $('#AjaxLoader').hide();
+        //            $('#AjaxLoader').fadeOut('slow');
         //            swal("Thông Báo!", "Mã của bạn đã quá hạn, chúng tôi sẽ gửi cho bạn một mã mới!", {
         //                icon: "error",
         //                buttons: {
@@ -199,7 +199,7 @@ $(document).ready(function () {
         //                    }
         //                },
         //            }).then(function () {
-        //                $('#AjaxLoader').show();
+        //                $('#AjaxLoader').fadeIn('slow');
         //                e.preventDefault();
         //                var emails = $('#emailNe').val();
         //                let urls = $('#actionDatLaiMatKhau').data('request-url');
@@ -210,18 +210,18 @@ $(document).ready(function () {
         //                    data: { email: emails }
         //                }).done(function (ketqua) {
         //                    window.location.href = $('#actionDatLaiMatKhauSuccess').data('request-url');
-        //                    $('#AjaxLoader').hide();
+        //                    $('#AjaxLoader').fadeOut('slow');
         //                });
         //            });
 
         //        }
         //        else if (ketqua === "SUCCESS") {
         //            window.location.href = $('#actionSuccess').data('request-url');
-        //            $('#AjaxLoader').hide();
+        //            $('#AjaxLoader').fadeOut('slow');
         //        }
         //        else if (ketqua === "DANGNHAP") {
         //            window.location.href = $('#actionFailed').data('request - url');
-        //            $('#AjaxLoader').hide();
+        //            $('#AjaxLoader').fadeOut('slow');
         //        }
         //    });
         //}

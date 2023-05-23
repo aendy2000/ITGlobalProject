@@ -1,7 +1,7 @@
 ﻿
     $(document).ajaxStart(function () {  
-        $('#AjaxLoader').show();  
+        $('#AjaxLoader').fadeIn('slow');  
     })  
     .ajaxStop(function () {  
-        $('#AjaxLoader').hide();  
+        $('#AjaxLoader').fadeOut('slow');  
     });  

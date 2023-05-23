@@ -5,7 +5,7 @@
         var formData = new FormData();
         formData.append('id', id);
 
-        $('#AjaxLoader').show();
+        $('#AjaxLoader').fadeIn('slow');
         $.ajax({
             url: $("#requestPath").val() + 'Admins/quanlyluong/chitietluong',
             data: formData,
@@ -14,7 +14,7 @@
             contentType: false,
             processData: false
         }).done(function (ketqua) {
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
             $('#modalchitietluong').replaceWith(ketqua);
             $.when(
                 $.getScript($('#requestPath').val() + 'Content/jspdf.debug.js', integrity = "sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs", crossorigin = "anonymous"),

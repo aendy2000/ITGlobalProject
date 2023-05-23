@@ -26,7 +26,7 @@
                         formData.append('id', name);
                         formData.append('active', "danhSachTinTuyenDung");
 
-                        $('#AjaxLoader').show();
+                        $('#AjaxLoader').fadeIn('slow');
                         $.ajax({
                             url: $('#requestPath').val() + 'Admins/QuanLyTinTuyenDung/XoaTinTuyenDung',
                             type: 'POST',
@@ -48,7 +48,7 @@
                                     })
                                 ).done(function () {
                                 });
-                                $('#AjaxLoader').hide();
+                                $('#AjaxLoader').fadeOut('slow');
                                 var SweetAlert2Demo = function () {
                                     var initDemos = function () {
                                         swal("Thành Công!", "Bạn đã xóa thành công.", {

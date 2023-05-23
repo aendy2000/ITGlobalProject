@@ -14,7 +14,7 @@
             var formData = new FormData();
             formData.append('lstNhanVien', $("#fileimport")[0].files[0]);
 
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'Admins/QuanLyNhanSu/imPortNhanVien',
                 type: 'POST',
@@ -25,7 +25,7 @@
             }).done(function (ketqua) {
                 $('#fileimport').val(null);
                 if (ketqua == "INCORRECT") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thông báo!", "Dữ liệu file được nhập chưa đúng,\nvui lòng kiểm tra và thực hiện lại.", {
@@ -49,14 +49,14 @@
                     });
                 }
                 else if (ketqua == "DANHSACH") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     window.location.href = $('#requestPath').val() + "admins/quanlynhansu/danhsachnhanvien";
                 } else if (ketqua == "DANGNHAP") {
                     window.location.href = $('#requestPath').val() + "admins/quanlytaikhoan/dangnhap";
                 }
                 else {
                     $('#lstTempDataEmployee').replaceWith(ketqua);
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     $('#openListEmployeeTemp').click();
 
                     $.when(

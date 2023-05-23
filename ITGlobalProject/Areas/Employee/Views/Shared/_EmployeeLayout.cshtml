@@ -502,7 +502,7 @@
 
     <script>
         $(window).on('load', function () {
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'Admins/ThongTinDoiTac/guiMail',
                 type: "GET",

@@ -700,7 +700,7 @@
             formData.append('loaidoitac', loaidoitac.substring(0, loaidoitac.length - 1));
             formData.append('idpart', idkhs.substring(0, idkhs.length - 1));
 
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'Admins/QuanLyDuAn/chinhSuaDuAn',
                 type: 'POST',
@@ -709,7 +709,7 @@
                 processData: false,
                 data: formData
             }).done(function (ketqua) {
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 if (ketqua === "Đã có xảy ra lỗi, vui lòng thử lại") {
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
@@ -852,7 +852,7 @@
             formData.append('ketthuc', ketthuc);
             formData.append('id', id.substring(0, id.length - 1));
 
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'Admins/QuanLyDuAn/chinhSuaDuAn',
                 type: 'POST',
@@ -861,7 +861,7 @@
                 processData: false,
                 data: formData
             }).done(function (ketqua) {
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 if (ketqua == "Đã có xảy ra lỗi, vui lòng thử lại") {
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {

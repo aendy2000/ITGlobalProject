@@ -195,7 +195,7 @@
             formData.append('diachiemailkhac', diachiemailkhac);
 
             e.preventDefault();
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'employee/quanlytaikhoan/chinhSuaThongTinCaNhan',
                 type: 'POST',
@@ -204,7 +204,7 @@
                 processData: false,
                 data: formData
             }).done(function (ketqua) {
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 if (ketqua == "Đã có xảy ra lỗi, vui lòng thử lại!") {
                     alert("Đã có xảy ra lỗi, vui lòng thử lại!");
                 }

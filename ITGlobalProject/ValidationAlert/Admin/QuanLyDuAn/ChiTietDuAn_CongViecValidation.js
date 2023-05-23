@@ -28,7 +28,7 @@
                         formData.append('id', id);
                         formData.append('idpro', idpro);
 
-                        $('#AjaxLoader').show();
+                        $('#AjaxLoader').fadeIn('slow');
                         $.ajax({
                             url: $('#requestPath').val() + 'Admins/QuanLyDuAn/xoaTask',
                             type: 'POST',
@@ -39,7 +39,7 @@
                             data: formData
                         }).done(function (ketqua) {
                             if (ketqua == "Đã có lỗi xảy ra, vui lòng thử lại") {
-                                $('#AjaxLoader').hide();
+                                $('#AjaxLoader').fadeOut('slow');
                                 var SweetAlert2Demo = function () {
                                     var initDemos = function () {
                                         swal("Thông Báo!", "Đã có xảy ra lỗi, vui lòng thử lại sau", {
@@ -63,7 +63,7 @@
                                 });
                             }
                             else if (ketqua === "DANHSACH") {
-                                $('#AjaxLoader').hide();
+                                $('#AjaxLoader').fadeOut('slow');
                                 window.location.href = $('#requestPath').val() + 'Admins/QuanLyDuAn/danhSachDuAn';
                             }
                             else {
@@ -83,7 +83,7 @@
                                         $(deferred.resolve);
                                     })
                                 ).done(function () { });
-                                $('#AjaxLoader').hide();
+                                $('#AjaxLoader').fadeOut('slow');
                                 var content = {};
                                 content.message = 'Bạn đã xóa thành công.';
                                 content.title = 'Thành công!';
@@ -126,7 +126,7 @@
         id = $(this).attr("name");
         var formData = new FormData();
         formData.append('id', id);
-        $('#AjaxLoader').show();
+        $('#AjaxLoader').fadeIn('slow');
         $.ajax({
             url: $('#requestPath').val() + 'Admins/QuanLyDuAn/xemChinhSuaTask',
             type: 'POST',
@@ -136,7 +136,7 @@
             data: formData
         }).done(function (ketqua) {
             if (ketqua == "DANHSACH") {
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 window.location.href = $('#requestPath').val() + 'Admins/QuanLyDuAn/danhSachDuAn';
             }
             else {
@@ -151,7 +151,7 @@
                     style: "text-dark btn-sm"
                 });
 
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 $('#edittaskModal').modal('toggle');
             }
         });
@@ -225,7 +225,7 @@
             formData.append('deadline', deadline);
             formData.append('estimate', estimate.replace(",", "."));
 
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'Admins/QuanLyDuAn/themCongViec',
                 type: 'POST',
@@ -235,7 +235,7 @@
                 data: formData
             }).done(function (ketqua) {
                 if (ketqua === "Đã có lỗi xảy ra, vui lòng thử lại") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thông Báo!", "Đã có xảy ra lỗi, vui lòng thử lại sau", {
@@ -259,7 +259,7 @@
                     });
                 }
                 else if (ketqua === "DANHSACH") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     window.location.href = $('#requestPath').val() + 'Admins/QuanLyDuAn/danhSachDuAn';
                 }
                 else {
@@ -281,7 +281,7 @@
                             $(deferred.resolve);
                         })
                     ).done(function () { });
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     var content = {};
                     content.message = 'Bạn đã thêm thành công';
                     content.title = 'Thành công!';
@@ -306,7 +306,7 @@
     document.querySelector("#progress"),
     document.querySelector("#review"),
     document.querySelector("#done")]).on('drop', function (CucDuocKeo, viTriMoi, viTriCu, viTriPhiaTrenCucBiKeo) {
-        $('#AjaxLoader').show();
+        $('#AjaxLoader').fadeIn('slow');
 
         var idTask = CucDuocKeo.id;
 
@@ -407,7 +407,7 @@
             }
         }).done(function (ketqua) {
             if (ketqua == "FAILED") {
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 var SweetAlert2Demo = function () {
                     var initDemos = function () {
                         swal("Thông Báo!", "Đã có lỗi xảy ra, thử tải lại trang và thực hiện lại!", {
@@ -433,7 +433,7 @@
                 window.location.href = $('#requestPath').val() + "admins/quanlytaikhoan/dangnhap";
             }
             else {
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
             }
         });
 
@@ -454,7 +454,7 @@
         let deadlineType = $('#taskDeadline :selected').val();
         let id = $('#idpro').val();
 
-        $('#AjaxLoader').show();
+        $('#AjaxLoader').fadeIn('slow');
         $.ajax({
             url: $('#requestPath').val() + 'Admins/QuanLyDuAn/LoaiCongViec',
             type: 'POST',
@@ -491,7 +491,7 @@
                     //place your code here, the scripts are all loaded
                 });
 
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
             }
         });
     }

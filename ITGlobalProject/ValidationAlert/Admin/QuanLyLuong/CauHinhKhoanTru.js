@@ -78,7 +78,7 @@
             formData.append("phuthuoc", dataphuthuoc);
             formData.append("giacanh", datagiacanh);
 
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'Admins/quanlyluong/cauhinhkhoangiamtru',
                 type: 'POST',
@@ -91,7 +91,7 @@
                     window.location.href = $('#requestPath').val() + 'quanlytaikhoan/dangxuat';
                 }
                 else {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     $('#dongmodaltinhthue').click();
                     var content = {};
                     content.message = 'Bạn đã lưu thông tin thay đổi thành công.';

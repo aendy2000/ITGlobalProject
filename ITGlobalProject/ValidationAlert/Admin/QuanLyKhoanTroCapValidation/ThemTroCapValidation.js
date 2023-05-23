@@ -178,7 +178,7 @@
             }
             formData.append('tinhbangtien', tinhbangtien);
 
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             e.preventDefault();
             $.ajax({
                 url: $('#requestPath').val() + "Admins/QuanLyTroCapVaPhuCap/themKhoanTroCapVaPhuCap",
@@ -189,7 +189,7 @@
                 data: formData
             }).done(function (ketqua) {
                 $('#dongthemtrocap').click();
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 if (ketqua === "DANHSACH") {
                     window.location.href = $('#requestPath').val() + "admins/QuanLyTroCapVaPhuCap/danhSachKhoanTroCapVaPhuCap";
                 } else {

@@ -19,7 +19,7 @@
             $('#messagevalidation').text('Hãy nhập nội dung liên hệ của bạn').show();
         }
         else {
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             var formData = new FormData();
             formData.append('name', name);
             formData.append('phone', phone);
@@ -35,7 +35,7 @@
                 processData: false,
                 data: formData
             }).done(function (result) {
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 if (result === "SUCCESS") {
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {

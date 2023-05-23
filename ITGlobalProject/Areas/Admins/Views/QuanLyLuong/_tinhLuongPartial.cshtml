@@ -229,7 +229,7 @@
                                 }
                             }).then((tinhluong) => {
                                 if (tinhluong) {
-                                    $('#AjaxLoader').show();
+                                    $('#AjaxLoader').fadeIn('slow');
                                     $.ajax({
                                         url: $('#requestPath').val() + 'Admins/quanlyluong/tinhluong',
                                         type: 'POST',
@@ -238,7 +238,7 @@
                                         processData: false,
                                         data: formData
                                     }).done(function (ketqua) {
-                                        $('#AjaxLoader').hide();
+                                        $('#AjaxLoader').fadeOut('slow');
                                         if (ketqua == "DANGNHAP") {
                                             window.location.href = $('#requestPath').val() + 'quanlytaikhoan/dangxuat';
                                         }
@@ -325,7 +325,7 @@
                                 }
                             }).then((tinhluong) => {
                                 if (tinhluong) {
-                                    $('#AjaxLoader').show();
+                                    $('#AjaxLoader').fadeIn('slow');
                                     $.ajax({
                                         url: $('#requestPath').val() + 'Admins/quanlyluong/tinhluong',
                                         type: 'POST',
@@ -334,7 +334,7 @@
                                         processData: false,
                                         data: formData
                                     }).done(function (ketqua) {
-                                        $('#AjaxLoader').hide();
+                                        $('#AjaxLoader').fadeOut('slow');
 
                                         if (ketqua == "DANGNHAP") {
                                             window.location.href = $('#requestPath').val() + 'quanlytaikhoan/dangxuat';

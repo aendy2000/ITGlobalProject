@@ -57,7 +57,7 @@
                         var formData = new FormData();
                         formData.append('id', id);
                         formData.append('locks', lock);
-                        $('#AjaxLoader').show();
+                        $('#AjaxLoader').fadeIn('slow');
                         $.ajax({
                             url: $('#requestPath').val() + "Admins/quanlyduan/khoaDuAn",
                             type: 'POST',
@@ -71,7 +71,7 @@
                             }
                             else if (ketqua == "SUCCESS") {
 
-                                $('#AjaxLoader').hide();
+                                $('#AjaxLoader').fadeOut('slow');
                                 var SweetAlert2Demo = function () {
                                     var initDemos = function () {
                                         swal("Thành Công!", thanhcong, {
@@ -102,7 +102,7 @@
 
                             }
                             else {
-                                $('#AjaxLoader').hide();
+                                $('#AjaxLoader').fadeOut('slow');
                                 var SweetAlert2Demo = function () {
                                     var initDemos = function () {
                                         swal("Thông Báo!", "Đã có lỗi xảy ra, xin vui lòng thử lại sau vài phút!", {

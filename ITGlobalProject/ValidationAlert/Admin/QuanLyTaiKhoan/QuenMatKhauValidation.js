@@ -39,7 +39,7 @@
 
 
         if (checkusn === true) {
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             e.preventDefault();
             let urls = $('#actionlinks').data('request-url');
             $.ajax({
@@ -49,15 +49,15 @@
                 data: { email: usn }
             }).done(function (ketqua) {
                 if (ketqua === "TKSAI") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     $('#UsernameValidateResul').text("Email không tồn tại vui lòng kiểm tra lại.").show();
                 }
                 else if (ketqua === "SUCCESS") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     window.location.href = $('#actionSuccess').data('request-url');
                 }
                 else {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     $('#UsernameValidateResul').text("Lỗi: " + ketqua).show();
                 }
             });

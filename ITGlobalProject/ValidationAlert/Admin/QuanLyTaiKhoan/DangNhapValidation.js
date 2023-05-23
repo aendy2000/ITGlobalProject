@@ -174,7 +174,7 @@
         }
 
         if (checkusn == true && checkpw == true && checkcaptcha == true) {
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'Admins/QuanLyTaiKhoan/DangNhap',
                 type: 'POST',
@@ -182,21 +182,21 @@
                 data: { username: usn, password: pw }
             }).done(function (ketqua) {
                 if (ketqua === "TKSAI") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     $('#UsernameValidateResul').text("Sai rồi! Vui lòng kiểm tra lại tài khoản hoặc mật khẩu.").show();
                     if ($('#correct-number').val() < 6) {
                         $('#correct-number').val(Number($('#correct-number').val()) + 1);
                     }
                 }
                 else if (ketqua === "MKSAI") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     $('#PasswordValidateResul').text("Sai rồi! Vui lòng kiểm tra lại tài khoản hoặc mật khẩu.").show();
                     if ($('#correct-number').val() < 6) {
                         $('#correct-number').val(Number($('#correct-number').val()) + 1);
                     }
                 }
                 else if (ketqua === "KHOA") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
 
                     Swal.fire({
                         title: 'Thông Báo!',
@@ -215,7 +215,7 @@
                         window.location.href = $('#actionEmployeeSuccess').val().replace("/Admins", "");
                     }
                     else {
-                        $('#AjaxLoader').hide();
+                        $('#AjaxLoader').fadeOut('slow');
                         swal.fire({
                             html: '<span style="font-size: 16px">Bạn đang sử dụng mật khẩu mặc định của hệ thống, hãy thay đổi sang một mật khẩu mới!</span>'
                                 + '<div style="margin-top: 20px" class="wrap-input100 validate-input" data-validate="Nhập vào mật khẩu với tối thiểu 8 ký tự và tối đa 20 ký tự">'

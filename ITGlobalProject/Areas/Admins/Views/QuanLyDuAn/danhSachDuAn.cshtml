@@ -16,10 +16,10 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("Overview", "Dashboard")" onclick="$('#AjaxLoader').show();">Trang Chủ</a>
+                                <a href="@Url.Action("Overview", "Dashboard")" onclick="$('#AjaxLoader').fadeIn('slow');">Trang Chủ</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="@Url.Action("danhSachDuAn", "QuanLyDuAn")" onclick="$('#AjaxLoader').show();">Quản Lý Dự Án</a>
+                                <a href="@Url.Action("danhSachDuAn", "QuanLyDuAn")" onclick="$('#AjaxLoader').fadeIn('slow');">Quản Lý Dự Án</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 Danh Sách Dự Án
@@ -29,7 +29,7 @@
                 </div>
                 <!-- button -->
                 <div>
-                    <a href="@Url.Action("taoDuAnMoi", "QuanLyDuAn")" onclick="$('#AjaxLoader').show();" class="btn btn-primary me-2" type="button">
+                    <a href="@Url.Action("taoDuAnMoi", "QuanLyDuAn")" onclick="$('#AjaxLoader').fadeIn('slow');" class="btn btn-primary me-2" type="button">
                         Thêm Mới
                     </a>
                 </div>
@@ -65,12 +65,12 @@
                                 <td hidden>@i</td>
                                 <td class="align-middle ">
                                     <div class="d-flex align-items-center">
-                                        <a class="text-dark" href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();">@item.ID_Project</a>
+                                        <a class="text-dark" href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').fadeIn('slow');">@item.ID_Project</a>
                                     </div>
                                 </td>
                                 <td class="align-middle ">
                                     <div class="d-flex align-items-center">
-                                       <a href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').show();" class="text-dark">@item.Name</a>
+                                       <a href="@Url.Action("chiTietDuAn", "QuanLyDuAn", new {id = item.ID})" onclick="$('#AjaxLoader').fadeIn('slow');" class="text-dark">@item.Name</a>
                                     </div>
                                 </td>
                                 <td class="align-middle text-nowrap">

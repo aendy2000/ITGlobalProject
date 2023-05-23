@@ -1095,7 +1095,7 @@
             formData.append('ngaygiahanhopdong', ngaygiahanhopdong);
             formData.append('songaynghiphep', snghiphep.substring(0, snghiphep.length - 1));
             e.preventDefault();
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             let urls = $('#actionSubmit').data('request-url');
             $.ajax({
                 url: urls,
@@ -1105,7 +1105,7 @@
                 processData: false,
                 data: formData
             }).done(function (ketqua) {
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 if (ketqua == "Đã có xảy ra lỗi, vui lòng thử lại") {
                     alert("Đã có xảy ra lỗi, vui lòng thử lại");
                 }

@@ -12,7 +12,7 @@
             formData.append('id', id);
             formData.append('cmt', cmt);
 
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'Admins/QuanLyDuAn/binhLuanTask',
                 type: 'POST',
@@ -22,7 +22,7 @@
                 data: formData
             }).done(function (ketqua) {
                 if (ketqua == "DANHSACH") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     window.location.href = $('#requestPath').val() + 'Admins/QuanLyDuAn/danhSachDuAn';
                 }
                 else {
@@ -33,7 +33,7 @@
                     el.getScrollElement().scrollTop = el.getScrollElement().scrollHeight;
 
                     $('#textComment').val("");
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     var content = {};
                     content.message = 'Bạn đã thêm thành công.';
                     content.title = 'Thành công!';
@@ -130,7 +130,7 @@
             formData.append('estimates', estimates);
             formData.append('completed', completed);
 
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'Admins/QuanLyDuAn/chinhSuaCongViec',
                 type: 'POST',
@@ -141,7 +141,7 @@
                 data: formData
             }).done(function (ketqua) {
                 if (ketqua === "Đã có lỗi xảy ra, vui lòng thử lại") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thông Báo!", "Đã có xảy ra lỗi, vui lòng thử lại sau", {
@@ -165,7 +165,7 @@
                     });
                 }
                 else if (ketqua === "DANHSACH") {
-                    $('#AjaxLoader').hide();
+                    $('#AjaxLoader').fadeOut('slow');
                     window.location.href = $('#requestPath').val() + 'Admins/QuanLyDuAn/danhSachDuAn';
                 }
                 else {
@@ -188,7 +188,7 @@
                                 $(deferred.resolve);
                             })
                         ).done(function () { });
-                        $('#AjaxLoader').hide();
+                        $('#AjaxLoader').fadeOut('slow');
                         var content = {};
                         content.message = 'Bạn đã lưu thành công.';
                         content.title = 'Thành công!';

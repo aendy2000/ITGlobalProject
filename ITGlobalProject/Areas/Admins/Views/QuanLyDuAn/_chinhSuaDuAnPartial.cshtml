@@ -434,7 +434,7 @@
                                 <input hidden value="@item.Name" id="names@(item.ID)" />
                                 <input hidden value="@item.Phone" id="sdts@(item.ID)" />
                                 <input hidden value="@item.Email" id="emails@(item.ID)" />
-                                <input hidden value="@(item.Birthday.Value != null ? item.Birthday.Value.ToString("yyyy-MM-dd") : null)" id="sns@(item.ID)" />
+                                <input hidden value="@(item.Birthday != null ? item.Birthday.Value.ToString("yyyy-MM-dd") : null)" id="sns@(item.ID)" />
                                 <input hidden value="@item.Sex" id="gioitinhs@(item.ID)" />
                                 <input hidden value="@item.Address" id="dcs@(item.ID)" />
                                 <input hidden value="@item.CompanyOrPersonal.Value.ToString()" id="type@(item.ID)" />

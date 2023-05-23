@@ -88,7 +88,7 @@
             formData.append('vaitro', vaitro);
             formData.append('hinhthuc', hinhthuc);
             e.preventDefault();
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'employee/quanlytaikhoan/chinhSuaViecLamHopDong',
                 type: 'POST',
@@ -97,7 +97,7 @@
                 processData: false,
                 data: formData
             }).done(function (ketqua) {
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 if (ketqua == "Đã có xảy ra lỗi, vui lòng thử lại!") {
                     alert("Đã có xảy ra lỗi, vui lòng thử lại!");
                 }

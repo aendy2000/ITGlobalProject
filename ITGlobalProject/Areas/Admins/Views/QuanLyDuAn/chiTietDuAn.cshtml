@@ -548,14 +548,14 @@
 
 <script>
     $(document).on('click', '#tongQuanID', function (e) {
-        $('#AjaxLoader').show();
+        $('#AjaxLoader').fadeIn('slow');
     $.ajax({
         url: '@Url.Action("tongQuanPartial", "QuanLyDuAn", new {id = Model.ID})',
         type: 'GET',
         dataType: 'html'
     }).done(function(ketqua) {
         if (ketqua == "DANHSACH" || ketqua == "DANGNHAP") {
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {
             $('#chiTietDuAnPartialID').replaceWith(ketqua);
@@ -570,20 +570,20 @@
             ).done(function() {
 
             });
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
         }
     });
 });
 
     $(document).on('click', '#congViecID', function (e) {
-        $('#AjaxLoader').show();
+        $('#AjaxLoader').fadeIn('slow');
     $.ajax({
         url: '@Url.Action("congViecPartial", "QuanLyDuAn", new {id = Model.ID })',
         type: 'GET',
         dataType: 'html'
     }).done(function(ketqua) {
         if (ketqua == "DANHSACH" || ketqua == "DANGNHAP") {
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {
              $('#chiTietDuAnPartialID').replaceWith(ketqua);
@@ -603,20 +603,20 @@
             $('#nguoithuchien').selectpicker({
                 style: "text-dark btn-sm"
             });
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
         }
     });
 });
 
     $(document).on('click', '#nganSachID', function (e) {
-        $('#AjaxLoader').show();
+        $('#AjaxLoader').fadeIn('slow');
     $.ajax({
         url: '@Url.Action("nganSachPartial", "QuanLyDuAn", new {id = Model.ID })',
         type: 'GET',
         dataType: 'html'
     }).done(function (ketqua) {
         if (ketqua == "DANHSACH" || ketqua == "DANGNHAP" || ketqua == "DANGNHAP") {
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {
             $('#chiTietDuAnPartialID').replaceWith(ketqua);
@@ -631,20 +631,20 @@
             ).done(function() {
                 //place your code here, the scripts are all loaded
             });
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
         }
     });
 });
 
     $(document).on('click', '#taiLieuID', function (e) {
-        $('#AjaxLoader').show();
+        $('#AjaxLoader').fadeIn('slow');
     $.ajax({
         url: '@Url.Action("taiLieuPartial", "QuanLyDuAn", new {id = Model.ID })',
         type: 'GET',
         dataType: 'html'
     }).done(function(ketqua) {
         if (ketqua == "DANHSACH" || ketqua == "DANGNHAP") {
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {
             $('#chiTietDuAnPartialID').replaceWith(ketqua);
@@ -659,20 +659,20 @@
             ).done(function() {
                 //place your code here, the scripts are all loaded
             });
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
         }
     });
 });
 
     $(document).on('click', '#doiNguID', function (e) {
-        $('#AjaxLoader').show();
+        $('#AjaxLoader').fadeIn('slow');
     $.ajax({
         url: '@Url.Action("doiNguPartial", "QuanLyDuAn", new {id = Model.ID })',
         type: 'GET',
         dataType: 'html'
     }).done(function(ketqua) {
         if (ketqua == "DANHSACH" || ketqua == "DANGNHAP") {
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
             window.location.href = '@Url.Action("danhSachDuAn", "QuanLyDuAn")';
         } else {
             $('#chiTietDuAnPartialID').replaceWith(ketqua);
@@ -687,7 +687,7 @@
             ).done(function() {
                 //place your code here, the scripts are all loaded
             });
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
         }
     });
 });

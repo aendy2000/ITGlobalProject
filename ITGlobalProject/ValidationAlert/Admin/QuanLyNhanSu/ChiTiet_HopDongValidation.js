@@ -302,7 +302,7 @@
             formData.append('idus', idus);
             formData.append('loaihopdong', loaihopdong);
 
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'Admins/QuanLyNhanSu/suaHopDong',
                 type: 'POST',
@@ -311,7 +311,7 @@
                 processData: false,
                 data: formData
             }).done(function (ketqua) {
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 if (ketqua == "Đã có xảy ra lỗi, vui lòng thử lại!") {
                     alert("Đã có xảy ra lỗi, vui lòng thử lại!");
                 }
@@ -496,7 +496,7 @@
             formData.append('id', id);
             formData.append('loaihopdong', loaihopdong);
 
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'Admins/QuanLyNhanSu/themHopDongMoi',
                 type: 'POST',
@@ -505,7 +505,7 @@
                 processData: false,
                 data: formData
             }).done(function (ketqua) {
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 if (ketqua == "Đã có xảy ra lỗi, vui lòng thử lại!") {
                     alert("Đã có xảy ra lỗi, vui lòng thử lại!");
                 }
@@ -612,7 +612,7 @@
             formData.append('vaitro', vaitro);
             formData.append('hinhthuc', hinhthuc);
             e.preventDefault();
-            $('#AjaxLoader').show();
+            $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'Admins/QuanLyNhanSu/chinhSuaViecLamHopDong',
                 type: 'POST',
@@ -621,7 +621,7 @@
                 processData: false,
                 data: formData
             }).done(function (ketqua) {
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 if (ketqua == "Đã có xảy ra lỗi, vui lòng thử lại!") {
                     alert("Đã có xảy ra lỗi, vui lòng thử lại!");
                 }

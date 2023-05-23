@@ -9,7 +9,7 @@
         formData.append('id', id);
         formData.append('year', year);
 
-        $('#AjaxLoader').show();
+        $('#AjaxLoader').fadeIn('slow');
         $.ajax({
             url: $('#requestPath').val() + 'Admins/QuanLyLoaiNghiPhep/XemChiTietApplyNghiPhep',
             type: 'POST',
@@ -20,7 +20,7 @@
         }).done(function (ketqua) {
             $('#partialChiTiet').replaceWith(ketqua);
             $('#DataTableChiTietApply').DataTable();
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
             $('#chiTietApplyNghiPhepNhanVien').modal('toggle');
         });
     });
@@ -149,7 +149,7 @@
                                     }
                                 }).then((xacnhan) => {
                                     if (xacnhan) {
-                                        $('#AjaxLoader').show();
+                                        $('#AjaxLoader').fadeIn('slow');
                                         $.ajax({
                                             url: $('#requestPath').val() + 'Admins/QuanLyLoaiNghiPhep/ApplyNgayNghiPhep',
                                             type: 'POST',
@@ -158,7 +158,7 @@
                                             processData: false,
                                             data: formData
                                         }).done(function (ketqua) {
-                                            $('#AjaxLoader').hide();
+                                            $('#AjaxLoader').fadeOut('slow');
                                             if (ketqua == "DANGNHAP") {
                                                 window.location.href = $('#requestPath').val() + 'quanlytaikhoan/dangxuat';
                                             }
@@ -258,7 +258,7 @@
                                 }).then((xacnhan) => {
                                     if (xacnhan) {
                                         if (xacnhan) {
-                                            $('#AjaxLoader').show();
+                                            $('#AjaxLoader').fadeIn('slow');
                                             $.ajax({
                                                 url: $('#requestPath').val() + 'Admins/QuanLyLoaiNghiPhep/ApplyNgayNghiPhep',
                                                 type: 'POST',
@@ -267,7 +267,7 @@
                                                 processData: false,
                                                 data: formData
                                             }).done(function (ketqua) {
-                                                $('#AjaxLoader').hide();
+                                                $('#AjaxLoader').fadeOut('slow');
                                                 if (ketqua == "DANGNHAP") {
                                                     window.location.href = $('#requestPath').val() + 'quanlytaikhoan/dangxuat';
                                                 }

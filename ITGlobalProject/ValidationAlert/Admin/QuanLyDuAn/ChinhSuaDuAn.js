@@ -4,7 +4,7 @@
         var id = $('#idpro').val();
         var formData = new FormData();
         formData.append("id", id);
-        $('#AjaxLoader').show();
+        $('#AjaxLoader').fadeIn('slow');
         $.ajax({
             url: $('#requestPath').val() + 'Admins/QuanLyDuAn/openChinhSuaDuAn',
             type: 'POST',
@@ -74,7 +74,7 @@
                     }
                 });
 
-                $('#AjaxLoader').hide();
+                $('#AjaxLoader').fadeOut('slow');
                 
                 $('#offcanvasRight').offcanvas("toggle");
             }

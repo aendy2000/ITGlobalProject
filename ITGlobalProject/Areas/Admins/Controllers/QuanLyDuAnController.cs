@@ -951,7 +951,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                 return Content("DANHSACH");
 
             var exitsEmp = model.Teams.Where(t => t.ID_Project == id).ToList();
-            var emp = model.Employees.Where(e => !e.Position.Name.Equals("admin")).ToList().OrderByDescending(e => e.ID).ToList();
+            var emp = model.Employees.Where(e => !e.Position.Name.Equals("admin") && e.Lock == false).ToList().OrderByDescending(e => e.ID).ToList();
             foreach (var item in exitsEmp)
             {
                 emp.Remove(item.Employees);

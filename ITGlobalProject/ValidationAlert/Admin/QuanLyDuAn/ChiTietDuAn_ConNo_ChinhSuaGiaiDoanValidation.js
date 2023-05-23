@@ -102,7 +102,7 @@
                             formData.append('giaidoan', giaidoan);
                             formData.append('chiphi', chiphi);
 
-                            $('#AjaxLoader').show();
+                            $('#AjaxLoader').fadeIn('slow');
                             $.ajax({
                                 url: $('#requestPath').val() + "Admins/quanlyduan/luuchinhsuachiphi",
                                 type: 'POST',
@@ -112,7 +112,7 @@
                                 data: formData
                             }).done(function (ketqua) {
                                 if (ketqua == "DANHSACH") {
-                                    $('#AjaxLoader').hide();
+                                    $('#AjaxLoader').fadeOut('slow');
                                     window.location.href = $('#requestPath').val() + "Admins/quanlyduan/danhsachduan";
                                 } else {
                                     $('#chinhSuaChiPhi').modal('toggle');
@@ -128,7 +128,7 @@
                                             })
                                         ).done(function () { });
 
-                                        $('#AjaxLoader').hide();
+                                        $('#AjaxLoader').fadeOut('slow');
 
                                         var content = {};
                                         content.message = 'Bạn đã cập nhật thành công.';
