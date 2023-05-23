@@ -25,7 +25,6 @@
                         formData.append('id', id);
                         formData.append('idemp', $('#choduyetTab').attr("name"));
                         formData.append('noidung', $('#noidung-' + id).val().trim());
-                        formData.append('truluong', $('#truluong-' + id).prop("checked"));
                         formData.append('typeTab', $('#typeTab').val());
                         var urls = $('#requestPath').val() + "Admins/QuanLyNhanSu/duyetDon"
                         $.ajax({
@@ -105,7 +104,6 @@
                         formData.append('id', id);
                         formData.append('idemp', $('#choduyetTab').attr("name"));
                         formData.append('noidung', $('#noidung-' + id).val().trim());
-                        formData.append('truluong', $('#truluong-' + id).prop("checked"));
                         formData.append('typeTab', $('#typeTab').val());
 
                         var urls = $('#requestPath').val() + "Admins/QuanLyNhanSu/tuChoiDon"
@@ -186,7 +184,6 @@
                         formData.append('id', id);
                         formData.append('idemp', $('#choduyetTab').attr("name"));
                         formData.append('noidung', $('#noidung-' + id).val().trim());
-                        formData.append('truluong', $('#truluong-' + id).prop("checked"));
                         formData.append('typeTab', $('#typeTab').val());
 
                         var urls = $('#requestPath').val() + "Admins/QuanLyNhanSu/thaydoi"

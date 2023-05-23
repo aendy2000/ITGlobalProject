@@ -6,7 +6,7 @@
 <div id="partialChiTiet" class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title" id="chiTietApplyNghiPhepNhanVienModal"><i class="fe fe-user-check"> </i> Chi Tiết Loại Nghỉ Phéo Năm @year Phép Được Áp Dụng Cho: <a target="_blank" href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = Model.First().ID_Employee })">@Model.First().Employees.Name - @Model.First().Employees.ID_Employee</a></h4>
+            <h4 class="modal-title" id="chiTietApplyNghiPhepNhanVienModal"><i class="fe fe-user-check"> </i> Chi Tiết Loại Nghỉ Phép Năm @year Phép Được Áp Dụng Cho: <a target="_blank" href="@Url.Action("thongTinChiTiet", "QuanLyNhanSu", new { id = Model.First().ID_Employee })">@Model.First().Employees.Name - @Model.First().Employees.ID_Employee</a></h4>
             <button id="tatBangChiTiet" type="button" class="btn-close" data-bs-dismiss="modal"
                     aria-label="Close">
             </button>

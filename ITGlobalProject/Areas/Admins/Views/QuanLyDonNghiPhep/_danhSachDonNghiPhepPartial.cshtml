@@ -19,14 +19,6 @@
                         <th scope="col" class="text-nowrap  border-top-0">Số ngày nghỉ</th>
                         <th scope="col" class="text-nowrap border-top-0">Nội dung</th>
                         <th scope="col" class="text-nowrap border-top-0">Nội dung phản hồi</th>
-                        @if (Session["TuChoiTabDonNghiPhep"] != null)
-                        {
-                            <th hidden scope="col" class="text-nowrap border-top-0">Trừ lương</th>
-                        }
-                        else
-                        {
-                            <th scope="col" class="text-nowrap border-top-0">Trừ lương</th>
-                        }
                         <th scope="col" class="text-nowrap border-top-0">Xác nhận</th>
                     </tr>
                 </thead>
@@ -77,56 +69,6 @@
                             <td class="align-middle border-top-0">
                                 <textarea rows="3" id="noidung-@item.ID" class="form-control form-control-sm" placeholder="Nhập nội dung phản hồi">@item.Reply</textarea>
                             </td>
-                            @if (Session["TuChoiTabDonNghiPhep"] != null)
-                            {
-                                <td hidden class="align-middle text-center border-top-0">
-                                    <div class="form-check form-switch">
-                                        @if (item.OnWage == false)
-                                        {
-                                            <input id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
-                                        }
-                                        else
-                                        {
-                                            <input checked id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
-                                        }
-
-                                    </div>
-                                </td>
-                            }
-                            else
-                            {
-                                if (item.State == false && item.ResponsiveDate == null)
-                                {
-                                    <td class="align-middle text-center border-top-0">
-                                        <div class="form-check form-switch">
-                                            @if (item.OnWage == false)
-                                            {
-                                                <input id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
-                                            }
-                                            else
-                                            {
-                                                <input checked id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
-                                            }
-
-                                        </div>
-                                    </td>
-                                }
-                                else
-                                {
-                                    <td class="align-middle text-center border-top-0">
-                                        <div class="form-check form-switch">
-                                            @if (item.OnWage == false)
-                                            {
-                                                <input id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
-                                            }
-                                            else
-                                            {
-                                                <input checked id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
-                                            }
-                                        </div>
-                                    </td>
-                                }
-                            }
                             <td class="align-middle border-top-0 text-nowrap">
                                 @if (item.State == true)
                                 {

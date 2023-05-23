@@ -1686,15 +1686,14 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
 
         [HttpPost]
-        public ActionResult duyetDon(int? id, int idemp, string noidung, bool? truluong, string typeTab)
+        public ActionResult duyetDon(int? id, int idemp, string noidung, string typeTab)
         {
             var don = model.LeaveApplication.Find(id);
-            if (id == null || truluong == null || don == null || string.IsNullOrEmpty(typeTab))
+            if (id == null || don == null || string.IsNullOrEmpty(typeTab))
                 return Content("DANGNHAP");
 
             don.State = true;
             don.Reply = noidung.Trim();
-            don.OnWage = (bool)truluong;
             don.ResponsiveDate = DateTime.Now;
             model.Entry(don).State = EntityState.Modified;
             model.SaveChanges();
@@ -1748,14 +1747,13 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
 
         [HttpPost]
-        public ActionResult thayDoi(int? id, int idemp, string noidung, bool? truluong, string typeTab)
+        public ActionResult thayDoi(int? id, int idemp, string noidung, string typeTab)
         {
             var don = model.LeaveApplication.Find(id);
-            if (id == null || truluong == null || don == null || string.IsNullOrEmpty(typeTab))
+            if (id == null || don == null || string.IsNullOrEmpty(typeTab))
                 return Content("DANGNHAP");
 
             don.Reply = noidung.Trim();
-            don.OnWage = (bool)truluong;
             don.ResponsiveDate = DateTime.Now;
             model.Entry(don).State = EntityState.Modified;
             model.SaveChanges();

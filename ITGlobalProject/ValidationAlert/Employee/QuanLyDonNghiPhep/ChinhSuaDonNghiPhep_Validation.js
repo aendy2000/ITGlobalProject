@@ -79,9 +79,13 @@
                 let difference = endate.getTime() - stdate.getTime();
                 let TotalDays = Math.ceil(difference / (1000 * 3600 * 24)) + 1;
 
-                if (TotalDays > Number($('#chinhsuaquantityleavetype').text().split(' ')[0])) {
+                if (TotalDays > (Number($('#chinhsuaquantityleavetype').text().split(' ')[0].split('.')[0]) + 1) || Number($('#chinhsuaquantityleavetype').text().split(' ')[0]) < realleavedate) {
                     check = false;
                     $('#chinhsuangayketthucValidation').text("Ngày nghỉ vượt quá " + (TotalDays - Number($('#chinhsuaquantityleavetype').text().split(' ')[0])) + " ngày so với ngày nghỉ còn lại được cho phép.").show().prop("hidden", false);
+                }
+                else if (Number($('#chinhsuaquantityleavetype').text().split(' ')[0]) < realleavedate) {
+                    check = false;
+                    $('#chinhsuarealleavedateValidation').text("Ngày nghỉ vượt quá " + (TotalDays - Number($('#chinhsuaquantityleavetype').text().split(' ')[0])) + " ngày so với ngày nghỉ còn lại được cho phép.").show().prop("hidden", false);
                 }
             }
         }

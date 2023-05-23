@@ -40,15 +40,14 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
 
         [HttpPost]
-        public ActionResult duyetDon(int? id, string noidung, bool? truluong, string typeTab)
+        public ActionResult duyetDon(int? id, string noidung, string typeTab)
         {
             var don = model.LeaveApplication.Find(id);
-            if (id == null || truluong == null || don == null || string.IsNullOrEmpty(typeTab))
+            if (id == null || don == null || string.IsNullOrEmpty(typeTab))
                 return Content("DANGNHAP");
 
             don.State = true;
             don.Reply = noidung.Trim();
-            don.OnWage = (bool)truluong;
             don.ResponsiveDate = DateTime.Now;
             model.Entry(don).State = EntityState.Modified;
             model.SaveChanges();
@@ -97,14 +96,13 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
 
         [HttpPost]
-        public ActionResult thayDoi(int? id, string noidung, bool? truluong, string typeTab)
+        public ActionResult thayDoi(int? id, string noidung, string typeTab)
         {
             var don = model.LeaveApplication.Find(id);
-            if (id == null || truluong == null || don == null || string.IsNullOrEmpty(typeTab))
+            if (id == null || don == null || string.IsNullOrEmpty(typeTab))
                 return Content("DANGNHAP");
 
             don.Reply = noidung.Trim();
-            don.OnWage = (bool)truluong;
             don.ResponsiveDate = DateTime.Now;
             model.Entry(don).State = EntityState.Modified;
             model.SaveChanges();
@@ -136,7 +134,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
         }
 
         [HttpPost]
-        public ActionResult taoDonNghiPhep(int? idEmp, DateTime startDate, DateTime endDate, bool state, string content, bool truluong, int leavetype, decimal realleavedate)
+        public ActionResult taoDonNghiPhep(int? idEmp, DateTime startDate, DateTime endDate, bool state, string content, int leavetype, decimal realleavedate)
         {
             try
             {
@@ -159,7 +157,6 @@ namespace ITGlobalProject.Areas.Admins.Controllers
 
                 leave.State = state;
                 leave.Contents = content;
-                leave.OnWage = truluong;
                 model.LeaveApplication.Add(leave);
                 model.SaveChanges();
 

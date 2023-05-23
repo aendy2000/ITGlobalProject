@@ -167,7 +167,6 @@
           <Property Name="Contents" Type="nvarchar" MaxLength="200" />
           <Property Name="ResponsiveDate" Type="datetime" />
           <Property Name="Reply" Type="nvarchar" MaxLength="200" />
-          <Property Name="OnWage" Type="bit" Nullable="false" />
           <Property Name="ID_ApplyLeaveType" Type="int" Nullable="false" />
           <Property Name="RealLeaveDate" Type="decimal" Precision="5" Scale="2" Nullable="false" />
         </EntityType>
@@ -1286,7 +1285,6 @@
           <Property Name="Contents" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ResponsiveDate" Type="DateTime" Precision="3" />
           <Property Name="Reply" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="OnWage" Type="Boolean" Nullable="false" />
           <Property Name="ID_ApplyLeaveType" Type="Int32" Nullable="false" />
           <Property Name="RealLeaveDate" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
           <NavigationProperty Name="ApplyLeaveType" Relationship="Self.FK_LeaveApplication_ApplyLeaveType" FromRole="LeaveApplication" ToRole="ApplyLeaveType" />
@@ -2433,7 +2431,6 @@
                 <ScalarProperty Name="Contents" ColumnName="Contents" />
                 <ScalarProperty Name="ResponsiveDate" ColumnName="ResponsiveDate" />
                 <ScalarProperty Name="Reply" ColumnName="Reply" />
-                <ScalarProperty Name="OnWage" ColumnName="OnWage" />
                 <ScalarProperty Name="ID_ApplyLeaveType" ColumnName="ID_ApplyLeaveType" />
                 <ScalarProperty Name="RealLeaveDate" ColumnName="RealLeaveDate" />
               </MappingFragment>

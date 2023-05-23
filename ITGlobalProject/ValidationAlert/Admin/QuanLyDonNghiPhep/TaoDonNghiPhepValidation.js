@@ -102,9 +102,13 @@
                 let difference = endate.getTime() - stdate.getTime();
                 let TotalDays = Math.ceil(difference / (1000 * 3600 * 24)) + 1;
 
-                if (TotalDays > Number($('#quantityleavetype').text().split(' ')[0])) {
+                if (TotalDays > (Number($('#quantityleavetype').text().split(' ')[0].split('.')[0]) + 1)) {
                     check = false;
                     $('#endDateValidation').text("Ngày nghỉ vượt quá " + (TotalDays - Number($('#quantityleavetype').text().split(' ')[0])) + " ngày so với ngày nghỉ còn lại được cho phép.").show().prop("hidden", false);
+                }
+                else if (Number($('#quantityleavetype').text().split(' ')[0]) < realleavedate) {
+                    check = false;
+                    $('#realleavedateValidation').text("Ngày nghỉ vượt quá " + (TotalDays - Number($('#quantityleavetype').text().split(' ')[0])) + " ngày so với ngày nghỉ còn lại được cho phép.").show().prop("hidden", false);
                 }
             }
         }
@@ -153,14 +157,7 @@
             formData.append("state", $('#trangthai :selected').val());
             formData.append("leavetype", leavetype);
             formData.append("realleavedate", realleavedate);
-
-            if ($('#traluong').prop("checked") == true) {
-                formData.append("truluong", false);
-            }
-            else {
-                formData.append("truluong", true);
-            }
-
+            
             $('#AjaxLoader').fadeIn('slow');
             $.ajax({
                 url: $('#requestPath').val() + "admins/quanlydonnghiphep/taodonnghiphep",

@@ -81,7 +81,6 @@
                                         <th scope="col" class="text-nowrap  border-top-0">Số ngày nghỉ</th>
                                         <th scope="col" class="text-nowrap  border-top-0">Nội dung</th>
                                         <th scope="col" class="text-nowrap  border-top-0">Nội dung phản hồi</th>
-                                        <th scope="col" class="text-nowrap  border-top-0">Trừ lương</th>
                                         <th scope="col" class="text-nowrap  border-top-0">Xác nhận</th>
                                     </tr>
                                 </thead>
@@ -131,18 +130,6 @@
 
                                             <td class="align-middle border-top-0">
                                                 <textarea rows="3" id="noidung-@item.ID" class="form-control form-control-sm" placeholder="Nhập nội dung phản hồi"></textarea>
-                                            </td>
-                                            <td class="align-middle text-center border-top-0">
-                                                <div class="form-check form-switch">
-                                                    @if (item.OnWage == false)
-                                                    {
-                                                        <input id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
-                                                    }
-                                                    else
-                                                    {
-                                                        <input checked id="truluong-@item.ID" class="form-check-input" type="checkbox" role="switch">
-                                                    }
-                                                </div>
                                             </td>
                                             <td class="align-middle border-top-0 text-nowrap">
                                                 <a id="tuchoi@(item.ID)" name="@item.ID" class="btn btn-outline-danger btn-sm">Từ chối</a>

@@ -23,7 +23,6 @@ namespace ITGlobalProject.Models
         public string Contents { get; set; }
         public Nullable<System.DateTime> ResponsiveDate { get; set; }
         public string Reply { get; set; }
-        public bool OnWage { get; set; }
         public int ID_ApplyLeaveType { get; set; }
         public decimal RealLeaveDate { get; set; }
     

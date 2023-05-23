@@ -129,7 +129,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             if (emp.EmploymentContracts.OrderByDescending(o => o.ID).First().EmploymentCategory.Equals("Hợp đồng có thời hạn"))
                             {
                                 var ngayhopdong = Convert.ToDateTime(emp.EmploymentContracts.OrderByDescending(o => o.ID).First().EndDate.Value) - Convert.ToDateTime(emp.EmploymentContracts.OrderByDescending(o => o.ID).First().StartDate.Value);
-                                if (ngayhopdong.TotalDays <= 60)
+                                int tongcheck = Convert.ToDateTime((emp.EmploymentContracts.OrderByDescending(o => o.ID).First().EndDate.Value.AddMonths(1).ToString("yyyy-MM-") + "01")).AddDays(-1).Day 
+                                    + Convert.ToDateTime((emp.EmploymentContracts.OrderByDescending(o => o.ID).First().StartDate.Value.AddMonths(1).ToString("yyyy-MM-") + "01")).AddDays(-1).Day;
+
+                                if (ngayhopdong.TotalDays <= tongcheck)
                                 {
                                     var currentPayroll = payrollcu.Payroll.FirstOrDefault(p => p.ID_Employee == id);
                                     if (currentPayroll != null)
@@ -328,7 +331,8 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                                && l.State == true && l.OnWage == true).ToList();
+                                                && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
+                                                
                                                 decimal songaynghi = 0;
                                                 foreach (var items in ngaynghi)
                                                 {
@@ -476,7 +480,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                                && l.State == true && l.OnWage == true).ToList();
+                                                && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                                 decimal songaynghi = 0;
                                                 foreach (var items in ngaynghi)
                                                 {
@@ -757,7 +761,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                                && l.State == true && l.OnWage == true).ToList();
+                                                && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                                 int songaynghi = 0;
                                                 foreach (var items in ngaynghi)
                                                 {
@@ -892,7 +896,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                                && l.State == true && l.OnWage == true).ToList();
+                                                && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                                 int songaynghi = 0;
                                                 foreach (var items in ngaynghi)
                                                 {
@@ -1192,7 +1196,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                                && l.State == true && l.OnWage == true).ToList();
+                                                && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                                 decimal songaynghi = 0;
                                                 foreach (var items in ngaynghi)
                                                 {
@@ -1362,7 +1366,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                                && l.State == true && l.OnWage == true).ToList();
+                                                && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                                 decimal songaynghi = 0;
                                                 foreach (var items in ngaynghi)
                                                 {
@@ -1674,7 +1678,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                                && l.State == true && l.OnWage == true).ToList();
+                                                && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                                 int songaynghi = 0;
                                                 foreach (var items in ngaynghi)
                                                 {
@@ -1830,7 +1834,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                                 var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                                && l.State == true && l.OnWage == true).ToList();
+                                                && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                                 int songaynghi = 0;
                                                 foreach (var items in ngaynghi)
                                                 {
@@ -2133,7 +2137,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                                && l.State == true && l.OnWage == true).ToList();
+                                                && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                             decimal songaynghi = 0;
                                             foreach (var items in ngaynghi)
                                             {
@@ -2302,7 +2306,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                                && l.State == true && l.OnWage == true).ToList();
+                                                && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                             decimal songaynghi = 0;
                                             foreach (var items in ngaynghi)
                                             {
@@ -2614,7 +2618,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                             && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                             || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                            && l.State == true && l.OnWage == true).ToList();
+                                            && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                             int songaynghi = 0;
                                             foreach (var items in ngaynghi)
                                             {
@@ -2770,7 +2774,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                             && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                             || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                            && l.State == true && l.OnWage == true).ToList();
+                                            && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                             int songaynghi = 0;
                                             foreach (var items in ngaynghi)
                                             {
@@ -3071,7 +3075,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                         var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                                && l.State == true && l.OnWage == true).ToList();
+                                                && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                         decimal songaynghi = 0;
                                         foreach (var items in ngaynghi)
                                         {
@@ -3240,7 +3244,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                         var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id && l.ApplyLeaveType.LeaveType.Sate == false
                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                                && l.State == true && l.OnWage == true).ToList();
+                                                && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                         decimal songaynghi = 0;
                                         foreach (var items in ngaynghi)
                                         {
@@ -3550,7 +3554,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                         var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                         && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                         || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                        && l.State == true && l.OnWage == true).ToList();
+                                        && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                         int songaynghi = 0;
                                         foreach (var items in ngaynghi)
                                         {
@@ -3707,7 +3711,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                         var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                         && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                         || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                        && l.State == true && l.OnWage == true).ToList();
+                                        && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                         int songaynghi = 0;
                                         foreach (var items in ngaynghi)
                                         {
@@ -3816,7 +3820,10 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                             if (emp.EmploymentContracts.OrderByDescending(o => o.ID).First().EmploymentCategory.Equals("Hợp đồng có thời hạn"))
                             {
                                 var ngayhopdong = Convert.ToDateTime(emp.EmploymentContracts.OrderByDescending(o => o.ID).First().EndDate.Value) - Convert.ToDateTime(emp.EmploymentContracts.OrderByDescending(o => o.ID).First().StartDate.Value);
-                                if (ngayhopdong.TotalDays <= 60)
+                                int tongcheck = Convert.ToDateTime((emp.EmploymentContracts.OrderByDescending(o => o.ID).First().EndDate.Value.AddMonths(1).ToString("yyyy-MM-") + "01")).AddDays(-1).Day
+                                    + Convert.ToDateTime((emp.EmploymentContracts.OrderByDescending(o => o.ID).First().StartDate.Value.AddMonths(1).ToString("yyyy-MM-") + "01")).AddDays(-1).Day;
+
+                                if (ngayhopdong.TotalDays <= tongcheck)
                                 {
 
                                     var insurance = model.Insurance.ToList();
@@ -4000,7 +4007,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                             && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                             || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                            && l.State == true && l.OnWage == true).ToList();
+                                            && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                             int songaynghi = 0;
                                             foreach (var items in ngaynghi)
                                             {
@@ -4134,7 +4141,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                             && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                             || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                            && l.State == true && l.OnWage == true).ToList();
+                                            && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                             int songaynghi = 0;
                                             foreach (var items in ngaynghi)
                                             {
@@ -4432,7 +4439,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                             && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                             || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                            && l.State == true && l.OnWage == true).ToList();
+                                            && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                             int songaynghi = 0;
                                             foreach (var items in ngaynghi)
                                             {
@@ -4588,7 +4595,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                             var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                             && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                             || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                            && l.State == true && l.OnWage == true).ToList();
+                                            && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                             int songaynghi = 0;
                                             foreach (var items in ngaynghi)
                                             {
@@ -4890,7 +4897,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                         var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                         && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                         || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                        && l.State == true && l.OnWage == true).ToList();
+                                        && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                         int songaynghi = 0;
                                         foreach (var items in ngaynghi)
                                         {
@@ -5046,7 +5053,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                         var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                         && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                         || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                        && l.State == true && l.OnWage == true).ToList();
+                                        && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                         int songaynghi = 0;
                                         foreach (var items in ngaynghi)
                                         {
@@ -5345,7 +5352,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                     var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                     && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                     || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                    && l.State == true && l.OnWage == true).ToList();
+                                    && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                     int songaynghi = 0;
                                     foreach (var items in ngaynghi)
                                     {
@@ -5501,7 +5508,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
                                     var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == id
                                     && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                     || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                    && l.State == true && l.OnWage == true).ToList();
+                                    && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList();
                                     int songaynghi = 0;
                                     foreach (var items in ngaynghi)
                                     {
