@@ -7,6 +7,8 @@
         $('#NgayNghiValidation').prop('hidden', true);
         $('#loaiNgayNghiBatdauValidation').prop('hidden', true);
 
+        var formatss = /[`!*()\=\[\]{}#;'%:"\\|,^@&.+-_<>\/?~]/;
+
         var name = $('#tenngaynghi').val().trim();
         var date = $('#ngaynghi').val().trim();
         var datetype = $('#loaingaynghi :selected').val().trim();
@@ -15,6 +17,10 @@
         if (name.length < 1) {
             check = false;
             $('#tenNgayNghiValidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop('hidden', false);
+        }
+        else if (formatss.test(name.toLowerCase().replace(/\d+/g, '')) == true) {
+            check = false;
+            $('#tenNgayNghiValidation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
         }
         else if (name.length > 50) {
             check = false;

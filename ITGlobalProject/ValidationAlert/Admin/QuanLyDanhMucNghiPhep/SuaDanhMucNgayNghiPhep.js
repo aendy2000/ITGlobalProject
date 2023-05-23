@@ -21,6 +21,8 @@
         $('#EditdateValidation').prop('hidden', true);
         $('#EditloaingaynghiValidation').prop('hidden', true);
 
+        var formatss = /[`!*()\=\[\]{}#;'%:"\\|,^@&.+-_<>\/?~]/;
+
         var id = $('#id').val();
         var name = $('#name').val().trim();
         var date = $('#date').val().trim();
@@ -30,6 +32,10 @@
         if (name.length < 1) {
             check = false;
             $('#EdittenNgayNghiValidation').text("Không được bỏ trống thông tin này! Vui lòng nhập đầy đủ.").show().prop('hidden', false);
+        }
+        else if (formatss.test(name.toLowerCase().replace(/\d+/g, '')) == true) {
+            check = false;
+            $('#EdittenNgayNghiValidation').text("Nhập không đúng định dạng! Vui lòng kiểm tra lại.").show().prop("hidden", false);
         }
         else if (name.length > 50) {
             check = false;
