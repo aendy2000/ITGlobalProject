@@ -183,6 +183,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (idemp == null || idleavetype == null)
                 return Content("0 ngày");
 
+            model = new CP25Team06Entities();
             var applyleavetype = model.ApplyLeaveType.FirstOrDefault(a => a.ID_Leave_Type == idleavetype && a.ID_Employee == idemp && a.LeavePeriod == DateTime.Now.Year);
             var idapplyleavetype = applyleavetype.ID;
             var tongSoNgayChoPhep = applyleavetype.Entitlement;

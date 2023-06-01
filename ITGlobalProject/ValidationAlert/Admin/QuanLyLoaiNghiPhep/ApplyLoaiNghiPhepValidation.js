@@ -92,7 +92,7 @@
             check = false;
             $('#songayhuongvalidation').text("Số ngày nghỉ phải lớn hơn 0 và không quá 365.").prop('hidden', false);
         }
-        else if (Number(ngayhuong) < 1) {
+        else if (Number(ngayhuong) < 0.5) {
             check = false;
             $('#songayhuongvalidation').text("Số ngày nghỉ phải lớn hơn 0 và không quá 365.").prop('hidden', false);
         }

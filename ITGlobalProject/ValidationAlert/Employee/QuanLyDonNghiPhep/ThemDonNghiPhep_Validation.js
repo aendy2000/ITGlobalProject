@@ -144,7 +144,10 @@
                     window.location.href = $('#requestPath').val() + "admins/quanlytaikhoan/dangnhap";
                 }
                 else if (ketqua == "success") {
+
                     $('#dongchinhsuaThemMoi').click();
+                    $('#loainghiphep').selectpicker('val', '');
+                    $('#quantityleavetype').text('0 ngày');
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {
                             swal("Thành Công!", "Đã thêm một đơn xin nghỉ phép!", {
@@ -205,6 +208,9 @@
                     });
 
                     $('#dongchinhsuaThemMoi').click();
+                    $('#loainghiphep').selectpicker('val', '');
+                    $('#quantityleavetype').text('0 ngày');
+
                     $('#AjaxLoader').fadeOut('slow');
                     var SweetAlert2Demo = function () {
                         var initDemos = function () {

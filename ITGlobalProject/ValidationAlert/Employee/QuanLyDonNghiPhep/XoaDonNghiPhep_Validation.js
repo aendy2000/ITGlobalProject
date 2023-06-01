@@ -37,6 +37,9 @@
                             }
                             else {
                                 $('#tabContentsss').replaceWith(ketqua);
+                                $('#loainghiphep').selectpicker('val', '');
+                                $('#quantityleavetype').text('0 ngày');
+
                                 $("#dataTableBasic").DataTable({
                                     responsive: !0
                                 });

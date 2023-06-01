@@ -60,7 +60,7 @@ namespace ITGlobalProject.Areas.Admins.Controllers
             if (pageSize == null)
                 pageSize = 8;
 
-            var employee = model.Employees.OrderByDescending(o => o.ID).ToList();
+            var employee = model.Employees.OrderByDescending(t => t.Lock == false).ThenByDescending(o => o.ID).ToList();
             employee.Remove(model.Employees.Find(1));
 
             Session["lstEmployees"] = employee;

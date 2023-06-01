@@ -130,12 +130,14 @@ namespace ITGlobalProject.Areas.Employee.Controllers
         {
             if (idleavetype == null)
                 return Content("0 ngày");
+
+            model = new CP25Team06Entities();
             int idemp = Int32.Parse(Session["user-id"].ToString());
             var applyleavetype = model.ApplyLeaveType.FirstOrDefault(a => a.ID_Leave_Type == idleavetype && a.ID_Employee == idemp && a.LeavePeriod == DateTime.Now.Year);
             var idapplyleavetype = applyleavetype.ID;
             var tongSoNgayChoPhep = applyleavetype.Entitlement;
 
-            if(model.LeaveApplication.Where(l => l.ID_Employee == idemp && l.ID_ApplyLeaveType == idapplyleavetype).Count() > 0)
+            if (model.LeaveApplication.Where(l => l.ID_Employee == idemp && l.ID_ApplyLeaveType == idapplyleavetype).Count() > 0)
             {
                 var lstSoNgayDaNghi = model.LeaveApplication.Where(l => l.ID_Employee == idemp && l.ID_ApplyLeaveType == idapplyleavetype).Sum(s => s.RealLeaveDate);
                 return Content((tongSoNgayChoPhep - lstSoNgayDaNghi).ToString("0.0").Replace(",", ".") + " ngày");
@@ -152,6 +154,8 @@ namespace ITGlobalProject.Areas.Employee.Controllers
         {
             if (idleavetype == null)
                 return Content("0 ngày");
+
+            model = new CP25Team06Entities();
             int idemp = Int32.Parse(Session["user-id"].ToString());
             var applyleavetype = model.ApplyLeaveType.FirstOrDefault(a => a.ID_Leave_Type == idleavetype && a.ID_Employee == idemp && a.LeavePeriod == DateTime.Now.Year);
             var idapplyleavetype = applyleavetype.ID;

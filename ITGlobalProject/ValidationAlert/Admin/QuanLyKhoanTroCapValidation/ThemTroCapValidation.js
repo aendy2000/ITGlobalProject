@@ -171,7 +171,6 @@
             formData.append('date', date);
             formData.append('tax', tinhthue);
             formData.append('insurance', tinhbaohiem);
-
             var tinhbangtien = true;
             if ($('#loaitrocap').prop("checked")) {
                 tinhbangtien = false;
@@ -186,7 +185,7 @@
                 dataType: 'html',
                 contentType: false,
                 processData: false,
-                data: formData
+                data: formData,
             }).done(function (ketqua) {
                 $('#dongthemtrocap').click();
                 $('#AjaxLoader').fadeOut('slow');
