@@ -38,11 +38,11 @@
             <thead class="table-light">
                 <tr>
                     <th scope="col" class="text-nowrap border-top-0">#</th>
-                    <th scope="col" class="text-nowrap border-top-0">Thời gian giao dịch</th>
-                    <th scope="col" class="text-nowrap border-top-0">Thời gian dự án</th>
+                    <th scope="col" class="text-nowrap border-top-0">Thời gian</th>
                     <th scope="col" class="text-nowrap border-top-0">Mã Dự Án</th>
                     <th scope="col" class="text-nowrap border-top-0">Tên dự án</th>
-                    <th scope="col" class="text-nowrap border-top-0">Tổng chi phí</th>
+                    <th scope="col" class="text-nowrap border-top-0">Số tiền</th>
+                    <th scope="col" class="text-nowrap border-top-0">Ghi chú</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,9 +60,6 @@
                                 @item.Date.ToString("HH:mm dd/MM/yyyy")
                             </td>
                             <td class="align-middle text-nowrap">
-                                @item.Debts.Projects.StartDate.ToString("dd/MM/yyyy") - @item.Debts.Projects.EndDate.ToString("dd/MM/yyyy")
-                            </td>
-                            <td class="align-middle text-nowrap">
                                 <a target="_blank" href="@Url.Action("chitietduan", "quanlyduan", new {id = item.Debts.ID_Project})" class="text-dark text-inherit">@item.Debts.Projects.ID_Project</a>
                             </td>
                             <td class="align-middle">
@@ -70,6 +67,9 @@
                             </td>
                             <td class="align-middle text-nowrap">
                                 @item.Price.Value.ToString("0,0") đ
+                            </td>
+                            <td class="align-middle">
+                                @item.Contents
                             </td>
                         </tr>
                     }
