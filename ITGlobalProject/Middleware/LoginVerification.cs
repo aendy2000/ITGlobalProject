@@ -17,7 +17,7 @@ namespace ITGlobalProject.Middleware
             }
             else if (filterContext.HttpContext.Session["user-role"].ToString().ToLower().Equals("admin"))
             {
-                filterContext.Result = new RedirectResult("~/Admins/Dasboard/Analystics");
+                filterContext.Result = new RedirectResult("~/Admins/Dasboard/Overview");
                 return;
             }
         }
