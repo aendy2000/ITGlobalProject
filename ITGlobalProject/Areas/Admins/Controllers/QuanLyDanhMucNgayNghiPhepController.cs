@@ -21,6 +21,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ITGlobalProject.Areas.Admins.Controllers
 {
+    [AdminLoginVerification]
     public class QuanLyDanhMucNgayNghiPhepController : Controller
     {
         CP25Team06Entities model = new CP25Team06Entities();

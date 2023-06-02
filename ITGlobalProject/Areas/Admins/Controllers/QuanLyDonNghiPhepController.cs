@@ -6,10 +6,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using System.Data.Entity;
-
+using ITGlobalProject.Middleware;
 
 namespace ITGlobalProject.Areas.Admins.Controllers
 {
+    [AdminLoginVerification]
     public class QuanLyDonNghiPhepController : Controller
     {
         CP25Team06Entities model = new CP25Team06Entities();

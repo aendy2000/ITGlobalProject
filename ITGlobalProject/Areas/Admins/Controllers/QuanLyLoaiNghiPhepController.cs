@@ -9,6 +9,7 @@ using System.Data.Entity;
 
 namespace ITGlobalProject.Areas.Admins.Controllers
 {
+    [AdminLoginVerification]
     public class QuanLyLoaiNghiPhepController : Controller
     {
 

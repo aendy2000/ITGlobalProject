@@ -9,6 +9,7 @@ using System.Data.Entity;
 
 namespace ITGlobalProject.Areas.Admins.Controllers
 {
+    [AdminLoginVerification]
     public class QuanLyKyNangChuyenMonController : Controller
     {
         CP25Team06Entities model = new CP25Team06Entities();

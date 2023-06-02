@@ -1,4 +1,5 @@
-﻿using ITGlobalProject.Models;
+﻿using ITGlobalProject.Middleware;
+using ITGlobalProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Web.Mvc;
 
 namespace ITGlobalProject.Areas.Admins.Controllers
 {
+    [AdminLoginVerification]
     public class DashboardController : Controller
     {
         CP25Team06Entities model = new CP25Team06Entities();

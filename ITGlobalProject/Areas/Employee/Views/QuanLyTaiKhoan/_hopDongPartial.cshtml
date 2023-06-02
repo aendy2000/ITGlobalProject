@@ -173,15 +173,15 @@
                     <h3 class="mb-0">Thông Tin Làm Việc</h3>
                 </div>
                 <div class="card-body">
-                    <form id="noidungPage" class="row">
+                    <div id="noidungPage" class="row">
                         <div class="mb-2 col-12 col-md-6">
                             <label style="font-weight:bold;" class="form-label" for="ngayvaolam">Ngày vào làm <span class="text-danger">*</span></label>
-                            <input value="@Model.JoinedDate.ToString("yyyy-MM-dd")" type="text" class="form-control flatpickr" placeholder="Chọn ngày vào làm" id="ngayvaolam" name="ngayvaolam" />
+                            <input disabled value="@Model.JoinedDate.ToString("yyyy-MM-dd")" type="text" class="form-control" placeholder="Chọn ngày vào làm" id="ngayvaolam" name="ngayvaolam" />
                             <p style="font-size: 13px; color:red;" id="ngayvaolamvalidation"></p>
                         </div>
                         <div class="mb-2 col-12 col-md-6">
                             <label style="font-weight:bold;" class="form-label">Hình thức làm việc <span class="text-danger">*</span></label>
-                            <select id="hinhthuc" name="hinhthuc" class="form-select text-dark" data-width="100%">
+                            <select disabled id="hinhthuc" name="hinhthuc" class="form-select text-dark" data-width="100%">
                                 @if (Model.EmploymentStatus.Equals("Thử việc"))
                                 {
                                     <option selected value="Thử việc">Thử việc</option>
@@ -207,7 +207,7 @@
                         </div>
                         <div class="mb-2 col-12 col-md-6">
                             <label style="font-weight:bold;" class="form-label">Bộ phận <span class="text-danger">*</span></label>
-                            <select id="bophan" name="bophan" class="form-select text-dark" data-width="100%">
+                            <select disabled id="bophan" name="bophan" class="form-select text-dark" data-width="100%">
                                 @foreach (var item in models.Department.ToList())
                                 {
                                     if (item.ID == Model.Position.ID_Department)
@@ -224,7 +224,7 @@
                         </div>
                         <div class="mb-2 col-12 col-md-6">
                             <label style="font-weight:bold;" class="form-label">Chức danh <span class="text-danger">*</span></label>
-                            <select id="vaitro" name="vaitro" class="form-select text-dark" data-width="100%">
+                            <select disabled id="vaitro" name="vaitro" class="form-select text-dark" data-width="100%">
                                 @foreach (var item in models.Position.Where(p => p.ID_Department == Model.Position.ID_Department))
                                 {
                                     if (item.ID == Model.ID_Position)
@@ -239,18 +239,7 @@
                             </select>
                             <p style="font-size: 13px; color:red;" id="vaitrovalidation"></p>
                         </div>
-
-                        <div style="text-align: right; padding-top: 10px" class="mb-3 col-12 col-md-6">
-                            <a role="button" id="reloadPage" style="width: 230px" class="btn btn-outline-danger">
-                                Hủy
-                            </a>
-                        </div>
-                        <div style="padding-top: 10px" class="mb-3 col-12 col-md-6">
-                            <a role="button" id="btnLuuThongTin" style="width: 230px" class="btn btn-success">
-                                Lưu
-                            </a>
-                        </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="border-bottom py-3 bg-light-primary border-1" id="heading3">
                     <h4 class="mb-0 fw-bold">

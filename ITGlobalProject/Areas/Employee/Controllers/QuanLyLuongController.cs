@@ -22,6 +22,7 @@ using System.Diagnostics;
 
 namespace ITGlobalProject.Areas.Employee.Controllers
 {
+    [EmployeeLoginVerification]
     public class QuanLyLuongController : Controller
     {
         CP25Team06Entities model = new CP25Team06Entities();

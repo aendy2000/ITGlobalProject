@@ -22,6 +22,7 @@ using System.Net;
 
 namespace ITGlobalProject.Areas.Employee.Controllers
 {
+    [EmployeeLoginVerification]
     public class QuanLyTaiKhoanController : Controller
     {
         CP25Team06Entities model = new CP25Team06Entities();

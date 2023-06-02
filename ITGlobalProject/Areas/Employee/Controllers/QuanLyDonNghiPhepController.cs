@@ -23,6 +23,7 @@ using System.Reflection;
 
 namespace ITGlobalProject.Areas.Employee.Controllers
 {
+    [EmployeeLoginVerification]
     public class QuanLyDonNghiPhepController : Controller
     {
         CP25Team06Entities model = new CP25Team06Entities();
