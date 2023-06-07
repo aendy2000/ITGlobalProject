@@ -26317,7 +26317,7 @@ fieldset:disabled .btn {
 
 .bg-dark {
     --bs-bg-opacity: 1;
-    background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important
+    background-color: #6c757d !important
 }
 
 .bg-white {
@@ -42152,7 +42152,7 @@ fieldset:disabled .btn {
 
 .navbar-dark .navbar-nav .nav-link {
     border-bottom: transparent;
-    color: #beb9cd;
+    color: rgba(255, 255, 255, 0.5);
     font-weight: 500;
     padding: .3125rem .35rem
 }
