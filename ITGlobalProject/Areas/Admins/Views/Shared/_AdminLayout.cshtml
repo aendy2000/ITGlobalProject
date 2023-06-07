@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 @using ITGlobalProject.Models
 @{
@@ -47,7 +48,7 @@
 <body>
     <div class="loader" id="AjaxLoader" style="display:none;"></div>
     <script>
-        $('#AjaxLoader').show();
+        $('#AjaxLoader').fadeIn('slow');
     </script>
     <!-- Wrapper -->
     <div id="db-wrapper">
@@ -62,80 +63,138 @@
                     @if (ViewBag.ShowActive == "Overview")
                     {
                         <li class="nav-item ">
-                            <a class="nav-link active" href="@Url.Action("Overview", "Dashboard")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-home me-2"></i> Trang Chủ
+                            <a class="nav-link active" href="@Url.Action("Overview", "Dashboard")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-home me-2"></i> TRANG CHỦ
                             </a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item ">
-                            <a class="nav-link " href="@Url.Action("Overview", "Dashboard")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-home me-2"></i> Trang Chủ
+                            <a class="nav-link " href="@Url.Action("Overview", "Dashboard")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-home me-2"></i> TRANG CHỦ
                             </a>
                         </li>
                     }
 
+                    @if (ViewBag.ShowActive == "danhSachNhanVien" || ViewBag.ShowActive == "TTChiTiet")
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link active" href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-users me-2"></i> NHÂN SỰ
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item ">
+                            <a class="nav-link " href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-users me-2"></i> NHÂN SỰ
+                            </a>
+                        </li>
+                    }
+
+
                     <li class="nav-item">
-                        <a class="nav-link  " href="#" data-bs-toggle="collapse" data-bs-target="#navProfile"
-                           aria-expanded="false" aria-controls="navProfile">
-                            <i class="nav-icon fe fe-users me-2"></i> Nhân Sự
+                        <a class="nav-link  " href="#" data-bs-toggle="collapse" data-bs-target="#navLoaiNghiPhep"
+                           aria-expanded="false" aria-controls="navLoaiNghiPhep">
+                            <i class="nav-icon fe fe-calendar me-2"></i> NGHỈ PHÉP
                         </a>
-                        @if (ViewBag.ShowActive == "danhSachNhanVien" || ViewBag.ShowActive == "danhSachDonNghiPhep" || ViewBag.ShowActive == "taoDonNghiPhep" || ViewBag.ShowActive == "danhSachDanhMucNgayNghiPhep" || ViewBag.ShowActive == "TTChiTiet")
+                        @if (ViewBag.ShowActive == "danhSachLoaiNghiPhep" || ViewBag.ShowActive == "ApplyNgayNghiPhep" || ViewBag.ShowActive == "danhSachDanhMucNgayNghiPhep" || ViewBag.ShowActive == "danhSachDonNghiPhep" || ViewBag.ShowActive == "taoDonNghiPhep")
                         {
-                            <div id="navProfile" class="collapse show" data-bs-parent="#sideNavbar">
+                            <div id="navLoaiNghiPhep" class="collapse show" data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
-                                    @if (ViewBag.ShowActive == "danhSachNhanVien" || ViewBag.ShowActive == "TTChiTiet")
+                                    @if (ViewBag.ShowActive == "danhSachLoaiNghiPhep")
                                     {
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="@Url.Action("danhSachDonNghiPhep", "QuanLyDonNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                ĐƠN NGHỈ PHÉP
+                                            </a>
+                                        </li>
+
                                         <li class="nav-item ">
-                                            <a class="nav-link active" href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")" onclick="$('#AjaxLoader').show();">
-                                                Hồ Sơ Nhân Viên
+                                            <a class="nav-link active" href="@Url.Action("danhSachLoaiNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                LOẠI NGHỈ PHÉP
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("danhSachDonNghiPhep", "QuanLyDonNghiPhep")" onclick="$('#AjaxLoader').show();">
-                                                Đơn Nghỉ Phép
+                                            <a class="nav-link " href="@Url.Action("ApplyNgayNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                ÁP DỤNGLOẠI NGHỈ PHÉP
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').show();">
-                                                Danh Mục Ngày Phép
+                                            <a class="nav-link " href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                NGHỈ LỄ
+                                            </a>
+                                        </li>
+
+                                    }
+                                    else if (ViewBag.ShowActive == "ApplyNgayNghiPhep")
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="@Url.Action("danhSachDonNghiPhep", "QuanLyDonNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                ĐƠN NGHỈ PHÉP
+                                            </a>
+                                        </li>
+                                        <li class="nav-item ">
+                                            <a class="nav-link " href="@Url.Action("danhSachLoaiNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                LOẠI NGHỈ PHÉP
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="@Url.Action("ApplyNgayNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                ÁP DỤNGLOẠI NGHỈ PHÉP
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                NGHỈ LỄ
                                             </a>
                                         </li>
                                     }
-                                    else if (ViewBag.ShowActive == "danhSachDonNghiPhep")
+                                    else if (ViewBag.ShowActive == "danhSachDonNghiPhep" || ViewBag.ShowActive == "taoDonNghiPhep")
                                     {
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="@Url.Action("danhSachDonNghiPhep", "QuanLyDonNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                ĐƠN NGHỈ PHÉP
+                                            </a>
+                                        </li>
                                         <li class="nav-item ">
-                                            <a class="nav-link " href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")" onclick="$('#AjaxLoader').show();">
-                                                Hồ Sơ Nhân Viên
+                                            <a class="nav-link " href="@Url.Action("danhSachLoaiNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                LOẠI NGHỈ PHÉP
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="@Url.Action("danhSachDonNghiPhep", "QuanLyDonNghiPhep")" onclick="$('#AjaxLoader').show();">
-                                                Đơn Nghỉ Phép
+                                            <a class="nav-link " href="@Url.Action("ApplyNgayNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                ÁP DỤNGLOẠI NGHỈ PHÉP
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').show();">
-                                                Danh Mục Ngày Phép
+                                            <a class="nav-link " href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                NGHỈ LỄ
                                             </a>
                                         </li>
                                     }
                                     else
                                     {
+                                        <li class="nav-item">
+                                            <a class="nav-link " href="@Url.Action("danhSachDonNghiPhep", "QuanLyDonNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                ĐƠN NGHỈ PHÉP
+                                            </a>
+                                        </li>
                                         <li class="nav-item ">
-                                            <a class="nav-link " href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")" onclick="$('#AjaxLoader').show();">
-                                                Hồ Sơ Nhân Viên
+                                            <a class="nav-link " href="@Url.Action("danhSachLoaiNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                LOẠI NGHỈ PHÉP
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="@Url.Action("danhSachDonNghiPhep", "QuanLyDonNghiPhep")" onclick="$('#AjaxLoader').show();">
-                                                Đơn Nghỉ Phép
+                                            <a class="nav-link" href="@Url.Action("ApplyNgayNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                ÁP DỤNGLOẠI NGHỈ PHÉP
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').show();">
-                                                Danh Mục Ngày Phép
+                                            <a class="nav-link active" href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                NGHỈ LỄ
                                             </a>
                                         </li>
                                     }
@@ -144,31 +203,38 @@
                         }
                         else
                         {
-                            <div id="navProfile" class="collapse " data-bs-parent="#sideNavbar">
+                            <div id="navLoaiNghiPhep" class="collapse " data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="@Url.Action("danhSachDonNghiPhep", "QuanLyDonNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                            ĐƠN NGHỈ PHÉP
+                                        </a>
+                                    </li>
                                     <li class="nav-item ">
-                                        <a class="nav-link " href="@Url.Action("danhSachNhanVien", "QuanLyNhanSu")" onclick="$('#AjaxLoader').show();">
-                                            Hồ Sơ Nhân Viên
+                                        <a class="nav-link " href="@Url.Action("danhSachLoaiNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                            LOẠI NGHỈ PHÉP
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="@Url.Action("danhSachDonNghiPhep", "QuanLyDonNghiPhep")" onclick="$('#AjaxLoader').show();">
-                                            Đơn Nghỉ Phép
+                                        <a class="nav-link " href="@Url.Action("ApplyNgayNghiPhep", "QuanLyLoaiNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                            ÁP DỤNGLOẠI NGHỈ PHÉP
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').show();">
-                                            Danh Mục Ngày Phép
+                                        <a class="nav-link " href="@Url.Action("danhSachDanhMucNgayNghiPhep", "QuanLyDanhMucNgayNghiPhep")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                            NGHỈ LỄ
                                         </a>
                                     </li>
                                 </ul>
                             </div>
                         }
                     </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link  " href="#" data-bs-toggle="collapse" data-bs-target="#navKyNangChuyenMon"
                            aria-expanded="false" aria-controls="navKyNangChuyenMon">
-                            <i class="nav-icon fe fe-award me-2"></i> Kỹ Năng
+                            <i class="nav-icon fe fe-award me-2"></i> KỸ NĂNG
                         </a>
                         @if (ViewBag.ShowActive == "danhSachDanhMucKyNang" || ViewBag.ShowActive == "danhSachKyNang")
                         {
@@ -177,26 +243,26 @@
                                     @if (ViewBag.ShowActive == "danhSachKyNang")
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link active" href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').show();">
-                                                Kỹ Năng
+                                            <a class="nav-link active" href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                KỸ NĂNG
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').show();">
-                                                Danh Mục Kỹ Năng
+                                            <a class="nav-link " href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                DANH MỤC KỸ NĂNG
                                             </a>
                                         </li>
                                     }
                                     else
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link " href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').show();">
-                                                Kỹ năng
+                                            <a class="nav-link " href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                KỸ NĂNG
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').show();">
-                                                Danh mục kỹ năng
+                                            <a class="nav-link active" href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                DANH MỤC KỸ NĂNG
                                             </a>
                                         </li>
                                     }
@@ -209,13 +275,13 @@
                             <div id="navKyNangChuyenMon" class="collapse " data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').show();">
-                                            Kỹ năng
+                                        <a class="nav-link " href="@Url.Action("danhSachKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                            KỸ NĂNG
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').show();">
-                                            Danh mục kỹ năng
+                                        <a class="nav-link " href="@Url.Action("danhSachDanhMucKyNang", "QuanLyKyNangChuyenMon")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                            DANH MỤC KỸ NĂNG
                                         </a>
                                     </li>
                                 </ul>
@@ -226,7 +292,7 @@
                     <li class="nav-item">
                         <a class="nav-link  " href="#" data-bs-toggle="collapse" data-bs-target="#navluong"
                            aria-expanded="false" aria-controls="navluong">
-                            <i class="nav-icon fe fe-dollar-sign me-2"></i> Lương
+                            <i class="nav-icon fe fe-dollar-sign me-2"></i> LƯƠNG
                         </a>
                         @if (ViewBag.ShowActive == "bangLuong" || ViewBag.ShowActive == "tinhLuong" || ViewBag.ShowActive == "danhSachKhoanTroCapVaPhuCap")
                         {
@@ -235,54 +301,54 @@
                                     @if (ViewBag.ShowActive == "bangLuong")
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link active" href="@Url.Action("bangLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
-                                                Bảng Lương
+                                            <a class="nav-link active" href="@Url.Action("bangLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                BẢNG LƯƠNG
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("tinhLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
-                                                Tính Lương
+                                            <a class="nav-link " href="@Url.Action("tinhLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                TÍNH LƯƠNG
                                             </a>
                                         </li>
                                         <li class="nav-item ">
-                                            <a class="nav-link " href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').show();">
-                                                Trợ cấp & Phụ cấp
+                                            <a class="nav-link " href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                TRỢ CẤP & PHỤ CẤP
                                             </a>
                                         </li>
                                     }
                                     else if (ViewBag.ShowActive == "danhSachKhoanTroCapVaPhuCap")
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link " href="@Url.Action("bangLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
-                                                Bảng Lương
+                                            <a class="nav-link " href="@Url.Action("bangLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                BẢNG LƯƠNG
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="@Url.Action("tinhLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
-                                                Tính Lương
+                                            <a class="nav-link " href="@Url.Action("tinhLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                TÍNH LƯƠNG
                                             </a>
                                         </li>
                                         <li class="nav-item ">
-                                            <a class="nav-link active" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').show();">
-                                                Trợ cấp & Phụ cấp
+                                            <a class="nav-link active" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                TRỢ CẤP & PHỤ CẤP
                                             </a>
                                         </li>
                                     }
                                     else
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link " href="@Url.Action("bangLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
-                                                Bảng Lương
+                                            <a class="nav-link " href="@Url.Action("bangLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                BẢNG LƯƠNG
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active" href="@Url.Action("tinhLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
-                                                Tính Lương
+                                            <a class="nav-link active" href="@Url.Action("tinhLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                TÍNH LƯƠNG
                                             </a>
                                         </li>
                                         <li class="nav-item ">
-                                            <a class="nav-link" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').show();">
-                                                Trợ cấp & Phụ cấp
+                                            <a class="nav-link" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                                TRỢ CẤP & PHỤ CẤP
                                             </a>
                                         </li>
                                     }
@@ -294,18 +360,18 @@
                             <div id="navluong" class="collapse " data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
                                     <li class="nav-item ">
-                                        <a class="nav-link " href="@Url.Action("bangLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
-                                            Bảng Lương
+                                        <a class="nav-link " href="@Url.Action("bangLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                            BẢNG LƯƠNG
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " href="@Url.Action("tinhLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').show();">
-                                            Tính Lương
+                                        <a class="nav-link " href="@Url.Action("tinhLuong", "QuanLyLuong")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                            TÍNH LƯƠNG
                                         </a>
                                     </li>
                                     <li class="nav-item ">
-                                        <a class="nav-link" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').show();">
-                                            Trợ cấp & Phụ cấp
+                                        <a class="nav-link" href="@Url.Action("danhSachKhoanTroCapVaPhuCap", "QuanLyTroCapVaPhuCap")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                            TRỢ CẤP & PHỤ CẤP
                                         </a>
                                     </li>
                                 </ul>
@@ -315,16 +381,16 @@
                     @if (ViewBag.ShowActive == "danhSachDuAn" || ViewBag.ShowActive == "taoDuAnMoi")
                     {
                         <li class="nav-item ">
-                            <a class="nav-link active" href="@Url.Action("danhSachDuAn", "QuanLyDuAn")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-book me-2"></i> Dự Án
+                            <a class="nav-link active" href="@Url.Action("danhSachDuAn", "QuanLyDuAn")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-book me-2"></i> DỰ ÁN
                             </a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item ">
-                            <a class="nav-link " href="@Url.Action("danhSachDuAn", "QuanLyDuAn")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-book me-2"></i> Dự Án
+                            <a class="nav-link " href="@Url.Action("danhSachDuAn", "QuanLyDuAn")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-book me-2"></i> DỰ ÁN
                             </a>
                         </li>
                     }
@@ -332,16 +398,16 @@
                     @if (ViewBag.ShowActive == "danhSachVaiTro")
                     {
                         <li class="nav-item ">
-                            <a class="nav-link active" href="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-award me-2"></i> Chức Danh
+                            <a class="nav-link active" href="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-award me-2"></i> CHỨC DANH
                             </a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item ">
-                            <a class="nav-link " href="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-award me-2"></i> Chức Danh
+                            <a class="nav-link " href="@Url.Action("danhSachVaiTro", "QuanLyVaiTro")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-award me-2"></i> CHỨC DANH
                             </a>
                         </li>
                     }
@@ -349,16 +415,16 @@
                     @if (ViewBag.ShowActive == "danhSachBoPhan")
                     {
                         <li class="nav-item ">
-                            <a class="nav-link active" href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-briefcase me-2"></i> Bộ Phận
+                            <a class="nav-link active" href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-briefcase me-2"></i> BỘ PHẬN
                             </a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item ">
-                            <a class="nav-link " href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-briefcase me-2"></i> Bộ Phận
+                            <a class="nav-link " href="@Url.Action("danhsachbophan", "quanlydanhmucbophan")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-briefcase me-2"></i> BỘ PHẬN
                             </a>
                         </li>
                     }
@@ -366,16 +432,16 @@
                     @if (ViewBag.ShowActive == "danhSachTinTuyenDung" || ViewBag.ShowActive == "themTinTuyenDung" || ViewBag.ShowActive == "chinhSuaTinTuyenDung")
                     {
                         <li class="nav-item ">
-                            <a class="nav-link  active " href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-book-open me-2"></i> Tin Tuyển Dụng
+                            <a class="nav-link  active " href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-book-open me-2"></i> TIN TUYỂN DỤNG
                             </a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item ">
-                            <a class="nav-link  " href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-book-open me-2"></i> Tin Tuyển Dụng
+                            <a class="nav-link  " href="@Url.Action("danhSachTinTuyenDung", "QuanLyTinTuyenDung")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-book-open me-2"></i> TIN TUYỂN DỤNG
                             </a>
                         </li>
                     }
@@ -383,16 +449,16 @@
                     @if (ViewBag.ShowActive == "danhSachDoiTac")
                     {
                         <li class="nav-item ">
-                            <a class="nav-link  active" href="@Url.Action("danhSachDoiTac", "ThongTinDoiTac")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-user-check me-2"></i> Thông Tin Đối Tác
+                            <a class="nav-link  active" href="@Url.Action("danhSachDoiTac", "ThongTinDoiTac")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-user-check me-2"></i> THÔNG TIN ĐỐI TÁC
                             </a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item ">
-                            <a class="nav-link " href="@Url.Action("danhSachDoiTac", "ThongTinDoiTac")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-user-check me-2"></i> Thông Tin Đối Tác
+                            <a class="nav-link " href="@Url.Action("danhSachDoiTac", "ThongTinDoiTac")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-user-check me-2"></i> THÔNG TIN ĐỐI TÁC
                             </a>
                         </li>
                     }
@@ -400,16 +466,16 @@
                     @if (ViewBag.ShowActive == "thongTinLienHeTuVan")
                     {
                         <li class="nav-item ">
-                            <a class="nav-link  active" href="@Url.Action("thongTinLienHeTuVan", "LienHeTuVan")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-phone-outgoing me-2"></i> Thông Tin Tư Vấn
+                            <a class="nav-link  active" href="@Url.Action("thongTinLienHeTuVan", "LienHeTuVan")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-phone-outgoing me-2"></i> THÔNG TIN TƯ VẤN
                             </a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item ">
-                            <a class="nav-link " href="@Url.Action("thongTinLienHeTuVan", "LienHeTuVan")" onclick="$('#AjaxLoader').show();">
-                                <i class="nav-icon fe fe-phone-outgoing me-2"></i> Thông Tin Tư Vấn
+                            <a class="nav-link " href="@Url.Action("thongTinLienHeTuVan", "LienHeTuVan")" onclick="$('#AjaxLoader').fadeIn('slow');">
+                                <i class="nav-icon fe fe-phone-outgoing me-2"></i> THÔNG TIN TƯ VẤN
                             </a>
                         </li>
                     }
@@ -425,156 +491,6 @@
                     </a>
                     <!--Navbar nav -->
                     <ul class="navbar-nav navbar-right-wrap ms-auto d-flex nav-top-wrap">
-                        <li class="dropdown stopevent">
-                            <a style="margin-right: 10px" class="btn btn-light btn-icon rounded-circle text-muted"
-                               href="#" role="button" id="dropdownNotification" data-bs-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">
-                                @if (notify.Where(n => n.State == false).Count() > 99)
-                                {
-                                    <span id="soluongthongbao" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        99+
-                                    </span>
-                                }
-                                else if (notify.Where(n => n.State == false).Count() > 0)
-                                {
-                                    <span id="soluongthongbao" class="position-absolute top-30 right-30 start-100 translate-middle badge rounded-pill bg-danger">
-                                        @notify.Where(n => n.State == false).Count()
-                                    </span>
-                                }
-                                else
-                                {
-                                    Session["Push-notification"] = false;
-                                }
-                                <input hidden id="soluongthongbaoday" value="@notify.Where(n => n.State == false).Count()" />
-                                <i class="fe fe-bell"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg"
-                                 aria-labelledby="dropdownNotification">
-                                <div>
-                                    <div class="border-bottom px-3 pb-3 d-flex justify-content-between align-items-center">
-                                        <span class="h4 mb-0">Thông Báo</span>
-                                    </div>
-                                    <!-- List group -->
-                                    <ul id="toanthethongbao" class="list-group list-group-flush" data-simplebar style="max-height: 300px;">
-                                        <li hidden id="appendNotifi"></li>
-
-                                        @if (notify.Count() > 0)
-                                        {
-                                            foreach (var item in notify)
-                                            {
-                                                if (item.State == false)
-                                                {
-                                                    <li id="datathongbaoso-@item.ID" class="list-group-item">
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <a target="_blank" class="text-body" name="@item.ID" id="thongbaoso-@item.ID" href="@Url.Content("~" + item.Url)">
-                                                                    <div class="d-flex">
-                                                                        @if (string.IsNullOrEmpty(item.Employees.Avatar))
-                                                                        {
-                                                                            <div class="avatar-group">
-                                                                                <span class="avatar avatar-md avatar-danger">
-                                                                                    <span class="avatar-initials rounded-circle ">
-                                                                                        @item.Employees.Name.Substring(0, 1).ToUpper()
-                                                                                    </span>
-                                                                                </span>
-                                                                            </div>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <img src="@item.Employees.Avatar" alt=""
-                                                                                 class="avatar-md rounded-circle" />
-                                                                        }
-                                                                        <div class="ms-3">
-                                                                            <h5 class="fw-bold mb-1">@item.Employees.Name:</h5>
-                                                                            <p class="mb-3">
-                                                                                @item.Contents
-                                                                            </p>
-                                                                            <span class="fs-6 text-muted">
-                                                                                <span class="ms-1">@item.Date.ToString("HH:mm dd/MM/yyyy")</span>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </a>
-                                                            </div>
-                                                            <div class="col-auto text-center me-2">
-                                                                <a role="button" class="badge-dot bg-primary" data-bs-toggle="tooltip"
-                                                                   data-bs-placement="top" title="Chưa đọc">
-                                                                </a>
-                                                                <div>
-                                                                    <a name="@item.ID" id="loaibo-@item.ID" role="button" class="bg-transparent" data-bs-toggle="tooltip"
-                                                                       data-bs-placement="top" title="Loại bỏ">
-                                                                        <i class="fe fe-x text-muted"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                }
-                                                else
-                                                {
-                                                    <li id="datathongbaoso-@item.ID" class="list-group-item bg-light">
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <a target="_blank" class="text-body" name="@item.ID" id="thongbaoso-@item.ID" href="@Url.Content("~" + item.Url)">
-                                                                    <div class="d-flex">
-                                                                        @if (string.IsNullOrEmpty(item.Employees.Avatar))
-                                                                        {
-                                                                            <div class="avatar-group">
-                                                                                <span class="avatar avatar-md avatar-danger">
-                                                                                    <span class="avatar-initials rounded-circle ">
-                                                                                        @item.Employees.Name.Substring(0, 1).ToUpper()
-                                                                                    </span>
-                                                                                </span>
-                                                                            </div>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <img src="@item.Employees.Avatar" alt=""
-                                                                                 class="avatar-md rounded-circle" />
-                                                                        }
-                                                                        <div class="ms-3">
-                                                                            <h5 class="fw-bold mb-1">@item.Employees.Name:</h5>
-                                                                            <p class="mb-3">
-                                                                                @item.Contents
-                                                                            </p>
-                                                                            <span class="fs-6 text-muted">
-                                                                                <span class="ms-1">@item.Date.ToString("HH:mm dd/MM/yyyy")</span>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </a>
-                                                            </div>
-                                                            <div class="col-auto text-center me-2">
-                                                                <a role="button" class="badge-dot bg-secondary" data-bs-toggle="tooltip"
-                                                                   data-bs-placement="top" title="Đã đọc">
-                                                                </a>
-                                                                <div>
-                                                                    <a name="@item.ID" id="loaibo-@item.ID" role="button" class="bg-transparent" data-bs-toggle="tooltip"
-                                                                       data-bs-placement="top" title="Loại bỏ">
-                                                                        <i class="fe fe-x text-muted"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <li class="text-center">
-                                                Không có thông báo.
-                                            </li>
-                                        }
-                                    </ul>
-                                    <div class="border-top px-3 pt-3 pb-0">
-                                        <a role="button" id="dadoctatca" class="text-link fw-semi-bold">
-                                            Đánh dấu tất cả là đã đọc
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
                         <!-- List -->
                         <li class="dropdown ms-2">
                             <a class="rounded-circle" href="#" role="button" id="dropdownUser" data-bs-toggle="dropdown"
@@ -593,7 +509,7 @@
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
-                                <a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new {id = Session["user-id"]})" class="dropdown-item" onclick="$('#AjaxLoader').show();">
+                                <a href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new {id = Session["user-id"]})" class="dropdown-item" onclick="$('#AjaxLoader').fadeIn('slow');">
                                     <div class="d-flex">
                                         <div class="avatar avatar-md avatar-indicators avatar-online">
                                             @if (Session["user-vatatar"] == null)
@@ -616,7 +532,7 @@
                                 <div class="dropdown-divider"></div>
                                 <ul class="list-unstyled">
                                     <li class="dropdown-submenu dropstart-lg">
-                                        <a class="dropdown-item" href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new {id = Session["user-id"]})" onclick="$('#AjaxLoader').show();">
+                                        <a class="dropdown-item" href="@Url.Action("ThongTinCaNhan", "QuanLyTaiKhoan", new {id = Session["user-id"]})" onclick="$('#AjaxLoader').fadeIn('slow');">
                                             <i class="fe fe-user me-2"></i> Trang cá nhân
                                         </a>
                                     </li>
@@ -625,7 +541,7 @@
                                 <div class="dropdown-divider"></div>
                                 <ul class="list-unstyled">
                                     <li>
-                                        <a class="dropdown-item" href="@Url.Action("DangXuat", "QuanLyTaiKhoan")" onclick="$('#AjaxLoader').show();">
+                                        <a class="dropdown-item" href="@Url.Action("DangXuat", "QuanLyTaiKhoan")" onclick="$('#AjaxLoader').fadeIn('slow');">
                                             <i class="fe fe-power me-2"></i> Đăng Xuất
                                         </a>
                                     </li>
@@ -690,7 +606,7 @@
     <script src="~/Content/Admin/js/bootstrap-notify.min.js"></script>
     <script src="~/Content/Admin/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 
-    @if (ViewBag.Title == "Chi Tiết Dự Án")
+    @if (ViewBag.Title == "Chi Tiết DỰ ÁN")
     {
         <script>
             $(document).ready(function () {
@@ -789,7 +705,7 @@
 
     <script>
         $(window).on('load', function () {
-            $('#AjaxLoader').hide();
+            $('#AjaxLoader').fadeOut('slow');
             $.ajax({
                 url: $('#requestPath').val() + 'Admins/ThongTinDoiTac/guiMail',
                 type: "GET",
@@ -811,96 +727,6 @@
                         });
                     }
                 }
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            //push thông báo
-            var pushtb = @Html.Raw(Json.Encode(Session["Push-notification"]));
-            if (pushtb == true) {
-                var slthongbao = $('#soluongthongbaoday').val();
-                var content = {};
-                content.message = 'Có ' + slthongbao + ' thông báo mới';
-                content.title = 'Thông Báo';
-                content.icon = 'nav-icon fe fe-bell me-2';
-
-                $.notify(content, {
-                    type: "success",
-                    placement: {
-                        from: "bottom",
-                        align: "right"
-                    },
-                    time: 1000,
-                    delay: 1000,
-                });
-             @Html.Raw(Json.Encode(Session["Push-notification"] = false));
-            }
-
-            //Load thông báo
-            $.ajax({
-                url: $('#requestPath').val() + "notifications/hienThiThongBao",
-                processData: false,
-                contentType: false,
-                dataType: "html",
-                type: "GET"
-            }).done(function (ketqua) {
-                $('#toanthethongbao').replaceWith(ketqua);
-            });
-
-            //di chuột vào thông báo
-            $('#dropdownNotification').mousemove(function () {
-                $('#soluongthongbao').prop("hidden", true);
-            });
-
-            //đọc 1 thông báo
-            $('[id^="thongbaoso-"]').on('click', function () {
-                var id = $(this).attr("name");
-                var formData = new FormData();
-                formData.append("id", id);
-                $.ajax({
-                    url: $('#requestPath').val() + "notifications/capnhattrangthai",
-                    processData: false,
-                    contentType: false,
-                    data: formData,
-                    dataType: "html",
-                    type: "POST"
-                }).done(function (ketqua) {
-                    $('#datathongbaoso-' + id).replaceWith(ketqua);
-                });
-            });
-
-            //xóa 1 thông báo
-            $('[id^="loaibo-"]').on('click', function () {
-                var id = $(this).attr("name");
-                var formData = new FormData();
-                formData.append("id", id);
-                $.ajax({
-                    url: $('#requestPath').val() + "notifications/loaibothongbao",
-                    processData: false,
-                    contentType: false,
-                    data: formData,
-                    dataType: "html",
-                    type: "POST"
-                }).done(function (ketqua) {
-                    if (ketqua == "success") {
-                        $('#datathongbaoso-' + id).replaceWith("");
-                    }
-                });
-            });
-
-            //Đặt tất cả là đã xem
-            $('#dadoctatca').on('click', function () {
-                $.ajax({
-                    url: $('#requestPath').val() + "notifications/doctatca",
-                    processData: false,
-                    contentType: false,
-                    dataType: "html",
-                    type: "GET"
-                }).done(function (ketqua) {
-                    $('#toanthethongbao').replaceWith(ketqua);
-                });
             });
         });
     </script>

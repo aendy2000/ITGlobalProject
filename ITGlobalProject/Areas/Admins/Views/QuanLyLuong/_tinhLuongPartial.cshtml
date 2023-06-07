@@ -68,7 +68,7 @@
                                 var ngaynghi = model.LeaveApplication.Where(l => l.ID_Employee == item.ID
                                                                 && ((l.StartDate >= strDate && l.StartDate <= endDate)
                                                                 || (l.EndDate >= strDate && l.EndDate <= endDate))
-                                                                && l.State == true && l.OnWage == true).ToList();
+                                                                && l.State == true && l.ApplyLeaveType.LeaveType.Sate == false).ToList(); 
                                 int songaynghi = 0;
                                 foreach (var items in ngaynghi)
                                 {
